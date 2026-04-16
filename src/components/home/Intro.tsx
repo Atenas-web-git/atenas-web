@@ -40,11 +40,11 @@ export function Intro() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6, ease }}
         >
-          <div className="flex items-end justify-center gap-[1.1vw] px-8 w-full">
+          <div className="flex flex-col md:flex-row md:items-end items-center justify-center gap-5 md:gap-[1.1vw] px-8 w-full">
             {/* "atenas" — wordmark en navy */}
             <motion.svg
               viewBox="0 0 312 90.22"
-              style={{ width: "clamp(160px, 22vw, 316px)" }}
+              style={{ width: "clamp(200px, 52vw, 316px)" }}
               initial={{ opacity: 0, scale: 0.88 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.85, ease }}
@@ -52,14 +52,13 @@ export function Intro() {
               <path fill="#1A2B4A" d={ATENAS_PATH} />
             </motion.svg>
 
-            {/* "para toda la vida" — script en rojo */}
+            {/* "para toda la vida" — script en rojo, visible desktop y mobile */}
             <AnimatePresence>
               {phase === "tagline" && (
                 <motion.svg
                   key="ptvida"
                   viewBox="0 0 663.23 105.23"
-                  style={{ width: "clamp(300px, 46vw, 663px)" }}
-                  className="hidden md:block"
+                  style={{ width: "clamp(200px, 75vw, 663px)" }}
                   initial={{ opacity: 0, x: 24 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0 }}
