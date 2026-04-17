@@ -37,7 +37,7 @@ const subLinks: Partial<Record<CategoryKey, Record<string, string>>> = {
     "Soy Padre":  "/comunidad#padre",
     "Soy Profe":  "/comunidad#docente",
     "Alumni":     "/comunidad#alumni",
-    "Noticias":   "/comunidad",
+    "Noticias":   "/revista",
   },
 };
 
