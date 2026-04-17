@@ -52,7 +52,7 @@ export function VisitaAdmisiones() {
             key={i}
             className="absolute rounded-[16px] overflow-hidden"
             style={{ ...img.pos, rotate: img.rotate, boxShadow: img.shadow }}
-            initial={img.initial as object}
+            initial={img.initial as never}
             whileInView={{ opacity:1, x:0, y:0 }}
             viewport={{ once:true, amount:0.2 }}
             transition={{ duration:0.85, delay:img.delay, ease }}

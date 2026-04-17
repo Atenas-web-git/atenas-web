@@ -80,7 +80,7 @@ export function HeroAdmisiones() {
               ...img.style,
               boxShadow: "0 20px 60px rgba(0,0,0,0.55)",
             }}
-            initial={img.initial as object}
+            initial={img.initial as never}
             animate={{ opacity: 1, x: 0, y: 0 }}
             transition={{ duration: 0.9, delay: img.delay, ease }}
           >
