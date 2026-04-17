@@ -16,6 +16,24 @@ const categories: { key: CategoryKey; label: string }[] = [
   { key: "contactos",   label: "Contactos"   },
 ];
 
+const subLinks: Partial<Record<CategoryKey, Record<string, string>>> = {
+  el_atenas: {
+    "Historia & 50 Años": "/el-atenas/historia",
+  },
+  academico: {
+    "Niveles Educativos":              "/academico/niveles",
+    "Bachillerato Internacional (IB)": "/academico/ib",
+    "Proyectos y Metodología":         "/academico/niveles#metodologias",
+  },
+  admisiones: {
+    "Proceso de Admisión":      "/admisiones#proceso",
+    "Requisitos por nivel":     "/admisiones",
+    "Matrículas":               "/admisiones",
+    "Documentos descargables":  "/admisiones",
+    "Agenda una visita":        "/admisiones#visita",
+  },
+};
+
 const subItems: Record<CategoryKey, string[]> = {
   el_atenas: [
     "Historia & 50 Años",
@@ -245,7 +263,7 @@ export function Navbar() {
                         {subItems[activeCategory].map((item, i) => (
                           <motion.a
                             key={item}
-                            href="#"
+                            href={subLinks[activeCategory]?.[item] ?? "#"}
                             className="flex items-center gap-3 py-[14px] border-b border-white/[0.07] group w-full"
                             initial={{ opacity: 0, x: 12 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -310,7 +328,7 @@ export function Navbar() {
                               {subItems[cat.key].map((item) => (
                                 <a
                                   key={item}
-                                  href="#"
+                                  href={subLinks[cat.key]?.[item] ?? "#"}
                                   className="flex items-center gap-3 py-2.5"
                                   onClick={() => setMenuOpen(false)}
                                 >

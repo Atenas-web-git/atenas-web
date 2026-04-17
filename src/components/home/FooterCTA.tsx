@@ -126,7 +126,7 @@ export function FooterCTA() {
           transition={{ duration: 0.5, delay: 0.5, ease }}
         >
           <motion.a
-            href="#"
+            href="/admisiones#visita"
             className="bg-[#9e1915] text-white text-[14px] font-bold tracking-[0.5px] px-8 py-3 text-center rounded-[6px] w-full sm:w-auto"
             whileHover={{ scale: 1.03, filter: "brightness(1.1)" }}
             transition={{ duration: 0.18 }}
@@ -134,7 +134,7 @@ export function FooterCTA() {
             Agenda una visita
           </motion.a>
           <motion.a
-            href="#"
+            href="/admisiones"
             className="border border-white/40 text-white text-[14px] font-semibold tracking-[0.5px] px-8 py-3 text-center rounded-[6px] w-full sm:w-auto"
             whileHover={{ backgroundColor: "rgba(255,255,255,0.1)" }}
             transition={{ duration: 0.18 }}
