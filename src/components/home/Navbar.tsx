@@ -32,6 +32,13 @@ const subLinks: Partial<Record<CategoryKey, Record<string, string>>> = {
     "Documentos descargables":  "/admisiones",
     "Agenda una visita":        "/admisiones#visita",
   },
+  comunidad: {
+    "Soy Alumno": "/comunidad#alumno",
+    "Soy Padre":  "/comunidad#padre",
+    "Soy Profe":  "/comunidad#docente",
+    "Alumni":     "/comunidad#alumni",
+    "Noticias":   "/comunidad",
+  },
 };
 
 const subItems: Record<CategoryKey, string[]> = {
