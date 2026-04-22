@@ -170,6 +170,35 @@ export function FooterCTA() {
           ))}
         </motion.div>
 
+        {/* Aliados estratégicos */}
+        <motion.div
+          className="mt-10 w-full flex flex-col items-center gap-3"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.75, ease }}
+        >
+          <span className="text-white/40 text-[10px] tracking-[2px] uppercase font-bold">
+            Aliados Estratégicos
+          </span>
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 opacity-80">
+            {[
+              { label: "Bachillerato Internacional (IB)", abbr: "IB World School" },
+              { label: "Ministerio de Educación del Ecuador", abbr: "MinEduc" },
+              { label: "Cambridge English",                  abbr: "Cambridge" },
+              { label: "Federación Ecuatoriana de Colegios de Excelencia", abbr: "FCEA" },
+            ].map(a => (
+              <div
+                key={a.abbr}
+                className="text-white/70 text-[10px] font-semibold tracking-[1.5px] uppercase border border-white/20 rounded-md px-3 py-[6px]"
+                title={a.label}
+              >
+                {a.abbr}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
         {/* ── Sección inferior: divisor + links + contacto + copyright ── */}
         <motion.div
           className="mt-8 flex flex-col items-center gap-2 w-full"

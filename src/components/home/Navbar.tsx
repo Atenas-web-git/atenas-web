@@ -7,34 +7,54 @@ import { LogoSVG } from "@/components/shared/LogoSVG";
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
 type CategoryKey =
-  | "el_atenas"
+  | "quienes_somos"
+  | "espacios"
+  | "reconocimientos"
   | "academico"
   | "admisiones"
   | "matriculas"
   | "documentos"
   | "servicios"
   | "plataformas"
-  | "cronograma"
-  | "revista";
+  | "revista"
+  | "comunidad";
 
 const categories: { key: CategoryKey; label: string }[] = [
-  { key: "el_atenas",   label: "El Atenas"                 },
-  { key: "academico",   label: "Académico"                 },
-  { key: "admisiones",  label: "Admisiones"                },
-  { key: "matriculas",  label: "Matrículas"                },
-  { key: "documentos",  label: "Documentos Institucionales"},
-  { key: "servicios",   label: "Servicios"                 },
-  { key: "plataformas", label: "Nuestras Plataformas"      },
-  { key: "cronograma",  label: "Cronograma Anual"          },
-  { key: "revista",     label: "Revista"                   },
+  { key: "quienes_somos",   label: "Quiénes Somos"               },
+  { key: "espacios",        label: "Espacios de Desarrollo"      },
+  { key: "reconocimientos", label: "Reconocimientos"             },
+  { key: "academico",       label: "Académico"                   },
+  { key: "admisiones",      label: "Admisiones"                  },
+  { key: "matriculas",      label: "Matrículas"                  },
+  { key: "documentos",      label: "Documentos Institucionales"  },
+  { key: "servicios",       label: "Servicios"                   },
+  { key: "plataformas",     label: "Nuestras Plataformas"        },
+  { key: "revista",         label: "Revista"                     },
+  { key: "comunidad",       label: "Comunidad"                   },
 ];
 
 const subLinks: Record<CategoryKey, Record<string, string>> = {
-  el_atenas: {
-    "Historia & 50 Años":           "/el-atenas/historia",
-    "Misión, Visión y Valores":     "/el-atenas/mision-vision-valores",
-    "Espacios de Desarrollo":       "/el-atenas/espacios-de-desarrollo",
-    "Reconocimientos":              "/el-atenas/reconocimientos",
+  quienes_somos: {
+    "Historia & 50 Años":        "/el-atenas/historia",
+    "Misión":                    "/el-atenas/mision",
+    "Visión":                    "/el-atenas/vision",
+    "Valores Institucionales":   "/el-atenas/valores",
+    "Política de Calidad":       "/el-atenas/politica-calidad",
+    "Política de Seguridad":     "/el-atenas/politica-seguridad",
+    "Directiva de PPFF":         "/el-atenas/directiva-ppff",
+    "Directorio FCEA":           "/el-atenas/directorio-fcea",
+  },
+  espacios: {
+    "Proyecto VASE":      "/espacios/vase",
+    "Proyecto CAS":       "/espacios/cas",
+    "Idioma Extranjero":  "/espacios/idioma-extranjero",
+    "Cultura Estética":   "/espacios/cultura-estetica",
+    "Educación Física":   "/espacios/educacion-fisica",
+    "Intercambio":        "/espacios/intercambio",
+  },
+  reconocimientos: {
+    "Logros Deportivos":  "/reconocimientos/deportivos",
+    "Logros Académicos":  "/reconocimientos/academicos",
   },
   academico: {
     "Educación Inicial":              "/academico/niveles/inicial",
@@ -43,32 +63,47 @@ const subLinks: Record<CategoryKey, Record<string, string>> = {
     "Bachillerato Internacional (IB)":"/academico/ib",
   },
   admisiones: {
-    "Proceso de Admisión":   "/admisiones#proceso",
-    "Requisitos por nivel":  "/admisiones#requisitos",
-    "Agenda una visita":     "/admisiones#visita",
+    "Educación Inicial":        "/admisiones/inicial",
+    "EGB Elemental y Media":    "/admisiones/egb-elemental-media",
+    "EGB Superior":             "/admisiones/egb-superior",
+    "Bachillerato IB":          "/admisiones/ib",
+    "Agenda una visita":        "/admisiones#visita",
   },
   matriculas: {
-    "Estudiantes activos":    "/matriculas#activos",
-    "Estudiantes nuevos":     "/matriculas#nuevos",
-    "Requisitos por nivel":   "/matriculas#por-nivel",
+    "Inicial 2.1":               "/matriculas/inicial-2-1",
+    "Inicial 2.2":               "/matriculas/inicial-2-2",
+    "Primer grado":              "/matriculas/primer-grado",
+    "Segundo grado":             "/matriculas/segundo-grado",
+    "3ro a 7mo grado":           "/matriculas/3ro-7mo",
+    "8vo a 10mo grado":          "/matriculas/8vo-10mo",
+    "Bachillerato IB":           "/matriculas/ib",
+    "Valores Referenciales":     "/matriculas/valores",
+    "Listas de útiles":          "/matriculas/listas-utiles",
+    "Autorizaciones bancarias":  "/matriculas/autorizaciones",
   },
   documentos: {
-    "Documentos del colegio": "/documentos-institucionales",
+    "Resolución de Pensiones":          "/documentos-institucionales/resolucion-pensiones",
+    "Contrato de Prestación":           "/documentos-institucionales/contrato-prestacion",
+    "Consentimiento Datos Personales":  "/documentos-institucionales/consentimiento-datos",
+    "Código de Convivencia":            "/documentos-institucionales/codigo-convivencia",
+    "Declaración Juramentada":          "/documentos-institucionales/declaracion-juramentada",
+    "Rutas de Manejo de Conflictos":    "/documentos-institucionales/rutas-conflictos",
+    "Solicitud de Inasistencia":        "/documentos-institucionales/solicitud-inasistencia",
   },
   servicios: {
-    "Servicios a la comunidad": "/servicios",
-    "Quejas y Sugerencias":     "/servicios#quejas-sugerencias",
-    "Facturación":              "/facturacion",
+    "Bar / Cafetería":        "/servicios/bar-cafeteria",
+    "Biblioteca":             "/servicios/biblioteca",
+    "Transporte":             "/servicios/transporte",
+    "Dispensario Médico":     "/servicios/dispensario-medico",
+    "Llave del Aprendizaje":  "/servicios/llave-aprendizaje",
+    "Becas":                  "/servicios/becas",
+    "Seguro Estudiantil":     "/servicios/seguro-estudiantil",
+    "Quejas y Sugerencias":   "/servicios/quejas-sugerencias",
   },
   plataformas: {
-    "Portal Familiar":  "/nuestras-plataformas#familiar",
-    "Portal Alumno":    "/nuestras-plataformas#alumno",
-    "Portal Docente":   "/nuestras-plataformas#docente",
-    "Portal Alumni":    "/nuestras-plataformas#alumni",
-    "Comunidad (hub)":  "/comunidad",
-  },
-  cronograma: {
-    "Calendario del año": "/cronograma-anual",
+    "Aleks":                          "/nuestras-plataformas#aleks",
+    "eLibro":                         "/nuestras-plataformas#elibro",
+    "Biblioteca Virtual Institucional":"/nuestras-plataformas#biblioteca-virtual",
   },
   revista: {
     "Ver todos los artículos": "/revista",
@@ -77,37 +112,47 @@ const subLinks: Record<CategoryKey, Record<string, string>> = {
     "Deportes":                "/revista/categoria/deportes",
     "Cultura":                 "/revista/categoria/cultura",
   },
+  comunidad: {
+    "Soy Alumno":   "/comunidad#alumno",
+    "Soy Padre":    "/comunidad#padre",
+    "Soy Docente":  "/comunidad#docente",
+    "Alumni":       "/comunidad#alumni",
+  },
 };
 
 const subItems: Record<CategoryKey, string[]> = {
-  el_atenas:   Object.keys(subLinks.el_atenas),
-  academico:   Object.keys(subLinks.academico),
-  admisiones:  Object.keys(subLinks.admisiones),
-  matriculas:  Object.keys(subLinks.matriculas),
-  documentos:  Object.keys(subLinks.documentos),
-  servicios:   Object.keys(subLinks.servicios),
-  plataformas: Object.keys(subLinks.plataformas),
-  cronograma:  Object.keys(subLinks.cronograma),
-  revista:     Object.keys(subLinks.revista),
+  quienes_somos:   Object.keys(subLinks.quienes_somos),
+  espacios:        Object.keys(subLinks.espacios),
+  reconocimientos: Object.keys(subLinks.reconocimientos),
+  academico:       Object.keys(subLinks.academico),
+  admisiones:      Object.keys(subLinks.admisiones),
+  matriculas:      Object.keys(subLinks.matriculas),
+  documentos:      Object.keys(subLinks.documentos),
+  servicios:       Object.keys(subLinks.servicios),
+  plataformas:     Object.keys(subLinks.plataformas),
+  revista:         Object.keys(subLinks.revista),
+  comunidad:       Object.keys(subLinks.comunidad),
 };
 
 const subLabels: Record<CategoryKey, string> = {
-  el_atenas:   "EL ATENAS",
-  academico:   "ACADÉMICO",
-  admisiones:  "ADMISIONES",
-  matriculas:  "MATRÍCULAS",
-  documentos:  "DOCUMENTOS INSTITUCIONALES",
-  servicios:   "SERVICIOS",
-  plataformas: "NUESTRAS PLATAFORMAS",
-  cronograma:  "CRONOGRAMA ANUAL",
-  revista:     "REVISTA",
+  quienes_somos:   "QUIÉNES SOMOS",
+  espacios:        "ESPACIOS DE DESARROLLO",
+  reconocimientos: "RECONOCIMIENTOS",
+  academico:       "ACADÉMICO",
+  admisiones:      "ADMISIONES",
+  matriculas:      "MATRÍCULAS",
+  documentos:      "DOCUMENTOS INSTITUCIONALES",
+  servicios:       "SERVICIOS",
+  plataformas:     "NUESTRAS PLATAFORMAS",
+  revista:         "REVISTA",
+  comunidad:       "COMUNIDAD",
 };
 
 export function Navbar() {
   const [scrolled,        setScrolled]        = useState(false);
   const [menuOpen,        setMenuOpen]        = useState(false);
-  const [activeCategory,  setActiveCategory]  = useState<CategoryKey>("el_atenas");
-  const [mobileExpanded,  setMobileExpanded]  = useState<CategoryKey | null>("el_atenas");
+  const [activeCategory,  setActiveCategory]  = useState<CategoryKey>("quienes_somos");
+  const [mobileExpanded,  setMobileExpanded]  = useState<CategoryKey | null>("quienes_somos");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -117,8 +162,8 @@ export function Navbar() {
 
   useEffect(() => {
     if (menuOpen) {
-      setActiveCategory("el_atenas");
-      setMobileExpanded("el_atenas");
+      setActiveCategory("quienes_somos");
+      setMobileExpanded("quienes_somos");
     }
   }, [menuOpen]);
 
@@ -143,7 +188,9 @@ export function Navbar() {
           {/* Desktop right */}
           <div className="hidden md:flex items-center gap-5">
             <a
-              href="/nuestras-plataformas#familiar"
+              href="/idukay"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-[#1A2B4A] text-[11px] font-medium tracking-[2px] uppercase hover:opacity-60 transition-opacity"
             >
               PORTAL FAMILIAR
@@ -417,6 +464,13 @@ export function Navbar() {
                       onClick={() => setMenuOpen(false)}
                     >
                       Cronograma
+                    </a>
+                    <a
+                      href="/contactos"
+                      className="border border-white/30 text-white/80 text-[12px] md:text-[13px] px-5 md:px-6 py-3 rounded hover:bg-white/10 transition-colors"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      Contactos
                     </a>
                   </div>
                 </div>
