@@ -23,7 +23,7 @@ export function HeroElAtenas({
   return (
     <section
       className="relative overflow-hidden bg-[#0D1825]"
-      style={{ minHeight: 560 }}
+      style={{ minHeight: 640 }}
     >
       {/* ─── Fondo ─── */}
       <div className="absolute inset-0">
@@ -99,7 +99,7 @@ export function HeroElAtenas({
           left: 160,
           top: 0,
           width: 1,
-          height: 560,
+          height: 640,
           background:
             "linear-gradient(180deg, transparent 0%, rgba(201,168,76,0.40) 35%, rgba(201,168,76,0.40) 65%, transparent 100%)",
         }}
