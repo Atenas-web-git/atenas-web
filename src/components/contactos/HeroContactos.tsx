@@ -10,7 +10,7 @@ export function HeroContactos() {
   return (
     <section
       className="relative overflow-hidden bg-[#0D1825]"
-      style={{ minHeight: 600 }}
+      style={{ minHeight: 700 }}
     >
       {/* ─── Fondo ─── */}
       <div className="absolute inset-0">
@@ -41,7 +41,7 @@ export function HeroContactos() {
       {/* ─── Ghost text desktop ─── */}
       <div
         className="hidden md:block absolute pointer-events-none select-none"
-        style={{ top: 60, left: -8 }}
+        style={{ top: 100, left: -8 }}
       >
         <span
           style={{
@@ -86,7 +86,7 @@ export function HeroContactos() {
           left: 160,
           top: 0,
           width: 1,
-          height: 600,
+          height: 700,
           background:
             "linear-gradient(180deg, transparent 0%, rgba(201,168,76,0.40) 40%, rgba(201,168,76,0.40) 60%, transparent 100%)",
         }}
@@ -142,9 +142,9 @@ export function HeroContactos() {
       {/* ─── Contenido principal ─── */}
       <div
         className="relative z-10
-          px-6 pt-[130px] pb-24
+          px-6 pt-[160px] pb-28
           md:px-0 md:pt-0 md:pb-0
-          md:absolute md:left-[192px] md:top-[228px]
+          md:absolute md:left-[192px] md:top-[270px]
           flex flex-col gap-[16px] md:gap-[18px]"
         style={{ maxWidth: 560 }}
       >
@@ -234,7 +234,7 @@ export function HeroContactos() {
         className="hidden md:flex absolute flex-col rounded-[16px] overflow-hidden"
         style={{
           left: 830,
-          top: 150,
+          top: 190,
           width: 300,
           background: "rgba(26,43,74,0.95)",
           boxShadow: "0 20px 50px rgba(0,0,0,0.50)",

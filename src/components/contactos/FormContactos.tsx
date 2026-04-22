@@ -1,14 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { MapPin, Send, ExternalLink } from "lucide-react";
+import { MapPin, Send } from "lucide-react";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
-const MAPS_URL =
-  "https://maps.google.com/?q=Calle+Gabriel+Roman+s/n+y+Av+Pedro+Vasconez+Yacupamba,+Izamba,+Ambato,+Ecuador";
+const MAPS_EMBED =
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.913587059848!2d-78.58488182487221!3d-1.22019589876816!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d380d94d5ebf2d%3A0x48c002fa0be9f24a!2sUnidad%20Educativa%20Atenas!5e0!3m2!1ses!2sec!4v1776877754704!5m2!1ses!2sec";
 
 export function FormContactos() {
   const ref = useRef<HTMLDivElement>(null);
@@ -28,52 +27,12 @@ export function FormContactos() {
     >
       {/* ─── Columna mapa — desktop ─── */}
       <div
-        className="relative hidden md:block flex-shrink-0"
+        className="relative hidden md:block flex-shrink-0 overflow-hidden"
         style={{ width: "48.6%", minHeight: 720 }}
       >
-        <Image
-          src="https://images.unsplash.com/photo-1581885896013-42723a002667?w=1200&q=80"
-          alt="Ubicación Unidad Educativa Atenas — Izamba, Ambato"
-          fill
-          className="object-cover object-center"
-          sizes="50vw"
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(26,43,74,0.55) 0%, rgba(26,43,74,0.15) 100%)",
-          }}
-        />
-
-        {/* Línea dorada vertical */}
-        <div
-          className="absolute right-0 top-[60px]"
-          style={{
-            width: 1,
-            height: 600,
-            background:
-              "linear-gradient(180deg, transparent 0%, rgba(201,168,76,0.30) 50%, transparent 100%)",
-          }}
-        />
-        {[0, 20, 40].map((offset, i) => (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              right: -3,
-              top: 56 + offset,
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: `rgba(201,168,76,${[0.70, 0.40, 0.20][i]})`,
-            }}
-          />
-        ))}
-
         {/* Badge ubicación */}
         <div
-          className="absolute left-8 top-8 flex items-center gap-2 rounded-[8px] px-[14px] py-[8px]"
+          className="absolute left-8 top-8 z-10 flex items-center gap-2 rounded-[8px] px-[14px] py-[8px]"
           style={{
             background: "rgba(13,24,37,0.80)",
             backdropFilter: "blur(8px)",
@@ -92,35 +51,15 @@ export function FormContactos() {
           </span>
         </div>
 
-        {/* Centro del mapa */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-3">
-          <MapPin size={40} color="#C9A84C" />
-          <p
-            style={{
-              fontFamily: "Poppins, sans-serif",
-              fontSize: 13,
-              fontWeight: 600,
-              color: "rgba(255,255,255,0.80)",
-            }}
-          >
-            Mapa interactivo
-          </p>
-          <a
-            href={MAPS_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-[6px] px-[14px] py-[8px] text-[12px] font-semibold transition-colors hover:opacity-80"
-            style={{
-              fontFamily: "Poppins, sans-serif",
-              color: "#C9A84C",
-              background: "rgba(201,168,76,0.15)",
-              border: "1px solid rgba(201,168,76,0.40)",
-            }}
-          >
-            Ver en Google Maps
-            <ExternalLink size={12} />
-          </a>
-        </div>
+        {/* Google Maps iframe */}
+        <iframe
+          src={MAPS_EMBED}
+          title="Ubicación Unidad Educativa Atenas"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0 }}
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        />
       </div>
 
       {/* ─── Columna formulario ─── */}
