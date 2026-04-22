@@ -9,17 +9,28 @@ const WHATSAPP_MESSAGE = "Hola, me gustaría recibir información sobre la Unida
 export function FloatingBoot() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 800);
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const ce = e as CustomEvent<{ open: boolean }>;
+      setMenuOpen(ce.detail.open);
+      if (ce.detail.open) setOpen(false);
+    };
+    window.addEventListener("atenas:megamenu", handler);
+    return () => window.removeEventListener("atenas:megamenu", handler);
+  }, []);
+
   const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
   return (
     <AnimatePresence>
-      {mounted && (
+      {mounted && !menuOpen && (
         <motion.div
           className="fixed bottom-5 right-5 md:bottom-7 md:right-7 z-[60] flex flex-col items-end gap-3"
           initial={{ opacity: 0, y: 30, scale: 0.85 }}

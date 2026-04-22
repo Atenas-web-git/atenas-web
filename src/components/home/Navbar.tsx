@@ -165,6 +165,7 @@ export function Navbar() {
       setActiveCategory("quienes_somos");
       setMobileExpanded("quienes_somos");
     }
+    window.dispatchEvent(new CustomEvent("atenas:megamenu", { detail: { open: menuOpen } }));
   }, [menuOpen]);
 
   return (
@@ -295,9 +296,9 @@ export function Navbar() {
               <div className="flex-1 min-h-0 flex flex-col">
 
                 {/* DESKTOP — 2 columnas */}
-                <div className="hidden md:flex flex-1 gap-16 px-16 pt-10 pb-0">
+                <div className="hidden md:flex flex-1 min-h-0 gap-16 px-16 pt-10 pb-0">
                   {/* Columna izquierda: categorías */}
-                  <div className="w-[300px] flex-shrink-0 flex flex-col gap-0">
+                  <div className="w-[300px] flex-shrink-0 flex flex-col gap-0 overflow-y-auto pb-4">
                     <span className="text-[#9e1915] text-[10px] font-bold tracking-[3px] uppercase mb-3">
                       Secciones
                     </span>
@@ -329,7 +330,7 @@ export function Navbar() {
                   <div className="w-[1px] bg-white/10 self-stretch flex-shrink-0" />
 
                   {/* Columna derecha: sub-items */}
-                  <div className="flex-1 flex flex-col gap-1 pt-[2px]">
+                  <div className="flex-1 min-w-0 min-h-0 overflow-y-auto flex flex-col gap-1 pt-[2px] pb-6">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={activeCategory}
