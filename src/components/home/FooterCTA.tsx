@@ -41,9 +41,11 @@ const socialLinks = [
 ];
 
 const footerLinks = [
-  { label: "Contactos",               href: "#" },
-  { label: "Política de privacidad",  href: "#" },
-  { label: "Trabaja con nosotros",    href: "#" },
+  { label: "Trabaja con nosotros",      href: "/trabaja-con-nosotros"     },
+  { label: "Política de privacidad",    href: "/privacidad"               },
+  { label: "Quejas y Sugerencias",      href: "/servicios#quejas-sugerencias" },
+  { label: "Documentos institucionales",href: "/documentos-institucionales"},
+  { label: "Facturación",               href: "/facturacion"              },
 ];
 
 export function FooterCTA() {
@@ -81,7 +83,7 @@ export function FooterCTA() {
       </motion.div>
 
       {/* ── Contenido — w-full garantiza que no desborde ── */}
-      <div className="relative z-10 flex flex-col items-center text-center w-full max-w-[342px] md:max-w-[600px]">
+      <div className="relative z-10 flex flex-col items-center text-center w-full max-w-[342px] md:max-w-[760px]">
 
         {/* Logo */}
         <motion.div
@@ -177,12 +179,20 @@ export function FooterCTA() {
           transition={{ duration: 0.4, delay: 0.75, ease }}
         >
           {/* Divisor */}
-          <div className="h-px bg-white/15 w-full max-w-[300px] mb-1" />
+          <div className="h-px bg-white/15 w-full max-w-[360px] md:max-w-[600px] mb-1" />
 
-          {/* Links — mobile: una sola línea centrada; desktop: fila flex */}
-          <p className="text-white/50 text-[11px] text-center leading-relaxed md:hidden">
-            Contactos · Política de privacidad · Trabaja con nosotros
-          </p>
+          {/* Links — mobile: multi-línea centrada; desktop: fila flex */}
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 md:gap-6 md:hidden">
+            {footerLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-white/50 text-[11px] tracking-[0.3px] hover:text-white/80 transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
           <div className="hidden md:flex flex-wrap justify-center gap-6">
             {footerLinks.map((link) => (
               <a
@@ -196,8 +206,8 @@ export function FooterCTA() {
           </div>
 
           {/* Teléfono y correo — Pencil: opacity 0.55 */}
-          <p className="text-white/55 text-[11px] text-center">
-            +593 99 762 2994 · admisiones@atenas.edu.ec
+          <p className="text-white/55 text-[11px] text-center mt-1">
+            03 2854281 ext. 100 · admisiones@atenas.edu.ec
           </p>
 
           {/* Copyright */}

@@ -6,80 +6,101 @@ import { LogoSVG } from "@/components/shared/LogoSVG";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
-type CategoryKey = "el_atenas" | "academico" | "admisiones" | "comunidad" | "contactos";
+type CategoryKey =
+  | "el_atenas"
+  | "academico"
+  | "admisiones"
+  | "matriculas"
+  | "documentos"
+  | "servicios"
+  | "plataformas"
+  | "cronograma"
+  | "revista";
 
 const categories: { key: CategoryKey; label: string }[] = [
-  { key: "el_atenas",   label: "El Atenas"   },
-  { key: "academico",   label: "Académico"   },
-  { key: "admisiones",  label: "Admisiones"  },
-  { key: "comunidad",   label: "Comunidad"   },
-  { key: "contactos",   label: "Contactos"   },
+  { key: "el_atenas",   label: "El Atenas"                 },
+  { key: "academico",   label: "Académico"                 },
+  { key: "admisiones",  label: "Admisiones"                },
+  { key: "matriculas",  label: "Matrículas"                },
+  { key: "documentos",  label: "Documentos Institucionales"},
+  { key: "servicios",   label: "Servicios"                 },
+  { key: "plataformas", label: "Nuestras Plataformas"      },
+  { key: "cronograma",  label: "Cronograma Anual"          },
+  { key: "revista",     label: "Revista"                   },
 ];
 
-const subLinks: Partial<Record<CategoryKey, Record<string, string>>> = {
+const subLinks: Record<CategoryKey, Record<string, string>> = {
   el_atenas: {
-    "Historia & 50 Años": "/el-atenas/historia",
+    "Historia & 50 Años":           "/el-atenas/historia",
+    "Misión, Visión y Valores":     "/el-atenas/mision-vision-valores",
+    "Espacios de Desarrollo":       "/el-atenas/espacios-de-desarrollo",
+    "Reconocimientos":              "/el-atenas/reconocimientos",
   },
   academico: {
-    "Niveles Educativos":              "/academico/niveles",
-    "Bachillerato Internacional (IB)": "/academico/ib",
-    "Proyectos y Metodología":         "/academico/niveles#metodologias",
+    "Educación Inicial":              "/academico/niveles/inicial",
+    "EGB Elemental y Media":          "/academico/niveles/egb-elemental-media",
+    "EGB Superior":                   "/academico/niveles/egb-superior",
+    "Bachillerato Internacional (IB)":"/academico/ib",
   },
   admisiones: {
-    "Proceso de Admisión":      "/admisiones#proceso",
-    "Requisitos por nivel":     "/admisiones",
-    "Matrículas":               "/admisiones",
-    "Documentos descargables":  "/admisiones",
-    "Agenda una visita":        "/admisiones#visita",
+    "Proceso de Admisión":   "/admisiones#proceso",
+    "Requisitos por nivel":  "/admisiones#requisitos",
+    "Agenda una visita":     "/admisiones#visita",
   },
-  comunidad: {
-    "Soy Alumno": "/comunidad#alumno",
-    "Soy Padre":  "/comunidad#padre",
-    "Soy Profe":  "/comunidad#docente",
-    "Alumni":     "/comunidad#alumni",
-    "Noticias":   "/revista",
+  matriculas: {
+    "Estudiantes activos":    "/matriculas#activos",
+    "Estudiantes nuevos":     "/matriculas#nuevos",
+    "Requisitos por nivel":   "/matriculas#por-nivel",
+  },
+  documentos: {
+    "Documentos del colegio": "/documentos-institucionales",
+  },
+  servicios: {
+    "Servicios a la comunidad": "/servicios",
+    "Quejas y Sugerencias":     "/servicios#quejas-sugerencias",
+    "Facturación":              "/facturacion",
+  },
+  plataformas: {
+    "Portal Familiar":  "/nuestras-plataformas#familiar",
+    "Portal Alumno":    "/nuestras-plataformas#alumno",
+    "Portal Docente":   "/nuestras-plataformas#docente",
+    "Portal Alumni":    "/nuestras-plataformas#alumni",
+    "Comunidad (hub)":  "/comunidad",
+  },
+  cronograma: {
+    "Calendario del año": "/cronograma-anual",
+  },
+  revista: {
+    "Ver todos los artículos": "/revista",
+    "Educación Inicial":       "/revista/categoria/educacion-inicial",
+    "Bachillerato IB":         "/revista/categoria/bachillerato-ib",
+    "Deportes":                "/revista/categoria/deportes",
+    "Cultura":                 "/revista/categoria/cultura",
   },
 };
 
 const subItems: Record<CategoryKey, string[]> = {
-  el_atenas: [
-    "Historia & 50 Años",
-    "Misión, Visión y Valores",
-    "Modelo Educativo",
-    "Logros Institucionales",
-  ],
-  academico: [
-    "Niveles Educativos",
-    "Bachillerato Internacional (IB)",
-    "Proyectos y Metodología",
-  ],
-  admisiones: [
-    "Proceso de Admisión",
-    "Requisitos por nivel",
-    "Matrículas",
-    "Documentos descargables",
-    "Agenda una visita",
-  ],
-  comunidad: [
-    "Soy Alumno",
-    "Soy Padre",
-    "Soy Profe",
-    "Alumni",
-    "Noticias",
-  ],
-  contactos: [
-    "Teléfono y WhatsApp",
-    "Dirección y ubicación",
-    "Formulario de contacto",
-  ],
+  el_atenas:   Object.keys(subLinks.el_atenas),
+  academico:   Object.keys(subLinks.academico),
+  admisiones:  Object.keys(subLinks.admisiones),
+  matriculas:  Object.keys(subLinks.matriculas),
+  documentos:  Object.keys(subLinks.documentos),
+  servicios:   Object.keys(subLinks.servicios),
+  plataformas: Object.keys(subLinks.plataformas),
+  cronograma:  Object.keys(subLinks.cronograma),
+  revista:     Object.keys(subLinks.revista),
 };
 
 const subLabels: Record<CategoryKey, string> = {
-  el_atenas:  "EL ATENAS",
-  academico:  "ACADÉMICO",
-  admisiones: "ADMISIONES",
-  comunidad:  "COMUNIDAD",
-  contactos:  "CONTACTOS",
+  el_atenas:   "EL ATENAS",
+  academico:   "ACADÉMICO",
+  admisiones:  "ADMISIONES",
+  matriculas:  "MATRÍCULAS",
+  documentos:  "DOCUMENTOS INSTITUCIONALES",
+  servicios:   "SERVICIOS",
+  plataformas: "NUESTRAS PLATAFORMAS",
+  cronograma:  "CRONOGRAMA ANUAL",
+  revista:     "REVISTA",
 };
 
 export function Navbar() {
@@ -120,12 +141,18 @@ export function Navbar() {
           </div>
 
           {/* Desktop right */}
-          <div className="hidden md:flex items-center gap-7">
+          <div className="hidden md:flex items-center gap-5">
             <a
-              href="#"
-              className="text-[#1A2B4A] text-[12px] font-medium tracking-[2px] uppercase hover:opacity-60 transition-opacity"
+              href="/nuestras-plataformas#familiar"
+              className="text-[#1A2B4A] text-[11px] font-medium tracking-[2px] uppercase hover:opacity-60 transition-opacity"
             >
-              PORTAL
+              PORTAL FAMILIAR
+            </a>
+            <a
+              href="/paseo-virtual"
+              className="text-[#C9A84C] border border-[#C9A84C] text-[11px] font-semibold tracking-[2px] uppercase px-3.5 h-8 flex items-center rounded-full hover:bg-[#C9A84C] hover:text-white transition-colors"
+            >
+              TOUR VIRTUAL
             </a>
             <button aria-label="Buscar" className="text-[#1A2B4A] hover:opacity-60 transition-opacity">
               <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -223,7 +250,7 @@ export function Navbar() {
                 {/* DESKTOP — 2 columnas */}
                 <div className="hidden md:flex flex-1 gap-16 px-16 pt-10 pb-0">
                   {/* Columna izquierda: categorías */}
-                  <div className="w-[260px] flex-shrink-0 flex flex-col gap-1">
+                  <div className="w-[300px] flex-shrink-0 flex flex-col gap-0">
                     <span className="text-[#9e1915] text-[10px] font-bold tracking-[3px] uppercase mb-3">
                       Secciones
                     </span>
@@ -231,19 +258,19 @@ export function Navbar() {
                       <motion.button
                         key={cat.key}
                         onClick={() => setActiveCategory(cat.key)}
-                        className="flex items-center justify-between py-4 text-left w-full"
+                        className="flex items-center justify-between py-[10px] text-left w-full"
                         initial={{ opacity: 0, x: -16 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.05 + i * 0.05, duration: 0.35, ease }}
+                        transition={{ delay: 0.03 + i * 0.035, duration: 0.35, ease }}
                       >
                         <span
-                          className="font-semibold text-[22px] transition-colors duration-150"
+                          className="font-semibold text-[18px] leading-[1.2] transition-colors duration-150"
                           style={{ color: activeCategory === cat.key ? "#FFFFFF" : "rgba(255,255,255,0.4)" }}
                         >
                           {cat.label}
                         </span>
                         {activeCategory === cat.key && (
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9e1915" strokeWidth="2.5">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9e1915" strokeWidth="2.5">
                             <path d="m9 18 6-6-6-6" />
                           </svg>
                         )}
@@ -302,10 +329,10 @@ export function Navbar() {
                         onClick={() =>
                           setMobileExpanded(mobileExpanded === cat.key ? null : cat.key)
                         }
-                        className="flex items-center justify-between w-full py-[14px]"
+                        className="flex items-center justify-between w-full py-[12px]"
                       >
                         <span
-                          className="font-semibold text-[18px] transition-colors"
+                          className="font-semibold text-[16px] leading-[1.25] pr-3 transition-colors"
                           style={{ color: mobileExpanded === cat.key ? "#FFFFFF" : "rgba(255,255,255,0.45)" }}
                         >
                           {cat.label}
@@ -354,7 +381,7 @@ export function Navbar() {
                   <div className="mt-5 pt-4 pb-2">
                     <p className="text-white/40 text-[10px] tracking-[2px] uppercase font-bold mb-2">Contacto</p>
                     <p className="text-white/55 text-[12px] leading-relaxed">
-                      +593 99 762 2994<br />admisiones@atenas.edu.ec
+                      03 2854281 ext. 100 (Recepción)<br />admisiones@atenas.edu.ec
                     </p>
                   </div>
                 </div>
@@ -369,20 +396,27 @@ export function Navbar() {
                   <span className="hidden md:block text-white/60 text-[13px]">
                     ¿Listo para ser parte del Atenas?
                   </span>
-                  <div className="flex gap-3">
+                  <div className="flex flex-wrap gap-3">
                     <a
-                      href="#"
+                      href="/admisiones"
                       className="bg-[#9e1915] text-white text-[12px] md:text-[13px] font-bold tracking-[0.5px] px-5 md:px-6 py-3 rounded hover:bg-[#7d140f] transition-colors"
                       onClick={() => setMenuOpen(false)}
                     >
                       Solicitar Admisión
                     </a>
                     <a
-                      href="#"
+                      href="/paseo-virtual"
+                      className="border border-[#C9A84C] text-[#C9A84C] text-[12px] md:text-[13px] font-semibold px-5 md:px-6 py-3 rounded hover:bg-[#C9A84C] hover:text-white transition-colors"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      Tour Virtual
+                    </a>
+                    <a
+                      href="/cronograma-anual"
                       className="border border-white/30 text-white/80 text-[12px] md:text-[13px] px-5 md:px-6 py-3 rounded hover:bg-white/10 transition-colors"
                       onClick={() => setMenuOpen(false)}
                     >
-                      Portal Familiar
+                      Cronograma
                     </a>
                   </div>
                 </div>
@@ -390,7 +424,7 @@ export function Navbar() {
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="2">
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 17z" />
                   </svg>
-                  +593 99 762 2994
+                  03 2854281 ext. 100
                 </div>
               </div>
             </motion.div>
