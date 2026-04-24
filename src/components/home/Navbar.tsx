@@ -70,6 +70,7 @@ const subLinks: Record<CategoryKey, Record<string, string>> = {
     "Agenda una visita":        "/admisiones#visita",
   },
   matriculas: {
+    "Proceso de Matrícula":      "/matriculas/proceso",
     "Inicial 2.1":               "/matriculas/inicial-2-1",
     "Inicial 2.2":               "/matriculas/inicial-2-2",
     "Primer grado":              "/matriculas/primer-grado",
@@ -78,7 +79,7 @@ const subLinks: Record<CategoryKey, Record<string, string>> = {
     "8vo a 10mo grado":          "/matriculas/8vo-10mo",
     "Bachillerato IB":           "/matriculas/ib",
     "Valores Referenciales":     "/matriculas/valores",
-    "Listas de útiles":          "/matriculas/listas-utiles",
+    "Listas de útiles":          "/matriculas/listas",
     "Autorizaciones bancarias":  "/matriculas/autorizaciones",
   },
   documentos: {
