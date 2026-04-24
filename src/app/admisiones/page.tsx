@@ -3,6 +3,7 @@ import { Navbar } from "@/components/home/Navbar";
 import { HeroAdmisiones } from "@/components/admisiones/HeroAdmisiones";
 import { ProcesoAdmisiones } from "@/components/admisiones/ProcesoAdmisiones";
 import { NivelesAdmisiones } from "@/components/admisiones/NivelesAdmisiones";
+import { ExplorarAdmisiones } from "@/components/admisiones/ExplorarAdmisiones";
 import { VisitaAdmisiones } from "@/components/admisiones/VisitaAdmisiones";
 import { FooterCTA } from "@/components/home/FooterCTA";
 
@@ -20,6 +21,7 @@ export default function AdmisionesPage() {
         <HeroAdmisiones />
         <ProcesoAdmisiones />
         <NivelesAdmisiones />
+        <ExplorarAdmisiones />
         <VisitaAdmisiones />
         <FooterCTA />
       </main>
