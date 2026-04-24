@@ -3,6 +3,7 @@ import { HeroIB } from "@/components/ib/HeroIB";
 import { NucleoIB } from "@/components/ib/NucleoIB";
 import { MateriasIB } from "@/components/ib/MateriasIB";
 import { ProcesoIB } from "@/components/ib/ProcesoIB";
+import { ExplorarIB } from "@/components/ib/ExplorarIB";
 import { FooterCTA } from "@/components/home/FooterCTA";
 
 export const metadata = {
@@ -20,6 +21,7 @@ export default function IBPage() {
         <NucleoIB />
         <MateriasIB />
         <ProcesoIB />
+        <ExplorarIB />
         <FooterCTA />
       </main>
     </>
