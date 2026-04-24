@@ -53,9 +53,43 @@ export function GaleriaLogros({ titulo, subtitulo, photos }: Props) {
           </span>
         </motion.div>
 
-        {/* Mosaic grid */}
+        {/* Mobile: tall left + 2 stacked right */}
+        <div className="flex md:hidden gap-3" style={{ height: 260 }}>
+          <motion.div
+            className="relative overflow-hidden rounded-[12px] flex-shrink-0"
+            style={{ width: 160 }}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={inView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.1, ease }}
+            whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
+          >
+            {photos[0] && <Image src={photos[0].src} alt={photos[0].alt} fill className="object-cover" sizes="160px" />}
+          </motion.div>
+          <div className="flex flex-col gap-3 flex-1">
+            <motion.div
+              className="relative overflow-hidden rounded-[12px] flex-1"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={inView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.6, delay: 0.2, ease }}
+              whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
+            >
+              {photos[2] && <Image src={photos[2].src} alt={photos[2].alt} fill className="object-cover" sizes="50vw" />}
+            </motion.div>
+            <motion.div
+              className="relative overflow-hidden rounded-[12px] flex-1"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={inView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.6, delay: 0.3, ease }}
+              whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
+            >
+              {photos[3] && <Image src={photos[3].src} alt={photos[3].alt} fill className="object-cover" sizes="50vw" />}
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Desktop: 4-column mosaic grid */}
         <div
-          className="grid gap-3"
+          className="hidden md:grid gap-3"
           style={{
             gridTemplateColumns: "2fr 1fr 1.5fr 1fr",
             gridTemplateRows: "170px 170px",

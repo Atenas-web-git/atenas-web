@@ -28,7 +28,7 @@ function LogroCard({ logro, index, inView }: { logro: LogroDestacado; index: num
 
   return (
     <motion.div
-      className="relative overflow-hidden flex-1"
+      className="relative overflow-hidden w-full md:flex-1"
       style={{
         borderRadius: 14,
         height: 320,

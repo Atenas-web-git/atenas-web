@@ -175,7 +175,7 @@ export function HeroElAtenas({
           md:px-0 md:pt-0 md:pb-0
           md:absolute md:left-[192px] md:top-[234px]
           flex flex-col gap-[16px] md:gap-[18px]"
-        style={{ maxWidth: 560 }}
+        style={{ maxWidth: 760 }}
       >
         <motion.div
           className="flex items-center gap-[10px]"
