@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
@@ -20,41 +21,55 @@ export function HeroElAtenas({
 }: Props) {
   const ghost = ghostText ?? title.toUpperCase();
 
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const bgY = useTransform(scrollYProgress, [0, 1], ["-14%", "14%"]);
+
   return (
     <section
+      ref={sectionRef}
       className="relative overflow-hidden bg-[#0D1825]"
       style={{ minHeight: 640 }}
     >
-      {/* ─── Fondo ─── */}
-      <div className="absolute inset-0">
+      {/* ─── Fondo con parallax ─── */}
+      <motion.div
+        className="absolute inset-0"
+        style={{ y: bgY, willChange: "transform" }}
+      >
         <Image
           src="https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=1440&q=80"
           alt=""
           fill
           priority
           className="object-cover object-center"
-          style={{ opacity: 0.18 }}
+          style={{ opacity: 0.22 }}
+          sizes="100vw"
         />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(13,24,37,0.94) 0%, rgba(13,24,37,0.40) 55%, rgba(13,24,37,0.82) 100%)",
-          }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse at top left, rgba(201,168,76,0.06) 0%, transparent 65%)",
-          }}
-        />
-      </div>
+      </motion.div>
+
+      {/* ─── Overlays ─── */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(13,24,37,0.92) 0%, rgba(13,24,37,0.35) 55%, rgba(13,24,37,0.80) 100%)",
+        }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse at top left, rgba(201,168,76,0.07) 0%, transparent 60%)",
+        }}
+      />
 
       {/* ─── Ghost text desktop ─── */}
       <div
         className="hidden md:block absolute pointer-events-none select-none"
-        style={{ top: 100, left: -8 }}
+        style={{ top: 100, left: 80 }}
       >
         <span
           style={{
@@ -63,7 +78,7 @@ export function HeroElAtenas({
             fontSize: 190,
             fontWeight: 700,
             color: "white",
-            opacity: 0.024,
+            opacity: 0.028,
             lineHeight: 1,
             whiteSpace: "nowrap",
           }}
@@ -74,8 +89,8 @@ export function HeroElAtenas({
 
       {/* ─── Ghost text mobile ─── */}
       <div
-        className="md:hidden absolute pointer-events-none select-none overflow-hidden"
-        style={{ top: 96, left: 0, width: 390 }}
+        className="md:hidden absolute pointer-events-none select-none"
+        style={{ top: 96, left: 20 }}
       >
         <span
           style={{
@@ -84,8 +99,9 @@ export function HeroElAtenas({
             fontSize: 70,
             fontWeight: 700,
             color: "white",
-            opacity: 0.02,
+            opacity: 0.025,
             lineHeight: 1,
+            whiteSpace: "nowrap",
           }}
         >
           {ghost}

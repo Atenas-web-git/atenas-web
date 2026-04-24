@@ -101,9 +101,9 @@ const subLinks: Record<CategoryKey, Record<string, string>> = {
     "Quejas y Sugerencias":   "/servicios/quejas-sugerencias",
   },
   plataformas: {
-    "Aleks":                          "/nuestras-plataformas#aleks",
-    "eLibro":                         "/nuestras-plataformas#elibro",
-    "Biblioteca Virtual Institucional":"/nuestras-plataformas#biblioteca-virtual",
+    "Aleks":                          "https://latam.aleks.com/?_s=6114732018736631",
+    "eLibro":                         "https://elibro.net/es/lc/atenas/login_usuario/?next=/es/lc/atenas/inicio/",
+    "Biblioteca Virtual Institucional":"http://biblioteca.atenas.edu.ec:8085/librum/buea/?_gl=1*1hlf85s*_ga*MTg3ODg1NDY0Ny4xNzc1NjAzODE5*_ga_PC0YRJJ3QP*czE3NzY5OTAzMDYkbzEzJGcxJHQxNzc2OTkxOTI3JGo1MiRsMCRoMA..&_ga=2.144400246.2113148885.1776990306-1878854647.1775603819",
   },
   revista: {
     "Ver todos los artículos": "/revista",
@@ -189,7 +189,7 @@ export function Navbar() {
           {/* Desktop right */}
           <div className="hidden md:flex items-center gap-5">
             <a
-              href="/idukay"
+              href="https://idukay.net/colegios/#/login"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#1A2B4A] text-[11px] font-medium tracking-[2px] uppercase hover:opacity-60 transition-opacity"
@@ -346,6 +346,8 @@ export function Navbar() {
                           <motion.a
                             key={item}
                             href={subLinks[activeCategory]?.[item] ?? "#"}
+                            target={(subLinks[activeCategory]?.[item] ?? "").startsWith("http") ? "_blank" : undefined}
+                            rel={(subLinks[activeCategory]?.[item] ?? "").startsWith("http") ? "noopener noreferrer" : undefined}
                             className="flex items-center gap-3 py-[14px] border-b border-white/[0.07] group w-full"
                             initial={{ opacity: 0, x: 12 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -411,6 +413,8 @@ export function Navbar() {
                                 <a
                                   key={item}
                                   href={subLinks[cat.key]?.[item] ?? "#"}
+                                  target={(subLinks[cat.key]?.[item] ?? "").startsWith("http") ? "_blank" : undefined}
+                                  rel={(subLinks[cat.key]?.[item] ?? "").startsWith("http") ? "noopener noreferrer" : undefined}
                                   className="flex items-center gap-3 py-2.5"
                                   onClick={() => setMenuOpen(false)}
                                 >
