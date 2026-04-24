@@ -20,9 +20,11 @@ export interface Disciplina {
 interface Props {
   disciplinas: Disciplina[];
   verTodosHref?: string;
+  heading?: string;
+  ctaText?: string;
 }
 
-export function DisciplinaShowcase({ disciplinas, verTodosHref }: Props) {
+export function DisciplinaShowcase({ disciplinas, verTodosHref, heading, ctaText }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.08 });
 
@@ -40,7 +42,7 @@ export function DisciplinaShowcase({ disciplinas, verTodosHref }: Props) {
           transition={{ duration: 0.5, ease }}
         >
           <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 26, fontWeight: 700, color: "#FFFFFF" }}>
-            Por disciplina
+            {heading ?? "Por disciplina"}
           </span>
           {verTodosHref && (
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} transition={{ duration: 0.15 }}>
@@ -123,7 +125,7 @@ export function DisciplinaShowcase({ disciplinas, verTodosHref }: Props) {
                     style={{ fontFamily: "Poppins, sans-serif", fontSize: 12, fontWeight: 600, color: "#C9A84C" }}
                     className="group-hover:underline"
                   >
-                    Ver logros
+                    {ctaText ?? "Ver logros"}
                   </motion.span>
                   <motion.span
                     style={{ color: "#C9A84C", fontSize: 13, fontWeight: 700 }}
