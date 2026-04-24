@@ -257,7 +257,7 @@ export function TablaDocumentos() {
                 DOCUMENTO
               </th>
               <th
-                className="text-left py-3 text-[10px] font-bold tracking-[1.5px]"
+                className="text-center py-3 text-[10px] font-bold tracking-[1.5px]"
                 style={{ color: "#0D182550" }}
               >
                 CATEGORÍA
@@ -311,7 +311,7 @@ export function TablaDocumentos() {
                         </span>
                       </div>
                     </td>
-                    <td className="py-5">
+                    <td className="py-5 text-center">
                       <span
                         className="inline-block px-3.5 py-1.5 rounded-full text-[11px] font-semibold"
                         style={{ background: col.bg, color: col.text }}
