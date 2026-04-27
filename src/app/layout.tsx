@@ -11,11 +11,35 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Unidad Educativa Atenas — 50 años formando líderes",
+  metadataBase: new URL("https://atenas.edu.ec"),
+  title: {
+    default: "Unidad Educativa Atenas — 50 años formando líderes",
+    template: "%s | Unidad Educativa Atenas",
+  },
   description:
     "La institución referente de Ambato, Ecuador. Educación de excelencia con bachillerato IB, certificación ISO 9001 y 50 años de historia.",
   keywords:
-    "colegio Ambato, Unidad Educativa Atenas, bachillerato IB Ecuador, mejor colegio Ambato",
+    "colegio Ambato, Unidad Educativa Atenas, bachillerato IB Ecuador, mejor colegio Ambato, colegio IB Ecuador",
+  openGraph: {
+    type: "website",
+    locale: "es_EC",
+    siteName: "Unidad Educativa Atenas",
+    images: [
+      {
+        url: "/og-default.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Unidad Educativa Atenas — Izamba, Ambato",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
