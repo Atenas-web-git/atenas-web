@@ -42,7 +42,7 @@ const socialLinks = [
 
 const footerLinks = [
   { label: "Trabaja con nosotros",      href: "/trabaja-con-nosotros"     },
-  { label: "Política de privacidad",    href: "/privacidad"               },
+  { label: "Política",                   href: "/politicas"                },
   { label: "Quejas y Sugerencias",      href: "/servicios#quejas-sugerencias" },
   { label: "Documentos institucionales",href: "/documentos-institucionales"},
   { label: "Facturación",               href: "/facturacion"              },
