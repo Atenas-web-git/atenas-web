@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { FloatingBoot } from "@/components/shared/FloatingBoot";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -42,14 +44,85 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "EducationalOrganization",
+      "@id": "https://atenas.edu.ec/#organization",
+      name: "Unidad Educativa Atenas",
+      alternateName: ["Colegio Atenas", "U.E. Atenas"],
+      url: "https://atenas.edu.ec",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://atenas.edu.ec/opengraph-image",
+        width: 1200,
+        height: 630,
+      },
+      image: "https://atenas.edu.ec/opengraph-image",
+      description:
+        "La institución referente de Ambato, Ecuador. 50 años de educación de excelencia con Bachillerato Internacional IB acreditado y certificación ISO 9001.",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Calle Gabriel Román s/n y Av. Pedro Vásconez",
+        addressLocality: "Izamba",
+        addressRegion: "Tungurahua",
+        postalCode: "180103",
+        addressCountry: "EC",
+      },
+      telephone: "+59332854281",
+      email: "admisiones@atenas.edu.ec",
+      foundingDate: "1976",
+      areaServed: { "@type": "City", name: "Ambato" },
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Niveles Educativos",
+        itemListElement: [
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Course", name: "Educación Inicial" },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Course",
+              name: "Educación General Básica",
+            },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Course",
+              name: "Bachillerato Internacional IB",
+            },
+          },
+        ],
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://atenas.edu.ec/#website",
+      url: "https://atenas.edu.ec",
+      name: "Unidad Educativa Atenas",
+      publisher: { "@id": "https://atenas.edu.ec/#organization" },
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es" className={poppins.variable}>
       <body className="min-h-full font-sans antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         {children}
         <FloatingBoot />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

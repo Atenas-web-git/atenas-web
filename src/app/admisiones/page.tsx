@@ -10,7 +10,14 @@ import { FooterCTA } from "@/components/home/FooterCTA";
 export const metadata: Metadata = {
   title: "Admisiones — Unidad Educativa Atenas",
   description:
-    "Conoce el proceso de admisión del Colegio Atenas. Niveles desde Inicial hasta Bachillerato Internacional IB en Ambato, Ecuador.",
+    "Conoce el proceso de admisión del Colegio Atenas en Ambato, Ecuador. Niveles desde Inicial hasta Bachillerato Internacional IB. Solicita tu visita.",
+  keywords:
+    "admisiones colegio Ambato, inscripciones Unidad Educativa Atenas, proceso de admisión colegio IB Ecuador, matrícula colegio Ambato",
+  openGraph: {
+    title: "Admisiones — Unidad Educativa Atenas",
+    description:
+      "Inicia el proceso de admisión en el Colegio Atenas de Ambato. Bachillerato IB, certificación ISO 9001 y formación integral desde Inicial hasta BGU.",
+  },
 };
 
 export default function AdmisionesPage() {

@@ -8,7 +8,14 @@ import { FooterCTA } from "@/components/home/FooterCTA";
 export const metadata: Metadata = {
   title: "Contactos — Unidad Educativa Atenas",
   description:
-    "Contáctanos por teléfono, correo o visítanos en persona. Estamos en Calle Gabriel Román s/n y Av. Pedro Vásconez, Izamba, Ambato, Ecuador.",
+    "Contáctanos por teléfono (03 2854281), correo o visítanos en Calle Gabriel Román s/n y Av. Pedro Vásconez, Izamba, Ambato, Ecuador.",
+  keywords:
+    "contacto colegio Ambato, dirección Unidad Educativa Atenas, teléfono colegio Izamba Ambato, correo admisiones Atenas",
+  openGraph: {
+    title: "Contactos — Unidad Educativa Atenas",
+    description:
+      "Encuéntranos en Calle Gabriel Román s/n, Izamba, Ambato. Teléfono: 03 2854281 · admisiones@atenas.edu.ec",
+  },
 };
 
 export default function ContactosPage() {

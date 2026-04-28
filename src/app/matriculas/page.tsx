@@ -9,7 +9,15 @@ import { FooterCTA } from "@/components/home/FooterCTA";
 
 export const metadata: Metadata = {
   title: "Matrículas 2026–2027 | Unidad Educativa Atenas",
-  description: "Conoce el proceso de matrícula, valores, listas de útiles y autorizaciones bancarias para el año lectivo 2026–2027 en la Unidad Educativa Atenas.",
+  description:
+    "Proceso de matrícula, valores de pensión, listas de útiles y autorizaciones bancarias para el año lectivo 2026–2027 en la Unidad Educativa Atenas, Ambato.",
+  keywords:
+    "matrículas colegio Ambato 2026, inscripciones Unidad Educativa Atenas, pensiones colegio IB Ambato, listas útiles escolares Ambato",
+  openGraph: {
+    title: "Matrículas 2026–2027 | Unidad Educativa Atenas",
+    description:
+      "Proceso de matrícula, pensiones, listas de útiles y autorizaciones para el año lectivo 2026–2027 en el Colegio Atenas de Ambato.",
+  },
 };
 
 const CATEGORIAS = [
