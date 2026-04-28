@@ -74,6 +74,11 @@ const jsonLd = {
       email: "admisiones@atenas.edu.ec",
       foundingDate: "1976",
       areaServed: { "@type": "City", name: "Ambato" },
+      sameAs: [
+        "https://www.facebook.com/atenasambato",
+        "https://www.instagram.com/ueatenas.ambato",
+        "https://www.youtube.com/@UnidadEducativaAtenasOficial",
+      ],
       hasOfferCatalog: {
         "@type": "OfferCatalog",
         name: "Niveles Educativos",

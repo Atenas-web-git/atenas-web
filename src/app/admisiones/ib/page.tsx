@@ -4,6 +4,7 @@ import { HeroElAtenas } from "@/components/el-atenas/HeroElAtenas";
 import { NavAdmisiones } from "@/components/admisiones/NavAdmisiones";
 import { SeccionAdmisionDetalle } from "@/components/admisiones/SeccionAdmisionDetalle";
 import { PasosAdmision } from "@/components/admisiones/PasosAdmision";
+import { CTAIniciarSolicitud } from "@/components/admisiones/CTAIniciarSolicitud";
 import { FormularioAdmision } from "@/components/admisiones/FormularioAdmision";
 import { FooterCTA } from "@/components/home/FooterCTA";
 
@@ -49,6 +50,7 @@ export default function AdmisionIBPage() {
           ]}
         />
         <PasosAdmision />
+        <CTAIniciarSolicitud nivel="Bachillerato IB" />
         <FormularioAdmision nivelDefault="Bachillerato IB" />
         <FooterCTA />
       </main>

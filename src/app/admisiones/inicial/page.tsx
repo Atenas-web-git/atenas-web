@@ -4,6 +4,7 @@ import { HeroElAtenas } from "@/components/el-atenas/HeroElAtenas";
 import { NavAdmisiones } from "@/components/admisiones/NavAdmisiones";
 import { SeccionAdmisionDetalle } from "@/components/admisiones/SeccionAdmisionDetalle";
 import { PasosAdmision } from "@/components/admisiones/PasosAdmision";
+import { CTAIniciarSolicitud } from "@/components/admisiones/CTAIniciarSolicitud";
 import { FormularioAdmision } from "@/components/admisiones/FormularioAdmision";
 import { FooterCTA } from "@/components/home/FooterCTA";
 
@@ -50,6 +51,7 @@ export default function AdmisionInicialPage() {
           ]}
         />
         <PasosAdmision />
+        <CTAIniciarSolicitud nivel="Educación Inicial" />
         <FormularioAdmision nivelDefault="Educación Inicial" />
         <FooterCTA />
       </main>

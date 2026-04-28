@@ -14,15 +14,15 @@ const NIVELES: Nivel[] = [
 ];
 
 const collageLayout = [
-  { w: 220, h: 280, style: { left: 0, bottom: 0, rotate: 3 }, delay: 0.35 },
-  { w: 170, h: 210, style: { right: 0, top: 0, rotate: -4 }, delay: 0.55 },
-  { w: 148, h: 170, style: { left: 30, top: 10, rotate: 2 }, delay: 0.75 },
+  { w: 200, h: 260, style: { left: 0, top: 30 }, rotate: 3, delay: 0.35 },
+  { w: 162, h: 200, style: { left: 190, top: 0 }, rotate: -4, delay: 0.55 },
+  { w: 140, h: 178, style: { left: 325, top: 65 }, rotate: 2, delay: 0.75 },
 ];
 
 const photos = [
-  "https://images.unsplash.com/photo-1529390079861-591de354faf5?w=600&q=80",
-  "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=600&q=80",
-  "https://images.unsplash.com/photo-1519452575417-564c1401ecc0?w=600&q=80",
+  "https://images.unsplash.com/photo-1758270705657-f28eec1a5694?w=600&q=80",
+  "https://images.unsplash.com/photo-1602436215510-cbe1c087f46e?w=600&q=80",
+  "https://images.unsplash.com/photo-1631599575881-556a8c416881?w=600&q=80",
 ];
 
 /* ─── Counter animado ─── */
@@ -187,7 +187,7 @@ export function FormularioAdmision({ nivelDefault }: { nivelDefault: Nivel }) {
               transition={{ duration: 0.4, delay: 0.1, ease }} />
             <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700,
               color: "#C9A84C", letterSpacing: 2, textTransform: "uppercase" }}>
-              Solicita información
+              ¿Aún tienes dudas?
             </span>
           </motion.div>
 
@@ -198,7 +198,7 @@ export function FormularioAdmision({ nivelDefault }: { nivelDefault: Nivel }) {
                 fontWeight: 700, color: "#1A2B4A", lineHeight: 1.15 }}
               initial={{ y: 56, opacity: 0 }} animate={inView ? { y: 0, opacity: 1 } : {}}
               transition={{ duration: 0.7, delay: 0.15, ease }}>
-              Da el primer paso hacia el futuro de tu hijo
+              Resolvemos tus preguntas antes de que des el siguiente paso
             </motion.h2>
           </div>
 
@@ -211,12 +211,13 @@ export function FormularioAdmision({ nivelDefault }: { nivelDefault: Nivel }) {
               color: "rgba(26,43,74,0.75)", lineHeight: 1.75, maxWidth: 480 }}
             initial={{ opacity: 0, y: 16 }} animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.55, delay: 0.35, ease }}>
-            Nuestro equipo de admisiones se pondrá en contacto contigo dentro de 24 horas hábiles
-            para explicarte el proceso, resolver tus dudas y coordinar una visita al colegio.
+            No tienes que comprometerte con nada todavía. Si tienes preguntas sobre el proceso de admisión,
+            los requisitos, la propuesta académica o simplemente quieres conocer más sobre el Atenas,
+            escríbenos y te respondemos en menos de 24 horas hábiles, sin presiones.
           </motion.p>
 
           {/* Stats con countup */}
-          <div className="flex gap-10 flex-wrap">
+          <div className="flex gap-8 items-start flex-nowrap">
             <StatCounter value={50} suffix="+" label={"años formando\nlíderes"} inView={inView} delay={0.42} />
             <div className="flex flex-col gap-1">
               <motion.span
@@ -238,13 +239,13 @@ export function FormularioAdmision({ nivelDefault }: { nivelDefault: Nivel }) {
           </div>
 
           {/* Collage de fotos */}
-          <div className="relative hidden md:block" style={{ height: 320 }}>
+          <div className="relative hidden md:block" style={{ height: 320, minWidth: 480 }}>
             {collageLayout.map((img, i) => (
               <motion.div key={i}
                 className="absolute rounded-[14px] overflow-hidden"
-                style={{ width: img.w, height: img.h, boxShadow: "0 20px 56px rgba(0,0,0,0.20)", ...img.style }}
-                initial={{ opacity: 0, y: 30, rotate: (img.style.rotate as number) - 5 }}
-                animate={inView ? { opacity: 1, y: 0, rotate: img.style.rotate as number } : {}}
+                style={{ width: img.w, height: img.h, boxShadow: "0 16px 40px rgba(0,0,0,0.22)", ...img.style }}
+                initial={{ opacity: 0, y: 30, rotate: img.rotate - 5 }}
+                animate={inView ? { opacity: 1, y: 0, rotate: img.rotate } : {}}
                 transition={{ duration: 0.75, delay: img.delay, ease }}
                 whileHover={{ scale: 1.04, zIndex: 10, transition: { duration: 0.25 } }}>
                 <Image src={photos[i]} alt="" fill className="object-cover" sizes="240px" />
@@ -254,12 +255,12 @@ export function FormularioAdmision({ nivelDefault }: { nivelDefault: Nivel }) {
             ))}
             <motion.div
               className="absolute z-20 flex items-center gap-[6px] rounded-[8px] px-[14px] py-[9px]"
-              style={{ background: "#C9A84C", right: 16, bottom: 16, boxShadow: "0 8px 24px rgba(201,168,76,0.40)" }}
+              style={{ background: "#C9A84C", left: 255, top: 222, boxShadow: "0 8px 24px rgba(201,168,76,0.40)" }}
               initial={{ opacity: 0, scale: 0.7 }} animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.95, ease }}
               whileHover={{ scale: 1.06, transition: { duration: 0.15 } }}>
               <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700,
-                color: "#0D1825", letterSpacing: 0.8 }}>ATENAS · 50 AÑOS ★</span>
+                color: "#0D1825", letterSpacing: 0.8 }}>★ ATENAS · 50 AÑOS</span>
             </motion.div>
           </div>
         </div>
@@ -277,14 +278,14 @@ export function FormularioAdmision({ nivelDefault }: { nivelDefault: Nivel }) {
               style={{ fontFamily: "Poppins, sans-serif", fontSize: 20, fontWeight: 700, color: "#1A2B4A" }}
               initial={{ opacity: 0, y: 14 }} animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.45, delay: 0.35, ease }}>
-              Solicitar información
+              Escríbenos, con gusto te informamos
             </motion.h3>
             <motion.p
               style={{ fontFamily: "Poppins, sans-serif", fontSize: 13,
                 color: "rgba(13,24,37,0.50)", lineHeight: 1.5 }}
               initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.42, ease }}>
-              Completa el formulario y te contactamos en menos de 24 horas.
+              Sin compromiso. Te respondemos en menos de 24 h hábiles.
             </motion.p>
           </div>
 

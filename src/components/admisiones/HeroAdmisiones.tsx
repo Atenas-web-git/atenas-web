@@ -188,7 +188,7 @@ export function HeroAdmisiones() {
           transition={{ duration: 0.5, delay: 0.75, ease }}
         >
           <Link
-            href="#proceso"
+            href="/admisiones/formulario"
             className="inline-flex items-center justify-center rounded-[6px] px-[28px] py-[14px] font-bold text-[14px] bg-[#C9A84C] text-[#0D1825] hover:bg-[#dbb95a] transition-colors"
             style={{ fontFamily:"Poppins,sans-serif" }}
           >
