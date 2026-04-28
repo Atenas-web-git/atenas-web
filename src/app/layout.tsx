@@ -19,9 +19,9 @@ export const metadata: Metadata = {
     template: "%s | Unidad Educativa Atenas",
   },
   description:
-    "La institución referente de Ambato, Ecuador. Educación de excelencia con bachillerato IB, certificación ISO 9001 y 50 años de historia.",
+    "Institución educativa de referencia en Ambato, Ecuador. Bachillerato Internacional IB acreditado, certificación ISO 9001 y 50 años formando líderes en Izamba, Tungurahua.",
   keywords:
-    "colegio Ambato, Unidad Educativa Atenas, bachillerato IB Ecuador, mejor colegio Ambato, colegio IB Ecuador",
+    "colegio Ambato, Unidad Educativa Atenas, bachillerato IB Ecuador, mejor colegio Ambato, colegio IB Ecuador, colegio Izamba, colegio privado Ambato, bachillerato internacional Ambato, colegio IB Tungurahua, educación inicial Ambato, colegio bilingüe Ambato, inscripciones colegio Ambato, ISO 9001 educación Ecuador",
   openGraph: {
     type: "website",
     locale: "es_EC",
@@ -48,7 +48,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "EducationalOrganization",
+      "@type": ["EducationalOrganization", "LocalBusiness"],
       "@id": "https://atenas.edu.ec/#organization",
       name: "Unidad Educativa Atenas",
       alternateName: ["Colegio Atenas", "U.E. Atenas"],
@@ -70,10 +70,42 @@ const jsonLd = {
         postalCode: "180103",
         addressCountry: "EC",
       },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: -1.1856,
+        longitude: -78.5734,
+      },
       telephone: "+59332854281",
       email: "admisiones@atenas.edu.ec",
       foundingDate: "1976",
-      areaServed: { "@type": "City", name: "Ambato" },
+      priceRange: "$$",
+      areaServed: [
+        { "@type": "City", name: "Ambato" },
+        { "@type": "AdministrativeArea", name: "Tungurahua" },
+        { "@type": "AdministrativeArea", name: "Ecuador" },
+      ],
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          opens: "07:00",
+          closes: "17:00",
+        },
+      ],
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          telephone: "+59332854281",
+          contactType: "admissions",
+          email: "admisiones@atenas.edu.ec",
+          availableLanguage: "Spanish",
+        },
+      ],
+      accreditation: [
+        "International Baccalaureate Organization",
+        "ISO 9001",
+        "Ministerio de Educación del Ecuador",
+      ],
       sameAs: [
         "https://www.facebook.com/atenasambato",
         "https://www.instagram.com/ueatenas.ambato",
@@ -110,6 +142,14 @@ const jsonLd = {
       url: "https://atenas.edu.ec",
       name: "Unidad Educativa Atenas",
       publisher: { "@id": "https://atenas.edu.ec/#organization" },
+      potentialAction: {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: "https://atenas.edu.ec/admisiones?nivel={search_term_string}",
+        },
+        "query-input": "required name=search_term_string",
+      },
     },
   ],
 };

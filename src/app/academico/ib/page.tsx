@@ -20,9 +20,38 @@ export const metadata: Metadata = {
   },
 };
 
+const ibSchema = {
+  "@context": "https://schema.org",
+  "@type": "EducationalOccupationalProgram",
+  name: "Programa del Diploma del Bachillerato Internacional (IBDP)",
+  description:
+    "Programa de bachillerato de dos años acreditado por la International Baccalaureate Organization. Reconocido por universidades en más de 90 países. Incluye CAS, Monografía y Teoría del Conocimiento.",
+  url: "https://atenas.edu.ec/academico/ib",
+  provider: {
+    "@type": "EducationalOrganization",
+    "@id": "https://atenas.edu.ec/#organization",
+    name: "Unidad Educativa Atenas",
+  },
+  educationalProgramMode: "full-time",
+  educationalCredentialAwarded: "Diploma del Bachillerato Internacional (IB Diploma)",
+  occupationalCredentialAwarded: "IB Diploma — International Baccalaureate",
+  programPrerequisites: "Educación General Básica Superior aprobada",
+  timeToComplete: "P2Y",
+  inLanguage: ["es", "en"],
+  offers: {
+    "@type": "Offer",
+    category: "Bachillerato Internacional",
+    seller: { "@id": "https://atenas.edu.ec/#organization" },
+  },
+};
+
 export default function IBPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ibSchema) }}
+      />
       <Navbar />
       <main>
         <HeroIB />

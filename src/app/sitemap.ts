@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 const BASE = "https://atenas.edu.ec";
-const UPDATED = new Date("2026-04-27");
+const UPDATED = new Date("2026-04-28");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const page = (
@@ -81,6 +81,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     page("/matriculas/listas/media", 0.6),
     page("/matriculas/listas/superior", 0.6),
     page("/matriculas/listas/bgu", 0.6),
+    page("/matriculas/listas/ib", 0.6),
     page("/matriculas/autorizaciones", 0.6),
 
     // Documentos y Servicios

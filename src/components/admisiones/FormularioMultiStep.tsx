@@ -43,7 +43,7 @@ const COMO_ENTERADO = [
   "Evento o feria educativa",
   "Otro",
 ];
-const ANIOS = ["2025–2026", "2026–2027"];
+const ANIOS = ["2026–2027", "2027–2028"];
 
 const STEPS = [
   { label: "Estudiante" },
