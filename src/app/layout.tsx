@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     siteName: "Unidad Educativa Atenas",
     images: [
       {
-        url: "/og-default.jpg",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
         alt: "Unidad Educativa Atenas — Izamba, Ambato",
