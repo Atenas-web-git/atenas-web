@@ -16,15 +16,28 @@
 --
 -- Anota el "User UID" generado (uuid). Lo necesitas en el paso B.
 --
--- El trigger `on_auth_user_created` creará automáticamente
--- la fila correspondiente en `public.profiles`.
+-- El trigger `on_auth_user_created` crea automáticamente la fila
+-- en `public.profiles` SOLO para usuarios creados DESPUÉS de la migración.
+-- Si tu usuario ya existía antes (caso bootstrap), insertamos el profile
+-- manualmente con el siguiente bloque (idempotente).
 --
--- ─── PASO B — Asignar rol superadmin ────────────────────────────
+-- ─── PASO B.1 — Asegurar profile activo ────────────────────────
 -- Reemplaza <USER_UUID> con el UID del paso A:
+
+INSERT INTO profiles (id, full_name, is_active)
+SELECT
+  '276d92e1-ce77-46c6-b1d4-cb2982e7fdc0'::uuid,
+  email,
+  true
+FROM auth.users
+WHERE id = '276d92e1-ce77-46c6-b1d4-cb2982e7fdc0'::uuid
+ON CONFLICT (id) DO UPDATE SET is_active = true;
+
+-- ─── PASO B.2 — Asignar rol superadmin ──────────────────────────
 
 INSERT INTO user_roles (user_id, role_id)
 SELECT
-  '<USER_UUID>'::uuid,
+  '276d92e1-ce77-46c6-b1d4-cb2982e7fdc0'::uuid,
   id
 FROM roles
 WHERE slug = 'superadmin'
@@ -43,11 +56,11 @@ FROM profiles p
 JOIN auth.users u ON u.id = p.id
 JOIN user_roles ur ON ur.user_id = p.id
 JOIN roles r ON r.id = ur.role_id
-WHERE p.id = '<USER_UUID>'::uuid;
+WHERE p.id = '276d92e1-ce77-46c6-b1d4-cb2982e7fdc0'::uuid;
 
 -- ─── PASO D (opcional) — Actualizar nombre completo ────────────
 -- Si quieres ajustar el full_name (por defecto se setea al email):
 --
 -- UPDATE profiles
 -- SET full_name = 'Nombre Completo del Superadmin'
--- WHERE id = '<USER_UUID>'::uuid;
+-- WHERE id = '276d92e1-ce77-46c6-b1d4-cb2982e7fdc0'::uuid;
