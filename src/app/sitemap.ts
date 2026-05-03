@@ -96,10 +96,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     page("/servicios/seguro-estudiantil", 0.6),
     page("/servicios/quejas-sugerencias", 0.6),
 
-    // Cronograma, Comunidad, Revista
+    // Cronograma
     page("/cronograma-anual", 0.7, "weekly"),
-    page("/comunidad", 0.7),
-    page("/revista", 0.7, "weekly"),
 
     // Trabaja y Políticas
     page("/trabaja-con-nosotros", 0.7),

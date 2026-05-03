@@ -667,8 +667,191 @@ export function DetalleServicio({ slug }: Props) {
         </section>
       )}
 
+      {/* ── Revista Atenas (solo biblioteca) ── */}
+      {slug === "biblioteca" && <RevistaAtenasCard />}
+
       {/* ── Formulario (solo quejas-sugerencias) ── */}
       {isRed && <FormQuejas accent={accent} />}
     </div>
+  );
+}
+
+// TODO: Reemplazar con la URL real de la revista cuando el cliente la entregue.
+const REVISTA_ATENAS_URL = "https://atenas.edu.ec";
+
+function RevistaAtenasCard() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.2 });
+
+  return (
+    <section style={{ padding: "0 0 80px" }}>
+      <div ref={ref} className="px-6 md:px-[160px]">
+        <motion.a
+          href={REVISTA_ATENAS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group relative flex flex-col md:flex-row items-stretch overflow-hidden rounded-2xl"
+          style={{
+            background: "linear-gradient(135deg, #1A2B4A 0%, #0D1825 100%)",
+            textDecoration: "none",
+            boxShadow: "0 16px 48px rgba(13,24,37,0.18)",
+          }}
+          initial={{ opacity: 0, y: 32 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.65, ease }}
+          whileHover={{ y: -4, boxShadow: "0 22px 56px rgba(13,24,37,0.26)" }}
+        >
+          <div
+            aria-hidden
+            className="hidden md:block absolute"
+            style={{
+              top: -120,
+              right: -80,
+              width: 380,
+              height: 380,
+              background: "radial-gradient(circle, rgba(201,168,76,0.30) 0%, rgba(201,168,76,0) 65%)",
+              pointerEvents: "none",
+            }}
+          />
+
+          <div className="flex-1 p-8 md:p-12 flex flex-col gap-6 relative z-10">
+            <div className="flex items-center gap-2">
+              <span
+                className="block"
+                style={{ width: 28, height: 2, background: "#C9A84C" }}
+              />
+              <span
+                style={{
+                  fontFamily: "Poppins, sans-serif",
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: "#C9A84C",
+                  letterSpacing: 2,
+                  textTransform: "uppercase",
+                }}
+              >
+                Recurso destacado
+              </span>
+            </div>
+
+            <h2
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontSize: "clamp(28px, 3.2vw, 44px)",
+                fontWeight: 800,
+                color: "#FFFFFF",
+                lineHeight: 1.1,
+                margin: 0,
+              }}
+            >
+              Revista Atenas
+            </h2>
+
+            <p
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontSize: 15,
+                color: "rgba(255,255,255,0.75)",
+                lineHeight: 1.7,
+                margin: 0,
+                maxWidth: 520,
+              }}
+            >
+              Lee la edición digital de nuestra revista institucional. Crónicas, logros y vida
+              estudiantil contados desde la voz de la comunidad atenista.
+            </p>
+
+            <div className="flex items-center gap-3 mt-2">
+              <span
+                className="flex items-center justify-center gap-2 rounded-[10px] px-6 py-[14px] font-bold text-[14px]"
+                style={{
+                  fontFamily: "Poppins, sans-serif",
+                  background: "#C9A84C",
+                  color: "#0D1825",
+                  transition: "transform 0.18s ease",
+                }}
+              >
+                Leer la revista
+                <motion.span
+                  animate={{ x: [0, 4, 0] }}
+                  transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  →
+                </motion.span>
+              </span>
+              <span
+                style={{
+                  fontFamily: "Poppins, sans-serif",
+                  fontSize: 11,
+                  fontWeight: 600,
+                  color: "rgba(255,255,255,0.5)",
+                  letterSpacing: 1,
+                  textTransform: "uppercase",
+                }}
+              >
+                Se abre en una nueva pestaña ↗
+              </span>
+            </div>
+          </div>
+
+          <div
+            className="hidden md:flex items-center justify-center px-12 relative z-10"
+            style={{ minWidth: 280 }}
+            aria-hidden
+          >
+            <div
+              className="flex items-center justify-center rounded-2xl"
+              style={{
+                width: 180,
+                height: 220,
+                background: "rgba(255,255,255,0.04)",
+                border: "1.5px solid rgba(201,168,76,0.35)",
+                transform: "rotate(-4deg)",
+              }}
+            >
+              <div className="flex flex-col items-center gap-3">
+                <span
+                  style={{
+                    fontFamily: "Poppins, sans-serif",
+                    fontSize: 9,
+                    fontWeight: 700,
+                    color: "#C9A84C",
+                    letterSpacing: 2,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Edición vigente
+                </span>
+                <span
+                  style={{
+                    fontFamily: "Poppins, sans-serif",
+                    fontSize: 32,
+                    fontWeight: 800,
+                    color: "#FFFFFF",
+                    lineHeight: 1,
+                  }}
+                >
+                  Atenas
+                </span>
+                <span
+                  className="block"
+                  style={{ width: 32, height: 2, background: "#C9A84C" }}
+                />
+                <span
+                  style={{
+                    fontFamily: "Poppins, sans-serif",
+                    fontSize: 10,
+                    color: "rgba(255,255,255,0.55)",
+                    letterSpacing: 1,
+                  }}
+                >
+                  REVISTA INSTITUCIONAL
+                </span>
+              </div>
+            </div>
+          </div>
+        </motion.a>
+      </div>
+    </section>
   );
 }

@@ -15,9 +15,7 @@ type CategoryKey =
   | "matriculas"
   | "documentos"
   | "servicios"
-  | "plataformas"
-  | "revista"
-  | "comunidad";
+  | "plataformas";
 
 const categories: { key: CategoryKey; label: string }[] = [
   { key: "quienes_somos",   label: "Quiénes Somos"               },
@@ -29,8 +27,6 @@ const categories: { key: CategoryKey; label: string }[] = [
   { key: "documentos",      label: "Documentos Institucionales"  },
   { key: "servicios",       label: "Servicios"                   },
   { key: "plataformas",     label: "Nuestras Plataformas"        },
-  { key: "revista",         label: "Revista"                     },
-  { key: "comunidad",       label: "Comunidad"                   },
 ];
 
 const subLinks: Record<CategoryKey, Record<string, string>> = {
@@ -105,19 +101,6 @@ const subLinks: Record<CategoryKey, Record<string, string>> = {
     "eLibro":                         "https://elibro.net/es/lc/atenas/login_usuario/?next=/es/lc/atenas/inicio/",
     "Biblioteca Virtual Institucional":"http://biblioteca.atenas.edu.ec:8085/librum/buea/?_gl=1*1hlf85s*_ga*MTg3ODg1NDY0Ny4xNzc1NjAzODE5*_ga_PC0YRJJ3QP*czE3NzY5OTAzMDYkbzEzJGcxJHQxNzc2OTkxOTI3JGo1MiRsMCRoMA..&_ga=2.144400246.2113148885.1776990306-1878854647.1775603819",
   },
-  revista: {
-    "Ver todos los artículos": "/revista",
-    "Educación Inicial":       "/revista/categoria/educacion-inicial",
-    "Bachillerato IB":         "/revista/categoria/bachillerato-ib",
-    "Deportes":                "/revista/categoria/deportes",
-    "Cultura":                 "/revista/categoria/cultura",
-  },
-  comunidad: {
-    "Soy Alumno":   "/comunidad#alumno",
-    "Soy Padre":    "/comunidad#padre",
-    "Soy Docente":  "/comunidad#docente",
-    "Alumni":       "/comunidad#alumni",
-  },
 };
 
 const subItems: Record<CategoryKey, string[]> = {
@@ -130,8 +113,6 @@ const subItems: Record<CategoryKey, string[]> = {
   documentos:      Object.keys(subLinks.documentos),
   servicios:       Object.keys(subLinks.servicios),
   plataformas:     Object.keys(subLinks.plataformas),
-  revista:         Object.keys(subLinks.revista),
-  comunidad:       Object.keys(subLinks.comunidad),
 };
 
 const subLabels: Record<CategoryKey, string> = {
@@ -144,8 +125,6 @@ const subLabels: Record<CategoryKey, string> = {
   documentos:      "DOCUMENTOS INSTITUCIONALES",
   servicios:       "SERVICIOS",
   plataformas:     "NUESTRAS PLATAFORMAS",
-  revista:         "REVISTA",
-  comunidad:       "COMUNIDAD",
 };
 
 export function Navbar() {

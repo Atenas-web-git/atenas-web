@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { LogoSVG } from "@/components/shared/LogoSVG";
@@ -147,6 +147,14 @@ function StatusCard({ data }: { data: SolicitudData }) {
 }
 
 export default function SeguimientoPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#F5F1EB]" />}>
+      <SeguimientoContent />
+    </Suspense>
+  );
+}
+
+function SeguimientoContent() {
   const searchParams = useSearchParams();
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);

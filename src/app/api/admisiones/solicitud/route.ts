@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { createClient } from "@/lib/supabase/server";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 function generarNumero(): string {
   const year = new Date().getFullYear();
   const rand = Math.floor(100000 + Math.random() * 900000);
@@ -149,6 +147,7 @@ export async function POST(req: NextRequest) {
 
     // Enviar emails en paralelo — no bloquean si Resend aún no está configurado
     if (process.env.RESEND_API_KEY) {
+      const resend = new Resend(process.env.RESEND_API_KEY);
       await Promise.allSettled([
         resend.emails.send({
           from: "Admisiones Atenas <noreply@atenas.edu.ec>",
