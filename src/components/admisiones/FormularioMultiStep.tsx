@@ -43,7 +43,7 @@ const COMO_ENTERADO = [
   "Evento o feria educativa",
   "Otro",
 ];
-const ANIOS = ["2026–2027", "2027–2028"];
+const ANIOS_FALLBACK = ["2026-2027", "2027-2028"];
 
 const STEPS = [
   { label: "Estudiante" },
@@ -293,8 +293,8 @@ function Step2Fields({ form, set }: {
   );
 }
 
-function Step3Fields({ form, set }: {
-  form: FormData; set: (k: keyof FormData) => (v: string) => void;
+function Step3Fields({ form, set, anios }: {
+  form: FormData; set: (k: keyof FormData) => (v: string) => void; anios: string[];
 }) {
   return (
     <div className="flex flex-col gap-[16px]">
@@ -302,7 +302,7 @@ function Step3Fields({ form, set }: {
         <SelectField label="¿Cómo se enteró del colegio?" options={COMO_ENTERADO}
           value={form.como_enterado} onChange={set("como_enterado")}
           placeholder="Selecciona una opción..." />
-        <SelectField label="Año lectivo de ingreso" options={ANIOS}
+        <SelectField label="Año lectivo de ingreso" options={anios}
           value={form.anio_ingreso} onChange={set("anio_ingreso")}
           placeholder="Selecciona el año..." />
       </div>
@@ -481,7 +481,14 @@ function SuccessScreen({ numero }: { numero: string }) {
 }
 
 // ── Main export ────────────────────────────────────────────────────────────
-export function FormularioMultiStep({ nivelInicial = "" }: { nivelInicial?: string }) {
+export function FormularioMultiStep({
+  nivelInicial = "",
+  aniosLectivos,
+}: {
+  nivelInicial?: string;
+  aniosLectivos?: string[];
+}) {
+  const ANIOS = aniosLectivos && aniosLectivos.length > 0 ? aniosLectivos : ANIOS_FALLBACK;
   const [step, setStep] = useState(1);
   const [form, setForm] = useState<FormData>(() => makeInitial(nivelInicial));
   const [error, setError] = useState<string | null>(null);
@@ -571,7 +578,7 @@ export function FormularioMultiStep({ nivelInicial = "" }: { nivelInicial?: stri
                 {/* Fields */}
                 {step === 1 && <Step1Fields form={form} set={set} />}
                 {step === 2 && <Step2Fields form={form} set={set} />}
-                {step === 3 && <Step3Fields form={form} set={set} />}
+                {step === 3 && <Step3Fields form={form} set={set} anios={ANIOS} />}
                 {step === 4 && <Step4Review form={form} onEdit={(s) => { setError(null); setStep(s); }} />}
 
                 {/* Error */}

@@ -129,6 +129,34 @@ export async function POST(req: NextRequest) {
     const numero = generarNumero();
     const fecha = new Date().toLocaleDateString("es-EC", { dateStyle: "long" });
 
+    // Normalizar el año lectivo (formulario podría enviar en-dash o hyphen)
+    const anoLectivoNorm = String(anio_ingreso || "").replace(/[–—]/g, "-").trim();
+
+    // Auto-derivación a lista de espera: si hay configuración de cupos para
+    // este nivel + año y los matriculados llenan los cupos, la nueva solicitud
+    // entra como "lista_espera" en vez de "pendiente".
+    let estadoInicial = "pendiente";
+    if (anoLectivoNorm) {
+      const [{ data: cupoConf }, { count: matriculados }] = await Promise.all([
+        supabase
+          .from("cupos_admision")
+          .select("cupos_total")
+          .eq("nivel", est_nivel)
+          .eq("ano_lectivo", anoLectivoNorm)
+          .maybeSingle(),
+        supabase
+          .from("solicitudes_admision")
+          .select("*", { count: "exact", head: true })
+          .eq("est_nivel", est_nivel)
+          .eq("estado", "matriculado"),
+      ]);
+
+      const total = cupoConf?.cupos_total ?? 0;
+      if (total > 0 && (matriculados ?? 0) >= total) {
+        estadoInicial = "lista_espera";
+      }
+    }
+
     const { error } = await supabase.from("solicitudes_admision").insert({
       numero,
       est_nombres, est_apellidos,
@@ -138,9 +166,9 @@ export async function POST(req: NextRequest) {
       rep_relacion: rep_relacion || null,
       rep_correo, rep_telefono,
       como_enterado: como_enterado || null,
-      anio_ingreso: anio_ingreso || null,
+      anio_ingreso: anoLectivoNorm || null,
       comentarios: comentarios || null,
-      estado: "pendiente",
+      estado: estadoInicial,
     });
 
     if (error) throw error;

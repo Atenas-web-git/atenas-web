@@ -168,9 +168,7 @@ export function Navbar() {
           {/* Desktop right */}
           <div className="hidden md:flex items-center gap-5">
             <a
-              href="https://idukay.net/colegios/#/login"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/portal-familiar"
               className="text-[#1A2B4A] text-[11px] font-medium tracking-[2px] uppercase hover:opacity-60 transition-opacity"
             >
               PORTAL FAMILIAR

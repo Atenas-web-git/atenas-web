@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { LogoSVG } from "@/components/shared/LogoSVG";
 import { FormularioMultiStep } from "@/components/admisiones/FormularioMultiStep";
+import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Solicitud de Admisión — Unidad Educativa Atenas",
@@ -10,12 +11,27 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+async function loadAniosLectivos(): Promise<string[]> {
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("anos_lectivos")
+      .select("codigo")
+      .eq("activo", true)
+      .order("codigo", { ascending: true });
+    return (data ?? []).map((a) => a.codigo);
+  } catch {
+    return [];
+  }
+}
+
 export default async function FormularioPage({
   searchParams,
 }: {
   searchParams: Promise<{ nivel?: string }>;
 }) {
   const { nivel } = await searchParams;
+  const anios = await loadAniosLectivos();
   return (
     <>
       {/* Minimal header — sin el mega-menú para mantener el foco en el formulario */}
@@ -45,7 +61,7 @@ export default async function FormularioPage({
       </header>
 
       <main>
-        <FormularioMultiStep nivelInicial={nivel ?? ""} />
+        <FormularioMultiStep nivelInicial={nivel ?? ""} aniosLectivos={anios} />
       </main>
     </>
   );
