@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Search, Bell } from "lucide-react";
 import type { AdminUser } from "@/lib/auth/types";
 
 const TITLES: Record<string, { title: string; subtitle: string }> = {
@@ -32,7 +31,15 @@ const TITLES: Record<string, { title: string; subtitle: string }> = {
   },
   "/admin/configuracion": {
     title: "Configuración",
-    subtitle: "Identidad de marca, SEO global, integraciones",
+    subtitle: "Ajustes globales del sitio y del backoffice",
+  },
+  "/admin/configuracion/anos-lectivos": {
+    title: "Años lectivos",
+    subtitle: "Catálogo editable de años lectivos del colegio",
+  },
+  "/admin/configuracion/documentos-admision": {
+    title: "Documentos de admisión",
+    subtitle: "Catálogo de documentos físicos a marcar en cada solicitud",
   },
 };
 
@@ -88,37 +95,6 @@ export function Header({ user }: { user: AdminUser }) {
         >
           {showGreeting ? `Hola ${firstName}, esto es lo que pasa hoy.` : subtitle}
         </p>
-      </div>
-
-      <div className="flex items-center gap-4">
-        <button
-          className="flex items-center justify-center transition-opacity"
-          style={{
-            width: 36,
-            height: 36,
-            background: "transparent",
-            border: "none",
-            cursor: "pointer",
-            opacity: 0.7,
-          }}
-          aria-label="Buscar"
-        >
-          <Search size={18} color="#6B6660" strokeWidth={2} />
-        </button>
-        <button
-          className="flex items-center justify-center transition-opacity"
-          style={{
-            width: 36,
-            height: 36,
-            background: "transparent",
-            border: "none",
-            cursor: "pointer",
-            opacity: 0.7,
-          }}
-          aria-label="Notificaciones"
-        >
-          <Bell size={18} color="#6B6660" strokeWidth={2} />
-        </button>
       </div>
     </header>
   );

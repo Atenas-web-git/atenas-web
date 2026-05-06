@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
-import { DOCUMENTOS_LISTA, NIVELES, type EstadoAdmision } from "./constants";
+import { NIVELES, type EstadoAdmision } from "./constants";
 import { notifyEstadoChange } from "./emails";
 
 export type { EstadoAdmision } from "./constants";
@@ -61,11 +61,17 @@ export async function updateDocumentosAction(
 ): Promise<AdmisionActionState> {
   await assertAdmisiones();
   const solicitudId = String(formData.get("solicitudId") ?? "");
-  const documentos = DOCUMENTOS_LISTA.filter(
-    (doc) => formData.get(`doc_${doc}`) === "on"
-  );
 
   if (!solicitudId) return { error: "ID de solicitud inválido.", ok: false };
+
+  // Detectar dinámicamente qué documentos están marcados, sin depender
+  // del catálogo hardcodeado: cualquier campo "doc_<nombre>" === "on"
+  const documentos: string[] = [];
+  for (const [key, value] of formData.entries()) {
+    if (key.startsWith("doc_") && value === "on") {
+      documentos.push(key.slice(4));
+    }
+  }
 
   const supabase = createAdminClient();
   const { error } = await supabase

@@ -105,7 +105,12 @@ export default async function SolicitudDetallePage({
 
   const supabase = createAdminClient();
 
-  const [{ data: solicitud }, { data: historial }, { data: adjuntos }] = await Promise.all([
+  const [
+    { data: solicitud },
+    { data: historial },
+    { data: adjuntos },
+    { data: catalogoDocs },
+  ] = await Promise.all([
     supabase
       .from("solicitudes_admision")
       .select("*")
@@ -129,7 +134,14 @@ export default async function SolicitudDetallePage({
       .select("id, filename, size_bytes, mime_type, uploaded_at")
       .eq("solicitud_id", id)
       .order("uploaded_at", { ascending: false }),
+    supabase
+      .from("documentos_admision_catalogo")
+      .select("nombre")
+      .eq("activo", true)
+      .order("orden", { ascending: true }),
   ]);
+
+  const catalogoNombres = (catalogoDocs ?? []).map((d) => d.nombre);
 
   if (!solicitud) notFound();
 
@@ -325,6 +337,7 @@ export default async function SolicitudDetallePage({
             <DocumentosClient
               solicitudId={solicitud.id}
               documentosRecibidos={documentosRecibidos}
+              catalogo={catalogoNombres}
             />
           </div>
 

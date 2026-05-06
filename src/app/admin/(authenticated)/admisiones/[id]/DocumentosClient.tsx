@@ -1,38 +1,79 @@
 "use client";
 
-import { useActionState } from "react";
-import { updateDocumentosAction, type AdmisionActionState } from "../actions";
-import { DOCUMENTOS_LISTA } from "../constants";
+import { useActionState, useState } from "react";
 import { CheckSquare, Square } from "lucide-react";
+import { updateDocumentosAction, type AdmisionActionState } from "../actions";
 
 export function DocumentosClient({
   solicitudId,
   documentosRecibidos,
+  catalogo,
 }: {
   solicitudId: string;
   documentosRecibidos: string[];
+  catalogo: string[];
 }) {
   const [state, action, isPending] = useActionState<AdmisionActionState, FormData>(
     updateDocumentosAction,
     { error: null, ok: false }
   );
 
+  const [seleccionados, setSeleccionados] = useState<Set<string>>(
+    () => new Set(documentosRecibidos)
+  );
+
+  const toggle = (doc: string) => {
+    setSeleccionados((prev) => {
+      const next = new Set(prev);
+      if (next.has(doc)) next.delete(doc);
+      else next.add(doc);
+      return next;
+    });
+  };
+
+  if (catalogo.length === 0) {
+    return (
+      <div
+        className="flex flex-col gap-2 px-4 py-3 rounded-md"
+        style={{ background: "#FEF3C7", border: "1px solid #FDE68A" }}
+      >
+        <p style={{ fontSize: 12, color: "#92400E", margin: 0, lineHeight: 1.5 }}>
+          Aún no hay documentos configurados en el catálogo. Configúralos en{" "}
+          <a
+            href="/admin/configuracion/documentos-admision"
+            style={{ color: "#92400E", fontWeight: 600, textDecoration: "underline" }}
+          >
+            Configuración → Documentos de admisión
+          </a>
+          .
+        </p>
+      </div>
+    );
+  }
+
   return (
     <form action={action} className="flex flex-col gap-3">
       <input type="hidden" name="solicitudId" value={solicitudId} />
-      {DOCUMENTOS_LISTA.map((doc) => {
-        const checked = documentosRecibidos.includes(doc);
+      {catalogo.map((doc) => {
+        const checked = seleccionados.has(doc);
         return (
           <label
             key={doc}
-            className="flex items-center gap-3 cursor-pointer"
-            style={{ userSelect: "none" }}
+            className="flex items-center gap-3"
+            style={{ cursor: "pointer", userSelect: "none" }}
           >
             <input
               type="checkbox"
               name={`doc_${doc}`}
-              defaultChecked={checked}
-              style={{ display: "none" }}
+              checked={checked}
+              onChange={() => toggle(doc)}
+              style={{
+                position: "absolute",
+                width: 1,
+                height: 1,
+                opacity: 0,
+                pointerEvents: "none",
+              }}
             />
             <span
               className="flex-shrink-0"
@@ -49,7 +90,6 @@ export function DocumentosClient({
                 fontSize: 13,
                 color: checked ? "#1A2B4A" : "#6B6660",
                 fontWeight: checked ? 500 : 400,
-                textDecoration: checked ? "none" : "none",
               }}
             >
               {doc}

@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Calendar, ArrowRight } from "lucide-react";
+import { Calendar, FileCheck2, ArrowRight } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
-import { ROLES, hasRole } from "@/lib/auth/types";
+import { ROLES, hasAnyRole, hasRole } from "@/lib/auth/types";
 
 const SECCIONES = [
   {
@@ -10,13 +10,25 @@ const SECCIONES = [
     title: "Años lectivos",
     description: "Crea, edita o elimina los años lectivos disponibles en cupos y formularios.",
     icon: Calendar,
+    onlySuperadmin: true,
+  },
+  {
+    href: "/admin/configuracion/documentos-admision",
+    title: "Documentos de admisión",
+    description: "Catálogo editable de documentos físicos que el equipo marca como recibidos en cada solicitud.",
+    icon: FileCheck2,
+    onlySuperadmin: false,
   },
 ];
 
 export default async function ConfiguracionPage() {
   const user = await getCurrentUser();
   if (!user) return null;
-  if (!hasRole(user, ROLES.SUPERADMIN)) redirect("/admin");
+  // Permitir acceso a superadmin y editor_admisiones (este último solo verá la card de Documentos)
+  if (!hasAnyRole(user, [ROLES.SUPERADMIN, ROLES.EDITOR_ADMISIONES])) redirect("/admin");
+
+  const isSuper = hasRole(user, ROLES.SUPERADMIN);
+  const seccionesVisibles = SECCIONES.filter((s) => isSuper || !s.onlySuperadmin);
 
   return (
     <div className="flex flex-col gap-6 p-8">
@@ -30,7 +42,7 @@ export default async function ConfiguracionPage() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {SECCIONES.map((s) => {
+        {seccionesVisibles.map((s) => {
           const Icon = s.icon;
           return (
             <Link

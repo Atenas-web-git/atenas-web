@@ -51,6 +51,8 @@ CREATE INDEX IF NOT EXISTS idx_historial_solicitud ON solicitudes_historial (sol
 CREATE OR REPLACE FUNCTION log_solicitud_estado_change()
 RETURNS trigger
 LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
 AS $$
 BEGIN
   -- Solo registrar si el estado cambió

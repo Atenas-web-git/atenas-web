@@ -52,7 +52,7 @@ const navItems: NavItem[] = [
     href: "/admin/configuracion",
     label: "Configuración",
     icon: Settings,
-    visible: (u) => hasRole(u, ROLES.SUPERADMIN),
+    visible: (u) => hasAnyRole(u, [ROLES.SUPERADMIN, ROLES.EDITOR_ADMISIONES]),
   },
 ];
 

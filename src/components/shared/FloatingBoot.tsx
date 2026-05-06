@@ -1,15 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 const WHATSAPP_NUMBER = "593997622994";
 const WHATSAPP_MESSAGE = "Hola, me gustaría recibir información sobre la Unidad Educativa Atenas.";
 
 export function FloatingBoot() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Ocultar el botón flotante en el backoffice (no aplica a usuarios admin).
+  if (pathname?.startsWith("/admin")) return null;
 
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 800);
