@@ -11,13 +11,20 @@ interface Props {
   title: string;
   subtitle?: string;
   ghostText?: string;
+  footnote?: string;
+  bgImageSrc?: string;
 }
+
+const DEFAULT_BG = "https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=1440&q=80";
+const DEFAULT_FOOTNOTE = "Unidad Educativa Atenas · Izamba, Ambato";
 
 export function HeroElAtenas({
   badge = "QUIÉNES SOMOS",
   title,
   subtitle,
   ghostText,
+  footnote = DEFAULT_FOOTNOTE,
+  bgImageSrc = DEFAULT_BG,
 }: Props) {
   const ghost = ghostText ?? title.toUpperCase();
 
@@ -40,7 +47,7 @@ export function HeroElAtenas({
         style={{ y: bgY, willChange: "transform" }}
       >
         <Image
-          src="https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=1440&q=80"
+          src={bgImageSrc}
           alt=""
           fill
           priority
@@ -238,19 +245,21 @@ export function HeroElAtenas({
           </motion.p>
         )}
 
-        <motion.p
-          style={{
-            fontFamily: "Poppins, sans-serif",
-            fontSize: 12,
-            color: "rgba(255,255,255,0.35)",
-            letterSpacing: 1,
-          }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.65, ease }}
-        >
-          Unidad Educativa Atenas · Izamba, Ambato
-        </motion.p>
+        {footnote && (
+          <motion.p
+            style={{
+              fontFamily: "Poppins, sans-serif",
+              fontSize: 12,
+              color: "rgba(255,255,255,0.35)",
+              letterSpacing: 1,
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.65, ease }}
+          >
+            {footnote}
+          </motion.p>
+        )}
       </div>
     </section>
   );

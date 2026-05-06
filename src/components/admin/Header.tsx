@@ -19,7 +19,15 @@ const TITLES: Record<string, { title: string; subtitle: string }> = {
   },
   "/admin/contenido": {
     title: "Contenido",
-    subtitle: "Edita las páginas, noticias y recursos del sitio",
+    subtitle: "Edita las páginas, notificaciones y recursos del sitio",
+  },
+  "/admin/contenido/paginas": {
+    title: "Páginas",
+    subtitle: "Edita el contenido de cada página del sitio público",
+  },
+  "/admin/contenido/paginas/nueva": {
+    title: "Crear nueva página",
+    subtitle: "Elige plantilla, slug y datos básicos",
   },
   "/admin/usuarios": {
     title: "Usuarios",

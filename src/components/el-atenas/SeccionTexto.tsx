@@ -20,7 +20,7 @@ export function SeccionTexto({
   heading,
   paragraphs,
   note,
-  imageSrc = "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80",
+  imageSrc,
   imageAlt = "Unidad Educativa Atenas",
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
@@ -110,43 +110,45 @@ export function SeccionTexto({
             )}
           </motion.div>
 
-          {/* ─── Columna imagen — solo desktop ─── */}
-          <motion.div
-            className="hidden md:block flex-shrink-0"
-            style={{ width: 300 }}
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.65, delay: 0.18, ease }}
-          >
-            <div
-              className="relative rounded-[16px] overflow-hidden"
-              style={{ height: 340 }}
+          {/* ─── Columna imagen — solo desktop, solo si hay URL ─── */}
+          {imageSrc && (
+            <motion.div
+              className="hidden md:block flex-shrink-0"
+              style={{ width: 300 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.65, delay: 0.18, ease }}
             >
-              <Image
-                src={imageSrc}
-                alt={imageAlt}
-                fill
-                className="object-cover object-center"
-                sizes="300px"
-              />
               <div
-                className="absolute inset-0"
+                className="relative rounded-[16px] overflow-hidden"
+                style={{ height: 340 }}
+              >
+                <Image
+                  src={imageSrc}
+                  alt={imageAlt}
+                  fill
+                  className="object-cover object-center"
+                  sizes="300px"
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, transparent 55%, rgba(26,43,74,0.22) 100%)",
+                  }}
+                />
+              </div>
+              {/* Línea dorada decorativa bajo la imagen */}
+              <div
                 style={{
+                  marginTop: 16,
+                  height: 2,
                   background:
-                    "linear-gradient(180deg, transparent 55%, rgba(26,43,74,0.22) 100%)",
+                    "linear-gradient(90deg, #C9A84C 0%, transparent 100%)",
                 }}
               />
-            </div>
-            {/* Línea dorada decorativa bajo la imagen */}
-            <div
-              style={{
-                marginTop: 16,
-                height: 2,
-                background:
-                  "linear-gradient(90deg, #C9A84C 0%, transparent 100%)",
-              }}
-            />
-          </motion.div>
+            </motion.div>
+          )}
 
         </div>
       </div>

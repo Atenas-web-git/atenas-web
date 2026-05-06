@@ -10,7 +10,8 @@ supabase/
 │   ├── 002_admisiones_extension.sql amplía solicitudes + historial + cupos
 │   ├── 003_correos_anos_adjuntos.sql años lectivos + plantillas + adjuntos + Storage
 │   ├── 004_fix_historial_trigger.sql fix SECURITY DEFINER en trigger de historial (visitantes anon no podían insertar solicitudes)
-│   └── 005_documentos_catalogo.sql   catálogo editable de documentos físicos de admisión + seed inicial
+│   ├── 005_documentos_catalogo.sql   catálogo editable de documentos físicos de admisión + seed inicial
+│   └── 006_cms_paginas.sql           (Fase 3) tabla paginas + imagenes + bucket Storage `contenido` + seed Misión/Visión
 ├── seed/
 │   ├── roles.sql                  cataloga los 4 roles del backoffice
 │   └── plantillas_correo.sql      6 plantillas iniciales del pipeline (ejecutar UNA SOLA VEZ)
@@ -28,10 +29,11 @@ Ejecutar en `Supabase Dashboard → SQL Editor`, en este orden:
 4. `migrations/003_correos_anos_adjuntos.sql`
 5. `migrations/004_fix_historial_trigger.sql`
 6. `migrations/005_documentos_catalogo.sql` (incluye seed automático si la tabla está vacía)
-7. `seed/roles.sql`
-8. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)
-9. Crear primer usuario en `Authentication → Users` (UI)
-10. `scripts/create_first_superadmin.sql` reemplazando `<USER_UUID>` por el UID del paso 9
+7. `migrations/006_cms_paginas.sql` (incluye seed de Misión/Visión si la tabla está vacía)
+8. `seed/roles.sql`
+9. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)
+10. Crear primer usuario en `Authentication → Users` (UI)
+11. `scripts/create_first_superadmin.sql` reemplazando `<USER_UUID>` por el UID del paso 10
 
 ## Variables de entorno requeridas
 
