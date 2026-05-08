@@ -3,61 +3,18 @@
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import type { ContenidoPlantillaG } from "@/app/admin/(authenticated)/contenido/plantillas";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
-const SECCIONES = [
-  {
-    slug: "atributos",
-    icon: "★",
-    title: "Atributos del Perfil IB",
-    desc: "Los 10 rasgos que definen a cada estudiante del Diploma: indagadores, íntegros, equilibrados y más.",
-  },
-  {
-    slug: "infraestructura",
-    icon: "🏛",
-    title: "Infraestructura IB",
-    desc: "Laboratorios, aulas de debate, biblioteca digital y espacios CAS diseñados para el nivel del Diploma.",
-  },
-  {
-    slug: "documentos",
-    icon: "📄",
-    title: "Documentos IB",
-    desc: "Guías oficiales del IBO, reglamentos, política de honestidad académica y recursos del programa.",
-  },
-  {
-    slug: "escuela-padres",
-    icon: "👨‍👩‍👧",
-    title: "Escuela de Padres",
-    desc: "Talleres, sesiones informativas y canal directo con la coordinación para acompañar el proceso IB.",
-  },
-  {
-    slug: "visitas",
-    icon: "🗺",
-    title: "Visitas al Programa",
-    desc: "Conoce las instalaciones IB en persona: visita guiada, día de observación o charla con estudiantes.",
-  },
-  {
-    slug: "politicas",
-    icon: "📋",
-    title: "Políticas del Programa",
-    desc: "Marco institucional: evaluación, inclusión, honestidad académica, bienestar y uso de tecnología.",
-  },
-  {
-    slug: "capacitacion",
-    icon: "🎓",
-    title: "Capacitación Docente",
-    desc: "Equipo certificado por el IBO con formación continua en metodología internacional y evaluación.",
-  },
-];
+type Props = { explorar: ContenidoPlantillaG["explorar"] };
 
-export function ExplorarIB() {
+export function ExplorarIB({ explorar }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.08 });
 
   return (
     <section className="bg-[#F8F5F0] relative overflow-hidden" style={{ padding: "80px 0" }}>
-      {/* Detalle decorativo */}
       <div
         className="absolute top-0 right-0 pointer-events-none"
         style={{ width: 480, height: 480, background: "radial-gradient(ellipse at top right, rgba(201,168,76,0.07) 0%, transparent 65%)" }}
@@ -65,7 +22,6 @@ export function ExplorarIB() {
 
       <div ref={ref} className="px-6 md:px-[160px]">
 
-        {/* Header */}
         <div className="flex flex-col gap-[14px] mb-[48px]">
           <motion.div
             className="flex items-center gap-[10px]"
@@ -81,7 +37,7 @@ export function ExplorarIB() {
               transition={{ duration: 0.4, delay: 0.1, ease }}
             />
             <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "#C9A84C", letterSpacing: 2, textTransform: "uppercase" }}>
-              Explora el Programa
+              {explorar.badge}
             </span>
           </motion.div>
 
@@ -92,25 +48,26 @@ export function ExplorarIB() {
               animate={inView ? { y: 0, opacity: 1 } : {}}
               transition={{ duration: 0.6, delay: 0.15, ease }}
             >
-              Todo lo que necesitas saber sobre el IB
+              {explorar.heading}
             </motion.h2>
           </div>
 
-          <motion.p
-            style={{ fontFamily: "Poppins, sans-serif", fontSize: 14, color: "rgba(13,24,37,0.55)", lineHeight: 1.7, maxWidth: 520 }}
-            initial={{ opacity: 0, y: 12 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.25, ease }}
-          >
-            Desde los atributos del perfil hasta la capacitación de los docentes: cada sección responde una pregunta clave sobre el Programa del Diploma en Atenas.
-          </motion.p>
+          {explorar.descripcion && (
+            <motion.p
+              style={{ fontFamily: "Poppins, sans-serif", fontSize: 14, color: "rgba(13,24,37,0.55)", lineHeight: 1.7, maxWidth: 520 }}
+              initial={{ opacity: 0, y: 12 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.25, ease }}
+            >
+              {explorar.descripcion}
+            </motion.p>
+          )}
         </div>
 
-        {/* Grid de tarjetas */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[16px]">
-          {SECCIONES.map((s, i) => (
+          {explorar.secciones.map((s, i) => (
             <motion.div
-              key={s.slug}
+              key={`${s.slug}-${i}`}
               initial={{ opacity: 0, y: 28 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.55, delay: 0.1 + i * 0.07, ease }}
@@ -138,7 +95,6 @@ export function ExplorarIB() {
                   el.style.borderColor = "rgba(26,43,74,0.08)";
                 }}
               >
-                {/* Ícono */}
                 <div
                   className="flex items-center justify-center rounded-[10px] flex-shrink-0"
                   style={{ width: 44, height: 44, background: "rgba(201,168,76,0.12)", fontSize: 20 }}
@@ -146,7 +102,6 @@ export function ExplorarIB() {
                   {s.icon}
                 </div>
 
-                {/* Texto */}
                 <div className="flex flex-col gap-[6px] flex-1">
                   <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 14, fontWeight: 700, color: "#1A2B4A", lineHeight: 1.3 }}>
                     {s.title}
@@ -156,7 +111,6 @@ export function ExplorarIB() {
                   </span>
                 </div>
 
-                {/* Link label */}
                 <div className="flex items-center gap-[6px] mt-auto pt-[4px]">
                   <span
                     style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 700, color: "#C9A84C", letterSpacing: 0.5 }}

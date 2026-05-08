@@ -1,43 +1,75 @@
 import type { Metadata } from "next";
 import { Navbar } from "@/components/home/Navbar";
 import { HeroElAtenas } from "@/components/el-atenas/HeroElAtenas";
-import { SeccionNivelDetalle } from "@/components/academico/SeccionNivelDetalle";
+import { SeccionDetalleAcademico } from "@/components/cms/SeccionDetalleAcademico";
 import { NavNiveles } from "@/components/academico/NavNiveles";
 import { FooterCTA } from "@/components/home/FooterCTA";
+import { getPlantillaF } from "@/lib/cms/getPlantillaF";
+import type { ContenidoPlantillaF } from "@/app/admin/(authenticated)/contenido/plantillas";
 
-export const metadata: Metadata = {
-  title: "EGB Superior — Unidad Educativa Atenas",
-  description:
+export const revalidate = 60;
+
+const SLUG = "academico/niveles/egb-superior";
+
+const FALLBACK: ContenidoPlantillaF = {
+  hero: {
+    badge: "ACADÉMICO",
+    title: "EGB Superior",
+    subtitle: "Consolidación académica y preparación para el bachillerato en un entorno de excelencia.",
+    ghostText: "SUPERIOR",
+  },
+  stats: [
+    { label: "Grados", value: "8vo a 10mo EGB" },
+    { label: "Rango de edades", value: "12–14 años" },
+    { label: "Institución", value: "Unidad Educativa Atenas" },
+  ],
+  intro: {
+    badge: "EGB Superior",
+    heading: "Consolidación y preparación para el bachillerato",
+    paragraphs: [
+      "La EGB Superior es una etapa de consolidación donde los estudiantes afianzan todas las áreas del conocimiento y desarrollan habilidades de pensamiento crítico, investigación y comunicación.",
+    ],
+    chipsLabel: "Metodologías",
+    chips: [],
+    photos: ["", "", ""],
+    badgeCollage: "ATENAS ★",
+  },
+  seccionInferior: { tipo: "ninguna" },
+};
+
+const FALLBACK_META = {
+  meta_title: "EGB Superior — Unidad Educativa Atenas",
+  meta_description:
     "Etapa de consolidación y transición hacia el bachillerato. 8vo a 10mo EGB en la Unidad Educativa Atenas, Ambato.",
 };
 
-export default function EGBSuperiorPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getPlantillaF(SLUG);
+  return {
+    title: data?.meta_title ?? FALLBACK_META.meta_title,
+    description: data?.meta_description ?? FALLBACK_META.meta_description,
+  };
+}
+
+export default async function EGBSuperiorPage() {
+  const data = await getPlantillaF(SLUG);
+  const c = data?.contenido ?? FALLBACK;
   return (
     <>
       <Navbar />
       <main>
         <HeroElAtenas
-          badge="ACADÉMICO"
-          title="EGB Superior"
-          subtitle="Consolidación académica y preparación para el bachillerato en un entorno de excelencia."
-          ghostText="SUPERIOR"
+          badge={c.hero.badge}
+          title={c.hero.title}
+          subtitle={c.hero.subtitle}
+          ghostText={c.hero.ghostText}
+          footnote={c.hero.footnote}
+          bgImageSrc={c.hero.bgImageSrc}
         />
-        <SeccionNivelDetalle
-          badge="EGB Superior"
-          heading="Consolidación y preparación para el bachillerato"
-          grades="8vo a 10mo EGB"
-          ages="12–14 años"
-          paragraphs={[
-            "La EGB Superior es una etapa de consolidación donde los estudiantes afianzan todas las áreas del conocimiento y desarrollan habilidades de pensamiento crítico, investigación y comunicación que los preparan para el bachillerato.",
-            "Contamos con acompañamiento docente personalizado, orientación vocacional progresiva e inglés avanzado, asegurando que cada estudiante llegue al bachillerato con una base sólida y la confianza necesaria para elegir su camino.",
-          ]}
-          methods={["Inglés avanzado", "Orientación vocacional", "Pensamiento crítico"]}
-          note="El contenido pedagógico detallado de este nivel estará disponible próximamente, en coordinación con el equipo académico de la Unidad Educativa Atenas."
-          photos={[
-            "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&q=80",
-            "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=600&q=80",
-            "https://images.unsplash.com/photo-1529390079861-591de354faf5?w=600&q=80",
-          ]}
+        <SeccionDetalleAcademico
+          stats={c.stats}
+          intro={c.intro}
+          seccionInferior={c.seccionInferior}
         />
         <NavNiveles current="egb-superior" />
         <FooterCTA />

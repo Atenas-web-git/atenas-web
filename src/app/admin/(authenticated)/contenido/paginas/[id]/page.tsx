@@ -8,11 +8,19 @@ import {
   PLANTILLAS,
   type ContenidoPlantillaA,
   type ContenidoPlantillaB,
+  type ContenidoPlantillaC,
   type ContenidoPlantillaD,
+  type ContenidoPlantillaF,
+  type ContenidoPlantillaG,
+  type ContenidoPlantillaH,
 } from "../../plantillas";
 import { EditorPlantillaA } from "./EditorPlantillaA";
 import { EditorPlantillaB } from "./EditorPlantillaB";
+import { EditorPlantillaC } from "./EditorPlantillaC";
 import { EditorPlantillaD } from "./EditorPlantillaD";
+import { EditorPlantillaF } from "./EditorPlantillaF";
+import { EditorPlantillaG } from "./EditorPlantillaG";
+import { EditorPlantillaH } from "./EditorPlantillaH";
 import { EliminarPaginaClient } from "./EliminarPaginaClient";
 
 export default async function EditarPaginaPage({
@@ -124,6 +132,18 @@ export default async function EditarPaginaPage({
         />
       )}
 
+      {pagina.plantilla === "tpl_c_hero_pasos" && (
+        <EditorPlantillaC
+          paginaId={pagina.id}
+          slug={pagina.slug}
+          initialTitulo={pagina.titulo}
+          initialContenido={pagina.contenido as ContenidoPlantillaC}
+          initialMetaTitle={pagina.meta_title ?? ""}
+          initialMetaDescription={pagina.meta_description ?? ""}
+          initialPublicada={pagina.publicada}
+        />
+      )}
+
       {pagina.plantilla === "tpl_d_hero_detalle" && (
         <EditorPlantillaD
           paginaId={pagina.id}
@@ -136,9 +156,49 @@ export default async function EditarPaginaPage({
         />
       )}
 
+      {pagina.plantilla === "tpl_f_hero_academico" && (
+        <EditorPlantillaF
+          paginaId={pagina.id}
+          slug={pagina.slug}
+          initialTitulo={pagina.titulo}
+          initialContenido={pagina.contenido as ContenidoPlantillaF}
+          initialMetaTitle={pagina.meta_title ?? ""}
+          initialMetaDescription={pagina.meta_description ?? ""}
+          initialPublicada={pagina.publicada}
+        />
+      )}
+
+      {pagina.plantilla === "tpl_g_landing_ib" && (
+        <EditorPlantillaG
+          paginaId={pagina.id}
+          slug={pagina.slug}
+          initialTitulo={pagina.titulo}
+          initialContenido={pagina.contenido as ContenidoPlantillaG}
+          initialMetaTitle={pagina.meta_title ?? ""}
+          initialMetaDescription={pagina.meta_description ?? ""}
+          initialPublicada={pagina.publicada}
+        />
+      )}
+
+      {pagina.plantilla === "tpl_h_landing_niveles" && (
+        <EditorPlantillaH
+          paginaId={pagina.id}
+          slug={pagina.slug}
+          initialTitulo={pagina.titulo}
+          initialContenido={pagina.contenido as ContenidoPlantillaH}
+          initialMetaTitle={pagina.meta_title ?? ""}
+          initialMetaDescription={pagina.meta_description ?? ""}
+          initialPublicada={pagina.publicada}
+        />
+      )}
+
       {pagina.plantilla !== "tpl_a_hero_texto" &&
         pagina.plantilla !== "tpl_b_hero_grid" &&
-        pagina.plantilla !== "tpl_d_hero_detalle" && (
+        pagina.plantilla !== "tpl_c_hero_pasos" &&
+        pagina.plantilla !== "tpl_d_hero_detalle" &&
+        pagina.plantilla !== "tpl_f_hero_academico" &&
+        pagina.plantilla !== "tpl_g_landing_ib" &&
+        pagina.plantilla !== "tpl_h_landing_niveles" && (
         <div
           className="px-5 py-4 rounded-md"
           style={{ background: "#FEF3C7", border: "1px solid #FDE68A" }}

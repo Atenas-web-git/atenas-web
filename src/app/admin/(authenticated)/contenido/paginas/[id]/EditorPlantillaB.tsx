@@ -378,6 +378,21 @@ export function EditorPlantillaB({
                   />
                 </Field>
 
+                <Field
+                  label="Subtítulo"
+                  hint="Opcional. Línea pequeña de color (oro/rojo) bajo el título. Útil para landings tipo /servicios o /espacios."
+                >
+                  <input
+                    type="text"
+                    value={item.subtitle ?? ""}
+                    onChange={(e) =>
+                      updateItem(i, { subtitle: e.target.value || undefined })
+                    }
+                    placeholder="ej. Valores, Actitudes, Servicio…"
+                    style={inputStyle}
+                  />
+                </Field>
+
                 <Field label="Descripción">
                   <textarea
                     value={item.description}
@@ -394,6 +409,79 @@ export function EditorPlantillaB({
                     }}
                   />
                 </Field>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <Field
+                    label="Link (opcional)"
+                    hint="Si se llena, la tarjeta se vuelve clickeable. Puede ser ruta interna (/servicios/biblioteca) o URL externa."
+                  >
+                    <input
+                      type="text"
+                      value={item.href ?? ""}
+                      onChange={(e) =>
+                        updateItem(i, { href: e.target.value || undefined })
+                      }
+                      placeholder="/servicios/biblioteca"
+                      style={inputStyle}
+                    />
+                  </Field>
+                  <Field
+                    label="Texto del CTA"
+                    hint='Solo aparece si hay link. Ej: "Ver servicio", "Explorar".'
+                  >
+                    <input
+                      type="text"
+                      value={item.ctaText ?? ""}
+                      onChange={(e) =>
+                        updateItem(i, { ctaText: e.target.value || undefined })
+                      }
+                      placeholder="Ver más"
+                      style={inputStyle}
+                    />
+                  </Field>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <Field label="Color de acento" hint="Default: oro.">
+                    <select
+                      value={item.color ?? "gold"}
+                      onChange={(e) =>
+                        updateItem(i, {
+                          color:
+                            e.target.value === "red"
+                              ? "red"
+                              : e.target.value === "gold"
+                                ? "gold"
+                                : undefined,
+                        })
+                      }
+                      style={{ ...inputStyle, paddingRight: 28, cursor: "pointer" }}
+                    >
+                      <option value="gold">Oro (default)</option>
+                      <option value="red">Rojo (énfasis)</option>
+                    </select>
+                  </Field>
+                  <Field
+                    label="Tarjeta destacada"
+                    hint="Marca con un fondo navy claro y borde dorado más intenso."
+                  >
+                    <label className="flex items-center gap-2" style={{ height: 38 }}>
+                      <input
+                        type="checkbox"
+                        checked={item.highlight ?? false}
+                        onChange={(e) =>
+                          updateItem(i, {
+                            highlight: e.target.checked || undefined,
+                          })
+                        }
+                        style={{ width: 16, height: 16, accentColor: "#1A2B4A" }}
+                      />
+                      <span style={{ fontSize: 12, color: "#1A2B4A" }}>
+                        Destacada
+                      </span>
+                    </label>
+                  </Field>
+                </div>
               </div>
             ))}
           </div>

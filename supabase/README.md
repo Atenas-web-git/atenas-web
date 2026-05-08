@@ -16,7 +16,14 @@ supabase/
 │   ├── 008_notificaciones.sql        (Fase 3) tabla notificaciones + RLS pública filtrada por fechas (sesión 25)
 │   ├── 009_notificaciones_modo_visual.sql  modo_visual con 3 valores (imagen_libre / plantilla_imagen_texto / plantilla_diagonal) (sesión 26)
 │   ├── 010_seed_valores_matricula_plantilla_d.sql  seed de /matriculas/valores como plantilla D (sesión 26)
-│   └── 011_configuracion_global.sql      tabla key-value para config global + seed fechas_matriculas (sesión 26)
+│   ├── 011_configuracion_global.sql      tabla key-value para config global + seed fechas_matriculas (sesión 26)
+│   ├── 012_seed_autorizaciones_plantilla_c.sql  seed de /matriculas/autorizaciones como plantilla C (sesión 26)
+│   ├── 013_seed_proceso_matricula_plantilla_c.sql  seed de /matriculas/proceso como plantilla C con galería (sesión 26)
+│   ├── 014_seed_politicas_plantilla_a.sql       seed de /el-atenas/politica-calidad y /politica-seguridad como plantilla A (sesión 26)
+│   ├── 015_seed_servicios_espacios_plantilla_b.sql  seed de /servicios y /espacios como plantilla B con link + color + highlight (sesión 26)
+│   ├── 016_seed_ib_niveles_plantilla_f.sql      amplía CHECK constraint con tpl_f + seed de 7 subpáginas IB y 3 subpáginas Niveles (sesión 26)
+│   ├── 017_seed_landing_ib_plantilla_g.sql      amplía CHECK constraint con tpl_g + tpl_h + seed landing /academico/ib (5 bloques) (sesión 26)
+│   └── 018_seed_landing_niveles_plantilla_h.sql seed landing /academico/niveles (4 bloques) (sesión 26)
 ├── seed/
 │   ├── roles.sql                  cataloga los 4 roles del backoffice
 │   └── plantillas_correo.sql      6 plantillas iniciales del pipeline (ejecutar UNA SOLA VEZ)
@@ -40,10 +47,17 @@ Ejecutar en `Supabase Dashboard → SQL Editor`, en este orden:
 10. `migrations/009_notificaciones_modo_visual.sql` (agrega columna modo_visual; idempotente)
 11. `migrations/010_seed_valores_matricula_plantilla_d.sql` (seed de /matriculas/valores; idempotente)
 12. `migrations/011_configuracion_global.sql` (tabla key-value + seed fechas_matriculas; idempotente)
-13. `seed/roles.sql`
-14. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)
-15. Crear primer usuario en `Authentication → Users` (UI)
-16. `scripts/create_first_superadmin.sql` reemplazando `<USER_UUID>` por el UID del paso 15
+13. `migrations/012_seed_autorizaciones_plantilla_c.sql` (seed de /matriculas/autorizaciones; idempotente)
+14. `migrations/013_seed_proceso_matricula_plantilla_c.sql` (seed de /matriculas/proceso con galería; idempotente)
+15. `migrations/014_seed_politicas_plantilla_a.sql` (seed de /el-atenas/politica-calidad y /politica-seguridad; idempotente)
+16. `migrations/015_seed_servicios_espacios_plantilla_b.sql` (seed de /servicios y /espacios; idempotente)
+17. `migrations/016_seed_ib_niveles_plantilla_f.sql` (amplía CHECK constraint con tpl_f + seed de 10 subpáginas académicas; idempotente)
+18. `migrations/017_seed_landing_ib_plantilla_g.sql` (amplía CHECK constraint con tpl_g + tpl_h + seed landing /academico/ib; idempotente)
+19. `migrations/018_seed_landing_niveles_plantilla_h.sql` (seed landing /academico/niveles; idempotente)
+20. `seed/roles.sql`
+21. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)
+22. Crear primer usuario en `Authentication → Users` (UI)
+23. `scripts/create_first_superadmin.sql` reemplazando `<USER_UUID>` por el UID del paso 22
 
 ## Variables de entorno requeridas
 

@@ -1,43 +1,75 @@
 import type { Metadata } from "next";
 import { Navbar } from "@/components/home/Navbar";
 import { HeroElAtenas } from "@/components/el-atenas/HeroElAtenas";
-import { SeccionNivelDetalle } from "@/components/academico/SeccionNivelDetalle";
+import { SeccionDetalleAcademico } from "@/components/cms/SeccionDetalleAcademico";
 import { NavNiveles } from "@/components/academico/NavNiveles";
 import { FooterCTA } from "@/components/home/FooterCTA";
+import { getPlantillaF } from "@/lib/cms/getPlantillaF";
+import type { ContenidoPlantillaF } from "@/app/admin/(authenticated)/contenido/plantillas";
 
-export const metadata: Metadata = {
-  title: "Educación Inicial — Unidad Educativa Atenas",
-  description:
+export const revalidate = 60;
+
+const SLUG = "academico/niveles/inicial";
+
+const FALLBACK: ContenidoPlantillaF = {
+  hero: {
+    badge: "ACADÉMICO",
+    title: "Educación Inicial",
+    subtitle: "Metodología Montessori, Reggio Emilia y ABN para los primeros años de vida.",
+    ghostText: "INICIAL",
+  },
+  stats: [
+    { label: "Grados", value: "Pre-Kinder y Kinder" },
+    { label: "Rango de edades", value: "3–5 años" },
+    { label: "Institución", value: "Unidad Educativa Atenas" },
+  ],
+  intro: {
+    badge: "Educación Inicial",
+    heading: "Metodologías de clase mundial",
+    paragraphs: [
+      "Nuestra metodología en Educación Inicial está basada en las filosofías de María Montessori, Reggio Emilia y ABN.",
+    ],
+    chipsLabel: "Metodologías",
+    chips: [],
+    photos: ["", "", ""],
+    badgeCollage: "ATENAS ★",
+  },
+  seccionInferior: { tipo: "ninguna" },
+};
+
+const FALLBACK_META = {
+  meta_title: "Educación Inicial — Unidad Educativa Atenas",
+  meta_description:
     "Metodología Montessori, Reggio Emilia y ABN para los primeros años. Inglés integrado desde Pre-Kinder en la Unidad Educativa Atenas, Ambato.",
 };
 
-export default function InicialPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getPlantillaF(SLUG);
+  return {
+    title: data?.meta_title ?? FALLBACK_META.meta_title,
+    description: data?.meta_description ?? FALLBACK_META.meta_description,
+  };
+}
+
+export default async function InicialPage() {
+  const data = await getPlantillaF(SLUG);
+  const c = data?.contenido ?? FALLBACK;
   return (
     <>
       <Navbar />
       <main>
         <HeroElAtenas
-          badge="ACADÉMICO"
-          title="Educación Inicial"
-          subtitle="Metodología Montessori, Reggio Emilia y ABN para los primeros años de vida."
-          ghostText="INICIAL"
+          badge={c.hero.badge}
+          title={c.hero.title}
+          subtitle={c.hero.subtitle}
+          ghostText={c.hero.ghostText}
+          footnote={c.hero.footnote}
+          bgImageSrc={c.hero.bgImageSrc}
         />
-        <SeccionNivelDetalle
-          badge="Educación Inicial"
-          heading="Metodologías de clase mundial"
-          grades="Pre-Kinder y Kinder"
-          ages="3–5 años"
-          paragraphs={[
-            "Nuestra metodología en Educación Inicial está basada en las filosofías de María Montessori, Reggio Emilia y ABN (Algoritmos Basados en Números), abordando el orden, la concentración, el respeto por los otros y por sí mismo, la autonomía, la independencia, la iniciativa, la capacidad de elegir, el desarrollo de la voluntad y la autodisciplina.",
-            "El entorno de aprendizaje está diseñado para despertar la curiosidad natural del niño, permitiéndole explorar, descubrir y construir su propio conocimiento en un ambiente estructurado, respetuoso y estimulante.",
-          ]}
-          methods={["Montessori", "Reggio Emilia", "ABN"]}
-          note="Una hora diaria de inglés totalmente integrada al entorno escolar desde los primeros años, con enfoque natural y lúdico. Los estudiantes integran los aprendizajes paralelamente a los contenidos en español."
-          photos={[
-            "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80",
-            "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=600&q=80",
-            "https://images.unsplash.com/photo-1571210862729-78a52d3779a2?w=600&q=80",
-          ]}
+        <SeccionDetalleAcademico
+          stats={c.stats}
+          intro={c.intro}
+          seccionInferior={c.seccionInferior}
         />
         <NavNiveles current="inicial" />
         <FooterCTA />

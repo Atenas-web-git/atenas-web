@@ -15,6 +15,9 @@ const PLANTILLAS_VALIDAS = [
   "tpl_c_hero_pasos",
   "tpl_d_hero_detalle",
   "tpl_e_hero_galeria",
+  "tpl_f_hero_academico",
+  "tpl_g_landing_ib",
+  "tpl_h_landing_niveles",
 ];
 
 async function assertEditor() {
@@ -101,6 +104,23 @@ export async function crearPaginaAction(
         ],
       },
     };
+  } else if (plantilla === "tpl_c_hero_pasos") {
+    contenidoDefault = {
+      hero: {
+        badge: "PROCESO",
+        title: titulo,
+        subtitle: "",
+        ghostText: titulo.toUpperCase(),
+      },
+      pasos: {
+        titulo: "Pasos a seguir",
+        items: [
+          { texto: "Primer paso del proceso." },
+          { texto: "Segundo paso del proceso." },
+          { texto: "Tercer paso del proceso." },
+        ],
+      },
+    };
   } else if (plantilla === "tpl_d_hero_detalle") {
     contenidoDefault = {
       hero: {
@@ -119,6 +139,30 @@ export async function crearPaginaAction(
         filas: [{ celdas: ["Primera fila", "—"] }],
         acentoPrimeraColumna: true,
       },
+    };
+  } else if (plantilla === "tpl_f_hero_academico") {
+    contenidoDefault = {
+      hero: {
+        badge: "ACADÉMICO",
+        title: titulo,
+        subtitle: "",
+        ghostText: titulo.toUpperCase(),
+      },
+      stats: [
+        { label: "Programa", value: "—" },
+        { label: "Nivel", value: "—" },
+        { label: "Institución", value: "Unidad Educativa Atenas" },
+      ],
+      intro: {
+        badge: titulo.toUpperCase(),
+        heading: titulo,
+        paragraphs: ["Primer párrafo de la página."],
+        chipsLabel: "Componentes",
+        chips: [],
+        photos: ["", "", ""],
+        badgeCollage: "ATENAS ★",
+      },
+      seccionInferior: { tipo: "ninguna" },
     };
   }
 
