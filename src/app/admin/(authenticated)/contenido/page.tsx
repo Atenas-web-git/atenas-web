@@ -22,9 +22,9 @@ const SECCIONES = [
   {
     href: "/admin/contenido/cronograma",
     title: "Cronograma escolar",
-    description: "Eventos del año lectivo con fechas, tipos y descripciones.",
+    description: "Eventos del año lectivo con fechas, períodos (quimestres / trimestres) y tipos editables.",
     icon: Calendar,
-    activa: false,
+    activa: true,
   },
   {
     href: "/admin/contenido/galeria",
@@ -36,9 +36,9 @@ const SECCIONES = [
   {
     href: "/admin/contenido/documentos",
     title: "Documentos",
-    description: "PDFs descargables (políticas, autorizaciones, formularios).",
+    description: "PDFs descargables (políticas, autorizaciones, formularios) hospedados en Google Drive.",
     icon: FileBox,
-    activa: false,
+    activa: true,
   },
 ];
 

@@ -23,7 +23,11 @@ supabase/
 │   ├── 015_seed_servicios_espacios_plantilla_b.sql  seed de /servicios y /espacios como plantilla B con link + color + highlight (sesión 26)
 │   ├── 016_seed_ib_niveles_plantilla_f.sql      amplía CHECK constraint con tpl_f + seed de 7 subpáginas IB y 3 subpáginas Niveles (sesión 26)
 │   ├── 017_seed_landing_ib_plantilla_g.sql      amplía CHECK constraint con tpl_g + tpl_h + seed landing /academico/ib (5 bloques) (sesión 26)
-│   └── 018_seed_landing_niveles_plantilla_h.sql seed landing /academico/niveles (4 bloques) (sesión 26)
+│   ├── 018_seed_landing_niveles_plantilla_h.sql seed landing /academico/niveles (4 bloques) (sesión 26)
+│   ├── 019_documentos_descargables.sql          tablas documentos_categorias + documentos (Google Drive) + RLS + seed 3 categorías y 7 docs en borrador (sesión 27)
+│   ├── 020_seed_documentos_pagina_hero.sql      seed del hero editable de /documentos-institucionales en configuracion_global (sesión 27)
+│   ├── 021_cronograma_eventos.sql               tablas cronograma_tipos + cronograma_periodos (editables, ligados a año lectivo) + cronograma_eventos + RLS + seed con 18 eventos y 2 quimestres del 2026-2027 (sesión 27)
+│   └── 022_seed_cronograma_pagina_hero.sql      seed del hero editable de /cronograma-anual en configuracion_global (sesión 27)
 ├── seed/
 │   ├── roles.sql                  cataloga los 4 roles del backoffice
 │   └── plantillas_correo.sql      6 plantillas iniciales del pipeline (ejecutar UNA SOLA VEZ)
@@ -54,10 +58,14 @@ Ejecutar en `Supabase Dashboard → SQL Editor`, en este orden:
 17. `migrations/016_seed_ib_niveles_plantilla_f.sql` (amplía CHECK constraint con tpl_f + seed de 10 subpáginas académicas; idempotente)
 18. `migrations/017_seed_landing_ib_plantilla_g.sql` (amplía CHECK constraint con tpl_g + tpl_h + seed landing /academico/ib; idempotente)
 19. `migrations/018_seed_landing_niveles_plantilla_h.sql` (seed landing /academico/niveles; idempotente)
-20. `seed/roles.sql`
-21. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)
-22. Crear primer usuario en `Authentication → Users` (UI)
-23. `scripts/create_first_superadmin.sql` reemplazando `<USER_UUID>` por el UID del paso 22
+20. `migrations/019_documentos_descargables.sql` (tablas documentos + categorías + RLS + seed inicial; idempotente)
+21. `migrations/020_seed_documentos_pagina_hero.sql` (seed del hero editable de /documentos-institucionales; idempotente)
+22. `migrations/021_cronograma_eventos.sql` (tablas cronograma + RLS + seed inicial; idempotente)
+23. `migrations/022_seed_cronograma_pagina_hero.sql` (seed del hero editable de /cronograma-anual; idempotente)
+24. `seed/roles.sql`
+25. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)
+26. Crear primer usuario en `Authentication → Users` (UI)
+27. `scripts/create_first_superadmin.sql` reemplazando `<USER_UUID>` por el UID del paso 26
 
 ## Variables de entorno requeridas
 

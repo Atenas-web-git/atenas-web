@@ -31,3 +31,23 @@ export type FechasMatriculas = {
   cta_texto?: string;
   cta_url?: string;
 };
+
+/** Hero editable de la página pública /documentos-institucionales. */
+export type DocumentosPaginaHero = {
+  badge?: string;
+  title: string;
+  subtitle?: string;
+  ghostText?: string;
+  footnote?: string;
+  bgImageSrc?: string;
+};
+
+/** Hero editable de la página pública /cronograma-anual. */
+export type CronogramaPaginaHero = {
+  badge?: string;
+  title: string;
+  subtitle?: string;
+  ghostText?: string;
+  footnote?: string;
+  bgImageSrc?: string;
+};
