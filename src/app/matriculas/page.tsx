@@ -7,16 +7,18 @@ import { ProcesoMatricula } from "@/components/matriculas/ProcesoMatricula";
 import { DisciplinaShowcase } from "@/components/reconocimientos/DisciplinaShowcase";
 import { FooterCTA } from "@/components/home/FooterCTA";
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Matrículas 2026–2027 | Unidad Educativa Atenas",
   description:
-    "Proceso de matrícula, valores de pensión, listas de útiles y autorizaciones bancarias para el año lectivo 2026–2027 en la Unidad Educativa Atenas, Ambato.",
+    "Proceso de matrícula, valores de pensión y autorizaciones bancarias para el año lectivo 2026–2027 en la Unidad Educativa Atenas, Ambato.",
   keywords:
-    "matrículas colegio Ambato 2026, inscripciones Unidad Educativa Atenas, pensiones colegio IB Ambato, listas útiles escolares Ambato",
+    "matrículas colegio Ambato 2026, inscripciones Unidad Educativa Atenas, pensiones colegio IB Ambato",
   openGraph: {
     title: "Matrículas 2026–2027 | Unidad Educativa Atenas",
     description:
-      "Proceso de matrícula, pensiones, listas de útiles y autorizaciones para el año lectivo 2026–2027 en el Colegio Atenas de Ambato.",
+      "Proceso de matrícula, pensiones y autorizaciones para el año lectivo 2026–2027 en el Colegio Atenas de Ambato.",
   },
 };
 
@@ -37,15 +39,6 @@ const CATEGORIAS = [
     count: "6",
     countLabel: "niveles educativos",
     photoSrc: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=400&q=80",
-    basePath: "/matriculas",
-  },
-  {
-    slug: "listas",
-    icon: "📝",
-    nombre: "Listas de Útiles",
-    count: "6",
-    countLabel: "listas por nivel",
-    photoSrc: "https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?w=400&q=80",
     basePath: "/matriculas",
   },
   {

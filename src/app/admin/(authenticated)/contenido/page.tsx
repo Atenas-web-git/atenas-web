@@ -17,7 +17,7 @@ const SECCIONES = [
     title: "Notificaciones",
     description: "Avisos, popups y alertas para visitantes del sitio. Programables con fechas de inicio y fin.",
     icon: Newspaper,
-    activa: false,
+    activa: true,
   },
   {
     href: "/admin/contenido/cronograma",
@@ -36,7 +36,7 @@ const SECCIONES = [
   {
     href: "/admin/contenido/documentos",
     title: "Documentos",
-    description: "PDFs descargables (políticas, listas de útiles, autorizaciones).",
+    description: "PDFs descargables (políticas, autorizaciones, formularios).",
     icon: FileBox,
     activa: false,
   },

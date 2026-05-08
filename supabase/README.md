@@ -11,7 +11,12 @@ supabase/
 │   ├── 003_correos_anos_adjuntos.sql años lectivos + plantillas + adjuntos + Storage
 │   ├── 004_fix_historial_trigger.sql fix SECURITY DEFINER en trigger de historial (visitantes anon no podían insertar solicitudes)
 │   ├── 005_documentos_catalogo.sql   catálogo editable de documentos físicos de admisión + seed inicial
-│   └── 006_cms_paginas.sql           (Fase 3) tabla paginas + imagenes + bucket Storage `contenido` + seed Misión/Visión
+│   ├── 006_cms_paginas.sql           (Fase 3) tabla paginas + imagenes + bucket Storage `contenido` + seed Misión/Visión
+│   ├── 007_seed_valores_plantilla_b.sql  seed de Valores como plantilla B (sesión 25)
+│   ├── 008_notificaciones.sql        (Fase 3) tabla notificaciones + RLS pública filtrada por fechas (sesión 25)
+│   ├── 009_notificaciones_modo_visual.sql  modo_visual con 3 valores (imagen_libre / plantilla_imagen_texto / plantilla_diagonal) (sesión 26)
+│   ├── 010_seed_valores_matricula_plantilla_d.sql  seed de /matriculas/valores como plantilla D (sesión 26)
+│   └── 011_configuracion_global.sql      tabla key-value para config global + seed fechas_matriculas (sesión 26)
 ├── seed/
 │   ├── roles.sql                  cataloga los 4 roles del backoffice
 │   └── plantillas_correo.sql      6 plantillas iniciales del pipeline (ejecutar UNA SOLA VEZ)
@@ -30,10 +35,15 @@ Ejecutar en `Supabase Dashboard → SQL Editor`, en este orden:
 5. `migrations/004_fix_historial_trigger.sql`
 6. `migrations/005_documentos_catalogo.sql` (incluye seed automático si la tabla está vacía)
 7. `migrations/006_cms_paginas.sql` (incluye seed de Misión/Visión si la tabla está vacía)
-8. `seed/roles.sql`
-9. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)
-10. Crear primer usuario en `Authentication → Users` (UI)
-11. `scripts/create_first_superadmin.sql` reemplazando `<USER_UUID>` por el UID del paso 10
+8. `migrations/007_seed_valores_plantilla_b.sql` (seed de Valores como plantilla B; idempotente)
+9. `migrations/008_notificaciones.sql` (tabla notificaciones + RLS; sin seed)
+10. `migrations/009_notificaciones_modo_visual.sql` (agrega columna modo_visual; idempotente)
+11. `migrations/010_seed_valores_matricula_plantilla_d.sql` (seed de /matriculas/valores; idempotente)
+12. `migrations/011_configuracion_global.sql` (tabla key-value + seed fechas_matriculas; idempotente)
+13. `seed/roles.sql`
+14. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)
+15. Crear primer usuario en `Authentication → Users` (UI)
+16. `scripts/create_first_superadmin.sql` reemplazando `<USER_UUID>` por el UID del paso 15
 
 ## Variables de entorno requeridas
 

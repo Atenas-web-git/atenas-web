@@ -21,4 +21,8 @@ html {
 /* Prevent layout shift on page load */
 body {
   overflow-x: hidden;
+  /* Cuando hay banner de notificación arriba, empuja todo el contenido hacia abajo
+     dinámicamente. El BannerTop setea --banner-height al montarse. */
+  padding-top: var(--banner-height, 0px);
+  transition: padding-top 0.2s ease-out;
 }

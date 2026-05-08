@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Calendar, FileCheck2, ArrowRight } from "lucide-react";
+import { Calendar, FileCheck2, CalendarClock, ArrowRight } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole, hasRole } from "@/lib/auth/types";
 
@@ -17,6 +17,13 @@ const SECCIONES = [
     title: "Documentos de admisión",
     description: "Catálogo editable de documentos físicos que el equipo marca como recibidos en cada solicitud.",
     icon: FileCheck2,
+    onlySuperadmin: false,
+  },
+  {
+    href: "/admin/configuracion/fechas-matriculas",
+    title: "Fechas de matrículas",
+    description: "Banner que aparece en /matriculas/* con año lectivo, etapas (inscripciones, matrículas nuevas, reingreso) y botón CTA.",
+    icon: CalendarClock,
     onlySuperadmin: false,
   },
 ];

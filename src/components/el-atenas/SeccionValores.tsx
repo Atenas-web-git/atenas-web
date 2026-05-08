@@ -2,71 +2,82 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import {
-  Shield,
-  Eye,
-  Heart,
-  Star,
-  Scale,
-  Award,
-  Users,
-  Target,
-  Anchor,
-} from "lucide-react";
+import { DynamicIcon } from "lucide-react/dynamic";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
-const VALORES = [
+export type ValorItem = {
+  /** Nombre del icono Lucide en kebab-case (ej. "shield", "heart"). */
+  icon: string;
+  name: string;
+  desc: string;
+};
+
+const FALLBACK_ITEMS: ValorItem[] = [
   {
-    icon: Shield,
+    icon: "shield",
     name: "Respeto",
     desc: "Es un derecho inalienable de todo ser humano. Reconocemos nuestra individualidad y valoramos la de los demás.",
   },
   {
-    icon: Eye,
+    icon: "eye",
     name: "Verdad",
     desc: "Hablamos y actuamos de manera coherente con nuestra conciencia y convicciones personales, siendo auténticos y valientes.",
   },
   {
-    icon: Heart,
+    icon: "heart",
     name: "Solidaridad",
     desc: "Extendemos la mano voluntariamente a quien lo necesita, sintiendo como algo propio el sufrimiento de nuestro prójimo.",
   },
   {
-    icon: Star,
+    icon: "star",
     name: "Responsabilidad",
     desc: "Hacemos lo que tenemos que hacer en el momento oportuno y asumimos las consecuencias de nuestras decisiones.",
   },
   {
-    icon: Scale,
+    icon: "scale",
     name: "Justicia",
     desc: "Somos objetivos y neutrales en la toma de decisiones, comprometidos con la verdad, la conciencia social y la mejora del ambiente.",
   },
   {
-    icon: Award,
+    icon: "award",
     name: "Integridad",
     desc: "Actuamos de forma honesta y responsable considerando el sentido de la justicia en todas las acciones que desarrollamos.",
   },
   {
-    icon: Users,
+    icon: "users",
     name: "Compañerismo",
     desc: "Comprender, apoyar y ayudar a los demás sin buscar algo a cambio, basado en una actitud de colaboración compartida por todos.",
   },
   {
-    icon: Target,
+    icon: "target",
     name: "Perseverancia",
     desc: "Nos esforzamos continuamente para alcanzar lo que nos proponemos y buscamos soluciones a las dificultades que puedan surgir.",
   },
   {
-    icon: Anchor,
+    icon: "anchor",
     name: "Lealtad",
     desc: "Mantener una actitud de fidelidad, honestidad y coherencia en las acciones y decisiones, incluso en situaciones difíciles.",
   },
 ];
 
-export function SeccionValores() {
+type Props = {
+  badge?: string;
+  heading?: string;
+  description?: string;
+  items?: ValorItem[];
+};
+
+export function SeccionValores({
+  badge = "VALORES",
+  heading = "Nuestros Valores Institucionales",
+  description = "Nueve pilares que guían la vida de toda la comunidad educativa: estudiantes, docentes y familias.",
+  items,
+}: Props = {}) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.05 });
+
+  const valores = items && items.length > 0 ? items : FALLBACK_ITEMS;
 
   return (
     <section ref={ref} className="bg-[#F8F5F0]">
@@ -94,7 +105,7 @@ export function SeccionValores() {
                 textTransform: "uppercase",
               }}
             >
-              VALORES
+              {badge}
             </span>
           </div>
           <h2
@@ -106,28 +117,29 @@ export function SeccionValores() {
               lineHeight: 1.15,
             }}
           >
-            Nuestros Valores Institucionales
+            {heading}
           </h2>
           <div style={{ width: 60, height: 3, background: "#C9A84C" }} />
-          <p
-            style={{
-              fontFamily: "Poppins, sans-serif",
-              fontSize: 16,
-              color: "rgba(26,43,74,0.55)",
-              lineHeight: 1.65,
-              maxWidth: 640,
-            }}
-          >
-            Nueve pilares que guían la vida de toda la comunidad educativa:
-            estudiantes, docentes y familias.
-          </p>
+          {description && (
+            <p
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontSize: 16,
+                color: "rgba(26,43,74,0.55)",
+                lineHeight: 1.65,
+                maxWidth: 640,
+              }}
+            >
+              {description}
+            </p>
+          )}
         </motion.div>
 
-        {/* Grid 3×3 */}
+        {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {VALORES.map(({ icon: Icon, name, desc }, i) => (
+          {valores.map((v, i) => (
             <motion.div
-              key={name}
+              key={`${v.name}-${i}`}
               className="bg-white rounded-[16px] p-7 flex flex-col gap-4 hover:-translate-y-1 transition-transform duration-200"
               style={{ boxShadow: "0 8px 32px rgba(26,43,74,0.07)" }}
               initial={{ opacity: 0, y: 24 }}
@@ -142,7 +154,9 @@ export function SeccionValores() {
                   background: "rgba(201,168,76,0.12)",
                 }}
               >
-                <Icon size={22} color="#C9A84C" />
+                {v.icon ? (
+                  <DynamicIcon name={v.icon as never} size={22} color="#C9A84C" />
+                ) : null}
               </div>
               <h3
                 style={{
@@ -152,7 +166,7 @@ export function SeccionValores() {
                   color: "#1A2B4A",
                 }}
               >
-                {name}
+                {v.name}
               </h3>
               <p
                 style={{
@@ -162,7 +176,7 @@ export function SeccionValores() {
                   lineHeight: 1.65,
                 }}
               >
-                {desc}
+                {v.desc}
               </p>
             </motion.div>
           ))}

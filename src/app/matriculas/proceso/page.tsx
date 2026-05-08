@@ -6,6 +6,8 @@ import { FechasBanner } from "@/components/matriculas/FechasBanner";
 import { ProcesoMatricula } from "@/components/matriculas/ProcesoMatricula";
 import { FooterCTA } from "@/components/home/FooterCTA";
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Proceso de Matrícula 2026–2027 | Atenas",
   description: "Conoce los 5 pasos para matricularte en la Unidad Educativa Atenas para el año lectivo 2026–2027.",

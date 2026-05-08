@@ -75,13 +75,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Matrículas
     page("/matriculas/proceso", 0.8),
     page("/matriculas/valores", 0.8),
-    page("/matriculas/listas", 0.7),
-    page("/matriculas/listas/inicial", 0.6),
-    page("/matriculas/listas/elemental", 0.6),
-    page("/matriculas/listas/media", 0.6),
-    page("/matriculas/listas/superior", 0.6),
-    page("/matriculas/listas/bgu", 0.6),
-    page("/matriculas/listas/ib", 0.6),
     page("/matriculas/autorizaciones", 0.6),
 
     // Documentos y Servicios

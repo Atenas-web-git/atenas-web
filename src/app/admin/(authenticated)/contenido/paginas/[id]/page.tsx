@@ -4,8 +4,15 @@ import { ArrowLeft, ExternalLink } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole, hasRole } from "@/lib/auth/types";
-import { PLANTILLAS, type ContenidoPlantillaA } from "../../plantillas";
+import {
+  PLANTILLAS,
+  type ContenidoPlantillaA,
+  type ContenidoPlantillaB,
+  type ContenidoPlantillaD,
+} from "../../plantillas";
 import { EditorPlantillaA } from "./EditorPlantillaA";
+import { EditorPlantillaB } from "./EditorPlantillaB";
+import { EditorPlantillaD } from "./EditorPlantillaD";
 import { EliminarPaginaClient } from "./EliminarPaginaClient";
 
 export default async function EditarPaginaPage({
@@ -93,7 +100,7 @@ export default async function EditarPaginaPage({
         </p>
       </div>
 
-      {pagina.plantilla === "tpl_a_hero_texto" ? (
+      {pagina.plantilla === "tpl_a_hero_texto" && (
         <EditorPlantillaA
           paginaId={pagina.id}
           slug={pagina.slug}
@@ -103,7 +110,35 @@ export default async function EditarPaginaPage({
           initialMetaDescription={pagina.meta_description ?? ""}
           initialPublicada={pagina.publicada}
         />
-      ) : (
+      )}
+
+      {pagina.plantilla === "tpl_b_hero_grid" && (
+        <EditorPlantillaB
+          paginaId={pagina.id}
+          slug={pagina.slug}
+          initialTitulo={pagina.titulo}
+          initialContenido={pagina.contenido as ContenidoPlantillaB}
+          initialMetaTitle={pagina.meta_title ?? ""}
+          initialMetaDescription={pagina.meta_description ?? ""}
+          initialPublicada={pagina.publicada}
+        />
+      )}
+
+      {pagina.plantilla === "tpl_d_hero_detalle" && (
+        <EditorPlantillaD
+          paginaId={pagina.id}
+          slug={pagina.slug}
+          initialTitulo={pagina.titulo}
+          initialContenido={pagina.contenido as ContenidoPlantillaD}
+          initialMetaTitle={pagina.meta_title ?? ""}
+          initialMetaDescription={pagina.meta_description ?? ""}
+          initialPublicada={pagina.publicada}
+        />
+      )}
+
+      {pagina.plantilla !== "tpl_a_hero_texto" &&
+        pagina.plantilla !== "tpl_b_hero_grid" &&
+        pagina.plantilla !== "tpl_d_hero_detalle" && (
         <div
           className="px-5 py-4 rounded-md"
           style={{ background: "#FEF3C7", border: "1px solid #FDE68A" }}

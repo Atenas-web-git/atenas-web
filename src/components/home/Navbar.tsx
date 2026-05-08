@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LogoSVG } from "@/components/shared/LogoSVG";
+import { CampanaNavbar } from "@/components/notificaciones/CampanaNavbar";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
@@ -69,13 +70,8 @@ const subLinks: Record<CategoryKey, Record<string, string>> = {
     "Proceso de Matrícula":      "/matriculas/proceso",
     "Inicial 2.1":               "/matriculas/inicial-2-1",
     "Inicial 2.2":               "/matriculas/inicial-2-2",
-    "Primer grado":              "/matriculas/primer-grado",
-    "Segundo grado":             "/matriculas/segundo-grado",
-    "3ro a 7mo grado":           "/matriculas/3ro-7mo",
-    "8vo a 10mo grado":          "/matriculas/8vo-10mo",
-    "Bachillerato IB":           "/matriculas/ib",
+    "Proceso de matrícula":      "/matriculas/proceso",
     "Valores Referenciales":     "/matriculas/valores",
-    "Listas de útiles":          "/matriculas/listas",
     "Autorizaciones bancarias":  "/matriculas/autorizaciones",
   },
   documentos: {
@@ -150,9 +146,10 @@ export function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+        className={`fixed left-0 right-0 z-40 transition-all duration-300 ${
           scrolled ? "shadow-[0_2px_20px_rgba(13,24,37,0.12)]" : ""
         }`}
+        style={{ top: "var(--banner-height, 0px)" }}
       >
         <nav className="bg-white h-[80px] flex items-center justify-between px-10 md:px-16">
           {/* Logo + Badge */}
@@ -179,6 +176,7 @@ export function Navbar() {
             >
               TOUR VIRTUAL
             </a>
+            <CampanaNavbar />
             <button aria-label="Buscar" className="text-[#1A2B4A] hover:opacity-60 transition-opacity">
               <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="8" />

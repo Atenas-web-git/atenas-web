@@ -29,6 +29,10 @@ const TITLES: Record<string, { title: string; subtitle: string }> = {
     title: "Crear nueva página",
     subtitle: "Elige plantilla, slug y datos básicos",
   },
+  "/admin/contenido/notificaciones": {
+    title: "Notificaciones",
+    subtitle: "Avisos, popups y banners programables para el sitio público",
+  },
   "/admin/usuarios": {
     title: "Usuarios",
     subtitle: "Gestiona quién accede al backoffice y con qué rol",
@@ -48,6 +52,10 @@ const TITLES: Record<string, { title: string; subtitle: string }> = {
   "/admin/configuracion/documentos-admision": {
     title: "Documentos de admisión",
     subtitle: "Catálogo de documentos físicos a marcar en cada solicitud",
+  },
+  "/admin/configuracion/fechas-matriculas": {
+    title: "Fechas de matrículas",
+    subtitle: "Banner global con año lectivo, etapas y CTA para todas las páginas de matrículas",
   },
 };
 

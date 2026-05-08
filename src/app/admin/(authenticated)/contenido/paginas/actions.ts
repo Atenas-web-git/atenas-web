@@ -61,25 +61,66 @@ export async function crearPaginaAction(
   const supabase = createAdminClient();
 
   // Contenido por defecto (depende de la plantilla)
-  const contenidoDefault =
-    plantilla === "tpl_a_hero_texto"
-      ? {
-          hero: {
-            badge: "QUIÉNES SOMOS",
-            title: titulo,
-            subtitle: "",
-            ghostText: titulo.toUpperCase(),
+  let contenidoDefault: Record<string, unknown> = {};
+
+  if (plantilla === "tpl_a_hero_texto") {
+    contenidoDefault = {
+      hero: {
+        badge: "QUIÉNES SOMOS",
+        title: titulo,
+        subtitle: "",
+        ghostText: titulo.toUpperCase(),
+      },
+      seccion: {
+        badge: titulo.toUpperCase(),
+        heading: titulo,
+        paragraphs: ["Primer párrafo del contenido."],
+        note: null,
+        imageSrc: null,
+        imageAlt: null,
+      },
+    };
+  } else if (plantilla === "tpl_b_hero_grid") {
+    contenidoDefault = {
+      hero: {
+        badge: "QUIÉNES SOMOS",
+        title: titulo,
+        subtitle: "",
+        ghostText: titulo.toUpperCase(),
+      },
+      seccion: {
+        badge: titulo.toUpperCase(),
+        heading: titulo,
+        description: "Una breve descripción del grid de tarjetas.",
+        items: [
+          {
+            icon: "star",
+            title: "Primer pilar",
+            description: "Descripción del primer pilar.",
           },
-          seccion: {
-            badge: titulo.toUpperCase(),
-            heading: titulo,
-            paragraphs: ["Primer párrafo del contenido."],
-            note: null,
-            imageSrc: null,
-            imageAlt: null,
-          },
-        }
-      : {};
+        ],
+      },
+    };
+  } else if (plantilla === "tpl_d_hero_detalle") {
+    contenidoDefault = {
+      hero: {
+        badge: "MATRÍCULAS",
+        title: titulo,
+        subtitle: "",
+        ghostText: titulo.toUpperCase(),
+      },
+      stats: [
+        { valor: "—", label: "Stat 1" },
+        { valor: "—", label: "Stat 2" },
+      ],
+      tabla: {
+        heading: "Estructura de costos",
+        columnas: ["Concepto", "Detalle"],
+        filas: [{ celdas: ["Primera fila", "—"] }],
+        acentoPrimeraColumna: true,
+      },
+    };
+  }
 
   const { data, error } = await supabase
     .from("paginas")

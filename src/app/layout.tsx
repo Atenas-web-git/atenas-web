@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { FloatingBoot } from "@/components/shared/FloatingBoot";
+import { NotificacionesPublicas } from "@/components/notificaciones/NotificacionesPublicas";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
@@ -164,6 +165,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <NotificacionesPublicas />
         {children}
         <FloatingBoot />
         <Analytics />

@@ -36,7 +36,7 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
     nombre: "Hero + lista de tarjetas",
     descripcion: "Hero seguido de un grid de tarjetas con icono, título y descripción.",
     ejemploSlugs: ["el-atenas/valores"],
-    implementada: false,
+    implementada: true,
   },
   tpl_c_hero_pasos: {
     slug: "tpl_c_hero_pasos",
@@ -49,10 +49,10 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
   tpl_d_hero_detalle: {
     slug: "tpl_d_hero_detalle",
     letra: "D",
-    nombre: "Hero + tabla / detalle",
-    descripcion: "Hero seguido de stats y tabla informativa.",
-    ejemploSlugs: ["academico/niveles", "matriculas/valores"],
-    implementada: false,
+    nombre: "Hero + stats + tabla",
+    descripcion: "Hero, párrafo introductorio opcional, stats numéricas, tabla configurable y nota destacada al pie.",
+    ejemploSlugs: ["matriculas/valores", "matriculas/autorizaciones", "academico/ib/documentos"],
+    implementada: true,
   },
   tpl_e_hero_galeria: {
     slug: "tpl_e_hero_galeria",
@@ -103,6 +103,125 @@ export function defaultContenidoPlantillaA(): ContenidoPlantillaA {
       note: null,
       imageSrc: null,
       imageAlt: null,
+    },
+  };
+}
+
+// ─── Plantilla B (Hero + grid de tarjetas con icono) ──────────
+
+export type TarjetaPlantillaB = {
+  /** Nombre del icono Lucide en kebab-case (ej. "shield", "heart", "anchor"). */
+  icon: string;
+  title: string;
+  description: string;
+};
+
+export type ContenidoPlantillaB = {
+  hero: {
+    badge?: string;
+    title: string;
+    subtitle?: string;
+    ghostText?: string;
+    footnote?: string;
+    bgImageSrc?: string;
+  };
+  seccion: {
+    badge: string;
+    heading: string;
+    description?: string;
+    items: TarjetaPlantillaB[];
+  };
+};
+
+// ─── Plantilla D (Hero + stats + tabla + nota) ────────────────
+
+export type StatPlantillaD = {
+  valor: string;
+  label: string;
+};
+
+export type FilaPlantillaD = {
+  /** Cada fila tiene N celdas (mismo número que cabeceras de columnas). */
+  celdas: string[];
+  /** Si está marcada, la fila se renderiza con énfasis (ej. bg navy). */
+  destacada?: boolean;
+};
+
+export type ContenidoPlantillaD = {
+  hero: {
+    badge?: string;
+    title: string;
+    subtitle?: string;
+    ghostText?: string;
+    footnote?: string;
+    bgImageSrc?: string;
+  };
+  intro?: {
+    badge?: string;
+    heading?: string;
+    paragraphs?: string[];
+  };
+  stats?: StatPlantillaD[];
+  tabla?: {
+    badge?: string;
+    heading?: string;
+    descripcion?: string;
+    /** Cabeceras de columnas. La cantidad determina el número de celdas por fila. */
+    columnas: string[];
+    filas: FilaPlantillaD[];
+    /** Acento de color de la primera columna (rol "etiqueta"). */
+    acentoPrimeraColumna?: boolean;
+    /** Color destacado para la última columna (típico: precios, valores). */
+    destacarUltimaColumna?: boolean;
+  };
+  nota?: {
+    icono?: string;
+    texto: string;
+  };
+};
+
+/** Default vacío para crear una página nueva con plantilla D. */
+export function defaultContenidoPlantillaD(): ContenidoPlantillaD {
+  return {
+    hero: {
+      badge: "MATRÍCULAS",
+      title: "Nueva ficha técnica",
+      subtitle: "",
+      ghostText: "FICHA",
+    },
+    stats: [
+      { valor: "—", label: "Stat 1" },
+      { valor: "—", label: "Stat 2" },
+    ],
+    tabla: {
+      heading: "Estructura de la tabla",
+      columnas: ["Concepto", "Detalle"],
+      filas: [{ celdas: ["Fila 1", "—"] }],
+      acentoPrimeraColumna: true,
+    },
+  };
+}
+
+/** Default vacío para crear una página nueva con plantilla B. */
+export function defaultContenidoPlantillaB(): ContenidoPlantillaB {
+  return {
+    hero: {
+      badge: "QUIÉNES SOMOS",
+      title: "Nueva página",
+      subtitle: "",
+      ghostText: "",
+    },
+    seccion: {
+      badge: "SECCIÓN",
+      heading: "Nuestros pilares",
+      description: "Una breve descripción del grid de tarjetas.",
+      items: [
+        {
+          icon: "star",
+          title: "Primer pilar",
+          description: "Descripción del primer pilar de la lista.",
+        },
+      ],
     },
   };
 }

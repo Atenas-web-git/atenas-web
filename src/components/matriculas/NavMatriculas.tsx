@@ -3,14 +3,13 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-export type MatSlug = "proceso" | "valores" | "listas" | "autorizaciones";
+export type MatSlug = "proceso" | "valores" | "autorizaciones";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
 const ITEMS: { slug: MatSlug; label: string }[] = [
   { slug: "proceso", label: "Proceso" },
   { slug: "valores", label: "Valores" },
-  { slug: "listas", label: "Listas de Útiles" },
   { slug: "autorizaciones", label: "Autorizaciones Bancarias" },
 ];
 
