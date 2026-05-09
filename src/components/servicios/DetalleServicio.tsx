@@ -4,17 +4,54 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { getServicio } from "@/data/servicios";
+import { DynamicIcon } from "lucide-react/dynamic";
+import type { IconName } from "lucide-react/dynamic";
+import type { ServicioItem } from "@/data/servicios";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
+export type FormQuejasConfig = {
+  headerTitle: string;
+  headerSubtitle: string;
+  tipos: string[];
+  submitText: string;
+  successTitle: string;
+  successText: string;
+};
+
+const FORM_QUEJAS_DEFAULT: FormQuejasConfig = {
+  headerTitle: "Envía tu comunicación",
+  headerSubtitle: "Responderemos en un máximo de 5 días hábiles.",
+  tipos: ["Queja", "Sugerencia", "Reconocimiento", "Consulta"],
+  submitText: "Enviar comunicación",
+  successTitle: "¡Mensaje recibido!",
+  successText:
+    "Hemos recibido tu comunicación. Te responderemos al correo indicado en un plazo máximo de 5 días hábiles.",
+};
+
 interface Props {
-  slug: string;
+  servicio: ServicioItem;
+  /** Solo se usa cuando `servicio.color === "red"`. Si es undefined, defaults. */
+  formConfig?: FormQuejasConfig;
 }
 
-function FormQuejas({ accent }: { accent: string }) {
+function FormQuejas({
+  accent,
+  config,
+  servicioSlug,
+}: {
+  accent: string;
+  config: FormQuejasConfig;
+  servicioSlug: string;
+}) {
+  const tipoInicial = config.tipos[0] ?? "Queja";
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
-  const [form, setForm] = useState({ nombre: "", correo: "", tipo: "Queja", descripcion: "" });
+  const [form, setForm] = useState({
+    nombre: "",
+    correo: "",
+    tipo: tipoInicial,
+    descripcion: "",
+  });
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.1 });
 
@@ -26,10 +63,12 @@ function FormQuejas({ accent }: { accent: string }) {
     e.preventDefault();
     setStatus("sending");
     try {
+      // Mandamos el slug al endpoint para que él lea el destinatario y el
+      // asunto desde la BD (no del cliente, por seguridad).
       const res = await fetch("/api/quejas", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, servicioSlug }),
       });
       setStatus(res.ok ? "ok" : "error");
     } catch {
@@ -86,7 +125,7 @@ function FormQuejas({ accent }: { accent: string }) {
                 margin: 0,
               }}
             >
-              Envía tu comunicación
+              {config.headerTitle}
             </h3>
             <p
               style={{
@@ -96,7 +135,7 @@ function FormQuejas({ accent }: { accent: string }) {
                 margin: "6px 0 0",
               }}
             >
-              Responderemos en un máximo de 5 días hábiles.
+              {config.headerSubtitle}
             </p>
           </div>
 
@@ -123,7 +162,7 @@ function FormQuejas({ accent }: { accent: string }) {
                     color: "#1A2B4A",
                   }}
                 >
-                  ¡Mensaje recibido!
+                  {config.successTitle}
                 </p>
                 <p
                   style={{
@@ -134,8 +173,7 @@ function FormQuejas({ accent }: { accent: string }) {
                     lineHeight: 1.65,
                   }}
                 >
-                  Hemos recibido tu comunicación. Te responderemos al correo indicado en un plazo
-                  máximo de 5 días hábiles.
+                  {config.successText}
                 </p>
               </motion.div>
             ) : (
@@ -187,10 +225,9 @@ function FormQuejas({ accent }: { accent: string }) {
                       (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")
                     }
                   >
-                    <option>Queja</option>
-                    <option>Sugerencia</option>
-                    <option>Reconocimiento</option>
-                    <option>Consulta</option>
+                    {config.tipos.map((t) => (
+                      <option key={t}>{t}</option>
+                    ))}
                   </select>
                 </div>
 
@@ -239,7 +276,7 @@ function FormQuejas({ accent }: { accent: string }) {
                   whileHover={status !== "sending" ? { scale: 1.02 } : {}}
                   whileTap={status !== "sending" ? { scale: 0.98 } : {}}
                 >
-                  {status === "sending" ? "Enviando…" : "Enviar comunicación"}
+                  {status === "sending" ? "Enviando…" : config.submitText}
                   {status !== "sending" && (
                     <motion.span
                       animate={{ x: [0, 4, 0] }}
@@ -258,11 +295,10 @@ function FormQuejas({ accent }: { accent: string }) {
   );
 }
 
-export function DetalleServicio({ slug }: Props) {
-  const servicio = getServicio(slug);
-  if (!servicio) return null;
-  const { nombre, descripcion, stats, pasos, fotos, color } = servicio;
+export function DetalleServicio({ servicio, formConfig }: Props) {
+  const { slug, nombre, descripcion, stats, pasos, fotos, color } = servicio;
   const isRed = color === "red";
+  const formCfg: FormQuejasConfig = formConfig ?? FORM_QUEJAS_DEFAULT;
   const accent = isRed ? "#9e1915" : "#C9A84C";
   const accentBg = isRed ? "rgba(158,25,21,0.10)" : "rgba(201,168,76,0.12)";
 
@@ -366,7 +402,7 @@ export function DetalleServicio({ slug }: Props) {
                   className="flex items-center justify-center rounded-[10px] flex-shrink-0"
                   style={{ width: 44, height: 44, background: accentBg }}
                 >
-                  <stat.Icono size={20} color={accent} strokeWidth={1.8} />
+                  <DynamicIcon name={stat.iconName as IconName} size={20} color={accent} strokeWidth={1.8} />
                 </div>
                 <div className="flex flex-col gap-[2px]">
                   <span
@@ -671,7 +707,7 @@ export function DetalleServicio({ slug }: Props) {
       {slug === "biblioteca" && <RevistaAtenasCard />}
 
       {/* ── Formulario (solo quejas-sugerencias) ── */}
-      {isRed && <FormQuejas accent={accent} />}
+      {isRed && <FormQuejas accent={accent} config={formCfg} servicioSlug={slug} />}
     </div>
   );
 }

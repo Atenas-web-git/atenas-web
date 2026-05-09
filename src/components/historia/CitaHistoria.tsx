@@ -1,12 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import type { ContenidoPlantillaI } from "@/app/admin/(authenticated)/contenido/plantillas";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
-export function CitaHistoria() {
+type Props = { cita: ContenidoPlantillaI["cita"] };
+
+export function CitaHistoria({ cita }: Props) {
   const sectionRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const inView = useInView(contentRef, { once: true, amount: 0.2 });
@@ -24,24 +26,20 @@ export function CitaHistoria() {
     >
       {/* Fondo con parallax */}
       <motion.div className="absolute inset-0" style={{ y: bgY }}>
-        <Image
-          src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1440&q=80"
-          alt=""
-          fill
-          className="object-cover object-center"
-          style={{ opacity: 0.12 }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: "rgba(13,24,37,0.70)" }}
-        />
+        {cita.bgImageSrc && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={cita.bgImageSrc}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover object-center"
+            style={{ opacity: 0.12 }}
+          />
+        )}
+        <div className="absolute inset-0" style={{ background: "rgba(13,24,37,0.70)" }} />
       </motion.div>
 
       {/* Glifo " — desktop */}
-      <div
-        className="absolute pointer-events-none select-none hidden md:block"
-        style={{ left: 80, top: 10 }}
-      >
+      <div className="absolute pointer-events-none select-none hidden md:block" style={{ left: 80, top: 10 }}>
         <span
           style={{
             fontFamily: "Poppins, sans-serif",
@@ -57,10 +55,7 @@ export function CitaHistoria() {
       </div>
 
       {/* Glifo " — mobile */}
-      <div
-        className="absolute pointer-events-none select-none md:hidden"
-        style={{ left: 8, top: -36 }}
-      >
+      <div className="absolute pointer-events-none select-none md:hidden" style={{ left: 8, top: -36 }}>
         <span
           style={{
             fontFamily: "Poppins, sans-serif",
@@ -91,14 +86,13 @@ export function CitaHistoria() {
             color: "#FFFFFF",
             lineHeight: 1.3,
             maxWidth: 760,
+            whiteSpace: "pre-line",
           }}
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.1, ease }}
         >
-          El Atenas no es solo un colegio —<br className="hidden md:block" />
-          es una promesa que se renueva<br className="hidden md:block" />
-          generación tras generación.
+          {cita.quote}
         </motion.p>
 
         <motion.span
@@ -109,19 +103,21 @@ export function CitaHistoria() {
           transition={{ duration: 0.4, delay: 0.4, ease }}
         />
 
-        <motion.p
-          style={{
-            fontFamily: "Poppins, sans-serif",
-            fontSize: "clamp(11px, 0.9vw, 13px)",
-            color: "rgba(255,255,255,0.33)",
-            letterSpacing: 1,
-          }}
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.55, ease }}
-        >
-          Unidad Educativa Atenas · Desde 1976
-        </motion.p>
+        {cita.attribution && (
+          <motion.p
+            style={{
+              fontFamily: "Poppins, sans-serif",
+              fontSize: "clamp(11px, 0.9vw, 13px)",
+              color: "rgba(255,255,255,0.33)",
+              letterSpacing: 1,
+            }}
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.55, ease }}
+          >
+            {cita.attribution}
+          </motion.p>
+        )}
       </div>
     </section>
   );

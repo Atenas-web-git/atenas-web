@@ -18,6 +18,10 @@ const PLANTILLAS_VALIDAS = [
   "tpl_f_hero_academico",
   "tpl_g_landing_ib",
   "tpl_h_landing_niveles",
+  "tpl_i_historia",
+  "tpl_j_landing_matriculas",
+  "tpl_k_ficha_servicio",
+  "tpl_l_ficha_espacio",
 ];
 
 async function assertEditor() {
@@ -163,6 +167,112 @@ export async function crearPaginaAction(
         badgeCollage: "ATENAS ★",
       },
       seccionInferior: { tipo: "ninguna" },
+    };
+  } else if (plantilla === "tpl_i_historia") {
+    contenidoDefault = {
+      hero: {
+        ghostText: titulo.toUpperCase(),
+        badge: "AÑOS DE HISTORIA",
+        titleLine1: titulo,
+        titleLine2: "",
+        subtitle: "",
+        caption: "",
+      },
+      fundacion: {
+        badge: "Nuestros Orígenes",
+        heading: "Cómo empezó todo",
+        paragraph1: "",
+        paragraph2: "",
+        fotoPrincipal: "",
+        fotoSecundaria1: "",
+        fotoSecundaria2: "",
+      },
+      trayectoria: {
+        badge: "Nuestra Trayectoria",
+        heading: "Hitos que marcaron nuestra historia",
+        ghostText: "",
+        hitos: [],
+        fotos: ["", "", ""],
+      },
+      cifras: {
+        badge: "Nuestros Números",
+        heading: "Medio siglo en números",
+        stats: [],
+      },
+      cita: {
+        quote: "",
+        attribution: "Unidad Educativa Atenas",
+      },
+    };
+  } else if (plantilla === "tpl_j_landing_matriculas") {
+    contenidoDefault = {
+      hero: {
+        badge: "MATRÍCULAS",
+        title: titulo,
+        subtitle: "",
+        ghostText: titulo.toUpperCase(),
+      },
+      showcase: {
+        heading: "Todo lo que necesitas para matricularte",
+        ctaText: "Ver detalle",
+        items: [],
+      },
+      proceso: {
+        badge: "Proceso de Matrícula",
+        heading: "Cómo matricularte",
+        subtitle: "",
+        fotos: ["", "", ""],
+        pasos: [],
+      },
+    };
+  } else if (plantilla === "tpl_k_ficha_servicio") {
+    contenidoDefault = {
+      hero: {
+        badge: "SERVICIOS INSTITUCIONALES",
+        title: titulo,
+        subtitle: "",
+        ghostText: titulo.toUpperCase(),
+      },
+      ficha: {
+        iconName: "circle",
+        color: "gold",
+        descripcion: ["Primer párrafo descriptivo del servicio."],
+        stats: [
+          { iconName: "map-pin", label: "UBICACIÓN", valor: "" },
+          { iconName: "alarm-clock", label: "HORARIO", valor: "" },
+          { iconName: "users", label: "ACCESO", valor: "" },
+        ],
+        pasos: ["Primer paso para acceder al servicio."],
+        fotos: ["", "", ""],
+      },
+    };
+  } else if (plantilla === "tpl_l_ficha_espacio") {
+    contenidoDefault = {
+      hero: {
+        badge: "ESPACIOS DE DESARROLLO",
+        title: titulo,
+        subtitle: "",
+        ghostText: titulo.toUpperCase(),
+      },
+      detalle: {
+        badge: titulo,
+        heading: "Encabezado del espacio",
+        paragraphs: ["Primer párrafo descriptivo del espacio."],
+        tags: [],
+        nota: "",
+        ficha: [
+          { label: "Niveles", value: "Todos los niveles" },
+          { label: "Modalidad", value: "Presencial" },
+        ],
+        photoSrc: "",
+        photoAlt: "",
+      },
+      actividades: {
+        title: "Lo que hacemos",
+        photoSrc: "",
+        photoCaption: "",
+        items: [],
+      },
     };
   }
 

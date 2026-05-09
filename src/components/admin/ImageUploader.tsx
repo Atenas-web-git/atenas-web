@@ -2,7 +2,8 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { Upload, Trash2, Link as LinkIcon, Loader2 } from "lucide-react";
+import { Upload, Trash2, Link as LinkIcon, Loader2, FolderOpen } from "lucide-react";
+import { CatalogoPicker } from "./CatalogoPicker";
 
 const MAX_BYTES = 10 * 1024 * 1024;
 
@@ -29,6 +30,7 @@ export function ImageUploader({
   const [error, setError] = useState<string | null>(null);
   const [showUrlInput, setShowUrlInput] = useState(false);
   const [urlInput, setUrlInput] = useState("");
+  const [pickerOpen, setPickerOpen] = useState(false);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -86,6 +88,10 @@ export function ImageUploader({
     setError(null);
   };
 
+  // Estilo del preview. El cap de tamaño es:
+  //   - Con aspect ratio fijo (16/9, 4/3, 1/1): ancho hasta 360px, alto se
+  //     calcula proporcionalmente.
+  //   - Sin aspect ratio (auto): ancho hasta 360px, alto entre 160 y 240px.
   const aspectStyle: React.CSSProperties =
     previewAspect === "16/9"
       ? { aspectRatio: "16 / 9" }
@@ -93,7 +99,7 @@ export function ImageUploader({
       ? { aspectRatio: "4 / 3" }
       : previewAspect === "1/1"
       ? { aspectRatio: "1 / 1" }
-      : { minHeight: 160 };
+      : { minHeight: 160, maxHeight: 240 };
 
   return (
     <div className="flex flex-col gap-2">
@@ -118,6 +124,10 @@ export function ImageUploader({
             style={{
               border: "1px solid #E8E4DD",
               background: "#F4F1EB",
+              // Cap consistente: la vista previa nunca crece más de 360px
+              // de ancho. Esto evita previews enormes en columnas anchas
+              // del editor (ej. cuando el ImageUploader ocupa toda la columna).
+              maxWidth: 360,
               ...aspectStyle,
             }}
           >
@@ -126,7 +136,7 @@ export function ImageUploader({
               alt="Vista previa"
               fill
               className="object-cover"
-              sizes="600px"
+              sizes="360px"
               unoptimized={!value.startsWith("/")}
             />
           </div>
@@ -155,6 +165,25 @@ export function ImageUploader({
                 <Upload size={12} strokeWidth={2.5} />
               )}
               Cambiar
+            </button>
+            <button
+              type="button"
+              onClick={() => setPickerOpen(true)}
+              className="flex items-center gap-1.5 px-3 transition-opacity hover:opacity-80"
+              style={{
+                height: 30,
+                background: "transparent",
+                color: "#1A2B4A",
+                border: "1px solid #E8E4DD",
+                borderRadius: 6,
+                fontSize: 12,
+                fontWeight: 500,
+                cursor: "pointer",
+                fontFamily: "inherit",
+              }}
+            >
+              <FolderOpen size={12} strokeWidth={2.5} />
+              Catálogo
             </button>
             <button
               type="button"
@@ -221,23 +250,43 @@ export function ImageUploader({
                   </>
                 )}
               </button>
-              <button
-                type="button"
-                onClick={() => setShowUrlInput(true)}
-                className="flex items-center gap-1.5 self-start transition-opacity hover:opacity-70"
-                style={{
-                  background: "transparent",
-                  border: "none",
-                  color: "#6B6660",
-                  fontSize: 11,
-                  cursor: "pointer",
-                  fontFamily: "inherit",
-                  padding: 0,
-                }}
-              >
-                <LinkIcon size={11} strokeWidth={2} />
-                O pegar URL externa
-              </button>
+              <div className="flex items-center gap-3 flex-wrap">
+                <button
+                  type="button"
+                  onClick={() => setPickerOpen(true)}
+                  className="flex items-center gap-1.5 transition-opacity hover:opacity-70"
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    color: "#6B6660",
+                    fontSize: 11,
+                    cursor: "pointer",
+                    fontFamily: "inherit",
+                    padding: 0,
+                  }}
+                >
+                  <FolderOpen size={11} strokeWidth={2} />
+                  Elegir del catálogo
+                </button>
+                <span style={{ fontSize: 11, color: "#C9C4BB" }}>·</span>
+                <button
+                  type="button"
+                  onClick={() => setShowUrlInput(true)}
+                  className="flex items-center gap-1.5 transition-opacity hover:opacity-70"
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    color: "#6B6660",
+                    fontSize: 11,
+                    cursor: "pointer",
+                    fontFamily: "inherit",
+                    padding: 0,
+                  }}
+                >
+                  <LinkIcon size={11} strokeWidth={2} />
+                  O pegar URL externa
+                </button>
+              </div>
             </>
           ) : (
             <div className="flex items-center gap-2 flex-wrap">
@@ -327,6 +376,16 @@ export function ImageUploader({
           {hint}
         </span>
       )}
+
+      <CatalogoPicker
+        open={pickerOpen}
+        onClose={() => setPickerOpen(false)}
+        onSelect={(url) => {
+          setError(null);
+          onChange(url);
+        }}
+        uploadPrefix={prefix}
+      />
     </div>
   );
 }

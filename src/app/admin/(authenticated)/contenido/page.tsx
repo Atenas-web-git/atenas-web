@@ -29,9 +29,9 @@ const SECCIONES = [
   {
     href: "/admin/contenido/galeria",
     title: "Galería",
-    description: "Catálogo de imágenes reutilizables del sitio.",
+    description: "Catálogo de imágenes reutilizables del sitio. Reusa fotos ya subidas.",
     icon: ImageIcon,
-    activa: false,
+    activa: true,
   },
   {
     href: "/admin/contenido/documentos",

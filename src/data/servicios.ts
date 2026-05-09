@@ -1,25 +1,6 @@
-import {
-  Utensils,
-  BookOpen,
-  Bus,
-  HeartPulse,
-  Key,
-  Award,
-  ShieldCheck,
-  MessageCircle,
-  MapPin,
-  AlarmClock,
-  Users,
-  Leaf,
-  BookMarked,
-  Phone,
-  Star,
-  Ambulance,
-  type LucideIcon,
-} from "lucide-react";
-
 export interface ServicioStat {
-  Icono: LucideIcon;
+  /** Nombre Lucide en kebab-case (ej. "map-pin", "alarm-clock"). */
+  iconName: string;
   label: string;
   valor: string;
 }
@@ -30,7 +11,8 @@ export interface ServicioItem {
   nombreCorto: string;
   descripcionCorta: string;
   descripcion: string[];
-  Icono: LucideIcon;
+  /** Nombre Lucide en kebab-case (ej. "utensils", "book-open"). */
+  iconName: string;
   color: "gold" | "red";
   ghostText: string;
   heroSubtitle: string;
@@ -50,15 +32,15 @@ export const SERVICIOS: ServicioItem[] = [
       "El Bar Escolar de la Unidad Educativa Atenas ofrece un menú balanceado y nutritivo diseñado para cubrir las necesidades alimenticias de toda la comunidad educativa. Nuestras instalaciones cumplen con todas las normas de higiene y salubridad exigidas por el Ministerio de Educación.",
       "Contamos con opciones variadas que incluyen desayunos y refrigerios, elaborados con ingredientes frescos y de calidad. El personal está capacitado en manipulación de alimentos y atención al cliente.",
     ],
-    Icono: Utensils,
+    iconName: "utensils",
     color: "gold",
     ghostText: "BAR",
     heroSubtitle:
       "Menú nutritivo y variado para toda la comunidad educativa de la Unidad Educativa Atenas.",
     stats: [
-      { Icono: MapPin, label: "UBICACIÓN", valor: "Planta baja — Bloque A" },
-      { Icono: AlarmClock, label: "HORARIO", valor: "7:00 AM · 13:30 PM" },
-      { Icono: Leaf, label: "ALIMENTACIÓN", valor: "Saludable y balanceada" },
+      { iconName: "map-pin", label: "UBICACIÓN", valor: "Planta baja — Bloque A" },
+      { iconName: "alarm-clock", label: "HORARIO", valor: "7:00 AM · 13:30 PM" },
+      { iconName: "leaf", label: "ALIMENTACIÓN", valor: "Saludable y balanceada" },
     ],
     pasos: [
       "Acércate al Bar Escolar ubicado en la planta baja del Bloque A durante el horario de atención.",
@@ -81,15 +63,15 @@ export const SERVICIOS: ServicioItem[] = [
       "La Biblioteca de la Unidad Educativa Atenas cuenta con una amplia colección de libros, revistas y recursos digitales para apoyar el proceso de aprendizaje de todos los estudiantes. Es un espacio diseñado para la investigación, el estudio y el fomento de la lectura.",
       "Los estudiantes pueden acceder a libros de texto, literatura general, enciclopedias y bases de datos en línea. El personal bibliotecario está disponible para orientar en la búsqueda de información y gestión de recursos.",
     ],
-    Icono: BookOpen,
+    iconName: "book-open",
     color: "gold",
     ghostText: "BIBLIO",
     heroSubtitle:
       "Espacio de investigación y lectura con recursos físicos y digitales para toda la comunidad.",
     stats: [
-      { Icono: BookMarked, label: "COLECCIÓN", valor: "+3 000 títulos" },
-      { Icono: AlarmClock, label: "HORARIO", valor: "7:30 AM · 15:30 PM" },
-      { Icono: Users, label: "ACCESO", valor: "Toda la comunidad" },
+      { iconName: "book-marked", label: "COLECCIÓN", valor: "+3 000 títulos" },
+      { iconName: "alarm-clock", label: "HORARIO", valor: "7:30 AM · 15:30 PM" },
+      { iconName: "users", label: "ACCESO", valor: "Toda la comunidad" },
     ],
     pasos: [
       "Preséntate en la Biblioteca con tu carné estudiantil o cédula de identidad.",
@@ -112,19 +94,15 @@ export const SERVICIOS: ServicioItem[] = [
       "El servicio de transporte escolar de la Unidad Educativa Atenas garantiza el traslado seguro y puntual de los estudiantes. Contamos con unidades modernas, conductores certificados y rutas fijas que cubren los principales sectores de Ambato.",
       "Todas las unidades disponen de rastreo GPS en tiempo real y los conductores mantienen comunicación permanente con la administración del colegio para garantizar la seguridad de cada estudiante durante todo el trayecto.",
     ],
-    Icono: Bus,
+    iconName: "bus",
     color: "gold",
     ghostText: "TRANSP",
     heroSubtitle:
       "Rutas de transporte escolar seguro y puntual para el traslado de nuestros estudiantes.",
     stats: [
-      { Icono: MapPin, label: "COBERTURA", valor: "Ciudad de Ambato" },
-      {
-        Icono: AlarmClock,
-        label: "HORARIO",
-        valor: "6:30 AM · 13:30 PM",
-      },
-      { Icono: ShieldCheck, label: "SEGURIDAD", valor: "GPS en tiempo real" },
+      { iconName: "map-pin", label: "COBERTURA", valor: "Ciudad de Ambato" },
+      { iconName: "alarm-clock", label: "HORARIO", valor: "6:30 AM · 13:30 PM" },
+      { iconName: "shield-check", label: "SEGURIDAD", valor: "GPS en tiempo real" },
     ],
     pasos: [
       "Contacta a Secretaría (ext. 150) al inicio del año lectivo para solicitar el servicio de transporte.",
@@ -147,15 +125,15 @@ export const SERVICIOS: ServicioItem[] = [
       "El Dispensario Médico de la Unidad Educativa Atenas brinda atención de primeros auxilios y seguimiento básico de salud a todos los estudiantes durante la jornada escolar. Contamos con personal médico calificado y equipamiento adecuado para emergencias menores.",
       "En caso de emergencias mayores, activamos el protocolo de derivación a centros de salud cercanos y contactamos de inmediato a los representantes legales del estudiante. La salud y bienestar de nuestra comunidad es nuestra prioridad.",
     ],
-    Icono: HeartPulse,
+    iconName: "heart-pulse",
     color: "gold",
     ghostText: "MEDICO",
     heroSubtitle:
       "Atención médica y primeros auxilios para el bienestar de nuestros estudiantes durante la jornada escolar.",
     stats: [
-      { Icono: Ambulance, label: "ATENCIÓN", valor: "Primeros auxilios" },
-      { Icono: AlarmClock, label: "HORARIO", valor: "7:30 AM · 15:30 PM" },
-      { Icono: Phone, label: "EMERGENCIAS", valor: "Ext. 180" },
+      { iconName: "ambulance", label: "ATENCIÓN", valor: "Primeros auxilios" },
+      { iconName: "alarm-clock", label: "HORARIO", valor: "7:30 AM · 15:30 PM" },
+      { iconName: "phone", label: "EMERGENCIAS", valor: "Ext. 180" },
     ],
     pasos: [
       "Diríjete al Dispensario Médico ubicado en la planta baja del edificio principal.",
@@ -178,15 +156,15 @@ export const SERVICIOS: ServicioItem[] = [
       "El programa Llave del Aprendizaje ofrece a cada estudiante un casillero personal donde guardar sus materiales, útiles escolares y pertenencias de manera segura durante la jornada escolar. Este servicio promueve la organización y responsabilidad de los alumnos.",
       "Los casilleros están disponibles en diferentes bloques del colegio y se asignan al inicio del año lectivo. Cada estudiante recibe una llave personal y es responsable del cuidado del espacio asignado.",
     ],
-    Icono: Key,
+    iconName: "key",
     color: "gold",
     ghostText: "LLAVES",
     heroSubtitle:
       "Casilleros personales para que nuestros estudiantes organicen y protejan sus materiales escolares.",
     stats: [
-      { Icono: MapPin, label: "DISPONIBILIDAD", valor: "Todos los bloques" },
-      { Icono: Key, label: "ASIGNACIÓN", valor: "Inicio del año lectivo" },
-      { Icono: ShieldCheck, label: "SEGURIDAD", valor: "Llave personal" },
+      { iconName: "map-pin", label: "DISPONIBILIDAD", valor: "Todos los bloques" },
+      { iconName: "key", label: "ASIGNACIÓN", valor: "Inicio del año lectivo" },
+      { iconName: "shield-check", label: "SEGURIDAD", valor: "Llave personal" },
     ],
     pasos: [
       "Solicita tu casillero en Secretaría al inicio del año lectivo, presentando tu matrícula.",
@@ -209,15 +187,15 @@ export const SERVICIOS: ServicioItem[] = [
       "La Unidad Educativa Atenas cuenta con programas de becas y apoyo económico destinados a estudiantes con excelencia académica o necesidad económica comprobada. Nuestro compromiso es garantizar que ningún talento se quede sin la oportunidad de formarse en Atenas.",
       "Los beneficiarios son seleccionados por un comité académico que evalúa el desempeño, la conducta y la situación socioeconómica de cada candidato. Las becas pueden cubrir parcial o totalmente los valores de matrícula y pensión.",
     ],
-    Icono: Award,
+    iconName: "award",
     color: "gold",
     ghostText: "BECAS",
     heroSubtitle:
       "Apoyo económico y becas para que el talento no tenga barreras en la Unidad Educativa Atenas.",
     stats: [
-      { Icono: Star, label: "CRITERIO", valor: "Mérito y necesidad" },
-      { Icono: AlarmClock, label: "CONVOCATORIA", valor: "Enero — Febrero" },
-      { Icono: Phone, label: "INFORMES", valor: "Ext. 135 Admisiones" },
+      { iconName: "star", label: "CRITERIO", valor: "Mérito y necesidad" },
+      { iconName: "alarm-clock", label: "CONVOCATORIA", valor: "Enero — Febrero" },
+      { iconName: "phone", label: "INFORMES", valor: "Ext. 135 Admisiones" },
     ],
     pasos: [
       "Solicita el formulario de aplicación a becas en Secretaría durante el período de convocatoria.",
@@ -240,15 +218,15 @@ export const SERVICIOS: ServicioItem[] = [
       "Todos los estudiantes matriculados en la Unidad Educativa Atenas cuentan con seguro estudiantil que cubre accidentes dentro y fuera de las instalaciones del colegio durante actividades académicas y extracurriculares oficiales.",
       "La cobertura incluye atención médica de emergencia, hospitalización por accidente y gastos de medicamentos derivados de incidentes escolares. El proceso de reclamación es ágil y se gestiona directamente a través de Secretaría.",
     ],
-    Icono: ShieldCheck,
+    iconName: "shield-check",
     color: "gold",
     ghostText: "SEGURO",
     heroSubtitle:
       "Cobertura de seguro estudiantil incluida para todos los alumnos matriculados en Atenas.",
     stats: [
-      { Icono: ShieldCheck, label: "COBERTURA", valor: "Accidentes escolares" },
-      { Icono: Users, label: "BENEFICIARIOS", valor: "Todos los estudiantes" },
-      { Icono: Phone, label: "RECLAMACIONES", valor: "Ext. 190 Tesorería" },
+      { iconName: "shield-check", label: "COBERTURA", valor: "Accidentes escolares" },
+      { iconName: "users", label: "BENEFICIARIOS", valor: "Todos los estudiantes" },
+      { iconName: "phone", label: "RECLAMACIONES", valor: "Ext. 190 Tesorería" },
     ],
     pasos: [
       "En caso de accidente, comunícate de inmediato con el Dispensario Médico o Secretaría.",
@@ -271,19 +249,15 @@ export const SERVICIOS: ServicioItem[] = [
       "La Unidad Educativa Atenas valora la retroalimentación de su comunidad. Este canal oficial permite a estudiantes, representantes legales y docentes presentar quejas, sugerencias o reconocimientos de forma clara y trazable.",
       "Todas las comunicaciones recibidas son revisadas por el equipo directivo y se garantiza una respuesta en un plazo máximo de 5 días hábiles. Tu opinión es fundamental para seguir mejorando.",
     ],
-    Icono: MessageCircle,
+    iconName: "message-circle",
     color: "red",
     ghostText: "QUEJAS",
     heroSubtitle:
       "Canal oficial para quejas, sugerencias y reconocimientos de toda la comunidad educativa.",
     stats: [
-      {
-        Icono: AlarmClock,
-        label: "TIEMPO DE RESPUESTA",
-        valor: "5 días hábiles",
-      },
-      { Icono: ShieldCheck, label: "CONFIDENCIALIDAD", valor: "Garantizada" },
-      { Icono: Users, label: "DISPONIBLE PARA", valor: "Toda la comunidad" },
+      { iconName: "alarm-clock", label: "TIEMPO DE RESPUESTA", valor: "5 días hábiles" },
+      { iconName: "shield-check", label: "CONFIDENCIALIDAD", valor: "Garantizada" },
+      { iconName: "users", label: "DISPONIBLE PARA", valor: "Toda la comunidad" },
     ],
     pasos: [
       "Completa el formulario con tu nombre, correo de contacto y el tipo de comunicación.",

@@ -13,7 +13,11 @@ export type PlantillaSlug =
   | "tpl_e_hero_galeria"
   | "tpl_f_hero_academico"
   | "tpl_g_landing_ib"
-  | "tpl_h_landing_niveles";
+  | "tpl_h_landing_niveles"
+  | "tpl_i_historia"
+  | "tpl_j_landing_matriculas"
+  | "tpl_k_ficha_servicio"
+  | "tpl_l_ficha_espacio";
 
 export type PlantillaInfo = {
   slug: PlantillaSlug;
@@ -87,6 +91,38 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
     nombre: "Landing Niveles (4 bloques fijos)",
     descripcion: "Landing académica con 4 bloques editables: Hero con collage flotante + chips, Niveles (5 cards educativos), Metodologías (strip + 4 cards), CTA con stats card.",
     ejemploSlugs: ["academico/niveles"],
+    implementada: true,
+  },
+  tpl_i_historia: {
+    slug: "tpl_i_historia",
+    letra: "I",
+    nombre: "Historia (5 bloques con video YouTube)",
+    descripcion: "Plantilla narrativa con 5 bloques: Hero con foto de fondo + ghost text, Fundación (texto + 3 fotos), Trayectoria (video YouTube en loop como fondo + 6 hitos + 3 fotos), Cifras (4 stats con contador animado), Cita destacada con fondo parallax.",
+    ejemploSlugs: ["el-atenas/historia"],
+    implementada: true,
+  },
+  tpl_j_landing_matriculas: {
+    slug: "tpl_j_landing_matriculas",
+    letra: "J",
+    nombre: "Landing Matrículas (showcase + proceso)",
+    descripcion: "Landing de la entrada al flujo de matrículas con 3 bloques: Hero, Showcase (3 cards con icono+foto+contador+link a las subpáginas), Proceso (collage de 3 fotos + 5 pasos numerados con último destacado en rojo). El banner de fechas es global (configuracion_global) y la nav lateral entre páginas hermanas es hardcoded.",
+    ejemploSlugs: ["matriculas"],
+    implementada: true,
+  },
+  tpl_k_ficha_servicio: {
+    slug: "tpl_k_ficha_servicio",
+    letra: "K",
+    nombre: "Ficha de servicio (stats + collage + pasos)",
+    descripcion: "Ficha de un servicio institucional: Hero + 3 stats con icono Lucide + collage de 3 fotos + descripción en párrafos + 3 pasos numerados. El icono y color del servicio son editables. Casos especiales (formulario de quejas, card de Revista Atenas) se conservan según el slug de la página.",
+    ejemploSlugs: ["servicios/bar-cafeteria", "servicios/biblioteca", "servicios/transporte"],
+    implementada: true,
+  },
+  tpl_l_ficha_espacio: {
+    slug: "tpl_l_ficha_espacio",
+    letra: "L",
+    nombre: "Ficha de espacio (detalle + actividades)",
+    descripcion: "Ficha de un espacio de desarrollo: Hero + sección de detalle (párrafos, tags, ficha técnica de 4 filas, nota destacada, foto lateral) + sección oscura de Actividades (foto de fondo con parallax, título y lista de 4-6 actividades con emoji + descripción). La nav lateral entre espacios hermanos es hardcoded.",
+    ejemploSlugs: ["espacios/cas", "espacios/cultura", "espacios/idioma", "espacios/vase"],
     implementada: true,
   },
 };
@@ -739,6 +775,384 @@ export function defaultContenidoPlantillaH(): ContenidoPlantillaH {
         { value: "—", label: "", sub: "" },
       ],
       statsCardImg: "",
+    },
+  };
+}
+
+// ─── Plantilla I (Historia — narrativa con video YouTube) ──────
+
+export type HitoTrayectoriaPlantillaI = {
+  /** Año o rango (ej. "1976", "2017–2019", "2020–2026 ★"). */
+  year: string;
+  title: string;
+  desc: string;
+  /** Si true, la tarjeta del hito se pinta con borde dorado destacado. */
+  highlight?: boolean;
+};
+
+export type StatCifrasPlantillaI = {
+  /** Valor numérico para el contador animado (ej. 50, 5000). */
+  value: number;
+  /** Sufijo opcional después del valor (ej. "+"). */
+  suffix?: string;
+  label: string;
+  /** Si true, la tarjeta tiene fondo navy oscuro. */
+  dark?: boolean;
+  /**
+   * Si true, NO se anima el contador y se muestra `staticText` (o el
+   * value tal cual). Útil para casos como "1 IB" o textos no numéricos.
+   */
+  isStatic?: boolean;
+  /**
+   * Texto que se muestra cuando `isStatic = true`. Si está vacío, se
+   * muestra `value + suffix`.
+   */
+  staticText?: string;
+};
+
+export type ContenidoPlantillaI = {
+  /** Bloque 1: Hero con foto de fondo + ghost text + título a 2 líneas */
+  hero: {
+    bgImageSrc?: string;
+    ghostText: string;
+    badge: string;
+    titleLine1: string;
+    titleLine2: string;     // se pinta en dorado
+    subtitle: string;
+    caption?: string;
+  };
+
+  /** Bloque 2: Fundación (texto a la izquierda + collage de 3 fotos a la derecha) */
+  fundacion: {
+    badge: string;
+    heading: string;
+    paragraph1: string;
+    paragraph2: string;     // texto destacado debajo de la línea dorada
+    fotoPrincipal: string;  // grande izquierda
+    fotoSecundaria1: string; // arriba derecha
+    fotoSecundaria2: string; // abajo derecha
+  };
+
+  /** Bloque 3: Trayectoria (video YouTube de fondo opcional + grid de hitos + strip de fotos) */
+  trayectoria: {
+    badge: string;
+    heading: string;
+    /** Texto enorme decorativo de fondo (ej. "50"). */
+    ghostText?: string;
+    /** Foto de respaldo (visible mientras el video carga / si no hay video). */
+    bgFotoSrc?: string;
+    /**
+     * Video de YouTube de fondo en loop. Si no se llena, solo se ve la
+     * foto de respaldo.
+     */
+    youtube?: {
+      videoId: string;
+      startSeconds?: number;
+      endSeconds?: number;
+    };
+    hitos: HitoTrayectoriaPlantillaI[];
+    /** 3 fotos en strip al pie del bloque (desktop). */
+    fotos: [string, string, string];
+  };
+
+  /** Bloque 4: Cifras (4 stats con contador animado) */
+  cifras: {
+    bgImageSrc?: string;
+    badge: string;
+    heading: string;
+    stats: StatCifrasPlantillaI[];
+  };
+
+  /** Bloque 5: Cita destacada con fondo parallax */
+  cita: {
+    bgImageSrc?: string;
+    /** Cita principal. Acepta saltos con \n para separar líneas. */
+    quote: string;
+    /** Atribución pequeña debajo (ej. "Unidad Educativa Atenas · Desde 1976"). */
+    attribution: string;
+  };
+};
+
+/** Default vacío para crear una página nueva con plantilla I. */
+export function defaultContenidoPlantillaI(): ContenidoPlantillaI {
+  return {
+    hero: {
+      ghostText: "HISTORIA",
+      badge: "AÑOS DE HISTORIA",
+      titleLine1: "Historia &",
+      titleLine2: "Cincuenta Años",
+      subtitle: "Cinco décadas formando líderes con propósito.",
+      caption: "Fundada en 1976 · Ambato, Ecuador",
+    },
+    fundacion: {
+      badge: "Nuestros Orígenes",
+      heading: "Un sueño que nació en 1976",
+      paragraph1: "",
+      paragraph2: "",
+      fotoPrincipal: "",
+      fotoSecundaria1: "",
+      fotoSecundaria2: "",
+    },
+    trayectoria: {
+      badge: "Nuestra Trayectoria",
+      heading: "Hitos que marcaron nuestra historia",
+      ghostText: "50",
+      hitos: [],
+      fotos: ["", "", ""],
+    },
+    cifras: {
+      badge: "Nuestros Números",
+      heading: "Medio siglo en números",
+      stats: [],
+    },
+    cita: {
+      quote: "",
+      attribution: "Unidad Educativa Atenas · Desde 1976",
+    },
+  };
+}
+
+// ─── Plantilla J (Landing Matrículas) ────────────────────────
+
+export type ShowcaseItemPlantillaJ = {
+  /** Slug interno usado para construir el link `${basePath}/${slug}`. */
+  slug: string;
+  /** Emoji que aparece como icono de la card. */
+  icon: string;
+  nombre: string;
+  /** Texto destacado (ej. "5", "6", "3"). */
+  count: string;
+  /** Texto pequeño debajo del count (ej. "pasos simples", "niveles educativos"). */
+  countLabel: string;
+  /** Foto de la card. */
+  photoSrc: string;
+  /** Ruta base a la que se concatena el slug. Default: "/matriculas". */
+  basePath: string;
+};
+
+export type PasoMatriculaPlantillaJ = {
+  num: string;
+  titulo: string;
+  desc: string;
+  /** Si true, la tarjeta del paso se pinta con fondo rojo (típico para el paso final de pago). */
+  isRed?: boolean;
+};
+
+export type ContenidoPlantillaJ = {
+  hero: {
+    badge?: string;
+    title: string;
+    subtitle?: string;
+    ghostText?: string;
+    footnote?: string;
+    bgImageSrc?: string;
+  };
+
+  /** Bloque Showcase: 3 cards con icono+foto+contador que linkean a las subpáginas. */
+  showcase: {
+    heading: string;
+    ctaText: string;
+    items: ShowcaseItemPlantillaJ[];
+  };
+
+  /** Bloque Proceso: collage de 3 fotos + intro + 5 pasos numerados. */
+  proceso: {
+    badge: string;
+    heading: string;
+    subtitle: string;
+    fotos: [string, string, string];
+    pasos: PasoMatriculaPlantillaJ[];
+  };
+};
+
+/** Default vacío para crear una página nueva con plantilla J. */
+export function defaultContenidoPlantillaJ(): ContenidoPlantillaJ {
+  return {
+    hero: {
+      badge: "MATRÍCULAS",
+      title: "Proceso de Matrícula",
+      subtitle: "",
+      ghostText: "MATRÍCULAS",
+    },
+    showcase: {
+      heading: "Todo lo que necesitas para matricularte",
+      ctaText: "Ver detalle",
+      items: [],
+    },
+    proceso: {
+      badge: "Proceso de Matrícula",
+      heading: "Cómo matricularte",
+      subtitle: "",
+      fotos: ["", "", ""],
+      pasos: [],
+    },
+  };
+}
+
+// ─── Plantilla K (Ficha de servicio) ──────────────────────────
+
+export type StatPlantillaK = {
+  /** Nombre Lucide en kebab-case (ej. "map-pin", "alarm-clock"). */
+  iconName: string;
+  /** Etiqueta corta en mayúsculas (ej. "UBICACIÓN"). */
+  label: string;
+  /** Valor de la stat (ej. "Planta baja — Bloque A"). */
+  valor: string;
+};
+
+export type FormularioPlantillaK = {
+  /** Título grande dentro del header rojo del formulario. */
+  headerTitle: string;
+  /** Bajada del header. */
+  headerSubtitle: string;
+  /** Opciones del dropdown "Tipo" (ej. ["Queja", "Sugerencia", "Reconocimiento"]). */
+  tipos: string[];
+  /** Texto del botón de envío. */
+  submitText: string;
+  /** Encabezado del estado de éxito. */
+  successTitle: string;
+  /** Cuerpo del estado de éxito. */
+  successText: string;
+  /** Correo institucional al que llegan los envíos. Solo lectura del servidor. */
+  destinatarioEmail: string;
+  /**
+   * Subject del correo enviado por Resend. Soporta tokens {nombre} y {tipo}
+   * (se reemplazan en runtime). Ej. "Nueva {tipo} — {nombre}".
+   */
+  asuntoEmail: string;
+};
+
+export type ContenidoPlantillaK = {
+  hero: {
+    badge?: string;
+    title: string;
+    subtitle?: string;
+    ghostText?: string;
+    footnote?: string;
+    bgImageSrc?: string;
+  };
+  ficha: {
+    /** Nombre Lucide del servicio (ej. "utensils", "book-open"). */
+    iconName: string;
+    /** "gold" o "red" — color de acento de la ficha. */
+    color: "gold" | "red";
+    /** Párrafos de descripción del servicio. */
+    descripcion: string[];
+    /** 3 stats con icono+label+valor en la franja superior. */
+    stats: StatPlantillaK[];
+    /** Lista de pasos numerados (no se muestra si color === "red"). */
+    pasos: string[];
+    /** Collage: foto principal + 2 secundarias. */
+    fotos: [string, string, string];
+  };
+  /**
+   * Configuración del formulario que reemplaza la sección de pasos cuando
+   * `ficha.color === "red"`. Pensado hoy para `servicios/quejas-sugerencias`.
+   * Si está ausente se usan los defaults hardcoded.
+   */
+  formulario?: FormularioPlantillaK;
+};
+
+/** Default vacío para crear una página nueva con plantilla K. */
+export function defaultContenidoPlantillaK(): ContenidoPlantillaK {
+  return {
+    hero: {
+      badge: "SERVICIOS INSTITUCIONALES",
+      title: "Nuevo servicio",
+      subtitle: "",
+      ghostText: "",
+    },
+    ficha: {
+      iconName: "circle",
+      color: "gold",
+      descripcion: ["Primer párrafo descriptivo del servicio."],
+      stats: [
+        { iconName: "map-pin", label: "UBICACIÓN", valor: "" },
+        { iconName: "alarm-clock", label: "HORARIO", valor: "" },
+        { iconName: "users", label: "ACCESO", valor: "" },
+      ],
+      pasos: ["Primer paso para acceder al servicio."],
+      fotos: ["", "", ""],
+    },
+  };
+}
+
+// ─── Plantilla L (Ficha de espacio) ───────────────────────────
+
+export type FichaItemPlantillaL = {
+  /** Etiqueta corta (ej. "Niveles", "Modalidad"). */
+  label: string;
+  /** Valor (ej. "Todos los niveles"). */
+  value: string;
+  /** Si true, el value se pinta en dorado y bold. */
+  highlight?: boolean;
+};
+
+export type ActividadPlantillaL = {
+  /** Emoji al inicio de la card (ej. "🎵", "✈️"). */
+  icon: string;
+  title: string;
+  desc: string;
+  /** Si true, la card se pinta en dorado destacado. */
+  highlight?: boolean;
+};
+
+export type ContenidoPlantillaL = {
+  hero: {
+    badge?: string;
+    title: string;
+    subtitle?: string;
+    ghostText?: string;
+    footnote?: string;
+    bgImageSrc?: string;
+  };
+  /** Bloque "Detalle": párrafos + tags + ficha técnica + nota + foto lateral. */
+  detalle: {
+    badge: string;
+    heading: string;
+    paragraphs: string[];
+    tags: string[];
+    nota: string;
+    ficha: FichaItemPlantillaL[];
+    photoSrc: string;
+    photoAlt: string;
+  };
+  /** Bloque "Actividades": sección oscura con foto de fondo + título + lista. */
+  actividades: {
+    title: string;
+    photoSrc: string;
+    photoCaption: string;
+    items: ActividadPlantillaL[];
+  };
+};
+
+/** Default vacío para crear una página nueva con plantilla L. */
+export function defaultContenidoPlantillaL(): ContenidoPlantillaL {
+  return {
+    hero: {
+      badge: "ESPACIOS DE DESARROLLO",
+      title: "Nuevo espacio",
+      subtitle: "",
+      ghostText: "",
+    },
+    detalle: {
+      badge: "Espacio de desarrollo",
+      heading: "Encabezado del espacio",
+      paragraphs: ["Primer párrafo descriptivo del espacio."],
+      tags: [],
+      nota: "",
+      ficha: [
+        { label: "Niveles", value: "Todos los niveles" },
+        { label: "Modalidad", value: "Presencial" },
+      ],
+      photoSrc: "",
+      photoAlt: "",
+    },
+    actividades: {
+      title: "Lo que hacemos",
+      photoSrc: "",
+      photoCaption: "",
+      items: [],
     },
   };
 }

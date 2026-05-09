@@ -1,20 +1,71 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { createAdminClient } from "@/lib/supabase/admin";
+
+type FormularioCMS = {
+  destinatarioEmail?: string;
+  asuntoEmail?: string;
+};
+
+const FALLBACK_DESTINATARIO = "secretaria@atenas.edu.ec";
+const FALLBACK_ASUNTO = "Nueva {tipo} — {nombre}";
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/**
+ * Lee la configuración del formulario desde el CMS por seguridad —
+ * el cliente NO puede pasar el destinatarioEmail directamente.
+ */
+async function loadFormularioConfig(
+  servicioSlug: string
+): Promise<FormularioCMS | null> {
+  if (!servicioSlug) return null;
+  // Anti-injection: solo aceptamos slugs simples de la forma "<slug>".
+  const safeSlug = `servicios/${servicioSlug.replace(/[^a-z0-9-]/g, "")}`;
+  try {
+    const supabase = createAdminClient();
+    const { data } = await supabase
+      .from("paginas")
+      .select("contenido")
+      .eq("slug", safeSlug)
+      .eq("publicada", true)
+      .maybeSingle();
+    if (!data) return null;
+    const contenido = data.contenido as { formulario?: FormularioCMS } | null;
+    return contenido?.formulario ?? null;
+  } catch {
+    return null;
+  }
+}
 
 export async function POST(req: NextRequest) {
   const resend = new Resend(process.env.RESEND_API_KEY);
   try {
-    const { nombre, correo, tipo, descripcion } = await req.json();
+    const body = await req.json();
+    const { nombre, correo, tipo, descripcion, servicioSlug } = body ?? {};
 
     if (!nombre || !correo || !tipo || !descripcion) {
       return NextResponse.json({ error: "Faltan campos requeridos" }, { status: 400 });
     }
 
+    // Resolución segura del destinatario y del asunto desde el CMS.
+    const cmsConfig = await loadFormularioConfig(
+      typeof servicioSlug === "string" ? servicioSlug : "quejas-sugerencias"
+    );
+    const destinatarioRaw =
+      cmsConfig?.destinatarioEmail?.trim() || FALLBACK_DESTINATARIO;
+    const destinatario = EMAIL_REGEX.test(destinatarioRaw)
+      ? destinatarioRaw
+      : FALLBACK_DESTINATARIO;
+    const asuntoTpl = cmsConfig?.asuntoEmail?.trim() || FALLBACK_ASUNTO;
+    const subject = asuntoTpl
+      .replace(/\{nombre\}/g, String(nombre))
+      .replace(/\{tipo\}/g, String(tipo));
+
     await resend.emails.send({
       from: "Formulario Web <noreply@atenas.edu.ec>",
-      to: ["secretaria@atenas.edu.ec"],
+      to: [destinatario],
       replyTo: correo,
-      subject: `Nueva ${tipo} — ${nombre}`,
+      subject,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #1A2B4A;">
           <div style="background: #1A2B4A; padding: 32px; border-radius: 8px 8px 0 0;">

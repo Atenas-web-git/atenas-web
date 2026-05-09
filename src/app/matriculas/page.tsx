@@ -4,73 +4,75 @@ import { HeroElAtenas } from "@/components/el-atenas/HeroElAtenas";
 import { NavMatriculas } from "@/components/matriculas/NavMatriculas";
 import { FechasBanner } from "@/components/matriculas/FechasBanner";
 import { ProcesoMatricula } from "@/components/matriculas/ProcesoMatricula";
-import { DisciplinaShowcase } from "@/components/reconocimientos/DisciplinaShowcase";
+import { DisciplinaShowcase, type Disciplina } from "@/components/reconocimientos/DisciplinaShowcase";
 import { FooterCTA } from "@/components/home/FooterCTA";
+import { getPagina } from "@/lib/cms/getPagina";
+import {
+  defaultContenidoPlantillaJ,
+  type ContenidoPlantillaJ,
+} from "@/app/admin/(authenticated)/contenido/plantillas";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Matrículas 2026–2027 | Unidad Educativa Atenas",
-  description:
+const SLUG = "matriculas";
+
+const FALLBACK: ContenidoPlantillaJ = defaultContenidoPlantillaJ();
+
+const FALLBACK_META = {
+  meta_title: "Matrículas 2026–2027 | Unidad Educativa Atenas",
+  meta_description:
     "Proceso de matrícula, valores de pensión y autorizaciones bancarias para el año lectivo 2026–2027 en la Unidad Educativa Atenas, Ambato.",
-  keywords:
-    "matrículas colegio Ambato 2026, inscripciones Unidad Educativa Atenas, pensiones colegio IB Ambato",
-  openGraph: {
-    title: "Matrículas 2026–2027 | Unidad Educativa Atenas",
-    description:
-      "Proceso de matrícula, pensiones y autorizaciones para el año lectivo 2026–2027 en el Colegio Atenas de Ambato.",
-  },
 };
 
-const CATEGORIAS = [
-  {
-    slug: "proceso",
-    icon: "📋",
-    nombre: "Proceso",
-    count: "5",
-    countLabel: "pasos simples",
-    photoSrc: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&q=80",
-    basePath: "/matriculas",
-  },
-  {
-    slug: "valores",
-    icon: "💰",
-    nombre: "Valores",
-    count: "6",
-    countLabel: "niveles educativos",
-    photoSrc: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=400&q=80",
-    basePath: "/matriculas",
-  },
-  {
-    slug: "autorizaciones",
-    icon: "🏦",
-    nombre: "Autorizaciones",
-    count: "3",
-    countLabel: "bancos disponibles",
-    photoSrc: "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?w=400&q=80",
-    basePath: "/matriculas",
-  },
-];
+export async function generateMetadata(): Promise<Metadata> {
+  const pagina = await getPagina(SLUG);
+  return {
+    title: pagina?.meta_title ?? FALLBACK_META.meta_title,
+    description: pagina?.meta_description ?? FALLBACK_META.meta_description,
+    keywords:
+      "matrículas colegio Ambato 2026, inscripciones Unidad Educativa Atenas, pensiones colegio IB Ambato",
+    openGraph: {
+      title: pagina?.meta_title ?? FALLBACK_META.meta_title,
+      description: pagina?.meta_description ?? FALLBACK_META.meta_description,
+    },
+  };
+}
 
-export default function MatriculasPage() {
+export default async function MatriculasPage() {
+  const pagina = await getPagina(SLUG);
+  const c = (pagina?.contenido as ContenidoPlantillaJ | undefined) ?? FALLBACK;
+
+  // Mapear los items del schema al shape que espera DisciplinaShowcase
+  const disciplinas: Disciplina[] = c.showcase.items.map((it) => ({
+    slug: it.slug,
+    icon: it.icon,
+    nombre: it.nombre,
+    count: it.count,
+    countLabel: it.countLabel,
+    photoSrc: it.photoSrc,
+    basePath: it.basePath,
+  }));
+
   return (
     <>
       <Navbar />
       <main>
         <HeroElAtenas
-          badge="MATRÍCULAS 2026–2027"
-          title="Proceso de Matrícula"
-          subtitle="Todo lo que necesitas para formalizar el ingreso o reingreso de tu hijo en la Unidad Educativa Atenas."
-          ghostText="MATRÍCULAS"
+          badge={c.hero.badge}
+          title={c.hero.title}
+          subtitle={c.hero.subtitle}
+          ghostText={c.hero.ghostText}
+          footnote={c.hero.footnote}
+          bgImageSrc={c.hero.bgImageSrc}
         />
         <NavMatriculas />
         <FechasBanner />
         <DisciplinaShowcase
-          heading="Todo lo que necesitas para matricularte"
-          ctaText="Ver detalle"
-          disciplinas={CATEGORIAS}
+          heading={c.showcase.heading}
+          ctaText={c.showcase.ctaText}
+          disciplinas={disciplinas}
         />
-        <ProcesoMatricula />
+        <ProcesoMatricula proceso={c.proceso} />
         <FooterCTA />
       </main>
     </>

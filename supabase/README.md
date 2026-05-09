@@ -27,7 +27,12 @@ supabase/
 │   ├── 019_documentos_descargables.sql          tablas documentos_categorias + documentos (Google Drive) + RLS + seed 3 categorías y 7 docs en borrador (sesión 27)
 │   ├── 020_seed_documentos_pagina_hero.sql      seed del hero editable de /documentos-institucionales en configuracion_global (sesión 27)
 │   ├── 021_cronograma_eventos.sql               tablas cronograma_tipos + cronograma_periodos (editables, ligados a año lectivo) + cronograma_eventos + RLS + seed con 18 eventos y 2 quimestres del 2026-2027 (sesión 27)
-│   └── 022_seed_cronograma_pagina_hero.sql      seed del hero editable de /cronograma-anual en configuracion_global (sesión 27)
+│   ├── 022_seed_cronograma_pagina_hero.sql      seed del hero editable de /cronograma-anual en configuracion_global (sesión 27)
+│   ├── 023_seed_historia_plantilla_i.sql        amplía CHECK constraint con tpl_i + seed /el-atenas/historia con 5 bloques (incluye video YouTube de fondo en Trayectoria) (sesión 28)
+│   ├── 024_seed_matriculas_plantilla_j.sql      amplía CHECK constraint con tpl_j + seed /matriculas (landing) con 3 bloques: Hero + Showcase + Proceso (sesión 28)
+│   ├── 025_seed_servicios_plantilla_k.sql       amplía CHECK constraint con tpl_k + seed de las 8 fichas /servicios/* (Bar, Biblioteca, Transporte, Dispensario Médico, Llaves, Becas, Seguro, Quejas) (sesión 28)
+│   ├── 026_seed_espacios_plantilla_l.sql        amplía CHECK constraint con tpl_l + seed de las 6 fichas /espacios/* (VASE, CAS, Idioma, Cultura, Ed. Física, Intercambio) (sesión 28)
+│   └── 027_seed_quejas_formulario.sql           añade bloque `formulario` editable a /servicios/quejas-sugerencias (textos + tipos + destinatario + asunto del email Resend) (sesión 28)
 ├── seed/
 │   ├── roles.sql                  cataloga los 4 roles del backoffice
 │   └── plantillas_correo.sql      6 plantillas iniciales del pipeline (ejecutar UNA SOLA VEZ)
@@ -62,10 +67,15 @@ Ejecutar en `Supabase Dashboard → SQL Editor`, en este orden:
 21. `migrations/020_seed_documentos_pagina_hero.sql` (seed del hero editable de /documentos-institucionales; idempotente)
 22. `migrations/021_cronograma_eventos.sql` (tablas cronograma + RLS + seed inicial; idempotente)
 23. `migrations/022_seed_cronograma_pagina_hero.sql` (seed del hero editable de /cronograma-anual; idempotente)
-24. `seed/roles.sql`
-25. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)
-26. Crear primer usuario en `Authentication → Users` (UI)
-27. `scripts/create_first_superadmin.sql` reemplazando `<USER_UUID>` por el UID del paso 26
+24. `migrations/023_seed_historia_plantilla_i.sql` (amplía CHECK constraint con tpl_i + seed /el-atenas/historia; idempotente)
+25. `migrations/024_seed_matriculas_plantilla_j.sql` (amplía CHECK constraint con tpl_j + seed /matriculas; idempotente)
+26. `migrations/025_seed_servicios_plantilla_k.sql` (amplía CHECK constraint con tpl_k + seed de las 8 fichas /servicios/*; idempotente)
+27. `migrations/026_seed_espacios_plantilla_l.sql` (amplía CHECK constraint con tpl_l + seed de las 6 fichas /espacios/*; idempotente)
+28. `migrations/027_seed_quejas_formulario.sql` (añade bloque `formulario` editable a /servicios/quejas-sugerencias; idempotente — solo aplica si el bloque no existe)
+29. `seed/roles.sql`
+30. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)
+31. Crear primer usuario en `Authentication → Users` (UI)
+32. `scripts/create_first_superadmin.sql` reemplazando `<USER_UUID>` por el UID del paso 31
 
 ## Variables de entorno requeridas
 
