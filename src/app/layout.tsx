@@ -4,6 +4,7 @@ import { FloatingBoot } from "@/components/shared/FloatingBoot";
 import { NotificacionesPublicas } from "@/components/notificaciones/NotificacionesPublicas";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { getConfiguracion, mergeMarca, type Marca } from "@/lib/cms/getConfiguracion";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -155,11 +156,39 @@ const jsonLd = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  // Marca editable desde /admin/configuracion/marca → CSS variables al <html>.
+  const marcaRaw = await getConfiguracion<Partial<Marca>>("marca");
+  const marca = mergeMarca(marcaRaw);
+  const isPoppins = marca.tipografia.trim().toLowerCase() === "poppins";
+
+  // Override de las CSS variables del @theme en globals.css. Los componentes
+  // que usan var(--color-navy), var(--color-red), etc. cogen estos valores.
+  // Los componentes con hex hardcoded siguen igual hasta migrarlos en una
+  // sesión de limpieza posterior.
+  const htmlStyle = {
+    "--color-navy": marca.paleta.navy,
+    "--color-red": marca.paleta.rojo,
+    "--color-gold": marca.paleta.dorado,
+    "--color-cream": marca.paleta.offWhite,
+    "--color-ink": marca.paleta.dark,
+    ...(isPoppins
+      ? {}
+      : { "--font-sans": `"${marca.tipografia}", sans-serif` }),
+  } as React.CSSProperties;
+
   return (
-    <html lang="es" className={poppins.variable}>
+    <html lang="es" className={poppins.variable} style={htmlStyle}>
+      <head>
+        {!isPoppins && (
+          <link
+            href={`https://fonts.googleapis.com/css2?family=${encodeURIComponent(marca.tipografia)}:wght@300;400;500;600;700;800&display=swap`}
+            rel="stylesheet"
+          />
+        )}
+      </head>
       <body className="min-h-full font-sans antialiased">
         <script
           type="application/ld+json"

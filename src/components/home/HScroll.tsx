@@ -9,13 +9,16 @@ import {
   useTransform,
   useMotionValueEvent,
 } from "framer-motion";
+import type {
+  HScrollPlantillaM,
+  SlideHScrollPlantillaM,
+} from "@/app/admin/(authenticated)/contenido/plantillas";
 
 // ─────────────────────────────────────────────────────────────
-// Types
+// Layout fijo por índice de slide (estructural, no editable desde CMS)
 // ─────────────────────────────────────────────────────────────
 
-type StackedImg = {
-  url: string;
+type StackedImgLayout = {
   left: string;
   top: string;
   width: string;
@@ -24,192 +27,127 @@ type StackedImg = {
 };
 
 type Badge = {
-  sup: string;
   supSize: number;
-  main: string;
   mainSize: number;
-  mainWeight: number;
+  mainWeight: 300 | 400 | 700;
   dotColor: string;
   size: number;
 };
 
-type Slide = {
-  id: number;
-  counter: string;
-  headingLight: string;
-  headingBold: string;
+type SlideLayout = {
   underlineW: number;
-  body: string;
-  mobileBody: string;
-  metrics: { value: string; label: string }[];
   badge: Badge;
   badgeLeft: string;
   badgeTop: string;
   leftBg: string;
-  fullBleedImg: string | null;
-  stackedImgs: StackedImg[];
+  /** Si true, la imagen principal del CMS ocupa el panel izquierdo full-bleed. */
+  imagePrincipalFullBleed: boolean;
+  /** Layout (posición/tamaño) de la imagen secundaria del collage. Si null no hay segunda imagen. */
+  stackedSecondaryLayout: StackedImgLayout | null;
   goldAccent: { left: string; top: string } | null;
   rightPL: number;
 };
 
-// ─────────────────────────────────────────────────────────────
-// Data
-// ─────────────────────────────────────────────────────────────
-
-const TABS = ["ACADÉMICO", "BACHILLERATO IB", "DEPORTE", "COMUNIDAD"];
-
-const slides: Slide[] = [
+// Configs fijas del diseño Pencil para cada uno de los 4 slides.
+const LAYOUTS: SlideLayout[] = [
+  // Slide 0 — Académico (full-bleed, sin segunda imagen)
   {
-    id: 0,
-    counter: "01 / 04",
-    headingLight: "Docentes de",
-    headingBold: "Excepción.",
     underlineW: 180,
-    body: "Docentes con maestrías y certificaciones internacionales. La primera institución del centro del Ecuador en alcanzar la certificación ISO 9001 — un estándar global de calidad educativa.",
-    mobileBody:
-      "Docentes con maestrías y certificaciones internacionales. Primera institución del centro del Ecuador con certificación ISO 9001.",
-    metrics: [
-      { value: "ISO 9001",    label: "Certificación Internacional" },
-      { value: "IB Diploma",  label: "Único en el centro del Ecuador" },
-      { value: "1,200+",      label: "Estudiantes formados" },
-    ],
-    badge: {
-      sup: "ACADÉMICO", supSize: 11,
-      main: "Potencial", mainSize: 22, mainWeight: 300,
-      dotColor: "#9e1915", size: 160,
-    },
+    badge: { supSize: 11, mainSize: 22, mainWeight: 300, dotColor: "#9e1915", size: 160 },
     badgeLeft: "40.28%",
-    badgeTop:  "38.89%",
+    badgeTop: "38.89%",
     leftBg: "transparent",
-    fullBleedImg: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=1080&q=80",
-    stackedImgs: [],
+    imagePrincipalFullBleed: true,
+    stackedSecondaryLayout: null,
     goldAccent: null,
     rightPL: 131,
   },
+  // Slide 1 — Bachillerato IB
   {
-    id: 1,
-    counter: "02 / 04",
-    headingLight: "Bachillerato",
-    headingBold: "Internacional.",
     underlineW: 228,
-    body: "El único programa de Bachillerato Internacional del centro del Ecuador. Desde 2013 el Atenas forma a sus estudiantes para ingresar a las mejores universidades del mundo, en alianza con IBO, USFQ y EF Education.",
-    mobileBody:
-      "El único programa IB del centro del Ecuador. Desde 2013 formamos estudiantes para ingresar a las mejores universidades del mundo.",
-    metrics: [
-      { value: "2013",       label: "Autorización IB" },
-      { value: "6 áreas",    label: "Del Diploma IB" },
-      { value: "USFQ · IBO", label: "Alianzas internacionales" },
-    ],
-    badge: {
-      sup: "BACHILLERATO", supSize: 9,
-      main: "IB", mainSize: 32, mainWeight: 700,
-      dotColor: "#9e1915", size: 148,
-    },
+    badge: { supSize: 9, mainSize: 32, mainWeight: 700, dotColor: "#9e1915", size: 148 },
     badgeLeft: "1.94%",
-    badgeTop:  "54.17%",
+    badgeTop: "54.17%",
     leftBg: "#EEE9E2",
-    fullBleedImg: null,
-    stackedImgs: [
-      {
-        url: "/images/IMG_1932-vis-1-1536x1197.jpg",
-        left: "4.55%", top: "6.94%", width: "66.67%", height: "51.39%", radius: 6,
-      },
-      {
-        url: "/images/IMG_1911-2-1536x1024.jpg",
-        left: "28.79%", top: "50%", width: "63.64%", height: "40.28%", radius: 6,
-      },
-    ],
+    imagePrincipalFullBleed: false,
+    stackedSecondaryLayout: {
+      left: "28.79%",
+      top: "50%",
+      width: "63.64%",
+      height: "40.28%",
+      radius: 6,
+    },
     goldAccent: null,
     rightPL: 72,
   },
+  // Slide 2 — Deporte
   {
-    id: 2,
-    counter: "03 / 04",
-    headingLight: "Deporte de",
-    headingBold: "Campeones.",
     underlineW: 192,
-    body: "Más de 50 medallas nacionales en 9 disciplinas deportivas. Campeones latinoamericanos de BMX y múltiples títulos intercolegiales que posicionan al Atenas como referente deportivo del centro del Ecuador.",
-    mobileBody:
-      "Más de 50 medallas nacionales en 9 disciplinas. Campeones latinoamericanos de BMX y múltiples títulos intercolegiales.",
-    metrics: [
-      { value: "50+",          label: "Medallas nacionales" },
-      { value: "9 disciplinas", label: "Deporte escolar" },
-      { value: "Latam BMX",    label: "Campeones 2017" },
-    ],
-    badge: {
-      sup: "DEPORTE", supSize: 10,
-      main: "Campeones", mainSize: 18, mainWeight: 300,
-      dotColor: "#9e1915", size: 148,
-    },
+    badge: { supSize: 10, mainSize: 18, mainWeight: 300, dotColor: "#9e1915", size: 148 },
     badgeLeft: "2.08%",
-    badgeTop:  "69.44%",
+    badgeTop: "69.44%",
     leftBg: "#1A2B4A",
-    fullBleedImg: null,
-    stackedImgs: [
-      {
-        url: "/images/00_politicas-de-seguridad-1536x864.jpg",
-        left: "0%", top: "0%", width: "57.58%", height: "69.44%", radius: 0,
-      },
-      {
-        url: "https://images.unsplash.com/photo-1471295253337-3ceaaedca402?w=800&q=80",
-        left: "40.91%", top: "44.44%", width: "57.58%", height: "40.97%", radius: 6,
-      },
-    ],
+    imagePrincipalFullBleed: false,
+    stackedSecondaryLayout: {
+      left: "40.91%",
+      top: "44.44%",
+      width: "57.58%",
+      height: "40.97%",
+      radius: 6,
+    },
     goldAccent: null,
     rightPL: 72,
   },
+  // Slide 3 — Comunidad
   {
-    id: 3,
-    counter: "04 / 04",
-    headingLight: "50 años de",
-    headingBold: "Comunidad.",
     underlineW: 170,
-    body: "Una comunidad de miles de graduados que llevan los valores del Atenas al mundo. El proyecto VASE forma personas comprometidas con el respeto, la solidaridad y la verdad desde 1976.",
-    mobileBody:
-      "Una comunidad de miles de graduados que llevan los valores del Atenas al mundo. El proyecto VASE desde 1976.",
-    metrics: [
-      { value: "1976",    label: "Año de fundación" },
-      { value: "50 años", label: "De historia institucional" },
-      { value: "VASE",    label: "Valores, Acción y Servicio" },
-    ],
-    badge: {
-      sup: "COMUNIDAD", supSize: 9,
-      main: "Valores", mainSize: 24, mainWeight: 300,
-      dotColor: "#C9A84C",
-      size: 148,
-    },
+    badge: { supSize: 9, mainSize: 24, mainWeight: 300, dotColor: "#C9A84C", size: 148 },
     badgeLeft: "31.25%",
-    badgeTop:  "9.72%",
+    badgeTop: "9.72%",
     leftBg: "#EEE9E2",
-    fullBleedImg: null,
-    stackedImgs: [
-      {
-        url: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1080&q=80",
-        left: "3.03%", top: "8.33%", width: "63.64%", height: "58.33%", radius: 6,
-      },
-      {
-        url: "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?w=800&q=80",
-        left: "33.33%", top: "52.78%", width: "63.64%", height: "40.28%", radius: 6,
-      },
-    ],
+    imagePrincipalFullBleed: false,
+    stackedSecondaryLayout: {
+      left: "33.33%",
+      top: "52.78%",
+      width: "63.64%",
+      height: "40.28%",
+      radius: 6,
+    },
     goldAccent: { left: "3.03%", top: "5.56%" },
     rightPL: 72,
   },
 ];
 
-/* imagen representativa de cada slide para mobile */
-const mobileImgs = [
-  slides[0].fullBleedImg!,
-  slides[1].stackedImgs[0].url,
-  "https://images.unsplash.com/photo-1471295253337-3ceaaedca402?w=800&q=80",
-  slides[3].stackedImgs[0].url,
-];
-
 // ─────────────────────────────────────────────────────────────
-// Mobile carousel (mb_scroll — Pencil 390×500)
+// Tipos derivados
 // ─────────────────────────────────────────────────────────────
 
-function MobileScrollSection() {
+type SlideMerged = SlideHScrollPlantillaM &
+  SlideLayout & { id: number; counter: string };
+
+function mergeSlides(
+  slides: readonly SlideHScrollPlantillaM[]
+): SlideMerged[] {
+  const total = slides.length;
+  return slides.map((s, i) => ({
+    ...LAYOUTS[i],
+    ...s,
+    id: i,
+    counter: `${String(i + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`,
+  }));
+}
+
+// ─────────────────────────────────────────────────────────────
+// Mobile carousel
+// ─────────────────────────────────────────────────────────────
+
+function MobileScrollSection({
+  slides,
+  ghostLabel,
+}: {
+  slides: SlideMerged[];
+  ghostLabel: string;
+}) {
   const [active, setActive] = useState(0);
   const touchStartX = useRef<number | null>(null);
 
@@ -219,8 +157,8 @@ function MobileScrollSection() {
   const onTouchEnd = (e: React.TouchEvent) => {
     if (touchStartX.current === null) return;
     const dx = e.changedTouches[0].clientX - touchStartX.current;
-    if (dx < -50 && active < 3) setActive((p) => p + 1);
-    if (dx > 50  && active > 0) setActive((p) => p - 1);
+    if (dx < -50 && active < slides.length - 1) setActive((p) => p + 1);
+    if (dx > 50 && active > 0) setActive((p) => p - 1);
     touchStartX.current = null;
   };
 
@@ -232,7 +170,6 @@ function MobileScrollSection() {
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
-      {/* "VIVE EL ATENAS" label */}
       <p
         style={{
           fontFamily: "Poppins, sans-serif",
@@ -244,10 +181,9 @@ function MobileScrollSection() {
           padding: "24px 24px 0",
         }}
       >
-        VIVE EL ATENAS
+        {ghostLabel}
       </p>
 
-      {/* Foto — 390×230, gradient L→R, badge */}
       <div className="relative w-full overflow-hidden" style={{ height: 230, marginTop: 8 }}>
         <AnimatePresence mode="wait">
           <motion.div
@@ -258,17 +194,18 @@ function MobileScrollSection() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
           >
-            <Image
-              src={mobileImgs[active]}
-              alt={slide.headingBold}
-              fill
-              className="object-cover object-center"
-              sizes="100vw"
-            />
+            {slide.imagenPrincipal && (
+              <Image
+                src={slide.imagenPrincipal}
+                alt={slide.headingBold}
+                fill
+                className="object-cover object-center"
+                sizes="100vw"
+              />
+            )}
           </motion.div>
         </AnimatePresence>
 
-        {/* Gradient L→R (transparente → oscuro) */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -277,7 +214,6 @@ function MobileScrollSection() {
           }}
         />
 
-        {/* Badge "01 / 04" */}
         <div
           className="absolute flex items-center gap-1 rounded-full"
           style={{
@@ -304,12 +240,11 @@ function MobileScrollSection() {
               color: "rgba(255,255,255,0.5)",
             }}
           >
-            / 04
+            / {String(slides.length).padStart(2, "0")}
           </span>
         </div>
       </div>
 
-      {/* Contenido */}
       <AnimatePresence mode="wait">
         <motion.div
           key={active}
@@ -330,7 +265,7 @@ function MobileScrollSection() {
               marginBottom: 8,
             }}
           >
-            {slide.badge.sup}
+            {slide.tab}
           </p>
           <h2
             style={{
@@ -358,7 +293,6 @@ function MobileScrollSection() {
         </motion.div>
       </AnimatePresence>
 
-      {/* Dots */}
       <div className="flex items-center gap-2 px-6 pt-5 pb-8">
         {slides.map((_, i) => (
           <button
@@ -366,7 +300,7 @@ function MobileScrollSection() {
             onClick={() => setActive(i)}
             aria-label={`Ir a slide ${i + 1}`}
             style={{
-              width:  i === active ? 8 : 6,
+              width: i === active ? 8 : 6,
               height: i === active ? 8 : 6,
               borderRadius: "50%",
               background: "#1A2B4A",
@@ -387,30 +321,37 @@ function MobileScrollSection() {
 // Desktop panoramic sticky scroll
 // ─────────────────────────────────────────────────────────────
 
-function DesktopScrollSection() {
+function DesktopScrollSection({
+  slides,
+  ghostLabel,
+}: {
+  slides: SlideMerged[];
+  ghostLabel: string;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeSlide, setActiveSlide] = useState(0);
+  const total = slides.length;
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   });
-  const x = useTransform(scrollYProgress, [0, 1], ["0vw", "-300vw"]);
+  const x = useTransform(scrollYProgress, [0, 1], ["0vw", `-${(total - 1) * 100}vw`]);
   const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    const next = Math.min(3, Math.floor(latest * 4));
+    const next = Math.min(total - 1, Math.floor(latest * total));
     if (next !== activeSlide) setActiveSlide(next);
   });
 
-  return (
-    <div ref={containerRef} style={{ height: "400vh", position: "relative" }}>
-      <div className="sticky top-0 h-screen overflow-hidden">
+  const tabs = slides.map((s) => s.tab);
 
-        {/* Strip 400vw */}
+  return (
+    <div ref={containerRef} style={{ height: `${total * 100}vh`, position: "relative" }}>
+      <div className="sticky top-0 h-screen overflow-hidden">
         <motion.div
           className="absolute top-0 left-0 h-full flex"
-          style={{ width: "400vw", x }}
+          style={{ width: `${total * 100}vw`, x }}
         >
           {slides.map((slide) => (
             <div
@@ -427,7 +368,7 @@ function DesktopScrollSection() {
                   className="font-bold text-[#1A2B4A] whitespace-nowrap"
                   style={{ fontFamily: "Poppins, sans-serif", fontSize: "9vw" }}
                 >
-                  VIVE EL ATENAS
+                  {ghostLabel.toUpperCase()}
                 </span>
               </div>
 
@@ -436,9 +377,9 @@ function DesktopScrollSection() {
                 className="absolute top-0 left-0 h-full"
                 style={{ width: "45.83%", background: slide.leftBg }}
               >
-                {slide.fullBleedImg && (
+                {slide.imagePrincipalFullBleed && slide.imagenPrincipal && (
                   <Image
-                    src={slide.fullBleedImg}
+                    src={slide.imagenPrincipal}
                     alt={slide.headingBold}
                     fill
                     className="object-cover object-center"
@@ -460,33 +401,57 @@ function DesktopScrollSection() {
                   />
                 )}
 
-                {slide.stackedImgs.map((img, j) => (
+                {!slide.imagePrincipalFullBleed && slide.imagenPrincipal && (
                   <div
-                    key={j}
                     className="absolute overflow-hidden"
                     style={{
-                      left: img.left, top: img.top,
-                      width: img.width, height: img.height,
-                      borderRadius: img.radius,
+                      left: "4.55%",
+                      top: "6.94%",
+                      width: "66.67%",
+                      height: "51.39%",
+                      borderRadius: 6,
                     }}
                   >
                     <Image
-                      src={img.url}
+                      src={slide.imagenPrincipal}
                       alt={slide.headingBold}
                       fill
                       className="object-cover object-center"
                       sizes="30vw"
                     />
                   </div>
-                ))}
+                )}
+
+                {slide.stackedSecondaryLayout && slide.imagenSecundaria && (
+                  <div
+                    className="absolute overflow-hidden"
+                    style={{
+                      left: slide.stackedSecondaryLayout.left,
+                      top: slide.stackedSecondaryLayout.top,
+                      width: slide.stackedSecondaryLayout.width,
+                      height: slide.stackedSecondaryLayout.height,
+                      borderRadius: slide.stackedSecondaryLayout.radius,
+                    }}
+                  >
+                    <Image
+                      src={slide.imagenSecundaria}
+                      alt={slide.headingBold}
+                      fill
+                      className="object-cover object-center"
+                      sizes="30vw"
+                    />
+                  </div>
+                )}
               </div>
 
               {/* BADGE */}
               <motion.div
                 className="absolute z-20 rounded-full bg-[#0D1825] flex flex-col items-center justify-center gap-1 shadow-lg"
                 style={{
-                  left: slide.badgeLeft, top: slide.badgeTop,
-                  width: slide.badge.size, height: slide.badge.size,
+                  left: slide.badgeLeft,
+                  top: slide.badgeTop,
+                  width: slide.badge.size,
+                  height: slide.badge.size,
                 }}
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -499,7 +464,7 @@ function DesktopScrollSection() {
                     fontWeight: 700,
                   }}
                 >
-                  {slide.badge.sup}
+                  {slide.tab}
                 </span>
                 <div
                   className="rounded-sm"
@@ -513,7 +478,7 @@ function DesktopScrollSection() {
                     fontWeight: slide.badge.mainWeight,
                   }}
                 >
-                  {slide.badge.main}
+                  {slide.badgeText}
                 </span>
               </motion.div>
 
@@ -522,23 +487,27 @@ function DesktopScrollSection() {
                 className="absolute top-0 right-0 h-full bg-[#F8F5F0] flex flex-col justify-center"
                 style={{
                   width: "54.17%",
-                  paddingTop: 80, paddingRight: 72,
-                  paddingBottom: 64, paddingLeft: slide.rightPL,
+                  paddingTop: 80,
+                  paddingRight: 72,
+                  paddingBottom: 64,
+                  paddingLeft: slide.rightPL,
                 }}
               >
-                {/* Tabs */}
                 <div className="flex gap-8 mb-12">
-                  {TABS.map((tab, ti) => {
+                  {tabs.map((tab, ti) => {
                     const isActive = ti === slide.id;
                     return (
                       <div key={ti} className="flex flex-col gap-1.5">
                         <span
                           style={{
                             fontFamily: "Poppins, sans-serif",
-                            fontSize: 11, fontWeight: isActive ? 700 : 400,
-                            letterSpacing: "2px", color: "#1A2B4A",
+                            fontSize: 11,
+                            fontWeight: isActive ? 700 : 400,
+                            letterSpacing: "2px",
+                            color: "#1A2B4A",
                             opacity: isActive ? 1 : 0.4,
-                            textTransform: "uppercase", whiteSpace: "nowrap",
+                            textTransform: "uppercase",
+                            whiteSpace: "nowrap",
                           }}
                         >
                           {tab}
@@ -556,25 +525,28 @@ function DesktopScrollSection() {
                   })}
                 </div>
 
-                {/* Counter */}
                 <span
                   className="mb-5"
                   style={{
                     fontFamily: "Poppins, sans-serif",
-                    fontSize: 11, fontWeight: 700,
-                    letterSpacing: "3px", color: "#9e1915",
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: "3px",
+                    color: "#9e1915",
                   }}
                 >
                   {slide.counter}
                 </span>
 
-                {/* Heading */}
                 <div className="mb-6">
                   <h2
                     style={{
                       fontFamily: "Poppins, sans-serif",
                       fontSize: "clamp(28px, 3.06vw, 44px)",
-                      lineHeight: 1.1, fontWeight: 300, color: "#1A2B4A", margin: 0,
+                      lineHeight: 1.1,
+                      fontWeight: 300,
+                      color: "#1A2B4A",
+                      margin: 0,
                     }}
                   >
                     {slide.headingLight}
@@ -583,7 +555,10 @@ function DesktopScrollSection() {
                     style={{
                       fontFamily: "Poppins, sans-serif",
                       fontSize: "clamp(28px, 3.06vw, 44px)",
-                      lineHeight: 1.1, fontWeight: 700, color: "#9e1915", margin: 0,
+                      lineHeight: 1.1,
+                      fontWeight: 700,
+                      color: "#9e1915",
+                      margin: 0,
                     }}
                   >
                     {slide.headingBold}
@@ -594,26 +569,30 @@ function DesktopScrollSection() {
                   />
                 </div>
 
-                {/* Body */}
                 <p
                   style={{
                     fontFamily: "Poppins, sans-serif",
-                    fontSize: 15, fontWeight: 400,
-                    lineHeight: 1.75, color: "#1A2B4A", opacity: 0.7,
-                    maxWidth: 540, margin: "0 0 40px 0",
+                    fontSize: 15,
+                    fontWeight: 400,
+                    lineHeight: 1.75,
+                    color: "#1A2B4A",
+                    opacity: 0.7,
+                    maxWidth: 540,
+                    margin: "0 0 40px 0",
                   }}
                 >
                   {slide.body}
                 </p>
 
-                {/* Metrics */}
                 <div className="flex gap-10">
                   {slide.metrics.map((m, mi) => (
                     <div key={mi} className="flex flex-col gap-1">
                       <span
                         style={{
                           fontFamily: "Poppins, sans-serif",
-                          fontSize: 18, fontWeight: 700, color: "#1A2B4A",
+                          fontSize: 18,
+                          fontWeight: 700,
+                          color: "#1A2B4A",
                         }}
                       >
                         {m.value}
@@ -621,9 +600,12 @@ function DesktopScrollSection() {
                       <span
                         style={{
                           fontFamily: "Poppins, sans-serif",
-                          fontSize: 11, fontWeight: 400,
-                          color: "#1A2B4A", opacity: 0.5,
-                          maxWidth: 130, lineHeight: 1.4,
+                          fontSize: 11,
+                          fontWeight: 400,
+                          color: "#1A2B4A",
+                          opacity: 0.5,
+                          maxWidth: 130,
+                          lineHeight: 1.4,
                         }}
                       >
                         {m.label}
@@ -636,32 +618,37 @@ function DesktopScrollSection() {
           ))}
         </motion.div>
 
-        {/* "VIVE EL ATENAS" label */}
+        {/* Ghost label */}
         <div className="absolute top-8 left-8 z-30 pointer-events-none">
           <span
             style={{
               fontFamily: "Poppins, sans-serif",
-              fontSize: 10, fontWeight: 700,
-              letterSpacing: "3px", color: "rgba(255,255,255,0.6)",
+              fontSize: 10,
+              fontWeight: 700,
+              letterSpacing: "3px",
+              color: "rgba(255,255,255,0.6)",
               textTransform: "uppercase",
             }}
           >
-            Vive el Atenas
+            {ghostLabel}
           </span>
         </div>
 
         {/* Bottom tab indicator */}
         <div className="absolute bottom-10 left-8 z-30 flex gap-7">
-          {TABS.map((tab, i) => (
+          {tabs.map((tab, i) => (
             <span
               key={i}
               style={{
                 fontFamily: "Poppins, sans-serif",
-                fontSize: 10, fontWeight: 700,
-                letterSpacing: "2.5px", textTransform: "uppercase",
-                color: i === activeSlide
-                  ? "rgba(255,255,255,0.9)"
-                  : "rgba(255,255,255,0.3)",
+                fontSize: 10,
+                fontWeight: 700,
+                letterSpacing: "2.5px",
+                textTransform: "uppercase",
+                color:
+                  i === activeSlide
+                    ? "rgba(255,255,255,0.9)"
+                    : "rgba(255,255,255,0.3)",
                 transition: "color 0.3s ease",
               }}
             >
@@ -683,17 +670,17 @@ function DesktopScrollSection() {
 // Export
 // ─────────────────────────────────────────────────────────────
 
-export function HScroll() {
+export function HScroll({ hscroll }: { hscroll: HScrollPlantillaM }) {
+  const slides = mergeSlides(hscroll.slides);
+  const ghostLabel = hscroll.ghostLabel?.trim() || "Vive el Atenas";
+
   return (
     <>
-      {/* Desktop: panoramic sticky scroll (400vh) */}
       <div className="hidden md:block">
-        <DesktopScrollSection />
+        <DesktopScrollSection slides={slides} ghostLabel={ghostLabel} />
       </div>
-
-      {/* Mobile: swipeable card carousel */}
       <div className="block md:hidden">
-        <MobileScrollSection />
+        <MobileScrollSection slides={slides} ghostLabel={ghostLabel} />
       </div>
     </>
   );

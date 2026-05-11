@@ -1,10 +1,17 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Calendar, FileCheck2, CalendarClock, ArrowRight } from "lucide-react";
+import { Calendar, FileCheck2, CalendarClock, Palette, ArrowRight } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole, hasRole } from "@/lib/auth/types";
 
 const SECCIONES = [
+  {
+    href: "/admin/configuracion/marca",
+    title: "Marca / Identidad visual",
+    description: "Logos, paleta de colores, tipografía e información institucional global. Los colores se aplican a todo el sitio público.",
+    icon: Palette,
+    onlySuperadmin: true,
+  },
   {
     href: "/admin/configuracion/anos-lectivos",
     title: "Años lectivos",

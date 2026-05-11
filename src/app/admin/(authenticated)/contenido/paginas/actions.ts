@@ -9,6 +9,10 @@ import { ROLES, hasAnyRole } from "@/lib/auth/types";
 export type PaginaActionState = { error: string | null; ok: boolean };
 
 const SLUG_REGEX = /^[a-z0-9-]+(\/[a-z0-9-]+)*$/;
+/** Acepta el slug especial "/" (página Home) además del regex normal. */
+function isValidSlug(slug: string): boolean {
+  return slug === "/" || SLUG_REGEX.test(slug);
+}
 const PLANTILLAS_VALIDAS = [
   "tpl_a_hero_texto",
   "tpl_b_hero_grid",
@@ -22,6 +26,7 @@ const PLANTILLAS_VALIDAS = [
   "tpl_j_landing_matriculas",
   "tpl_k_ficha_servicio",
   "tpl_l_ficha_espacio",
+  "tpl_m_home",
 ];
 
 async function assertEditor() {
@@ -54,7 +59,7 @@ export async function crearPaginaAction(
   const plantilla = String(formData.get("plantilla") ?? "");
 
   if (!slug) return { error: "El slug es obligatorio.", ok: false };
-  if (!SLUG_REGEX.test(slug)) {
+  if (!isValidSlug(slug)) {
     return {
       error: "Slug inválido. Usa solo minúsculas, números, guiones y barras (/).",
       ok: false,
@@ -244,6 +249,75 @@ export async function crearPaginaAction(
         ],
         pasos: ["Primer paso para acceder al servicio."],
         fotos: ["", "", ""],
+      },
+    };
+  } else if (plantilla === "tpl_m_home") {
+    contenidoDefault = {
+      hero: {
+        videoYoutubeUrl: "",
+        startSeconds: 0,
+        endSeconds: 0,
+        bgImageSrc: "",
+        titleLines: [titulo],
+        subtitle: "",
+        videoLinkText: "REPRODUCIR VIDEO",
+        videoLinkUrl: "",
+      },
+      tagline: {
+        eyebrow: "Nuestra razón de ser",
+        line1: "Primera línea con {palabra clave} subrayada,",
+        line2: "y segunda línea sin subrayado.",
+      },
+      hscroll: {
+        ghostLabel: "Vive el Atenas",
+        slides: [
+          { tab: "ACADÉMICO", badgeText: "Potencial", headingLight: "", headingBold: "", body: "", mobileBody: "", metrics: [{ value: "", label: "" }, { value: "", label: "" }, { value: "", label: "" }], imagenPrincipal: "", imagenSecundaria: "" },
+          { tab: "BACHILLERATO IB", badgeText: "IB", headingLight: "", headingBold: "", body: "", mobileBody: "", metrics: [{ value: "", label: "" }, { value: "", label: "" }, { value: "", label: "" }], imagenPrincipal: "", imagenSecundaria: "" },
+          { tab: "DEPORTE", badgeText: "Campeones", headingLight: "", headingBold: "", body: "", mobileBody: "", metrics: [{ value: "", label: "" }, { value: "", label: "" }, { value: "", label: "" }], imagenPrincipal: "", imagenSecundaria: "" },
+          { tab: "COMUNIDAD", badgeText: "Valores", headingLight: "", headingBold: "", body: "", mobileBody: "", metrics: [{ value: "", label: "" }, { value: "", label: "" }, { value: "", label: "" }], imagenPrincipal: "", imagenSecundaria: "" },
+        ],
+      },
+      trayectoria: {
+        eyebrow: "Nuestra Trayectoria",
+        titleLines: ["", ""],
+        subtitle: "",
+        ghostText: "50 AÑOS",
+        bgImageSrc: "",
+        stats: [
+          { value: "50", suffix: "+", label: "Años de excelencia" },
+          { value: "1200", suffix: "+", label: "Estudiantes activos" },
+          { value: "IB", suffix: "", label: "Bachillerato Internacional" },
+        ],
+      },
+      niveles: {
+        eyebrow: "Niveles Educativos",
+        titleLines: [
+          { text: "AQUÍ", weight: 700, opacity: 1 },
+          { text: "EXPLORARÁS,", weight: 700, opacity: 1 },
+          { text: "CRECERÁS", weight: 700, opacity: 1 },
+          { text: "Y", weight: 300, opacity: 0.6 },
+          { text: "BRILLARÁS.", weight: 700, opacity: 1 },
+        ],
+        mobileTitleLines: ["Aquí explorarás,", "crecerás", "y brillarás."],
+        cards: [
+          { label: "INICIAL", title: "", desc: "", img: "", mobileTitle: "", mobileLabel: "", href: "/academico/niveles/inicial" },
+          { label: "BÁSICA", title: "", desc: "", img: "", mobileTitle: "", mobileLabel: "", href: "/academico/niveles/egb-elemental-media" },
+          { label: "BGU", title: "", desc: "", img: "", mobileTitle: "", mobileLabel: "", href: "/academico/niveles/egb-superior" },
+          { label: "IB", title: "", desc: "", img: "", mobileTitle: "", mobileLabel: "", href: "/academico/ib" },
+        ],
+      },
+      porQueAtenas: {
+        ghostText: "SÉ MÁS",
+        eyebrow: "Por qué Atenas",
+        titleLight: "Descubre incluso",
+        titleBold: "más.",
+        subtitle: "",
+        cards: [
+          { label: "", mobileLabel: "", title: "", mobileTitle: "", desc: "", img: "", href: "/academico" },
+          { label: "", mobileLabel: "", title: "", mobileTitle: "", desc: "", img: "", href: "/el-atenas/valores" },
+          { label: "", mobileLabel: "", title: "", mobileTitle: "", desc: "", img: "", href: "/academico/ib" },
+          { label: "", mobileLabel: "", title: "", mobileTitle: "", desc: "", img: "", href: "/matriculas" },
+        ],
       },
     };
   } else if (plantilla === "tpl_l_ficha_espacio") {

@@ -32,7 +32,10 @@ supabase/
 │   ├── 024_seed_matriculas_plantilla_j.sql      amplía CHECK constraint con tpl_j + seed /matriculas (landing) con 3 bloques: Hero + Showcase + Proceso (sesión 28)
 │   ├── 025_seed_servicios_plantilla_k.sql       amplía CHECK constraint con tpl_k + seed de las 8 fichas /servicios/* (Bar, Biblioteca, Transporte, Dispensario Médico, Llaves, Becas, Seguro, Quejas) (sesión 28)
 │   ├── 026_seed_espacios_plantilla_l.sql        amplía CHECK constraint con tpl_l + seed de las 6 fichas /espacios/* (VASE, CAS, Idioma, Cultura, Ed. Física, Intercambio) (sesión 28)
-│   └── 027_seed_quejas_formulario.sql           añade bloque `formulario` editable a /servicios/quejas-sugerencias (textos + tipos + destinatario + asunto del email Resend) (sesión 28)
+│   ├── 027_seed_quejas_formulario.sql           añade bloque `formulario` editable a /servicios/quejas-sugerencias (textos + tipos + destinatario + asunto del email Resend) (sesión 28)
+│   ├── 028_seed_home_plantilla_m.sql            amplía CHECK constraint con tpl_m + seed del Home / con 6 bloques (Hero con video YouTube + Tagline + HScroll 4 slides + Trayectoria + Niveles + Por qué Atenas) (sesión 29)
+│   ├── 029_home_slug_y_nuevos_campos.sql        rename slug "home" → "/" + añade badgeText, imagenSecundaria, href (Niveles), href (PorQueAtenas) a la fila del Home (sesión 29)
+│   └── 030_seed_marca.sql                       Identidad visual editable (Fase 4): seed inicial de `configuracion_global[marca]` con logos, paleta, tipografía e info institucional. Inyectado como CSS variables en root layout (sesión 29)
 ├── seed/
 │   ├── roles.sql                  cataloga los 4 roles del backoffice
 │   └── plantillas_correo.sql      6 plantillas iniciales del pipeline (ejecutar UNA SOLA VEZ)
@@ -72,10 +75,13 @@ Ejecutar en `Supabase Dashboard → SQL Editor`, en este orden:
 26. `migrations/025_seed_servicios_plantilla_k.sql` (amplía CHECK constraint con tpl_k + seed de las 8 fichas /servicios/*; idempotente)
 27. `migrations/026_seed_espacios_plantilla_l.sql` (amplía CHECK constraint con tpl_l + seed de las 6 fichas /espacios/*; idempotente)
 28. `migrations/027_seed_quejas_formulario.sql` (añade bloque `formulario` editable a /servicios/quejas-sugerencias; idempotente — solo aplica si el bloque no existe)
-29. `seed/roles.sql`
-30. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)
-31. Crear primer usuario en `Authentication → Users` (UI)
-32. `scripts/create_first_superadmin.sql` reemplazando `<USER_UUID>` por el UID del paso 31
+29. `migrations/028_seed_home_plantilla_m.sql` (amplía CHECK constraint con tpl_m + seed del Home con 6 bloques; idempotente)
+30. `migrations/029_home_slug_y_nuevos_campos.sql` (rename slug "home" → "/" + añade badgeText, imagenSecundaria, href; idempotente — cada UPDATE solo aplica si el cambio no existe)
+31. `migrations/030_seed_marca.sql` (seed inicial de identidad visual editable en `configuracion_global[marca]`; idempotente — solo siembra si la clave no existe)
+32. `seed/roles.sql`
+33. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)
+34. Crear primer usuario en `Authentication → Users` (UI)
+35. `scripts/create_first_superadmin.sql` reemplazando `<USER_UUID>` por el UID del paso 34
 
 ## Variables de entorno requeridas
 

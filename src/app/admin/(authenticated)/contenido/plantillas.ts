@@ -17,7 +17,8 @@ export type PlantillaSlug =
   | "tpl_i_historia"
   | "tpl_j_landing_matriculas"
   | "tpl_k_ficha_servicio"
-  | "tpl_l_ficha_espacio";
+  | "tpl_l_ficha_espacio"
+  | "tpl_m_home";
 
 export type PlantillaInfo = {
   slug: PlantillaSlug;
@@ -123,6 +124,14 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
     nombre: "Ficha de espacio (detalle + actividades)",
     descripcion: "Ficha de un espacio de desarrollo: Hero + sección de detalle (párrafos, tags, ficha técnica de 4 filas, nota destacada, foto lateral) + sección oscura de Actividades (foto de fondo con parallax, título y lista de 4-6 actividades con emoji + descripción). La nav lateral entre espacios hermanos es hardcoded.",
     ejemploSlugs: ["espacios/cas", "espacios/cultura", "espacios/idioma", "espacios/vase"],
+    implementada: true,
+  },
+  tpl_m_home: {
+    slug: "tpl_m_home",
+    letra: "M",
+    nombre: "Home (6 bloques con video YouTube en hero)",
+    descripcion: "Página principal del sitio. 6 bloques editables: Hero (video YouTube en loop como fondo + título multilínea + subtítulo + link a YouTube), Tagline (eyebrow + título con underline en palabra clave), Scroll horizontal (4 slides Académico/IB/Deporte/Comunidad), Trayectoria (50 años con stats animadas), Niveles educativos (4 cards) y Por qué Atenas (header + 4 cards). La Intro animada de carga, la Navbar y el FooterCTA son globales y no se editan desde aquí.",
+    ejemploSlugs: ["home"],
     implementada: true,
   },
 };
@@ -1153,6 +1162,345 @@ export function defaultContenidoPlantillaL(): ContenidoPlantillaL {
       photoSrc: "",
       photoCaption: "",
       items: [],
+    },
+  };
+}
+
+// ─── Plantilla M (Home — 6 bloques con video YouTube) ─────────
+
+/** Hero del Home — fondo con video YouTube en loop. */
+export type HeroPlantillaM = {
+  /**
+   * URL de YouTube (formato libre: watch?v=, youtu.be/, /embed/, /shorts/).
+   * Si está vacío se usa la foto de fondo `bgImageSrc` como fallback.
+   */
+  videoYoutubeUrl: string;
+  /** Segundo de inicio del loop (default 0). */
+  startSeconds: number;
+  /** Segundo de fin del loop. Si es 0 o menor que start, no se aplica loop por tiempo. */
+  endSeconds: number;
+  /** Imagen de fondo cuando no hay video (o como cover mientras carga). */
+  bgImageSrc: string;
+  /**
+   * Líneas del título en blanco (cada línea con su propia animación stagger).
+   * El título actual del sitio: ["Formando líderes", "que transforman", "el Ecuador."].
+   */
+  titleLines: string[];
+  /** Subtítulo / bajada bajo el título. */
+  subtitle: string;
+  /** Texto del link inferior (ej. "REPRODUCIR VIDEO"). */
+  videoLinkText: string;
+  /**
+   * URL pública del video en YouTube (a la que el visitante va al hacer click
+   * en "REPRODUCIR VIDEO"). Generalmente la misma de `videoYoutubeUrl`.
+   */
+  videoLinkUrl: string;
+};
+
+/** Tagline — eyebrow + título 2 líneas con underline animado. */
+export type TaglinePlantillaM = {
+  /** Etiqueta superior (ej. "Nuestra razón de ser"). */
+  eyebrow: string;
+  /**
+   * Primera línea del título — completar la palabra/frase clave entre
+   * "{" y "}" para que se aplique el underline dorado animado.
+   * Ej.: "La {institución referente} de Ambato,"
+   */
+  line1: string;
+  /** Segunda línea del título (sin underline). */
+  line2: string;
+};
+
+/** Slide del HScroll (4 fijos: Académico, IB, Deporte, Comunidad). */
+export type SlideHScrollPlantillaM = {
+  /** Tab visible en la franja inferior y en la palabra superior del badge (ej. "ACADÉMICO"). */
+  tab: string;
+  /**
+   * Palabra inferior del badge flotante (ej. "Potencial", "IB", "Campeones",
+   * "Valores"). Aparece debajo de la palabra del tab dentro del círculo oscuro
+   * que flota sobre el panel izquierdo del slide.
+   */
+  badgeText: string;
+  /** Línea light del heading (ej. "Docentes de"). */
+  headingLight: string;
+  /** Línea bold/rojo del heading (ej. "Excepción."). */
+  headingBold: string;
+  /** Cuerpo desktop. */
+  body: string;
+  /** Cuerpo corto para mobile carousel. */
+  mobileBody: string;
+  /** 3 métricas (value + label). */
+  metrics: { value: string; label: string }[];
+  /**
+   * Imagen principal del slide. En el slide 1 (Académico) ocupa todo el panel
+   * izquierdo (full-bleed). En slides 2-4 (IB, Deporte, Comunidad) es la
+   * imagen grande del collage izquierdo.
+   */
+  imagenPrincipal: string;
+  /**
+   * Imagen secundaria del collage. Solo se usa en slides 2-4 (IB, Deporte,
+   * Comunidad). En el slide 1 se ignora. Posición y dimensiones fijas por
+   * diseño Pencil.
+   */
+  imagenSecundaria: string;
+};
+
+export type HScrollPlantillaM = {
+  /** Etiqueta superior decorativa visible en la sección. */
+  ghostLabel: string;
+  /** 4 slides en orden Académico → IB → Deporte → Comunidad. */
+  slides: [
+    SlideHScrollPlantillaM,
+    SlideHScrollPlantillaM,
+    SlideHScrollPlantillaM,
+    SlideHScrollPlantillaM,
+  ];
+};
+
+/** Stat editable dentro de Trayectoria. */
+export type StatTrayectoriaPlantillaM = {
+  /** Valor numérico (se anima con count-up). Si no es número, se muestra tal cual. */
+  value: string;
+  /** Sufijo después del número (ej. "+", "%"). */
+  suffix: string;
+  /** Etiqueta debajo del número. */
+  label: string;
+};
+
+export type TrayectoriaPlantillaM = {
+  /** Etiqueta corta arriba del título (ej. "Nuestra Trayectoria"). */
+  eyebrow: string;
+  /** Líneas del título (típicamente 2). */
+  titleLines: string[];
+  /** Subtítulo de un párrafo. */
+  subtitle: string;
+  /** Texto enorme decorativo del fondo (ej. "50 AÑOS"). */
+  ghostText: string;
+  /** Foto de fondo con parallax. */
+  bgImageSrc: string;
+  /** Stats animadas (típicamente 3). */
+  stats: StatTrayectoriaPlantillaM[];
+};
+
+/** Card de un nivel educativo. */
+export type CardNivelPlantillaM = {
+  /** Eyebrow corto en mayúsculas (ej. "INICIAL"). */
+  label: string;
+  /**
+   * Título visible. Usa "\n" para forzar quiebres de línea en desktop
+   * (ej. "Educación\nInicial").
+   */
+  title: string;
+  /** Descripción mostrada al hacer hover en desktop. */
+  desc: string;
+  /** Foto de fondo de la card. */
+  img: string;
+  /** Título corto alternativo para mobile (si vacío se usa `title`). */
+  mobileTitle: string;
+  /** Label alternativo para mobile (si vacío se usa `label`). */
+  mobileLabel: string;
+  /**
+   * URL a la que va el visitante al hacer clic en la card. Interna
+   * (ej. "/academico/niveles/inicial") o externa (https://…). Si está
+   * vacía, la card no es clickeable.
+   */
+  href: string;
+};
+
+export type NivelesPlantillaM = {
+  /** Etiqueta corta arriba del título (ej. "Niveles Educativos"). */
+  eyebrow: string;
+  /**
+   * Líneas del título grande (desktop). Cada línea con su weight/opacity.
+   * El sitio actual usa 5 líneas: "AQUÍ" / "EXPLORARÁS," / "CRECERÁS" /
+   * "Y" (light, opacidad 0.6) / "BRILLARÁS.".
+   */
+  titleLines: { text: string; weight: 300 | 400 | 700; opacity: number }[];
+  /** Título mobile (3 líneas — más corto y compacto). */
+  mobileTitleLines: string[];
+  /** Las 4 cards de niveles. */
+  cards: [
+    CardNivelPlantillaM,
+    CardNivelPlantillaM,
+    CardNivelPlantillaM,
+    CardNivelPlantillaM,
+  ];
+};
+
+/** Card de "Por qué Atenas". */
+export type CardPorQuePlantillaM = {
+  /** Eyebrow (ej. "Académico"). */
+  label: string;
+  /** Eyebrow alternativo para mobile (en mayúsculas). */
+  mobileLabel: string;
+  /** Título desktop. */
+  title: string;
+  /** Título alternativo para mobile (más corto). */
+  mobileTitle: string;
+  /** Descripción de la card. */
+  desc: string;
+  /** Foto. */
+  img: string;
+  /**
+   * URL a la que va el visitante al hacer clic en el CTA "Conoce más"
+   * (y en toda la card en mobile). Si está vacía, la card no es clickeable.
+   */
+  href: string;
+};
+
+export type PorQueAtenasPlantillaM = {
+  /** Texto enorme decorativo de fondo (ej. "SÉ MÁS"). */
+  ghostText: string;
+  /** Eyebrow corto (ej. "Por qué Atenas"). */
+  eyebrow: string;
+  /** Primera parte del título — fuente light (ej. "Descubre incluso"). */
+  titleLight: string;
+  /** Segunda parte del título — fuente bold rojo, con underline (ej. "más."). */
+  titleBold: string;
+  /** Subtítulo (solo se ve en desktop). */
+  subtitle: string;
+  /** Las 4 cards. */
+  cards: [
+    CardPorQuePlantillaM,
+    CardPorQuePlantillaM,
+    CardPorQuePlantillaM,
+    CardPorQuePlantillaM,
+  ];
+};
+
+export type ContenidoPlantillaM = {
+  hero: HeroPlantillaM;
+  tagline: TaglinePlantillaM;
+  hscroll: HScrollPlantillaM;
+  trayectoria: TrayectoriaPlantillaM;
+  niveles: NivelesPlantillaM;
+  porQueAtenas: PorQueAtenasPlantillaM;
+};
+
+/** Default vacío para crear una página nueva con plantilla M. */
+export function defaultContenidoPlantillaM(): ContenidoPlantillaM {
+  return {
+    hero: {
+      videoYoutubeUrl: "",
+      startSeconds: 0,
+      endSeconds: 0,
+      bgImageSrc: "",
+      titleLines: ["Título del hero"],
+      subtitle: "",
+      videoLinkText: "REPRODUCIR VIDEO",
+      videoLinkUrl: "",
+    },
+    tagline: {
+      eyebrow: "Nuestra razón de ser",
+      line1: "La {institución referente} de Ambato,",
+      line2: "para toda la vida.",
+    },
+    hscroll: {
+      ghostLabel: "Vive el Atenas",
+      slides: [
+        {
+          tab: "ACADÉMICO",
+          badgeText: "Potencial",
+          headingLight: "",
+          headingBold: "",
+          body: "",
+          mobileBody: "",
+          metrics: [
+            { value: "", label: "" },
+            { value: "", label: "" },
+            { value: "", label: "" },
+          ],
+          imagenPrincipal: "",
+          imagenSecundaria: "",
+        },
+        {
+          tab: "BACHILLERATO IB",
+          badgeText: "IB",
+          headingLight: "",
+          headingBold: "",
+          body: "",
+          mobileBody: "",
+          metrics: [
+            { value: "", label: "" },
+            { value: "", label: "" },
+            { value: "", label: "" },
+          ],
+          imagenPrincipal: "",
+          imagenSecundaria: "",
+        },
+        {
+          tab: "DEPORTE",
+          badgeText: "Campeones",
+          headingLight: "",
+          headingBold: "",
+          body: "",
+          mobileBody: "",
+          metrics: [
+            { value: "", label: "" },
+            { value: "", label: "" },
+            { value: "", label: "" },
+          ],
+          imagenPrincipal: "",
+          imagenSecundaria: "",
+        },
+        {
+          tab: "COMUNIDAD",
+          badgeText: "Valores",
+          headingLight: "",
+          headingBold: "",
+          body: "",
+          mobileBody: "",
+          metrics: [
+            { value: "", label: "" },
+            { value: "", label: "" },
+            { value: "", label: "" },
+          ],
+          imagenPrincipal: "",
+          imagenSecundaria: "",
+        },
+      ],
+    },
+    trayectoria: {
+      eyebrow: "Nuestra Trayectoria",
+      titleLines: ["", ""],
+      subtitle: "",
+      ghostText: "50 AÑOS",
+      bgImageSrc: "",
+      stats: [
+        { value: "50", suffix: "+", label: "Años de excelencia" },
+        { value: "1200", suffix: "+", label: "Estudiantes activos" },
+        { value: "IB", suffix: "", label: "Bachillerato Internacional" },
+      ],
+    },
+    niveles: {
+      eyebrow: "Niveles Educativos",
+      titleLines: [
+        { text: "AQUÍ", weight: 700, opacity: 1 },
+        { text: "EXPLORARÁS,", weight: 700, opacity: 1 },
+        { text: "CRECERÁS", weight: 700, opacity: 1 },
+        { text: "Y", weight: 300, opacity: 0.6 },
+        { text: "BRILLARÁS.", weight: 700, opacity: 1 },
+      ],
+      mobileTitleLines: ["Aquí explorarás,", "crecerás", "y brillarás."],
+      cards: [
+        { label: "INICIAL", title: "", desc: "", img: "", mobileTitle: "", mobileLabel: "", href: "/academico/niveles/inicial" },
+        { label: "BÁSICA", title: "", desc: "", img: "", mobileTitle: "", mobileLabel: "", href: "/academico/niveles/egb-elemental-media" },
+        { label: "BGU", title: "", desc: "", img: "", mobileTitle: "", mobileLabel: "", href: "/academico/niveles/egb-superior" },
+        { label: "IB", title: "", desc: "", img: "", mobileTitle: "", mobileLabel: "", href: "/academico/ib" },
+      ],
+    },
+    porQueAtenas: {
+      ghostText: "SÉ MÁS",
+      eyebrow: "Por qué Atenas",
+      titleLight: "Descubre incluso",
+      titleBold: "más.",
+      subtitle: "",
+      cards: [
+        { label: "", mobileLabel: "", title: "", mobileTitle: "", desc: "", img: "", href: "/academico" },
+        { label: "", mobileLabel: "", title: "", mobileTitle: "", desc: "", img: "", href: "/el-atenas/valores" },
+        { label: "", mobileLabel: "", title: "", mobileTitle: "", desc: "", img: "", href: "/academico/ib" },
+        { label: "", mobileLabel: "", title: "", mobileTitle: "", desc: "", img: "", href: "/matriculas" },
+      ],
     },
   };
 }

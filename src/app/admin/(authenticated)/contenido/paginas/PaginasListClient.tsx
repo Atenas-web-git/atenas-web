@@ -46,27 +46,33 @@ function capitalize(s: string): string {
     .join(" ");
 }
 
-/** Agrupa páginas por el primer segmento del slug. Mantiene orden alfabético del grupo. */
+/**
+ * Agrupa páginas por el primer segmento del slug. Mantiene orden alfabético
+ * del grupo. La página Home (slug "/") tiene su propio grupo "home" para que
+ * aparezca primero (su label es "Home"), y se muestra arriba del listado.
+ */
 function groupBySlugRoot(paginas: PaginaRow[]): Group[] {
   const map = new Map<string, PaginaRow[]>();
   for (const p of paginas) {
-    const root = p.slug.split("/")[0] || p.slug;
+    const root = p.slug === "/" ? "home" : p.slug.split("/")[0] || p.slug;
     if (!map.has(root)) map.set(root, []);
     map.get(root)!.push(p);
   }
-  // Ordenar las páginas dentro de cada grupo por slug ascendente, así la
-  // landing del grupo (slug sin "/") queda primero por simple orden alfabético
-  // (ej. "matriculas" < "matriculas/proceso").
   for (const list of map.values()) {
     list.sort((a, b) => a.slug.localeCompare(b.slug));
   }
   return Array.from(map.entries())
     .map(([key, paginas]) => ({
       key,
-      label: capitalize(key),
+      label: key === "home" ? "Home" : capitalize(key),
       paginas,
     }))
-    .sort((a, b) => a.label.localeCompare(b.label));
+    .sort((a, b) => {
+      // El grupo "home" siempre arriba.
+      if (a.key === "home") return -1;
+      if (b.key === "home") return 1;
+      return a.label.localeCompare(b.label);
+    });
 }
 
 export function PaginasListClient({
@@ -256,7 +262,7 @@ export function PaginasListClient({
                       fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
                     }}
                   >
-                    /{group.key}
+                    {group.key === "home" ? "/" : `/${group.key}`}
                   </span>
                   <span
                     className="inline-flex items-center px-2 rounded-full ml-auto"
@@ -361,7 +367,7 @@ export function PaginasListClient({
                                       "ui-monospace, SFMono-Regular, Menlo, monospace",
                                   }}
                                 >
-                                  /{p.slug}
+                                  {p.slug === "/" ? "/" : `/${p.slug}`}
                                 </code>
                                 <span style={{ fontSize: 11, color: "#A0AABA" }}>
                                   ·
@@ -381,7 +387,7 @@ export function PaginasListClient({
                           </Link>
                           {p.publicada && (
                             <a
-                              href={`/${p.slug}`}
+                              href={p.slug === "/" ? "/" : `/${p.slug}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="flex items-center gap-1 px-2 transition-opacity hover:opacity-70 flex-shrink-0"

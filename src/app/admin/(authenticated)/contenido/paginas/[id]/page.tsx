@@ -17,6 +17,7 @@ import {
   type ContenidoPlantillaJ,
   type ContenidoPlantillaK,
   type ContenidoPlantillaL,
+  type ContenidoPlantillaM,
 } from "../../plantillas";
 import { EditorPlantillaA } from "./EditorPlantillaA";
 import { EditorPlantillaB } from "./EditorPlantillaB";
@@ -29,6 +30,7 @@ import { EditorPlantillaI } from "./EditorPlantillaI";
 import { EditorPlantillaJ } from "./EditorPlantillaJ";
 import { EditorPlantillaK } from "./EditorPlantillaK";
 import { EditorPlantillaL } from "./EditorPlantillaL";
+import { EditorPlantillaM } from "./EditorPlantillaM";
 import { EliminarPaginaClient } from "./EliminarPaginaClient";
 
 export default async function EditarPaginaPage({
@@ -248,6 +250,18 @@ export default async function EditarPaginaPage({
         />
       )}
 
+      {pagina.plantilla === "tpl_m_home" && (
+        <EditorPlantillaM
+          paginaId={pagina.id}
+          slug={pagina.slug}
+          initialTitulo={pagina.titulo}
+          initialContenido={pagina.contenido as ContenidoPlantillaM}
+          initialMetaTitle={pagina.meta_title ?? ""}
+          initialMetaDescription={pagina.meta_description ?? ""}
+          initialPublicada={pagina.publicada}
+        />
+      )}
+
       {pagina.plantilla !== "tpl_a_hero_texto" &&
         pagina.plantilla !== "tpl_b_hero_grid" &&
         pagina.plantilla !== "tpl_c_hero_pasos" &&
@@ -258,7 +272,8 @@ export default async function EditarPaginaPage({
         pagina.plantilla !== "tpl_i_historia" &&
         pagina.plantilla !== "tpl_j_landing_matriculas" &&
         pagina.plantilla !== "tpl_k_ficha_servicio" &&
-        pagina.plantilla !== "tpl_l_ficha_espacio" && (
+        pagina.plantilla !== "tpl_l_ficha_espacio" &&
+        pagina.plantilla !== "tpl_m_home" && (
         <div
           className="px-5 py-4 rounded-md"
           style={{ background: "#FEF3C7", border: "1px solid #FDE68A" }}
