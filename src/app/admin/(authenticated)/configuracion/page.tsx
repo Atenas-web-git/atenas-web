@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Calendar, FileCheck2, CalendarClock, Palette, ArrowRight } from "lucide-react";
+import { Calendar, FileCheck2, CalendarClock, Palette, Phone, Code, Menu, Search, ArrowRight } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole, hasRole } from "@/lib/auth/types";
 
@@ -10,6 +10,34 @@ const SECCIONES = [
     title: "Marca / Identidad visual",
     description: "Logos, paleta de colores, tipografía e información institucional global. Los colores se aplican a todo el sitio público.",
     icon: Palette,
+    onlySuperadmin: true,
+  },
+  {
+    href: "/admin/configuracion/contacto",
+    title: "Contacto",
+    description: "Teléfonos, emails, redes sociales y WhatsApp del FloatingBoot. Se usan en footer, página de contacto, JSON-LD del SEO.",
+    icon: Phone,
+    onlySuperadmin: true,
+  },
+  {
+    href: "/admin/configuracion/integraciones",
+    title: "Integraciones",
+    description: "IDs de tracking (GTM, GA4, Facebook Pixel, TikTok Pixel), Calendly y códigos de verificación. Scripts se inyectan solo si están configurados.",
+    icon: Code,
+    onlySuperadmin: true,
+  },
+  {
+    href: "/admin/configuracion/mega-menu",
+    title: "Mega-menú",
+    description: "Estructura del menú principal: categorías y sub-items (Quiénes Somos, Académico, Servicios, etc.). Cada item enlaza a páginas internas o externas.",
+    icon: Menu,
+    onlySuperadmin: true,
+  },
+  {
+    href: "/admin/configuracion/seo",
+    title: "SEO defaults",
+    description: "Metadatos por defecto del sitio: title template, description, keywords, OG image, twitter card, robots. Cada página puede sobrescribir con su meta_title y meta_description.",
+    icon: Search,
     onlySuperadmin: true,
   },
   {

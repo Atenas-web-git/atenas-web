@@ -65,10 +65,10 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
   tpl_e_hero_galeria: {
     slug: "tpl_e_hero_galeria",
     letra: "E",
-    nombre: "Hero + galería",
-    descripcion: "Hero seguido de una galería de imágenes (3 columnas o collage).",
-    ejemploSlugs: ["reconocimientos/*"],
-    implementada: false,
+    nombre: "Hero + showcase + logros + galería",
+    descripcion: "Hero con ghost text + showcase opcional de 4 cards de disciplinas (solo en landings) + grid de logros destacados con icono+título+año+categoría+fotos+highlight + galería en collage. Usada para Reconocimientos académicos/deportivos (landings + detalles por slug).",
+    ejemploSlugs: ["reconocimientos/academicos", "reconocimientos/academicos/olimpiadas", "reconocimientos/deportivos", "reconocimientos/deportivos/futbol"],
+    implementada: true,
   },
   tpl_f_hero_academico: {
     slug: "tpl_f_hero_academico",
@@ -1501,6 +1501,110 @@ export function defaultContenidoPlantillaM(): ContenidoPlantillaM {
         { label: "", mobileLabel: "", title: "", mobileTitle: "", desc: "", img: "", href: "/academico/ib" },
         { label: "", mobileLabel: "", title: "", mobileTitle: "", desc: "", img: "", href: "/matriculas" },
       ],
+    },
+  };
+}
+
+// ─── Plantilla E (Reconocimientos: Hero + Showcase + Logros + Galería) ───────
+
+/** Item del showcase de disciplinas (solo en landings). */
+export type ShowcaseItemPlantillaE = {
+  /** Slug que se concatena con `basePath` para construir el link de la card. */
+  slug: string;
+  /** Emoji que aparece dentro del círculo del showcase. */
+  icon: string;
+  /** Nombre visible de la disciplina. */
+  nombre: string;
+  /**
+   * Contador grande. Puede ser número entero (`20`), texto ("95%", "Top 5"),
+   * etc. Se pinta tal cual.
+   */
+  count: number | string;
+  /** Etiqueta bajo el contador (ej. "Medallas obtenidas"). */
+  countLabel: string;
+  /** Foto que aparece detrás del círculo en hover. */
+  photoSrc: string;
+  /** Prefijo del link: `${basePath}/${slug}`. */
+  basePath: string;
+};
+
+/** Logro destacado (tarjeta principal del componente LogrosDestacados). */
+export type LogroPlantillaE = {
+  /** Emoji al inicio (ej. "🥇", "★"). */
+  icon: string;
+  /** Categoría corta (ej. "Olimpiadas", "Diploma IB"). */
+  deporte: string;
+  titulo: string;
+  /** Año (ej. "2023"). */
+  year: string;
+  /** Subcategoría o competencia (ej. "Olimpiada Nacional Estudiantil"). */
+  categoria: string;
+  /** Fotos del logro (típicamente 2-4). */
+  photos: string[];
+  /** Si true, la tarjeta se pinta con borde dorado / acento destacado. */
+  highlight?: boolean;
+};
+
+export type FotoGaleriaPlantillaE = {
+  src: string;
+  alt: string;
+};
+
+export type ContenidoPlantillaE = {
+  hero: {
+    badge?: string;
+    title: string;
+    subtitle?: string;
+    ghostText?: string;
+    footnote?: string;
+    bgImageSrc?: string;
+  };
+  /**
+   * Bloque opcional. Solo se usa en las landings (`/reconocimientos/academicos`
+   * y `/reconocimientos/deportivos`). En los detalles por slug
+   * (`/reconocimientos/academicos/olimpiadas`, etc.) se ignora.
+   * Si `items` está vacío, el bloque no se renderiza.
+   */
+  showcase: {
+    /** Href del botón "Ver todos" en la barra superior del showcase. */
+    verTodosHref: string;
+    items: ShowcaseItemPlantillaE[];
+  };
+  logros: {
+    /** Encabezado h2 del bloque. */
+    heading: string;
+    /** Subtítulo descriptivo. */
+    subheading: string;
+    items: LogroPlantillaE[];
+  };
+  galeria: {
+    titulo: string;
+    subtitulo: string;
+    photos: FotoGaleriaPlantillaE[];
+  };
+};
+
+export function defaultContenidoPlantillaE(): ContenidoPlantillaE {
+  return {
+    hero: {
+      badge: "RECONOCIMIENTOS",
+      title: "Nueva sección de reconocimientos",
+      subtitle: "",
+      ghostText: "",
+    },
+    showcase: {
+      verTodosHref: "",
+      items: [],
+    },
+    logros: {
+      heading: "Nuestros logros",
+      subheading: "Toca los puntos de cada tarjeta para navegar entre las fotos.",
+      items: [],
+    },
+    galeria: {
+      titulo: "Galería",
+      subtitulo: "Momentos que celebramos juntos",
+      photos: [],
     },
   };
 }

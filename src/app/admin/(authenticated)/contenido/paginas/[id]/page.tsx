@@ -10,6 +10,7 @@ import {
   type ContenidoPlantillaB,
   type ContenidoPlantillaC,
   type ContenidoPlantillaD,
+  type ContenidoPlantillaE,
   type ContenidoPlantillaF,
   type ContenidoPlantillaG,
   type ContenidoPlantillaH,
@@ -23,6 +24,7 @@ import { EditorPlantillaA } from "./EditorPlantillaA";
 import { EditorPlantillaB } from "./EditorPlantillaB";
 import { EditorPlantillaC } from "./EditorPlantillaC";
 import { EditorPlantillaD } from "./EditorPlantillaD";
+import { EditorPlantillaE } from "./EditorPlantillaE";
 import { EditorPlantillaF } from "./EditorPlantillaF";
 import { EditorPlantillaG } from "./EditorPlantillaG";
 import { EditorPlantillaH } from "./EditorPlantillaH";
@@ -166,6 +168,18 @@ export default async function EditarPaginaPage({
         />
       )}
 
+      {pagina.plantilla === "tpl_e_hero_galeria" && (
+        <EditorPlantillaE
+          paginaId={pagina.id}
+          slug={pagina.slug}
+          initialTitulo={pagina.titulo}
+          initialContenido={pagina.contenido as ContenidoPlantillaE}
+          initialMetaTitle={pagina.meta_title ?? ""}
+          initialMetaDescription={pagina.meta_description ?? ""}
+          initialPublicada={pagina.publicada}
+        />
+      )}
+
       {pagina.plantilla === "tpl_f_hero_academico" && (
         <EditorPlantillaF
           paginaId={pagina.id}
@@ -266,6 +280,7 @@ export default async function EditarPaginaPage({
         pagina.plantilla !== "tpl_b_hero_grid" &&
         pagina.plantilla !== "tpl_c_hero_pasos" &&
         pagina.plantilla !== "tpl_d_hero_detalle" &&
+        pagina.plantilla !== "tpl_e_hero_galeria" &&
         pagina.plantilla !== "tpl_f_hero_academico" &&
         pagina.plantilla !== "tpl_g_landing_ib" &&
         pagina.plantilla !== "tpl_h_landing_niveles" &&

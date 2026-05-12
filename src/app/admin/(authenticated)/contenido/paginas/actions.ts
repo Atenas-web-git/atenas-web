@@ -149,6 +149,29 @@ export async function crearPaginaAction(
         acentoPrimeraColumna: true,
       },
     };
+  } else if (plantilla === "tpl_e_hero_galeria") {
+    contenidoDefault = {
+      hero: {
+        badge: "RECONOCIMIENTOS",
+        title: titulo,
+        subtitle: "",
+        ghostText: titulo.toUpperCase(),
+      },
+      showcase: {
+        verTodosHref: "",
+        items: [],
+      },
+      logros: {
+        heading: `Nuestros logros en ${titulo}`,
+        subheading: "Toca los puntos de cada tarjeta para navegar entre las fotos del reconocimiento.",
+        items: [],
+      },
+      galeria: {
+        titulo: `Galería — ${titulo}`,
+        subtitulo: "Momentos que celebramos juntos",
+        photos: [],
+      },
+    };
   } else if (plantilla === "tpl_f_hero_academico") {
     contenidoDefault = {
       hero: {

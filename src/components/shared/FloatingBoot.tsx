@@ -4,10 +4,19 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
-const WHATSAPP_NUMBER = "593997622994";
-const WHATSAPP_MESSAGE = "Hola, me gustaría recibir información sobre la Unidad Educativa Atenas.";
+type Props = {
+  /** Número WhatsApp internacional sin signos (ej. "593997622994"). */
+  numero: string;
+  /** Mensaje pre-llenado en el chat. */
+  mensaje: string;
+  /** Si el FloatingBoot está habilitado globalmente. Si false, no renderiza. */
+  activo: boolean;
+};
 
-export function FloatingBoot() {
+const DEFAULT_NUMERO = "593997622994";
+const DEFAULT_MENSAJE = "Hola, me gustaría recibir información sobre la Unidad Educativa Atenas.";
+
+export function FloatingBoot({ numero, mensaje, activo }: Props) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -15,6 +24,7 @@ export function FloatingBoot() {
 
   // Ocultar el botón flotante en el backoffice (no aplica a usuarios admin).
   if (pathname?.startsWith("/admin")) return null;
+  if (!activo) return null;
 
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 800);
@@ -31,7 +41,10 @@ export function FloatingBoot() {
     return () => window.removeEventListener("atenas:megamenu", handler);
   }, []);
 
-  const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+  // Sanitización defensiva: si el CMS devuelve algo inválido caemos a defaults.
+  const safeNumero = (numero || "").replace(/[^0-9]/g, "") || DEFAULT_NUMERO;
+  const safeMensaje = mensaje?.trim() || DEFAULT_MENSAJE;
+  const waUrl = `https://wa.me/${safeNumero}?text=${encodeURIComponent(safeMensaje)}`;
 
   return (
     <AnimatePresence>

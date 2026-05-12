@@ -35,7 +35,11 @@ supabase/
 │   ├── 027_seed_quejas_formulario.sql           añade bloque `formulario` editable a /servicios/quejas-sugerencias (textos + tipos + destinatario + asunto del email Resend) (sesión 28)
 │   ├── 028_seed_home_plantilla_m.sql            amplía CHECK constraint con tpl_m + seed del Home / con 6 bloques (Hero con video YouTube + Tagline + HScroll 4 slides + Trayectoria + Niveles + Por qué Atenas) (sesión 29)
 │   ├── 029_home_slug_y_nuevos_campos.sql        rename slug "home" → "/" + añade badgeText, imagenSecundaria, href (Niveles), href (PorQueAtenas) a la fila del Home (sesión 29)
-│   └── 030_seed_marca.sql                       Identidad visual editable (Fase 4): seed inicial de `configuracion_global[marca]` con logos, paleta, tipografía e info institucional. Inyectado como CSS variables en root layout (sesión 29)
+│   ├── 030_seed_marca.sql                       Identidad visual editable (Fase 4): seed inicial de `configuracion_global[marca]` con logos, paleta, tipografía e info institucional. Inyectado como CSS variables en root layout (sesión 29)
+│   ├── 031_seed_contacto_integraciones.sql      Contacto + Integraciones globales (Fase 4): seed inicial de `configuracion_global[contacto]` (teléfonos, emails, redes, WhatsApp del FloatingBoot, horario) e `[integraciones]` (GTM, GA4, FB Pixel, TikTok Pixel, Calendly, verificaciones). Scripts se inyectan en root layout solo si hay ID (sesión 30)
+│   ├── 032_menu_items.sql                       Mega-menú editable (Fase 4): tabla `menu_items` con árbol jerárquico (parent_id), RLS pública para items visibles, seed con las 9 categorías y 39 sub-items actuales. El Navbar lee de aquí; fallback a hardcoded si la tabla está vacía (sesión 30)
+│   ├── 033_seed_seo_defaults.sql                SEO defaults globales (Fase 4): seed de `configuracion_global[seo]` con title default/template, description, keywords, OG image, twitter card, locale, robots. El root layout convierte `metadata` estático a `generateMetadata()` async que lee de aquí (sesión 30)
+│   └── 034_seed_reconocimientos_plantilla_e.sql Plantilla E implementada (Fase 4 — cierra catálogo A–M): seed de 10 páginas (2 landings + 4 detalles académicos + 4 detalles deportivos) en /reconocimientos/* con plantilla E (Hero + Showcase opcional + Logros + Galería). `tpl_e_hero_galeria` ya está en el CHECK desde la 026 (sesión 30)
 ├── seed/
 │   ├── roles.sql                  cataloga los 4 roles del backoffice
 │   └── plantillas_correo.sql      6 plantillas iniciales del pipeline (ejecutar UNA SOLA VEZ)
@@ -78,10 +82,14 @@ Ejecutar en `Supabase Dashboard → SQL Editor`, en este orden:
 29. `migrations/028_seed_home_plantilla_m.sql` (amplía CHECK constraint con tpl_m + seed del Home con 6 bloques; idempotente)
 30. `migrations/029_home_slug_y_nuevos_campos.sql` (rename slug "home" → "/" + añade badgeText, imagenSecundaria, href; idempotente — cada UPDATE solo aplica si el cambio no existe)
 31. `migrations/030_seed_marca.sql` (seed inicial de identidad visual editable en `configuracion_global[marca]`; idempotente — solo siembra si la clave no existe)
-32. `seed/roles.sql`
-33. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)
-34. Crear primer usuario en `Authentication → Users` (UI)
-35. `scripts/create_first_superadmin.sql` reemplazando `<USER_UUID>` por el UID del paso 34
+32. `migrations/031_seed_contacto_integraciones.sql` (seed inicial de canales de contacto + claves API de integraciones en `configuracion_global`; idempotente)
+33. `migrations/032_menu_items.sql` (tabla `menu_items` con árbol + RLS + seed con la estructura actual del mega-menú; idempotente — solo siembra si la tabla está vacía)
+34. `migrations/033_seed_seo_defaults.sql` (seed inicial de SEO defaults globales en `configuracion_global[seo]`; idempotente — solo siembra si la clave no existe)
+35. `migrations/034_seed_reconocimientos_plantilla_e.sql` (seed de las 10 páginas de reconocimientos con plantilla E; idempotente)
+36. `seed/roles.sql`
+37. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)
+38. Crear primer usuario en `Authentication → Users` (UI)
+39. `scripts/create_first_superadmin.sql` reemplazando `<USER_UUID>` por el UID del paso 38
 
 ## Variables de entorno requeridas
 
