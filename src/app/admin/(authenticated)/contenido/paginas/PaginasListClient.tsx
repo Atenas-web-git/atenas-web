@@ -8,6 +8,7 @@ import {
   FileEdit,
   Globe,
   Search,
+  Trophy,
 } from "lucide-react";
 import { PLANTILLAS } from "../plantillas";
 
@@ -20,14 +21,30 @@ type PaginaRow = {
   updated_at: string | null;
 };
 
+export type ModuloRow = {
+  moduleKey: "reconocimientos";
+  id: string;
+  slug: string;
+  titulo: string;
+  visible: boolean;
+  updated_at: string | null;
+  editHref: string;
+  publicHref: string;
+  badge: string;
+};
+
 type Tab = { key: string; label: string; count: number; isActive: boolean; href: string };
+
+type UnifiedRow =
+  | { kind: "pagina"; row: PaginaRow }
+  | { kind: "modulo"; row: ModuloRow };
 
 type Group = {
   /** Clave del grupo: primer segmento del slug (ej. "el-atenas", "matriculas"). */
   key: string;
   /** Etiqueta visible (capitalizada). */
   label: string;
-  paginas: PaginaRow[];
+  rows: UnifiedRow[];
 };
 
 function formatDate(iso: string | null): string {
@@ -46,26 +63,34 @@ function capitalize(s: string): string {
     .join(" ");
 }
 
+function getSlug(row: UnifiedRow): string {
+  return row.kind === "pagina" ? row.row.slug : row.row.slug;
+}
+function getTitulo(row: UnifiedRow): string {
+  return row.kind === "pagina" ? row.row.titulo : row.row.titulo;
+}
+
 /**
- * Agrupa páginas por el primer segmento del slug. Mantiene orden alfabético
- * del grupo. La página Home (slug "/") tiene su propio grupo "home" para que
- * aparezca primero (su label es "Home"), y se muestra arriba del listado.
+ * Agrupa filas (páginas + módulos) por el primer segmento del slug. La página
+ * Home (slug "/") tiene su propio grupo "home" arriba. El grupo "reconocimientos"
+ * agrupa todas las filas del módulo Reconocimientos.
  */
-function groupBySlugRoot(paginas: PaginaRow[]): Group[] {
-  const map = new Map<string, PaginaRow[]>();
-  for (const p of paginas) {
-    const root = p.slug === "/" ? "home" : p.slug.split("/")[0] || p.slug;
+function groupBySlugRoot(rows: UnifiedRow[]): Group[] {
+  const map = new Map<string, UnifiedRow[]>();
+  for (const r of rows) {
+    const slug = getSlug(r);
+    const root = slug === "/" ? "home" : slug.split("/")[0] || slug;
     if (!map.has(root)) map.set(root, []);
-    map.get(root)!.push(p);
+    map.get(root)!.push(r);
   }
   for (const list of map.values()) {
-    list.sort((a, b) => a.slug.localeCompare(b.slug));
+    list.sort((a, b) => getSlug(a).localeCompare(getSlug(b)));
   }
   return Array.from(map.entries())
-    .map(([key, paginas]) => ({
+    .map(([key, rows]) => ({
       key,
       label: key === "home" ? "Home" : capitalize(key),
-      paginas,
+      rows,
     }))
     .sort((a, b) => {
       // El grupo "home" siempre arriba.
@@ -77,9 +102,11 @@ function groupBySlugRoot(paginas: PaginaRow[]): Group[] {
 
 export function PaginasListClient({
   paginas,
+  moduloRows,
   tabs,
 }: {
   paginas: PaginaRow[];
+  moduloRows: ModuloRow[];
   tabs: Tab[];
 }) {
   const [query, setQuery] = useState("");
@@ -87,21 +114,25 @@ export function PaginasListClient({
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   const groups = useMemo(() => {
+    const allRows: UnifiedRow[] = [
+      ...paginas.map((p) => ({ kind: "pagina" as const, row: p })),
+      ...moduloRows.map((m) => ({ kind: "modulo" as const, row: m })),
+    ];
     const q = query.trim().toLowerCase();
     const filtradas = q
-      ? paginas.filter(
-          (p) =>
-            p.titulo.toLowerCase().includes(q) ||
-            p.slug.toLowerCase().includes(q)
-        )
-      : paginas;
+      ? allRows.filter((r) => {
+          const t = getTitulo(r).toLowerCase();
+          const s = getSlug(r).toLowerCase();
+          return t.includes(q) || s.includes(q);
+        })
+      : allRows;
     return groupBySlugRoot(filtradas);
-  }, [paginas, query]);
+  }, [paginas, moduloRows, query]);
 
   const toggle = (key: string) =>
     setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
 
-  const totalVisibles = groups.reduce((sum, g) => sum + g.paginas.length, 0);
+  const totalVisibles = groups.reduce((sum, g) => sum + g.rows.length, 0);
 
   return (
     <div className="flex flex-col gap-4">
@@ -275,137 +306,31 @@ export function PaginasListClient({
                       letterSpacing: 0.3,
                     }}
                   >
-                    {group.paginas.length} pág
-                    {group.paginas.length === 1 ? "" : "s"}.
+                    {group.rows.length} pág
+                    {group.rows.length === 1 ? "" : "s"}.
                   </span>
                 </button>
 
-                {/* Filas de páginas */}
+                {/* Filas */}
                 {!isCollapsed && (
                   <ul className="flex flex-col">
-                    {group.paginas.map((p, i) => {
-                      const tpl =
-                        PLANTILLAS[p.plantilla as keyof typeof PLANTILLAS];
+                    {group.rows.map((row, i) => {
+                      const isLast = i === group.rows.length - 1;
+                      if (row.kind === "pagina") {
+                        return (
+                          <PaginaListItem
+                            key={row.row.id}
+                            pagina={row.row}
+                            isLast={isLast}
+                          />
+                        );
+                      }
                       return (
-                        <li
-                          key={p.id}
-                          className="flex items-center gap-3 px-6 py-4"
-                          style={{
-                            borderBottom:
-                              i === group.paginas.length - 1
-                                ? "none"
-                                : "1px solid #F4F1EB",
-                          }}
-                        >
-                          <Link
-                            href={`/admin/contenido/paginas/${p.id}`}
-                            className="flex items-center gap-4 flex-1 min-w-0 transition-opacity hover:opacity-80"
-                            style={{ textDecoration: "none" }}
-                          >
-                            <div
-                              className="flex items-center justify-center flex-shrink-0"
-                              style={{
-                                width: 36,
-                                height: 36,
-                                background: "#F4F1EB",
-                                borderRadius: 8,
-                              }}
-                            >
-                              <FileEdit
-                                size={16}
-                                color="#1A2B4A"
-                                strokeWidth={2}
-                              />
-                            </div>
-                            <div className="flex-1 flex flex-col gap-1 min-w-0">
-                              <div className="flex items-center gap-2 flex-wrap">
-                                <span
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 700,
-                                    color: "#1A2B4A",
-                                  }}
-                                >
-                                  {p.titulo}
-                                </span>
-                                <span
-                                  className="inline-flex items-center px-2 rounded-full"
-                                  style={{
-                                    height: 20,
-                                    background: p.publicada
-                                      ? "#D1FAE5"
-                                      : "#F4F1EB",
-                                    fontSize: 10,
-                                    fontWeight: 700,
-                                    color: p.publicada ? "#065F46" : "#6B6660",
-                                    letterSpacing: 0.3,
-                                  }}
-                                >
-                                  {p.publicada ? "Publicada" : "Borrador"}
-                                </span>
-                                <span
-                                  className="inline-flex items-center px-2 rounded-full"
-                                  style={{
-                                    height: 20,
-                                    background: "#EFF6FF",
-                                    fontSize: 10,
-                                    fontWeight: 700,
-                                    color: "#1E40AF",
-                                    letterSpacing: 0.3,
-                                  }}
-                                  title={tpl?.nombre ?? p.plantilla}
-                                >
-                                  Plantilla {tpl?.letra ?? "?"}
-                                </span>
-                              </div>
-                              <div className="flex items-center gap-3 flex-wrap">
-                                <code
-                                  style={{
-                                    fontSize: 11,
-                                    color: "#6B6660",
-                                    fontFamily:
-                                      "ui-monospace, SFMono-Regular, Menlo, monospace",
-                                  }}
-                                >
-                                  {p.slug === "/" ? "/" : `/${p.slug}`}
-                                </code>
-                                <span style={{ fontSize: 11, color: "#A0AABA" }}>
-                                  ·
-                                </span>
-                                <span
-                                  style={{ fontSize: 11, color: "#A0AABA" }}
-                                >
-                                  Editado {formatDate(p.updated_at)}
-                                </span>
-                              </div>
-                            </div>
-                            <ChevronRight
-                              size={16}
-                              color="#A0AABA"
-                              strokeWidth={2}
-                            />
-                          </Link>
-                          {p.publicada && (
-                            <a
-                              href={p.slug === "/" ? "/" : `/${p.slug}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center gap-1 px-2 transition-opacity hover:opacity-70 flex-shrink-0"
-                              style={{
-                                height: 28,
-                                fontSize: 11,
-                                color: "#C9A84C",
-                                fontWeight: 600,
-                                textDecoration: "none",
-                                borderRadius: 4,
-                              }}
-                              title="Ver página pública"
-                            >
-                              <Globe size={11} strokeWidth={2.5} />
-                              Ver pública
-                            </a>
-                          )}
-                        </li>
+                        <ModuloListItem
+                          key={row.row.id}
+                          fila={row.row}
+                          isLast={isLast}
+                        />
                       );
                     })}
                   </ul>
@@ -416,5 +341,198 @@ export function PaginasListClient({
         </div>
       )}
     </div>
+  );
+}
+
+function PaginaListItem({ pagina: p, isLast }: { pagina: PaginaRow; isLast: boolean }) {
+  const tpl = PLANTILLAS[p.plantilla as keyof typeof PLANTILLAS];
+  return (
+    <li
+      className="flex items-center gap-3 px-6 py-4"
+      style={{ borderBottom: isLast ? "none" : "1px solid #F4F1EB" }}
+    >
+      <Link
+        href={`/admin/contenido/paginas/${p.id}`}
+        className="flex items-center gap-4 flex-1 min-w-0 transition-opacity hover:opacity-80"
+        style={{ textDecoration: "none" }}
+      >
+        <div
+          className="flex items-center justify-center flex-shrink-0"
+          style={{ width: 36, height: 36, background: "#F4F1EB", borderRadius: 8 }}
+        >
+          <FileEdit size={16} color="#1A2B4A" strokeWidth={2} />
+        </div>
+        <div className="flex-1 flex flex-col gap-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A" }}>
+              {p.titulo}
+            </span>
+            <span
+              className="inline-flex items-center px-2 rounded-full"
+              style={{
+                height: 20,
+                background: p.publicada ? "#D1FAE5" : "#F4F1EB",
+                fontSize: 10,
+                fontWeight: 700,
+                color: p.publicada ? "#065F46" : "#6B6660",
+                letterSpacing: 0.3,
+              }}
+            >
+              {p.publicada ? "Publicada" : "Borrador"}
+            </span>
+            <span
+              className="inline-flex items-center px-2 rounded-full"
+              style={{
+                height: 20,
+                background: "#EFF6FF",
+                fontSize: 10,
+                fontWeight: 700,
+                color: "#1E40AF",
+                letterSpacing: 0.3,
+              }}
+              title={tpl?.nombre ?? p.plantilla}
+            >
+              Plantilla {tpl?.letra ?? "?"}
+            </span>
+          </div>
+          <div className="flex items-center gap-3 flex-wrap">
+            <code
+              style={{
+                fontSize: 11,
+                color: "#6B6660",
+                fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+              }}
+            >
+              {p.slug === "/" ? "/" : `/${p.slug}`}
+            </code>
+            <span style={{ fontSize: 11, color: "#A0AABA" }}>·</span>
+            <span style={{ fontSize: 11, color: "#A0AABA" }}>
+              Editado {formatDate(p.updated_at)}
+            </span>
+          </div>
+        </div>
+        <ChevronRight size={16} color="#A0AABA" strokeWidth={2} />
+      </Link>
+      {p.publicada && (
+        <a
+          href={p.slug === "/" ? "/" : `/${p.slug}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1 px-2 transition-opacity hover:opacity-70 flex-shrink-0"
+          style={{
+            height: 28,
+            fontSize: 11,
+            color: "#C9A84C",
+            fontWeight: 600,
+            textDecoration: "none",
+            borderRadius: 4,
+          }}
+          title="Ver página pública"
+        >
+          <Globe size={11} strokeWidth={2.5} />
+          Ver pública
+        </a>
+      )}
+    </li>
+  );
+}
+
+function ModuloListItem({ fila, isLast }: { fila: ModuloRow; isLast: boolean }) {
+  return (
+    <li
+      className="flex items-center gap-3 px-6 py-4"
+      style={{
+        borderBottom: isLast ? "none" : "1px solid #F4F1EB",
+        background: "linear-gradient(90deg, rgba(201,168,76,0.05) 0%, transparent 100%)",
+      }}
+    >
+      <Link
+        href={fila.editHref}
+        className="flex items-center gap-4 flex-1 min-w-0 transition-opacity hover:opacity-80"
+        style={{ textDecoration: "none" }}
+      >
+        <div
+          className="flex items-center justify-center flex-shrink-0"
+          style={{
+            width: 36,
+            height: 36,
+            background: "rgba(201,168,76,0.18)",
+            borderRadius: 8,
+          }}
+        >
+          <Trophy size={16} color="#7A6224" strokeWidth={2.2} />
+        </div>
+        <div className="flex-1 flex flex-col gap-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A" }}>
+              {fila.titulo}
+            </span>
+            <span
+              className="inline-flex items-center px-2 rounded-full"
+              style={{
+                height: 20,
+                background: fila.visible ? "#D1FAE5" : "#F4F1EB",
+                fontSize: 10,
+                fontWeight: 700,
+                color: fila.visible ? "#065F46" : "#6B6660",
+                letterSpacing: 0.3,
+              }}
+            >
+              {fila.visible ? "Publicada" : "Borrador"}
+            </span>
+            <span
+              className="inline-flex items-center px-2 rounded-full"
+              style={{
+                height: 20,
+                background: "rgba(201,168,76,0.20)",
+                fontSize: 10,
+                fontWeight: 700,
+                color: "#7A6224",
+                letterSpacing: 0.3,
+              }}
+              title="Gestionada desde el módulo Reconocimientos"
+            >
+              {fila.badge} · Reconocimientos
+            </span>
+          </div>
+          <div className="flex items-center gap-3 flex-wrap">
+            <code
+              style={{
+                fontSize: 11,
+                color: "#6B6660",
+                fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+              }}
+            >
+              /{fila.slug}
+            </code>
+            <span style={{ fontSize: 11, color: "#A0AABA" }}>·</span>
+            <span style={{ fontSize: 11, color: "#A0AABA" }}>
+              Editado {formatDate(fila.updated_at)}
+            </span>
+          </div>
+        </div>
+        <ChevronRight size={16} color="#A0AABA" strokeWidth={2} />
+      </Link>
+      {fila.visible && (
+        <a
+          href={fila.publicHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1 px-2 transition-opacity hover:opacity-70 flex-shrink-0"
+          style={{
+            height: 28,
+            fontSize: 11,
+            color: "#C9A84C",
+            fontWeight: 600,
+            textDecoration: "none",
+            borderRadius: 4,
+          }}
+          title="Ver página pública"
+        >
+          <Globe size={11} strokeWidth={2.5} />
+          Ver pública
+        </a>
+      )}
+    </li>
   );
 }

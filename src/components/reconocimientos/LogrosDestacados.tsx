@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useState, useRef } from "react";
 
@@ -20,7 +21,9 @@ interface Props {
   heading: string;
   subheading: string;
   logros: LogroDestacado[];
-  onVerGaleria?: () => void;
+  /** Si se pasa, muestra un botón "Ver todos los logros →" abajo de las cards. */
+  verTodosHref?: string;
+  verTodosLabel?: string;
 }
 
 function LogroCard({ logro, index, inView }: { logro: LogroDestacado; index: number; inView: boolean }) {
@@ -119,7 +122,13 @@ function LogroCard({ logro, index, inView }: { logro: LogroDestacado; index: num
   );
 }
 
-export function LogrosDestacados({ heading, subheading, logros, onVerGaleria }: Props) {
+export function LogrosDestacados({
+  heading,
+  subheading,
+  logros,
+  verTodosHref,
+  verTodosLabel = "Ver todos los logros",
+}: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.08 });
 
@@ -175,39 +184,39 @@ export function LogrosDestacados({ heading, subheading, logros, onVerGaleria }: 
           ))}
         </div>
 
-        {/* Ver galería completa */}
-        <motion.div
-          className="flex justify-center"
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.55, ease }}
-        >
-          <motion.button
-            onClick={onVerGaleria}
-            className="flex items-center gap-3 rounded-[10px] px-7 py-[14px]"
-            style={{
-              fontFamily: "Poppins, sans-serif",
-              fontSize: 13,
-              fontWeight: 700,
-              color: "#C9A84C",
-              background: "rgba(201,168,76,0.10)",
-              border: "1.5px solid rgba(201,168,76,0.45)",
-              cursor: "pointer",
-            }}
-            whileHover={{ scale: 1.03, borderColor: "rgba(201,168,76,0.80)" }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ duration: 0.2 }}
+        {verTodosHref && (
+          <motion.div
+            className="flex justify-center"
+            initial={{ opacity: 0, y: 16 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.55, ease }}
           >
-            Ver galería completa
-            <motion.span
-              animate={{ x: [0, 4, 0] }}
-              transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-              style={{ fontSize: 14, fontWeight: 700 }}
-            >
-              →
-            </motion.span>
-          </motion.button>
-        </motion.div>
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} transition={{ duration: 0.2 }}>
+              <Link
+                href={verTodosHref}
+                className="flex items-center gap-3 rounded-[10px] px-7 py-[14px]"
+                style={{
+                  fontFamily: "Poppins, sans-serif",
+                  fontSize: 13,
+                  fontWeight: 700,
+                  color: "#C9A84C",
+                  background: "rgba(201,168,76,0.10)",
+                  border: "1.5px solid rgba(201,168,76,0.45)",
+                  textDecoration: "none",
+                }}
+              >
+                {verTodosLabel}
+                <motion.span
+                  animate={{ x: [0, 4, 0] }}
+                  transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+                  style={{ fontSize: 14, fontWeight: 700 }}
+                >
+                  →
+                </motion.span>
+              </Link>
+            </motion.div>
+          </motion.div>
+        )}
       </div>
     </section>
   );

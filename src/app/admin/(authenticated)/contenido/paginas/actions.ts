@@ -13,12 +13,34 @@ const SLUG_REGEX = /^[a-z0-9-]+(\/[a-z0-9-]+)*$/;
 function isValidSlug(slug: string): boolean {
   return slug === "/" || SLUG_REGEX.test(slug);
 }
+
+/**
+ * Slugs cuyo primer segmento no puede ser usado para páginas del CMS:
+ * o son rutas del sistema (admin, api), o son módulos dedicados que
+ * tienen su propia jerarquía y bloquearían la edición desde el editor
+ * genérico.
+ */
+const PRIMER_SEGMENTO_RESERVADO = new Set([
+  "admin",
+  "api",
+  "_next",
+  "_vercel",
+  "reconocimientos",
+  "documentos-institucionales",
+  "cronograma-anual",
+]);
+
+function isSlugReservado(slug: string): boolean {
+  if (slug === "/") return false; // Home es la excepción
+  const firstSegment = slug.split("/")[0];
+  return PRIMER_SEGMENTO_RESERVADO.has(firstSegment);
+}
+
 const PLANTILLAS_VALIDAS = [
   "tpl_a_hero_texto",
   "tpl_b_hero_grid",
   "tpl_c_hero_pasos",
   "tpl_d_hero_detalle",
-  "tpl_e_hero_galeria",
   "tpl_f_hero_academico",
   "tpl_g_landing_ib",
   "tpl_h_landing_niveles",
@@ -28,6 +50,22 @@ const PLANTILLAS_VALIDAS = [
   "tpl_l_ficha_espacio",
   "tpl_m_home",
 ];
+
+/**
+ * Plantillas K (ficha servicio) y L (ficha espacio) NO pueden usarse para
+ * páginas nuevas creadas desde el editor genérico porque dependen de datos
+ * hardcoded en /data/servicios.ts y /data/espacios.ts. Solo tienen sentido
+ * en las rutas físicas /servicios/[slug] y /espacios/[slug] con slugs que
+ * coincidan con un item existente en esos archivos.
+ *
+ * Las páginas ya creadas con esas plantillas (las 8 fichas /servicios/* y
+ * las 6 fichas /espacios/*) siguen siendo editables; solo se bloquea la
+ * creación de nuevas.
+ */
+const PLANTILLAS_BLOQUEADAS_NUEVAS = new Set([
+  "tpl_k_ficha_servicio",
+  "tpl_l_ficha_espacio",
+]);
 
 async function assertEditor() {
   const user = await getCurrentUser();
@@ -65,9 +103,23 @@ export async function crearPaginaAction(
       ok: false,
     };
   }
+  if (isSlugReservado(slug)) {
+    return {
+      error:
+        "Slug reservado. No puedes usar prefijos del sistema (admin, api) ni de módulos dedicados (reconocimientos, documentos-institucionales, cronograma-anual). Edita esos módulos desde su sección propia.",
+      ok: false,
+    };
+  }
   if (!titulo) return { error: "El título interno es obligatorio.", ok: false };
   if (!PLANTILLAS_VALIDAS.includes(plantilla)) {
     return { error: "Plantilla no válida.", ok: false };
+  }
+  if (PLANTILLAS_BLOQUEADAS_NUEVAS.has(plantilla)) {
+    return {
+      error:
+        "Esta plantilla solo se usa para fichas existentes de servicios y espacios. Para crear una página nueva con texto, hero y bloques, usa Plantilla A, B, C, D o F.",
+      ok: false,
+    };
   }
 
   const supabase = createAdminClient();
@@ -147,29 +199,6 @@ export async function crearPaginaAction(
         columnas: ["Concepto", "Detalle"],
         filas: [{ celdas: ["Primera fila", "—"] }],
         acentoPrimeraColumna: true,
-      },
-    };
-  } else if (plantilla === "tpl_e_hero_galeria") {
-    contenidoDefault = {
-      hero: {
-        badge: "RECONOCIMIENTOS",
-        title: titulo,
-        subtitle: "",
-        ghostText: titulo.toUpperCase(),
-      },
-      showcase: {
-        verTodosHref: "",
-        items: [],
-      },
-      logros: {
-        heading: `Nuestros logros en ${titulo}`,
-        subheading: "Toca los puntos de cada tarjeta para navegar entre las fotos del reconocimiento.",
-        items: [],
-      },
-      galeria: {
-        titulo: `Galería — ${titulo}`,
-        subtitulo: "Momentos que celebramos juntos",
-        photos: [],
       },
     };
   } else if (plantilla === "tpl_f_hero_academico") {

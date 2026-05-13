@@ -39,7 +39,10 @@ supabase/
 │   ├── 031_seed_contacto_integraciones.sql      Contacto + Integraciones globales (Fase 4): seed inicial de `configuracion_global[contacto]` (teléfonos, emails, redes, WhatsApp del FloatingBoot, horario) e `[integraciones]` (GTM, GA4, FB Pixel, TikTok Pixel, Calendly, verificaciones). Scripts se inyectan en root layout solo si hay ID (sesión 30)
 │   ├── 032_menu_items.sql                       Mega-menú editable (Fase 4): tabla `menu_items` con árbol jerárquico (parent_id), RLS pública para items visibles, seed con las 9 categorías y 39 sub-items actuales. El Navbar lee de aquí; fallback a hardcoded si la tabla está vacía (sesión 30)
 │   ├── 033_seed_seo_defaults.sql                SEO defaults globales (Fase 4): seed de `configuracion_global[seo]` con title default/template, description, keywords, OG image, twitter card, locale, robots. El root layout convierte `metadata` estático a `generateMetadata()` async que lee de aquí (sesión 30)
-│   └── 034_seed_reconocimientos_plantilla_e.sql Plantilla E implementada (Fase 4 — cierra catálogo A–M): seed de 10 páginas (2 landings + 4 detalles académicos + 4 detalles deportivos) en /reconocimientos/* con plantilla E (Hero + Showcase opcional + Logros + Galería). `tpl_e_hero_galeria` ya está en el CHECK desde la 026 (sesión 30)
+│   ├── 034_seed_reconocimientos_plantilla_e.sql Plantilla E implementada (Fase 4): seed de 10 páginas (2 landings + 4 detalles académicos + 4 detalles deportivos) en /reconocimientos/* con plantilla E. **DESCONTINUADA en sesión 31** — reemplazada por el módulo dedicado. La migración 036 borra estas 10 filas. La plantilla `tpl_e_hero_galeria` sigue válida en el CHECK pero el frontend ya no la expone (sesión 30)
+│   ├── 035_reconocimientos_modulo.sql           Módulo dedicado de Reconocimientos (Fase 4 sesión 31): 5 tablas (`reconocimientos_categorias` + `_subcategorias` + `_logros` + `_logro_fotos` + `_galeria_fotos`) con RLS pública para items visibles + seed con las 2 categorías actuales (Académicos, Deportivos), 8 subcategorías y logros/galerías iniciales. Permite crear categorías arbitrarias (Profesionales, etc.) desde el backoffice (sesión 31)
+│   ├── 036_eliminar_plantilla_e_paginas.sql     Limpieza: borra las 10 filas de `paginas` con plantilla=`tpl_e_hero_galeria` que sembró la 034. Mantiene el CHECK constraint intacto (idempotente) (sesión 31)
+│   └── 037_subcategorias_hero_title_footnote.sql  Añade `hero_title` y `hero_footnote` a `reconocimientos_subcategorias` (huecos detectados al auditar el frontend; permite personalizar el hero por subcategoría) — idempotente (sesión 31)
 ├── seed/
 │   ├── roles.sql                  cataloga los 4 roles del backoffice
 │   └── plantillas_correo.sql      6 plantillas iniciales del pipeline (ejecutar UNA SOLA VEZ)
@@ -85,11 +88,14 @@ Ejecutar en `Supabase Dashboard → SQL Editor`, en este orden:
 32. `migrations/031_seed_contacto_integraciones.sql` (seed inicial de canales de contacto + claves API de integraciones en `configuracion_global`; idempotente)
 33. `migrations/032_menu_items.sql` (tabla `menu_items` con árbol + RLS + seed con la estructura actual del mega-menú; idempotente — solo siembra si la tabla está vacía)
 34. `migrations/033_seed_seo_defaults.sql` (seed inicial de SEO defaults globales en `configuracion_global[seo]`; idempotente — solo siembra si la clave no existe)
-35. `migrations/034_seed_reconocimientos_plantilla_e.sql` (seed de las 10 páginas de reconocimientos con plantilla E; idempotente)
-36. `seed/roles.sql`
-37. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)
-38. Crear primer usuario en `Authentication → Users` (UI)
-39. `scripts/create_first_superadmin.sql` reemplazando `<USER_UUID>` por el UID del paso 38
+35. `migrations/034_seed_reconocimientos_plantilla_e.sql` (seed de plantilla E — descontinuada en sesión 31; ejecutarla igual porque la 036 la limpia idempotentemente)
+36. `migrations/035_reconocimientos_modulo.sql` (5 tablas del módulo de Reconocimientos + RLS + seed inicial de 2 categorías / 8 subcategorías / logros / galerías; idempotente)
+37. `migrations/036_eliminar_plantilla_e_paginas.sql` (limpia las 10 filas seed de plantilla E del catálogo de páginas; idempotente)
+38. `migrations/037_subcategorias_hero_title_footnote.sql` (añade `hero_title` y `hero_footnote` a subcategorías de Reconocimientos; idempotente)
+39. `seed/roles.sql`
+40. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)
+41. Crear primer usuario en `Authentication → Users` (UI)
+42. `scripts/create_first_superadmin.sql` reemplazando `<USER_UUID>` por el UID del paso 41
 
 ## Variables de entorno requeridas
 

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { FileText, Newspaper, Calendar, Image as ImageIcon, FileBox, ArrowRight } from "lucide-react";
+import { FileText, Newspaper, Calendar, Image as ImageIcon, FileBox, Trophy, ArrowRight } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
 
@@ -38,6 +38,13 @@ const SECCIONES = [
     title: "Documentos",
     description: "PDFs descargables (políticas, autorizaciones, formularios) hospedados en Google Drive.",
     icon: FileBox,
+    activa: true,
+  },
+  {
+    href: "/admin/contenido/reconocimientos",
+    title: "Reconocimientos",
+    description: "Categorías (académicos, deportivos, profesionales), subcategorías, logros y galerías de fotos.",
+    icon: Trophy,
     activa: true,
   },
 ];
