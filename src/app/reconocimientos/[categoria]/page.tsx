@@ -12,18 +12,16 @@ import {
   getSubcategoriasReconocimientos,
   getLogrosReconocimientos,
   getGaleriaReconocimientos,
-  getCategoriasReconocimientos,
 } from "@/lib/cms/getReconocimientos";
 
+// Sin `generateStaticParams`: los helpers usan `cookies()` y eso convierte la
+// página a dinámica en runtime, lo cual chocaba con el SSG. Mejor confiar en
+// ISR on-demand: `revalidate = 60` + `dynamicParams = true` cachean la página
+// 60s después del primer hit y se revalidan automáticamente al editar.
 export const revalidate = 60;
 export const dynamicParams = true;
 
 type Props = { params: Promise<{ categoria: string }> };
-
-export async function generateStaticParams() {
-  const cats = await getCategoriasReconocimientos();
-  return cats.map((c) => ({ categoria: c.slug }));
-}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { categoria } = await params;
