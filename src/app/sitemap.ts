@@ -1,14 +1,38 @@
 import type { MetadataRoute } from "next";
+import {
+  getCategoriasReconocimientos,
+  getSubcategoriasReconocimientos,
+} from "@/lib/cms/getReconocimientos";
 
 const BASE = "https://atenas.edu.ec";
-const UPDATED = new Date("2026-04-28");
+const UPDATED = new Date("2026-05-13");
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const page = (
     url: string,
     priority: number = 0.7,
     changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] = "monthly"
   ) => ({ url: `${BASE}${url}`, lastModified: UPDATED, changeFrequency, priority });
+
+  // Las rutas de Reconocimientos ahora son dinámicas (categorías + subcategorías
+  // viven en `reconocimientos_categorias` y `_subcategorias` desde sesión 31).
+  // Las leemos de BD para que el sitemap se mantenga sincronizado. Si Supabase
+  // falla, el helper retorna [] y el sitemap simplemente omite esa sección.
+  let reconocimientosUrls: MetadataRoute.Sitemap = [];
+  try {
+    const cats = await getCategoriasReconocimientos();
+    const catUrls = cats.map((c) => page(`/reconocimientos/${c.slug}`, 0.7));
+    const subUrlsArrays = await Promise.all(
+      cats.map(async (c) => {
+        const subs = await getSubcategoriasReconocimientos(c.id);
+        return subs.map((s) => page(`/reconocimientos/${c.slug}/${s.slug}`, 0.6));
+      })
+    );
+    reconocimientosUrls = [...catUrls, ...subUrlsArrays.flat()];
+  } catch {
+    // Si la BD no responde, dejamos vacío el bloque de reconocimientos
+    reconocimientosUrls = [];
+  }
 
   return [
     // Home
@@ -60,17 +84,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     page("/espacios/educacion-fisica", 0.7),
     page("/espacios/intercambio", 0.7),
 
-    // Reconocimientos
-    page("/reconocimientos/deportivos", 0.7),
-    page("/reconocimientos/deportivos/basquetbol", 0.6),
-    page("/reconocimientos/deportivos/atletismo", 0.6),
-    page("/reconocimientos/deportivos/futbol", 0.6),
-    page("/reconocimientos/deportivos/natacion", 0.6),
-    page("/reconocimientos/academicos", 0.7),
-    page("/reconocimientos/academicos/olimpiadas", 0.6),
-    page("/reconocimientos/academicos/ib", 0.6),
-    page("/reconocimientos/academicos/cambridge", 0.6),
-    page("/reconocimientos/academicos/ciencia", 0.6),
+    // Reconocimientos — generadas dinámicamente desde BD
+    ...reconocimientosUrls,
 
     // Matrículas
     page("/matriculas/proceso", 0.8),

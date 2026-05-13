@@ -22,10 +22,6 @@ export function FloatingBoot({ numero, mensaje, activo }: Props) {
   const [mounted, setMounted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Ocultar el botón flotante en el backoffice (no aplica a usuarios admin).
-  if (pathname?.startsWith("/admin")) return null;
-  if (!activo) return null;
-
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 800);
     return () => clearTimeout(timer);
@@ -40,6 +36,13 @@ export function FloatingBoot({ numero, mensaje, activo }: Props) {
     window.addEventListener("atenas:megamenu", handler);
     return () => window.removeEventListener("atenas:megamenu", handler);
   }, []);
+
+  // Ocultar el botón flotante en el backoffice (no aplica a usuarios admin)
+  // o si el CMS lo deshabilitó. IMPORTANTE: estos returns tempranos deben ir
+  // DESPUÉS de los hooks (rules-of-hooks), porque si fueran antes, el orden
+  // de hooks variaría según la ruta y React crashearía al navegar.
+  if (pathname?.startsWith("/admin")) return null;
+  if (!activo) return null;
 
   // Sanitización defensiva: si el CMS devuelve algo inválido caemos a defaults.
   const safeNumero = (numero || "").replace(/[^0-9]/g, "") || DEFAULT_NUMERO;
