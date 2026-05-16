@@ -5,14 +5,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import { LogoSVG } from "@/components/shared/LogoSVG";
 import { CampanaNavbar } from "@/components/notificaciones/CampanaNavbar";
 import type { MenuCategoria } from "@/lib/cms/getMegaMenu";
+import type { MegaMenuConfig } from "@/lib/cms/getConfiguracion";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
 type Props = {
   categorias: MenuCategoria[];
+  megaMenuCfg: MegaMenuConfig;
 };
 
-export function NavbarClient({ categorias }: Props) {
+export function NavbarClient({ categorias, megaMenuCfg }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>(categorias[0]?.id ?? "");
@@ -122,7 +124,7 @@ export function NavbarClient({ categorias }: Props) {
               <div
                 className="absolute inset-0 opacity-[0.35]"
                 style={{
-                  backgroundImage: "url(/images/00_politicas-de-seguridad-1536x864.jpg)",
+                  backgroundImage: `url(${megaMenuCfg.bgImage})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
@@ -133,8 +135,8 @@ export function NavbarClient({ categorias }: Props) {
               />
               <div className="relative z-10 flex flex-col gap-4">
                 <LogoSVG variant="white" className="w-[160px]" />
-                <p className="text-white/75 text-[15px] leading-[1.65] max-w-[280px]">
-                  50 años formando líderes<br />con valores y excelencia.
+                <p className="text-white/75 text-[15px] leading-[1.65] max-w-[280px] whitespace-pre-line">
+                  {megaMenuCfg.tagline}
                 </p>
               </div>
             </motion.div>

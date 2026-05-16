@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { HighlightText } from "@/components/shared/HighlightText";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
@@ -13,6 +14,7 @@ interface Props {
   note?: string;
   imageSrc?: string;
   imageAlt?: string;
+  anchorId?: string;
 }
 
 export function SeccionTexto({
@@ -22,12 +24,13 @@ export function SeccionTexto({
   note,
   imageSrc,
   imageAlt = "Unidad Educativa Atenas",
+  anchorId,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.1 });
 
   return (
-    <section ref={ref} className="bg-[#F8F5F0]">
+    <section ref={ref} id={anchorId || undefined} className="bg-[#F8F5F0] scroll-mt-24">
       <div className="px-6 py-20 md:px-[160px] md:py-[100px]">
         <div className="flex flex-col md:flex-row gap-12 md:gap-20 items-start">
 
@@ -68,7 +71,7 @@ export function SeccionTexto({
                 lineHeight: 1.15,
               }}
             >
-              {heading}
+              <HighlightText text={heading} />
             </h2>
 
             {/* Gold divider */}

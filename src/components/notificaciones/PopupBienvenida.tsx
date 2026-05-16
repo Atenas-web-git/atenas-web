@@ -53,7 +53,7 @@ export function PopupBienvenida({
       const t = setTimeout(() => {
         setActive(next);
         setVisible(true);
-      }, 1500);
+      }, 5000);
       return () => clearTimeout(t);
     }
   }, [items]);

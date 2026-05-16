@@ -486,6 +486,156 @@ export async function guardarPaginaAction(
   return { error: null, ok: true };
 }
 
+/**
+ * Cambia la plantilla de una página existente.
+ *
+ * Estrategia: si el contenido actual tiene un bloque `hero` y la plantilla
+ * destino también soporta `hero` (toda la mayoría: A, B, C, D, F, J, K, L),
+ * se preserva ese hero. El resto del JSONB se reinicia con los defaults de
+ * la nueva plantilla. Esto permite migrar entre plantillas sin perder el
+ * trabajo del Hero (que suele ser el más cuidado).
+ *
+ * **No se permite cambiar a/desde** páginas con slug que pertenezcan a un
+ * módulo dedicado (Reconocimientos, Cronograma, Documentos) — esas no son
+ * gestionadas desde la tabla `paginas`. Verificado por el slug.
+ *
+ * **Las plantillas K y L** (fichas) solo aplican a páginas con slug bajo
+ * /servicios/* o /espacios/*. La validación viene del editor (UI) que
+ * solo ofrece las plantillas válidas para cada caso.
+ */
+export async function cambiarPlantillaAction(
+  _prev: PaginaActionState,
+  formData: FormData
+): Promise<PaginaActionState> {
+  const user = await assertEditor();
+
+  const id = String(formData.get("id") ?? "");
+  const nuevaPlantilla = String(formData.get("plantilla") ?? "");
+
+  if (!id) return { error: "ID inválido.", ok: false };
+  if (!PLANTILLAS_VALIDAS.includes(nuevaPlantilla)) {
+    return { error: "Plantilla no válida.", ok: false };
+  }
+  if (PLANTILLAS_BLOQUEADAS_NUEVAS.has(nuevaPlantilla)) {
+    return {
+      error:
+        "No se puede cambiar a esta plantilla — solo se usa en /servicios/[slug] y /espacios/[slug] que dependen de datos hardcoded.",
+      ok: false,
+    };
+  }
+
+  const supabase = createAdminClient();
+
+  // Leer la página actual
+  const { data: pagina } = await supabase
+    .from("paginas")
+    .select("slug, plantilla, titulo, contenido")
+    .eq("id", id)
+    .maybeSingle();
+  if (!pagina) return { error: "Página no encontrada.", ok: false };
+
+  if (pagina.plantilla === nuevaPlantilla) {
+    return { error: "La plantilla ya está seleccionada.", ok: false };
+  }
+
+  // Preservar el hero si existe en el contenido actual y la nueva plantilla lo soporta.
+  const heroActual = (pagina.contenido as Record<string, unknown> | null)?.hero;
+  const PLANTILLAS_CON_HERO = new Set([
+    "tpl_a_hero_texto",
+    "tpl_b_hero_grid",
+    "tpl_c_hero_pasos",
+    "tpl_d_hero_detalle",
+    "tpl_f_hero_academico",
+    "tpl_j_landing_matriculas",
+    "tpl_k_ficha_servicio",
+    "tpl_l_ficha_espacio",
+  ]);
+  const conservaHero =
+    !!heroActual && PLANTILLAS_CON_HERO.has(nuevaPlantilla);
+
+  // Construir contenido nuevo con defaults — duplicamos lógica de crearPaginaAction
+  // pero conservando el título original.
+  const titulo = pagina.titulo;
+  let contenidoNuevo: Record<string, unknown> = {};
+
+  if (nuevaPlantilla === "tpl_a_hero_texto") {
+    contenidoNuevo = {
+      hero: { badge: "", title: titulo, subtitle: "", ghostText: titulo.toUpperCase() },
+      seccion: { badge: titulo.toUpperCase(), heading: titulo, paragraphs: ["Primer párrafo."], note: null, imageSrc: null, imageAlt: null },
+    };
+  } else if (nuevaPlantilla === "tpl_b_hero_grid") {
+    contenidoNuevo = {
+      hero: { badge: "", title: titulo, subtitle: "", ghostText: titulo.toUpperCase() },
+      seccion: { badge: titulo.toUpperCase(), heading: titulo, description: "", items: [] },
+    };
+  } else if (nuevaPlantilla === "tpl_c_hero_pasos") {
+    contenidoNuevo = {
+      hero: { badge: "", title: titulo, subtitle: "", ghostText: titulo.toUpperCase() },
+      intro: { badge: titulo.toUpperCase(), heading: titulo, descripcion: "" },
+      pasos: { badge: "PROCESO", titulo: "Pasos", items: [] },
+    };
+  } else if (nuevaPlantilla === "tpl_d_hero_detalle") {
+    contenidoNuevo = {
+      hero: { badge: "", title: titulo, subtitle: "", ghostText: titulo.toUpperCase() },
+      intro: { badge: titulo.toUpperCase(), heading: titulo, paragraphs: [] },
+      stats: [],
+      tabla: { heading: "Estructura", columnas: ["Concepto", "Detalle"], filas: [{ celdas: ["—", "—"] }] },
+    };
+  } else if (nuevaPlantilla === "tpl_f_hero_academico") {
+    contenidoNuevo = {
+      hero: { badge: "ACADÉMICO", title: titulo, subtitle: "", ghostText: titulo.toUpperCase() },
+      stats: [
+        { label: "Programa", value: "—" },
+        { label: "Nivel", value: "—" },
+        { label: "Institución", value: "Unidad Educativa Atenas" },
+      ],
+      intro: { badge: "Sección académica", heading: titulo, paragraphs: [""], chips: [], photos: ["", "", ""], badgeCollage: "ATENAS ★" },
+      seccionInferior: { tipo: "ninguna" },
+    };
+  } else if (
+    nuevaPlantilla === "tpl_g_landing_ib" ||
+    nuevaPlantilla === "tpl_h_landing_niveles" ||
+    nuevaPlantilla === "tpl_i_historia" ||
+    nuevaPlantilla === "tpl_j_landing_matriculas" ||
+    nuevaPlantilla === "tpl_m_home"
+  ) {
+    // Landings con bloques específicos: contenidoNuevo queda como objeto vacío con hero
+    // y el editor de la plantilla se encarga de completar con defaults faltantes.
+    contenidoNuevo = { hero: heroActual ?? { badge: "", title: titulo, subtitle: "" } };
+  }
+
+  // Si decidimos conservar el hero, lo sobreescribimos con el actual
+  if (conservaHero) {
+    contenidoNuevo.hero = heroActual;
+  }
+
+  const { error } = await supabase
+    .from("paginas")
+    .update({
+      plantilla: nuevaPlantilla,
+      contenido: contenidoNuevo,
+      updated_by: user.id,
+    })
+    .eq("id", id);
+
+  if (error) {
+    if (error.code === "23514") {
+      return {
+        error:
+          "La nueva plantilla no es válida a nivel de BD. Verifica el CHECK constraint en la tabla `paginas`.",
+        ok: false,
+      };
+    }
+    return { error: `No se pudo cambiar la plantilla: ${error.message}`, ok: false };
+  }
+
+  revalidatePath("/admin/contenido/paginas");
+  revalidatePath(`/admin/contenido/paginas/${id}`);
+  if (pagina.slug) revalidatePath(`/${pagina.slug}`);
+
+  return { error: null, ok: true };
+}
+
 export async function eliminarPaginaAction(
   _prev: PaginaActionState,
   formData: FormData

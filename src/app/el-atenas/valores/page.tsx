@@ -43,6 +43,7 @@ type ContenidoTplB = {
     description?: string;
     items?: Array<{ icon?: string; title?: string; description?: string }>;
   };
+  anchorId?: string;
 };
 
 export default async function ValoresPage() {
@@ -84,6 +85,7 @@ export default async function ValoresPage() {
           heading={c.seccion?.heading}
           description={c.seccion?.description}
           items={items}
+          anchorId={c.anchorId}
         />
         <FooterCTA />
       </main>

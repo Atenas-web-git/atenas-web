@@ -29,10 +29,24 @@ const FORM_QUEJAS_DEFAULT: FormQuejasConfig = {
     "Hemos recibido tu comunicación. Te responderemos al correo indicado en un plazo máximo de 5 días hábiles.",
 };
 
+/** Config opcional de la card "Revista Atenas" (solo aplica a /servicios/biblioteca). */
+export type RevistaConfig = {
+  enabled: boolean;
+  eyebrow?: string;
+  titulo?: string;
+  descripcion?: string;
+  ctaText?: string;
+  ctaUrl?: string;
+  coverImage?: string;
+  coverAlt?: string;
+};
+
 interface Props {
   servicio: ServicioItem;
   /** Solo se usa cuando `servicio.color === "red"`. Si es undefined, defaults. */
   formConfig?: FormQuejasConfig;
+  /** Solo se usa cuando slug === "biblioteca". Si es undefined, defaults hardcoded. */
+  revistaConfig?: RevistaConfig;
 }
 
 function FormQuejas({
@@ -295,10 +309,11 @@ function FormQuejas({
   );
 }
 
-export function DetalleServicio({ servicio, formConfig }: Props) {
+export function DetalleServicio({ servicio, formConfig, revistaConfig }: Props) {
   const { slug, nombre, descripcion, stats, pasos, fotos, color } = servicio;
   const isRed = color === "red";
   const formCfg: FormQuejasConfig = formConfig ?? FORM_QUEJAS_DEFAULT;
+  const revistaCfg = revistaConfig;
   const accent = isRed ? "#9e1915" : "#C9A84C";
   const accentBg = isRed ? "rgba(158,25,21,0.10)" : "rgba(201,168,76,0.12)";
 
@@ -703,8 +718,10 @@ export function DetalleServicio({ servicio, formConfig }: Props) {
         </section>
       )}
 
-      {/* ── Revista Atenas (solo biblioteca) ── */}
-      {slug === "biblioteca" && <RevistaAtenasCard />}
+      {/* ── Revista Atenas (solo biblioteca, configurable) ── */}
+      {slug === "biblioteca" && revistaCfg?.enabled !== false && (
+        <RevistaAtenasCard cfg={revistaCfg} />
+      )}
 
       {/* ── Formulario (solo quejas-sugerencias) ── */}
       {isRed && <FormQuejas accent={accent} config={formCfg} servicioSlug={slug} />}
@@ -712,20 +729,36 @@ export function DetalleServicio({ servicio, formConfig }: Props) {
   );
 }
 
-// TODO: Reemplazar con la URL real de la revista cuando el cliente la entregue.
-const REVISTA_ATENAS_URL = "https://atenas.edu.ec";
+// Defaults usados si el editor no provee config (o no editó esta card).
+const REVISTA_DEFAULTS = {
+  eyebrow: "RECURSO DESTACADO",
+  titulo: "Revista Atenas",
+  descripcion:
+    "Lee la edición digital de nuestra revista institucional. Crónicas, logros y vida estudiantil contados desde la voz de la comunidad atenista.",
+  ctaText: "Leer la revista",
+  ctaUrl: "https://atenas.edu.ec",
+};
 
-function RevistaAtenasCard() {
+function RevistaAtenasCard({ cfg }: { cfg?: RevistaConfig }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.2 });
+
+  const eyebrow = (cfg?.eyebrow?.trim() || REVISTA_DEFAULTS.eyebrow).toUpperCase();
+  const titulo = cfg?.titulo?.trim() || REVISTA_DEFAULTS.titulo;
+  const descripcion = cfg?.descripcion?.trim() || REVISTA_DEFAULTS.descripcion;
+  const ctaText = cfg?.ctaText?.trim() || REVISTA_DEFAULTS.ctaText;
+  const ctaUrl = cfg?.ctaUrl?.trim() || REVISTA_DEFAULTS.ctaUrl;
+  const coverImage = cfg?.coverImage?.trim() || "";
+  const coverAlt = cfg?.coverAlt?.trim() || titulo;
+  const isExternal = ctaUrl.startsWith("http");
 
   return (
     <section style={{ padding: "0 0 80px" }}>
       <div ref={ref} className="px-6 md:px-[160px]">
         <motion.a
-          href={REVISTA_ATENAS_URL}
-          target="_blank"
-          rel="noopener noreferrer"
+          href={ctaUrl}
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
           className="group relative flex flex-col md:flex-row items-stretch overflow-hidden rounded-2xl"
           style={{
             background: "linear-gradient(135deg, #1A2B4A 0%, #0D1825 100%)",
@@ -766,7 +799,7 @@ function RevistaAtenasCard() {
                   textTransform: "uppercase",
                 }}
               >
-                Recurso destacado
+                {eyebrow}
               </span>
             </div>
 
@@ -780,7 +813,7 @@ function RevistaAtenasCard() {
                 margin: 0,
               }}
             >
-              Revista Atenas
+              {titulo}
             </h2>
 
             <p
@@ -793,8 +826,7 @@ function RevistaAtenasCard() {
                 maxWidth: 520,
               }}
             >
-              Lee la edición digital de nuestra revista institucional. Crónicas, logros y vida
-              estudiantil contados desde la voz de la comunidad atenista.
+              {descripcion}
             </p>
 
             <div className="flex items-center gap-3 mt-2">
@@ -807,7 +839,7 @@ function RevistaAtenasCard() {
                   transition: "transform 0.18s ease",
                 }}
               >
-                Leer la revista
+                {ctaText}
                 <motion.span
                   animate={{ x: [0, 4, 0] }}
                   transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
@@ -833,58 +865,83 @@ function RevistaAtenasCard() {
           <div
             className="hidden md:flex items-center justify-center px-12 relative z-10"
             style={{ minWidth: 280 }}
-            aria-hidden
+            aria-hidden={coverImage ? undefined : true}
           >
-            <div
-              className="flex items-center justify-center rounded-2xl"
-              style={{
-                width: 180,
-                height: 220,
-                background: "rgba(255,255,255,0.04)",
-                border: "1.5px solid rgba(201,168,76,0.35)",
-                transform: "rotate(-4deg)",
-              }}
-            >
-              <div className="flex flex-col items-center gap-3">
-                <span
+            {coverImage ? (
+              <div
+                className="rounded-xl overflow-hidden"
+                style={{
+                  width: 200,
+                  height: 260,
+                  transform: "rotate(-4deg)",
+                  boxShadow: "0 18px 44px rgba(0,0,0,0.45)",
+                  border: "1.5px solid rgba(201,168,76,0.45)",
+                }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={coverImage}
+                  alt={coverAlt}
                   style={{
-                    fontFamily: "Poppins, sans-serif",
-                    fontSize: 9,
-                    fontWeight: 700,
-                    color: "#C9A84C",
-                    letterSpacing: 2,
-                    textTransform: "uppercase",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
                   }}
-                >
-                  Edición vigente
-                </span>
-                <span
-                  style={{
-                    fontFamily: "Poppins, sans-serif",
-                    fontSize: 32,
-                    fontWeight: 800,
-                    color: "#FFFFFF",
-                    lineHeight: 1,
-                  }}
-                >
-                  Atenas
-                </span>
-                <span
-                  className="block"
-                  style={{ width: 32, height: 2, background: "#C9A84C" }}
                 />
-                <span
-                  style={{
-                    fontFamily: "Poppins, sans-serif",
-                    fontSize: 10,
-                    color: "rgba(255,255,255,0.55)",
-                    letterSpacing: 1,
-                  }}
-                >
-                  REVISTA INSTITUCIONAL
-                </span>
               </div>
-            </div>
+            ) : (
+              <div
+                className="flex items-center justify-center rounded-2xl"
+                style={{
+                  width: 180,
+                  height: 220,
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1.5px solid rgba(201,168,76,0.35)",
+                  transform: "rotate(-4deg)",
+                }}
+              >
+                <div className="flex flex-col items-center gap-3">
+                  <span
+                    style={{
+                      fontFamily: "Poppins, sans-serif",
+                      fontSize: 9,
+                      fontWeight: 700,
+                      color: "#C9A84C",
+                      letterSpacing: 2,
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Edición vigente
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "Poppins, sans-serif",
+                      fontSize: 32,
+                      fontWeight: 800,
+                      color: "#FFFFFF",
+                      lineHeight: 1,
+                    }}
+                  >
+                    Atenas
+                  </span>
+                  <span
+                    className="block"
+                    style={{ width: 32, height: 2, background: "#C9A84C" }}
+                  />
+                  <span
+                    style={{
+                      fontFamily: "Poppins, sans-serif",
+                      fontSize: 10,
+                      color: "rgba(255,255,255,0.55)",
+                      letterSpacing: 1,
+                    }}
+                  >
+                    REVISTA INSTITUCIONAL
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
         </motion.a>
       </div>

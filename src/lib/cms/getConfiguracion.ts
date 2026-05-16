@@ -318,3 +318,44 @@ export function mergeSeo(input: Partial<Seo> | null): Seo {
     robotsFollow: typeof input.robotsFollow === "boolean" ? input.robotsFollow : SEO_DEFAULT.robotsFollow,
   };
 }
+
+// ─── Mega-menú (configuración global del panel desplegable) ────────
+export type MegaMenuConfig = {
+  /** Imagen de fondo del panel izquierdo del mega-menú desplegado. */
+  bgImage: string;
+  /** Línea de texto bajo el logo del panel izquierdo (multi-línea con \n). */
+  tagline: string;
+};
+
+export const MEGA_MENU_DEFAULT: MegaMenuConfig = {
+  bgImage: "/images/00_politicas-de-seguridad-1536x864.jpg",
+  tagline: "50 años formando líderes\ncon valores y excelencia.",
+};
+
+export function mergeMegaMenu(input: Partial<MegaMenuConfig> | null): MegaMenuConfig {
+  if (!input) return MEGA_MENU_DEFAULT;
+  return {
+    bgImage: input.bgImage?.trim() || MEGA_MENU_DEFAULT.bgImage,
+    tagline: input.tagline?.trim() || MEGA_MENU_DEFAULT.tagline,
+  };
+}
+
+// ─── Gestor de correos (provider + presets) ────────────────────
+// Movido a `@/lib/cms/correos` para que los client components puedan
+// importar los tipos sin arrastrar `next/headers`. Se re-exporta acá
+// para mantener compatibilidad con código que ya importa desde este
+// archivo (servidor) — pero las nuevas referencias deberían usar
+// `@/lib/cms/correos` directamente.
+export {
+  CORREO_PURPOSES,
+  CORREO_PURPOSE_LABELS,
+  CORREOS_DEFAULT,
+  mergeCorreos,
+} from "./correos";
+export type {
+  CorreoPurpose,
+  CorreoPreset,
+  ResendConfig,
+  SmtpConfig,
+  CorreosConfig,
+} from "./correos";

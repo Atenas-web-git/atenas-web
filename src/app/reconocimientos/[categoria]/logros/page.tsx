@@ -66,12 +66,18 @@ export default async function LogrosCompletaPage({ params }: Props) {
       <Navbar />
       <main>
         <HeroElAtenas
-          badge={`TODOS LOS LOGROS — ${cat.nombre.toUpperCase()}`}
-          title={`Todos los logros de ${cat.nombre}`}
-          subtitle={`Listado completo de los reconocimientos registrados en ${cat.nombre}, agrupados por subcategoría.`}
-          ghostText="LOGROS"
+          badge={
+            cat.logrosHeroBadge ||
+            `TODOS LOS LOGROS — ${cat.nombre.toUpperCase()}`
+          }
+          title={cat.logrosHeroTitle || `Todos los logros de ${cat.nombre}`}
+          subtitle={
+            cat.logrosHeroSubtitle ||
+            `Listado completo de los reconocimientos registrados en ${cat.nombre}, agrupados por subcategoría.`
+          }
+          ghostText={cat.logrosHeroGhostText || "LOGROS"}
           footnote={cat.heroFootnote ?? undefined}
-          bgImageSrc={cat.heroBgImage ?? undefined}
+          bgImageSrc={cat.logrosHeroBgImage ?? cat.heroBgImage ?? undefined}
         />
         <NavReconocimientos currentSlug={cat.slug} />
         <LogrosCompleta destacados={destacados} grupos={grupos} logrosSueltos={logrosSueltos} />

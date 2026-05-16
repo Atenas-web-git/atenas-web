@@ -111,6 +111,7 @@ type ContenidoTplC = {
     icono?: string;
     texto: string;
   };
+  anchorId?: string;
 };
 
 export default async function ProcesoPage() {
@@ -146,6 +147,7 @@ export default async function ProcesoPage() {
           tarjetas={c.tarjetas}
           pasos={c.pasos ?? FALLBACK.pasos}
           nota={c.nota}
+          anchorId={c.anchorId}
         />
         <FooterCTA />
       </main>

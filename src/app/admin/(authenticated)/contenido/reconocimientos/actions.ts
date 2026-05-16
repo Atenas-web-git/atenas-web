@@ -60,6 +60,11 @@ export async function guardarCategoriaAction(
   const showcaseCtaText = String(formData.get("showcaseCtaText") ?? "Ver logros").trim();
   const logrosHeading = String(formData.get("logrosHeading") ?? "Logros destacados").trim();
   const logrosSubheading = String(formData.get("logrosSubheading") ?? "").trim();
+  const logrosHeroBadge = String(formData.get("logrosHeroBadge") ?? "").trim() || null;
+  const logrosHeroTitle = String(formData.get("logrosHeroTitle") ?? "").trim() || null;
+  const logrosHeroSubtitle = String(formData.get("logrosHeroSubtitle") ?? "").trim() || null;
+  const logrosHeroGhostText = String(formData.get("logrosHeroGhostText") ?? "").trim() || null;
+  const logrosHeroBgImage = String(formData.get("logrosHeroBgImage") ?? "").trim() || null;
   const galeriaTitulo = String(formData.get("galeriaTitulo") ?? "Galería").trim();
   const galeriaSubtitulo = String(formData.get("galeriaSubtitulo") ?? "").trim();
   const metaTitle = String(formData.get("metaTitle") ?? "").trim() || null;
@@ -88,6 +93,11 @@ export async function guardarCategoriaAction(
     showcase_cta_text: showcaseCtaText,
     logros_heading: logrosHeading,
     logros_subheading: logrosSubheading,
+    logros_hero_badge: logrosHeroBadge,
+    logros_hero_title: logrosHeroTitle,
+    logros_hero_subtitle: logrosHeroSubtitle,
+    logros_hero_ghost_text: logrosHeroGhostText,
+    logros_hero_bg_image: logrosHeroBgImage,
     galeria_titulo: galeriaTitulo,
     galeria_subtitulo: galeriaSubtitulo,
     meta_title: metaTitle,

@@ -66,6 +66,64 @@ export async function savePlantillaAction(
   return { error: null, ok: true };
 }
 
+/**
+ * Asocia un archivo del banco a una plantilla de correo. Cuando una solicitud
+ * pase a ese estado, el archivo se adjuntará automáticamente al email.
+ * Idempotente: ignora si ya existe la asociación.
+ */
+export async function vincularArchivoAPlantillaAction(
+  _prev: PlantillaActionState,
+  formData: FormData
+): Promise<PlantillaActionState> {
+  await assertAdmisiones();
+
+  const estado = String(formData.get("estado") ?? "") as EstadoAdmision;
+  const archivoId = String(formData.get("archivo_id") ?? "");
+
+  if (!ESTADOS_VALIDOS.includes(estado)) return { error: "Estado inválido.", ok: false };
+  if (!archivoId) return { error: "Archivo inválido.", ok: false };
+
+  const supabase = createAdminClient();
+  const { error } = await supabase
+    .from("plantillas_correo_archivos")
+    .upsert({ estado, archivo_id: archivoId }, { onConflict: "estado,archivo_id" });
+
+  if (error && error.code !== "23505") {
+    return { error: `No se pudo vincular: ${error.message}`, ok: false };
+  }
+
+  revalidatePath(`/admin/admisiones/correos/${estado}`);
+  return { error: null, ok: true };
+}
+
+/**
+ * Desvincula un archivo del banco de una plantilla de correo.
+ */
+export async function desvincularArchivoDePlantillaAction(
+  _prev: PlantillaActionState,
+  formData: FormData
+): Promise<PlantillaActionState> {
+  await assertAdmisiones();
+
+  const estado = String(formData.get("estado") ?? "") as EstadoAdmision;
+  const archivoId = String(formData.get("archivo_id") ?? "");
+
+  if (!ESTADOS_VALIDOS.includes(estado)) return { error: "Estado inválido.", ok: false };
+  if (!archivoId) return { error: "Archivo inválido.", ok: false };
+
+  const supabase = createAdminClient();
+  const { error } = await supabase
+    .from("plantillas_correo_archivos")
+    .delete()
+    .eq("estado", estado)
+    .eq("archivo_id", archivoId);
+
+  if (error) return { error: `No se pudo desvincular: ${error.message}`, ok: false };
+
+  revalidatePath(`/admin/admisiones/correos/${estado}`);
+  return { error: null, ok: true };
+}
+
 export async function toggleActivoAction(
   _prev: PlantillaActionState,
   formData: FormData

@@ -85,6 +85,7 @@ type ContenidoTplD = {
     icono?: string;
     texto: string;
   };
+  anchorId?: string;
 };
 
 export default async function ValoresPage() {
@@ -119,6 +120,7 @@ export default async function ValoresPage() {
           stats={c.stats}
           tabla={c.tabla ?? FALLBACK.tabla}
           nota={c.nota ?? FALLBACK.nota}
+          anchorId={c.anchorId}
         />
         <FooterCTA />
       </main>

@@ -31,6 +31,7 @@ import { EditorPlantillaJ } from "./EditorPlantillaJ";
 import { EditorPlantillaK } from "./EditorPlantillaK";
 import { EditorPlantillaL } from "./EditorPlantillaL";
 import { EditorPlantillaM } from "./EditorPlantillaM";
+import { CambiarPlantillaBtn } from "./CambiarPlantillaBtn";
 import { EliminarPaginaClient } from "./EliminarPaginaClient";
 
 export default async function EditarPaginaPage({
@@ -89,33 +90,40 @@ export default async function EditarPaginaPage({
         )}
       </div>
 
-      <div>
-        <div className="flex items-center gap-2 flex-wrap">
-          <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
-            {pagina.titulo}
-          </h1>
-          <span
-            className="inline-flex items-center px-2 rounded-full"
-            style={{
-              height: 20,
-              background: "#EFF6FF",
-              fontSize: 10,
-              fontWeight: 700,
-              color: "#1E40AF",
-              letterSpacing: 0.3,
-            }}
-            title={plantillaInfo?.nombre ?? pagina.plantilla}
-          >
-            Plantilla {plantillaInfo?.letra ?? "?"}
-          </span>
+      <div className="flex items-start justify-between gap-3 flex-wrap">
+        <div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
+              {pagina.titulo}
+            </h1>
+            <span
+              className="inline-flex items-center px-2 rounded-full"
+              style={{
+                height: 20,
+                background: "#EFF6FF",
+                fontSize: 10,
+                fontWeight: 700,
+                color: "#1E40AF",
+                letterSpacing: 0.3,
+              }}
+              title={plantillaInfo?.nombre ?? pagina.plantilla}
+            >
+              Plantilla {plantillaInfo?.letra ?? "?"}
+            </span>
+          </div>
+          <p style={{ fontSize: 12, color: "#6B6660", margin: "4px 0 0" }}>
+            <code style={{ fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace" }}>
+              /{pagina.slug}
+            </code>
+            {" · "}
+            {plantillaInfo?.nombre}
+          </p>
         </div>
-        <p style={{ fontSize: 12, color: "#6B6660", margin: "4px 0 0" }}>
-          <code style={{ fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace" }}>
-            /{pagina.slug}
-          </code>
-          {" · "}
-          {plantillaInfo?.nombre}
-        </p>
+        <CambiarPlantillaBtn
+          paginaId={pagina.id}
+          plantillaActual={pagina.plantilla as Parameters<typeof CambiarPlantillaBtn>[0]["plantillaActual"]}
+          slug={pagina.slug}
+        />
       </div>
 
       {pagina.plantilla === "tpl_a_hero_texto" && (

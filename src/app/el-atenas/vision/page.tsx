@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/home/Navbar";
 import { HeroElAtenas } from "@/components/el-atenas/HeroElAtenas";
 import { SeccionTexto } from "@/components/el-atenas/SeccionTexto";
+import { CTADescargas } from "@/components/cms/CTADescargas";
 import { FooterCTA } from "@/components/home/FooterCTA";
 import { getPagina } from "@/lib/cms/getPagina";
 
@@ -53,6 +54,12 @@ type ContenidoTplA = {
     imageSrc?: string | null;
     imageAlt?: string | null;
   };
+  descargas?: {
+    label?: string;
+    href?: string;
+    descripcion?: string;
+  };
+  anchorId?: string;
 };
 
 export default async function VisionPage() {
@@ -96,7 +103,15 @@ export default async function VisionPage() {
           note={seccion.note ?? undefined}
           imageSrc={seccion.imageSrc ?? undefined}
           imageAlt={seccion.imageAlt ?? undefined}
+          anchorId={c.anchorId}
         />
+        {c.descargas && (
+          <CTADescargas
+            label={c.descargas.label}
+            href={c.descargas.href}
+            descripcion={c.descargas.descripcion}
+          />
+        )}
         <FooterCTA />
       </main>
     </>

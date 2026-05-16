@@ -6,6 +6,7 @@ import { guardarPaginaAction, type PaginaActionState } from "../actions";
 import type { ContenidoPlantillaB, TarjetaPlantillaB } from "../../plantillas";
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import { IconPicker } from "@/components/admin/IconPicker";
+import { AnchorIdField } from "./AnchorIdField";
 
 export function EditorPlantillaB({
   paginaId,
@@ -51,6 +52,7 @@ export function EditorPlantillaB({
   const [items, setItems] = useState<TarjetaPlantillaB[]>(
     initialContenido.seccion?.items ?? []
   );
+  const [anchorId, setAnchorId] = useState(initialContenido.anchorId ?? "");
 
   const updateItem = (i: number, patch: Partial<TarjetaPlantillaB>) => {
     setItems((prev) => prev.map((it, idx) => (idx === i ? { ...it, ...patch } : it)));
@@ -92,6 +94,7 @@ export function EditorPlantillaB({
       description: seccionDescription || undefined,
       items: items.filter((it) => it.title.trim() !== ""),
     },
+    anchorId: anchorId.trim() || undefined,
   });
 
   const safePrefix = `paginas/${slug.replace(/[^a-z0-9-]/g, "-")}`;
@@ -506,6 +509,14 @@ export function EditorPlantillaB({
             Agregar tarjeta
           </button>
         </div>
+      </Card>
+
+      {/* Anclaje */}
+      <Card
+        title="Anclaje de sección"
+        subtitle="Permite que botones, items del mega-menú u otros enlaces apunten directamente a esta sección con un anchor en la URL."
+      >
+        <AnchorIdField value={anchorId} onChange={setAnchorId} slug={slug} />
       </Card>
 
       {/* SEO */}

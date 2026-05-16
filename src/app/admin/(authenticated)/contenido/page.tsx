@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { FileText, Newspaper, Calendar, Image as ImageIcon, FileBox, Trophy, ArrowRight } from "lucide-react";
+import { FileText, Newspaper, Calendar, Image as ImageIcon, FileBox, Trophy, Mail, ArrowRight } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
 
@@ -45,6 +45,13 @@ const SECCIONES = [
     title: "Reconocimientos",
     description: "Categorías (académicos, deportivos, profesionales), subcategorías, logros y galerías de fotos.",
     icon: Trophy,
+    activa: true,
+  },
+  {
+    href: "/admin/contenido/plantillas-formularios",
+    title: "Plantillas de formularios",
+    description: "Correos automáticos que se envían al admin cuando alguien usa los formularios públicos (Contactos, Quejas, Trabaja con nosotros, Admisiones).",
+    icon: Mail,
     activa: true,
   },
 ];

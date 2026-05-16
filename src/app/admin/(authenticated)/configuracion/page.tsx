@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Calendar, FileCheck2, CalendarClock, Palette, Phone, Code, Menu, Search, ArrowRight } from "lucide-react";
+import { Calendar, FileCheck2, CalendarClock, Palette, Phone, Code, Menu, Search, ArrowRight, Mail } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole, hasRole } from "@/lib/auth/types";
 
@@ -24,6 +24,13 @@ const SECCIONES = [
     title: "Integraciones",
     description: "IDs de tracking (GTM, GA4, Facebook Pixel, TikTok Pixel), Calendly y códigos de verificación. Scripts se inyectan solo si están configurados.",
     icon: Code,
+    onlySuperadmin: true,
+  },
+  {
+    href: "/admin/configuracion/correos",
+    title: "Correos",
+    description: "Proveedor de envío (Resend o SMTP), credenciales y presets de remitente/destinatario para cada formulario y para el pipeline de admisiones.",
+    icon: Mail,
     onlySuperadmin: true,
   },
   {

@@ -7,6 +7,40 @@ import { ROLES, hasRole } from "@/lib/auth/types";
 
 export type MegaMenuActionState = { error: string | null; ok: boolean };
 
+/**
+ * Guarda la configuración GLOBAL del mega-menú (imagen de fondo del panel
+ * izquierdo y tagline bajo el logo). Vive en `configuracion_global['mega_menu']`
+ * (key-value JSONB, mismo patrón que `marca`, `contacto`, `seo`).
+ */
+export async function actualizarConfigGlobalMegaMenuAction(
+  _prev: MegaMenuActionState,
+  formData: FormData
+): Promise<MegaMenuActionState> {
+  await assertSuperadmin();
+  const supabase = createAdminClient();
+
+  const bgImage = String(formData.get("bgImage") ?? "").trim();
+  const tagline = String(formData.get("tagline") ?? "").trim();
+
+  const payload = { bgImage, tagline };
+
+  // Upsert por key (PK) en configuracion_global
+  const { error } = await supabase
+    .from("configuracion_global")
+    .upsert(
+      { key: "mega_menu", value: payload, updated_at: new Date().toISOString() },
+      { onConflict: "key" }
+    );
+
+  if (error) {
+    console.error("[mega-menu config global]:", error);
+    return { error: "No se pudo guardar la configuración global.", ok: false };
+  }
+
+  revalidatePublic();
+  return { error: null, ok: true };
+}
+
 async function assertSuperadmin() {
   const user = await getCurrentUser();
   if (!user || !hasRole(user, ROLES.SUPERADMIN)) {

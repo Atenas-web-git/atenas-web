@@ -188,6 +188,62 @@ export async function deleteAdjuntoAction(
   return { error: null, ok: true };
 }
 
+/**
+ * Vincula un archivo del banco a UNA solicitud específica. Cuando se envíe el
+ * próximo correo automático a esa solicitud, este archivo se adjuntará (en
+ * adición a los archivos asociados a la plantilla del estado).
+ */
+export async function vincularArchivoBancoASolicitudAction(
+  _prev: AdmisionActionState,
+  formData: FormData
+): Promise<AdmisionActionState> {
+  const user = await assertAdmisiones();
+  const solicitudId = String(formData.get("solicitudId") ?? "");
+  const archivoId = String(formData.get("archivo_id") ?? "");
+
+  if (!solicitudId) return { error: "Solicitud inválida.", ok: false };
+  if (!archivoId) return { error: "Archivo inválido.", ok: false };
+
+  const supabase = createAdminClient();
+  const { error } = await supabase
+    .from("solicitud_archivos_banco")
+    .upsert(
+      { solicitud_id: solicitudId, archivo_id: archivoId, created_by: user.id },
+      { onConflict: "solicitud_id,archivo_id" }
+    );
+
+  if (error && error.code !== "23505") {
+    return { error: `No se pudo vincular: ${error.message}`, ok: false };
+  }
+
+  revalidatePath(`/admin/admisiones/${solicitudId}`);
+  return { error: null, ok: true };
+}
+
+export async function desvincularArchivoBancoDeSolicitudAction(
+  _prev: AdmisionActionState,
+  formData: FormData
+): Promise<AdmisionActionState> {
+  await assertAdmisiones();
+  const solicitudId = String(formData.get("solicitudId") ?? "");
+  const archivoId = String(formData.get("archivo_id") ?? "");
+
+  if (!solicitudId) return { error: "Solicitud inválida.", ok: false };
+  if (!archivoId) return { error: "Archivo inválido.", ok: false };
+
+  const supabase = createAdminClient();
+  const { error } = await supabase
+    .from("solicitud_archivos_banco")
+    .delete()
+    .eq("solicitud_id", solicitudId)
+    .eq("archivo_id", archivoId);
+
+  if (error) return { error: `No se pudo desvincular: ${error.message}`, ok: false };
+
+  revalidatePath(`/admin/admisiones/${solicitudId}`);
+  return { error: null, ok: true };
+}
+
 export async function deleteSolicitudAction(
   _prev: AdmisionActionState,
   formData: FormData

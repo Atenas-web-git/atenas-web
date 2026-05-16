@@ -341,10 +341,12 @@ export function SeccionDetalleAcademico({
   stats,
   intro,
   seccionInferior,
+  anchorId,
 }: {
   stats: Stats;
   intro: Intro;
   seccionInferior: SeccionInferiorPlantillaF;
+  anchorId?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.1 });
@@ -355,7 +357,10 @@ export function SeccionDetalleAcademico({
     <>
       <StatsStrip stats={stats} />
 
-      <section className="relative bg-[#F8F5F0]">
+      <section
+        id={anchorId || undefined}
+        className="relative bg-[#F8F5F0] scroll-mt-24"
+      >
         <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at top right, rgba(201,168,76,0.05) 0%, transparent 60%)" }} />
 
         <div

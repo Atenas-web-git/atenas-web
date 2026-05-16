@@ -19,6 +19,11 @@ type CategoriaInicial = {
   showcaseCtaText: string;
   logrosHeading: string;
   logrosSubheading: string;
+  logrosHeroBadge: string | null;
+  logrosHeroTitle: string | null;
+  logrosHeroSubtitle: string | null;
+  logrosHeroGhostText: string | null;
+  logrosHeroBgImage: string | null;
   galeriaTitulo: string;
   galeriaSubtitulo: string;
   metaTitle: string | null;
@@ -41,6 +46,11 @@ const DEFAULT_INITIAL: CategoriaInicial = {
   showcaseCtaText: "Ver logros",
   logrosHeading: "Logros destacados",
   logrosSubheading: "",
+  logrosHeroBadge: null,
+  logrosHeroTitle: null,
+  logrosHeroSubtitle: null,
+  logrosHeroGhostText: null,
+  logrosHeroBgImage: null,
   galeriaTitulo: "Galería",
   galeriaSubtitulo: "",
   metaTitle: null,
@@ -55,11 +65,15 @@ export function CategoriaForm({ inicial }: { inicial?: Partial<CategoriaInicial>
   const init: CategoriaInicial = { ...DEFAULT_INITIAL, ...inicial };
   const [state, formAction] = useActionState(guardarCategoriaAction, INITIAL_STATE);
   const [heroBgImage, setHeroBgImage] = useState<string>(init.heroBgImage ?? "");
+  const [logrosHeroBgImage, setLogrosHeroBgImage] = useState<string>(
+    init.logrosHeroBgImage ?? ""
+  );
 
   return (
     <form action={formAction} className="flex flex-col gap-6">
       {init.id !== null && <input type="hidden" name="id" value={init.id} />}
       <input type="hidden" name="heroBgImage" value={heroBgImage} />
+      <input type="hidden" name="logrosHeroBgImage" value={logrosHeroBgImage} />
 
       <Section title="Identificación">
         <Row>
@@ -155,6 +169,44 @@ export function CategoriaForm({ inicial }: { inicial?: Partial<CategoriaInicial>
             defaultValue={init.logrosSubheading}
             rows={2}
             style={{ ...inputStyle, resize: "vertical" }}
+          />
+        </Field>
+      </Section>
+
+      <Section title='Hero de la página "Todos los logros" (opcional)'>
+        <p style={{ fontSize: 11, color: "#6B6660", margin: 0 }}>
+          Estos campos personalizan el Hero de <code>/reconocimientos/{init.slug || "..."}/logros</code>.
+          Si los dejas vacíos, esa página usa un Hero genérico construido a partir del nombre de la categoría.
+        </p>
+        <Row>
+          <Field label="Eyebrow" hint="Texto pequeño arriba del título">
+            <input name="logrosHeroBadge" defaultValue={init.logrosHeroBadge ?? ""} style={inputStyle} />
+          </Field>
+          <Field label="Ghost text" hint='Texto decorativo grande de fondo (ej. "LOGROS")'>
+            <input
+              name="logrosHeroGhostText"
+              defaultValue={init.logrosHeroGhostText ?? ""}
+              style={inputStyle}
+            />
+          </Field>
+        </Row>
+        <Field label="Título del hero">
+          <input name="logrosHeroTitle" defaultValue={init.logrosHeroTitle ?? ""} style={inputStyle} />
+        </Field>
+        <Field label="Subtítulo">
+          <textarea
+            name="logrosHeroSubtitle"
+            defaultValue={init.logrosHeroSubtitle ?? ""}
+            rows={3}
+            style={{ ...inputStyle, resize: "vertical" }}
+          />
+        </Field>
+        <Field label="Imagen de fondo del hero (opcional)">
+          <ImageUploader
+            value={logrosHeroBgImage}
+            onChange={setLogrosHeroBgImage}
+            prefix={`reconocimientos/${init.slug || "categoria"}/logros-hero`}
+            previewAspect="16/9"
           />
         </Field>
       </Section>

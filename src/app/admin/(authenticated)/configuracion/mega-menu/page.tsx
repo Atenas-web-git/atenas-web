@@ -5,7 +5,13 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasRole } from "@/lib/auth/types";
 import { buildAdminTree, type MenuItemRow } from "@/lib/cms/getMegaMenu";
+import {
+  getConfiguracion,
+  mergeMegaMenu,
+  type MegaMenuConfig,
+} from "@/lib/cms/getConfiguracion";
 import { MegaMenuEditor } from "./MegaMenuEditor";
+import { MegaMenuGlobalConfigForm } from "./MegaMenuGlobalConfigForm";
 
 export const dynamic = "force-dynamic";
 
@@ -16,12 +22,16 @@ export default async function MegaMenuPage() {
 
   // Admin lee todos los items, incluso ocultos
   const supabase = createAdminClient();
-  const { data } = await supabase
-    .from("menu_items")
-    .select("id, parent_id, label, href, external, badge, visible, orden")
-    .order("orden", { ascending: true });
+  const [{ data: itemsData }, megaMenuRaw] = await Promise.all([
+    supabase
+      .from("menu_items")
+      .select("id, parent_id, label, href, external, badge, visible, orden")
+      .order("orden", { ascending: true }),
+    getConfiguracion<Partial<MegaMenuConfig>>("mega_menu"),
+  ]);
 
-  const tree = buildAdminTree((data ?? []) as MenuItemRow[]);
+  const tree = buildAdminTree((itemsData ?? []) as MenuItemRow[]);
+  const megaMenuCfg = mergeMegaMenu(megaMenuRaw);
 
   return (
     <div className="flex flex-col gap-6 p-8">
@@ -42,6 +52,11 @@ export default async function MegaMenuPage() {
           Estructura jerárquica del menú principal del sitio. Cada categoría agrupa sub-items que enlazan a páginas internas o externas. Los cambios se reflejan en el sitio público inmediatamente al guardar.
         </p>
       </div>
+
+      <MegaMenuGlobalConfigForm
+        initialBgImage={megaMenuCfg.bgImage}
+        initialTagline={megaMenuCfg.tagline}
+      />
 
       <MegaMenuEditor tree={tree} />
     </div>

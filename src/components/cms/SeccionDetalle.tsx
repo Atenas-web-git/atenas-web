@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { HighlightText } from "@/components/shared/HighlightText";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
@@ -35,6 +36,7 @@ type Props = {
     icono?: string;
     texto: string;
   };
+  anchorId?: string;
 };
 
 /**
@@ -47,7 +49,7 @@ type Props = {
  *
  * Todas las secciones (intro, stats, tabla, nota) son opcionales.
  */
-export function SeccionDetalle({ intro, stats, tabla, nota }: Props) {
+export function SeccionDetalle({ intro, stats, tabla, nota, anchorId }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.05 });
 
@@ -61,7 +63,11 @@ export function SeccionDetalle({ intro, stats, tabla, nota }: Props) {
   }
 
   return (
-    <section className="relative overflow-hidden" style={{ background: "#060E1A" }}>
+    <section
+      id={anchorId || undefined}
+      className="relative overflow-hidden scroll-mt-24"
+      style={{ background: "#060E1A" }}
+    >
       {/* Línea roja vertical decorativa a la izquierda */}
       <div
         className="absolute left-0 top-0 bottom-0"
@@ -111,7 +117,7 @@ export function SeccionDetalle({ intro, stats, tabla, nota }: Props) {
                   margin: 0,
                 }}
               >
-                {intro.heading}
+                <HighlightText text={intro.heading} />
               </h2>
             )}
             {intro?.paragraphs?.map((p, i) => (

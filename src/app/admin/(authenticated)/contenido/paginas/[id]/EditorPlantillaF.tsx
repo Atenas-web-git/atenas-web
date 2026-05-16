@@ -12,6 +12,7 @@ import type {
   SeccionInferiorPlantillaF,
 } from "../../plantillas";
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import { AnchorIdField } from "./AnchorIdField";
 
 type SeccionInferiorTipo = "ninguna" | "tarjetas" | "plataformas";
 
@@ -78,6 +79,20 @@ export function EditorPlantillaF({
   const [badgeCollage, setBadgeCollage] = useState(
     initialContenido.intro?.badgeCollage ?? "ATENAS ★"
   );
+
+  // Bloque opcional "Descargar más información" (Google Drive)
+  const [descargasLabel, setDescargasLabel] = useState(
+    initialContenido.descargas?.label ?? ""
+  );
+  const [descargasHref, setDescargasHref] = useState(
+    initialContenido.descargas?.href ?? ""
+  );
+  const [descargasDescripcion, setDescargasDescripcion] = useState(
+    initialContenido.descargas?.descripcion ?? ""
+  );
+
+  // ID de anclaje
+  const [anchorId, setAnchorId] = useState(initialContenido.anchorId ?? "");
 
   // Sección inferior
   const initialSI: SeccionInferiorPlantillaF =
@@ -199,6 +214,15 @@ export function EditorPlantillaF({
       badgeCollage: badgeCollage || undefined,
     },
     seccionInferior: seccionInferiorJson,
+    anchorId: anchorId.trim() || undefined,
+    descargas:
+      descargasLabel.trim() !== "" && descargasHref.trim() !== ""
+        ? {
+            label: descargasLabel.trim(),
+            href: descargasHref.trim(),
+            descripcion: descargasDescripcion.trim() || undefined,
+          }
+        : undefined,
   });
 
   const safePrefix = `paginas/${slug.replace(/[^a-z0-9-]/g, "-")}`;
@@ -667,6 +691,55 @@ export function EditorPlantillaF({
             </button>
           </div>
         )}
+      </Card>
+
+      {/* Descargar más información (CTA opcional a Google Drive) */}
+      <Card
+        title="Descargar más información (opcional)"
+        subtitle='Botón CTA al final de la página que abre un enlace (PDF, Google Drive, etc.). Si dejas "Texto del botón" o "URL" vacíos, la sección NO aparece en el sitio público.'
+      >
+        <Field label="Texto del botón" hint='Ej. "Descargar dossier institucional"'>
+          <input
+            type="text"
+            value={descargasLabel}
+            onChange={(e) => setDescargasLabel(e.target.value)}
+            placeholder="Descargar más información"
+            maxLength={80}
+            style={inputStyle}
+          />
+        </Field>
+        <Field
+          label="URL del archivo o página"
+          hint="Pega el link de Google Drive, PDF u otra fuente."
+        >
+          <input
+            type="text"
+            value={descargasHref}
+            onChange={(e) => setDescargasHref(e.target.value)}
+            placeholder="https://drive.google.com/file/d/..."
+            style={inputStyle}
+          />
+        </Field>
+        <Field
+          label="Texto descriptivo (opcional)"
+          hint="Aparece como párrafo arriba del botón."
+        >
+          <textarea
+            value={descargasDescripcion}
+            onChange={(e) => setDescargasDescripcion(e.target.value)}
+            rows={2}
+            placeholder="ej. Conoce los detalles completos del programa en este documento."
+            style={{ ...inputStyle, height: "auto", resize: "vertical", minHeight: 60, paddingTop: 10, paddingBottom: 10 }}
+          />
+        </Field>
+      </Card>
+
+      {/* Anclaje */}
+      <Card
+        title="Anclaje de sección"
+        subtitle="Permite enlazar directamente a esta sección con un anchor en la URL."
+      >
+        <AnchorIdField value={anchorId} onChange={setAnchorId} slug={slug} />
       </Card>
 
       {/* SEO */}

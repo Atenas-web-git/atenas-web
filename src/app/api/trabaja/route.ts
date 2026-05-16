@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
+import { sendEmail } from "@/lib/email/sendEmail";
+import { sendFormConfirmation } from "@/lib/email/sendFormConfirmation";
+
+export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
-  const resend = new Resend(process.env.RESEND_API_KEY);
   try {
     const data = await req.json();
     const {
@@ -16,12 +18,7 @@ export async function POST(req: NextRequest) {
 
     const fecha = new Date().toLocaleDateString("es-EC", { dateStyle: "long" });
 
-    await resend.emails.send({
-      from: "Formulario Web <noreply@atenas.edu.ec>",
-      to: ["rrhh@atenas.edu.ec"],
-      replyTo: correo,
-      subject: `Nueva postulación — ${nombres} — ${cargo}`,
-      html: `
+    const html = `
         <div style="font-family: sans-serif; max-width: 620px; margin: 0 auto; color: #1A2B4A;">
           <div style="background: #1A2B4A; padding: 32px; border-radius: 8px 8px 0 0;">
             <h2 style="color: #C9A84C; margin: 0; font-size: 20px;">Nueva postulación de empleo</h2>
@@ -94,8 +91,26 @@ export async function POST(req: NextRequest) {
             Formulario web — Unidad Educativa Atenas · atenas.edu.ec
           </p>
         </div>
-      `,
-    });
+    `;
+
+    await Promise.allSettled([
+      sendEmail({
+        purpose: "trabaja",
+        subject: `Nueva postulación — ${nombres} — ${cargo}`,
+        html,
+        context: "POST /api/trabaja (interno)",
+      }),
+      sendFormConfirmation({
+        tipo: "trabaja",
+        to: String(correo),
+        variables: {
+          nombre: String(nombres),
+          correo: String(correo),
+          cargo: String(cargo),
+        },
+        context: "POST /api/trabaja (confirmación)",
+      }),
+    ]);
 
     return NextResponse.json({ ok: true });
   } catch (err) {

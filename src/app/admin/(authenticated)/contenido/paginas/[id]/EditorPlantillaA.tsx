@@ -5,6 +5,7 @@ import { Save, Plus, Trash2, GripVertical } from "lucide-react";
 import { guardarPaginaAction, type PaginaActionState } from "../actions";
 import type { ContenidoPlantillaA } from "../../plantillas";
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import { AnchorIdField } from "./AnchorIdField";
 
 export function EditorPlantillaA({
   paginaId,
@@ -51,6 +52,20 @@ export function EditorPlantillaA({
   const [seccionImageSrc, setSeccionImageSrc] = useState(initialContenido.seccion?.imageSrc ?? "");
   const [seccionImageAlt, setSeccionImageAlt] = useState(initialContenido.seccion?.imageAlt ?? "");
 
+  // Bloque opcional "Descargar más información" (Google Drive)
+  const [descargasLabel, setDescargasLabel] = useState(
+    initialContenido.descargas?.label ?? ""
+  );
+  const [descargasHref, setDescargasHref] = useState(
+    initialContenido.descargas?.href ?? ""
+  );
+  const [descargasDescripcion, setDescargasDescripcion] = useState(
+    initialContenido.descargas?.descripcion ?? ""
+  );
+
+  // ID de anclaje (opcional)
+  const [anchorId, setAnchorId] = useState(initialContenido.anchorId ?? "");
+
   const updateParagraph = (i: number, value: string) => {
     setParagraphs((prev) => prev.map((p, idx) => (idx === i ? value : p)));
   };
@@ -64,6 +79,8 @@ export function EditorPlantillaA({
   };
 
   // Construye el JSON serializado para enviar
+  const hasDescargas =
+    descargasLabel.trim() !== "" && descargasHref.trim() !== "";
   const contenidoJson = JSON.stringify({
     hero: {
       badge: heroBadge || undefined,
@@ -81,6 +98,14 @@ export function EditorPlantillaA({
       imageSrc: seccionImageSrc || null,
       imageAlt: seccionImageAlt || null,
     },
+    descargas: hasDescargas
+      ? {
+          label: descargasLabel.trim(),
+          href: descargasHref.trim(),
+          descripcion: descargasDescripcion.trim() || undefined,
+        }
+      : undefined,
+    anchorId: anchorId.trim() || undefined,
   });
 
   // Slug seguro para el prefix del uploader
@@ -363,6 +388,58 @@ export function EditorPlantillaA({
             onChange={(e) => setSeccionImageAlt(e.target.value)}
             placeholder="ej. Estudiantes de la Unidad Educativa Atenas"
             style={inputStyle}
+          />
+        </Field>
+      </Card>
+
+      {/* Anclaje (ID de sección para linkear desde otros lugares) */}
+      <Card
+        title="Anclaje de sección"
+        subtitle="Permite que botones, items del mega-menú u otros enlaces apunten directamente a esta sección con un anchor en la URL."
+      >
+        <AnchorIdField value={anchorId} onChange={setAnchorId} slug={slug} />
+      </Card>
+
+      {/* Descargar más información (CTA opcional a Google Drive) */}
+      <Card
+        title="Descargar más información (opcional)"
+        subtitle='Botón CTA al final de la página que abre un enlace (PDF, Google Drive, etc.). Si dejas "Texto del botón" o "URL" vacíos, la sección NO aparece en el sitio público.'
+      >
+        <Field
+          label="Texto del botón"
+          hint='Ej. "Descargar dossier institucional" o "Ver brochure (PDF)"'
+        >
+          <input
+            type="text"
+            value={descargasLabel}
+            onChange={(e) => setDescargasLabel(e.target.value)}
+            placeholder="Descargar más información"
+            maxLength={80}
+            style={inputStyle}
+          />
+        </Field>
+        <Field
+          label="URL del archivo o página"
+          hint="Pega aquí el link de Google Drive, PDF u otra fuente. Si empieza con http se abre en nueva pestaña automáticamente."
+        >
+          <input
+            type="text"
+            value={descargasHref}
+            onChange={(e) => setDescargasHref(e.target.value)}
+            placeholder="https://drive.google.com/file/d/..."
+            style={inputStyle}
+          />
+        </Field>
+        <Field
+          label="Texto descriptivo (opcional)"
+          hint="Aparece como párrafo arriba del botón. Útil para dar contexto sobre qué se va a descargar."
+        >
+          <textarea
+            value={descargasDescripcion}
+            onChange={(e) => setDescargasDescripcion(e.target.value)}
+            rows={2}
+            placeholder="ej. Descarga nuestro dossier institucional con la información completa de la unidad educativa."
+            style={{ ...inputStyle, resize: "vertical", minHeight: 60 }}
           />
         </Field>
       </Card>

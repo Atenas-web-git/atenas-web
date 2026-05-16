@@ -16,6 +16,12 @@ export type ReconocimientoCategoria = {
   showcaseCtaText: string;
   logrosHeading: string;
   logrosSubheading: string;
+  /** Hero opcional para la página /reconocimientos/[cat]/logros (todos los logros). Si vacío, se usa fallback. */
+  logrosHeroBadge: string | null;
+  logrosHeroTitle: string | null;
+  logrosHeroSubtitle: string | null;
+  logrosHeroGhostText: string | null;
+  logrosHeroBgImage: string | null;
   galeriaTitulo: string;
   galeriaSubtitulo: string;
   metaTitle: string | null;
@@ -86,6 +92,11 @@ function mapCategoria(row: Record<string, unknown>): ReconocimientoCategoria {
     showcaseCtaText: (row.showcase_cta_text as string) ?? "Ver logros",
     logrosHeading: (row.logros_heading as string) ?? "Logros destacados",
     logrosSubheading: (row.logros_subheading as string) ?? "",
+    logrosHeroBadge: (row.logros_hero_badge as string) ?? null,
+    logrosHeroTitle: (row.logros_hero_title as string) ?? null,
+    logrosHeroSubtitle: (row.logros_hero_subtitle as string) ?? null,
+    logrosHeroGhostText: (row.logros_hero_ghost_text as string) ?? null,
+    logrosHeroBgImage: (row.logros_hero_bg_image as string) ?? null,
     galeriaTitulo: (row.galeria_titulo as string) ?? "Galería",
     galeriaSubtitulo: (row.galeria_subtitulo as string) ?? "",
     metaTitle: (row.meta_title as string) ?? null,

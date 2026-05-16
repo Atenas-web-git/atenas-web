@@ -1,4 +1,9 @@
 import { getMegaMenu, type MenuCategoria } from "@/lib/cms/getMegaMenu";
+import {
+  getConfiguracion,
+  mergeMegaMenu,
+  type MegaMenuConfig,
+} from "@/lib/cms/getConfiguracion";
 import { NavbarClient } from "./NavbarClient";
 
 /**
@@ -131,7 +136,11 @@ const FALLBACK_MENU: MenuCategoria[] = [
  * Editable desde `/admin/configuracion/mega-menu` (superadmin).
  */
 export async function Navbar() {
-  const categoriasDB = await getMegaMenu();
+  const [categoriasDB, megaMenuRaw] = await Promise.all([
+    getMegaMenu(),
+    getConfiguracion<Partial<MegaMenuConfig>>("mega_menu"),
+  ]);
   const categorias = categoriasDB.length > 0 ? categoriasDB : FALLBACK_MENU;
-  return <NavbarClient categorias={categorias} />;
+  const megaMenuCfg = mergeMegaMenu(megaMenuRaw);
+  return <NavbarClient categorias={categorias} megaMenuCfg={megaMenuCfg} />;
 }

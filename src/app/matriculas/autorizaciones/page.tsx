@@ -118,6 +118,7 @@ type ContenidoTplC = {
     icono?: string;
     texto: string;
   };
+  anchorId?: string;
 };
 
 export default async function AutorizacionesPage() {
@@ -152,6 +153,7 @@ export default async function AutorizacionesPage() {
           tarjetas={c.tarjetas ?? FALLBACK.tarjetas}
           pasos={c.pasos ?? FALLBACK.pasos}
           nota={c.nota ?? FALLBACK.nota}
+          anchorId={c.anchorId}
         />
         <FooterCTA />
       </main>

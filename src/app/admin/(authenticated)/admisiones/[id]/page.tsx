@@ -9,6 +9,7 @@ import { EstadoSelectorClient } from "./EstadoSelectorClient";
 import { DocumentosClient } from "./DocumentosClient";
 import { NotasClient } from "./NotasClient";
 import { AdjuntosClient } from "./AdjuntosClient";
+import { ArchivosBancoSolicitudClient } from "./ArchivosBancoSolicitudClient";
 import { EliminarSolicitudClient } from "./EliminarSolicitudClient";
 
 const ESTADO_BADGE: Record<string, { bg: string; fg: string; label: string }> = {
@@ -110,6 +111,8 @@ export default async function SolicitudDetallePage({
     { data: historial },
     { data: adjuntos },
     { data: catalogoDocs },
+    { data: bancoArchivos },
+    { data: bancoVinculados },
   ] = await Promise.all([
     supabase
       .from("solicitudes_admision")
@@ -139,9 +142,22 @@ export default async function SolicitudDetallePage({
       .select("nombre")
       .eq("activo", true)
       .order("orden", { ascending: true }),
+    supabase
+      .from("admisiones_archivos_banco")
+      .select("id, nombre, descripcion, tipo_mime, tamano_bytes, categoria, archivo_url, activo")
+      .eq("activo", true)
+      .order("categoria", { ascending: true, nullsFirst: false })
+      .order("orden", { ascending: true })
+      .order("nombre", { ascending: true }),
+    supabase
+      .from("solicitud_archivos_banco")
+      .select("archivo_id")
+      .eq("solicitud_id", id),
   ]);
 
   const catalogoNombres = (catalogoDocs ?? []).map((d) => d.nombre);
+  const bancoArchivosList = bancoArchivos ?? [];
+  const bancoVinculadosIds = (bancoVinculados ?? []).map((v) => v.archivo_id);
 
   if (!solicitud) notFound();
 
@@ -341,10 +357,20 @@ export default async function SolicitudDetallePage({
             />
           </div>
 
-          {/* Adjuntos para email */}
+          {/* Adjuntos para email — subidos manualmente para esta solicitud */}
           <div className="p-6" style={cardStyle}>
             <SectionTitle>Archivos para enviar al postulante</SectionTitle>
             <AdjuntosClient solicitudId={solicitud.id} adjuntos={adjuntos ?? []} />
+          </div>
+
+          {/* Archivos del banco vinculados a esta solicitud */}
+          <div className="p-6" style={cardStyle}>
+            <SectionTitle>Archivos del banco para esta solicitud</SectionTitle>
+            <ArchivosBancoSolicitudClient
+              solicitudId={solicitud.id}
+              archivosBanco={bancoArchivosList}
+              vinculadosIds={bancoVinculadosIds}
+            />
           </div>
 
           {/* Historial */}

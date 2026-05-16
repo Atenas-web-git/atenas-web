@@ -33,6 +33,9 @@ import { SeccionDetalle } from "@/components/cms/SeccionDetalle";
 // Plantilla F
 import { SeccionDetalleAcademico } from "@/components/cms/SeccionDetalleAcademico";
 
+// CTA opcional "Descargar más información" — usado en A y F
+import { CTADescargas } from "@/components/cms/CTADescargas";
+
 // Plantilla G — Landing IB
 import { HeroIB } from "@/components/ib/HeroIB";
 import { NucleoIB } from "@/components/ib/NucleoIB";
@@ -164,7 +167,15 @@ function renderA(c: Partial<ContenidoPlantillaA>) {
         note={c.seccion?.note ?? undefined}
         imageSrc={c.seccion?.imageSrc ?? undefined}
         imageAlt={c.seccion?.imageAlt ?? undefined}
+        anchorId={c.anchorId}
       />
+      {c.descargas && (
+        <CTADescargas
+          label={c.descargas.label}
+          href={c.descargas.href}
+          descripcion={c.descargas.descripcion}
+        />
+      )}
     </>
   );
 }
@@ -193,6 +204,7 @@ function renderB(c: Partial<ContenidoPlantillaB>) {
         heading={c.seccion?.heading}
         description={c.seccion?.description}
         items={items}
+        anchorId={c.anchorId}
       />
     </>
   );
@@ -216,6 +228,7 @@ function renderC(c: Partial<ContenidoPlantillaC>) {
         tarjetas={c.tarjetas}
         pasos={c.pasos}
         nota={c.nota}
+        anchorId={c.anchorId}
       />
     </>
   );
@@ -238,6 +251,7 @@ function renderD(c: Partial<ContenidoPlantillaD>) {
         stats={c.stats}
         tabla={c.tabla}
         nota={c.nota}
+        anchorId={c.anchorId}
       />
     </>
   );
@@ -273,7 +287,15 @@ function renderF(c: Partial<ContenidoPlantillaF>) {
           }
         }
         seccionInferior={c.seccionInferior ?? { tipo: "ninguna" }}
+        anchorId={c.anchorId}
       />
+      {c.descargas && (
+        <CTADescargas
+          label={c.descargas.label}
+          href={c.descargas.href}
+          descripcion={c.descargas.descripcion}
+        />
+      )}
     </>
   );
 }

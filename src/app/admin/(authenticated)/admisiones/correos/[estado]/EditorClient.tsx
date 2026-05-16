@@ -8,8 +8,15 @@ import Image from "@tiptap/extension-image";
 import {
   Bold, Italic, Strikethrough, Code, List, ListOrdered, Quote,
   Heading1, Heading2, Heading3, Link as LinkIcon, Image as ImageIcon, Undo, Redo, Eye, FileCode2,
+  Paperclip, Plus, X, FileText, FileImage, File as FileIcon, ExternalLink,
 } from "lucide-react";
-import { savePlantillaAction, type PlantillaActionState } from "../actions";
+import { useTransition } from "react";
+import {
+  savePlantillaAction,
+  type PlantillaActionState,
+  vincularArchivoAPlantillaAction,
+  desvincularArchivoDePlantillaAction,
+} from "../actions";
 import { buildWrappedEmail, debeOcultarCta } from "../../email_wrapper";
 
 const VARIABLES = [
@@ -41,6 +48,17 @@ function fillSample(html: string): string {
 type Mode = "visual" | "html";
 type View = "edit" | "preview";
 
+export type ArchivoBancoForEditor = {
+  id: string;
+  nombre: string;
+  descripcion: string | null;
+  tipo_mime: string | null;
+  tamano_bytes: number | null;
+  categoria: string | null;
+  archivo_url: string;
+  activo: boolean;
+};
+
 export function EditorClient({
   estado,
   estadoLabel,
@@ -48,6 +66,8 @@ export function EditorClient({
   initialAsunto,
   initialHtml,
   initialActivo,
+  archivosBanco,
+  archivosVinculadosIds,
 }: {
   estado: string;
   estadoLabel: string;
@@ -55,6 +75,8 @@ export function EditorClient({
   initialAsunto: string;
   initialHtml: string;
   initialActivo: boolean;
+  archivosBanco: ArchivoBancoForEditor[];
+  archivosVinculadosIds: string[];
 }) {
   const [state, action, isPending] = useActionState<PlantillaActionState, FormData>(
     savePlantillaAction,
@@ -407,6 +429,14 @@ export function EditorClient({
         </aside>
       </div>
 
+      {/* ─── Archivos adjuntos automáticos del banco ─── */}
+      <ArchivosAdjuntosPlantilla
+        estado={estado}
+        estadoLabel={estadoLabel}
+        archivosBanco={archivosBanco}
+        archivosVinculadosIds={archivosVinculadosIds}
+      />
+
       <style>{`
         .tiptap-editor:focus {
           outline: none;
@@ -642,6 +672,293 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
       >
         <Redo size={14} strokeWidth={2.5} />
       </ToolbarBtn>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────────
+ *  Archivos adjuntos automáticos del banco para esta plantilla
+ *  Cuando una solicitud pase a este estado, los archivos seleccionados
+ *  se anexan automáticamente al correo que se envía al postulante.
+ * ──────────────────────────────────────────────────────────────── */
+
+function fileIcon(mime: string | null) {
+  if (!mime) return <FileIcon size={14} color="#6B6660" />;
+  if (mime.startsWith("image/")) return <FileImage size={14} color="#1E40AF" />;
+  if (mime === "application/pdf") return <FileText size={14} color="#9e1915" />;
+  return <FileIcon size={14} color="#6B6660" />;
+}
+
+function formatBytesShort(bytes: number | null): string {
+  if (!bytes) return "";
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function ArchivosAdjuntosPlantilla({
+  estado,
+  estadoLabel,
+  archivosBanco,
+  archivosVinculadosIds,
+}: {
+  estado: string;
+  estadoLabel: string;
+  archivosBanco: ArchivoBancoForEditor[];
+  archivosVinculadosIds: string[];
+}) {
+  const [vinculados, setVinculados] = useState<Set<string>>(
+    new Set(archivosVinculadosIds)
+  );
+  const [error, setError] = useState<string | null>(null);
+  const [pending, startTransition] = useTransition();
+
+  const archivosVinculadosList = archivosBanco.filter((a) => vinculados.has(a.id));
+  const archivosDisponibles = archivosBanco.filter((a) => !vinculados.has(a.id));
+
+  const toggle = (archivoId: string, vincular: boolean) => {
+    setError(null);
+    startTransition(async () => {
+      const fd = new FormData();
+      fd.append("estado", estado);
+      fd.append("archivo_id", archivoId);
+      const res = vincular
+        ? await vincularArchivoAPlantillaAction({ error: null, ok: false }, fd)
+        : await desvincularArchivoDePlantillaAction({ error: null, ok: false }, fd);
+      if (res.error) {
+        setError(res.error);
+        return;
+      }
+      setVinculados((prev) => {
+        const next = new Set(prev);
+        if (vincular) next.add(archivoId);
+        else next.delete(archivoId);
+        return next;
+      });
+    });
+  };
+
+  return (
+    <div
+      className="flex flex-col gap-4 p-5"
+      style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}
+    >
+      <div>
+        <h3 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
+          <Paperclip
+            size={13}
+            strokeWidth={2.5}
+            className="inline-block mr-1.5 -mt-0.5"
+          />
+          Adjuntos automáticos del banco
+        </h3>
+        <p style={{ fontSize: 12, color: "#6B6660", margin: "4px 0 0", maxWidth: 680 }}>
+          Estos archivos se adjuntan <strong>automáticamente</strong> al email que se
+          envía cuando una solicitud pasa al estado <em>{estadoLabel}</em>. Selecciónalos
+          del banco. Si necesitas subir un archivo nuevo, hazlo desde{" "}
+          <a
+            href="/admin/admisiones/archivos-banco"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#1A2B4A", fontWeight: 500 }}
+          >
+            el banco de archivos ↗
+          </a>
+          .
+        </p>
+      </div>
+
+      {error && (
+        <div
+          className="px-3 py-2 rounded-md"
+          style={{ background: "#FEE2E2", border: "1px solid #FCA5A5" }}
+        >
+          <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{error}</p>
+        </div>
+      )}
+
+      {/* Lista de vinculados */}
+      <div>
+        <p
+          style={{
+            fontSize: 11,
+            fontWeight: 700,
+            color: "#6B6660",
+            textTransform: "uppercase",
+            letterSpacing: 0.5,
+            margin: "0 0 8px",
+          }}
+        >
+          Vinculados a esta plantilla ({archivosVinculadosList.length})
+        </p>
+        {archivosVinculadosList.length === 0 ? (
+          <p
+            className="px-3 py-3 text-center"
+            style={{
+              fontSize: 12,
+              color: "#6B6660",
+              background: "#FAFAF8",
+              border: "1px dashed #E8E4DD",
+              borderRadius: 6,
+              margin: 0,
+            }}
+          >
+            Ningún archivo vinculado. Selecciona abajo los que se deben adjuntar al correo.
+          </p>
+        ) : (
+          <ul className="flex flex-col gap-1.5">
+            {archivosVinculadosList.map((a) => (
+              <li
+                key={a.id}
+                className="flex items-center gap-2 px-3 py-2"
+                style={{
+                  background: "#F0FDF4",
+                  border: "1px solid #BBF7D0",
+                  borderRadius: 6,
+                }}
+              >
+                {fileIcon(a.tipo_mime)}
+                <div className="flex-1 min-w-0">
+                  <div style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
+                    {a.nombre}
+                  </div>
+                  {(a.categoria || a.tamano_bytes) && (
+                    <div style={{ fontSize: 10, color: "#6B6660", marginTop: 1 }}>
+                      {a.categoria && <span>{a.categoria}</span>}
+                      {a.categoria && a.tamano_bytes ? " · " : ""}
+                      {a.tamano_bytes && <span>{formatBytesShort(a.tamano_bytes)}</span>}
+                    </div>
+                  )}
+                </div>
+                <a
+                  href={a.archivo_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Ver archivo"
+                  className="flex items-center justify-center transition-opacity hover:opacity-70"
+                  style={{
+                    width: 24,
+                    height: 24,
+                    background: "#FFFFFF",
+                    border: "1px solid #BBF7D0",
+                    borderRadius: 4,
+                    color: "#065F46",
+                    textDecoration: "none",
+                  }}
+                >
+                  <ExternalLink size={11} strokeWidth={2.5} />
+                </a>
+                <button
+                  type="button"
+                  onClick={() => toggle(a.id, false)}
+                  disabled={pending}
+                  title="Desvincular"
+                  className="flex items-center justify-center transition-opacity hover:opacity-70 disabled:opacity-50"
+                  style={{
+                    width: 24,
+                    height: 24,
+                    background: "#FFFFFF",
+                    border: "1px solid #FCA5A5",
+                    borderRadius: 4,
+                    color: "#991B1B",
+                    cursor: pending ? "wait" : "pointer",
+                  }}
+                >
+                  <X size={11} strokeWidth={2.5} />
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {/* Lista de disponibles */}
+      {archivosDisponibles.length > 0 && (
+        <div>
+          <p
+            style={{
+              fontSize: 11,
+              fontWeight: 700,
+              color: "#6B6660",
+              textTransform: "uppercase",
+              letterSpacing: 0.5,
+              margin: "0 0 8px",
+            }}
+          >
+            Disponibles en el banco ({archivosDisponibles.length})
+          </p>
+          <ul className="flex flex-col gap-1.5">
+            {archivosDisponibles.map((a) => (
+              <li
+                key={a.id}
+                className="flex items-center gap-2 px-3 py-2"
+                style={{
+                  background: "#FAFAF8",
+                  border: "1px solid #E8E4DD",
+                  borderRadius: 6,
+                }}
+              >
+                {fileIcon(a.tipo_mime)}
+                <div className="flex-1 min-w-0">
+                  <div style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
+                    {a.nombre}
+                  </div>
+                  {(a.categoria || a.tamano_bytes) && (
+                    <div style={{ fontSize: 10, color: "#6B6660", marginTop: 1 }}>
+                      {a.categoria && <span>{a.categoria}</span>}
+                      {a.categoria && a.tamano_bytes ? " · " : ""}
+                      {a.tamano_bytes && <span>{formatBytesShort(a.tamano_bytes)}</span>}
+                    </div>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => toggle(a.id, true)}
+                  disabled={pending}
+                  className="flex items-center gap-1 px-2 transition-opacity hover:opacity-70 disabled:opacity-50"
+                  style={{
+                    height: 26,
+                    background: "#1A2B4A",
+                    fontSize: 11,
+                    color: "#FFFFFF",
+                    fontWeight: 600,
+                    border: "none",
+                    borderRadius: 4,
+                    cursor: pending ? "wait" : "pointer",
+                  }}
+                >
+                  <Plus size={11} strokeWidth={2.5} />
+                  Vincular
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {archivosBanco.length === 0 && (
+        <p
+          className="px-3 py-3 text-center"
+          style={{
+            fontSize: 12,
+            color: "#6B6660",
+            background: "#FEF3C7",
+            border: "1px solid #FDE68A",
+            borderRadius: 6,
+            margin: 0,
+          }}
+        >
+          Aún no hay archivos en el banco. Sube los primeros desde{" "}
+          <a
+            href="/admin/admisiones/archivos-banco"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#92400E", fontWeight: 600 }}
+          >
+            el banco de archivos ↗
+          </a>
+          .
+        </p>
+      )}
     </div>
   );
 }

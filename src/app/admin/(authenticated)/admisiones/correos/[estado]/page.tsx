@@ -29,11 +29,28 @@ export default async function EditarPlantillaPage({
   if (!hasAnyRole(user, [ROLES.SUPERADMIN, ROLES.EDITOR_ADMISIONES])) redirect("/admin");
 
   const supabase = createAdminClient();
-  const { data: plantilla } = await supabase
-    .from("plantillas_correo_admision")
-    .select("estado, titulo, asunto, cuerpo_html, activo")
-    .eq("estado", estado)
-    .maybeSingle();
+  const [{ data: plantilla }, { data: bancoTodos }, { data: vinculados }] =
+    await Promise.all([
+      supabase
+        .from("plantillas_correo_admision")
+        .select("estado, titulo, asunto, cuerpo_html, activo")
+        .eq("estado", estado)
+        .maybeSingle(),
+      supabase
+        .from("admisiones_archivos_banco")
+        .select("id, nombre, descripcion, tipo_mime, tamano_bytes, categoria, archivo_url, activo")
+        .eq("activo", true)
+        .order("categoria", { ascending: true, nullsFirst: false })
+        .order("orden", { ascending: true })
+        .order("nombre", { ascending: true }),
+      supabase
+        .from("plantillas_correo_archivos")
+        .select("archivo_id")
+        .eq("estado", estado),
+    ]);
+
+  const archivosBanco = bancoTodos ?? [];
+  const archivosVinculadosIds = new Set((vinculados ?? []).map((v) => v.archivo_id));
 
   const info = ESTADOS_INFO[estado];
 
@@ -64,6 +81,8 @@ export default async function EditarPlantillaPage({
         initialAsunto={plantilla?.asunto ?? ""}
         initialHtml={plantilla?.cuerpo_html ?? "<p>Hola <strong>{{rep_nombres}}</strong>, tu solicitud N° {{numero}} ha cambiado de estado.</p>"}
         initialActivo={plantilla?.activo ?? true}
+        archivosBanco={archivosBanco}
+        archivosVinculadosIds={Array.from(archivosVinculadosIds)}
       />
     </div>
   );

@@ -11,6 +11,7 @@ import type {
   GaleriaPlantillaC,
 } from "../../plantillas";
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import { AnchorIdField } from "./AnchorIdField";
 
 export function EditorPlantillaC({
   paginaId,
@@ -74,6 +75,7 @@ export function EditorPlantillaC({
   // Nota
   const [notaIcono, setNotaIcono] = useState(initialContenido.nota?.icono ?? "💬");
   const [notaTexto, setNotaTexto] = useState(initialContenido.nota?.texto ?? "");
+  const [anchorId, setAnchorId] = useState(initialContenido.anchorId ?? "");
 
   // ─── Handlers tarjetas ────────────────────────────────────────
 
@@ -190,6 +192,7 @@ export function EditorPlantillaC({
           }
         : undefined,
     nota: notaTexto.trim() ? { icono: notaIcono || undefined, texto: notaTexto } : undefined,
+    anchorId: anchorId.trim() || undefined,
   });
 
   const safePrefix = `paginas/${slug.replace(/[^a-z0-9-]/g, "-")}`;
@@ -571,6 +574,14 @@ export function EditorPlantillaC({
             />
           </Field>
         </div>
+      </Card>
+
+      {/* Anclaje */}
+      <Card
+        title="Anclaje de sección"
+        subtitle="Permite enlazar directamente a esta sección con un anchor en la URL."
+      >
+        <AnchorIdField value={anchorId} onChange={setAnchorId} slug={slug} />
       </Card>
 
       {/* SEO */}

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { HighlightText } from "@/components/shared/HighlightText";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
@@ -224,7 +225,7 @@ export function HeroElAtenas({
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.75, delay: 0.28, ease }}
           >
-            {title}
+            <HighlightText text={title} />
           </motion.h1>
         </div>
 

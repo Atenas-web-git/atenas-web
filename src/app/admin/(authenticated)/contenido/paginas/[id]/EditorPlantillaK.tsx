@@ -7,6 +7,7 @@ import type {
   ContenidoPlantillaK,
   StatPlantillaK,
   FormularioPlantillaK,
+  RevistaAtenasConfig,
 } from "../../plantillas";
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import { IconPicker } from "@/components/admin/IconPicker";
@@ -60,11 +61,29 @@ export function EditorPlantillaK({
     initialContenido.formulario ?? FORMULARIO_DEFAULT
   );
 
-  const safePrefix = `paginas/${slug.replace(/[^a-z0-9-]/g, "-")}`;
-  // Solo persistimos `formulario` si la ficha es de color rojo (caso especial).
-  const contenidoJson = JSON.stringify(
-    ficha.color === "red" ? { hero, ficha, formulario } : { hero, ficha }
+  // Card "Revista Atenas" — solo aplica al slug "servicios/biblioteca".
+  const isBiblioteca = slug === "servicios/biblioteca";
+  const [revistaAtenas, setRevistaAtenas] = useState<RevistaAtenasConfig>(
+    initialContenido.revistaAtenas ?? {
+      enabled: true,
+      eyebrow: "RECURSO DESTACADO",
+      titulo: "Revista Atenas",
+      descripcion:
+        "Lee la edición digital de nuestra revista institucional. Crónicas, logros y vida estudiantil contados desde la voz de la comunidad atenista.",
+      ctaText: "Leer la revista",
+      ctaUrl: "",
+    }
   );
+
+  const safePrefix = `paginas/${slug.replace(/[^a-z0-9-]/g, "-")}`;
+  // Solo persistimos `formulario` si la ficha es de color rojo (caso especial),
+  // y `revistaAtenas` solo si esta página es la biblioteca.
+  const baseContenido: Record<string, unknown> =
+    ficha.color === "red" ? { hero, ficha, formulario } : { hero, ficha };
+  if (isBiblioteca) {
+    baseContenido.revistaAtenas = revistaAtenas;
+  }
+  const contenidoJson = JSON.stringify(baseContenido);
 
   return (
     <form action={action} className="flex flex-col gap-5">
@@ -94,6 +113,9 @@ export function EditorPlantillaK({
       <FichaEditor ficha={ficha} setFicha={setFicha} prefix={`${safePrefix}/ficha`} />
       {ficha.color === "red" && (
         <FormularioEditor formulario={formulario} setFormulario={setFormulario} />
+      )}
+      {isBiblioteca && (
+        <RevistaAtenasEditor revista={revistaAtenas} setRevista={setRevistaAtenas} />
       )}
 
       <Card title="SEO" subtitle="Metadatos para motores de búsqueda y previsualizaciones.">
@@ -221,6 +243,112 @@ function FormularioEditor({
           />
         </Field>
       </div>
+    </Card>
+  );
+}
+
+/* ─── Card "Revista Atenas" (solo /servicios/biblioteca) ─── */
+
+function RevistaAtenasEditor({
+  revista,
+  setRevista,
+}: {
+  revista: RevistaAtenasConfig;
+  setRevista: (r: RevistaAtenasConfig) => void;
+}) {
+  const set = (patch: Partial<RevistaAtenasConfig>) => setRevista({ ...revista, ...patch });
+  return (
+    <Card
+      title='Card "Revista Atenas" (solo biblioteca)'
+      subtitle="CTA destacado que aparece al final de la página de Biblioteca. Si lo desactivas, la card no se renderiza."
+    >
+      <label
+        className="flex items-center gap-3 px-3 py-2 rounded-md cursor-pointer"
+        style={{ background: "#FAFAF8", border: "1px solid #E8E4DD" }}
+      >
+        <input
+          type="checkbox"
+          checked={revista.enabled}
+          onChange={(e) => set({ enabled: e.target.checked })}
+          style={{ width: 16, height: 16, accentColor: "#1A2B4A" }}
+        />
+        <span style={{ fontSize: 13, color: "#1A2B4A" }}>
+          {revista.enabled
+            ? "Card visible en /servicios/biblioteca"
+            : "Card oculta (no se muestra al visitante)"}
+        </span>
+      </label>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+        <Field label="Eyebrow" hint='Pequeño texto dorado arriba del título. Ej. "Recurso destacado"'>
+          <input
+            type="text"
+            value={revista.eyebrow ?? ""}
+            onChange={(e) => set({ eyebrow: e.target.value })}
+            maxLength={40}
+            style={inputStyle}
+          />
+        </Field>
+        <Field label="Texto del botón CTA" hint='Ej. "Leer la revista"'>
+          <input
+            type="text"
+            value={revista.ctaText ?? ""}
+            onChange={(e) => set({ ctaText: e.target.value })}
+            maxLength={40}
+            style={inputStyle}
+          />
+        </Field>
+      </div>
+      <Field label="Título" hint='Texto grande blanco. Ej. "Revista Atenas"'>
+        <input
+          type="text"
+          value={revista.titulo ?? ""}
+          onChange={(e) => set({ titulo: e.target.value })}
+          maxLength={80}
+          style={inputStyle}
+        />
+      </Field>
+      <Field label="Descripción" hint="Párrafo descriptivo bajo el título.">
+        <textarea
+          value={revista.descripcion ?? ""}
+          onChange={(e) => set({ descripcion: e.target.value })}
+          rows={3}
+          maxLength={400}
+          style={textareaStyle}
+        />
+      </Field>
+      <Field
+        label="URL de la revista"
+        hint="Pega aquí el link a la revista digital (Issuu, Drive, página propia, etc.). Si vacío, se usa el placeholder."
+      >
+        <input
+          type="text"
+          value={revista.ctaUrl ?? ""}
+          onChange={(e) => set({ ctaUrl: e.target.value })}
+          placeholder="https://..."
+          style={inputStyle}
+        />
+      </Field>
+      <Field
+        label="Foto de la portada (opcional)"
+        hint="Se muestra a la derecha de la card en desktop, con una ligera inclinación. Recomendado: imagen vertical (proporción 4:5). Si vacía, se muestra el placeholder dorado por defecto."
+      >
+        <ImageUploader
+          value={revista.coverImage ?? ""}
+          onChange={(url) => set({ coverImage: url })}
+          prefix="servicios/biblioteca/revista"
+          previewAspect="4/3"
+        />
+      </Field>
+      <Field label="Texto alt de la portada (accesibilidad)" hint='Descripción corta para lectores de pantalla. Ej. "Portada de la edición 2026 de la Revista Atenas".'>
+        <input
+          type="text"
+          value={revista.coverAlt ?? ""}
+          onChange={(e) => set({ coverAlt: e.target.value })}
+          maxLength={120}
+          placeholder="Portada de la Revista Atenas"
+          style={inputStyle}
+        />
+      </Field>
     </Card>
   );
 }

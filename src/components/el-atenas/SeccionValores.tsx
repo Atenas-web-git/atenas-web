@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { DynamicIcon } from "lucide-react/dynamic";
+import { HighlightText } from "@/components/shared/HighlightText";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
@@ -66,6 +67,7 @@ type Props = {
   heading?: string;
   description?: string;
   items?: ValorItem[];
+  anchorId?: string;
 };
 
 export function SeccionValores({
@@ -73,6 +75,7 @@ export function SeccionValores({
   heading = "Nuestros Valores Institucionales",
   description = "Nueve pilares que guían la vida de toda la comunidad educativa: estudiantes, docentes y familias.",
   items,
+  anchorId,
 }: Props = {}) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.05 });
@@ -80,7 +83,7 @@ export function SeccionValores({
   const valores = items && items.length > 0 ? items : FALLBACK_ITEMS;
 
   return (
-    <section ref={ref} className="bg-[#F8F5F0]">
+    <section ref={ref} id={anchorId || undefined} className="bg-[#F8F5F0] scroll-mt-24">
       <div className="px-6 py-20 md:px-[160px] md:py-[100px]">
 
         {/* Encabezado */}
@@ -117,7 +120,7 @@ export function SeccionValores({
               lineHeight: 1.15,
             }}
           >
-            {heading}
+            <HighlightText text={heading ?? ""} />
           </h2>
           <div style={{ width: 60, height: 3, background: "#C9A84C" }} />
           {description && (

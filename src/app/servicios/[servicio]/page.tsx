@@ -3,7 +3,11 @@ import { notFound } from "next/navigation";
 import { SERVICIOS, getServicio, type ServicioItem } from "@/data/servicios";
 import { Navbar } from "@/components/home/Navbar";
 import { HeroElAtenas } from "@/components/el-atenas/HeroElAtenas";
-import { DetalleServicio, type FormQuejasConfig } from "@/components/servicios/DetalleServicio";
+import {
+  DetalleServicio,
+  type FormQuejasConfig,
+  type RevistaConfig,
+} from "@/components/servicios/DetalleServicio";
 import { FooterCTA } from "@/components/home/FooterCTA";
 import { getPagina } from "@/lib/cms/getPagina";
 import type { ContenidoPlantillaK } from "@/app/admin/(authenticated)/contenido/plantillas";
@@ -105,6 +109,22 @@ export default async function ServicioPage({ params }: Props) {
         }
       : undefined;
 
+  // Config de la card "Revista Atenas" (solo se usa en /servicios/biblioteca).
+  // Si el CMS no la trae, el componente cae a los defaults hardcoded.
+  const revistaConfig: RevistaConfig | undefined =
+    slug === "biblioteca" && cms?.revistaAtenas
+      ? {
+          enabled: cms.revistaAtenas.enabled ?? true,
+          eyebrow: cms.revistaAtenas.eyebrow,
+          titulo: cms.revistaAtenas.titulo,
+          descripcion: cms.revistaAtenas.descripcion,
+          ctaText: cms.revistaAtenas.ctaText,
+          ctaUrl: cms.revistaAtenas.ctaUrl,
+          coverImage: cms.revistaAtenas.coverImage,
+          coverAlt: cms.revistaAtenas.coverAlt,
+        }
+      : undefined;
+
   return (
     <>
       <Navbar />
@@ -116,7 +136,11 @@ export default async function ServicioPage({ params }: Props) {
           ghostText={servicio.ghostText}
           bgImageSrc={heroBgImage}
         />
-        <DetalleServicio servicio={servicio} formConfig={formConfig} />
+        <DetalleServicio
+          servicio={servicio}
+          formConfig={formConfig}
+          revistaConfig={revistaConfig}
+        />
         <FooterCTA />
       </main>
     </>

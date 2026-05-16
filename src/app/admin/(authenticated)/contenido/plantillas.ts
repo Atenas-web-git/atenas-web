@@ -19,6 +19,51 @@ export type PlantillaSlug =
   | "tpl_l_ficha_espacio"
   | "tpl_m_home";
 
+export type PlantillaCategoria =
+  | "texto-institucional"
+  | "procesos-matriculas"
+  | "academico"
+  | "landings-ricas"
+  | "fichas"
+  | "home";
+
+export const PLANTILLA_CATEGORIAS: {
+  key: PlantillaCategoria;
+  label: string;
+  description: string;
+}[] = [
+  {
+    key: "texto-institucional",
+    label: "Texto institucional",
+    description: "Páginas explicativas: misión, visión, valores, descripciones generales.",
+  },
+  {
+    key: "procesos-matriculas",
+    label: "Procesos y matrículas",
+    description: "Flujos con pasos numerados, valores, tablas, datos bancarios.",
+  },
+  {
+    key: "academico",
+    label: "Académico",
+    description: "Subpáginas IB y niveles educativos con stats, chips y collage.",
+  },
+  {
+    key: "landings-ricas",
+    label: "Landings ricas",
+    description: "Páginas principales con varios bloques fijos (IB, niveles, historia, matrículas).",
+  },
+  {
+    key: "fichas",
+    label: "Fichas (servicios y espacios)",
+    description: "Ficha técnica de un servicio o espacio (formulario opcional).",
+  },
+  {
+    key: "home",
+    label: "Home",
+    description: "Página principal del sitio.",
+  },
+];
+
 export type PlantillaInfo = {
   slug: PlantillaSlug;
   letra: string;
@@ -26,6 +71,7 @@ export type PlantillaInfo = {
   descripcion: string;
   ejemploSlugs: string[];
   implementada: boolean;
+  categoria: PlantillaCategoria;
 };
 
 export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
@@ -36,6 +82,7 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
     descripcion: "Hero con título y subtítulo seguido de una sección de texto con párrafos formateables y nota opcional.",
     ejemploSlugs: ["el-atenas/mision", "el-atenas/vision"],
     implementada: true,
+    categoria: "texto-institucional",
   },
   tpl_b_hero_grid: {
     slug: "tpl_b_hero_grid",
@@ -44,6 +91,7 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
     descripcion: "Hero seguido de un grid de tarjetas con icono, título y descripción. Cada tarjeta puede llevar subtítulo, link a otra ruta, color (gold/red) y marca de destacado.",
     ejemploSlugs: ["el-atenas/valores", "servicios", "espacios"],
     implementada: true,
+    categoria: "texto-institucional",
   },
   tpl_c_hero_pasos: {
     slug: "tpl_c_hero_pasos",
@@ -52,6 +100,7 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
     descripcion: "Hero, tarjetas opcionales (ej. bancos, proveedores), pasos numerados auto-secuenciales y nota al pie.",
     ejemploSlugs: ["matriculas/autorizaciones", "matriculas/proceso", "admisiones/*"],
     implementada: true,
+    categoria: "procesos-matriculas",
   },
   tpl_d_hero_detalle: {
     slug: "tpl_d_hero_detalle",
@@ -60,6 +109,7 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
     descripcion: "Hero, párrafo introductorio opcional, stats numéricas, tabla configurable y nota destacada al pie.",
     ejemploSlugs: ["matriculas/valores", "matriculas/autorizaciones", "academico/ib/documentos"],
     implementada: true,
+    categoria: "procesos-matriculas",
   },
   tpl_f_hero_academico: {
     slug: "tpl_f_hero_academico",
@@ -68,6 +118,7 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
     descripcion: "Hero + stats strip + intro con párrafos/chips/nota/3 fotos en collage + sección oscura opcional con tarjetas (con foto de fondo) o plataformas. Pensada para subpáginas de IB y Niveles.",
     ejemploSlugs: ["academico/ib/*", "academico/niveles/*"],
     implementada: true,
+    categoria: "academico",
   },
   tpl_g_landing_ib: {
     slug: "tpl_g_landing_ib",
@@ -76,6 +127,7 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
     descripcion: "Landing del Programa IB con 5 bloques editables: Hero con collage flotante + stats bar, Núcleo (3 componentes + 2 fotos), Materias (6 grupos), Proceso (timeline + aliados + CTA), y Explorar (grid de 7 secciones).",
     ejemploSlugs: ["academico/ib"],
     implementada: true,
+    categoria: "landings-ricas",
   },
   tpl_h_landing_niveles: {
     slug: "tpl_h_landing_niveles",
@@ -84,6 +136,7 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
     descripcion: "Landing académica con 4 bloques editables: Hero con collage flotante + chips, Niveles (5 cards educativos), Metodologías (strip + 4 cards), CTA con stats card.",
     ejemploSlugs: ["academico/niveles"],
     implementada: true,
+    categoria: "landings-ricas",
   },
   tpl_i_historia: {
     slug: "tpl_i_historia",
@@ -92,6 +145,7 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
     descripcion: "Plantilla narrativa con 5 bloques: Hero con foto de fondo + ghost text, Fundación (texto + 3 fotos), Trayectoria (video YouTube en loop como fondo + 6 hitos + 3 fotos), Cifras (4 stats con contador animado), Cita destacada con fondo parallax.",
     ejemploSlugs: ["el-atenas/historia"],
     implementada: true,
+    categoria: "landings-ricas",
   },
   tpl_j_landing_matriculas: {
     slug: "tpl_j_landing_matriculas",
@@ -100,6 +154,7 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
     descripcion: "Landing de la entrada al flujo de matrículas con 3 bloques: Hero, Showcase (3 cards con icono+foto+contador+link a las subpáginas), Proceso (collage de 3 fotos + 5 pasos numerados con último destacado en rojo). El banner de fechas es global (configuracion_global) y la nav lateral entre páginas hermanas es hardcoded.",
     ejemploSlugs: ["matriculas"],
     implementada: true,
+    categoria: "landings-ricas",
   },
   tpl_k_ficha_servicio: {
     slug: "tpl_k_ficha_servicio",
@@ -108,6 +163,7 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
     descripcion: "Ficha de un servicio institucional: Hero + 3 stats con icono Lucide + collage de 3 fotos + descripción en párrafos + 3 pasos numerados. El icono y color del servicio son editables. Casos especiales (formulario de quejas, card de Revista Atenas) se conservan según el slug de la página.",
     ejemploSlugs: ["servicios/bar-cafeteria", "servicios/biblioteca", "servicios/transporte"],
     implementada: true,
+    categoria: "fichas",
   },
   tpl_l_ficha_espacio: {
     slug: "tpl_l_ficha_espacio",
@@ -116,6 +172,7 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
     descripcion: "Ficha de un espacio de desarrollo: Hero + sección de detalle (párrafos, tags, ficha técnica de 4 filas, nota destacada, foto lateral) + sección oscura de Actividades (foto de fondo con parallax, título y lista de 4-6 actividades con emoji + descripción). La nav lateral entre espacios hermanos es hardcoded.",
     ejemploSlugs: ["espacios/cas", "espacios/cultura", "espacios/idioma", "espacios/vase"],
     implementada: true,
+    categoria: "fichas",
   },
   tpl_m_home: {
     slug: "tpl_m_home",
@@ -124,12 +181,23 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
     descripcion: "Página principal del sitio. 6 bloques editables: Hero (video YouTube en loop como fondo + título multilínea + subtítulo + link a YouTube), Tagline (eyebrow + título con underline en palabra clave), Scroll horizontal (4 slides Académico/IB/Deporte/Comunidad), Trayectoria (50 años con stats animadas), Niveles educativos (4 cards) y Por qué Atenas (header + 4 cards). La Intro animada de carga, la Navbar y el FooterCTA son globales y no se editan desde aquí.",
     ejemploSlugs: ["home"],
     implementada: true,
+    categoria: "home",
   },
 };
 
 export const PLANTILLAS_LIST: PlantillaInfo[] = Object.values(PLANTILLAS);
 
 // ─── Schemas tipados por plantilla ────────────────────────────
+
+/** Botón opcional "Descargar más información" (Google Drive u otro link). */
+export type DescargaInfo = {
+  /** Texto del botón. Si vacío → no se renderiza la sección. */
+  label?: string;
+  /** URL destino (Google Drive, PDF, etc.). Si vacía → no se renderiza la sección. */
+  href?: string;
+  /** Texto descriptivo arriba del botón (opcional). */
+  descripcion?: string;
+};
 
 export type ContenidoPlantillaA = {
   hero: {
@@ -148,6 +216,10 @@ export type ContenidoPlantillaA = {
     imageSrc?: string | null;
     imageAlt?: string | null;
   };
+  /** Bloque opcional: si tiene `label` y `href`, se renderiza un CTA al final. */
+  descargas?: DescargaInfo;
+  /** ID de anclaje opcional. Si está poblado, el `<section>` lleva `id={anchorId}` y se puede linkear con `/slug#anchorId`. */
+  anchorId?: string;
 };
 
 /** Default vacío para crear una página nueva con plantilla A. */
@@ -204,6 +276,8 @@ export type ContenidoPlantillaB = {
     description?: string;
     items: TarjetaPlantillaB[];
   };
+  /** ID de anclaje opcional. Permite enlazar con `/slug#anchorId`. */
+  anchorId?: string;
 };
 
 // ─── Plantilla C (Hero + tarjetas + pasos + nota) ────────────
@@ -272,6 +346,8 @@ export type ContenidoPlantillaC = {
     icono?: string;
     texto: string;
   };
+  /** ID de anclaje opcional. Permite enlazar con `/slug#anchorId`. */
+  anchorId?: string;
 };
 
 /** Default vacío para crear una página nueva con plantilla C. */
@@ -339,6 +415,8 @@ export type ContenidoPlantillaD = {
     icono?: string;
     texto: string;
   };
+  /** ID de anclaje opcional. Permite enlazar con `/slug#anchorId`. */
+  anchorId?: string;
 };
 
 /** Default vacío para crear una página nueva con plantilla D. */
@@ -461,6 +539,10 @@ export type ContenidoPlantillaF = {
   };
   /** Sección oscura inferior. Si tipo="ninguna" no se renderiza. */
   seccionInferior: SeccionInferiorPlantillaF;
+  /** Bloque opcional: botón CTA "Descargar más información" (Google Drive, PDF, etc.). */
+  descargas?: DescargaInfo;
+  /** ID de anclaje opcional. Permite enlazar con `/slug#anchorId`. */
+  anchorId?: string;
 };
 
 /** Default vacío para crear una página nueva con plantilla F. */
@@ -1051,6 +1133,33 @@ export type ContenidoPlantillaK = {
    * Si está ausente se usan los defaults hardcoded.
    */
   formulario?: FormularioPlantillaK;
+  /**
+   * Configuración de la card "Revista Atenas" que aparece SOLO en
+   * `/servicios/biblioteca`. Si está ausente o `enabled: false`, no
+   * se renderiza. Si está presente y enabled, todos los textos y la URL
+   * son editables desde el backoffice.
+   */
+  revistaAtenas?: RevistaAtenasConfig;
+};
+
+/** Card "Revista Atenas" editable (solo aplica a /servicios/biblioteca). */
+export type RevistaAtenasConfig = {
+  /** Si false, la card no se renderiza aunque biblioteca tenga este bloque. */
+  enabled: boolean;
+  /** Eyebrow pequeño dorado (ej. "RECURSO DESTACADO"). */
+  eyebrow?: string;
+  /** Título principal de la card (ej. "Revista Atenas"). */
+  titulo?: string;
+  /** Párrafo descriptivo bajo el título. */
+  descripcion?: string;
+  /** Texto del botón CTA. */
+  ctaText?: string;
+  /** URL del botón. Si es externa, se abre en nueva pestaña. */
+  ctaUrl?: string;
+  /** Foto de portada de la revista (aparece a la derecha de la card en desktop). */
+  coverImage?: string;
+  /** Alt text de la foto de portada. */
+  coverAlt?: string;
 };
 
 /** Default vacío para crear una página nueva con plantilla K. */

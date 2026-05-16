@@ -13,10 +13,39 @@ export function FormContactos() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.1 });
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSent(true);
+    if (submitting) return;
+    setSubmitting(true);
+    setErrorMsg(null);
+
+    const formData = new FormData(e.currentTarget);
+    const payload = {
+      nombre: String(formData.get("nombre") ?? "").trim(),
+      correo: String(formData.get("correo") ?? "").trim(),
+      asunto: String(formData.get("asunto") ?? "").trim(),
+      mensaje: String(formData.get("mensaje") ?? "").trim(),
+    };
+
+    try {
+      const res = await fetch("/api/contactos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data?.error ?? "No pudimos enviar tu mensaje.");
+      }
+      setSent(true);
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "Error inesperado.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -199,12 +228,25 @@ export function FormContactos() {
               />
             </div>
 
+            {errorMsg && (
+              <p
+                style={{
+                  fontFamily: "Poppins, sans-serif",
+                  fontSize: 13,
+                  color: "#B23A48",
+                }}
+              >
+                {errorMsg}
+              </p>
+            )}
+
             <button
               type="submit"
-              className="inline-flex items-center gap-[10px] self-start rounded-[8px] px-[28px] py-[14px] font-bold text-[14px] bg-[#1A2B4A] text-white hover:bg-[#243d6a] transition-colors"
+              disabled={submitting}
+              className="inline-flex items-center gap-[10px] self-start rounded-[8px] px-[28px] py-[14px] font-bold text-[14px] bg-[#1A2B4A] text-white hover:bg-[#243d6a] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              Enviar mensaje
+              {submitting ? "Enviando…" : "Enviar mensaje"}
               <Send size={16} />
             </button>
           </form>
