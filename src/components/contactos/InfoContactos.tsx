@@ -5,20 +5,28 @@ import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Phone, MapPin, Mail, ArrowRight } from "lucide-react";
+import { CONTACTOS_PAGINA_DEFAULT, type ContactosPaginaConfig } from "@/lib/cms/contactosPagina";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
-const extensions = [
-  { ext: "100", dept: "Recepción / Asistente General", primary: true },
-  { ext: "140", dept: "Secretaría Colegio", primary: false },
-  { ext: "150", dept: "Secretaría Escuela", primary: false },
-  { ext: "260", dept: "Secretaría IB", primary: false },
-  { ext: "190", dept: "Tesorería", primary: false },
-  { ext: "135", dept: "Admisiones", primary: false },
-  { ext: "112 / 180", dept: "Servicio al Cliente", primary: false },
-];
+export type InfoContactosProps = {
+  canales?: ContactosPaginaConfig["canales"];
+  /** Número grande de la tarjeta de teléfono (ej. "03 2854281"). Viene de configuracion_global[contacto]. */
+  telefonoPrincipal?: string;
+  /** Dirección completa a 2 líneas + ciudad. */
+  direccionLinea1?: string;
+  direccionLinea2?: string;
+  /** Email institucional principal mostrado en la tarjeta. */
+  emailPrincipal?: string;
+};
 
-export function InfoContactos() {
+export function InfoContactos({
+  canales = CONTACTOS_PAGINA_DEFAULT.canales,
+  telefonoPrincipal = "03 2854281",
+  direccionLinea1 = "Calle Gabriel Román s/n",
+  direccionLinea2 = "Av. Pedro Vásconez Yacupamba, Izamba\nAmbato, Ecuador EC 180156",
+  emailPrincipal = "admisiones@atenas.edu.ec",
+}: InfoContactosProps = {}) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.1 });
 
@@ -28,7 +36,7 @@ export function InfoContactos() {
       {/* ─── Franja fotográfica ─── */}
       <div className="relative w-full overflow-hidden" style={{ height: 220 }}>
         <Image
-          src="https://images.unsplash.com/photo-1758270703733-3663d99c9dd7?w=1440&q=80"
+          src={canales.bannerImagen}
           alt="Campus Unidad Educativa Atenas"
           fill
           className="object-cover object-center"
@@ -81,7 +89,7 @@ export function InfoContactos() {
                 textTransform: "uppercase",
               }}
             >
-              Información de contacto
+              {canales.eyebrow}
             </span>
           </div>
           <h2
@@ -92,7 +100,7 @@ export function InfoContactos() {
               color: "#1A2B4A",
             }}
           >
-            Canales de atención
+            {canales.heading}
           </h2>
         </motion.div>
 
@@ -117,7 +125,7 @@ export function InfoContactos() {
                   color: "#1A2B4A",
                 }}
               >
-                Teléfono Central
+                {canales.tarjetaTelefono.titulo}
               </span>
             </div>
 
@@ -130,13 +138,13 @@ export function InfoContactos() {
                 letterSpacing: -0.5,
               }}
             >
-              03 2854281
+              {telefonoPrincipal}
             </span>
 
             <div style={{ height: 1, background: "#E8E4DD" }} />
 
             <div className="flex flex-col gap-[9px]">
-              {extensions.map(({ ext, dept, primary }) => (
+              {canales.tarjetaTelefono.extensiones.map(({ ext, dept, primary }) => (
                 <p
                   key={ext}
                   style={{
@@ -172,7 +180,7 @@ export function InfoContactos() {
                   color: "#1A2B4A",
                 }}
               >
-                Dirección y Horario
+                {canales.tarjetaDireccion.titulo}
               </span>
             </div>
 
@@ -185,7 +193,7 @@ export function InfoContactos() {
                   color: "#1A2B4A",
                 }}
               >
-                Calle Gabriel Román s/n
+                {direccionLinea1}
               </p>
               <p
                 style={{
@@ -194,11 +202,10 @@ export function InfoContactos() {
                   color: "rgba(26,43,74,0.55)",
                   lineHeight: 1.55,
                   marginTop: 4,
+                  whiteSpace: "pre-line",
                 }}
               >
-                Av. Pedro Vásconez Yacupamba, Izamba
-                <br />
-                Ambato, Ecuador EC 180156
+                {direccionLinea2}
               </p>
             </div>
 
@@ -213,7 +220,7 @@ export function InfoContactos() {
                   lineHeight: 1.5,
                 }}
               >
-                Lunes a Viernes&nbsp;&nbsp;·&nbsp;&nbsp;7:30 – 15:30
+                {canales.tarjetaDireccion.horarioLaboral}
               </p>
               <p
                 style={{
@@ -223,7 +230,7 @@ export function InfoContactos() {
                   lineHeight: 1.5,
                 }}
               >
-                Sábado y Domingo&nbsp;&nbsp;·&nbsp;&nbsp;Cerrado
+                {canales.tarjetaDireccion.horarioFinde}
               </p>
             </div>
           </motion.div>
@@ -249,7 +256,7 @@ export function InfoContactos() {
                   color: "#FFFFFF",
                 }}
               >
-                Correo Electrónico
+                {canales.tarjetaEmail.titulo}
               </span>
             </div>
 
@@ -261,7 +268,7 @@ export function InfoContactos() {
                 color: "#C9A84C",
               }}
             >
-              admisiones@atenas.edu.ec
+              {emailPrincipal}
             </span>
 
             <div style={{ height: 1, background: "rgba(255,255,255,0.10)" }} />
@@ -274,16 +281,27 @@ export function InfoContactos() {
                 lineHeight: 1.6,
               }}
             >
-              Para consultas sobre admisiones, matrículas y servicios
-              institucionales. Respondemos en máximo 48 horas.
+              {canales.tarjetaEmail.descripcion}
             </p>
 
             <Link
-              href="mailto:admisiones@atenas.edu.ec"
+              href={canales.tarjetaEmail.ctaHref || `mailto:${emailPrincipal}`}
+              target={
+                canales.tarjetaEmail.ctaHref &&
+                /^https?:\/\//i.test(canales.tarjetaEmail.ctaHref)
+                  ? "_blank"
+                  : undefined
+              }
+              rel={
+                canales.tarjetaEmail.ctaHref &&
+                /^https?:\/\//i.test(canales.tarjetaEmail.ctaHref)
+                  ? "noopener noreferrer"
+                  : undefined
+              }
               className="inline-flex items-center gap-2 self-start rounded-[8px] px-[18px] py-[10px] font-bold text-[13px] bg-[#C9A84C] text-[#0D1825] hover:bg-[#dbb95a] transition-colors"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              Enviar correo
+              {canales.tarjetaEmail.ctaLabel}
               <ArrowRight size={14} />
             </Link>
           </motion.div>

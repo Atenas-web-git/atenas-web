@@ -359,3 +359,19 @@ export type {
   SmtpConfig,
   CorreosConfig,
 } from "./correos";
+
+// ─── Footer global ─────────────────────────────────────────────
+// Tipos puros en @/lib/cms/footer (patrón #25). Re-export aquí para
+// que server components que importan getConfiguracion sigan funcionando.
+export { FOOTER_DEFAULT, mergeFooter } from "./footer";
+export type {
+  FooterConfig,
+  FooterCTAButton,
+  FooterAliado,
+  FooterLink,
+} from "./footer";
+
+// ─── /contactos página ─────────────────────────────────────────
+// Tipos puros en @/lib/cms/contactosPagina (patrón #25).
+export { CONTACTOS_PAGINA_DEFAULT, mergeContactosPagina } from "./contactosPagina";
+export type { ContactosPaginaConfig, ExtensionContacto } from "./contactosPagina";

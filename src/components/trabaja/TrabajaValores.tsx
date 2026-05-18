@@ -3,41 +3,70 @@
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Briefcase, Award, Heart } from "lucide-react";
+import { DynamicIcon, type IconName } from "lucide-react/dynamic";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
-const VALORES = [
+export type TrabajaValorItem = {
+  imagen: string;
+  iconName: string;
+  color: "gold" | "navy" | "red";
+  titulo: string;
+  descripcion: string;
+};
+
+export type TrabajaValoresProps = {
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  items?: TrabajaValorItem[];
+};
+
+const DEFAULT_ITEMS: TrabajaValorItem[] = [
   {
     imagen: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80",
-    Icono: Briefcase,
-    iconoBg: "rgba(201,168,76,0.12)",
-    iconoColor: "#C9A84C",
+    iconName: "briefcase",
+    color: "gold",
     titulo: "Estabilidad Laboral",
     descripcion:
       "Institución con más de 50 años de trayectoria, reconocida a nivel nacional como colegio IB.",
   },
   {
     imagen: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80",
-    Icono: Award,
-    iconoBg: "rgba(26,43,74,0.08)",
-    iconoColor: "#1A2B4A",
+    iconName: "award",
+    color: "navy",
     titulo: "Desarrollo Profesional",
     descripcion:
       "Capacitaciones continuas, programa IB reconocido internacionalmente y red de colaboración docente.",
   },
   {
     imagen: "https://images.unsplash.com/photo-1491841573634-28140fc7ced7?w=800&q=80",
-    Icono: Heart,
-    iconoBg: "rgba(158,25,21,0.08)",
-    iconoColor: "#9e1915",
+    iconName: "heart",
+    color: "red",
     titulo: "Impacto Real",
     descripcion:
       "Formamos líderes desde Educación Inicial hasta Bachillerato IB, marcando una diferencia en la comunidad.",
   },
 ];
 
-export function TrabajaValores() {
+const COLOR_BG: Record<TrabajaValorItem["color"], string> = {
+  gold: "rgba(201,168,76,0.12)",
+  navy: "rgba(26,43,74,0.08)",
+  red: "rgba(158,25,21,0.08)",
+};
+
+const COLOR_FG: Record<TrabajaValorItem["color"], string> = {
+  gold: "#C9A84C",
+  navy: "#1A2B4A",
+  red: "#9e1915",
+};
+
+export function TrabajaValores({
+  eyebrow = "Recursos Humanos",
+  heading = "Únete a nuestro equipo",
+  description = "Buscamos profesionales apasionados por la educación. Completa el formulario y forma parte de nuestra base de datos de candidatos para futuras convocatorias.",
+  items = DEFAULT_ITEMS,
+}: TrabajaValoresProps = {}) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.1 });
 
@@ -69,7 +98,7 @@ export function TrabajaValores() {
                 textTransform: "uppercase",
               }}
             >
-              Recursos Humanos
+              {eyebrow}
             </span>
           </motion.div>
 
@@ -87,7 +116,7 @@ export function TrabajaValores() {
               animate={inView ? { y: 0, opacity: 1 } : {}}
               transition={{ duration: 0.7, delay: 0.18, ease }}
             >
-              Únete a nuestro equipo
+              {heading}
             </motion.h2>
           </div>
 
@@ -104,16 +133,15 @@ export function TrabajaValores() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.55, delay: 0.3, ease }}
           >
-            Buscamos profesionales apasionados por la educación. Completa el formulario y forma
-            parte de nuestra base de datos de candidatos para futuras convocatorias.
+            {description}
           </motion.p>
         </div>
 
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {VALORES.map((v, i) => (
+          {items.map((v, i) => (
             <motion.div
-              key={v.titulo}
+              key={`${v.titulo}-${i}`}
               className="rounded-2xl overflow-hidden"
               style={{
                 background: "#FFFFFF",
@@ -126,30 +154,37 @@ export function TrabajaValores() {
               whileHover={{ y: -4, boxShadow: "0 12px 40px rgba(13,24,37,0.10)" }}
             >
               {/* Imagen */}
-              <div className="relative overflow-hidden" style={{ height: 200 }}>
-                <Image
-                  src={v.imagen}
-                  alt={v.titulo}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                />
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, transparent 40%, rgba(13,24,37,0.40) 100%)",
-                  }}
-                />
-              </div>
+              {v.imagen && (
+                <div className="relative overflow-hidden" style={{ height: 200 }}>
+                  <Image
+                    src={v.imagen}
+                    alt={v.titulo}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, transparent 40%, rgba(13,24,37,0.40) 100%)",
+                    }}
+                  />
+                </div>
+              )}
 
               {/* Contenido */}
               <div className="flex flex-col gap-3 p-6">
                 <div
                   className="flex items-center justify-center rounded-xl flex-shrink-0"
-                  style={{ width: 44, height: 44, background: v.iconoBg }}
+                  style={{ width: 44, height: 44, background: COLOR_BG[v.color] }}
                 >
-                  <v.Icono size={20} color={v.iconoColor} strokeWidth={1.8} />
+                  <DynamicIcon
+                    name={v.iconName as IconName}
+                    size={20}
+                    color={COLOR_FG[v.color]}
+                    strokeWidth={1.8}
+                  />
                 </div>
                 <h3
                   style={{

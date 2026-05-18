@@ -6,7 +6,36 @@ import { useRef } from "react";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
-export function TrabajaHero() {
+export type TrabajaHeroProps = {
+  eyebrow?: string;
+  titleLine1?: string;
+  titleLine2?: string;
+  description?: string;
+  caption?: string;
+  ghostText?: string;
+  bgImage?: string;
+};
+
+const DEFAULTS = {
+  eyebrow: "UNIDAD EDUCATIVA ATENAS",
+  titleLine1: "Trabaja con",
+  titleLine2: "Nosotros",
+  description:
+    "Forma parte de un equipo comprometido con la educación de excelencia. Buscamos profesionales apasionados por transformar vidas.",
+  caption: "Unidad Educativa Atenas · Izamba, Ambato",
+  ghostText: "TRABAJA",
+  bgImage: "https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=1440&q=80",
+};
+
+export function TrabajaHero({
+  eyebrow = DEFAULTS.eyebrow,
+  titleLine1 = DEFAULTS.titleLine1,
+  titleLine2 = DEFAULTS.titleLine2,
+  description = DEFAULTS.description,
+  caption = DEFAULTS.caption,
+  ghostText = DEFAULTS.ghostText,
+  bgImage = DEFAULTS.bgImage,
+}: TrabajaHeroProps = {}) {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -26,7 +55,7 @@ export function TrabajaHero() {
         style={{ y: bgY, willChange: "transform" }}
       >
         <Image
-          src="https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=1440&q=80"
+          src={bgImage}
           alt=""
           fill
           priority
@@ -69,7 +98,7 @@ export function TrabajaHero() {
             whiteSpace: "nowrap",
           }}
         >
-          TRABAJA
+          {ghostText}
         </span>
       </div>
 
@@ -90,7 +119,7 @@ export function TrabajaHero() {
             whiteSpace: "nowrap",
           }}
         >
-          TRABAJA
+          {ghostText}
         </span>
       </div>
 
@@ -186,7 +215,7 @@ export function TrabajaHero() {
               textTransform: "uppercase",
             }}
           >
-            UNIDAD EDUCATIVA ATENAS
+            {eyebrow}
           </span>
         </motion.div>
 
@@ -203,7 +232,9 @@ export function TrabajaHero() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.75, delay: 0.28, ease }}
           >
-            Trabaja con<br />Nosotros
+            {titleLine1}
+            <br />
+            {titleLine2}
           </motion.h1>
         </div>
 
@@ -214,13 +245,13 @@ export function TrabajaHero() {
             color: "rgba(255,255,255,0.65)",
             lineHeight: 1.65,
             maxWidth: 480,
+            whiteSpace: "pre-line",
           }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.48, ease }}
         >
-          Forma parte de un equipo comprometido con la educación de excelencia.
-          Buscamos profesionales apasionados por transformar vidas.
+          {description}
         </motion.p>
 
         <motion.p
@@ -234,7 +265,7 @@ export function TrabajaHero() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.65, ease }}
         >
-          Unidad Educativa Atenas · Izamba, Ambato
+          {caption}
         </motion.p>
       </div>
     </section>

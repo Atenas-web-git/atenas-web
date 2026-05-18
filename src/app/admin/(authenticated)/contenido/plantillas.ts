@@ -17,7 +17,8 @@ export type PlantillaSlug =
   | "tpl_j_landing_matriculas"
   | "tpl_k_ficha_servicio"
   | "tpl_l_ficha_espacio"
-  | "tpl_m_home";
+  | "tpl_m_home"
+  | "tpl_n_trabaja";
 
 export type PlantillaCategoria =
   | "texto-institucional"
@@ -182,6 +183,15 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
     ejemploSlugs: ["home"],
     implementada: true,
     categoria: "home",
+  },
+  tpl_n_trabaja: {
+    slug: "tpl_n_trabaja",
+    letra: "N",
+    nombre: "Trabaja con Nosotros",
+    descripcion: "Ficha de captación de talento: Hero, sección de valores (3+ tarjetas con foto + icono Lucide + título + descripción) y encabezado del formulario de postulación. La lógica del wizard (campos, cargos, áreas, formación, disponibilidad) se mantiene en código.",
+    ejemploSlugs: ["trabaja-con-nosotros"],
+    implementada: true,
+    categoria: "fichas",
   },
 };
 
@@ -1605,3 +1615,86 @@ export function defaultContenidoPlantillaM(): ContenidoPlantillaM {
   };
 }
 
+
+// ─── Plantilla N (Trabaja con Nosotros — hero + valores + form) ──────
+
+export type ValorPlantillaN = {
+  /** URL de la foto que ocupa la parte superior de la tarjeta. */
+  imagen: string;
+  /** Nombre Lucide en kebab-case (ej. "briefcase", "award", "heart"). */
+  iconName: string;
+  /** Acento de color del bloque del icono. Default: "gold". */
+  color: "gold" | "navy" | "red";
+  titulo: string;
+  descripcion: string;
+};
+
+export type ContenidoPlantillaN = {
+  hero: {
+    eyebrow: string;
+    /** Título a 2 líneas (segunda en dorado). */
+    titleLine1: string;
+    titleLine2: string;
+    description: string;
+    caption: string;
+    ghostText: string;
+    bgImage: string;
+  };
+  valores: {
+    eyebrow: string;
+    heading: string;
+    description: string;
+    items: ValorPlantillaN[];
+  };
+  formulario: {
+    heading: string;
+    subtitle: string;
+    /** Etiqueta del paso 1 del wizard. */
+    step1Label: string;
+    /** Etiqueta del paso 2 del wizard. */
+    step2Label: string;
+    successTitle: string;
+    successText: string;
+  };
+};
+
+export function defaultContenidoPlantillaN(): ContenidoPlantillaN {
+  return {
+    hero: {
+      eyebrow: "UNIDAD EDUCATIVA ATENAS",
+      titleLine1: "Trabaja con",
+      titleLine2: "Nosotros",
+      description:
+        "Forma parte de un equipo comprometido con la educación de excelencia. Buscamos profesionales apasionados por transformar vidas.",
+      caption: "Unidad Educativa Atenas · Izamba, Ambato",
+      ghostText: "TRABAJA",
+      bgImage:
+        "https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=1440&q=80",
+    },
+    valores: {
+      eyebrow: "Recursos Humanos",
+      heading: "Únete a nuestro equipo",
+      description:
+        "Buscamos profesionales apasionados por la educación. Completa el formulario y forma parte de nuestra base de datos de candidatos para futuras convocatorias.",
+      items: [
+        {
+          imagen: "",
+          iconName: "briefcase",
+          color: "gold",
+          titulo: "Primer valor",
+          descripcion: "Descripción breve del valor o beneficio destacado.",
+        },
+      ],
+    },
+    formulario: {
+      heading: "Completa tu postulación",
+      subtitle:
+        "Formulario en 2 pasos · Los datos serán enviados al equipo de RRHH de la Unidad Educativa Atenas.",
+      step1Label: "Datos Personales",
+      step2Label: "Perfil Profesional",
+      successTitle: "¡Postulación enviada!",
+      successText:
+        "Hemos recibido tu información. El equipo de RRHH la revisará y se contactará contigo si tu perfil avanza al siguiente paso.",
+    },
+  };
+}

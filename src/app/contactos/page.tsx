@@ -4,6 +4,15 @@ import { HeroContactos } from "@/components/contactos/HeroContactos";
 import { InfoContactos } from "@/components/contactos/InfoContactos";
 import { FormContactos } from "@/components/contactos/FormContactos";
 import { FooterCTA } from "@/components/home/FooterCTA";
+import {
+  getConfiguracion,
+  mergeContacto,
+  type Contacto,
+} from "@/lib/cms/getConfiguracion";
+import {
+  mergeContactosPagina,
+  type ContactosPaginaConfig,
+} from "@/lib/cms/contactosPagina";
 
 export const metadata: Metadata = {
   title: "Contactos — Unidad Educativa Atenas",
@@ -18,14 +27,52 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ContactosPage() {
+/**
+ * Toma los datos primarios de contacto (teléfono central + dirección
+ * cruda + email principal) desde `configuracion_global['contacto']` y
+ * los normaliza para inyectarlos en los componentes de /contactos.
+ *
+ * El teléfono "central" es el primer telefónico de la lista. El email
+ * principal es el primero del array. Si no hay nada en BD, se usan los
+ * defaults razonables del colegio.
+ */
+function deriveContactoPrimario(contacto: Contacto) {
+  const tel = contacto.telefonos[0];
+  const telefonoPrincipal = tel?.numero || "03 2854281";
+  const telefonoExtension = tel?.extension
+    ? `ext. ${tel.extension} ${tel.label}`.trim()
+    : tel?.label || "ext. 100 Recepción";
+
+  const email = contacto.emails[0];
+  const emailPrincipal = email?.email || "admisiones@atenas.edu.ec";
+
+  return { telefonoPrincipal, telefonoExtension, emailPrincipal };
+}
+
+export default async function ContactosPage() {
+  const [rawPagina, rawContacto] = await Promise.all([
+    getConfiguracion<Partial<ContactosPaginaConfig>>("contactos_pagina"),
+    getConfiguracion<Partial<Contacto>>("contacto"),
+  ]);
+  const pagina = mergeContactosPagina(rawPagina);
+  const contacto = mergeContacto(rawContacto);
+  const primario = deriveContactoPrimario(contacto);
+
   return (
     <>
       <Navbar />
       <main>
-        <HeroContactos />
-        <InfoContactos />
-        <FormContactos />
+        <HeroContactos
+          hero={pagina.hero}
+          telefonoPrincipal={primario.telefonoPrincipal}
+          telefonoExtension={primario.telefonoExtension}
+        />
+        <InfoContactos
+          canales={pagina.canales}
+          telefonoPrincipal={primario.telefonoPrincipal}
+          emailPrincipal={primario.emailPrincipal}
+        />
+        <FormContactos formulario={pagina.formulario} mapa={pagina.mapa} />
         <FooterCTA />
       </main>
     </>

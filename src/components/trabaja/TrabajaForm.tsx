@@ -94,7 +94,34 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
-export function TrabajaForm() {
+export type TrabajaFormProps = {
+  heading?: string;
+  subtitle?: string;
+  step1Label?: string;
+  step2Label?: string;
+  successTitle?: string;
+  successText?: string;
+};
+
+const FORM_DEFAULTS = {
+  heading: "Completa tu postulación",
+  subtitle:
+    "Formulario en 2 pasos · Los datos serán enviados al equipo de RRHH de la Unidad Educativa Atenas.",
+  step1Label: "Datos Personales",
+  step2Label: "Perfil Profesional",
+  successTitle: "¡Postulación enviada!",
+  successText:
+    "Hemos recibido tu información. El equipo de RRHH la revisará y se contactará contigo si tu perfil avanza al siguiente paso.",
+};
+
+export function TrabajaForm({
+  heading = FORM_DEFAULTS.heading,
+  subtitle = FORM_DEFAULTS.subtitle,
+  step1Label = FORM_DEFAULTS.step1Label,
+  step2Label = FORM_DEFAULTS.step2Label,
+  successTitle = FORM_DEFAULTS.successTitle,
+  successText = FORM_DEFAULTS.successText,
+}: TrabajaFormProps = {}) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.08 });
   const [step, setStep] = useState<1 | 2>(1);
@@ -154,7 +181,7 @@ export function TrabajaForm() {
               margin: "0 0 8px",
             }}
           >
-            Completa tu postulación
+            {heading}
           </h2>
           <p
             style={{
@@ -164,8 +191,7 @@ export function TrabajaForm() {
               margin: 0,
             }}
           >
-            Formulario en 2 pasos · Los datos serán enviados al equipo de RRHH de la Unidad
-            Educativa Atenas.
+            {subtitle}
           </p>
         </motion.div>
 
@@ -210,7 +236,7 @@ export function TrabajaForm() {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  Datos Personales
+                  {step1Label}
                 </span>
               </div>
 
@@ -245,7 +271,7 @@ export function TrabajaForm() {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  Perfil Profesional
+                  {step2Label}
                 </span>
               </div>
             </div>
@@ -273,7 +299,7 @@ export function TrabajaForm() {
                     margin: 0,
                   }}
                 >
-                  ¡Postulación enviada!
+                  {successTitle}
                 </p>
                 <p
                   style={{
@@ -285,8 +311,7 @@ export function TrabajaForm() {
                     margin: 0,
                   }}
                 >
-                  Hemos recibido tu información. El equipo de RRHH la revisará y se pondrá en
-                  contacto contigo si tu perfil coincide con las necesidades de la institución.
+                  {successText}
                 </p>
               </motion.div>
             ) : (

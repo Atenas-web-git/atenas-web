@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Calendar, FileCheck2, CalendarClock, Palette, Phone, Code, Menu, Search, ArrowRight, Mail } from "lucide-react";
+import { Calendar, FileCheck2, CalendarClock, Palette, Phone, Code, Menu, Search, ArrowRight, Mail, PanelBottom, MapPin } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole, hasRole } from "@/lib/auth/types";
 
@@ -31,6 +31,20 @@ const SECCIONES = [
     title: "Correos",
     description: "Proveedor de envío (Resend o SMTP), credenciales y presets de remitente/destinatario para cada formulario y para el pipeline de admisiones.",
     icon: Mail,
+    onlySuperadmin: true,
+  },
+  {
+    href: "/admin/configuracion/footer",
+    title: "Footer global",
+    description: "Bloque al pie de TODAS las páginas: foto de fondo, headline, subtítulo, 2 botones CTA, aliados estratégicos (chips), links del pie y copyright. Datos de contacto y redes vienen de la sección Contacto.",
+    icon: PanelBottom,
+    onlySuperadmin: true,
+  },
+  {
+    href: "/admin/configuracion/contactos-pagina",
+    title: "Página /contactos",
+    description: "Contenido editable de la página pública /contactos: hero, tarjeta flotante, sección 'Canales de atención' (3 tarjetas con extensiones, dirección, email), textos del formulario y embed de Google Maps.",
+    icon: MapPin,
     onlySuperadmin: true,
   },
   {

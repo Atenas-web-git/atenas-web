@@ -3,10 +3,31 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Phone, MapPin, Clock } from "lucide-react";
+import { CONTACTOS_PAGINA_DEFAULT, type ContactosPaginaConfig } from "@/lib/cms/contactosPagina";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
-export function HeroContactos() {
+export type HeroContactosProps = {
+  hero?: ContactosPaginaConfig["hero"];
+  /** Línea principal con número + extensión (ej. "03 2854281"). */
+  telefonoPrincipal?: string;
+  /** Texto secundario bajo el número (ej. "ext. 100 Recepción"). */
+  telefonoExtension?: string;
+  /** Dirección a 2 líneas. La segunda mostrada bajo "y ...". */
+  direccionLinea1?: string;
+  direccionLinea2?: string;
+  /** Horario corto (ej. "Lun–Vie · 7:30 – 15:30"). */
+  horarioCorto?: string;
+};
+
+export function HeroContactos({
+  hero = CONTACTOS_PAGINA_DEFAULT.hero,
+  telefonoPrincipal = "03 2854281",
+  telefonoExtension = "ext. 100 Recepción",
+  direccionLinea1 = "Calle Gabriel Román s/n",
+  direccionLinea2 = "y Av. Pedro Vásconez, Izamba",
+  horarioCorto = "Lun–Vie · 7:30 – 15:30",
+}: HeroContactosProps = {}) {
   return (
     <section
       className="relative overflow-hidden bg-[#0D1825]"
@@ -15,7 +36,7 @@ export function HeroContactos() {
       {/* ─── Fondo ─── */}
       <div className="absolute inset-0">
         <Image
-          src="https://images.unsplash.com/photo-1604960198403-53793a3916b5?w=1440&q=80"
+          src={hero.bgImage}
           alt=""
           fill
           priority
@@ -55,7 +76,7 @@ export function HeroContactos() {
             whiteSpace: "nowrap",
           }}
         >
-          CONTACTOS
+          {hero.ghostText}
         </span>
       </div>
 
@@ -75,7 +96,7 @@ export function HeroContactos() {
             lineHeight: 1,
           }}
         >
-          CONTACTOS
+          {hero.ghostText}
         </span>
       </div>
 
@@ -171,12 +192,12 @@ export function HeroContactos() {
               textTransform: "uppercase",
             }}
           >
-            Unidad Educativa Atenas
+            {hero.eyebrow}
           </span>
         </motion.div>
 
         <div>
-          {(["Estamos", "aquí para ti."] as const).map((line, i) => (
+          {([hero.titleLine1, hero.titleLine2] as const).map((line, i) => (
             <div key={i} className="overflow-hidden">
               <motion.span
                 className="block"
@@ -204,14 +225,13 @@ export function HeroContactos() {
             color: "rgba(255,255,255,0.65)",
             lineHeight: 1.65,
             maxWidth: 480,
+            whiteSpace: "pre-line",
           }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.56, ease }}
         >
-          Escríbenos, llámanos o visítanos.
-          <br />
-          Nuestro equipo está listo para orientarte en todo lo que necesites.
+          {hero.description}
         </motion.p>
 
         <motion.p
@@ -225,7 +245,7 @@ export function HeroContactos() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.75, ease }}
         >
-          Calle Gabriel Román s/n y Av. Pedro Vásconez · Izamba, Ambato
+          {hero.caption}
         </motion.p>
       </div>
 
@@ -253,7 +273,7 @@ export function HeroContactos() {
               letterSpacing: 1,
             }}
           >
-            Contáctanos
+            {hero.tarjeta.titulo}
           </p>
           <p
             style={{
@@ -263,7 +283,7 @@ export function HeroContactos() {
               marginTop: 2,
             }}
           >
-            Respuesta rápida garantizada
+            {hero.tarjeta.subtitulo}
           </p>
         </div>
 
@@ -279,7 +299,7 @@ export function HeroContactos() {
                   color: "#FFFFFF",
                 }}
               >
-                03 2854281
+                {telefonoPrincipal}
               </span>
               <span
                 style={{
@@ -288,7 +308,7 @@ export function HeroContactos() {
                   color: "rgba(255,255,255,0.50)",
                 }}
               >
-                ext. 100 Recepción
+                {telefonoExtension}
               </span>
             </div>
           </div>
@@ -309,8 +329,9 @@ export function HeroContactos() {
                 lineHeight: 1.55,
               }}
             >
-              Calle Gabriel Román s/n
-              <br />y Av. Pedro Vásconez, Izamba
+              {direccionLinea1}
+              <br />
+              {direccionLinea2}
             </p>
           </div>
 
@@ -325,7 +346,7 @@ export function HeroContactos() {
                 color: "rgba(255,255,255,0.70)",
               }}
             >
-              Lun–Vie · 7:30 – 15:30
+              {horarioCorto}
             </span>
           </div>
         </div>
@@ -352,7 +373,7 @@ export function HeroContactos() {
               color: "#FFFFFF",
             }}
           >
-            03 2854281
+            {telefonoPrincipal}
           </span>
           <div
             style={{
@@ -370,7 +391,7 @@ export function HeroContactos() {
               color: "rgba(255,255,255,0.65)",
             }}
           >
-            Lun–Vie 7:30–15:30
+            {horarioCorto}
           </span>
         </div>
       </motion.div>

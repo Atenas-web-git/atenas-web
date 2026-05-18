@@ -3,13 +3,19 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { MapPin, Send } from "lucide-react";
+import { CONTACTOS_PAGINA_DEFAULT, type ContactosPaginaConfig } from "@/lib/cms/contactosPagina";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
-const MAPS_EMBED =
-  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.913587059848!2d-78.58488182487221!3d-1.22019589876816!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d380d94d5ebf2d%3A0x48c002fa0be9f24a!2sUnidad%20Educativa%20Atenas!5e0!3m2!1ses!2sec!4v1776877754704!5m2!1ses!2sec";
+export type FormContactosProps = {
+  formulario?: ContactosPaginaConfig["formulario"];
+  mapa?: ContactosPaginaConfig["mapa"];
+};
 
-export function FormContactos() {
+export function FormContactos({
+  formulario = CONTACTOS_PAGINA_DEFAULT.formulario,
+  mapa = CONTACTOS_PAGINA_DEFAULT.mapa,
+}: FormContactosProps = {}) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.1 });
   const [sent, setSent] = useState(false);
@@ -59,9 +65,9 @@ export function FormContactos() {
         className="relative hidden md:block flex-shrink-0 overflow-hidden"
         style={{ width: "48.6%", minHeight: 720 }}
       >
-        {/* Badge ubicación */}
+        {/* Badge ubicación — a la derecha para no chocar con la card nativa de Google Maps */}
         <div
-          className="absolute left-8 top-8 z-10 flex items-center gap-2 rounded-[8px] px-[14px] py-[8px]"
+          className="absolute right-8 top-8 z-10 flex items-center gap-2 rounded-[8px] px-[14px] py-[8px]"
           style={{
             background: "rgba(13,24,37,0.80)",
             backdropFilter: "blur(8px)",
@@ -76,13 +82,13 @@ export function FormContactos() {
               color: "#FFFFFF",
             }}
           >
-            Izamba · Ambato, Ecuador
+            {mapa.badgeText}
           </span>
         </div>
 
         {/* Google Maps iframe */}
         <iframe
-          src={MAPS_EMBED}
+          src={mapa.embedUrl}
           title="Ubicación Unidad Educativa Atenas"
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0 }}
           allowFullScreen
@@ -115,7 +121,7 @@ export function FormContactos() {
                 textTransform: "uppercase",
               }}
             >
-              Escríbenos
+              {formulario.eyebrow}
             </span>
           </div>
           <h2
@@ -126,7 +132,7 @@ export function FormContactos() {
               color: "#1A2B4A",
             }}
           >
-            Envíanos un mensaje
+            {formulario.heading}
           </h2>
           <p
             style={{
@@ -136,7 +142,7 @@ export function FormContactos() {
               lineHeight: 1.6,
             }}
           >
-            Te responderemos en máximo 48 horas hábiles.
+            {formulario.subtitle}
           </p>
         </div>
 
@@ -161,7 +167,7 @@ export function FormContactos() {
                 color: "#1A2B4A",
               }}
             >
-              ¡Mensaje enviado!
+              {formulario.successTitle}
             </h3>
             <p
               style={{
@@ -171,7 +177,7 @@ export function FormContactos() {
                 maxWidth: 360,
               }}
             >
-              Gracias por contactarnos. Nuestro equipo te responderá pronto.
+              {formulario.successText}
             </p>
           </motion.div>
         ) : (
@@ -246,7 +252,7 @@ export function FormContactos() {
               className="inline-flex items-center gap-[10px] self-start rounded-[8px] px-[28px] py-[14px] font-bold text-[14px] bg-[#1A2B4A] text-white hover:bg-[#243d6a] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              {submitting ? "Enviando…" : "Enviar mensaje"}
+              {submitting ? "Enviando…" : formulario.submitLabel}
               <Send size={16} />
             </button>
           </form>

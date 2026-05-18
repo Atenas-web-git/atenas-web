@@ -49,22 +49,23 @@ const PLANTILLAS_VALIDAS = [
   "tpl_k_ficha_servicio",
   "tpl_l_ficha_espacio",
   "tpl_m_home",
+  "tpl_n_trabaja",
 ];
 
 /**
- * Plantillas K (ficha servicio) y L (ficha espacio) NO pueden usarse para
- * páginas nuevas creadas desde el editor genérico porque dependen de datos
- * hardcoded en /data/servicios.ts y /data/espacios.ts. Solo tienen sentido
- * en las rutas físicas /servicios/[slug] y /espacios/[slug] con slugs que
- * coincidan con un item existente en esos archivos.
+ * Plantillas K (ficha servicio), L (ficha espacio) y N (trabaja con nosotros)
+ * NO pueden usarse para páginas nuevas creadas desde el editor genérico:
+ * dependen de datos hardcoded en /data/* y de rutas físicas específicas.
+ * Solo tienen sentido en su ruta única (/servicios/[slug], /espacios/[slug],
+ * /trabaja-con-nosotros).
  *
- * Las páginas ya creadas con esas plantillas (las 8 fichas /servicios/* y
- * las 6 fichas /espacios/*) siguen siendo editables; solo se bloquea la
- * creación de nuevas.
+ * Las páginas ya creadas con esas plantillas siguen siendo editables; solo se
+ * bloquea la creación de nuevas.
  */
 const PLANTILLAS_BLOQUEADAS_NUEVAS = new Set([
   "tpl_k_ficha_servicio",
   "tpl_l_ficha_espacio",
+  "tpl_n_trabaja",
 ]);
 
 async function assertEditor() {
