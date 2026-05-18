@@ -18,7 +18,10 @@ export type PlantillaSlug =
   | "tpl_k_ficha_servicio"
   | "tpl_l_ficha_espacio"
   | "tpl_m_home"
-  | "tpl_n_trabaja";
+  | "tpl_n_trabaja"
+  | "tpl_o_admision_nivel"
+  | "tpl_p_admisiones_landing"
+  | "tpl_q_contactos_pagina";
 
 export type PlantillaCategoria =
   | "texto-institucional"
@@ -190,6 +193,33 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
     nombre: "Trabaja con Nosotros",
     descripcion: "Ficha de captación de talento: Hero, sección de valores (3+ tarjetas con foto + icono Lucide + título + descripción) y encabezado del formulario de postulación. La lógica del wizard (campos, cargos, áreas, formación, disponibilidad) se mantiene en código.",
     ejemploSlugs: ["trabaja-con-nosotros"],
+    implementada: true,
+    categoria: "fichas",
+  },
+  tpl_o_admision_nivel: {
+    slug: "tpl_o_admision_nivel",
+    letra: "O",
+    nombre: "Admisión por nivel",
+    descripcion: "Hero + nav lateral entre niveles (fija) + sección detalle (heading + párrafos + chips de documentos + nota + ficha técnica + CTA visita) + bloque de 5 pasos del proceso por nivel + CTA grande de solicitud (badge + heading + beneficios + 2 CTAs). Solo aplica a las 4 sub-páginas de /admisiones — bloqueada para slugs nuevos.",
+    ejemploSlugs: ["admisiones/inicial", "admisiones/egb-elemental-media", "admisiones/egb-superior", "admisiones/ib"],
+    implementada: true,
+    categoria: "procesos-matriculas",
+  },
+  tpl_p_admisiones_landing: {
+    slug: "tpl_p_admisiones_landing",
+    letra: "P",
+    nombre: "Landing /admisiones",
+    descripcion: "Landing del módulo de admisiones (entrada al flujo): Hero con stats + collage flotante, sección Proceso (5 pasos), sección Niveles (cards), Explorar (4 cards a las sub-páginas con ctaLabel y href editables), Visita y FAQ (sección visible + JSON-LD para SEO). Solo aplica a la ruta /admisiones — bloqueada para slugs nuevos.",
+    ejemploSlugs: ["admisiones"],
+    implementada: true,
+    categoria: "landings-ricas",
+  },
+  tpl_q_contactos_pagina: {
+    slug: "tpl_q_contactos_pagina",
+    letra: "Q",
+    nombre: "Página /contactos",
+    descripcion: "Página pública de contactos: Hero con tarjeta flotante (teléfono/dirección/horario), sección 'Canales de atención' con 3 tarjetas (Teléfono + extensiones, Dirección y Horario, Correo Electrónico con ctaHref editable), formulario de mensaje y embed de Google Maps. Datos primarios (teléfono central, dirección, email) vienen de configuracion_global['contacto']. Solo aplica a la ruta /contactos — bloqueada para slugs nuevos.",
+    ejemploSlugs: ["contactos"],
     implementada: true,
     categoria: "fichas",
   },
@@ -1697,4 +1727,215 @@ export function defaultContenidoPlantillaN(): ContenidoPlantillaN {
         "Hemos recibido tu información. El equipo de RRHH la revisará y se contactará contigo si tu perfil avanza al siguiente paso.",
     },
   };
+}
+
+// ─── Plantilla O (Admisión por nivel) ─────────────────────────
+
+export type FichaItemPlantillaO = {
+  label: string;
+  value: string;
+  /** Si true, el value se pinta en dorado y bold. */
+  highlight?: boolean;
+};
+
+export type PasoPlantillaO = {
+  /** Texto del número (ej. "01", "02"). */
+  num: string;
+  title: string;
+  desc: string;
+};
+
+export type CTAItemPlantillaO = {
+  label: string;
+  href: string;
+};
+
+export type ContenidoPlantillaO = {
+  /** Slug interno usado para construir el href del formulario y la nav lateral. */
+  nivelKey: "inicial" | "egb-elemental-media" | "egb-superior" | "ib";
+  /** Nombre legible del nivel (ej. "Educación Inicial", "Bachillerato IB"). */
+  nivelLabel: string;
+  hero: {
+    badge: string;
+    title: string;
+    subtitle: string;
+    ghostText: string;
+    bgImage: string;
+  };
+  detalle: {
+    badge: string;
+    heading: string;
+    paragraphs: string[];
+    documents: string[];
+    note: string;
+    ficha: FichaItemPlantillaO[];
+    /** Tarjeta dorada CTA al pie de la sección. */
+    ctaTitulo: string;
+    ctaDescripcion: string;
+    ctaLabel: string;
+    ctaHref: string;
+  };
+  pasos: {
+    eyebrow: string;
+    heading: string;
+    items: PasoPlantillaO[];
+  };
+  ctaSolicitud: {
+    eyebrow: string;
+    heading: string;
+    /** Antes del nombre del nivel destacado en dorado. */
+    descripcionPre: string;
+    /** Después del nombre del nivel. */
+    descripcionPost: string;
+    /** Lista de beneficios (típicamente 3). */
+    beneficios: string[];
+    ctaPrimary: CTAItemPlantillaO;
+    ctaSecondary: CTAItemPlantillaO;
+    /** Nota chica al final del bloque. */
+    nota: string;
+  };
+  /**
+   * Sección "Resolvemos tus dudas" — formulario de consulta + columna
+   * izquierda con stats y collage. Se renderiza al final de cada
+   * sub-página de admisiones (antes del footer). El envío usa el
+   * endpoint /api/admisiones con purpose "admisiones-confirmacion",
+   * por lo que el destinatario del correo se configura desde
+   * /admin/configuracion/correos.
+   */
+  formularioConsulta: {
+    eyebrow: string;
+    heading: string;
+    description: string;
+    /** Stats (típicamente 3) — value + suffix + label. */
+    stats: {
+      value: string;
+      suffix: string;
+      label: string;
+    }[];
+    /** 3 fotos del collage (desktop). */
+    photos: [string, string, string];
+    /** Badge dorado flotante sobre el collage. */
+    badgeFloating: string;
+    /** Tarjeta del formulario. */
+    formCardHeading: string;
+    formCardSubtitle: string;
+    submitLabel: string;
+    sendingLabel: string;
+    successTitle: string;
+    successText: string;
+    errorText: string;
+    /** Texto de privacidad al pie del form. Acepta {link} para insertar el ancla. */
+    privacyTextPre: string;
+    privacyLinkLabel: string;
+    privacyLinkHref: string;
+    privacyTextPost: string;
+  };
+};
+
+export function defaultContenidoPlantillaO(): ContenidoPlantillaO {
+  return {
+    nivelKey: "inicial",
+    nivelLabel: "Educación Inicial",
+    hero: {
+      badge: "ADMISIONES",
+      title: "Admisión Educación Inicial",
+      subtitle: "Pre-Kinder y Kinder",
+      ghostText: "INICIAL",
+      bgImage: "",
+    },
+    detalle: {
+      badge: "Educación Inicial",
+      heading: "Requisitos para ingresar",
+      paragraphs: ["Primer párrafo descriptivo del nivel."],
+      documents: ["Cédula del representante", "Partida de nacimiento"],
+      note: "",
+      ficha: [
+        { label: "Niveles",   value: "—" },
+        { label: "Edad",      value: "—" },
+        { label: "Inicio",    value: "Septiembre" },
+      ],
+      ctaTitulo: "¿Quieres conocer el colegio?",
+      ctaDescripcion: "Agenda una visita guiada y conoce nuestras instalaciones.",
+      ctaLabel: "Agendar visita al colegio",
+      ctaHref: "/contactos",
+    },
+    pasos: {
+      eyebrow: "Proceso de admisión",
+      heading: "5 pasos para ingresar al colegio",
+      items: [
+        { num: "01", title: "Presentación de documentos", desc: "Entrega de documentos requeridos." },
+        { num: "02", title: "Entrevista familiar",        desc: "Conversación con el equipo docente." },
+        { num: "03", title: "Evaluación diagnóstica",     desc: "Identificación del nivel del estudiante." },
+        { num: "04", title: "Revisión del comité",        desc: "El equipo de admisiones analiza el expediente." },
+        { num: "05", title: "Confirmación",               desc: "Reunión final e inducción." },
+      ],
+    },
+    ctaSolicitud: {
+      eyebrow: "Solicitud de Admisión",
+      heading: "Da el primer paso hacia el futuro de tu hijo",
+      descripcionPre: "Completa la solicitud formal de admisión para",
+      descripcionPost: ". Son solo 4 pasos y nuestro equipo te contactará en menos de 48 horas hábiles.",
+      beneficios: ["4 pasos simples", "Sin costo ni compromiso", "Respuesta en 48 h hábiles"],
+      ctaPrimary:   { label: "Iniciar solicitud de admisión →", href: "/admisiones/formulario" },
+      ctaSecondary: { label: "Agendar una visita",              href: "/contactos" },
+      nota: "El formulario no genera compromiso. Tu información es confidencial.",
+    },
+    formularioConsulta: {
+      eyebrow: "¿Aún tienes dudas?",
+      heading: "Resolvemos tus preguntas antes de que des el siguiente paso",
+      description:
+        "No tienes que comprometerte con nada todavía. Si tienes preguntas sobre el proceso de admisión, los requisitos, la propuesta académica o simplemente quieres conocer más sobre el Atenas, escríbenos y te respondemos en menos de 24 horas hábiles, sin presiones.",
+      stats: [
+        { value: "50", suffix: "+", label: "años formando\nlíderes" },
+        { value: "IB", suffix: "",  label: "único diploma acreditado\nen el centro del país" },
+        { value: "24", suffix: "h", label: "tiempo máximo\nde respuesta" },
+      ],
+      photos: [
+        "https://images.unsplash.com/photo-1758270705657-f28eec1a5694?w=600&q=80",
+        "https://images.unsplash.com/photo-1602436215510-cbe1c087f46e?w=600&q=80",
+        "https://images.unsplash.com/photo-1631599575881-556a8c416881?w=600&q=80",
+      ],
+      badgeFloating: "★ ATENAS · 50 AÑOS",
+      formCardHeading: "Escríbenos, con gusto te informamos",
+      formCardSubtitle: "Sin compromiso. Te respondemos en menos de 24 h hábiles.",
+      submitLabel: "Enviar solicitud de información",
+      sendingLabel: "Enviando...",
+      successTitle: "¡Solicitud enviada!",
+      successText:
+        "Nuestro equipo de admisiones se pondrá en contacto contigo dentro de 24 horas hábiles.",
+      errorText:
+        "Ocurrió un error. Por favor intenta de nuevo o escríbenos a admisiones@atenas.edu.ec",
+      privacyTextPre: "Al enviar este formulario aceptas nuestra",
+      privacyLinkLabel: "Política de Privacidad",
+      privacyLinkHref: "/privacidad",
+      privacyTextPost: ". Tus datos serán usados únicamente para responder tu consulta.",
+    },
+  };
+}
+
+// ─── Plantilla P (Landing /admisiones) ────────────────────────
+// El schema es idéntico a `AdmisionesLandingConfig` (definido en
+// @/lib/cms/admisionesLanding). Lo re-exportamos como alias para
+// cumplir la convención del editor de páginas.
+
+import type { AdmisionesLandingConfig } from "@/lib/cms/admisionesLanding";
+import { ADMISIONES_LANDING_DEFAULT } from "@/lib/cms/admisionesLanding";
+
+export type ContenidoPlantillaP = AdmisionesLandingConfig;
+
+export function defaultContenidoPlantillaP(): ContenidoPlantillaP {
+  return ADMISIONES_LANDING_DEFAULT;
+}
+
+// ─── Plantilla Q (Página /contactos) ──────────────────────────
+// Alias del tipo `ContactosPaginaConfig` (definido en
+// @/lib/cms/contactosPagina) por convención del editor de páginas.
+
+import type { ContactosPaginaConfig } from "@/lib/cms/contactosPagina";
+import { CONTACTOS_PAGINA_DEFAULT } from "@/lib/cms/contactosPagina";
+
+export type ContenidoPlantillaQ = ContactosPaginaConfig;
+
+export function defaultContenidoPlantillaQ(): ContenidoPlantillaQ {
+  return CONTACTOS_PAGINA_DEFAULT;
 }

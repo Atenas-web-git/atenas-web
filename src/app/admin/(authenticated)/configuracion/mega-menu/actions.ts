@@ -21,8 +21,32 @@ export async function actualizarConfigGlobalMegaMenuAction(
 
   const bgImage = String(formData.get("bgImage") ?? "").trim();
   const tagline = String(formData.get("tagline") ?? "").trim();
+  const ctaPretitle = String(formData.get("cta_pretitle") ?? "").trim();
 
-  const payload = { bgImage, tagline };
+  let ctaButtons: { label: string; href: string }[];
+  try {
+    ctaButtons = JSON.parse(String(formData.get("cta_buttons") ?? "[]"));
+  } catch {
+    return { error: "Datos inválidos en los botones del CTA.", ok: false };
+  }
+  if (!Array.isArray(ctaButtons)) {
+    return { error: "Datos inválidos en los botones del CTA.", ok: false };
+  }
+  const buttonsLimpios = ctaButtons
+    .map((b) => ({
+      label: String(b?.label ?? "").trim(),
+      href: String(b?.href ?? "").trim(),
+    }))
+    .filter((b) => b.label && b.href);
+
+  const payload = {
+    bgImage,
+    tagline,
+    ctaFooter: {
+      pretitle: ctaPretitle,
+      buttons: buttonsLimpios,
+    },
+  };
 
   // Upsert por key (PK) en configuracion_global
   const { error } = await supabase

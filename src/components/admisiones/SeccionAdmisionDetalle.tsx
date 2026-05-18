@@ -15,9 +15,25 @@ interface Props {
   documents: string[];
   note: string;
   ficha: FichaItem[];
+  /** Textos editables de la tarjeta dorada al pie de la sección. */
+  ctaTitulo?: string;
+  ctaDescripcion?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
 }
 
-export function SeccionAdmisionDetalle({ badge, heading, paragraphs, documents, note, ficha }: Props) {
+export function SeccionAdmisionDetalle({
+  badge,
+  heading,
+  paragraphs,
+  documents,
+  note,
+  ficha,
+  ctaTitulo = "¿Quieres conocer el colegio?",
+  ctaDescripcion = "Agenda una visita guiada y conoce nuestras instalaciones de primera mano.",
+  ctaLabel = "Agendar visita al colegio",
+  ctaHref = "/contactos",
+}: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.08 });
 
@@ -141,18 +157,18 @@ export function SeccionAdmisionDetalle({ badge, heading, paragraphs, documents, 
             initial={{ opacity: 0, y: 24 }} animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.55, delay: 0.7, ease }}>
             <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 14, fontWeight: 700, color: "#1A2B4A" }}>
-              ¿Quieres conocer el colegio?
+              {ctaTitulo}
             </span>
             <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 13,
               color: "rgba(13,24,37,0.55)", lineHeight: 1.6 }}>
-              Agenda una visita guiada y conoce nuestras instalaciones de primera mano.
+              {ctaDescripcion}
             </span>
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
               transition={{ duration: 0.15 }}>
-              <Link href="/contactos"
+              <Link href={ctaHref}
                 className="flex items-center justify-center gap-2 rounded-[8px] px-5 py-3 font-bold text-[13px] w-full"
                 style={{ fontFamily: "Poppins, sans-serif", background: "#C9A84C", color: "#0D1825", textDecoration: "none" }}>
-                Agendar visita al colegio
+                {ctaLabel}
                 <motion.span
                   animate={{ x: [0, 4, 0] }}
                   transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}>

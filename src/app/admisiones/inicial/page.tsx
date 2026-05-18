@@ -7,52 +7,95 @@ import { PasosAdmision } from "@/components/admisiones/PasosAdmision";
 import { CTAIniciarSolicitud } from "@/components/admisiones/CTAIniciarSolicitud";
 import { FormularioAdmision } from "@/components/admisiones/FormularioAdmision";
 import { FooterCTA } from "@/components/home/FooterCTA";
+import { getPagina } from "@/lib/cms/getPagina";
+import type { ContenidoPlantillaO } from "@/app/admin/(authenticated)/contenido/plantillas";
 
-export const metadata: Metadata = {
+export const revalidate = 60;
+
+const SLUG = "admisiones/inicial";
+const NIVEL_LABEL_FALLBACK = "Educación Inicial";
+
+const FALLBACK_META = {
   title: "Admisión Educación Inicial — Unidad Educativa Atenas",
   description:
     "Requisitos y proceso de admisión para Educación Inicial (Pre-Kinder y Kinder) en la Unidad Educativa Atenas, Ambato.",
 };
 
-export default function AdmisionInicialPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const pagina = await getPagina(SLUG);
+  return {
+    title: pagina?.meta_title ?? FALLBACK_META.title,
+    description: pagina?.meta_description ?? FALLBACK_META.description,
+  };
+}
+
+export default async function AdmisionInicialPage() {
+  const pagina = await getPagina(SLUG);
+  const cfg = (pagina?.contenido ?? null) as ContenidoPlantillaO | null;
+  const nivelLabel = cfg?.nivelLabel ?? NIVEL_LABEL_FALLBACK;
+
   return (
     <>
       <Navbar />
       <main>
         <HeroElAtenas
-          badge="ADMISIONES"
-          title="Admisión a Educación Inicial"
-          subtitle="Pre-Kinder y Kinder — Los primeros pasos de una formación de por vida en la Unidad Educativa Atenas."
-          ghostText="INICIAL"
+          badge={cfg?.hero?.badge ?? "ADMISIONES"}
+          title={cfg?.hero?.title ?? "Admisión a Educación Inicial"}
+          subtitle={cfg?.hero?.subtitle ?? "Pre-Kinder y Kinder — Los primeros pasos de una formación de por vida en la Unidad Educativa Atenas."}
+          ghostText={cfg?.hero?.ghostText ?? "INICIAL"}
+          bgImageSrc={cfg?.hero?.bgImage || undefined}
         />
         <NavAdmisiones current="inicial" />
         <SeccionAdmisionDetalle
-          badge="Educación Inicial — Pre-Kinder y Kinder"
-          heading="Requisitos para ingresar a Educación Inicial"
-          paragraphs={[
-            "La Educación Inicial en Atenas es el punto de partida de una formación integral basada en las metodologías Montessori, Reggio Emilia y ABN. Para ingresar, el niño o niña debe cumplir con los rangos de edad establecidos por el Ministerio de Educación.",
-            "El proceso de admisión es sencillo y acompañado: nuestro equipo guía a las familias en cada paso para asegurar una transición tranquila y feliz para el estudiante.",
-          ]}
-          documents={[
-            "Cédula del representante",
-            "Partida de nacimiento",
-            "Certificado médico",
-            "Carnet de vacunas",
-            "Fotos tamaño carnet",
-            "Formulario de inscripción",
-          ]}
-          note="Para Pre-Kinder el niño debe cumplir 3 años antes del 31 de diciembre del año lectivo. Para Kinder, 4 años en la misma fecha."
-          ficha={[
-            { label: "Niveles",          value: "Pre-Kinder y Kinder" },
-            { label: "Edad Pre-Kinder",  value: "3 años cumplidos" },
-            { label: "Edad Kinder",      value: "4 años cumplidos" },
-            { label: "Promedio mínimo",  value: "No aplica" },
-            { label: "Inicio",           value: "Septiembre" },
-          ]}
+          badge={cfg?.detalle?.badge ?? "Educación Inicial — Pre-Kinder y Kinder"}
+          heading={cfg?.detalle?.heading ?? "Requisitos para ingresar a Educación Inicial"}
+          paragraphs={cfg?.detalle?.paragraphs ?? []}
+          documents={cfg?.detalle?.documents ?? []}
+          note={cfg?.detalle?.note ?? ""}
+          ficha={cfg?.detalle?.ficha ?? []}
+          ctaTitulo={cfg?.detalle?.ctaTitulo}
+          ctaDescripcion={cfg?.detalle?.ctaDescripcion}
+          ctaLabel={cfg?.detalle?.ctaLabel}
+          ctaHref={cfg?.detalle?.ctaHref}
         />
-        <PasosAdmision />
-        <CTAIniciarSolicitud nivel="Educación Inicial" />
-        <FormularioAdmision nivelDefault="Educación Inicial" />
+        <PasosAdmision
+          eyebrow={cfg?.pasos?.eyebrow}
+          heading={cfg?.pasos?.heading}
+          items={cfg?.pasos?.items}
+        />
+        <CTAIniciarSolicitud
+          nivel={nivelLabel}
+          eyebrow={cfg?.ctaSolicitud?.eyebrow}
+          heading={cfg?.ctaSolicitud?.heading}
+          descripcionPre={cfg?.ctaSolicitud?.descripcionPre}
+          descripcionPost={cfg?.ctaSolicitud?.descripcionPost}
+          beneficios={cfg?.ctaSolicitud?.beneficios}
+          ctaPrimaryLabel={cfg?.ctaSolicitud?.ctaPrimary?.label}
+          ctaPrimaryHref={cfg?.ctaSolicitud?.ctaPrimary?.href}
+          ctaSecondaryLabel={cfg?.ctaSolicitud?.ctaSecondary?.label}
+          ctaSecondaryHref={cfg?.ctaSolicitud?.ctaSecondary?.href}
+          nota={cfg?.ctaSolicitud?.nota}
+        />
+        <FormularioAdmision
+          nivelDefault={nivelLabel}
+          eyebrow={cfg?.formularioConsulta?.eyebrow}
+          heading={cfg?.formularioConsulta?.heading}
+          description={cfg?.formularioConsulta?.description}
+          stats={cfg?.formularioConsulta?.stats}
+          photos={cfg?.formularioConsulta?.photos}
+          badgeFloating={cfg?.formularioConsulta?.badgeFloating}
+          formCardHeading={cfg?.formularioConsulta?.formCardHeading}
+          formCardSubtitle={cfg?.formularioConsulta?.formCardSubtitle}
+          submitLabel={cfg?.formularioConsulta?.submitLabel}
+          sendingLabel={cfg?.formularioConsulta?.sendingLabel}
+          successTitle={cfg?.formularioConsulta?.successTitle}
+          successText={cfg?.formularioConsulta?.successText}
+          errorText={cfg?.formularioConsulta?.errorText}
+          privacyTextPre={cfg?.formularioConsulta?.privacyTextPre}
+          privacyLinkLabel={cfg?.formularioConsulta?.privacyLinkLabel}
+          privacyLinkHref={cfg?.formularioConsulta?.privacyLinkHref}
+          privacyTextPost={cfg?.formularioConsulta?.privacyTextPost}
+        />
         <FooterCTA />
       </main>
     </>

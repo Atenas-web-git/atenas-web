@@ -3,16 +3,28 @@
 import Image from "next/image";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
+import type { AdmisionesNivelCard } from "@/lib/cms/admisionesLanding";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
-const niveles = [
-  { num:"01", title:"Inicial",                    grades:"Pre-Kinder y Kinder", age:"3-5 años",   highlight:false },
-  { num:"02", title:"Básica Elemental",            grades:"1ro a 4to EGB",       age:"5-9 años",   highlight:false },
-  { num:"03", title:"Básica Media-Superior",       grades:"5to a 10mo EGB",      age:"10-14 años", highlight:false },
-  { num:"04", title:"Bachillerato General",        grades:"1ro a 3ro BGU",       age:"15-17 años", highlight:false },
-  { num:"IB★", title:"Bachillerato Internacional", grades:"Diploma IB",          age:"1ro a 3ro",  highlight:true  },
+const DEFAULT_NIVELES: AdmisionesNivelCard[] = [
+  { num: "01",  title: "Inicial",                    grades: "Pre-Kinder y Kinder", age: "3-5 años",   highlight: false },
+  { num: "02",  title: "Básica Elemental",            grades: "1ro a 4to EGB",       age: "5-9 años",   highlight: false },
+  { num: "03",  title: "Básica Media-Superior",       grades: "5to a 10mo EGB",      age: "10-14 años", highlight: false },
+  { num: "04",  title: "Bachillerato General",        grades: "1ro a 3ro BGU",       age: "15-17 años", highlight: false },
+  { num: "IB★", title: "Bachillerato Internacional",  grades: "Diploma IB",          age: "1ro a 3ro",  highlight: true  },
 ];
+
+export type NivelesAdmisionesProps = {
+  eyebrow?: string;
+  headingPre?: string;
+  headingHighlight?: string;
+  description?: string;
+  fotoPrincipal?: string;
+  fotoSecundaria?: string;
+  badgeFloating?: string;
+  items?: AdmisionesNivelCard[];
+};
 
 function xForD(i: number) {
   if (i < 2)  return -56;
@@ -63,10 +75,20 @@ function LevelCard({ num, title, grades, age, highlight, delay, index }: {
   );
 }
 
-export function NivelesAdmisiones() {
+export function NivelesAdmisiones({
+  eyebrow = "Niveles Educativos",
+  headingPre = "Elige el nivel",
+  headingHighlight = "correcto.",
+  description = "Desde los primeros pasos en Inicial hasta el Diploma Internacional IB, acompañamos a cada estudiante en cada etapa de su formación.",
+  fotoPrincipal = "https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&q=80",
+  fotoSecundaria = "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=600&q=80",
+  badgeFloating = "BACHILLERATO IB · AMBATO",
+  items = DEFAULT_NIVELES,
+}: NivelesAdmisionesProps = {}) {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef  = useRef<HTMLDivElement>(null);
   const inView     = useInView(headerRef, { once:true, amount:0.2 });
+  const niveles = items;
 
   const { scrollYProgress } = useScroll({ target:sectionRef, offset:["start end","end start"] });
   const bgY = useTransform(scrollYProgress, [0,1], ["-8%","8%"]);
@@ -105,7 +127,7 @@ export function NivelesAdmisiones() {
               animate={inView ? { opacity:1, y:0 } : {}}
               transition={{ duration:0.45, ease }}
             >
-              Niveles Educativos
+              {eyebrow}
             </motion.p>
 
             <motion.span
@@ -123,11 +145,11 @@ export function NivelesAdmisiones() {
                 animate={inView ? { y:0, opacity:1 } : {}}
                 transition={{ duration:0.65, delay:0.15, ease }}
               >
-                Elige el nivel{" "}
+                {headingPre}{" "}
                 <span className="relative inline-block">
-                  correcto.
+                  {headingHighlight}
                   <motion.span
-                    className="absolute left-0 -bottom-1 block bg-[#C9A84C]"
+                    className="absolute left-0 right-0 -bottom-1 block bg-[#C9A84C]"
                     style={{ height:4, borderRadius:2 }}
                     initial={{ scaleX:0, originX:0 }}
                     animate={inView ? { scaleX:1 } : {}}
@@ -144,8 +166,7 @@ export function NivelesAdmisiones() {
               animate={inView ? { opacity:1, y:0 } : {}}
               transition={{ duration:0.55, delay:0.3, ease }}
             >
-              Desde los primeros pasos en Inicial hasta el Diploma Internacional IB,
-              acompañamos a cada estudiante en cada etapa de su formación.
+              {description}
             </motion.p>
           </div>
 
@@ -159,7 +180,7 @@ export function NivelesAdmisiones() {
               transition={{ duration:0.85, delay:0.35, ease }}
             >
               <Image
-                src="https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&q=80"
+                src={fotoPrincipal}
                 alt="Graduación Atenas" fill className="object-cover" sizes="260px"
               />
               <div className="absolute inset-0" style={{ background:"rgba(26,43,74,0.20)" }} />
@@ -172,7 +193,7 @@ export function NivelesAdmisiones() {
               transition={{ duration:0.75, delay:0.55, ease }}
             >
               <Image
-                src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=600&q=80"
+                src={fotoSecundaria}
                 alt="Aula Atenas" fill className="object-cover" sizes="190px"
               />
               <div className="absolute inset-0 border-[3px] border-[#C9A84C]/45 rounded-[12px]" />
@@ -185,7 +206,7 @@ export function NivelesAdmisiones() {
               transition={{ duration:0.45, delay:0.72, ease }}
             >
               <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"#0D1825", letterSpacing:1 }}>
-                BACHILLERATO IB · AMBATO
+                {badgeFloating}
               </span>
             </motion.div>
           </div>

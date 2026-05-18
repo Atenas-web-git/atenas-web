@@ -6,20 +6,28 @@ import Image from "next/image";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
-const PASOS = [
-  { num: "01", title: "Presentación de documentos",
-    desc: "Entrega de notas de 8vo a 10mo, cédula de identidad, formulario de postulación y certificado médico." },
-  { num: "02", title: "Evaluación DECE",
-    desc: "El Departamento de Consejería evalúa el perfil emocional y vocacional del estudiante." },
-  { num: "03", title: "Pruebas académicas",
-    desc: "Evaluación de razonamiento verbal y matemático para verificar el nivel requerido." },
-  { num: "04", title: "Revisión del comité",
-    desc: "El equipo de admisiones analiza el expediente completo y toma la decisión." },
-  { num: "05", title: "Orientación e inducción",
-    desc: "Sesión con el coordinador, familias y futuros estudiantes antes de iniciar el año." },
+export type PasoAdmisionItem = { num: string; title: string; desc: string };
+
+const DEFAULT_PASOS: PasoAdmisionItem[] = [
+  { num: "01", title: "Presentación de documentos", desc: "Entrega de notas de 8vo a 10mo, cédula de identidad, formulario de postulación y certificado médico." },
+  { num: "02", title: "Evaluación DECE",            desc: "El Departamento de Consejería evalúa el perfil emocional y vocacional del estudiante." },
+  { num: "03", title: "Pruebas académicas",         desc: "Evaluación de razonamiento verbal y matemático para verificar el nivel requerido." },
+  { num: "04", title: "Revisión del comité",        desc: "El equipo de admisiones analiza el expediente completo y toma la decisión." },
+  { num: "05", title: "Orientación e inducción",    desc: "Sesión con el coordinador, familias y futuros estudiantes antes de iniciar el año." },
 ];
 
-export function PasosAdmision() {
+export type PasosAdmisionProps = {
+  eyebrow?: string;
+  heading?: string;
+  items?: PasoAdmisionItem[];
+};
+
+export function PasosAdmision({
+  eyebrow = "Proceso de admisión",
+  heading = "5 pasos para ingresar al colegio",
+  items = DEFAULT_PASOS,
+}: PasosAdmisionProps = {}) {
+  const PASOS = items;
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef  = useRef<HTMLDivElement>(null);
   const inView     = useInView(headerRef, { once: true, amount: 0.2 });
@@ -50,7 +58,7 @@ export function PasosAdmision() {
               transition={{ duration: 0.4, delay: 0.1, ease }} />
             <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700,
               color: "#C9A84C", letterSpacing: 2, textTransform: "uppercase" }}>
-              Proceso de admisión
+              {eyebrow}
             </span>
           </motion.div>
           <div className="overflow-hidden">
@@ -59,7 +67,7 @@ export function PasosAdmision() {
                 fontWeight: 700, color: "#FFFFFF", lineHeight: 1.2 }}
               initial={{ y: 50, opacity: 0 }} animate={inView ? { y: 0, opacity: 1 } : {}}
               transition={{ duration: 0.65, delay: 0.15, ease }}>
-              5 pasos para ingresar al colegio
+              {heading}
             </motion.h2>
           </div>
         </div>

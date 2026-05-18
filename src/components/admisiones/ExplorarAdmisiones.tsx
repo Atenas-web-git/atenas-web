@@ -3,51 +3,33 @@
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import type { AdmisionesExplorarCard } from "@/lib/cms/admisionesLanding";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
-const NIVELES = [
-  {
-    slug: "inicial",
-    icon: "🌱",
-    title: "Educación Inicial",
-    grades: "Pre-Kinder y Kinder",
-    age: "3 – 5 años",
-    desc: "Los primeros pasos: metodologías Montessori, Reggio Emilia y ABN en un entorno bilingüe y estimulante.",
-    highlight: false,
-  },
-  {
-    slug: "egb-elemental-media",
-    icon: "📚",
-    title: "EGB Elemental y Media",
-    grades: "1ro a 7mo grado",
-    age: "6 – 12 años",
-    desc: "Formación bilingüe con pensamiento lógico-matemático, valores y bases académicas sólidas.",
-    highlight: false,
-  },
-  {
-    slug: "egb-superior",
-    icon: "🔬",
-    title: "EGB Superior",
-    grades: "8vo a 10mo grado",
-    age: "12 – 15 años",
-    desc: "Etapa de preparación para el Bachillerato IB: inglés avanzado, ciencias y liderazgo.",
-    highlight: false,
-  },
-  {
-    slug: "ib",
-    icon: "★",
-    title: "Bachillerato IB",
-    grades: "1ro y 2do Bachillerato",
-    age: "14 – 17 años",
-    desc: "Programa del Diploma Internacional. Cupos limitados, selección por mérito académico.",
-    highlight: true,
-  },
+const DEFAULT_NIVELES: AdmisionesExplorarCard[] = [
+  { slug: "inicial",             icon: "🌱", title: "Educación Inicial",     grades: "Pre-Kinder y Kinder",  age: "3 – 5 años",  desc: "Los primeros pasos: metodologías Montessori, Reggio Emilia y ABN en un entorno bilingüe y estimulante.", highlight: false, ctaLabel: "Ver requisitos", href: "/admisiones/inicial" },
+  { slug: "egb-elemental-media", icon: "📚", title: "EGB Elemental y Media", grades: "1ro a 7mo grado",      age: "6 – 12 años", desc: "Formación bilingüe con pensamiento lógico-matemático, valores y bases académicas sólidas.", highlight: false, ctaLabel: "Ver requisitos", href: "/admisiones/egb-elemental-media" },
+  { slug: "egb-superior",        icon: "🔬", title: "EGB Superior",          grades: "8vo a 10mo grado",     age: "12 – 15 años", desc: "Etapa de preparación para el Bachillerato IB: inglés avanzado, ciencias y liderazgo.", highlight: false, ctaLabel: "Ver requisitos", href: "/admisiones/egb-superior" },
+  { slug: "ib",                  icon: "★",  title: "Bachillerato IB",       grades: "1ro y 2do Bachillerato", age: "14 – 17 años", desc: "Programa del Diploma Internacional. Cupos limitados, selección por mérito académico.", highlight: true, ctaLabel: "Ver requisitos", href: "/admisiones/ib" },
 ];
 
-export function ExplorarAdmisiones() {
+export type ExplorarAdmisionesProps = {
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  items?: AdmisionesExplorarCard[];
+};
+
+export function ExplorarAdmisiones({
+  eyebrow = "Proceso por nivel",
+  heading = "Conoce los requisitos de tu nivel",
+  description = "Cada nivel tiene su propio proceso, documentos y requisitos. Selecciona el que corresponde al estudiante para ver la información completa.",
+  items = DEFAULT_NIVELES,
+}: ExplorarAdmisionesProps = {}) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.08 });
+  const NIVELES = items;
 
   return (
     <section className="bg-[#F8F5F0] relative overflow-hidden" style={{ padding: "80px 0" }}>
@@ -74,7 +56,7 @@ export function ExplorarAdmisiones() {
               transition={{ duration: 0.4, delay: 0.1, ease }}
             />
             <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "#C9A84C", letterSpacing: 2, textTransform: "uppercase" }}>
-              Proceso por nivel
+              {eyebrow}
             </span>
           </motion.div>
 
@@ -85,7 +67,7 @@ export function ExplorarAdmisiones() {
               animate={inView ? { y: 0, opacity: 1 } : {}}
               transition={{ duration: 0.6, delay: 0.15, ease }}
             >
-              Conoce los requisitos de tu nivel
+              {heading}
             </motion.h2>
           </div>
 
@@ -95,7 +77,7 @@ export function ExplorarAdmisiones() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.25, ease }}
           >
-            Cada nivel tiene su propio proceso, documentos y requisitos. Selecciona el que corresponde al estudiante para ver la información completa.
+            {description}
           </motion.p>
         </div>
 
@@ -109,7 +91,7 @@ export function ExplorarAdmisiones() {
               transition={{ duration: 0.55, delay: 0.1 + i * 0.08, ease }}
             >
               <Link
-                href={`/admisiones/${n.slug}`}
+                href={n.href || `/admisiones/${n.slug}`}
                 className="flex flex-col gap-[14px] rounded-[14px] p-[24px] h-full group"
                 style={{
                   background: n.highlight ? "rgba(26,43,74,0.04)" : "#FFFFFF",
@@ -158,7 +140,7 @@ export function ExplorarAdmisiones() {
                     style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 700, color: "#C9A84C", letterSpacing: 0.5 }}
                     className="group-hover:underline"
                   >
-                    Ver requisitos
+                    {n.ctaLabel || "Ver requisitos"}
                   </span>
                   <span style={{ color: "#C9A84C", fontSize: 13, fontWeight: 700 }}>→</span>
                 </div>

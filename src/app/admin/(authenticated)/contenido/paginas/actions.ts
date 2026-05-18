@@ -50,14 +50,16 @@ const PLANTILLAS_VALIDAS = [
   "tpl_l_ficha_espacio",
   "tpl_m_home",
   "tpl_n_trabaja",
+  "tpl_o_admision_nivel",
+  "tpl_p_admisiones_landing",
+  "tpl_q_contactos_pagina",
 ];
 
 /**
- * Plantillas K (ficha servicio), L (ficha espacio) y N (trabaja con nosotros)
- * NO pueden usarse para páginas nuevas creadas desde el editor genérico:
- * dependen de datos hardcoded en /data/* y de rutas físicas específicas.
- * Solo tienen sentido en su ruta única (/servicios/[slug], /espacios/[slug],
- * /trabaja-con-nosotros).
+ * Plantillas K (ficha servicio), L (ficha espacio), N (trabaja con nosotros)
+ * y O (admisión por nivel) NO pueden usarse para páginas nuevas creadas
+ * desde el editor genérico: dependen de rutas físicas específicas y/o
+ * componentes hardcoded.
  *
  * Las páginas ya creadas con esas plantillas siguen siendo editables; solo se
  * bloquea la creación de nuevas.
@@ -66,6 +68,9 @@ const PLANTILLAS_BLOQUEADAS_NUEVAS = new Set([
   "tpl_k_ficha_servicio",
   "tpl_l_ficha_espacio",
   "tpl_n_trabaja",
+  "tpl_o_admision_nivel",
+  "tpl_p_admisiones_landing",
+  "tpl_q_contactos_pagina",
 ]);
 
 async function assertEditor() {

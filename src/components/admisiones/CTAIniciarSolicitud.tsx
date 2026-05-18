@@ -6,17 +6,46 @@ import { useRef } from "react";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
-const BENEFICIOS = [
+const DEFAULT_BENEFICIOS = [
   "4 pasos simples",
   "Sin costo ni compromiso",
   "Respuesta en 48 h hábiles",
 ];
 
-export function CTAIniciarSolicitud({ nivel }: { nivel: string }) {
+export type CTAIniciarSolicitudProps = {
+  /** Nombre legible del nivel; aparece destacado en dorado dentro de la descripción. */
+  nivel: string;
+  eyebrow?: string;
+  heading?: string;
+  descripcionPre?: string;
+  descripcionPost?: string;
+  beneficios?: string[];
+  ctaPrimaryLabel?: string;
+  ctaPrimaryHref?: string;
+  ctaSecondaryLabel?: string;
+  ctaSecondaryHref?: string;
+  nota?: string;
+};
+
+export function CTAIniciarSolicitud({
+  nivel,
+  eyebrow = "Solicitud de Admisión",
+  heading = "Da el primer paso hacia el futuro de tu hijo",
+  descripcionPre = "Completa la solicitud formal de admisión para",
+  descripcionPost = ". Son solo 4 pasos y nuestro equipo te contactará en menos de 48 horas hábiles.",
+  beneficios = DEFAULT_BENEFICIOS,
+  ctaPrimaryLabel = "Iniciar solicitud de admisión →",
+  ctaPrimaryHref,
+  ctaSecondaryLabel = "Agendar una visita",
+  ctaSecondaryHref = "/contactos",
+  nota = "El formulario no genera compromiso. Tu información es confidencial.",
+}: CTAIniciarSolicitudProps) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.2 });
 
-  const href = `/admisiones/formulario?nivel=${encodeURIComponent(nivel)}`;
+  // Si no se provee href explícito, lo construimos a partir del nivel (comportamiento original).
+  const href =
+    ctaPrimaryHref ?? `/admisiones/formulario?nivel=${encodeURIComponent(nivel)}`;
 
   return (
     <section
@@ -48,7 +77,7 @@ export function CTAIniciarSolicitud({ nivel }: { nivel: string }) {
             className="text-[#C9A84C] text-[11px] font-bold tracking-[2.5px] uppercase"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
-            Solicitud de Admisión
+            {eyebrow}
           </span>
           <span className="block bg-[#C9A84C]" style={{ width: 24, height: 2 }} />
         </motion.div>
@@ -64,15 +93,15 @@ export function CTAIniciarSolicitud({ nivel }: { nivel: string }) {
             className="text-white font-bold leading-[1.1]"
             style={{ fontFamily: "Poppins, sans-serif", fontSize: "clamp(26px, 3.2vw, 44px)" }}
           >
-            Da el primer paso hacia el futuro de tu hijo
+            {heading}
           </h2>
           <p
             className="text-white/65 leading-relaxed mx-auto"
             style={{ fontFamily: "Poppins, sans-serif", fontSize: 15, maxWidth: 560 }}
           >
-            Completa la solicitud formal de admisión para{" "}
-            <span className="text-[#C9A84C] font-semibold">{nivel}</span>.
-            {" "}Son solo 4 pasos y nuestro equipo te contactará en menos de 48 horas hábiles.
+            {descripcionPre}{" "}
+            <span className="text-[#C9A84C] font-semibold">{nivel}</span>
+            {descripcionPost}
           </p>
         </motion.div>
 
@@ -83,7 +112,7 @@ export function CTAIniciarSolicitud({ nivel }: { nivel: string }) {
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.5, delay: 0.22, ease }}
         >
-          {BENEFICIOS.map((b) => (
+          {beneficios.map((b) => (
             <span
               key={b}
               className="flex items-center gap-[8px] text-white/70"
@@ -109,16 +138,16 @@ export function CTAIniciarSolicitud({ nivel }: { nivel: string }) {
               transition-colors w-full sm:w-auto"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
-            Iniciar solicitud de admisión →
+            {ctaPrimaryLabel}
           </Link>
           <Link
-            href="/contactos"
+            href={ctaSecondaryHref}
             className="inline-flex items-center justify-center rounded-[6px] px-[32px] py-[15px]
               font-semibold text-[15px] border border-white/30 text-white hover:bg-white/10
               transition-colors w-full sm:w-auto"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
-            Agendar una visita
+            {ctaSecondaryLabel}
           </Link>
         </motion.div>
 
@@ -130,7 +159,7 @@ export function CTAIniciarSolicitud({ nivel }: { nivel: string }) {
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.4, delay: 0.44, ease }}
         >
-          El formulario no genera compromiso. Tu información es confidencial.
+          {nota}
         </motion.p>
       </div>
     </section>

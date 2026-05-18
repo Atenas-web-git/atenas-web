@@ -7,51 +7,95 @@ import { PasosAdmision } from "@/components/admisiones/PasosAdmision";
 import { CTAIniciarSolicitud } from "@/components/admisiones/CTAIniciarSolicitud";
 import { FormularioAdmision } from "@/components/admisiones/FormularioAdmision";
 import { FooterCTA } from "@/components/home/FooterCTA";
+import { getPagina } from "@/lib/cms/getPagina";
+import type { ContenidoPlantillaO } from "@/app/admin/(authenticated)/contenido/plantillas";
 
-export const metadata: Metadata = {
+export const revalidate = 60;
+
+const SLUG = "admisiones/ib";
+const NIVEL_LABEL_FALLBACK = "Bachillerato IB";
+
+const FALLBACK_META = {
   title: "Admisión Bachillerato IB — Unidad Educativa Atenas",
   description:
     "Requisitos, documentos y proceso de admisión para el Programa del Diploma IB en la Unidad Educativa Atenas, Ambato. Cupos limitados.",
 };
 
-export default function AdmisionIBPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const pagina = await getPagina(SLUG);
+  return {
+    title: pagina?.meta_title ?? FALLBACK_META.title,
+    description: pagina?.meta_description ?? FALLBACK_META.description,
+  };
+}
+
+export default async function AdmisionIBPage() {
+  const pagina = await getPagina(SLUG);
+  const cfg = (pagina?.contenido ?? null) as ContenidoPlantillaO | null;
+  const nivelLabel = cfg?.nivelLabel ?? NIVEL_LABEL_FALLBACK;
+
   return (
     <>
       <Navbar />
       <main>
         <HeroElAtenas
-          badge="ADMISIONES"
-          title="Admisión al Bachillerato IB"
-          subtitle="Todo lo que necesitas saber para postular al Programa del Diploma en la Unidad Educativa Atenas."
-          ghostText="INGRESO"
+          badge={cfg?.hero?.badge ?? "ADMISIONES"}
+          title={cfg?.hero?.title ?? "Admisión al Bachillerato IB"}
+          subtitle={cfg?.hero?.subtitle ?? "Todo lo que necesitas saber para postular al Programa del Diploma en la Unidad Educativa Atenas."}
+          ghostText={cfg?.hero?.ghostText ?? "INGRESO"}
+          bgImageSrc={cfg?.hero?.bgImage || undefined}
         />
         <NavAdmisiones current="ib" />
         <SeccionAdmisionDetalle
-          badge="Bachillerato Internacional — Diploma IB"
-          heading="Requisitos para ingresar al Programa del Diploma"
-          paragraphs={[
-            "El Programa del Diploma IB es exigente y transformador. Para ingresar, el estudiante debe demostrar un perfil académico sólido, disposición para el trabajo autónomo y compromiso con el aprendizaje integral que el Diploma demanda durante dos años.",
-            "El proceso es riguroso porque el programa lo es. Cada estudiante es evaluado en sus capacidades académicas, su perfil emocional y su madurez para asumir los retos del Diploma.",
-          ]}
-          documents={[
-            "Notas de 8vo a 10mo",
-            "Cédula de identidad",
-            "Certificado médico",
-            "Formulario de postulación",
-            "Fotos tamaño carnet",
-          ]}
-          note="Las admisiones para el Programa del Diploma IB abren una vez al año. El número de cupos es limitado y se asignan en estricto orden de mérito académico."
-          ficha={[
-            { label: "Nivel",            value: "1ro y 2do Bachillerato" },
-            { label: "Edad requerida",   value: "14 – 15 años" },
-            { label: "Promedio mínimo",  value: "8 / 10", highlight: true },
-            { label: "Cupos",            value: "Limitados" },
-            { label: "Inicio",           value: "Septiembre" },
-          ]}
+          badge={cfg?.detalle?.badge ?? "Bachillerato Internacional — Diploma IB"}
+          heading={cfg?.detalle?.heading ?? "Requisitos para ingresar al Programa del Diploma"}
+          paragraphs={cfg?.detalle?.paragraphs ?? []}
+          documents={cfg?.detalle?.documents ?? []}
+          note={cfg?.detalle?.note ?? ""}
+          ficha={cfg?.detalle?.ficha ?? []}
+          ctaTitulo={cfg?.detalle?.ctaTitulo}
+          ctaDescripcion={cfg?.detalle?.ctaDescripcion}
+          ctaLabel={cfg?.detalle?.ctaLabel}
+          ctaHref={cfg?.detalle?.ctaHref}
         />
-        <PasosAdmision />
-        <CTAIniciarSolicitud nivel="Bachillerato IB" />
-        <FormularioAdmision nivelDefault="Bachillerato IB" />
+        <PasosAdmision
+          eyebrow={cfg?.pasos?.eyebrow}
+          heading={cfg?.pasos?.heading}
+          items={cfg?.pasos?.items}
+        />
+        <CTAIniciarSolicitud
+          nivel={nivelLabel}
+          eyebrow={cfg?.ctaSolicitud?.eyebrow}
+          heading={cfg?.ctaSolicitud?.heading}
+          descripcionPre={cfg?.ctaSolicitud?.descripcionPre}
+          descripcionPost={cfg?.ctaSolicitud?.descripcionPost}
+          beneficios={cfg?.ctaSolicitud?.beneficios}
+          ctaPrimaryLabel={cfg?.ctaSolicitud?.ctaPrimary?.label}
+          ctaPrimaryHref={cfg?.ctaSolicitud?.ctaPrimary?.href}
+          ctaSecondaryLabel={cfg?.ctaSolicitud?.ctaSecondary?.label}
+          ctaSecondaryHref={cfg?.ctaSolicitud?.ctaSecondary?.href}
+          nota={cfg?.ctaSolicitud?.nota}
+        />
+        <FormularioAdmision
+          nivelDefault={nivelLabel}
+          eyebrow={cfg?.formularioConsulta?.eyebrow}
+          heading={cfg?.formularioConsulta?.heading}
+          description={cfg?.formularioConsulta?.description}
+          stats={cfg?.formularioConsulta?.stats}
+          photos={cfg?.formularioConsulta?.photos}
+          badgeFloating={cfg?.formularioConsulta?.badgeFloating}
+          formCardHeading={cfg?.formularioConsulta?.formCardHeading}
+          formCardSubtitle={cfg?.formularioConsulta?.formCardSubtitle}
+          submitLabel={cfg?.formularioConsulta?.submitLabel}
+          sendingLabel={cfg?.formularioConsulta?.sendingLabel}
+          successTitle={cfg?.formularioConsulta?.successTitle}
+          successText={cfg?.formularioConsulta?.successText}
+          errorText={cfg?.formularioConsulta?.errorText}
+          privacyTextPre={cfg?.formularioConsulta?.privacyTextPre}
+          privacyLinkLabel={cfg?.formularioConsulta?.privacyLinkLabel}
+          privacyLinkHref={cfg?.formularioConsulta?.privacyLinkHref}
+          privacyTextPost={cfg?.formularioConsulta?.privacyTextPost}
+        />
         <FooterCTA />
       </main>
     </>

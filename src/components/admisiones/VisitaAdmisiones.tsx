@@ -5,37 +5,63 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import type { AdmisionesCTA } from "@/lib/cms/admisionesLanding";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
-const collage = [
-  {
-    src: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=700&q=80",
-    pos: { width:320, height:400, left:60, bottom:0 } as React.CSSProperties,
-    rotate: -2,
-    initial: { opacity:0, y:40 }, delay:0.3,
-    shadow: "0 24px 64px rgba(0,0,0,0.22)",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&q=80",
-    pos: { width:220, height:260, left:0, top:0 } as React.CSSProperties,
-    rotate: -5,
-    initial: { opacity:0, x:-24 }, delay:0.5,
-    shadow: "0 16px 48px rgba(0,0,0,0.20)",
-    border: true,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&q=80",
-    pos: { width:200, height:230, right:0, top:80 } as React.CSSProperties,
-    rotate: 4,
-    initial: { opacity:0, y:-24 }, delay:0.68,
-    shadow: "0 14px 40px rgba(0,0,0,0.22)",
-  },
+const DEFAULT_PHOTOS: [string, string, string] = [
+  "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=700&q=80",
+  "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&q=80",
+  "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&q=80",
 ];
 
-export function VisitaAdmisiones() {
+// Layout fijo del collage de 3 fotos (posiciones, rotaciones, delays) — solo el src es editable.
+const COLLAGE_LAYOUTS: Array<{
+  pos: React.CSSProperties;
+  rotate: number;
+  initial: { opacity: number; x?: number; y?: number };
+  delay: number;
+  shadow: string;
+  border?: boolean;
+}> = [
+  { pos: { width: 320, height: 400, left: 60, bottom: 0 }, rotate: -2, initial: { opacity: 0, y: 40 },  delay: 0.3,  shadow: "0 24px 64px rgba(0,0,0,0.22)" },
+  { pos: { width: 220, height: 260, left: 0,  top: 0 },    rotate: -5, initial: { opacity: 0, x: -24 }, delay: 0.5,  shadow: "0 16px 48px rgba(0,0,0,0.20)", border: true },
+  { pos: { width: 200, height: 230, right: 0, top: 80 },   rotate:  4, initial: { opacity: 0, y: -24 }, delay: 0.68, shadow: "0 14px 40px rgba(0,0,0,0.22)" },
+];
+
+export type VisitaAdmisionesProps = {
+  eyebrow?: string;
+  headingPre?: string;
+  headingHighlight?: string;
+  description?: string;
+  ubicacion?: string;
+  horarioCorto?: string;
+  ctaPrimary?: AdmisionesCTA;
+  ctaSecondary?: AdmisionesCTA;
+  contactoLine?: string;
+  fotos?: [string, string, string];
+  badgeFloating?: { linea1: string; linea2: string };
+};
+
+export function VisitaAdmisiones({
+  eyebrow = "Visita el Campus",
+  headingPre = "Ven a conocer",
+  headingHighlight = "el Atenas.",
+  description = "Agenda una visita guiada y descubre nuestras instalaciones, metodología y el ambiente que hace especial a Atenas. Sin compromiso.",
+  ubicacion = "Ambato, Ecuador",
+  horarioCorto = "Lun – Vie · 08:00–16:00",
+  ctaPrimary = { label: "Agendar visita", href: "mailto:admisiones@atenas.edu.ec" },
+  ctaSecondary = { label: "Ver proceso", href: "#proceso" },
+  contactoLine = "(03) 282-1234 · admisiones@atenas.edu.ec",
+  fotos = DEFAULT_PHOTOS,
+  badgeFloating = { linea1: "Lun a Vie", linea2: "08:00 – 16:00" },
+}: VisitaAdmisionesProps = {}) {
   const contentRef = useRef<HTMLDivElement>(null);
   const inView     = useInView(contentRef, { once:true, amount:0.2 });
+  const collage = COLLAGE_LAYOUTS.map((layout, i) => ({
+    ...layout,
+    src: fotos[i] || DEFAULT_PHOTOS[i],
+  }));
 
   return (
     <section
@@ -74,10 +100,10 @@ export function VisitaAdmisiones() {
           transition={{ duration:0.5, delay:0.85, ease }}
         >
           <span style={{ fontFamily:"Poppins,sans-serif", fontSize:20, fontWeight:700, color:"#0D1825", lineHeight:1 }}>
-            Lun a Vie
+            {badgeFloating.linea1}
           </span>
           <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"rgba(13,24,37,0.65)", letterSpacing:1 }}>
-            08:00 – 16:00
+            {badgeFloating.linea2}
           </span>
         </motion.div>
       </div>
@@ -85,7 +111,7 @@ export function VisitaAdmisiones() {
       {/* ─── Foto única — mobile ─── */}
       <div className="md:hidden relative w-full overflow-hidden" style={{ height:220 }}>
         <Image
-          src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80"
+          src={fotos[0] || DEFAULT_PHOTOS[0]}
           alt="Campus Atenas" fill className="object-cover object-center"
         />
         <div className="absolute inset-0" style={{ background:"linear-gradient(to bottom, transparent 55%, #F8F5F0 100%)" }} />
@@ -107,7 +133,7 @@ export function VisitaAdmisiones() {
           animate={inView ? { opacity:1, y:0 } : {}}
           transition={{ duration:0.45, ease }}
         >
-          Visita el Campus
+          {eyebrow}
         </motion.p>
 
         <motion.span
@@ -125,11 +151,11 @@ export function VisitaAdmisiones() {
             animate={inView ? { y:0, opacity:1 } : {}}
             transition={{ duration:0.65, delay:0.15, ease }}
           >
-            Ven a conocer{" "}
+            {headingPre}{" "}
             <span className="relative inline-block">
-              el Atenas.
+              {headingHighlight}
               <motion.span
-                className="absolute left-0 -bottom-1 block bg-[#C9A84C]"
+                className="absolute left-0 right-0 -bottom-1 block bg-[#C9A84C]"
                 style={{ height:4, borderRadius:2 }}
                 initial={{ scaleX:0, originX:0 }}
                 animate={inView ? { scaleX:1 } : {}}
@@ -145,9 +171,7 @@ export function VisitaAdmisiones() {
           animate={inView ? { opacity:1, y:0 } : {}}
           transition={{ duration:0.55, delay:0.3, ease }}
         >
-          Agenda una visita guiada y descubre nuestras instalaciones,
-          metodología y el ambiente que hace especial a Atenas.
-          Sin compromiso.
+          {description}
         </motion.p>
 
         {/* Info rápida */}
@@ -157,7 +181,7 @@ export function VisitaAdmisiones() {
           animate={inView ? { opacity:1, y:0 } : {}}
           transition={{ duration:0.45, delay:0.42, ease }}
         >
-          {[["📍","Ambato, Ecuador"],["🕐","Lun – Vie · 08:00–16:00"]].map(([icon, text]) => (
+          {[["📍", ubicacion], ["🕐", horarioCorto]].map(([icon, text]) => (
             <span key={text} style={{ fontFamily:"Poppins,sans-serif", fontSize:12, color:"rgba(13,24,37,0.55)" }}>
               {icon} {text}
             </span>
@@ -172,18 +196,18 @@ export function VisitaAdmisiones() {
           transition={{ duration:0.5, delay:0.52, ease }}
         >
           <Link
-            href="mailto:admisiones@atenas.edu.ec"
+            href={ctaPrimary.href}
             className="inline-flex items-center justify-center rounded-[6px] px-[24px] py-[13px] font-bold text-[14px] bg-[#1A2B4A] text-white hover:bg-[#243d6a] transition-colors"
             style={{ fontFamily:"Poppins,sans-serif" }}
           >
-            Agendar visita
+            {ctaPrimary.label}
           </Link>
           <Link
-            href="#proceso"
+            href={ctaSecondary.href}
             className="inline-flex items-center justify-center rounded-[6px] px-[24px] py-[13px] font-bold text-[14px] border border-[#1A2B4A]/40 text-[#1A2B4A] hover:bg-[#1A2B4A]/10 transition-colors"
             style={{ fontFamily:"Poppins,sans-serif" }}
           >
-            Ver proceso
+            {ctaSecondary.label}
           </Link>
         </motion.div>
 
@@ -194,7 +218,7 @@ export function VisitaAdmisiones() {
           animate={inView ? { opacity:1 } : {}}
           transition={{ duration:0.5, delay:0.65, ease }}
         >
-          (03) 282-1234 · admisiones@atenas.edu.ec
+          {contactoLine}
         </motion.p>
       </div>
     </section>

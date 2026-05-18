@@ -3,6 +3,13 @@ import Link from "next/link";
 import { LogoSVG } from "@/components/shared/LogoSVG";
 import { FormularioMultiStep } from "@/components/admisiones/FormularioMultiStep";
 import { createClient } from "@/lib/supabase/server";
+import {
+  getConfiguracion,
+  mergeAdmisionesTextos,
+  type AdmisionesTextosConfig,
+} from "@/lib/cms/getConfiguracion";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Solicitud de Admisión — Unidad Educativa Atenas",
@@ -31,10 +38,14 @@ export default async function FormularioPage({
   searchParams: Promise<{ nivel?: string }>;
 }) {
   const { nivel } = await searchParams;
-  const anios = await loadAniosLectivos();
+  const [anios, rawTextos] = await Promise.all([
+    loadAniosLectivos(),
+    getConfiguracion<Partial<AdmisionesTextosConfig>>("admisiones_textos"),
+  ]);
+  const textos = mergeAdmisionesTextos(rawTextos).formulario;
+
   return (
     <>
-      {/* Minimal header — sin el mega-menú para mantener el foco en el formulario */}
       <header
         className="h-[64px] bg-[#1A2B4A] flex items-center justify-between
           px-[56px] max-sm:px-[20px] sticky top-0 z-50"
@@ -48,7 +59,7 @@ export default async function FormularioPage({
           className="text-white/70 text-[15px] font-semibold hidden sm:block"
           style={{ fontFamily: "Poppins, sans-serif" }}
         >
-          Proceso de Admisión
+          {textos.headerTitle}
         </span>
 
         <Link
@@ -56,7 +67,7 @@ export default async function FormularioPage({
           className="text-white/60 text-[13px] hover:text-white/90 transition-colors"
           style={{ fontFamily: "Poppins, sans-serif" }}
         >
-          ← Volver al sitio
+          {textos.backLabel}
         </Link>
       </header>
 

@@ -19,6 +19,9 @@ import {
   type ContenidoPlantillaL,
   type ContenidoPlantillaM,
   type ContenidoPlantillaN,
+  type ContenidoPlantillaO,
+  type ContenidoPlantillaP,
+  type ContenidoPlantillaQ,
 } from "../../plantillas";
 import { EditorPlantillaA } from "./EditorPlantillaA";
 import { EditorPlantillaB } from "./EditorPlantillaB";
@@ -33,6 +36,9 @@ import { EditorPlantillaK } from "./EditorPlantillaK";
 import { EditorPlantillaL } from "./EditorPlantillaL";
 import { EditorPlantillaM } from "./EditorPlantillaM";
 import { EditorPlantillaN } from "./EditorPlantillaN";
+import { EditorPlantillaO } from "./EditorPlantillaO";
+import { EditorPlantillaP } from "./EditorPlantillaP";
+import { EditorPlantillaQ } from "./EditorPlantillaQ";
 import { CambiarPlantillaBtn } from "./CambiarPlantillaBtn";
 import { EliminarPaginaClient } from "./EliminarPaginaClient";
 
@@ -284,6 +290,42 @@ export default async function EditarPaginaPage({
         />
       )}
 
+      {pagina.plantilla === "tpl_o_admision_nivel" && (
+        <EditorPlantillaO
+          paginaId={pagina.id}
+          slug={pagina.slug}
+          initialTitulo={pagina.titulo}
+          initialContenido={pagina.contenido as ContenidoPlantillaO}
+          initialMetaTitle={pagina.meta_title ?? ""}
+          initialMetaDescription={pagina.meta_description ?? ""}
+          initialPublicada={pagina.publicada}
+        />
+      )}
+
+      {pagina.plantilla === "tpl_p_admisiones_landing" && (
+        <EditorPlantillaP
+          paginaId={pagina.id}
+          slug={pagina.slug}
+          initialTitulo={pagina.titulo}
+          initialContenido={pagina.contenido as ContenidoPlantillaP}
+          initialMetaTitle={pagina.meta_title ?? ""}
+          initialMetaDescription={pagina.meta_description ?? ""}
+          initialPublicada={pagina.publicada}
+        />
+      )}
+
+      {pagina.plantilla === "tpl_q_contactos_pagina" && (
+        <EditorPlantillaQ
+          paginaId={pagina.id}
+          slug={pagina.slug}
+          initialTitulo={pagina.titulo}
+          initialContenido={pagina.contenido as ContenidoPlantillaQ}
+          initialMetaTitle={pagina.meta_title ?? ""}
+          initialMetaDescription={pagina.meta_description ?? ""}
+          initialPublicada={pagina.publicada}
+        />
+      )}
+
       {pagina.plantilla !== "tpl_a_hero_texto" &&
         pagina.plantilla !== "tpl_b_hero_grid" &&
         pagina.plantilla !== "tpl_c_hero_pasos" &&
@@ -296,7 +338,10 @@ export default async function EditarPaginaPage({
         pagina.plantilla !== "tpl_k_ficha_servicio" &&
         pagina.plantilla !== "tpl_l_ficha_espacio" &&
         pagina.plantilla !== "tpl_m_home" &&
-        pagina.plantilla !== "tpl_n_trabaja" && (
+        pagina.plantilla !== "tpl_n_trabaja" &&
+        pagina.plantilla !== "tpl_o_admision_nivel" &&
+        pagina.plantilla !== "tpl_p_admisiones_landing" &&
+        pagina.plantilla !== "tpl_q_contactos_pagina" && (
         <div
           className="px-5 py-4 rounded-md"
           style={{ background: "#FEF3C7", border: "1px solid #FDE68A" }}

@@ -3,41 +3,76 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import type {
+  AdmisionesCTA,
+  AdmisionesStat,
+} from "@/lib/cms/admisionesLanding";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
-const stats = [
-  { value: "50+",   label: "Años de excelencia" },
+export type HeroAdmisionesProps = {
+  eyebrow?: string;
+  titleLine1?: string;
+  titleLine2?: string;
+  subtitlePre?: string;
+  subtitleHighlight?: string;
+  subtitlePost?: string;
+  ghostText?: string;
+  bgImage?: string;
+  badgeValue?: string;
+  badgeLabel?: string;
+  floatingPhotos?: [string, string, string];
+  ctaPrimary?: AdmisionesCTA;
+  ctaSecondary?: AdmisionesCTA;
+  stats?: AdmisionesStat[];
+};
+
+const DEFAULT_STATS: AdmisionesStat[] = [
+  { value: "50+", label: "Años de excelencia" },
   { value: "5.000+", label: "Familias que nos eligen" },
-  { value: "1°",    label: "Programa IB en Ambato" },
+  { value: "1°", label: "Programa IB en Ambato" },
 ];
 
-const floatingImgs = [
-  {
-    src:  "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=600&q=80",
-    w: 280, h: 370, style: { left: 60, bottom: 0, rotate: -3 },
-    initial: { opacity: 0, y: 50 }, delay: 0.55,
-  },
-  {
-    src:  "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80",
-    w: 220, h: 260, style: { right: 0, top: 0, rotate: 4 },
-    initial: { opacity: 0, y: -30 }, delay: 0.78,
-  },
-  {
-    src:  "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&q=80",
-    w: 160, h: 180, style: { left: 0, top: 60, rotate: -5 },
-    initial: { opacity: 0, x: -20 }, delay: 1.0,
-  },
+const DEFAULT_PHOTOS: [string, string, string] = [
+  "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=600&q=80",
+  "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80",
+  "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&q=80",
 ];
 
-export function HeroAdmisiones() {
+// Layout fijo de las 3 fotos (posiciones, rotaciones y delays) — solo el src es editable.
+const PHOTO_LAYOUTS = [
+  { w: 280, h: 370, style: { left: 60, bottom: 0, rotate: -3 }, initial: { opacity: 0, y: 50 },  delay: 0.55 },
+  { w: 220, h: 260, style: { right: 0, top: 0,    rotate:  4 }, initial: { opacity: 0, y: -30 }, delay: 0.78 },
+  { w: 160, h: 180, style: { left: 0,  top: 60,   rotate: -5 }, initial: { opacity: 0, x: -20 }, delay: 1.0  },
+];
+
+export function HeroAdmisiones({
+  eyebrow = "PROCESO DE ADMISIÓN 2026",
+  titleLine1 = "Tu futuro",
+  titleLine2 = "empieza aquí.",
+  subtitlePre = "Únete a la comunidad",
+  subtitleHighlight = "Atenas",
+  subtitlePost = "y forma parte de cinco décadas de excelencia educativa en Ecuador.",
+  ghostText = "ADMISIONES",
+  bgImage = "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1440&q=80",
+  badgeValue = "2026",
+  badgeLabel = "INSCRIPCIONES ABIERTAS",
+  floatingPhotos = DEFAULT_PHOTOS,
+  ctaPrimary = { label: "Iniciar proceso", href: "/admisiones/formulario" },
+  ctaSecondary = { label: "Agendar visita", href: "#visita" },
+  stats = DEFAULT_STATS,
+}: HeroAdmisionesProps = {}) {
+  const floatingImgs = PHOTO_LAYOUTS.map((layout, i) => ({
+    ...layout,
+    src: floatingPhotos[i] || DEFAULT_PHOTOS[i],
+  }));
   return (
     <section className="relative overflow-hidden bg-[#0D1825] min-h-[680px] md:min-h-[900px]">
 
       {/* ─── Fondo ─── */}
       <div className="absolute inset-0">
         <Image
-          src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1440&q=80"
+          src={bgImage}
           alt=""
           fill
           priority
@@ -56,7 +91,7 @@ export function HeroAdmisiones() {
         style={{ top: 100 }}
       >
         <span style={{ display:"block", fontFamily:"Poppins,sans-serif", fontSize:180, fontWeight:700, color:"white", opacity:0.03, lineHeight:1, marginLeft:-10, whiteSpace:"nowrap" }}>
-          ADMISIONES
+          {ghostText}
         </span>
       </div>
       <div
@@ -64,7 +99,7 @@ export function HeroAdmisiones() {
         style={{ top: 130 }}
       >
         <span style={{ display:"block", fontFamily:"Poppins,sans-serif", fontSize:50, fontWeight:700, color:"white", opacity:0.04, lineHeight:1, letterSpacing:-1, whiteSpace:"nowrap" }}>
-          ADMISIONES
+          {ghostText}
         </span>
       </div>
 
@@ -97,10 +132,10 @@ export function HeroAdmisiones() {
           transition={{ duration: 0.5, delay: 1.15, ease }}
         >
           <span style={{ fontFamily:"Poppins,sans-serif", fontSize:22, fontWeight:700, color:"#0D1825", lineHeight:1 }}>
-            2026
+            {badgeValue}
           </span>
           <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"rgba(13,24,37,0.70)", letterSpacing:1 }}>
-            INSCRIPCIONES ABIERTAS
+            {badgeLabel}
           </span>
         </motion.div>
 
@@ -137,13 +172,13 @@ export function HeroAdmisiones() {
             transition={{ duration: 0.4, delay: 0.15, ease }}
           />
           <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"#C9A84C", letterSpacing:2, textTransform:"uppercase" }}>
-            PROCESO DE ADMISIÓN 2026
+            {eyebrow}
           </span>
         </motion.div>
 
         {/* Título — slide-up línea a línea */}
         <div>
-          {(["Tu futuro", "empieza aquí."] as const).map((line, i) => (
+          {([titleLine1, titleLine2] as const).map((line, i) => (
             <div key={i} className="overflow-hidden">
               <motion.span
                 className="block font-bold"
@@ -165,19 +200,18 @@ export function HeroAdmisiones() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.58, ease }}
         >
-          Únete a la comunidad{" "}
+          {subtitlePre}{" "}
           <span className="relative inline-block">
-            Atenas
+            {subtitleHighlight}
             <motion.span
-              className="absolute left-0 -bottom-0.5 block bg-[#C9A84C]"
+              className="absolute left-0 right-0 -bottom-0.5 block bg-[#C9A84C]"
               style={{ height: 3, borderRadius: 2 }}
               initial={{ scaleX: 0, originX: 0 }}
               animate={{ scaleX: 1 }}
               transition={{ duration: 0.5, delay: 0.9, ease }}
             />
           </span>
-          {" "}y forma parte de cinco décadas<br className="hidden md:block" />
-          {" "}de excelencia educativa en Ecuador.
+          {" "}{subtitlePost}
         </motion.p>
 
         {/* CTAs */}
@@ -188,18 +222,18 @@ export function HeroAdmisiones() {
           transition={{ duration: 0.5, delay: 0.75, ease }}
         >
           <Link
-            href="/admisiones/formulario"
+            href={ctaPrimary.href}
             className="inline-flex items-center justify-center rounded-[6px] px-[28px] py-[14px] font-bold text-[14px] bg-[#C9A84C] text-[#0D1825] hover:bg-[#dbb95a] transition-colors"
             style={{ fontFamily:"Poppins,sans-serif" }}
           >
-            Iniciar proceso
+            {ctaPrimary.label}
           </Link>
           <Link
-            href="#visita"
+            href={ctaSecondary.href}
             className="inline-flex items-center justify-center rounded-[6px] px-[28px] py-[14px] font-bold text-[14px] border border-white/40 text-white hover:bg-white/10 transition-colors"
             style={{ fontFamily:"Poppins,sans-serif" }}
           >
-            Agendar visita
+            {ctaSecondary.label}
           </Link>
         </motion.div>
       </div>

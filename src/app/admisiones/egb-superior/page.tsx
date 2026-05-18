@@ -7,52 +7,95 @@ import { PasosAdmision } from "@/components/admisiones/PasosAdmision";
 import { CTAIniciarSolicitud } from "@/components/admisiones/CTAIniciarSolicitud";
 import { FormularioAdmision } from "@/components/admisiones/FormularioAdmision";
 import { FooterCTA } from "@/components/home/FooterCTA";
+import { getPagina } from "@/lib/cms/getPagina";
+import type { ContenidoPlantillaO } from "@/app/admin/(authenticated)/contenido/plantillas";
 
-export const metadata: Metadata = {
+export const revalidate = 60;
+
+const SLUG = "admisiones/egb-superior";
+const NIVEL_LABEL_FALLBACK = "EGB Superior";
+
+const FALLBACK_META = {
   title: "Admisión EGB Superior — Unidad Educativa Atenas",
   description:
     "Requisitos y proceso de admisión para EGB Superior (8vo a 10mo grado) en la Unidad Educativa Atenas, Ambato.",
 };
 
-export default function AdmisionEGBSuperiorPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const pagina = await getPagina(SLUG);
+  return {
+    title: pagina?.meta_title ?? FALLBACK_META.title,
+    description: pagina?.meta_description ?? FALLBACK_META.description,
+  };
+}
+
+export default async function AdmisionEGBSuperiorPage() {
+  const pagina = await getPagina(SLUG);
+  const cfg = (pagina?.contenido ?? null) as ContenidoPlantillaO | null;
+  const nivelLabel = cfg?.nivelLabel ?? NIVEL_LABEL_FALLBACK;
+
   return (
     <>
       <Navbar />
       <main>
         <HeroElAtenas
-          badge="ADMISIONES"
-          title="Admisión EGB Superior"
-          subtitle="8vo a 10mo grado — La etapa previa al Bachillerato IB, con exigencia académica y formación en liderazgo."
-          ghostText="SUPERIOR"
+          badge={cfg?.hero?.badge ?? "ADMISIONES"}
+          title={cfg?.hero?.title ?? "Admisión EGB Superior"}
+          subtitle={cfg?.hero?.subtitle ?? "8vo a 10mo grado — La etapa previa al Bachillerato IB, con exigencia académica y formación en liderazgo."}
+          ghostText={cfg?.hero?.ghostText ?? "SUPERIOR"}
+          bgImageSrc={cfg?.hero?.bgImage || undefined}
         />
         <NavAdmisiones current="egb-superior" />
         <SeccionAdmisionDetalle
-          badge="EGB Superior — 8vo a 10mo grado"
-          heading="Requisitos para ingresar a EGB Superior"
-          paragraphs={[
-            "La EGB Superior es la etapa de preparación para el Bachillerato, con especial énfasis en el desarrollo del pensamiento analítico, el inglés avanzado y las bases científicas que el Programa del Diploma IB requiere.",
-            "Los estudiantes de 8vo a 10mo que ingresan a Atenas pasan por un proceso de evaluación diagnóstica para asegurar su integración exitosa al nivel académico del colegio.",
-          ]}
-          documents={[
-            "Notas de los últimos 2 años",
-            "Cédula del representante",
-            "Partida de nacimiento",
-            "Certificado de matrícula anterior",
-            "Certificado médico",
-            "Fotos tamaño carnet",
-          ]}
-          note="Los estudiantes de 10mo que demuestren el perfil requerido tienen prioridad en el proceso de postulación al Bachillerato IB del siguiente año lectivo."
-          ficha={[
-            { label: "Niveles",         value: "8vo a 10mo grado" },
-            { label: "Edad aprox.",     value: "12 – 15 años" },
-            { label: "Promedio mínimo", value: "7.5 / 10", highlight: true },
-            { label: "Evaluación",      value: "Diagnóstica + entrevista" },
-            { label: "Inicio",          value: "Septiembre" },
-          ]}
+          badge={cfg?.detalle?.badge ?? "EGB Superior — 8vo a 10mo grado"}
+          heading={cfg?.detalle?.heading ?? "Requisitos para ingresar a EGB Superior"}
+          paragraphs={cfg?.detalle?.paragraphs ?? []}
+          documents={cfg?.detalle?.documents ?? []}
+          note={cfg?.detalle?.note ?? ""}
+          ficha={cfg?.detalle?.ficha ?? []}
+          ctaTitulo={cfg?.detalle?.ctaTitulo}
+          ctaDescripcion={cfg?.detalle?.ctaDescripcion}
+          ctaLabel={cfg?.detalle?.ctaLabel}
+          ctaHref={cfg?.detalle?.ctaHref}
         />
-        <PasosAdmision />
-        <CTAIniciarSolicitud nivel="EGB Superior" />
-        <FormularioAdmision nivelDefault="EGB Superior" />
+        <PasosAdmision
+          eyebrow={cfg?.pasos?.eyebrow}
+          heading={cfg?.pasos?.heading}
+          items={cfg?.pasos?.items}
+        />
+        <CTAIniciarSolicitud
+          nivel={nivelLabel}
+          eyebrow={cfg?.ctaSolicitud?.eyebrow}
+          heading={cfg?.ctaSolicitud?.heading}
+          descripcionPre={cfg?.ctaSolicitud?.descripcionPre}
+          descripcionPost={cfg?.ctaSolicitud?.descripcionPost}
+          beneficios={cfg?.ctaSolicitud?.beneficios}
+          ctaPrimaryLabel={cfg?.ctaSolicitud?.ctaPrimary?.label}
+          ctaPrimaryHref={cfg?.ctaSolicitud?.ctaPrimary?.href}
+          ctaSecondaryLabel={cfg?.ctaSolicitud?.ctaSecondary?.label}
+          ctaSecondaryHref={cfg?.ctaSolicitud?.ctaSecondary?.href}
+          nota={cfg?.ctaSolicitud?.nota}
+        />
+        <FormularioAdmision
+          nivelDefault={nivelLabel}
+          eyebrow={cfg?.formularioConsulta?.eyebrow}
+          heading={cfg?.formularioConsulta?.heading}
+          description={cfg?.formularioConsulta?.description}
+          stats={cfg?.formularioConsulta?.stats}
+          photos={cfg?.formularioConsulta?.photos}
+          badgeFloating={cfg?.formularioConsulta?.badgeFloating}
+          formCardHeading={cfg?.formularioConsulta?.formCardHeading}
+          formCardSubtitle={cfg?.formularioConsulta?.formCardSubtitle}
+          submitLabel={cfg?.formularioConsulta?.submitLabel}
+          sendingLabel={cfg?.formularioConsulta?.sendingLabel}
+          successTitle={cfg?.formularioConsulta?.successTitle}
+          successText={cfg?.formularioConsulta?.successText}
+          errorText={cfg?.formularioConsulta?.errorText}
+          privacyTextPre={cfg?.formularioConsulta?.privacyTextPre}
+          privacyLinkLabel={cfg?.formularioConsulta?.privacyLinkLabel}
+          privacyLinkHref={cfg?.formularioConsulta?.privacyLinkHref}
+          privacyTextPost={cfg?.formularioConsulta?.privacyTextPost}
+        />
         <FooterCTA />
       </main>
     </>

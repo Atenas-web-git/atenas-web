@@ -69,7 +69,7 @@ export function ProcesoIB({ proceso }: Props) {
                   <span className="relative inline-block" style={{ color:"#C9A84C" }}>
                     {hl}
                     <motion.span
-                      className="absolute left-0 -bottom-1 block bg-[#C9A84C]"
+                      className="absolute left-0 right-0 -bottom-1 block bg-[#C9A84C]"
                       style={{ height:3, borderRadius:2 }}
                       initial={{ scaleX:0, originX:0 }}
                       animate={inView ? { scaleX:1 } : {}}

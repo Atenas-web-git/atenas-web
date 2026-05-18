@@ -13,34 +13,78 @@ const NIVELES: Nivel[] = [
   "Educación Inicial", "EGB Elemental y Media", "EGB Superior", "Bachillerato IB",
 ];
 
-const collageLayout = [
-  { w: 200, h: 260, style: { left: 0, top: 30 }, rotate: 3, delay: 0.35 },
-  { w: 162, h: 200, style: { left: 190, top: 0 }, rotate: -4, delay: 0.55 },
-  { w: 140, h: 178, style: { left: 325, top: 65 }, rotate: 2, delay: 0.75 },
+// Layout fijo del collage (posiciones, rotaciones, delays). Solo los src son editables.
+const COLLAGE_LAYOUT = [
+  { w: 200, h: 260, style: { left: 0,   top: 30 }, rotate:  3, delay: 0.35 },
+  { w: 162, h: 200, style: { left: 190, top: 0  }, rotate: -4, delay: 0.55 },
+  { w: 140, h: 178, style: { left: 325, top: 65 }, rotate:  2, delay: 0.75 },
 ];
 
-const photos = [
+const DEFAULT_PHOTOS: [string, string, string] = [
   "https://images.unsplash.com/photo-1758270705657-f28eec1a5694?w=600&q=80",
   "https://images.unsplash.com/photo-1602436215510-cbe1c087f46e?w=600&q=80",
   "https://images.unsplash.com/photo-1631599575881-556a8c416881?w=600&q=80",
 ];
 
-/* ─── Counter animado ─── */
-function StatCounter({ value, suffix, label, inView, delay }:
-  { value: number; suffix: string; label: string; inView: boolean; delay: number }) {
-  const count = useCountUp(value, 1.4, inView);
+const DEFAULT_STATS: FormularioAdmisionStat[] = [
+  { value: "50", suffix: "+", label: "años formando\nlíderes" },
+  { value: "IB", suffix: "",  label: "único diploma acreditado\nen el centro del país" },
+  { value: "24", suffix: "h", label: "tiempo máximo\nde respuesta" },
+];
+
+export type FormularioAdmisionStat = {
+  /** Si es numérico se anima con count-up. Si no, se muestra estático. */
+  value: string;
+  suffix: string;
+  /** Acepta \n para línea adicional. */
+  label: string;
+};
+
+export type FormularioAdmisionProps = {
+  /** Nivel de interés que se pre-selecciona en el dropdown. */
+  nivelDefault: Nivel | string;
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  stats?: FormularioAdmisionStat[];
+  photos?: [string, string, string];
+  badgeFloating?: string;
+  formCardHeading?: string;
+  formCardSubtitle?: string;
+  submitLabel?: string;
+  sendingLabel?: string;
+  successTitle?: string;
+  successText?: string;
+  errorText?: string;
+  privacyTextPre?: string;
+  privacyLinkLabel?: string;
+  privacyLinkHref?: string;
+  privacyTextPost?: string;
+};
+
+/* ─── Stat con countup si es numérico, estático si no ─── */
+function StatItem({ value, suffix, label, inView, delay }:
+  { value: string; suffix: string; label: string; inView: boolean; delay: number }) {
+  const num = Number(value);
+  const isNumeric = !Number.isNaN(num) && value.trim() !== "";
+  const display = isNumeric ? <NumericStat value={num} inView={inView} /> : value;
   return (
     <motion.div className="flex flex-col gap-1"
       initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay, ease }}>
       <span style={{ fontFamily: "Poppins, sans-serif", fontSize: "clamp(28px,2.2vw,36px)",
         fontWeight: 800, color: "#C9A84C", lineHeight: 1 }}>
-        {count}{suffix}
+        {display}{suffix}
       </span>
       <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 12, fontWeight: 500,
-        color: "rgba(26,43,74,0.55)", lineHeight: 1.4 }}>{label}</span>
+        color: "rgba(26,43,74,0.55)", lineHeight: 1.4, whiteSpace: "pre-line" }}>{label}</span>
     </motion.div>
   );
+}
+
+function NumericStat({ value, inView }: { value: number; inView: boolean }) {
+  const count = useCountUp(value, 1.4, inView);
+  return <>{count}</>;
 }
 
 /* ─── Input animado ─── */
@@ -140,7 +184,26 @@ function AnimSelect({ label, value, onChange, delay, inView }:
 }
 
 /* ─── Main export ─── */
-export function FormularioAdmision({ nivelDefault }: { nivelDefault: Nivel }) {
+export function FormularioAdmision({
+  nivelDefault,
+  eyebrow = "¿Aún tienes dudas?",
+  heading = "Resolvemos tus preguntas antes de que des el siguiente paso",
+  description = "No tienes que comprometerte con nada todavía. Si tienes preguntas sobre el proceso de admisión, los requisitos, la propuesta académica o simplemente quieres conocer más sobre el Atenas, escríbenos y te respondemos en menos de 24 horas hábiles, sin presiones.",
+  stats = DEFAULT_STATS,
+  photos = DEFAULT_PHOTOS,
+  badgeFloating = "★ ATENAS · 50 AÑOS",
+  formCardHeading = "Escríbenos, con gusto te informamos",
+  formCardSubtitle = "Sin compromiso. Te respondemos en menos de 24 h hábiles.",
+  submitLabel = "Enviar solicitud de información",
+  sendingLabel = "Enviando...",
+  successTitle = "¡Solicitud enviada!",
+  successText = "Nuestro equipo de admisiones se pondrá en contacto contigo dentro de 24 horas hábiles.",
+  errorText = "Ocurrió un error. Por favor intenta de nuevo o escríbenos a admisiones@atenas.edu.ec",
+  privacyTextPre = "Al enviar este formulario aceptas nuestra",
+  privacyLinkLabel = "Política de Privacidad",
+  privacyLinkHref = "/privacidad",
+  privacyTextPost = ". Tus datos serán usados únicamente para responder tu consulta.",
+}: FormularioAdmisionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.06 });
 
@@ -187,7 +250,7 @@ export function FormularioAdmision({ nivelDefault }: { nivelDefault: Nivel }) {
               transition={{ duration: 0.4, delay: 0.1, ease }} />
             <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700,
               color: "#C9A84C", letterSpacing: 2, textTransform: "uppercase" }}>
-              ¿Aún tienes dudas?
+              {eyebrow}
             </span>
           </motion.div>
 
@@ -198,7 +261,7 @@ export function FormularioAdmision({ nivelDefault }: { nivelDefault: Nivel }) {
                 fontWeight: 700, color: "#1A2B4A", lineHeight: 1.15 }}
               initial={{ y: 56, opacity: 0 }} animate={inView ? { y: 0, opacity: 1 } : {}}
               transition={{ duration: 0.7, delay: 0.15, ease }}>
-              Resolvemos tus preguntas antes de que des el siguiente paso
+              {heading}
             </motion.h2>
           </div>
 
@@ -211,48 +274,41 @@ export function FormularioAdmision({ nivelDefault }: { nivelDefault: Nivel }) {
               color: "rgba(26,43,74,0.75)", lineHeight: 1.75, maxWidth: 480 }}
             initial={{ opacity: 0, y: 16 }} animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.55, delay: 0.35, ease }}>
-            No tienes que comprometerte con nada todavía. Si tienes preguntas sobre el proceso de admisión,
-            los requisitos, la propuesta académica o simplemente quieres conocer más sobre el Atenas,
-            escríbenos y te respondemos en menos de 24 horas hábiles, sin presiones.
+            {description}
           </motion.p>
 
           {/* Stats con countup */}
           <div className="flex gap-8 items-start flex-nowrap">
-            <StatCounter value={50} suffix="+" label={"años formando\nlíderes"} inView={inView} delay={0.42} />
-            <div className="flex flex-col gap-1">
-              <motion.span
-                style={{ fontFamily: "Poppins, sans-serif", fontSize: "clamp(28px,2.2vw,36px)",
-                  fontWeight: 800, color: "#C9A84C", lineHeight: 1 }}
-                initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.50, ease }}>
-                IB
-              </motion.span>
-              <motion.span
-                style={{ fontFamily: "Poppins, sans-serif", fontSize: 12, fontWeight: 500,
-                  color: "rgba(26,43,74,0.55)", lineHeight: 1.4 }}
-                initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}}
-                transition={{ duration: 0.4, delay: 0.55, ease }}>
-                único diploma acreditado{"\n"}en el centro del país
-              </motion.span>
-            </div>
-            <StatCounter value={24} suffix="h" label={"tiempo máximo\nde respuesta"} inView={inView} delay={0.58} />
+            {stats.slice(0, 3).map((s, i) => (
+              <StatItem
+                key={i}
+                value={s.value}
+                suffix={s.suffix}
+                label={s.label}
+                inView={inView}
+                delay={0.42 + i * 0.08}
+              />
+            ))}
           </div>
 
           {/* Collage de fotos */}
           <div className="relative hidden md:block" style={{ height: 320, minWidth: 480 }}>
-            {collageLayout.map((img, i) => (
-              <motion.div key={i}
-                className="absolute rounded-[14px] overflow-hidden"
-                style={{ width: img.w, height: img.h, boxShadow: "0 16px 40px rgba(0,0,0,0.22)", ...img.style }}
-                initial={{ opacity: 0, y: 30, rotate: img.rotate - 5 }}
-                animate={inView ? { opacity: 1, y: 0, rotate: img.rotate } : {}}
-                transition={{ duration: 0.75, delay: img.delay, ease }}
-                whileHover={{ scale: 1.04, zIndex: 10, transition: { duration: 0.25 } }}>
-                <Image src={photos[i]} alt="" fill className="object-cover" sizes="240px" />
-                <div className="absolute inset-0"
-                  style={{ background: "linear-gradient(to bottom, rgba(13,24,37,0) 50%, rgba(13,24,37,0.30) 100%)" }} />
-              </motion.div>
-            ))}
+            {COLLAGE_LAYOUT.map((img, i) => {
+              const src = photos[i] || DEFAULT_PHOTOS[i];
+              return (
+                <motion.div key={i}
+                  className="absolute rounded-[14px] overflow-hidden"
+                  style={{ width: img.w, height: img.h, boxShadow: "0 16px 40px rgba(0,0,0,0.22)", ...img.style }}
+                  initial={{ opacity: 0, y: 30, rotate: img.rotate - 5 }}
+                  animate={inView ? { opacity: 1, y: 0, rotate: img.rotate } : {}}
+                  transition={{ duration: 0.75, delay: img.delay, ease }}
+                  whileHover={{ scale: 1.04, zIndex: 10, transition: { duration: 0.25 } }}>
+                  <Image src={src} alt="" fill className="object-cover" sizes="240px" />
+                  <div className="absolute inset-0"
+                    style={{ background: "linear-gradient(to bottom, rgba(13,24,37,0) 50%, rgba(13,24,37,0.30) 100%)" }} />
+                </motion.div>
+              );
+            })}
             <motion.div
               className="absolute z-20 flex items-center gap-[6px] rounded-[8px] px-[14px] py-[9px]"
               style={{ background: "#C9A84C", left: 255, top: 222, boxShadow: "0 8px 24px rgba(201,168,76,0.40)" }}
@@ -260,7 +316,7 @@ export function FormularioAdmision({ nivelDefault }: { nivelDefault: Nivel }) {
               transition={{ duration: 0.4, delay: 0.95, ease }}
               whileHover={{ scale: 1.06, transition: { duration: 0.15 } }}>
               <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700,
-                color: "#0D1825", letterSpacing: 0.8 }}>★ ATENAS · 50 AÑOS</span>
+                color: "#0D1825", letterSpacing: 0.8 }}>{badgeFloating}</span>
             </motion.div>
           </div>
         </div>
@@ -278,14 +334,14 @@ export function FormularioAdmision({ nivelDefault }: { nivelDefault: Nivel }) {
               style={{ fontFamily: "Poppins, sans-serif", fontSize: 20, fontWeight: 700, color: "#1A2B4A" }}
               initial={{ opacity: 0, y: 14 }} animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.45, delay: 0.35, ease }}>
-              Escríbenos, con gusto te informamos
+              {formCardHeading}
             </motion.h3>
             <motion.p
               style={{ fontFamily: "Poppins, sans-serif", fontSize: 13,
                 color: "rgba(13,24,37,0.50)", lineHeight: 1.5 }}
               initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.42, ease }}>
-              Sin compromiso. Te respondemos en menos de 24 h hábiles.
+              {formCardSubtitle}
             </motion.p>
           </div>
 
@@ -307,11 +363,11 @@ export function FormularioAdmision({ nivelDefault }: { nivelDefault: Nivel }) {
                   <span style={{ fontSize: 28 }}>✓</span>
                 </motion.div>
                 <h4 style={{ fontFamily: "Poppins, sans-serif", fontSize: 18, fontWeight: 700, color: "#1A2B4A" }}>
-                  ¡Solicitud enviada!
+                  {successTitle}
                 </h4>
                 <p style={{ fontFamily: "Poppins, sans-serif", fontSize: 14,
                   color: "rgba(13,24,37,0.55)", lineHeight: 1.65, maxWidth: 320 }}>
-                  Nuestro equipo de admisiones se pondrá en contacto contigo dentro de 24 horas hábiles.
+                  {successText}
                 </p>
               </motion.div>
             ) : (
@@ -338,7 +394,7 @@ export function FormularioAdmision({ nivelDefault }: { nivelDefault: Nivel }) {
                   <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                     style={{ fontFamily: "Poppins, sans-serif", fontSize: 12,
                       color: "#e53e3e", textAlign: "center" }}>
-                    Ocurrió un error. Por favor intenta de nuevo o escríbenos a admisiones@atenas.edu.ec
+                    {errorText}
                   </motion.p>
                 )}
 
@@ -355,11 +411,11 @@ export function FormularioAdmision({ nivelDefault }: { nivelDefault: Nivel }) {
                   whileTap={{ scale: 0.98 }}>
                   {status === "sending" ? (
                     <motion.span animate={{ opacity: [1, 0.4, 1] }} transition={{ duration: 1, repeat: Infinity }}>
-                      Enviando...
+                      {sendingLabel}
                     </motion.span>
                   ) : (
                     <>
-                      Enviar solicitud de información
+                      {submitLabel}
                       <motion.span
                         animate={{ x: [0, 4, 0] }}
                         transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
@@ -375,11 +431,11 @@ export function FormularioAdmision({ nivelDefault }: { nivelDefault: Nivel }) {
                     color: "rgba(13,24,37,0.38)", textAlign: "center", lineHeight: 1.55 }}
                   initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}}
                   transition={{ duration: 0.4, delay: 0.92, ease }}>
-                  Al enviar este formulario aceptas nuestra{" "}
-                  <a href="/privacidad" style={{ color: "#C9A84C", textDecoration: "underline" }}>
-                    Política de Privacidad
+                  {privacyTextPre}{" "}
+                  <a href={privacyLinkHref} style={{ color: "#C9A84C", textDecoration: "underline" }}>
+                    {privacyLinkLabel}
                   </a>
-                  . Tus datos serán usados únicamente para responder tu consulta.
+                  {privacyTextPost}
                 </motion.p>
               </form>
             )}

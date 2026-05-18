@@ -2,7 +2,9 @@ import { getMegaMenu, type MenuCategoria } from "@/lib/cms/getMegaMenu";
 import {
   getConfiguracion,
   mergeMegaMenu,
+  mergeContacto,
   type MegaMenuConfig,
+  type Contacto,
 } from "@/lib/cms/getConfiguracion";
 import { NavbarClient } from "./NavbarClient";
 
@@ -135,12 +137,44 @@ const FALLBACK_MENU: MenuCategoria[] = [
  *
  * Editable desde `/admin/configuracion/mega-menu` (superadmin).
  */
+/**
+ * Construye los datos de contacto que se muestran en la franja inferior
+ * del mega-menú (teléfono al lado derecho en desktop + bloque
+ * "Contacto" en mobile). Se derivan del primer teléfono y email de
+ * `configuracion_global['contacto']` — no se duplican.
+ */
+function deriveContactoDelMenu(contacto: Contacto) {
+  const tel = contacto.telefonos[0];
+  const email = contacto.emails[0];
+  const phoneLine = tel
+    ? `${tel.numero}${tel.extension ? ` ext. ${tel.extension}` : ""}`
+    : "";
+  const mobileContactLines: string[] = [];
+  if (tel) {
+    const extension = tel.extension ? ` ext. ${tel.extension}` : "";
+    const label = tel.label ? ` (${tel.label})` : "";
+    mobileContactLines.push(`${tel.numero}${extension}${label}`);
+  }
+  if (email) mobileContactLines.push(email.email);
+  return { phoneLine, mobileContactLines };
+}
+
 export async function Navbar() {
-  const [categoriasDB, megaMenuRaw] = await Promise.all([
+  const [categoriasDB, megaMenuRaw, contactoRaw] = await Promise.all([
     getMegaMenu(),
     getConfiguracion<Partial<MegaMenuConfig>>("mega_menu"),
+    getConfiguracion<Partial<Contacto>>("contacto"),
   ]);
   const categorias = categoriasDB.length > 0 ? categoriasDB : FALLBACK_MENU;
   const megaMenuCfg = mergeMegaMenu(megaMenuRaw);
-  return <NavbarClient categorias={categorias} megaMenuCfg={megaMenuCfg} />;
+  const contacto = mergeContacto(contactoRaw);
+  const contactoMenu = deriveContactoDelMenu(contacto);
+  return (
+    <NavbarClient
+      categorias={categorias}
+      megaMenuCfg={megaMenuCfg}
+      phoneLine={contactoMenu.phoneLine}
+      mobileContactLines={contactoMenu.mobileContactLines}
+    />
+  );
 }

@@ -13,19 +13,31 @@ import {
   mergeContactosPagina,
   type ContactosPaginaConfig,
 } from "@/lib/cms/contactosPagina";
+import { getPagina } from "@/lib/cms/getPagina";
 
-export const metadata: Metadata = {
+export const revalidate = 60;
+
+const SLUG = "contactos";
+
+const FALLBACK_META = {
   title: "Contactos — Unidad Educativa Atenas",
   description:
     "Contáctanos por teléfono (03 2854281), correo o visítanos en Calle Gabriel Román s/n y Av. Pedro Vásconez, Izamba, Ambato, Ecuador.",
-  keywords:
-    "contacto colegio Ambato, dirección Unidad Educativa Atenas, teléfono colegio Izamba Ambato, correo admisiones Atenas",
-  openGraph: {
-    title: "Contactos — Unidad Educativa Atenas",
-    description:
-      "Encuéntranos en Calle Gabriel Román s/n, Izamba, Ambato. Teléfono: 03 2854281 · admisiones@atenas.edu.ec",
-  },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const pagina = await getPagina(SLUG);
+  return {
+    title: pagina?.meta_title ?? FALLBACK_META.title,
+    description: pagina?.meta_description ?? FALLBACK_META.description,
+    keywords:
+      "contacto colegio Ambato, dirección Unidad Educativa Atenas, teléfono colegio Izamba Ambato, correo admisiones Atenas",
+    openGraph: {
+      title: pagina?.meta_title ?? FALLBACK_META.title,
+      description: pagina?.meta_description ?? FALLBACK_META.description,
+    },
+  };
+}
 
 /**
  * Toma los datos primarios de contacto (teléfono central + dirección
@@ -50,11 +62,13 @@ function deriveContactoPrimario(contacto: Contacto) {
 }
 
 export default async function ContactosPage() {
-  const [rawPagina, rawContacto] = await Promise.all([
-    getConfiguracion<Partial<ContactosPaginaConfig>>("contactos_pagina"),
+  const [pagina, rawContacto] = await Promise.all([
+    getPagina(SLUG),
     getConfiguracion<Partial<Contacto>>("contacto"),
   ]);
-  const pagina = mergeContactosPagina(rawPagina);
+  const cfg = mergeContactosPagina(
+    (pagina?.contenido ?? null) as Partial<ContactosPaginaConfig> | null
+  );
   const contacto = mergeContacto(rawContacto);
   const primario = deriveContactoPrimario(contacto);
 
@@ -63,16 +77,16 @@ export default async function ContactosPage() {
       <Navbar />
       <main>
         <HeroContactos
-          hero={pagina.hero}
+          hero={cfg.hero}
           telefonoPrincipal={primario.telefonoPrincipal}
           telefonoExtension={primario.telefonoExtension}
         />
         <InfoContactos
-          canales={pagina.canales}
+          canales={cfg.canales}
           telefonoPrincipal={primario.telefonoPrincipal}
           emailPrincipal={primario.emailPrincipal}
         />
-        <FormContactos formulario={pagina.formulario} mapa={pagina.mapa} />
+        <FormContactos formulario={cfg.formulario} mapa={cfg.mapa} />
         <FooterCTA />
       </main>
     </>

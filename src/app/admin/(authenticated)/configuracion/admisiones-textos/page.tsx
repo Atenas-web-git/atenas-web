@@ -5,14 +5,14 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasRole } from "@/lib/auth/types";
 import {
-  mergeContactosPagina,
-  type ContactosPaginaConfig,
-} from "@/lib/cms/contactosPagina";
-import { ContactosPaginaForm } from "./ContactosPaginaForm";
+  mergeAdmisionesTextos,
+  type AdmisionesTextosConfig,
+} from "@/lib/cms/admisionesTextos";
+import { AdmisionesTextosForm } from "./AdmisionesTextosForm";
 
 export const dynamic = "force-dynamic";
 
-export default async function ContactosPaginaPage() {
+export default async function AdmisionesTextosPage() {
   const user = await getCurrentUser();
   if (!user) return null;
   if (!hasRole(user, ROLES.SUPERADMIN)) redirect("/admin");
@@ -21,11 +21,11 @@ export default async function ContactosPaginaPage() {
   const { data } = await supabase
     .from("configuracion_global")
     .select("value")
-    .eq("key", "contactos_pagina")
+    .eq("key", "admisiones_textos")
     .maybeSingle();
 
-  const config: ContactosPaginaConfig = mergeContactosPagina(
-    (data?.value as Partial<ContactosPaginaConfig> | null) ?? null
+  const config: AdmisionesTextosConfig = mergeAdmisionesTextos(
+    (data?.value as Partial<AdmisionesTextosConfig> | null) ?? null
   );
 
   return (
@@ -41,17 +41,16 @@ export default async function ContactosPaginaPage() {
 
       <div>
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
-          Página /contactos
+          Textos chicos de /admisiones (formulario + seguimiento)
         </h1>
         <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
-          Hero, tarjeta flotante, sección &quot;Canales de atención&quot; (3 tarjetas con
-          extensiones, dirección y email), formulario y embed de Google Maps. Los
-          datos primarios de contacto (teléfono central, dirección, email) se leen de
-          la sección Contacto.
+          Encabezados del wizard de postulación (<code>/admisiones/formulario</code>) y de
+          la página de consulta de estado (<code>/admisiones/seguimiento</code>). La lógica
+          del wizard y la búsqueda permanece en código.
         </p>
       </div>
 
-      <ContactosPaginaForm initialConfig={config} />
+      <AdmisionesTextosForm initialConfig={config} />
     </div>
   );
 }

@@ -3,16 +3,28 @@
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import type { AdmisionesProcesoPaso } from "@/lib/cms/admisionesLanding";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
-const pasos = [
-  { num:"01", title:"Solicitud en línea",      desc:"Completa el formulario de pre-inscripción con los datos del estudiante y el nivel educativo deseado." },
-  { num:"02", title:"Entrevista familiar",     desc:"Coordinamos una reunión con las autoridades del colegio para conocer a la familia y al estudiante." },
-  { num:"03", title:"Evaluación diagnóstica",  desc:"El estudiante realiza una evaluación de diagnóstico acorde a su nivel. Es formativa, no eliminatoria." },
-  { num:"04", title:"Revisión de documentos",  desc:"Entrega de libreta de calificaciones, copia de cédula y certificado de salud del año anterior." },
-  { num:"05", title:"Matriculación",           desc:"Una vez aprobado el proceso, se coordina la firma del contrato y el pago de matrícula." },
+const DEFAULT_PASOS: AdmisionesProcesoPaso[] = [
+  { num: "01", title: "Solicitud en línea",     desc: "Completa el formulario de pre-inscripción con los datos del estudiante y el nivel educativo deseado." },
+  { num: "02", title: "Entrevista familiar",    desc: "Coordinamos una reunión con las autoridades del colegio para conocer a la familia y al estudiante." },
+  { num: "03", title: "Evaluación diagnóstica", desc: "El estudiante realiza una evaluación de diagnóstico acorde a su nivel. Es formativa, no eliminatoria." },
+  { num: "04", title: "Revisión de documentos", desc: "Entrega de libreta de calificaciones, copia de cédula y certificado de salud del año anterior." },
+  { num: "05", title: "Matriculación",          desc: "Una vez aprobado el proceso, se coordina la firma del contrato y el pago de matrícula." },
 ];
+
+export type ProcesoAdmisionesProps = {
+  eyebrow?: string;
+  headingPre?: string;
+  headingHighlight?: string;
+  description?: string;
+  fotoPrincipal?: string;
+  fotoSecundaria?: string;
+  badgeFloating?: string;
+  pasos?: AdmisionesProcesoPaso[];
+};
 
 /* Dirección por índice: 0,1 → izquierda | 2 → abajo | 3,4 → derecha */
 function xFor(i: number) {
@@ -87,7 +99,16 @@ function MobileStep({ num, title, desc, delay, index }: {
   );
 }
 
-export function ProcesoAdmisiones() {
+export function ProcesoAdmisiones({
+  eyebrow = "Cómo unirse",
+  headingPre = "El camino hacia",
+  headingHighlight = "el Atenas.",
+  description = "Un proceso claro, humano y transparente para que tu familia se incorpore a la comunidad Atenas con total confianza.",
+  fotoPrincipal = "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80",
+  fotoSecundaria = "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?w=600&q=80",
+  badgeFloating = "CUPOS LIMITADOS 2026",
+  pasos = DEFAULT_PASOS,
+}: ProcesoAdmisionesProps = {}) {
   const headerRef = useRef<HTMLDivElement>(null);
   const inView    = useInView(headerRef, { once:true, amount:0.2 });
 
@@ -109,7 +130,7 @@ export function ProcesoAdmisiones() {
               animate={inView ? { opacity:1, y:0 } : {}}
               transition={{ duration:0.45, ease }}
             >
-              Cómo unirse
+              {eyebrow}
             </motion.p>
 
             <motion.span
@@ -127,11 +148,11 @@ export function ProcesoAdmisiones() {
                 animate={inView ? { y:0, opacity:1 } : {}}
                 transition={{ duration:0.65, delay:0.15, ease }}
               >
-                El camino hacia{" "}
+                {headingPre}{" "}
                 <span className="relative inline-block">
-                  el Atenas.
+                  {headingHighlight}
                   <motion.span
-                    className="absolute left-0 -bottom-1 block bg-[#C9A84C]"
+                    className="absolute left-0 right-0 -bottom-1 block bg-[#C9A84C]"
                     style={{ height:4, borderRadius:2 }}
                     initial={{ scaleX:0, originX:0 }}
                     animate={inView ? { scaleX:1 } : {}}
@@ -148,8 +169,7 @@ export function ProcesoAdmisiones() {
               animate={inView ? { opacity:1, y:0 } : {}}
               transition={{ duration:0.55, delay:0.3, ease }}
             >
-              Un proceso claro, humano y transparente para que tu familia
-              se incorpore a la comunidad Atenas con total confianza.
+              {description}
             </motion.p>
           </div>
 
@@ -164,7 +184,7 @@ export function ProcesoAdmisiones() {
               transition={{ duration:0.85, delay:0.35, ease }}
             >
               <Image
-                src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80"
+                src={fotoPrincipal}
                 alt="Estudiante Atenas"
                 fill className="object-cover" sizes="290px"
               />
@@ -178,7 +198,7 @@ export function ProcesoAdmisiones() {
               transition={{ duration:0.75, delay:0.55, ease }}
             >
               <Image
-                src="https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?w=600&q=80"
+                src={fotoSecundaria}
                 alt="Aula Atenas"
                 fill className="object-cover" sizes="190px"
               />
@@ -193,7 +213,7 @@ export function ProcesoAdmisiones() {
               transition={{ duration:0.45, delay:0.72, ease }}
             >
               <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"#C9A84C", letterSpacing:1 }}>
-                CUPOS LIMITADOS 2026
+                {badgeFloating}
               </span>
             </motion.div>
           </div>

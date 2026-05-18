@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Calendar, FileCheck2, CalendarClock, Palette, Phone, Code, Menu, Search, ArrowRight, Mail, PanelBottom, MapPin } from "lucide-react";
+import { Calendar, FileCheck2, CalendarClock, Palette, Phone, Code, Menu, Search, ArrowRight, Mail, PanelBottom, FileText } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole, hasRole } from "@/lib/auth/types";
 
@@ -41,10 +41,10 @@ const SECCIONES = [
     onlySuperadmin: true,
   },
   {
-    href: "/admin/configuracion/contactos-pagina",
-    title: "Página /contactos",
-    description: "Contenido editable de la página pública /contactos: hero, tarjeta flotante, sección 'Canales de atención' (3 tarjetas con extensiones, dirección, email), textos del formulario y embed de Google Maps.",
-    icon: MapPin,
+    href: "/admin/configuracion/admisiones-textos",
+    title: "Admisiones — textos chicos",
+    description: "Encabezados de /admisiones/formulario (wizard) y /admisiones/seguimiento (consulta de estado). La lógica de ambos permanece en código.",
+    icon: FileText,
     onlySuperadmin: true,
   },
   {

@@ -56,6 +56,8 @@ export default async function MegaMenuPage() {
       <MegaMenuGlobalConfigForm
         initialBgImage={megaMenuCfg.bgImage}
         initialTagline={megaMenuCfg.tagline}
+        initialCtaPretitle={megaMenuCfg.ctaFooter.pretitle}
+        initialCtaButtons={megaMenuCfg.ctaFooter.buttons}
       />
 
       <MegaMenuEditor tree={tree} />

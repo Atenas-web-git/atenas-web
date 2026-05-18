@@ -320,23 +320,65 @@ export function mergeSeo(input: Partial<Seo> | null): Seo {
 }
 
 // ─── Mega-menú (configuración global del panel desplegable) ────────
+export type MegaMenuCtaButton = {
+  label: string;
+  href: string;
+};
+
 export type MegaMenuConfig = {
   /** Imagen de fondo del panel izquierdo del mega-menú desplegado. */
   bgImage: string;
   /** Línea de texto bajo el logo del panel izquierdo (multi-línea con \n). */
   tagline: string;
+  /**
+   * Franja inferior del mega-menú con CTA + 4 botones + teléfono.
+   * El teléfono se DERIVA automáticamente de
+   * `configuracion_global['contacto'].telefonos[0]`, no se duplica acá.
+   */
+  ctaFooter: {
+    /** Texto antes de los botones (ej. "¿Listo para ser parte del Atenas?"). */
+    pretitle: string;
+    /**
+     * Los 4 botones (orden fijo: rojo, dorado outline, blanco outline ×2).
+     * El estilo está hardcoded por posición — solo se editan label y href.
+     */
+    buttons: MegaMenuCtaButton[];
+  };
 };
 
 export const MEGA_MENU_DEFAULT: MegaMenuConfig = {
   bgImage: "/images/00_politicas-de-seguridad-1536x864.jpg",
   tagline: "50 años formando líderes\ncon valores y excelencia.",
+  ctaFooter: {
+    pretitle: "¿Listo para ser parte del Atenas?",
+    buttons: [
+      { label: "Solicitar Admisión", href: "/admisiones" },
+      { label: "Tour Virtual",        href: "/paseo-virtual" },
+      { label: "Cronograma",          href: "/cronograma-anual" },
+      { label: "Contactos",           href: "/contactos" },
+    ],
+  },
 };
 
 export function mergeMegaMenu(input: Partial<MegaMenuConfig> | null): MegaMenuConfig {
   if (!input) return MEGA_MENU_DEFAULT;
+  const buttonsRaw = input.ctaFooter?.buttons;
+  const buttons: MegaMenuCtaButton[] = Array.isArray(buttonsRaw)
+    ? buttonsRaw
+        .map((b) => ({
+          label: String(b?.label ?? "").trim(),
+          href: String(b?.href ?? "").trim(),
+        }))
+        .filter((b) => b.label && b.href)
+    : MEGA_MENU_DEFAULT.ctaFooter.buttons;
   return {
     bgImage: input.bgImage?.trim() || MEGA_MENU_DEFAULT.bgImage,
     tagline: input.tagline?.trim() || MEGA_MENU_DEFAULT.tagline,
+    ctaFooter: {
+      pretitle:
+        input.ctaFooter?.pretitle?.trim() || MEGA_MENU_DEFAULT.ctaFooter.pretitle,
+      buttons: buttons.length > 0 ? buttons : MEGA_MENU_DEFAULT.ctaFooter.buttons,
+    },
   };
 }
 
@@ -375,3 +417,20 @@ export type {
 // Tipos puros en @/lib/cms/contactosPagina (patrón #25).
 export { CONTACTOS_PAGINA_DEFAULT, mergeContactosPagina } from "./contactosPagina";
 export type { ContactosPaginaConfig, ExtensionContacto } from "./contactosPagina";
+
+// ─── /admisiones landing ───────────────────────────────────────
+// Tipos puros en @/lib/cms/admisionesLanding (patrón #25).
+export { ADMISIONES_LANDING_DEFAULT, mergeAdmisionesLanding } from "./admisionesLanding";
+export type {
+  AdmisionesLandingConfig,
+  AdmisionesCTA,
+  AdmisionesStat,
+  AdmisionesProcesoPaso,
+  AdmisionesNivelCard,
+  AdmisionesExplorarCard,
+  AdmisionesFAQItem,
+} from "./admisionesLanding";
+
+// ─── /admisiones textos chicos (formulario + seguimiento) ──────
+export { ADMISIONES_TEXTOS_DEFAULT, mergeAdmisionesTextos } from "./admisionesTextos";
+export type { AdmisionesTextosConfig } from "./admisionesTextos";

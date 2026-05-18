@@ -12,9 +12,18 @@ const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 type Props = {
   categorias: MenuCategoria[];
   megaMenuCfg: MegaMenuConfig;
+  /** Línea con teléfono + extensión derivada de configuracion_global[contacto]. */
+  phoneLine: string;
+  /** Lista de líneas para el bloque "Contacto" del mega-menú en mobile. */
+  mobileContactLines: string[];
 };
 
-export function NavbarClient({ categorias, megaMenuCfg }: Props) {
+export function NavbarClient({
+  categorias,
+  megaMenuCfg,
+  phoneLine,
+  mobileContactLines,
+}: Props) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>(categorias[0]?.id ?? "");
@@ -333,13 +342,20 @@ export function NavbarClient({ categorias, megaMenuCfg }: Props) {
                     </motion.div>
                   ))}
 
-                  {/* Contacto info — mobile */}
-                  <div className="mt-5 pt-4 pb-2">
-                    <p className="text-white/40 text-[10px] tracking-[2px] uppercase font-bold mb-2">Contacto</p>
-                    <p className="text-white/55 text-[12px] leading-relaxed">
-                      03 2854281 ext. 100 (Recepción)<br />admisiones@atenas.edu.ec
-                    </p>
-                  </div>
+                  {/* Contacto info — mobile (derivado de configuracion_global[contacto]) */}
+                  {mobileContactLines.length > 0 && (
+                    <div className="mt-5 pt-4 pb-2">
+                      <p className="text-white/40 text-[10px] tracking-[2px] uppercase font-bold mb-2">Contacto</p>
+                      <p className="text-white/55 text-[12px] leading-relaxed">
+                        {mobileContactLines.map((line, i) => (
+                          <span key={i}>
+                            {line}
+                            {i < mobileContactLines.length - 1 && <br />}
+                          </span>
+                        ))}
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -349,46 +365,41 @@ export function NavbarClient({ categorias, megaMenuCfg }: Props) {
               {/* CTA row */}
               <div className="flex items-center justify-between px-8 md:px-16 py-6 md:py-8 flex-shrink-0">
                 <div className="flex flex-col gap-2">
-                  <span className="hidden md:block text-white/60 text-[13px]">
-                    ¿Listo para ser parte del Atenas?
-                  </span>
+                  {megaMenuCfg.ctaFooter.pretitle && (
+                    <span className="hidden md:block text-white/60 text-[13px]">
+                      {megaMenuCfg.ctaFooter.pretitle}
+                    </span>
+                  )}
                   <div className="flex flex-wrap gap-3">
-                    <a
-                      href="/admisiones"
-                      className="bg-[#9e1915] text-white text-[12px] md:text-[13px] font-bold tracking-[0.5px] px-5 md:px-6 py-3 rounded hover:bg-[#7d140f] transition-colors"
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      Solicitar Admisión
-                    </a>
-                    <a
-                      href="/paseo-virtual"
-                      className="border border-[#C9A84C] text-[#C9A84C] text-[12px] md:text-[13px] font-semibold px-5 md:px-6 py-3 rounded hover:bg-[#C9A84C] hover:text-white transition-colors"
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      Tour Virtual
-                    </a>
-                    <a
-                      href="/cronograma-anual"
-                      className="border border-white/30 text-white/80 text-[12px] md:text-[13px] px-5 md:px-6 py-3 rounded hover:bg-white/10 transition-colors"
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      Cronograma
-                    </a>
-                    <a
-                      href="/contactos"
-                      className="border border-white/30 text-white/80 text-[12px] md:text-[13px] px-5 md:px-6 py-3 rounded hover:bg-white/10 transition-colors"
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      Contactos
-                    </a>
+                    {megaMenuCfg.ctaFooter.buttons.map((btn, i) => {
+                      // Estilo fijo por posición: rojo, dorado outline, blanco outline×N
+                      const className =
+                        i === 0
+                          ? "bg-[#9e1915] text-white text-[12px] md:text-[13px] font-bold tracking-[0.5px] px-5 md:px-6 py-3 rounded hover:bg-[#7d140f] transition-colors"
+                          : i === 1
+                            ? "border border-[#C9A84C] text-[#C9A84C] text-[12px] md:text-[13px] font-semibold px-5 md:px-6 py-3 rounded hover:bg-[#C9A84C] hover:text-white transition-colors"
+                            : "border border-white/30 text-white/80 text-[12px] md:text-[13px] px-5 md:px-6 py-3 rounded hover:bg-white/10 transition-colors";
+                      return (
+                        <a
+                          key={`${btn.label}-${i}`}
+                          href={btn.href}
+                          className={className}
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          {btn.label}
+                        </a>
+                      );
+                    })}
                   </div>
                 </div>
-                <div className="hidden md:flex items-center gap-2 text-white/50 text-[13px]">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="2">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 17z" />
-                  </svg>
-                  03 2854281 ext. 100
-                </div>
+                {phoneLine && (
+                  <div className="hidden md:flex items-center gap-2 text-white/50 text-[13px]">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="2">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 17z" />
+                    </svg>
+                    {phoneLine}
+                  </div>
+                )}
               </div>
             </motion.div>
           </motion.div>
