@@ -97,7 +97,7 @@ function DesktopCard({
             fontWeight: 700,
             letterSpacing: 3,
             textTransform: "uppercase" as const,
-            color: "#C9A84C",
+            color: "var(--color-gold)",
           }}
         >
           {card.label}
@@ -135,7 +135,7 @@ function DesktopCard({
             fontWeight: 700,
             letterSpacing: 3,
             textTransform: "uppercase" as const,
-            color: "#C9A84C",
+            color: "var(--color-gold)",
             display: "block",
             marginBottom: 8,
           }}
@@ -188,7 +188,7 @@ function DesktopCard({
           animate={{ y: isHovered ? 0 : 10, opacity: isHovered ? 1 : 0 }}
           transition={{ duration: 0.28, delay: isHovered ? 0.16 : 0, ease }}
         >
-          Conoce más <span style={{ color: "#9e1915" }}>→</span>
+          Conoce más <span style={{ color: "var(--color-red)" }}>→</span>
         </motion.span>
       </motion.div>
       </Wrapper>
@@ -256,7 +256,7 @@ function MobileCard({
             fontWeight: 700,
             letterSpacing: 2,
             textTransform: "uppercase" as const,
-            color: "#C9A84C",
+            color: "var(--color-gold)",
           }}
         >
           {mobileLabel}
@@ -309,7 +309,7 @@ export function Niveles({ niveles }: Props) {
             fontWeight: 700,
             letterSpacing: 3,
             textTransform: "uppercase",
-            color: "#9e1915",
+            color: "var(--color-red)",
             marginBottom: 24,
           }}
           initial={{ opacity: 0, y: 16 }}
@@ -329,7 +329,7 @@ export function Niveles({ niveles }: Props) {
                   fontSize: 38,
                   fontWeight: 700,
                   lineHeight: 1.15,
-                  color: "#1A2B4A",
+                  color: "var(--color-navy)",
                   margin: 0,
                   textAlign: "left",
                 }}
@@ -355,7 +355,7 @@ export function Niveles({ niveles }: Props) {
                     fontSize: sizeFor(line.weight, isLight),
                     fontWeight: line.weight,
                     lineHeight: isLight ? 1.2 : 1.0,
-                    color: "#1A2B4A",
+                    color: "var(--color-navy)",
                     margin: 0,
                     letterSpacing: isLight ? undefined : "-1px",
                   }}

@@ -41,7 +41,16 @@ type ContenidoTplB = {
     badge?: string;
     heading?: string;
     description?: string;
-    items?: Array<{ icon?: string; title?: string; description?: string }>;
+    items?: Array<{
+      icon?: string;
+      title?: string;
+      description?: string;
+      subtitle?: string;
+      href?: string;
+      color?: "gold" | "red";
+      ctaText?: string;
+      highlight?: boolean;
+    }>;
   };
   anchorId?: string;
 };
@@ -65,6 +74,11 @@ export default async function ValoresPage() {
         icon: it.icon ?? "",
         name: it.title ?? "",
         desc: it.description ?? "",
+        subtitle: it.subtitle,
+        href: it.href,
+        color: it.color,
+        ctaText: it.ctaText,
+        highlight: it.highlight,
       }))
     : undefined;
 

@@ -47,7 +47,7 @@ export default async function FormularioPage({
   return (
     <>
       <header
-        className="h-[64px] bg-[#1A2B4A] flex items-center justify-between
+        className="h-[64px] bg-navy flex items-center justify-between
           px-[56px] max-sm:px-[20px] sticky top-0 z-50"
         style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}
       >

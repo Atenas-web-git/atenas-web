@@ -25,7 +25,7 @@ interface FormData {
 const inputStyle: React.CSSProperties = {
   fontFamily: "Poppins, sans-serif",
   fontSize: 13,
-  color: "#1A2B4A",
+  color: "var(--color-navy)",
   background: "#F9F8F6",
   border: "1.5px solid rgba(26,43,74,0.14)",
   borderRadius: 8,
@@ -68,9 +68,9 @@ function PillGroup({
               fontFamily: "Poppins, sans-serif",
               fontSize: 13,
               fontWeight: active ? 600 : 400,
-              color: active ? "#FFFFFF" : "#1A2B4A",
-              background: active ? "#1A2B4A" : "transparent",
-              border: `1.5px solid ${active ? "#1A2B4A" : "rgba(26,43,74,0.22)"}`,
+              color: active ? "#FFFFFF" : "var(--color-navy)",
+              background: active ? "var(--color-navy)" : "transparent",
+              border: `1.5px solid ${active ? "var(--color-navy)" : "rgba(26,43,74,0.22)"}`,
               borderRadius: 100,
               padding: "7px 16px",
               cursor: "pointer",
@@ -177,7 +177,7 @@ export function TrabajaForm({
               fontFamily: "Poppins, sans-serif",
               fontSize: "clamp(22px, 1.94vw, 28px)",
               fontWeight: 700,
-              color: "#1A2B4A",
+              color: "var(--color-navy)",
               margin: "0 0 8px",
             }}
           >
@@ -213,7 +213,7 @@ export function TrabajaForm({
               <div
                 className="flex items-center gap-2 rounded-full px-4 py-2 flex-shrink-0"
                 style={{
-                  background: step === 1 ? "#1A2B4A" : "rgba(26,43,74,0.06)",
+                  background: step === 1 ? "var(--color-navy)" : "rgba(26,43,74,0.06)",
                   transition: "background 0.3s ease",
                 }}
               >
@@ -248,7 +248,7 @@ export function TrabajaForm({
               <div
                 className="flex items-center gap-2 rounded-full px-4 py-2 flex-shrink-0"
                 style={{
-                  background: step === 2 ? "#1A2B4A" : "rgba(26,43,74,0.06)",
+                  background: step === 2 ? "var(--color-navy)" : "rgba(26,43,74,0.06)",
                   transition: "background 0.3s ease",
                 }}
               >
@@ -295,7 +295,7 @@ export function TrabajaForm({
                     fontFamily: "Poppins, sans-serif",
                     fontSize: 18,
                     fontWeight: 700,
-                    color: "#1A2B4A",
+                    color: "var(--color-navy)",
                     margin: 0,
                   }}
                 >
@@ -336,7 +336,7 @@ export function TrabajaForm({
                           required
                           placeholder="Ej. García Pérez, Juan"
                           style={inputStyle}
-                          onFocus={(e) => (e.currentTarget.style.borderColor = "#C9A84C")}
+                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
                           onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                         />
                       </Field>
@@ -349,7 +349,7 @@ export function TrabajaForm({
                           required
                           placeholder="correo@ejemplo.com"
                           style={inputStyle}
-                          onFocus={(e) => (e.currentTarget.style.borderColor = "#C9A84C")}
+                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
                           onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                         />
                       </Field>
@@ -364,7 +364,7 @@ export function TrabajaForm({
                           required
                           placeholder="Cédula o pasaporte"
                           style={inputStyle}
-                          onFocus={(e) => (e.currentTarget.style.borderColor = "#C9A84C")}
+                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
                           onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                         />
                       </Field>
@@ -376,7 +376,7 @@ export function TrabajaForm({
                           onChange={set("fechaNacimiento")}
                           required
                           style={inputStyle}
-                          onFocus={(e) => (e.currentTarget.style.borderColor = "#C9A84C")}
+                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
                           onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                         />
                       </Field>
@@ -405,7 +405,7 @@ export function TrabajaForm({
                         className="flex items-center gap-2 rounded-lg px-8 py-[13px] font-bold text-[14px]"
                         style={{
                           fontFamily: "Poppins, sans-serif",
-                          background: "#1A2B4A",
+                          background: "var(--color-navy)",
                           color: "#FFFFFF",
                           border: "none",
                           cursor: "pointer",
@@ -444,7 +444,7 @@ export function TrabajaForm({
                           onChange={set("cargo")}
                           required
                           style={{ ...inputStyle, cursor: "pointer" }}
-                          onFocus={(e) => (e.currentTarget.style.borderColor = "#C9A84C")}
+                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
                           onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                         >
                           <option value="">Selecciona un cargo</option>
@@ -460,7 +460,7 @@ export function TrabajaForm({
                           onChange={set("formacion")}
                           required
                           style={{ ...inputStyle, cursor: "pointer" }}
-                          onFocus={(e) => (e.currentTarget.style.borderColor = "#C9A84C")}
+                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
                           onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                         >
                           <option value="">Selecciona tu nivel</option>
@@ -479,7 +479,7 @@ export function TrabajaForm({
                           onChange={set("area")}
                           required
                           style={{ ...inputStyle, cursor: "pointer" }}
-                          onFocus={(e) => (e.currentTarget.style.borderColor = "#C9A84C")}
+                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
                           onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                         >
                           <option value="">Selecciona un área</option>
@@ -494,7 +494,7 @@ export function TrabajaForm({
                           value={form.disponibilidad}
                           onChange={set("disponibilidad")}
                           style={{ ...inputStyle, cursor: "pointer" }}
-                          onFocus={(e) => (e.currentTarget.style.borderColor = "#C9A84C")}
+                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
                           onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                         >
                           <option value="">Selecciona disponibilidad</option>
@@ -522,7 +522,7 @@ export function TrabajaForm({
                           onChange={set("expectativaSalarial")}
                           placeholder="Ej. 800"
                           style={inputStyle}
-                          onFocus={(e) => (e.currentTarget.style.borderColor = "#C9A84C")}
+                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
                           onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                         />
                       </Field>
@@ -536,7 +536,7 @@ export function TrabajaForm({
                         onChange={set("enlaceCV")}
                         placeholder="https://drive.google.com/..."
                         style={inputStyle}
-                        onFocus={(e) => (e.currentTarget.style.borderColor = "#C9A84C")}
+                        onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
                         onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                       />
                     </Field>
@@ -546,7 +546,7 @@ export function TrabajaForm({
                         style={{
                           fontFamily: "Poppins, sans-serif",
                           fontSize: 12,
-                          color: "#9e1915",
+                          color: "var(--color-red)",
                           margin: 0,
                         }}
                       >
@@ -562,7 +562,7 @@ export function TrabajaForm({
                         style={{
                           fontFamily: "Poppins, sans-serif",
                           background: "transparent",
-                          color: "#1A2B4A",
+                          color: "var(--color-navy)",
                           border: "1.5px solid rgba(26,43,74,0.20)",
                           cursor: "pointer",
                         }}
@@ -578,7 +578,7 @@ export function TrabajaForm({
                         className="flex items-center gap-2 rounded-lg px-8 py-[13px] font-bold text-[14px]"
                         style={{
                           fontFamily: "Poppins, sans-serif",
-                          background: status === "sending" ? "rgba(26,43,74,0.45)" : "#1A2B4A",
+                          background: status === "sending" ? "rgba(26,43,74,0.45)" : "var(--color-navy)",
                           color: "#FFFFFF",
                           border: "none",
                           cursor: status === "sending" ? "not-allowed" : "pointer",

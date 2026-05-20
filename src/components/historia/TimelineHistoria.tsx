@@ -165,7 +165,7 @@ function MilestoneCard({
           fontFamily: "Poppins, sans-serif",
           fontSize: 32,
           fontWeight: 700,
-          color: "#C9A84C",
+          color: "var(--color-gold)",
           lineHeight: 1,
         }}
         animate={{ scale: hovered ? 1.05 : 1 }}
@@ -228,7 +228,7 @@ function MobileCard({
           fontFamily: "Poppins, sans-serif",
           fontSize: 22,
           fontWeight: 700,
-          color: "#C9A84C",
+          color: "var(--color-gold)",
           lineHeight: 1,
           flexShrink: 0,
           width: 80,
@@ -287,7 +287,7 @@ export function TimelineHistoria({ trayectoria }: Props) {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#1A2B4A] min-h-[880px] md:min-h-[860px]"
+      className="relative overflow-hidden bg-navy min-h-[880px] md:min-h-[860px]"
     >
       {/* Fondo con parallax */}
       <motion.div className="absolute inset-0" style={{ y: bgY }}>
@@ -346,7 +346,7 @@ export function TimelineHistoria({ trayectoria }: Props) {
             fontFamily: "Poppins, sans-serif",
             fontSize: 11,
             fontWeight: 700,
-            color: "#C9A84C",
+            color: "var(--color-gold)",
             letterSpacing: 3,
             textTransform: "uppercase",
           }}
@@ -358,7 +358,7 @@ export function TimelineHistoria({ trayectoria }: Props) {
         </motion.p>
 
         <motion.span
-          className="block bg-[#C9A84C]"
+          className="block bg-gold"
           style={{ width: 40, height: 2, marginTop: 8, marginBottom: 8 }}
           initial={{ scaleX: 0, originX: 0 }}
           animate={inView ? { scaleX: 1 } : {}}

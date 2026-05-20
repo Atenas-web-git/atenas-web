@@ -20,14 +20,14 @@ const PALETA: Record<
     bg: "#C9A84C14",
     text: "#8B6914",
     border: "#C9A84C4D",
-    iconColor: "#C9A84C",
+    iconColor: "var(--color-gold)",
     chipBg: "#C9A84C14",
   },
   red: {
     bg: "#9e191514",
-    text: "#9e1915",
+    text: "var(--color-red)",
     border: "#9e19154D",
-    iconColor: "#9e1915",
+    iconColor: "var(--color-red)",
     chipBg: "#9e191514",
   },
   teal: {
@@ -39,9 +39,9 @@ const PALETA: Record<
   },
   navy: {
     bg: "#1A2B4A14",
-    text: "#1A2B4A",
+    text: "var(--color-navy)",
     border: "#1A2B4A4D",
-    iconColor: "#1A2B4A",
+    iconColor: "var(--color-navy)",
     chipBg: "#1A2B4A14",
   },
   purple: {
@@ -93,7 +93,7 @@ export function TablaDocumentos({
     <section
       ref={ref}
       className="px-6 py-16 md:px-[160px] md:py-[64px]"
-      style={{ background: "#F8F5F0" }}
+      style={{ background: "var(--color-cream)" }}
     >
       {/* Cabecera */}
       <motion.div
@@ -103,17 +103,17 @@ export function TablaDocumentos({
         className="mb-10"
       >
         <div className="flex items-center gap-2.5 mb-4">
-          <span className="block w-6 h-px" style={{ background: "#C9A84C" }} />
+          <span className="block w-6 h-px" style={{ background: "var(--color-gold)" }} />
           <span
             className="text-[10px] font-bold tracking-[2.5px]"
-            style={{ color: "#C9A84C" }}
+            style={{ color: "var(--color-gold)" }}
           >
             REPOSITORIO OFICIAL
           </span>
         </div>
         <h2
           className="text-3xl md:text-[40px] font-black leading-[1.15] tracking-tight mb-3"
-          style={{ color: "#0D1825" }}
+          style={{ color: "var(--color-dark)" }}
         >
           Documentos
           <br />
@@ -158,7 +158,7 @@ export function TablaDocumentos({
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
             className="bg-transparent text-sm outline-none w-full placeholder:text-[#0D182540]"
-            style={{ color: "#0D1825" }}
+            style={{ color: "var(--color-dark)" }}
           />
         </div>
       </motion.div>
@@ -174,7 +174,7 @@ export function TablaDocumentos({
         >
           <span
             className="block w-0.5 self-stretch rounded-full flex-shrink-0"
-            style={{ background: "#9e1915" }}
+            style={{ background: "var(--color-red)" }}
           />
           <p className="text-[13px] leading-[1.5]" style={{ color: "#0D182566" }}>
             {aviso}
@@ -258,7 +258,7 @@ export function TablaDocumentos({
                         <div className="flex flex-col gap-0.5 min-w-0">
                           <span
                             className="text-[14px] font-bold"
-                            style={{ color: "#0D1825" }}
+                            style={{ color: "var(--color-dark)" }}
                           >
                             {doc.titulo}
                           </span>
@@ -352,7 +352,7 @@ export function TablaDocumentos({
                   </div>
                   <span
                     className="text-[13px] font-bold leading-[1.3]"
-                    style={{ color: "#0D1825" }}
+                    style={{ color: "var(--color-dark)" }}
                   >
                     {doc.titulo}
                   </span>
@@ -394,7 +394,7 @@ function FiltroChip({
       className="px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer"
       style={
         activo
-          ? { background: "#C9A84C", color: "#0D1825" }
+          ? { background: "var(--color-gold)", color: "var(--color-dark)" }
           : { background: "#0D18250D", color: "#0D182580" }
       }
     >

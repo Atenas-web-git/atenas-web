@@ -22,6 +22,9 @@ import {
   type ContenidoPlantillaO,
   type ContenidoPlantillaP,
   type ContenidoPlantillaQ,
+  type ContenidoPlantillaR,
+  type ContenidoPlantillaS,
+  type ContenidoPlantillaT,
 } from "../../plantillas";
 import { EditorPlantillaA } from "./EditorPlantillaA";
 import { EditorPlantillaB } from "./EditorPlantillaB";
@@ -39,6 +42,9 @@ import { EditorPlantillaN } from "./EditorPlantillaN";
 import { EditorPlantillaO } from "./EditorPlantillaO";
 import { EditorPlantillaP } from "./EditorPlantillaP";
 import { EditorPlantillaQ } from "./EditorPlantillaQ";
+import { EditorPlantillaR } from "./EditorPlantillaR";
+import { EditorPlantillaS } from "./EditorPlantillaS";
+import { EditorPlantillaT } from "./EditorPlantillaT";
 import { CambiarPlantillaBtn } from "./CambiarPlantillaBtn";
 import { EliminarPaginaClient } from "./EliminarPaginaClient";
 
@@ -326,6 +332,42 @@ export default async function EditarPaginaPage({
         />
       )}
 
+      {pagina.plantilla === "tpl_r_grid_personas" && (
+        <EditorPlantillaR
+          paginaId={pagina.id}
+          slug={pagina.slug}
+          initialTitulo={pagina.titulo}
+          initialContenido={pagina.contenido as ContenidoPlantillaR}
+          initialMetaTitle={pagina.meta_title ?? ""}
+          initialMetaDescription={pagina.meta_description ?? ""}
+          initialPublicada={pagina.publicada}
+        />
+      )}
+
+      {pagina.plantilla === "tpl_s_documento_politica" && (
+        <EditorPlantillaS
+          paginaId={pagina.id}
+          slug={pagina.slug}
+          initialTitulo={pagina.titulo}
+          initialContenido={pagina.contenido as ContenidoPlantillaS}
+          initialMetaTitle={pagina.meta_title ?? ""}
+          initialMetaDescription={pagina.meta_description ?? ""}
+          initialPublicada={pagina.publicada}
+        />
+      )}
+
+      {pagina.plantilla === "tpl_t_portal_accesos" && (
+        <EditorPlantillaT
+          paginaId={pagina.id}
+          slug={pagina.slug}
+          initialTitulo={pagina.titulo}
+          initialContenido={pagina.contenido as ContenidoPlantillaT}
+          initialMetaTitle={pagina.meta_title ?? ""}
+          initialMetaDescription={pagina.meta_description ?? ""}
+          initialPublicada={pagina.publicada}
+        />
+      )}
+
       {pagina.plantilla !== "tpl_a_hero_texto" &&
         pagina.plantilla !== "tpl_b_hero_grid" &&
         pagina.plantilla !== "tpl_c_hero_pasos" &&
@@ -341,7 +383,10 @@ export default async function EditarPaginaPage({
         pagina.plantilla !== "tpl_n_trabaja" &&
         pagina.plantilla !== "tpl_o_admision_nivel" &&
         pagina.plantilla !== "tpl_p_admisiones_landing" &&
-        pagina.plantilla !== "tpl_q_contactos_pagina" && (
+        pagina.plantilla !== "tpl_q_contactos_pagina" &&
+        pagina.plantilla !== "tpl_r_grid_personas" &&
+        pagina.plantilla !== "tpl_s_documento_politica" &&
+        pagina.plantilla !== "tpl_t_portal_accesos" && (
         <div
           className="px-5 py-4 rounded-md"
           style={{ background: "#FEF3C7", border: "1px solid #FDE68A" }}

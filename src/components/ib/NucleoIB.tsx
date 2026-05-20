@@ -18,12 +18,12 @@ export function NucleoIB({ nucleo }: Props) {
   const headingParts = hl && nucleo.heading.includes(hl) ? nucleo.heading.split(hl) : null;
 
   return (
-    <section className="relative overflow-hidden bg-[#1A2B4A]">
+    <section className="relative overflow-hidden bg-navy">
       <div className="relative z-10 px-6 py-[64px] md:px-[120px] md:py-[100px]">
 
         <div ref={headerRef} className="mb-[52px] md:mb-[64px]">
           <motion.p
-            style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"#C9A84C", letterSpacing:3, textTransform:"uppercase" }}
+            style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"var(--color-gold)", letterSpacing:3, textTransform:"uppercase" }}
             initial={{ opacity:0, y:14 }}
             animate={inView ? { opacity:1, y:0 } : {}}
             transition={{ duration:0.45, ease }}
@@ -31,7 +31,7 @@ export function NucleoIB({ nucleo }: Props) {
             {nucleo.badge}
           </motion.p>
           <motion.span
-            className="block bg-[#C9A84C]"
+            className="block bg-gold"
             style={{ width:40, height:2, marginTop:8, marginBottom:10 }}
             initial={{ scaleX:0, originX:0 }}
             animate={inView ? { scaleX:1 } : {}}
@@ -47,10 +47,10 @@ export function NucleoIB({ nucleo }: Props) {
               {headingParts ? (
                 <>
                   {headingParts[0]}
-                  <span className="relative inline-block" style={{ color:"#C9A84C" }}>
+                  <span className="relative inline-block" style={{ color:"var(--color-gold)" }}>
                     {hl}
                     <motion.span
-                      className="absolute left-0 right-0 -bottom-1 block bg-[#C9A84C]"
+                      className="absolute left-0 right-0 -bottom-1 block bg-gold"
                       style={{ height:3, borderRadius:2 }}
                       initial={{ scaleX:0, originX:0 }}
                       animate={inView ? { scaleX:1 } : {}}
@@ -97,12 +97,12 @@ export function NucleoIB({ nucleo }: Props) {
                 <div className="flex items-center gap-[14px]">
                   <span style={{ fontSize:28, lineHeight:1 }}>{c.icon}</span>
                   <div className="flex flex-col gap-[2px]">
-                    <span style={{ fontFamily:"Poppins,sans-serif", fontSize:18, fontWeight:700, color:"#C9A84C", lineHeight:1 }}>{c.title}</span>
+                    <span style={{ fontFamily:"Poppins,sans-serif", fontSize:18, fontWeight:700, color:"var(--color-gold)", lineHeight:1 }}>{c.title}</span>
                     <span style={{ fontFamily:"Poppins,sans-serif", fontSize:11, color:"rgba(255,255,255,0.45)", letterSpacing:0.4 }}>{c.sub}</span>
                   </div>
                 </div>
                 <motion.span
-                  className="block bg-[#C9A84C]"
+                  className="block bg-gold"
                   style={{ width:32, height:1.5, borderRadius:1 }}
                   initial={{ scaleX:0, originX:0 }}
                   whileInView={{ scaleX:1 }}

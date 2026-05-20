@@ -38,7 +38,7 @@ export function SeccionAdmisionDetalle({
   const inView = useInView(ref, { once: true, amount: 0.08 });
 
   return (
-    <section className="relative bg-[#F8F5F0] overflow-hidden">
+    <section className="relative bg-cream overflow-hidden">
       <div className="absolute inset-0 pointer-events-none"
         style={{ background: "radial-gradient(ellipse at top right, rgba(201,168,76,0.06) 0%, transparent 60%)" }} />
 
@@ -52,18 +52,18 @@ export function SeccionAdmisionDetalle({
           <motion.div className="flex items-center gap-[10px]"
             initial={{ opacity: 0, y: 14 }} animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.45, ease }}>
-            <motion.span className="block bg-[#C9A84C] flex-shrink-0" style={{ width: 28, height: 2 }}
+            <motion.span className="block bg-gold flex-shrink-0" style={{ width: 28, height: 2 }}
               initial={{ scaleX: 0, originX: 0 }} animate={inView ? { scaleX: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.1, ease }} />
             <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700,
-              color: "#C9A84C", letterSpacing: 2, textTransform: "uppercase" }}>{badge}</span>
+              color: "var(--color-gold)", letterSpacing: 2, textTransform: "uppercase" }}>{badge}</span>
           </motion.div>
 
           {/* Heading — clip reveal */}
           <div className="overflow-hidden">
             <motion.h2
               style={{ fontFamily: "Poppins, sans-serif", fontSize: "clamp(26px,2.78vw,40px)",
-                fontWeight: 700, color: "#1A2B4A", lineHeight: 1.15 }}
+                fontWeight: 700, color: "var(--color-navy)", lineHeight: 1.15 }}
               initial={{ y: 56, opacity: 0 }} animate={inView ? { y: 0, opacity: 1 } : {}}
               transition={{ duration: 0.7, delay: 0.15, ease }}>
               {heading}
@@ -71,7 +71,7 @@ export function SeccionAdmisionDetalle({
           </div>
 
           {/* Divisor dorado */}
-          <motion.span className="block bg-[#C9A84C]" style={{ width: 40, height: 3, borderRadius: 2 }}
+          <motion.span className="block bg-gold" style={{ width: 40, height: 3, borderRadius: 2 }}
             initial={{ scaleX: 0, originX: 0 }} animate={inView ? { scaleX: 1 } : {}}
             transition={{ duration: 0.4, delay: 0.28, ease }} />
 
@@ -90,14 +90,14 @@ export function SeccionAdmisionDetalle({
             initial={{ opacity: 0, y: 14 }} animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.48, ease }}>
             <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700,
-              color: "#C9A84C", letterSpacing: 2, textTransform: "uppercase" }}>
+              color: "var(--color-gold)", letterSpacing: 2, textTransform: "uppercase" }}>
               Documentos requeridos
             </span>
             <div className="flex flex-wrap gap-2">
               {documents.map((doc, i) => (
                 <motion.span key={doc}
                   className="rounded-full px-3 py-[5px] text-[11px] font-semibold cursor-default"
-                  style={{ fontFamily: "Poppins, sans-serif", background: "rgba(26,43,74,0.08)", color: "#1A2B4A" }}
+                  style={{ fontFamily: "Poppins, sans-serif", background: "rgba(26,43,74,0.08)", color: "var(--color-navy)" }}
                   initial={{ opacity: 0, scale: 0.7 }} animate={inView ? { opacity: 1, scale: 1 } : {}}
                   transition={{ duration: 0.3, delay: 0.52 + i * 0.055, type: "spring", stiffness: 300, damping: 18 }}
                   whileHover={{ scale: 1.06, background: "rgba(201,168,76,0.15)", transition: { duration: 0.15 } }}>
@@ -108,7 +108,7 @@ export function SeccionAdmisionDetalle({
           </motion.div>
 
           {/* Nota */}
-          <motion.div style={{ borderLeft: "2px solid #C9A84C", paddingLeft: 16, paddingTop: 12, paddingBottom: 12 }}
+          <motion.div style={{ borderLeft: "2px solid var(--color-gold)", paddingLeft: 16, paddingTop: 12, paddingBottom: 12 }}
             initial={{ opacity: 0, x: -12 }} animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.65, ease }}>
             <p style={{ fontFamily: "Poppins, sans-serif", fontSize: 13,
@@ -126,7 +126,7 @@ export function SeccionAdmisionDetalle({
             transition={{ duration: 0.7, delay: 0.3, ease }}>
 
             <div className="flex flex-col gap-[6px] px-6 py-5"
-              style={{ background: "#1A2B4A" }}>
+              style={{ background: "var(--color-navy)" }}>
               <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 14, fontWeight: 700, color: "#FFFFFF" }}>
                 Ficha del Programa
               </span>
@@ -145,7 +145,7 @@ export function SeccionAdmisionDetalle({
                   <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 12, fontWeight: 500,
                     color: "rgba(13,24,37,0.50)" }}>{row.label}</span>
                   <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 12, fontWeight: 700,
-                    color: row.highlight ? "#C9A84C" : "#1A2B4A" }}>{row.value}</span>
+                    color: row.highlight ? "var(--color-gold)" : "var(--color-navy)" }}>{row.value}</span>
                 </motion.div>
               ))}
             </div>
@@ -156,7 +156,7 @@ export function SeccionAdmisionDetalle({
             style={{ background: "rgba(201,168,76,0.10)", border: "1.5px solid rgba(201,168,76,0.35)" }}
             initial={{ opacity: 0, y: 24 }} animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.55, delay: 0.7, ease }}>
-            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 14, fontWeight: 700, color: "#1A2B4A" }}>
+            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 14, fontWeight: 700, color: "var(--color-navy)" }}>
               {ctaTitulo}
             </span>
             <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 13,
@@ -167,7 +167,7 @@ export function SeccionAdmisionDetalle({
               transition={{ duration: 0.15 }}>
               <Link href={ctaHref}
                 className="flex items-center justify-center gap-2 rounded-[8px] px-5 py-3 font-bold text-[13px] w-full"
-                style={{ fontFamily: "Poppins, sans-serif", background: "#C9A84C", color: "#0D1825", textDecoration: "none" }}>
+                style={{ fontFamily: "Poppins, sans-serif", background: "var(--color-gold)", color: "var(--color-dark)", textDecoration: "none" }}>
                 {ctaLabel}
                 <motion.span
                   animate={{ x: [0, 4, 0] }}

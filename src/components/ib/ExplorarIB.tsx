@@ -14,7 +14,7 @@ export function ExplorarIB({ explorar }: Props) {
   const inView = useInView(ref, { once: true, amount: 0.08 });
 
   return (
-    <section className="bg-[#F8F5F0] relative overflow-hidden" style={{ padding: "80px 0" }}>
+    <section className="bg-cream relative overflow-hidden" style={{ padding: "80px 0" }}>
       <div
         className="absolute top-0 right-0 pointer-events-none"
         style={{ width: 480, height: 480, background: "radial-gradient(ellipse at top right, rgba(201,168,76,0.07) 0%, transparent 65%)" }}
@@ -30,20 +30,20 @@ export function ExplorarIB({ explorar }: Props) {
             transition={{ duration: 0.45, ease }}
           >
             <motion.span
-              className="block bg-[#C9A84C] flex-shrink-0"
+              className="block bg-gold flex-shrink-0"
               style={{ width: 28, height: 2 }}
               initial={{ scaleX: 0, originX: 0 }}
               animate={inView ? { scaleX: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.1, ease }}
             />
-            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "#C9A84C", letterSpacing: 2, textTransform: "uppercase" }}>
+            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-gold)", letterSpacing: 2, textTransform: "uppercase" }}>
               {explorar.badge}
             </span>
           </motion.div>
 
           <div className="overflow-hidden">
             <motion.h2
-              style={{ fontFamily: "Poppins, sans-serif", fontSize: "clamp(24px, 2.5vw, 36px)", fontWeight: 700, color: "#1A2B4A", lineHeight: 1.2 }}
+              style={{ fontFamily: "Poppins, sans-serif", fontSize: "clamp(24px, 2.5vw, 36px)", fontWeight: 700, color: "var(--color-navy)", lineHeight: 1.2 }}
               initial={{ y: 40, opacity: 0 }}
               animate={inView ? { y: 0, opacity: 1 } : {}}
               transition={{ duration: 0.6, delay: 0.15, ease }}
@@ -103,7 +103,7 @@ export function ExplorarIB({ explorar }: Props) {
                 </div>
 
                 <div className="flex flex-col gap-[6px] flex-1">
-                  <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 14, fontWeight: 700, color: "#1A2B4A", lineHeight: 1.3 }}>
+                  <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 14, fontWeight: 700, color: "var(--color-navy)", lineHeight: 1.3 }}>
                     {s.title}
                   </span>
                   <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 12, color: "rgba(13,24,37,0.52)", lineHeight: 1.65 }}>
@@ -113,12 +113,12 @@ export function ExplorarIB({ explorar }: Props) {
 
                 <div className="flex items-center gap-[6px] mt-auto pt-[4px]">
                   <span
-                    style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 700, color: "#C9A84C", letterSpacing: 0.5 }}
+                    style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 700, color: "var(--color-gold)", letterSpacing: 0.5 }}
                     className="group-hover:underline"
                   >
                     Ver más
                   </span>
-                  <span style={{ color: "#C9A84C", fontSize: 13, fontWeight: 700 }}>→</span>
+                  <span style={{ color: "var(--color-gold)", fontSize: 13, fontWeight: 700 }}>→</span>
                 </div>
               </Link>
             </motion.div>

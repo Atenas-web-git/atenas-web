@@ -34,6 +34,15 @@ export async function savePlantillaFormularioAction(
   const cuerpoHtml = String(formData.get("cuerpo_html") ?? "");
   const activo = formData.get("activo") === "on";
 
+  const acentoRaw = String(formData.get("acento") ?? "navy");
+  const acento: "navy" | "red" | "gold" =
+    acentoRaw === "red" || acentoRaw === "gold" ? acentoRaw : "navy";
+  const eyebrow = String(formData.get("eyebrow") ?? "").trim();
+  const heroImageUrl = String(formData.get("hero_image_url") ?? "").trim();
+  const ctaLabel = String(formData.get("cta_label") ?? "").trim();
+  const ctaUrl = String(formData.get("cta_url") ?? "").trim();
+  const helperText = String(formData.get("helper_text") ?? "").trim();
+
   if (!TIPOS_PLANTILLA_FORMULARIO.includes(tipo)) {
     return { error: "Tipo inválido.", ok: false };
   }
@@ -51,6 +60,12 @@ export async function savePlantillaFormularioAction(
       asunto,
       cuerpo_html: cuerpoHtml,
       activo,
+      acento,
+      eyebrow,
+      hero_image_url: heroImageUrl,
+      cta_label: ctaLabel,
+      cta_url: ctaUrl,
+      helper_text: helperText,
       updated_at: new Date().toISOString(),
       updated_by: user.id,
     },

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Calendar, FileCheck2, CalendarClock, Palette, Phone, Code, Menu, Search, ArrowRight, Mail, PanelBottom, FileText } from "lucide-react";
+import { Calendar, FileCheck2, CalendarClock, Palette, Phone, Code, Menu, Search, ArrowRight, Mail, MailOpen, PanelBottom, FileText, LayoutPanelTop, Bot } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole, hasRole } from "@/lib/auth/types";
 
@@ -34,6 +34,20 @@ const SECCIONES = [
     onlySuperadmin: true,
   },
   {
+    href: "/admin/configuracion/correos-diseno",
+    title: "Diseño de correos",
+    description: "Identidad común a los 10 correos transaccionales: variante del logo (blanco sobre navy / color sobre blanco) y texto legal del footer. Resto deriva de Marca + Contacto.",
+    icon: MailOpen,
+    onlySuperadmin: true,
+  },
+  {
+    href: "/admin/configuracion/chatbot",
+    title: "Chatbot IA «Ateneo»",
+    description: "Asistente virtual con mascota Ateneo. Provider (Gemini / Claude / OpenAI), modelo, API key, personalidad y mensajes. Cuando está activo reemplaza al botón flotante de WhatsApp.",
+    icon: Bot,
+    onlySuperadmin: true,
+  },
+  {
     href: "/admin/configuracion/footer",
     title: "Footer global",
     description: "Bloque al pie de TODAS las páginas: foto de fondo, headline, subtítulo, 2 botones CTA, aliados estratégicos (chips), links del pie y copyright. Datos de contacto y redes vienen de la sección Contacto.",
@@ -45,6 +59,13 @@ const SECCIONES = [
     title: "Admisiones — textos chicos",
     description: "Encabezados de /admisiones/formulario (wizard) y /admisiones/seguimiento (consulta de estado). La lógica de ambos permanece en código.",
     icon: FileText,
+    onlySuperadmin: true,
+  },
+  {
+    href: "/admin/configuracion/navbar",
+    title: "Barra de navegación",
+    description: "Elementos visibles en la barra superior fija: badge «50 AÑOS», botones Portal Familiar / Tour Virtual, icono de búsqueda, campanita y label del botón menú.",
+    icon: LayoutPanelTop,
     onlySuperadmin: true,
   },
   {

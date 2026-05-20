@@ -66,7 +66,7 @@ export function VisitaAdmisiones({
   return (
     <section
       id="visita"
-      className="relative overflow-hidden bg-[#F8F5F0] min-h-[560px] md:min-h-[640px]"
+      className="relative overflow-hidden bg-cream min-h-[560px] md:min-h-[640px]"
     >
       {/* ─── Collage fotográfico — desktop izquierda ─── */}
       <div
@@ -85,7 +85,7 @@ export function VisitaAdmisiones({
           >
             <Image src={img.src} alt="" fill className="object-cover" sizes="320px" />
             {img.border && (
-              <div className="absolute inset-0 border-[3px] border-[#C9A84C]/50 rounded-[16px]" />
+              <div className="absolute inset-0 border-[3px] border-gold/50 rounded-[16px]" />
             )}
           </motion.div>
         ))}
@@ -93,13 +93,13 @@ export function VisitaAdmisiones({
         {/* Badge flotante sobre el collage */}
         <motion.div
           className="absolute z-20 rounded-[10px] px-4 py-3 flex flex-col gap-[2px]"
-          style={{ background:"#C9A84C", right:0, bottom:40, boxShadow:"0 10px 30px rgba(0,0,0,0.22)" }}
+          style={{ background:"var(--color-gold)", right:0, bottom:40, boxShadow:"0 10px 30px rgba(0,0,0,0.22)" }}
           initial={{ opacity:0, scale:0.75 }}
           whileInView={{ opacity:1, scale:1 }}
           viewport={{ once:true, amount:0.2 }}
           transition={{ duration:0.5, delay:0.85, ease }}
         >
-          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:20, fontWeight:700, color:"#0D1825", lineHeight:1 }}>
+          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:20, fontWeight:700, color:"var(--color-dark)", lineHeight:1 }}>
             {badgeFloating.linea1}
           </span>
           <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"rgba(13,24,37,0.65)", letterSpacing:1 }}>
@@ -114,7 +114,7 @@ export function VisitaAdmisiones({
           src={fotos[0] || DEFAULT_PHOTOS[0]}
           alt="Campus Atenas" fill className="object-cover object-center"
         />
-        <div className="absolute inset-0" style={{ background:"linear-gradient(to bottom, transparent 55%, #F8F5F0 100%)" }} />
+        <div className="absolute inset-0" style={{ background:"linear-gradient(to bottom, transparent 55%, var(--color-cream) 100%)" }} />
       </div>
 
       {/* ─── Contenido ─── */}
@@ -128,7 +128,7 @@ export function VisitaAdmisiones({
           flex flex-col gap-[14px] md:gap-[18px]"
       >
         <motion.p
-          style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"#C9A84C", letterSpacing:3, textTransform:"uppercase" }}
+          style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"var(--color-gold)", letterSpacing:3, textTransform:"uppercase" }}
           initial={{ opacity:0, y:14 }}
           animate={inView ? { opacity:1, y:0 } : {}}
           transition={{ duration:0.45, ease }}
@@ -137,7 +137,7 @@ export function VisitaAdmisiones({
         </motion.p>
 
         <motion.span
-          className="block bg-[#C9A84C]"
+          className="block bg-gold"
           style={{ width:40, height:2 }}
           initial={{ scaleX:0, originX:0 }}
           animate={inView ? { scaleX:1 } : {}}
@@ -146,7 +146,7 @@ export function VisitaAdmisiones({
 
         <div className="overflow-hidden">
           <motion.h2
-            style={{ fontFamily:"Poppins,sans-serif", fontSize:"clamp(26px,2.78vw,40px)", fontWeight:700, color:"#0D1825", lineHeight:1.2 }}
+            style={{ fontFamily:"Poppins,sans-serif", fontSize:"clamp(26px,2.78vw,40px)", fontWeight:700, color:"var(--color-dark)", lineHeight:1.2 }}
             initial={{ y:50, opacity:0 }}
             animate={inView ? { y:0, opacity:1 } : {}}
             transition={{ duration:0.65, delay:0.15, ease }}
@@ -155,7 +155,7 @@ export function VisitaAdmisiones({
             <span className="relative inline-block">
               {headingHighlight}
               <motion.span
-                className="absolute left-0 right-0 -bottom-1 block bg-[#C9A84C]"
+                className="absolute left-0 right-0 -bottom-1 block bg-gold"
                 style={{ height:4, borderRadius:2 }}
                 initial={{ scaleX:0, originX:0 }}
                 animate={inView ? { scaleX:1 } : {}}
@@ -197,14 +197,14 @@ export function VisitaAdmisiones({
         >
           <Link
             href={ctaPrimary.href}
-            className="inline-flex items-center justify-center rounded-[6px] px-[24px] py-[13px] font-bold text-[14px] bg-[#1A2B4A] text-white hover:bg-[#243d6a] transition-colors"
+            className="inline-flex items-center justify-center rounded-[6px] px-[24px] py-[13px] font-bold text-[14px] bg-navy text-white hover:bg-[#243d6a] transition-colors"
             style={{ fontFamily:"Poppins,sans-serif" }}
           >
             {ctaPrimary.label}
           </Link>
           <Link
             href={ctaSecondary.href}
-            className="inline-flex items-center justify-center rounded-[6px] px-[24px] py-[13px] font-bold text-[14px] border border-[#1A2B4A]/40 text-[#1A2B4A] hover:bg-[#1A2B4A]/10 transition-colors"
+            className="inline-flex items-center justify-center rounded-[6px] px-[24px] py-[13px] font-bold text-[14px] border border-navy/40 text-navy hover:bg-navy/10 transition-colors"
             style={{ fontFamily:"Poppins,sans-serif" }}
           >
             {ctaSecondary.label}

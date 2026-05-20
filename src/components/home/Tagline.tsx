@@ -28,19 +28,19 @@ export function Tagline({ tagline }: Props) {
   return (
     <section
       ref={ref}
-      className="bg-[#F8F5F0] flex flex-col items-center justify-center py-[80px] px-8"
+      className="bg-cream flex flex-col items-center justify-center py-[80px] px-8"
     >
       {/* Líneas doradas + eyebrow */}
       <div className="flex items-center gap-5 mb-8">
         <motion.span
-          className="block h-[1.5px] bg-[#C9A84C] w-[80px]"
+          className="block h-[1.5px] bg-gold w-[80px]"
           initial={{ scaleX: 0 }}
           animate={inView ? { scaleX: 1 } : {}}
           transition={{ duration: 0.55, ease }}
           style={{ originX: 1 }}
         />
         <motion.span
-          className="text-[#9e1915] text-[11px] font-semibold tracking-[3px] uppercase whitespace-nowrap"
+          className="text-red text-[11px] font-semibold tracking-[3px] uppercase whitespace-nowrap"
           initial={{ opacity: 0, y: 10 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.45, delay: 0.2, ease }}
@@ -48,7 +48,7 @@ export function Tagline({ tagline }: Props) {
           {tagline.eyebrow}
         </motion.span>
         <motion.span
-          className="block h-[1.5px] bg-[#C9A84C] w-[80px]"
+          className="block h-[1.5px] bg-gold w-[80px]"
           initial={{ scaleX: 0 }}
           animate={inView ? { scaleX: 1 } : {}}
           transition={{ duration: 0.55, ease }}
@@ -59,7 +59,7 @@ export function Tagline({ tagline }: Props) {
       {/* Título */}
       <div className="text-center">
         <motion.h2
-          className="text-[#1A2B4A] font-bold leading-[1.15] text-[clamp(26px,3vw,48px)]"
+          className="text-navy font-bold leading-[1.15] text-[clamp(26px,3vw,48px)]"
           initial={{ y: 28, opacity: 0 }}
           animate={inView ? { y: 0, opacity: 1 } : {}}
           transition={{ duration: 0.7, delay: 0.25, ease }}
@@ -69,7 +69,7 @@ export function Tagline({ tagline }: Props) {
             <span className="relative inline-block">
               {keyword}
               <motion.span
-                className="absolute -bottom-1 left-0 right-0 h-[5px] bg-[#C9A84C] rounded-sm"
+                className="absolute -bottom-1 left-0 right-0 h-[5px] bg-gold rounded-sm"
                 initial={{ scaleX: 0 }}
                 animate={inView ? { scaleX: 1 } : {}}
                 transition={{ duration: 0.55, delay: 0.75, ease }}
@@ -82,7 +82,7 @@ export function Tagline({ tagline }: Props) {
 
         {tagline.line2 && (
           <motion.h2
-            className="text-[#1A2B4A] font-bold leading-[1.15] text-[clamp(26px,3vw,48px)]"
+            className="text-navy font-bold leading-[1.15] text-[clamp(26px,3vw,48px)]"
             initial={{ y: 28, opacity: 0 }}
             animate={inView ? { y: 0, opacity: 1 } : {}}
             transition={{ duration: 0.7, delay: 0.38, ease }}
@@ -94,7 +94,7 @@ export function Tagline({ tagline }: Props) {
 
       {/* Separador dorado */}
       <motion.span
-        className="block mt-9 h-[3px] bg-[#C9A84C] w-[64px]"
+        className="block mt-9 h-[3px] bg-gold w-[64px]"
         initial={{ scaleX: 0 }}
         animate={inView ? { scaleX: 1 } : {}}
         transition={{ duration: 0.45, delay: 0.65, ease }}

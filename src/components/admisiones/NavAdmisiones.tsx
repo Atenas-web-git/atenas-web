@@ -18,13 +18,13 @@ export function NavAdmisiones({ current }: Props) {
   return (
     <motion.nav
       className="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-0
-        bg-[#1A2B4A] px-6 py-4 md:px-[160px] md:py-0 md:h-[72px] overflow-x-auto"
+        bg-navy px-6 py-4 md:px-[160px] md:py-0 md:h-[72px] overflow-x-auto"
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
     >
       <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700,
-        color: "#C9A84C", letterSpacing: 2, textTransform: "uppercase", flexShrink: 0 }}>
+        color: "var(--color-gold)", letterSpacing: 2, textTransform: "uppercase", flexShrink: 0 }}>
         Por nivel
       </span>
 
@@ -40,12 +40,12 @@ export function NavAdmisiones({ current }: Props) {
                 <motion.span
                   className="relative"
                   style={{ fontFamily: "Poppins, sans-serif", fontSize: 13, fontWeight: 700,
-                    color: "#C9A84C", whiteSpace: "nowrap" }}
+                    color: "var(--color-gold)", whiteSpace: "nowrap" }}
                 >
                   <span className="hidden md:inline">{n.label}</span>
                   <span className="md:hidden">{n.short}</span>
                   <motion.span
-                    className="absolute -bottom-1 left-0 block bg-[#C9A84C]"
+                    className="absolute -bottom-1 left-0 block bg-gold"
                     style={{ height: 2, borderRadius: 1 }}
                     initial={{ scaleX: 0, originX: 0 }}
                     animate={{ scaleX: 1 }}

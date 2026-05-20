@@ -51,7 +51,7 @@ export function CTAIniciarSolicitud({
     <section
       ref={ref}
       className="relative overflow-hidden"
-      style={{ background: "linear-gradient(135deg, #0D1825 0%, #1A2B4A 55%, #0F1E30 100%)" }}
+      style={{ background: "linear-gradient(135deg, var(--color-dark) 0%, var(--color-navy) 55%, #0F1E30 100%)" }}
     >
       {/* Círculos decorativos */}
       <div
@@ -72,14 +72,14 @@ export function CTAIniciarSolicitud({
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.45, ease }}
         >
-          <span className="block bg-[#C9A84C]" style={{ width: 24, height: 2 }} />
+          <span className="block bg-gold" style={{ width: 24, height: 2 }} />
           <span
-            className="text-[#C9A84C] text-[11px] font-bold tracking-[2.5px] uppercase"
+            className="text-gold text-[11px] font-bold tracking-[2.5px] uppercase"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
             {eyebrow}
           </span>
-          <span className="block bg-[#C9A84C]" style={{ width: 24, height: 2 }} />
+          <span className="block bg-gold" style={{ width: 24, height: 2 }} />
         </motion.div>
 
         {/* Heading */}
@@ -100,7 +100,7 @@ export function CTAIniciarSolicitud({
             style={{ fontFamily: "Poppins, sans-serif", fontSize: 15, maxWidth: 560 }}
           >
             {descripcionPre}{" "}
-            <span className="text-[#C9A84C] font-semibold">{nivel}</span>
+            <span className="text-gold font-semibold">{nivel}</span>
             {descripcionPost}
           </p>
         </motion.div>
@@ -118,7 +118,7 @@ export function CTAIniciarSolicitud({
               className="flex items-center gap-[8px] text-white/70"
               style={{ fontFamily: "Poppins, sans-serif", fontSize: 13 }}
             >
-              <span className="text-[#C9A84C] font-bold">✓</span>
+              <span className="text-gold font-bold">✓</span>
               {b}
             </span>
           ))}
@@ -134,7 +134,7 @@ export function CTAIniciarSolicitud({
           <Link
             href={href}
             className="inline-flex items-center justify-center rounded-[6px] px-[32px] py-[15px]
-              font-bold text-[15px] bg-[#C9A84C] text-[#0D1825] hover:bg-[#dbb95a]
+              font-bold text-[15px] bg-gold text-dark hover:bg-[#dbb95a]
               transition-colors w-full sm:w-auto"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >

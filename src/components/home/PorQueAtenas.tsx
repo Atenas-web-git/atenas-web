@@ -46,7 +46,7 @@ function DesktopCard({
     >
       {/* Borde rojo izquierda animado */}
       <motion.span
-        className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#9e1915] z-10 origin-top"
+        className="absolute left-0 top-0 bottom-0 w-[3px] bg-red z-10 origin-top"
         animate={{ scaleY: hovered ? 1 : 0 }}
         transition={{ duration: 0.3, ease }}
       />
@@ -67,10 +67,10 @@ function DesktopCard({
 
       {/* Texto */}
       <div className="flex flex-col flex-1 p-6 bg-white">
-        <span className="text-[#9e1915] text-[10px] font-semibold tracking-[2px] uppercase mb-2">
+        <span className="text-red text-[10px] font-semibold tracking-[2px] uppercase mb-2">
           {card.label}
         </span>
-        <h3 className="text-[#1A2B4A] font-bold text-[17px] leading-[1.3] mb-3">
+        <h3 className="text-navy font-bold text-[17px] leading-[1.3] mb-3">
           {card.title}
         </h3>
         <p className="text-[#666666] text-[13px] leading-[1.65] flex-1">{card.desc}</p>
@@ -82,10 +82,10 @@ function DesktopCard({
           >
             <Link
               href={card.href}
-              className="text-[#1A2B4A] text-[11px] font-semibold tracking-[2px] uppercase flex items-center gap-2"
+              className="text-navy text-[11px] font-semibold tracking-[2px] uppercase flex items-center gap-2"
               style={{ textDecoration: "none" }}
             >
-              Conoce más <span className="text-[#9e1915]">→</span>
+              Conoce más <span className="text-red">→</span>
             </Link>
           </motion.span>
         ) : null}
@@ -142,7 +142,7 @@ function MobileCard({
 
       <div
         className="absolute left-0 top-0 bottom-0 z-10"
-        style={{ width: 3, background: "#9e1915" }}
+        style={{ width: 3, background: "var(--color-red)" }}
       />
 
       <div
@@ -156,7 +156,7 @@ function MobileCard({
             fontWeight: 700,
             letterSpacing: 2,
             textTransform: "uppercase" as const,
-            color: "#9e1915",
+            color: "var(--color-red)",
           }}
         >
           {mobileLabel}
@@ -166,7 +166,7 @@ function MobileCard({
             fontFamily: "Poppins, sans-serif",
             fontSize: 15,
             fontWeight: 700,
-            color: "#2C2C2C",
+            color: "var(--color-ink)",
             margin: 0,
             lineHeight: 1.3,
           }}
@@ -179,7 +179,7 @@ function MobileCard({
             fontSize: 10,
             fontWeight: 700,
             letterSpacing: 1,
-            color: "#1A2B4A",
+            color: "var(--color-navy)",
           }}
         >
           CONOCE MÁS →
@@ -212,7 +212,7 @@ export function PorQueAtenas({ porQueAtenas }: Props) {
       {/* Ghost text */}
       {porQueAtenas.ghostText && (
         <motion.span
-          className="absolute top-[20px] left-0 font-bold text-[#1A2B4A] select-none pointer-events-none w-full text-center"
+          className="absolute top-[20px] left-0 font-bold text-navy select-none pointer-events-none w-full text-center"
           style={{ fontSize: "clamp(80px, 13vw, 180px)" }}
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 0.04 } : {}}
@@ -228,7 +228,7 @@ export function PorQueAtenas({ porQueAtenas }: Props) {
         className="relative z-10 mb-10 md:mb-16 md:text-center md:max-w-[640px] md:mx-auto"
       >
         <motion.p
-          className="text-[#9e1915] text-[10px] md:text-[11px] font-semibold tracking-[3px] uppercase mb-4"
+          className="text-red text-[10px] md:text-[11px] font-semibold tracking-[3px] uppercase mb-4"
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, ease }}
@@ -238,7 +238,7 @@ export function PorQueAtenas({ porQueAtenas }: Props) {
 
         <div className="overflow-hidden">
           <motion.h2
-            className="text-[#1A2B4A] font-light leading-[1.05]"
+            className="text-navy font-light leading-[1.05]"
             style={{ fontSize: "clamp(34px, 4.5vw, 64px)" }}
             initial={{ y: 50, opacity: 0 }}
             animate={inView ? { y: 0, opacity: 1 } : {}}
@@ -251,7 +251,7 @@ export function PorQueAtenas({ porQueAtenas }: Props) {
         <div className="overflow-hidden">
           <div className="relative inline-block">
             <motion.h2
-              className="text-[#9e1915] font-bold leading-[1.05]"
+              className="text-red font-bold leading-[1.05]"
               style={{ fontSize: "clamp(34px, 4.5vw, 64px)" }}
               initial={{ y: 50, opacity: 0 }}
               animate={inView ? { y: 0, opacity: 1 } : {}}
@@ -260,7 +260,7 @@ export function PorQueAtenas({ porQueAtenas }: Props) {
               {porQueAtenas.titleBold}
             </motion.h2>
             <motion.span
-              className="absolute -bottom-1 left-0 right-0 h-[3px] bg-[#9e1915]"
+              className="absolute -bottom-1 left-0 right-0 h-[3px] bg-red"
               initial={{ scaleX: 0 }}
               animate={inView ? { scaleX: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.55, ease }}

@@ -46,19 +46,19 @@ function StepCard({ num, title, desc, delay, index }: {
     <motion.div
       ref={ref}
       className="flex-1 flex flex-col gap-[12px] rounded-[10px] p-[28px_20px] cursor-default"
-      style={{ background:"#F8F5F0", border:"1px solid rgba(26,43,74,0.08)" }}
+      style={{ background:"var(--color-cream)", border:"1px solid rgba(26,43,74,0.08)" }}
       initial={{ opacity:0, x:xFor(index), y:yFor(index) }}
       animate={inView ? { opacity:1, x:0, y:0 } : {}}
       transition={{ duration:0.6, delay, ease }}
       whileHover={{ y:-8, boxShadow:"0 20px 48px rgba(26,43,74,0.14)", transition:{ duration:0.25 } }}
     >
       <motion.span
-        style={{ fontFamily:"Poppins,sans-serif", fontSize:36, fontWeight:700, color:"#C9A84C", lineHeight:1 }}
+        style={{ fontFamily:"Poppins,sans-serif", fontSize:36, fontWeight:700, color:"var(--color-gold)", lineHeight:1 }}
         whileHover={{ scale:1.06, transition:{ duration:0.2 } }}
       >
         {num}
       </motion.span>
-      <span style={{ fontFamily:"Poppins,sans-serif", fontSize:15, fontWeight:700, color:"#1A2B4A", lineHeight:1.3 }}>
+      <span style={{ fontFamily:"Poppins,sans-serif", fontSize:15, fontWeight:700, color:"var(--color-navy)", lineHeight:1.3 }}>
         {title}
       </span>
       <span style={{ fontFamily:"Poppins,sans-serif", fontSize:13, color:"rgba(13,24,37,0.65)", lineHeight:1.6 }}>
@@ -79,16 +79,16 @@ function MobileStep({ num, title, desc, delay, index }: {
     <motion.div
       ref={ref}
       className="flex gap-[16px] rounded-[10px] p-[16px]"
-      style={{ background:"#F8F5F0", border:"1px solid rgba(26,43,74,0.08)" }}
+      style={{ background:"var(--color-cream)", border:"1px solid rgba(26,43,74,0.08)" }}
       initial={{ opacity:0, x }}
       animate={inView ? { opacity:1, x:0 } : {}}
       transition={{ duration:0.5, delay, ease }}
     >
-      <span style={{ fontFamily:"Poppins,sans-serif", fontSize:24, fontWeight:700, color:"#C9A84C", lineHeight:1, flexShrink:0, width:44, paddingTop:2 }}>
+      <span style={{ fontFamily:"Poppins,sans-serif", fontSize:24, fontWeight:700, color:"var(--color-gold)", lineHeight:1, flexShrink:0, width:44, paddingTop:2 }}>
         {num}
       </span>
       <div className="flex flex-col gap-[4px]">
-        <span style={{ fontFamily:"Poppins,sans-serif", fontSize:14, fontWeight:700, color:"#1A2B4A", lineHeight:1.3 }}>
+        <span style={{ fontFamily:"Poppins,sans-serif", fontSize:14, fontWeight:700, color:"var(--color-navy)", lineHeight:1.3 }}>
           {title}
         </span>
         <span style={{ fontFamily:"Poppins,sans-serif", fontSize:12, color:"rgba(13,24,37,0.60)", lineHeight:1.55 }}>
@@ -115,7 +115,7 @@ export function ProcesoAdmisiones({
   return (
     <section id="proceso" className="relative overflow-hidden bg-white">
       {/* Franja decorativa navy en la parte superior */}
-      <div className="absolute top-0 left-0 right-0 h-[6px] bg-[#1A2B4A]" />
+      <div className="absolute top-0 left-0 right-0 h-[6px] bg-navy" />
 
       <div className="relative z-10 px-6 pt-[60px] pb-16 md:px-[120px] md:pt-[88px] md:pb-[100px]">
 
@@ -125,7 +125,7 @@ export function ProcesoAdmisiones({
           {/* Texto */}
           <div className="flex-1 md:max-w-[520px]">
             <motion.p
-              style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"#C9A84C", letterSpacing:3, textTransform:"uppercase" }}
+              style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"var(--color-gold)", letterSpacing:3, textTransform:"uppercase" }}
               initial={{ opacity:0, y:14 }}
               animate={inView ? { opacity:1, y:0 } : {}}
               transition={{ duration:0.45, ease }}
@@ -134,7 +134,7 @@ export function ProcesoAdmisiones({
             </motion.p>
 
             <motion.span
-              className="block bg-[#C9A84C]"
+              className="block bg-gold"
               style={{ width:40, height:2, marginTop:8, marginBottom:10 }}
               initial={{ scaleX:0, originX:0 }}
               animate={inView ? { scaleX:1 } : {}}
@@ -143,7 +143,7 @@ export function ProcesoAdmisiones({
 
             <div className="overflow-hidden">
               <motion.h2
-                style={{ fontFamily:"Poppins,sans-serif", fontSize:"clamp(28px,3.06vw,44px)", fontWeight:700, color:"#1A2B4A", lineHeight:1.15 }}
+                style={{ fontFamily:"Poppins,sans-serif", fontSize:"clamp(28px,3.06vw,44px)", fontWeight:700, color:"var(--color-navy)", lineHeight:1.15 }}
                 initial={{ y:50, opacity:0 }}
                 animate={inView ? { y:0, opacity:1 } : {}}
                 transition={{ duration:0.65, delay:0.15, ease }}
@@ -152,7 +152,7 @@ export function ProcesoAdmisiones({
                 <span className="relative inline-block">
                   {headingHighlight}
                   <motion.span
-                    className="absolute left-0 right-0 -bottom-1 block bg-[#C9A84C]"
+                    className="absolute left-0 right-0 -bottom-1 block bg-gold"
                     style={{ height:4, borderRadius:2 }}
                     initial={{ scaleX:0, originX:0 }}
                     animate={inView ? { scaleX:1 } : {}}
@@ -202,17 +202,17 @@ export function ProcesoAdmisiones({
                 alt="Aula Atenas"
                 fill className="object-cover" sizes="190px"
               />
-              <div className="absolute inset-0 border-[3px] border-[#C9A84C]/50 rounded-[12px]" />
+              <div className="absolute inset-0 border-[3px] border-gold/50 rounded-[12px]" />
             </motion.div>
             {/* Badge flotante */}
             <motion.div
               className="absolute z-20 rounded-[8px] px-3 py-2"
-              style={{ background:"#1A2B4A", right:0, bottom:20, boxShadow:"0 8px 24px rgba(0,0,0,0.25)" }}
+              style={{ background:"var(--color-navy)", right:0, bottom:20, boxShadow:"0 8px 24px rgba(0,0,0,0.25)" }}
               initial={{ opacity:0, scale:0.75 }}
               animate={inView ? { opacity:1, scale:1 } : {}}
               transition={{ duration:0.45, delay:0.72, ease }}
             >
-              <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"#C9A84C", letterSpacing:1 }}>
+              <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"var(--color-gold)", letterSpacing:1 }}>
                 {badgeFloating}
               </span>
             </motion.div>

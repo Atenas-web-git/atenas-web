@@ -46,7 +46,7 @@ export function FAQAdmisiones({
             transition={{ duration: 0.45, ease }}
           >
             <motion.span
-              className="block bg-[#C9A84C] flex-shrink-0"
+              className="block bg-gold flex-shrink-0"
               style={{ width: 28, height: 2 }}
               initial={{ scaleX: 0, originX: 0 }}
               animate={inView ? { scaleX: 1 } : {}}
@@ -57,7 +57,7 @@ export function FAQAdmisiones({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: 10,
                 fontWeight: 700,
-                color: "#C9A84C",
+                color: "var(--color-gold)",
                 letterSpacing: 2,
                 textTransform: "uppercase",
               }}
@@ -72,7 +72,7 @@ export function FAQAdmisiones({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: "clamp(24px,2.5vw,36px)",
                 fontWeight: 700,
-                color: "#1A2B4A",
+                color: "var(--color-navy)",
                 lineHeight: 1.2,
                 margin: 0,
               }}
@@ -115,7 +115,7 @@ export function FAQAdmisiones({
                 transition={{ duration: 0.4, delay: 0.05 * i, ease }}
                 className="rounded-[12px] overflow-hidden"
                 style={{
-                  background: "#F8F5F0",
+                  background: "var(--color-cream)",
                   border: open
                     ? "1.5px solid rgba(201,168,76,0.45)"
                     : "1px solid rgba(26,43,74,0.08)",
@@ -139,7 +139,7 @@ export function FAQAdmisiones({
                       fontFamily: "Poppins, sans-serif",
                       fontSize: 15,
                       fontWeight: open ? 700 : 600,
-                      color: open ? "#1A2B4A" : "#1A2B4A",
+                      color: open ? "var(--color-navy)" : "var(--color-navy)",
                       lineHeight: 1.4,
                       flex: 1,
                     }}
@@ -152,8 +152,8 @@ export function FAQAdmisiones({
                     style={{
                       width: 32,
                       height: 32,
-                      background: open ? "#C9A84C" : "rgba(201,168,76,0.15)",
-                      color: open ? "#0D1825" : "#C9A84C",
+                      background: open ? "var(--color-gold)" : "rgba(201,168,76,0.15)",
+                      color: open ? "var(--color-dark)" : "var(--color-gold)",
                       transition: "background 0.2s ease, color 0.2s ease, transform 0.25s ease",
                       transform: open ? "rotate(45deg)" : "rotate(0deg)",
                     }}

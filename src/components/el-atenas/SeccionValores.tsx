@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { DynamicIcon } from "lucide-react/dynamic";
@@ -12,7 +13,26 @@ export type ValorItem = {
   icon: string;
   name: string;
   desc: string;
+  /** Línea pequeña en color de acento bajo el título (ej. código + versión). */
+  subtitle?: string;
+  /** Si está presente, la tarjeta es un link a esa URL (interna o externa). */
+  href?: string;
+  /** Variante de color del acento. Default: "gold". */
+  color?: "gold" | "red";
+  /** Texto del CTA al final de la tarjeta. Solo aparece si hay href. */
+  ctaText?: string;
+  /** Si true, borde dorado más intenso. */
+  highlight?: boolean;
 };
+
+const ACCENT = {
+  gold: { fg: "var(--color-gold)", bg: "rgba(201,168,76,0.12)", border: "rgba(201,168,76,0.45)" },
+  red: { fg: "var(--color-red)", bg: "rgba(158,25,21,0.10)", border: "rgba(158,25,21,0.45)" },
+} as const;
+
+function isExternal(href?: string): boolean {
+  return !!href && /^https?:\/\//i.test(href);
+}
 
 const FALLBACK_ITEMS: ValorItem[] = [
   {
@@ -83,7 +103,7 @@ export function SeccionValores({
   const valores = items && items.length > 0 ? items : FALLBACK_ITEMS;
 
   return (
-    <section ref={ref} id={anchorId || undefined} className="bg-[#F8F5F0] scroll-mt-24">
+    <section ref={ref} id={anchorId || undefined} className="bg-cream scroll-mt-24">
       <div className="px-6 py-20 md:px-[160px] md:py-[100px]">
 
         {/* Encabezado */}
@@ -95,7 +115,7 @@ export function SeccionValores({
         >
           <div className="flex items-center gap-[10px]">
             <span
-              className="block bg-[#C9A84C]"
+              className="block bg-gold"
               style={{ width: 28, height: 2 }}
             />
             <span
@@ -103,7 +123,7 @@ export function SeccionValores({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: 10,
                 fontWeight: 700,
-                color: "#C9A84C",
+                color: "var(--color-gold)",
                 letterSpacing: 2,
                 textTransform: "uppercase",
               }}
@@ -116,13 +136,13 @@ export function SeccionValores({
               fontFamily: "Poppins, sans-serif",
               fontSize: "clamp(26px, 2.5vw, 38px)",
               fontWeight: 700,
-              color: "#1A2B4A",
+              color: "var(--color-navy)",
               lineHeight: 1.15,
             }}
           >
             <HighlightText text={heading ?? ""} />
           </h2>
-          <div style={{ width: 60, height: 3, background: "#C9A84C" }} />
+          <div style={{ width: 60, height: 3, background: "var(--color-gold)" }} />
           {description && (
             <p
               style={{
@@ -140,49 +160,122 @@ export function SeccionValores({
 
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {valores.map((v, i) => (
-            <motion.div
-              key={`${v.name}-${i}`}
-              className="bg-white rounded-[16px] p-7 flex flex-col gap-4 hover:-translate-y-1 transition-transform duration-200"
-              style={{ boxShadow: "0 8px 32px rgba(26,43,74,0.07)" }}
-              initial={{ opacity: 0, y: 24 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.07, ease }}
-            >
-              <div
-                className="rounded-[12px] flex items-center justify-center flex-shrink-0"
-                style={{
-                  width: 48,
-                  height: 48,
-                  background: "rgba(201,168,76,0.12)",
-                }}
+          {valores.map((v, i) => {
+            const accent = ACCENT[v.color ?? "gold"];
+            const external = isExternal(v.href);
+            const cardBody = (
+              <>
+                <div
+                  className="rounded-[12px] flex items-center justify-center flex-shrink-0"
+                  style={{
+                    width: 48,
+                    height: 48,
+                    background: accent.bg,
+                  }}
+                >
+                  {v.icon ? (
+                    <DynamicIcon name={v.icon as never} size={22} color={accent.fg} />
+                  ) : null}
+                </div>
+                <div className="flex flex-col gap-1">
+                  <h3
+                    style={{
+                      fontFamily: "Poppins, sans-serif",
+                      fontSize: 18,
+                      fontWeight: 700,
+                      color: "var(--color-navy)",
+                      lineHeight: 1.3,
+                      margin: 0,
+                    }}
+                  >
+                    {v.name}
+                  </h3>
+                  {v.subtitle && (
+                    <span
+                      style={{
+                        fontFamily: "Poppins, sans-serif",
+                        fontSize: 10,
+                        fontWeight: 700,
+                        color: accent.fg,
+                        letterSpacing: 0.5,
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {v.subtitle}
+                    </span>
+                  )}
+                </div>
+                <p
+                  style={{
+                    fontFamily: "Poppins, sans-serif",
+                    fontSize: 14,
+                    color: "rgba(26,43,74,0.60)",
+                    lineHeight: 1.65,
+                    margin: 0,
+                    flex: 1,
+                  }}
+                >
+                  {v.desc}
+                </p>
+                {v.href && v.ctaText && (
+                  <div className="flex items-center gap-[6px] pt-1">
+                    <span
+                      style={{
+                        fontFamily: "Poppins, sans-serif",
+                        fontSize: 12,
+                        fontWeight: 700,
+                        color: accent.fg,
+                      }}
+                    >
+                      {v.ctaText}
+                    </span>
+                    <span style={{ color: accent.fg, fontSize: 14, fontWeight: 700 }}>
+                      {external ? "↗" : "→"}
+                    </span>
+                  </div>
+                )}
+              </>
+            );
+
+            const cardClassName =
+              "bg-white rounded-[16px] p-7 flex flex-col gap-4 hover:-translate-y-1 transition-transform duration-200 h-full";
+            const cardStyle: React.CSSProperties = {
+              boxShadow: "0 8px 32px rgba(26,43,74,0.07)",
+              border: v.highlight ? `1px solid ${accent.border}` : "1px solid transparent",
+              textDecoration: "none",
+            };
+
+            return (
+              <motion.div
+                key={`${v.name}-${i}`}
+                initial={{ opacity: 0, y: 24 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: i * 0.07, ease }}
               >
-                {v.icon ? (
-                  <DynamicIcon name={v.icon as never} size={22} color="#C9A84C" />
-                ) : null}
-              </div>
-              <h3
-                style={{
-                  fontFamily: "Poppins, sans-serif",
-                  fontSize: 18,
-                  fontWeight: 700,
-                  color: "#1A2B4A",
-                }}
-              >
-                {v.name}
-              </h3>
-              <p
-                style={{
-                  fontFamily: "Poppins, sans-serif",
-                  fontSize: 14,
-                  color: "rgba(26,43,74,0.60)",
-                  lineHeight: 1.65,
-                }}
-              >
-                {v.desc}
-              </p>
-            </motion.div>
-          ))}
+                {v.href ? (
+                  external ? (
+                    <a
+                      href={v.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cardClassName}
+                      style={cardStyle}
+                    >
+                      {cardBody}
+                    </a>
+                  ) : (
+                    <Link href={v.href} className={cardClassName} style={cardStyle}>
+                      {cardBody}
+                    </Link>
+                  )
+                ) : (
+                  <div className={cardClassName} style={cardStyle}>
+                    {cardBody}
+                  </div>
+                )}
+              </motion.div>
+            );
+          })}
         </div>
 
       </div>

@@ -129,7 +129,7 @@ export function CampanaNavbar() {
           position: "relative",
         }}
       >
-        <Bell size={18} color="#1A2B4A" strokeWidth={2} />
+        <Bell size={18} color="var(--color-navy)" strokeWidth={2} />
         {unseenCount > 0 && (
           <span
             className="absolute"
@@ -139,7 +139,7 @@ export function CampanaNavbar() {
               minWidth: 16,
               height: 16,
               padding: "0 4px",
-              background: "#C9A84C",
+              background: "var(--color-gold)",
               color: "#FFFFFF",
               borderRadius: 8,
               fontSize: 9,
@@ -178,7 +178,7 @@ export function CampanaNavbar() {
               background: "#FAFAF8",
             }}
           >
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A" }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: "var(--color-navy)" }}>
               Notificaciones
             </span>
             <button
@@ -225,7 +225,7 @@ export function CampanaNavbar() {
                     style={{
                       fontSize: 13,
                       fontWeight: 700,
-                      color: "#1A2B4A",
+                      color: "var(--color-navy)",
                       margin: 0,
                       lineHeight: 1.3,
                       flex: 1,
@@ -257,7 +257,7 @@ export function CampanaNavbar() {
                       style={{
                         fontSize: 11,
                         fontWeight: 700,
-                        color: "#C9A84C",
+                        color: "var(--color-gold)",
                         textDecoration: "none",
                       }}
                     >

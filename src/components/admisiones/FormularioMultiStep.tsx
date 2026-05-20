@@ -82,12 +82,12 @@ function Field({
   return (
     <div className="flex flex-col gap-[6px]">
       <label className="text-[13px] font-medium text-[#1A1A1A]" style={{ fontFamily: "Poppins, sans-serif" }}>
-        {label}{required && <span className="text-[#9e1915] ml-[2px]">*</span>}
+        {label}{required && <span className="text-red ml-[2px]">*</span>}
       </label>
       <div
         className="rounded-[4px] border bg-white transition-[border-color,box-shadow] duration-150"
         style={{
-          borderColor: focused ? "#1A2B4A" : "#C8C4BD",
+          borderColor: focused ? "var(--color-navy)" : "#C8C4BD",
           boxShadow: focused ? "0 0 0 3px rgba(26,43,74,0.09)" : "none",
         }}
       >
@@ -119,12 +119,12 @@ function SelectField({
   return (
     <div className="flex flex-col gap-[6px]">
       <label className="text-[13px] font-medium text-[#1A1A1A]" style={{ fontFamily: "Poppins, sans-serif" }}>
-        {label}{required && <span className="text-[#9e1915] ml-[2px]">*</span>}
+        {label}{required && <span className="text-red ml-[2px]">*</span>}
       </label>
       <div
         className="rounded-[4px] border bg-white transition-[border-color,box-shadow] duration-150 relative"
         style={{
-          borderColor: focused ? "#1A2B4A" : "#C8C4BD",
+          borderColor: focused ? "var(--color-navy)" : "#C8C4BD",
           boxShadow: focused ? "0 0 0 3px rgba(26,43,74,0.09)" : "none",
         }}
       >
@@ -169,7 +169,7 @@ function TextareaField({
       <div
         className="rounded-[4px] border bg-white transition-[border-color,box-shadow] duration-150"
         style={{
-          borderColor: focused ? "#1A2B4A" : "#C8C4BD",
+          borderColor: focused ? "var(--color-navy)" : "#C8C4BD",
           boxShadow: focused ? "0 0 0 3px rgba(26,43,74,0.09)" : "none",
         }}
       >
@@ -202,7 +202,7 @@ function StepIndicator({ current }: { current: number }) {
             {i > 0 && (
               <div
                 className="flex-1 h-[2px] mt-[19px]"
-                style={{ background: n <= current ? "#9e1915" : "#E5E7EB" }}
+                style={{ background: n <= current ? "var(--color-red)" : "#E5E7EB" }}
               />
             )}
             <div className="flex flex-col items-center gap-[8px]">
@@ -210,7 +210,7 @@ function StepIndicator({ current }: { current: number }) {
                 className="w-[40px] h-[40px] rounded-full flex items-center justify-center
                   text-[14px] font-bold flex-shrink-0 transition-all duration-200"
                 style={{
-                  background: done ? "#9e1915" : active ? "#1A2B4A" : "#FFFFFF",
+                  background: done ? "var(--color-red)" : active ? "var(--color-navy)" : "#FFFFFF",
                   border: done || active ? "none" : "1.5px solid #C8C4BD",
                   color: done || active ? "#FFFFFF" : "#9CA3AF",
                   boxShadow: active ? "0 0 0 4px rgba(26,43,74,0.10)" : "none",
@@ -220,7 +220,7 @@ function StepIndicator({ current }: { current: number }) {
               </div>
               <span
                 className="text-[11px] font-semibold text-center hidden sm:block whitespace-nowrap"
-                style={{ fontFamily: "Poppins, sans-serif", color: done ? "#9e1915" : active ? "#1A2B4A" : "#9CA3AF" }}
+                style={{ fontFamily: "Poppins, sans-serif", color: done ? "var(--color-red)" : active ? "var(--color-navy)" : "#9CA3AF" }}
               >
                 {step.label}
               </span>
@@ -322,13 +322,13 @@ function SummaryBlock({ title, rows, onEdit }: {
   return (
     <div className="relative rounded-[8px] border border-[#E2E8F0] bg-[#F8FAFC] p-[20px] flex flex-col gap-[10px]">
       <div className="flex items-center justify-between">
-        <p className="text-[12px] font-bold tracking-[0.5px] uppercase text-[#1A2B4A]"
+        <p className="text-[12px] font-bold tracking-[0.5px] uppercase text-navy"
           style={{ fontFamily: "Poppins, sans-serif" }}>
           {title}
         </p>
         <button
           onClick={onEdit}
-          className="text-[12px] text-[#9e1915] hover:underline font-medium"
+          className="text-[12px] text-red hover:underline font-medium"
           style={{ fontFamily: "Poppins, sans-serif" }}
         >
           Editar
@@ -413,7 +413,7 @@ function SuccessScreen({ numero }: { numero: string }) {
         </motion.div>
 
         <div className="flex flex-col gap-[10px]">
-          <h2 className="text-[26px] font-bold text-[#1A2B4A]"
+          <h2 className="text-[26px] font-bold text-navy"
             style={{ fontFamily: "Poppins, sans-serif" }}>
             ¡Solicitud enviada exitosamente!
           </h2>
@@ -430,7 +430,7 @@ function SuccessScreen({ numero }: { numero: string }) {
             style={{ fontFamily: "Poppins, sans-serif" }}>
             N° de seguimiento
           </span>
-          <span className="text-[22px] font-bold text-[#1A2B4A]"
+          <span className="text-[22px] font-bold text-navy"
             style={{ fontFamily: "Poppins, sans-serif" }}>
             {numero}
           </span>
@@ -439,7 +439,7 @@ function SuccessScreen({ numero }: { numero: string }) {
         <div className="h-[1px] bg-[#E5E7EB] w-full" />
 
         <div className="flex flex-col gap-[10px] text-left w-full">
-          <p className="text-[14px] font-semibold text-[#1A2B4A]"
+          <p className="text-[14px] font-semibold text-navy"
             style={{ fontFamily: "Poppins, sans-serif" }}>
             ¿Qué sigue?
           </p>
@@ -459,8 +459,8 @@ function SuccessScreen({ numero }: { numero: string }) {
         <div className="flex gap-3 flex-wrap justify-center">
           <Link
             href="/admisiones"
-            className="h-[44px] px-[24px] rounded-[4px] border border-[#1A2B4A] text-[#1A2B4A]
-              text-[14px] font-semibold hover:bg-[#1A2B4A] hover:text-white transition-colors
+            className="h-[44px] px-[24px] rounded-[4px] border border-navy text-navy
+              text-[14px] font-semibold hover:bg-navy hover:text-white transition-colors
               duration-150 flex items-center"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
@@ -468,7 +468,7 @@ function SuccessScreen({ numero }: { numero: string }) {
           </Link>
           <Link
             href="/"
-            className="h-[44px] px-[24px] rounded-[4px] bg-[#1A2B4A] text-white text-[14px]
+            className="h-[44px] px-[24px] rounded-[4px] bg-navy text-white text-[14px]
               font-semibold hover:bg-[#22375e] transition-colors duration-150 flex items-center"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
@@ -565,7 +565,7 @@ export function FormularioMultiStep({
               >
                 {/* Step header */}
                 <div className="flex flex-col gap-[6px]">
-                  <h2 className="text-[22px] font-bold text-[#1A2B4A] max-sm:text-[18px]"
+                  <h2 className="text-[22px] font-bold text-navy max-sm:text-[18px]"
                     style={{ fontFamily: "Poppins, sans-serif" }}>
                     {STEP_TITLES[step - 1]}
                   </h2>
@@ -584,7 +584,7 @@ export function FormularioMultiStep({
                 {/* Error */}
                 {error && (
                   <p
-                    className="text-[13px] text-[#9e1915] bg-[#FEF2F2] border border-[#FECACA]
+                    className="text-[13px] text-red bg-[#FEF2F2] border border-[#FECACA]
                       rounded-[4px] px-[14px] py-[10px]"
                     style={{ fontFamily: "Poppins, sans-serif" }}
                   >
@@ -597,8 +597,8 @@ export function FormularioMultiStep({
                   {step > 1 && (
                     <button
                       onClick={back}
-                      className="h-[44px] px-[24px] rounded-[4px] border border-[#1A2B4A] text-[#1A2B4A]
-                        text-[14px] font-semibold hover:bg-[#1A2B4A] hover:text-white
+                      className="h-[44px] px-[24px] rounded-[4px] border border-navy text-navy
+                        text-[14px] font-semibold hover:bg-navy hover:text-white
                         transition-colors duration-150"
                       style={{ fontFamily: "Poppins, sans-serif" }}
                     >
@@ -608,7 +608,7 @@ export function FormularioMultiStep({
                   {step < 4 && (
                     <button
                       onClick={next}
-                      className="h-[44px] px-[28px] rounded-[4px] bg-[#1A2B4A] text-white text-[14px]
+                      className="h-[44px] px-[28px] rounded-[4px] bg-navy text-white text-[14px]
                         font-semibold hover:bg-[#22375e] transition-colors duration-150"
                       style={{ fontFamily: "Poppins, sans-serif" }}
                     >
@@ -619,7 +619,7 @@ export function FormularioMultiStep({
                     <button
                       onClick={submit}
                       disabled={submitting}
-                      className="h-[44px] px-[28px] rounded-[4px] bg-[#9e1915] text-white text-[14px]
+                      className="h-[44px] px-[28px] rounded-[4px] bg-red text-white text-[14px]
                         font-semibold hover:bg-[#8a1512] transition-colors duration-150
                         disabled:opacity-60 disabled:cursor-not-allowed"
                       style={{ fontFamily: "Poppins, sans-serif" }}
@@ -637,7 +637,7 @@ export function FormularioMultiStep({
         <p className="text-center text-[11px] text-[#9CA3AF] mt-6"
           style={{ fontFamily: "Poppins, sans-serif" }}>
           Al enviar aceptas nuestra{" "}
-          <Link href="/politicas" className="text-[#1A2B4A] underline hover:no-underline">
+          <Link href="/politicas" className="text-navy underline hover:no-underline">
             Política de Privacidad
           </Link>
           . Tus datos son usados únicamente para el proceso de admisión.

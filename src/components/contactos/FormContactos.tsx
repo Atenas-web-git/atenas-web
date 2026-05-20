@@ -73,7 +73,7 @@ export function FormContactos({
             backdropFilter: "blur(8px)",
           }}
         >
-          <MapPin size={14} color="#C9A84C" />
+          <MapPin size={14} color="var(--color-gold)" />
           <span
             style={{
               fontFamily: "Poppins, sans-serif",
@@ -108,7 +108,7 @@ export function FormContactos({
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-[10px]">
             <span
-              className="block bg-[#C9A84C]"
+              className="block bg-gold"
               style={{ width: 28, height: 2 }}
             />
             <span
@@ -116,7 +116,7 @@ export function FormContactos({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: 10,
                 fontWeight: 700,
-                color: "#C9A84C",
+                color: "var(--color-gold)",
                 letterSpacing: 2,
                 textTransform: "uppercase",
               }}
@@ -129,7 +129,7 @@ export function FormContactos({
               fontFamily: "Poppins, sans-serif",
               fontSize: "clamp(22px, 1.94vw, 28px)",
               fontWeight: 700,
-              color: "#1A2B4A",
+              color: "var(--color-navy)",
             }}
           >
             {formulario.heading}
@@ -155,16 +155,16 @@ export function FormContactos({
           >
             <div
               className="rounded-full flex items-center justify-center"
-              style={{ width: 56, height: 56, background: "#C9A84C" }}
+              style={{ width: 56, height: 56, background: "var(--color-gold)" }}
             >
-              <Send size={22} color="#0D1825" />
+              <Send size={22} color="var(--color-dark)" />
             </div>
             <h3
               style={{
                 fontFamily: "Poppins, sans-serif",
                 fontSize: 20,
                 fontWeight: 700,
-                color: "#1A2B4A",
+                color: "var(--color-navy)",
               }}
             >
               {formulario.successTitle}
@@ -214,7 +214,7 @@ export function FormContactos({
                   fontFamily: "Poppins, sans-serif",
                   fontSize: 12,
                   fontWeight: 600,
-                  color: "#1A2B4A",
+                  color: "var(--color-navy)",
                 }}
               >
                 Mensaje
@@ -225,10 +225,10 @@ export function FormContactos({
                 placeholder="Escribe tu mensaje aquí..."
                 required
                 rows={4}
-                className="w-full rounded-[8px] px-[14px] py-[10px] text-[13px] resize-none outline-none border focus:border-[#C9A84C] transition-colors"
+                className="w-full rounded-[8px] px-[14px] py-[10px] text-[13px] resize-none outline-none border focus:border-gold transition-colors"
                 style={{
                   fontFamily: "Poppins, sans-serif",
-                  color: "#1A2B4A",
+                  color: "var(--color-navy)",
                   borderColor: "#E8E4DD",
                 }}
               />
@@ -249,7 +249,7 @@ export function FormContactos({
             <button
               type="submit"
               disabled={submitting}
-              className="inline-flex items-center gap-[10px] self-start rounded-[8px] px-[28px] py-[14px] font-bold text-[14px] bg-[#1A2B4A] text-white hover:bg-[#243d6a] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-[10px] self-start rounded-[8px] px-[28px] py-[14px] font-bold text-[14px] bg-navy text-white hover:bg-[#243d6a] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
               {submitting ? "Enviando…" : formulario.submitLabel}
@@ -283,7 +283,7 @@ function Field({
           fontFamily: "Poppins, sans-serif",
           fontSize: 12,
           fontWeight: 600,
-          color: "#1A2B4A",
+          color: "var(--color-navy)",
         }}
       >
         {label}
@@ -294,10 +294,10 @@ function Field({
         type={type}
         placeholder={placeholder}
         required={required}
-        className="w-full rounded-[8px] px-[14px] text-[13px] outline-none border focus:border-[#C9A84C] transition-colors"
+        className="w-full rounded-[8px] px-[14px] text-[13px] outline-none border focus:border-gold transition-colors"
         style={{
           fontFamily: "Poppins, sans-serif",
-          color: "#1A2B4A",
+          color: "var(--color-navy)",
           borderColor: "#E8E4DD",
           height: 44,
         }}

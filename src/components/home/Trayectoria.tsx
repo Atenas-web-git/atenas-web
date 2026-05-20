@@ -66,7 +66,7 @@ function StatItem({
 
 /* Paleta de colores alternados por índice de stat (mobile) */
 function mobileColor(i: number): string {
-  return i % 2 === 0 ? "#C9A84C" : "#FFFFFF";
+  return i % 2 === 0 ? "var(--color-gold)" : "#FFFFFF";
 }
 
 export function Trayectoria({ trayectoria }: Props) {
@@ -86,7 +86,7 @@ export function Trayectoria({ trayectoria }: Props) {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#1A2B4A] min-h-[540px] md:min-h-[820px]"
+      className="relative overflow-hidden bg-navy min-h-[540px] md:min-h-[820px]"
     >
       {/* Foto de fondo con parallax */}
       <motion.div className="absolute inset-0" style={{ y: bgY }}>
@@ -199,7 +199,7 @@ export function Trayectoria({ trayectoria }: Props) {
 
         {/* Línea dorada */}
         <motion.span
-          className="block h-[3px] bg-[#C9A84C] w-[48px]"
+          className="block h-[3px] bg-gold w-[48px]"
           style={{ marginTop: 24, marginBottom: 24, originX: 0 }}
           initial={{ scaleX: 0 }}
           animate={inView ? { scaleX: 1 } : {}}
@@ -258,7 +258,7 @@ export function Trayectoria({ trayectoria }: Props) {
                 key={i}
                 stat={stat}
                 inView={statsInView}
-                color="#9e1915"
+                color="var(--color-red)"
                 fontSize="clamp(32px, 3.33vw, 48px)"
               />
             ))}

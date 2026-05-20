@@ -93,6 +93,10 @@ export type Marca = {
     nombre: string;
     ruc: string;
     direccion: string;
+    /** Ciudad y país (ej. "Ambato, Ecuador"). Usado en footer de emails y JSON-LD. */
+    ciudad: string;
+    /** URL completa del sitio (ej. "https://atenas.edu.ec"). Usado en footer de emails. */
+    sitioWeb: string;
     /** Año de fundación. Alimenta el JSON-LD del SEO. */
     anioFundacion: number;
   };
@@ -119,6 +123,8 @@ export const MARCA_DEFAULT: Marca = {
     nombre: "Unidad Educativa Atenas",
     ruc: "",
     direccion: "Calle Gabriel Román s/n y Av. Pedro Vásconez, Izamba, Ambato",
+    ciudad: "Ambato, Ecuador",
+    sitioWeb: "https://atenas.edu.ec",
     anioFundacion: 1976,
   },
 };
@@ -324,6 +330,197 @@ export type MegaMenuCtaButton = {
   label: string;
   href: string;
 };
+
+// ─── Chatbot IA "Ateneo" ──────────────────────────────────────
+
+export type ChatbotProvider = "gemini" | "anthropic" | "openai";
+
+export type ChatbotConfig = {
+  /** Si está activo Y apiKey no vacía, reemplaza al FloatingBoot WhatsApp. */
+  activo: boolean;
+  /** Proveedor de IA. */
+  provider: ChatbotProvider;
+  /** Modelo específico del proveedor (ej. "gemini-1.5-flash"). */
+  model: string;
+  /** API key del proveedor. Vacía = chatbot no operativo. */
+  apiKey: string;
+  /** System prompt — personalidad y reglas del asistente. */
+  systemPrompt: string;
+  /** Mensaje inicial al abrir el chat. */
+  welcomeMessage: string;
+  /** Mensaje cuando el chatbot no tiene respuesta. */
+  fallbackMessage: string;
+  /** Label del CTA de fallback (ej. "Ir a Contactos"). */
+  fallbackCtaLabel: string;
+  /** URL del CTA de fallback (ej. "/contactos"). */
+  fallbackCtaUrl: string;
+  /** Cuántos mensajes pasados se mandan al LLM por turno (control de tokens). */
+  maxHistoryMessages: number;
+  /**
+   * Conocimiento adicional NO publicado en la web. Texto libre (markdown)
+   * que se concatena al knowledge base en cada conversación. Útil para
+   * FAQ internos, fechas de vacaciones, info administrativa, etc.
+   */
+  extraKnowledge: string;
+};
+
+export const CHATBOT_DEFAULT: ChatbotConfig = {
+  activo: false,
+  provider: "gemini",
+  model: "gemini-1.5-flash",
+  apiKey: "",
+  systemPrompt:
+    'Eres Ateneo, el asistente virtual oficial de la Unidad Educativa Atenas (Ambato, Ecuador). Responde solo sobre el colegio. Tono formal pero cercano, sin emojis, 2-4 oraciones. Si no tienes información, sugiere visitar /contactos.',
+  welcomeMessage:
+    "¡Hola! Soy Ateneo, asistente virtual de la Unidad Educativa Atenas. ¿En qué puedo ayudarte?",
+  fallbackMessage:
+    "No tengo información suficiente para responder eso. Te recomiendo escribirnos desde la página de contactos y un miembro del equipo te ayudará personalmente.",
+  fallbackCtaLabel: "Ir a Contactos",
+  fallbackCtaUrl: "/contactos",
+  maxHistoryMessages: 12,
+  extraKnowledge: "",
+};
+
+export function mergeChatbot(input: Partial<ChatbotConfig> | null): ChatbotConfig {
+  if (!input) return CHATBOT_DEFAULT;
+  const validProviders: ChatbotProvider[] = ["gemini", "anthropic", "openai"];
+  const provider: ChatbotProvider = validProviders.includes(input.provider as ChatbotProvider)
+    ? (input.provider as ChatbotProvider)
+    : "gemini";
+  return {
+    activo: input.activo ?? CHATBOT_DEFAULT.activo,
+    provider,
+    model: input.model?.trim() || CHATBOT_DEFAULT.model,
+    apiKey: input.apiKey ?? "",
+    systemPrompt: input.systemPrompt?.trim() || CHATBOT_DEFAULT.systemPrompt,
+    welcomeMessage: input.welcomeMessage?.trim() || CHATBOT_DEFAULT.welcomeMessage,
+    fallbackMessage: input.fallbackMessage?.trim() || CHATBOT_DEFAULT.fallbackMessage,
+    fallbackCtaLabel: input.fallbackCtaLabel?.trim() || CHATBOT_DEFAULT.fallbackCtaLabel,
+    fallbackCtaUrl: input.fallbackCtaUrl?.trim() || CHATBOT_DEFAULT.fallbackCtaUrl,
+    maxHistoryMessages:
+      typeof input.maxHistoryMessages === "number" && input.maxHistoryMessages > 0
+        ? Math.min(input.maxHistoryMessages, 50)
+        : CHATBOT_DEFAULT.maxHistoryMessages,
+    extraKnowledge: typeof input.extraKnowledge === "string" ? input.extraKnowledge : "",
+  };
+}
+
+export function chatbotIsLive(c: ChatbotConfig): boolean {
+  return c.activo && c.apiKey.trim().length > 10;
+}
+
+// ─── Diseño global de correos transaccionales ─────────────────
+
+/**
+ * Identidad común a los 10 correos transaccionales (pipeline admisiones +
+ * confirmaciones de formularios). Vive en `configuracion_global['correos_diseno']`
+ * (migración 053).
+ *
+ * El resto del footer (dirección, teléfono, redes, copyright) se deriva
+ * automáticamente de Marca + Contacto al renderizar el email.
+ */
+export type CorreosDiseno = {
+  /** Variante del logo en el header del email. */
+  logoVariant: "white_on_navy" | "color_on_white";
+  /** Texto legal corto al pie del footer. Aplica a los 10 correos. */
+  textoLegal: string;
+};
+
+export const CORREOS_DISENO_DEFAULT: CorreosDiseno = {
+  logoVariant: "white_on_navy",
+  textoLegal:
+    "Este correo es transaccional y fue enviado por la Unidad Educativa Atenas en respuesta a un trámite o consulta que iniciaste. Si lo recibiste por error, responde a este correo y lo daremos de baja.",
+};
+
+export function mergeCorreosDiseno(
+  input: Partial<CorreosDiseno> | null
+): CorreosDiseno {
+  if (!input) return CORREOS_DISENO_DEFAULT;
+  const variant = input.logoVariant === "color_on_white" ? "color_on_white" : "white_on_navy";
+  return {
+    logoVariant: variant,
+    textoLegal: input.textoLegal?.trim() || CORREOS_DISENO_DEFAULT.textoLegal,
+  };
+}
+
+// ─── Navbar (barra de navegación superior) ────────────────────
+
+/**
+ * Configuración de la barra de navegación fija que aparece en todas las
+ * páginas del sitio público. Vive en `configuracion_global['navbar']`
+ * (migración 052). Si la fila no existe o falla, la app usa
+ * `NAVBAR_DEFAULT` y la UI mantiene el comportamiento original.
+ */
+export type NavbarConfig = {
+  /** Badge conmemorativo "50 AÑOS" al lado del logo. Si hay logoSrc, lo reemplaza. */
+  aniversarioBadge: {
+    visible: boolean;
+    label: string;
+    /** URL del logo conmemorativo. Si está presente, reemplaza el texto del badge. */
+    logoSrc: string;
+  };
+  /** CTA primario al lado izquierdo (default: Portal Familiar). */
+  ctaPortal: {
+    visible: boolean;
+    label: string;
+    href: string;
+  };
+  /** CTA secundario con borde dorado (default: Tour Virtual). */
+  ctaTour: {
+    visible: boolean;
+    label: string;
+    href: string;
+  };
+  /** Icono de búsqueda. Hoy el botón no es funcional; se puede ocultar. */
+  busqueda: {
+    visible: boolean;
+  };
+  /** Campanita de notificaciones. Si se oculta, no aparece nunca. */
+  campana: {
+    visible: boolean;
+  };
+  /** Label del botón principal "MENÚ" (rojo). */
+  menuLabel: string;
+};
+
+export const NAVBAR_DEFAULT: NavbarConfig = {
+  aniversarioBadge: { visible: true, label: "50 AÑOS", logoSrc: "" },
+  ctaPortal: { visible: true, label: "PORTAL FAMILIAR", href: "/portal-familiar" },
+  ctaTour: { visible: true, label: "TOUR VIRTUAL", href: "/paseo-virtual" },
+  busqueda: { visible: true },
+  campana: { visible: true },
+  menuLabel: "MENÚ",
+};
+
+export function mergeNavbar(input: Partial<NavbarConfig> | null): NavbarConfig {
+  if (!input) return NAVBAR_DEFAULT;
+  return {
+    aniversarioBadge: {
+      visible: input.aniversarioBadge?.visible ?? NAVBAR_DEFAULT.aniversarioBadge.visible,
+      label:
+        input.aniversarioBadge?.label?.trim() ||
+        NAVBAR_DEFAULT.aniversarioBadge.label,
+      logoSrc: input.aniversarioBadge?.logoSrc?.trim() ?? "",
+    },
+    ctaPortal: {
+      visible: input.ctaPortal?.visible ?? NAVBAR_DEFAULT.ctaPortal.visible,
+      label: input.ctaPortal?.label?.trim() || NAVBAR_DEFAULT.ctaPortal.label,
+      href: input.ctaPortal?.href?.trim() || NAVBAR_DEFAULT.ctaPortal.href,
+    },
+    ctaTour: {
+      visible: input.ctaTour?.visible ?? NAVBAR_DEFAULT.ctaTour.visible,
+      label: input.ctaTour?.label?.trim() || NAVBAR_DEFAULT.ctaTour.label,
+      href: input.ctaTour?.href?.trim() || NAVBAR_DEFAULT.ctaTour.href,
+    },
+    busqueda: {
+      visible: input.busqueda?.visible ?? NAVBAR_DEFAULT.busqueda.visible,
+    },
+    campana: {
+      visible: input.campana?.visible ?? NAVBAR_DEFAULT.campana.visible,
+    },
+    menuLabel: input.menuLabel?.trim() || NAVBAR_DEFAULT.menuLabel,
+  };
+}
 
 export type MegaMenuConfig = {
   /** Imagen de fondo del panel izquierdo del mega-menú desplegado. */

@@ -21,7 +21,10 @@ export type PlantillaSlug =
   | "tpl_n_trabaja"
   | "tpl_o_admision_nivel"
   | "tpl_p_admisiones_landing"
-  | "tpl_q_contactos_pagina";
+  | "tpl_q_contactos_pagina"
+  | "tpl_r_grid_personas"
+  | "tpl_s_documento_politica"
+  | "tpl_t_portal_accesos";
 
 export type PlantillaCategoria =
   | "texto-institucional"
@@ -222,6 +225,33 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
     ejemploSlugs: ["contactos"],
     implementada: true,
     categoria: "fichas",
+  },
+  tpl_r_grid_personas: {
+    slug: "tpl_r_grid_personas",
+    letra: "R",
+    nombre: "Grid de personas",
+    descripcion: "Hero + sección con grid de personas (cargo + nombre + foto opcional + email opcional) + período opcional + nota al pie. Multiuso: directiva de padres, directorio de la fundación, equipo docente, etc. Disponible en el catch-all para slugs nuevos.",
+    ejemploSlugs: ["el-atenas/directiva-ppff", "el-atenas/directorio-fcea"],
+    implementada: true,
+    categoria: "texto-institucional",
+  },
+  tpl_s_documento_politica: {
+    slug: "tpl_s_documento_politica",
+    letra: "S",
+    nombre: "Documento de política",
+    descripcion: "Hero + metadata (versión + audiencia + vigencia) + N secciones numeradas con título y cuerpo rich (TipTap WYSIWYG: negrita, listas, links) + tarjeta CTA al pie. Multiuso: sirve para cualquier política institucional (privacidad, calidad, seguridad, etc.). Disponible en el catch-all para slugs nuevos.",
+    ejemploSlugs: ["politicas/clientes", "politicas/proveedores", "politicas/calidad", "politicas/seguridad"],
+    implementada: true,
+    categoria: "texto-institucional",
+  },
+  tpl_t_portal_accesos: {
+    slug: "tpl_t_portal_accesos",
+    letra: "T",
+    nombre: "Portal de accesos",
+    descripcion: "Hero gradient + intro + N cards (badge + título + descripción + bullets + CTA interno/externo con color de acento gold/navy/red) + tarjeta de nota al pie. Multiuso: portal familiar, portal docente, portal de proveedores, etc. Disponible en el catch-all para slugs nuevos.",
+    ejemploSlugs: ["portal-familiar"],
+    implementada: true,
+    categoria: "landings-ricas",
   },
 };
 
@@ -1938,4 +1968,202 @@ export type ContenidoPlantillaQ = ContactosPaginaConfig;
 
 export function defaultContenidoPlantillaQ(): ContenidoPlantillaQ {
   return CONTACTOS_PAGINA_DEFAULT;
+}
+
+// ─── Plantilla R (Grid de personas) ───────────────────────────
+
+export type PersonaItem = {
+  cargo: string;
+  nombre: string;
+  /** Email opcional. Si está presente, aparece como link mailto bajo el cargo. */
+  email?: string;
+  /** Foto opcional. Si está presente, reemplaza el icono genérico de usuario. */
+  photoSrc?: string;
+};
+
+export type ContenidoPlantillaR = {
+  hero: {
+    badge?: string;
+    title: string;
+    subtitle?: string;
+    ghostText?: string;
+    footnote?: string;
+    bgImageSrc?: string;
+  };
+  seccion: {
+    badge: string;
+    heading: string;
+    /** Etiqueta del período (ej. "2021–2026"). Opcional. */
+    period?: string;
+    items: PersonaItem[];
+    /** Texto al pie de la sección (opcional). */
+    note?: string;
+  };
+  /** ID de anclaje opcional. Permite enlazar con `/slug#anchorId`. */
+  anchorId?: string;
+};
+
+export function defaultContenidoPlantillaR(): ContenidoPlantillaR {
+  return {
+    hero: {
+      badge: "DIRECTORIO",
+      title: "Nuevo directorio",
+      subtitle: "",
+      ghostText: "DIRECTORIO",
+      footnote: "",
+    },
+    seccion: {
+      badge: "DIRECTORIO",
+      heading: "Nuestro equipo",
+      period: "",
+      items: [
+        { cargo: "Presidente/a", nombre: "Información pendiente" },
+        { cargo: "Vicepresidente/a", nombre: "Información pendiente" },
+        { cargo: "Secretario/a", nombre: "Información pendiente" },
+        { cargo: "Tesorero/a", nombre: "Información pendiente" },
+      ],
+      note: "",
+    },
+  };
+}
+
+// ─── Plantilla S (Documento de política) ──────────────────────
+
+export type SeccionPoliticaItem = {
+  /** Número visible (auto-numerado al guardar si se deja vacío). */
+  numero: string;
+  titulo: string;
+  /**
+   * HTML rich del cuerpo (output de TipTap). Soporta <p>, <strong>,
+   * <em>, <ul>/<ol>/<li>, <a> y saltos de línea.
+   */
+  cuerpoHtml: string;
+};
+
+export type ContenidoPlantillaS = {
+  hero: {
+    badge?: string;
+    title: string;
+    subtitle?: string;
+    ghostText?: string;
+    footnote?: string;
+    bgImageSrc?: string;
+  };
+  /** Pills informativos al inicio del documento. */
+  meta: {
+    versionLabel: string;
+    audiencia: string;
+    /** Texto libre con la fecha de vigencia o etiqueta normativa (ej. "Vigente desde el 30 de septiembre de 2024" o "LOPDP Ecuador"). */
+    fechaVigencia: string;
+  };
+  /** Título grande del documento (debajo de las pills, encima de las secciones). */
+  tituloDocumento: string;
+  /** Secciones del documento — se renderizan numeradas en orden. */
+  secciones: SeccionPoliticaItem[];
+  /** Tarjeta dorada al pie con CTA a contactos / persona responsable. */
+  ctaPie: {
+    titulo: string;
+    descripcion: string;
+    ctaLabel: string;
+    ctaHref: string;
+  };
+};
+
+export function defaultContenidoPlantillaS(): ContenidoPlantillaS {
+  return {
+    hero: {
+      badge: "POLÍTICA INSTITUCIONAL",
+      title: "Nueva política",
+      subtitle: "Versión 1.0",
+      ghostText: "POLÍTICA",
+      footnote: "",
+    },
+    meta: {
+      versionLabel: "Versión 1.0",
+      audiencia: "Audiencia general",
+      fechaVigencia: "Vigente desde…",
+    },
+    tituloDocumento: "Política institucional",
+    secciones: [
+      {
+        numero: "1",
+        titulo: "Primer apartado",
+        cuerpoHtml: "<p>Contenido inicial del apartado. Editable desde el backoffice con formato rico (negrita, listas, links).</p>",
+      },
+    ],
+    ctaPie: {
+      titulo: "¿Tienes dudas sobre este documento?",
+      descripcion: "Contáctanos y te respondemos en un máximo de 15 días hábiles.",
+      ctaLabel: "Ir a Contactos →",
+      ctaHref: "/contactos",
+    },
+  };
+}
+
+// ─── Plantilla T (Portal de accesos) ──────────────────────────
+
+export type PortalCardItem = {
+  badge: string;
+  title: string;
+  description: string;
+  bullets: string[];
+  ctaLabel: string;
+  /** URL del CTA. Si empieza con http, se abre en nueva pestaña. */
+  ctaHref: string;
+  /** Color de acento (gold/navy/red) — define el badge y el botón. */
+  accentColor: "gold" | "navy" | "red";
+};
+
+export type ContenidoPlantillaT = {
+  hero: {
+    eyebrow: string;
+    title: string;
+    description: string;
+  };
+  intro: {
+    /** Texto introductorio antes del grid de cards. Opcional. */
+    titulo?: string;
+    descripcion?: string;
+  };
+  cards: PortalCardItem[];
+  /** Tarjeta amarilla al pie con un texto adicional + link opcional. */
+  notaPie: {
+    /** Si todos los campos están vacíos, la tarjeta no se renderiza. */
+    tituloNegrita: string;
+    texto: string;
+    linkLabel: string;
+    linkHref: string;
+  };
+};
+
+export function defaultContenidoPlantillaT(): ContenidoPlantillaT {
+  return {
+    hero: {
+      eyebrow: "Portal de Accesos",
+      title: "Bienvenido al portal",
+      description:
+        "Selecciona la opción que mejor se ajuste a tu caso para acceder al servicio que necesites.",
+    },
+    intro: {
+      titulo: "",
+      descripcion: "",
+    },
+    cards: [
+      {
+        badge: "Acceso general",
+        title: "Primer acceso",
+        description: "Descripción del primer acceso del portal.",
+        bullets: ["Beneficio 1", "Beneficio 2"],
+        ctaLabel: "Acceder",
+        ctaHref: "#",
+        accentColor: "gold",
+      },
+    ],
+    notaPie: {
+      tituloNegrita: "",
+      texto: "",
+      linkLabel: "",
+      linkHref: "",
+    },
+  };
 }

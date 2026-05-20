@@ -17,7 +17,17 @@ import {
   vincularArchivoAPlantillaAction,
   desvincularArchivoDePlantillaAction,
 } from "../actions";
-import { buildWrappedEmail, debeOcultarCta } from "../../email_wrapper";
+import {
+  renderPremiumEmail,
+  type AcentoCorreo,
+} from "@/lib/email/premiumEmailRender";
+import type {
+  Marca,
+  Contacto,
+  CorreosDiseno,
+  NavbarConfig,
+} from "@/lib/cms/getConfiguracion";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 
 const VARIABLES = [
   { code: "{{numero}}", label: "N° de seguimiento" },
@@ -66,8 +76,18 @@ export function EditorClient({
   initialAsunto,
   initialHtml,
   initialActivo,
+  initialAcento,
+  initialEyebrow,
+  initialHeroImageUrl,
+  initialCtaLabel,
+  initialCtaUrl,
+  initialHelperText,
   archivosBanco,
   archivosVinculadosIds,
+  marca,
+  contacto,
+  diseno,
+  navbar,
 }: {
   estado: string;
   estadoLabel: string;
@@ -75,8 +95,18 @@ export function EditorClient({
   initialAsunto: string;
   initialHtml: string;
   initialActivo: boolean;
+  initialAcento: AcentoCorreo;
+  initialEyebrow: string;
+  initialHeroImageUrl: string;
+  initialCtaLabel: string;
+  initialCtaUrl: string;
+  initialHelperText: string;
   archivosBanco: ArchivoBancoForEditor[];
   archivosVinculadosIds: string[];
+  marca: Marca;
+  contacto: Contacto;
+  diseno: CorreosDiseno;
+  navbar: NavbarConfig;
 }) {
   const [state, action, isPending] = useActionState<PlantillaActionState, FormData>(
     savePlantillaAction,
@@ -89,6 +119,12 @@ export function EditorClient({
   const [asunto, setAsunto] = useState(initialAsunto);
   const [activo, setActivo] = useState(initialActivo);
   const [htmlContent, setHtmlContent] = useState(initialHtml);
+  const [acento, setAcento] = useState<AcentoCorreo>(initialAcento);
+  const [eyebrow, setEyebrow] = useState(initialEyebrow);
+  const [heroImageUrl, setHeroImageUrl] = useState(initialHeroImageUrl);
+  const [ctaLabel, setCtaLabel] = useState(initialCtaLabel);
+  const [ctaUrl, setCtaUrl] = useState(initialCtaUrl);
+  const [helperText, setHelperText] = useState(initialHelperText);
 
   const editor = useEditor({
     extensions: [
@@ -129,16 +165,41 @@ export function EditorClient({
   };
 
   const previewHtml = useMemo(() => {
-    const contenidoConVars = fillSample(htmlContent);
-    const tituloConVars = fillSample(titulo);
-    return buildWrappedEmail({
-      titulo: tituloConVars,
-      contenido: contenidoConVars,
-      numero: SAMPLE.numero,
-      url_seguimiento: SAMPLE.url_seguimiento,
-      mostrar_cta: !debeOcultarCta(estado),
-    });
-  }, [htmlContent, titulo, estado]);
+    return renderPremiumEmail(
+      {
+        acento,
+        eyebrow: fillSample(eyebrow),
+        titulo: fillSample(titulo),
+        cuerpoHtml: fillSample(htmlContent),
+        heroImageUrl: heroImageUrl || undefined,
+        dataBlock: [
+          { label: "N° SEGUIMIENTO", value: SAMPLE.numero },
+          {
+            label: "POSTULANTE",
+            value: `${SAMPLE.est_nombres} ${SAMPLE.est_apellidos}`.trim(),
+          },
+          { label: "NIVEL", value: SAMPLE.est_nivel },
+        ],
+        ctaLabel: fillSample(ctaLabel),
+        ctaUrl: fillSample(ctaUrl),
+        helperText: fillSample(helperText),
+      },
+      { marca, contacto, diseno, navbar }
+    );
+  }, [
+    acento,
+    eyebrow,
+    titulo,
+    htmlContent,
+    heroImageUrl,
+    ctaLabel,
+    ctaUrl,
+    helperText,
+    marca,
+    contacto,
+    diseno,
+    navbar,
+  ]);
   const previewAsunto = useMemo(() => fillSample(asunto), [asunto]);
 
   if (!editor) return null;
@@ -148,6 +209,12 @@ export function EditorClient({
       <input type="hidden" name="estado" value={estado} />
       <input type="hidden" name="cuerpo_html" value={htmlContent} />
       <input type="hidden" name="titulo" value={titulo} />
+      <input type="hidden" name="acento" value={acento} />
+      <input type="hidden" name="eyebrow" value={eyebrow} />
+      <input type="hidden" name="hero_image_url" value={heroImageUrl} />
+      <input type="hidden" name="cta_label" value={ctaLabel} />
+      <input type="hidden" name="cta_url" value={ctaUrl} />
+      <input type="hidden" name="helper_text" value={helperText} />
 
       {/* Header con toggle activo + acciones */}
       <div
@@ -242,6 +309,132 @@ export function EditorClient({
               <span style={{ fontSize: 10, color: "#A0AABA" }}>
                 El texto del asunto en la bandeja de entrada del postulante.
               </span>
+            </div>
+          </div>
+
+          {/* Identidad visual del correo (acento + eyebrow + hero + CTA) */}
+          <div
+            className="flex flex-col gap-4 p-5"
+            style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}
+          >
+            <div className="flex flex-col gap-1">
+              <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
+                Identidad visual del correo
+              </h2>
+              <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+                Personalización específica de este correo. El logo, dirección y redes
+                vienen automáticamente de Marca + Contacto.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label style={fieldLabel}>Color de acento</label>
+              <div className="flex gap-2 flex-wrap">
+                {(["navy", "red", "gold"] as const).map((opt) => {
+                  const meta = {
+                    navy: { label: "Navy", hex: "#1A2B4A", desc: "Neutral" },
+                    red: { label: "Rojo", hex: "#9e1915", desc: "Acción" },
+                    gold: { label: "Dorado", hex: "#C9A84C", desc: "Premium" },
+                  }[opt];
+                  const selected = acento === opt;
+                  return (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => setAcento(opt)}
+                      className="flex items-center gap-2 px-3 py-2 transition-all"
+                      style={{
+                        background: selected ? "#F4F1EB" : "#FFFFFF",
+                        border: selected ? `2px solid ${meta.hex}` : "1px solid #E8E4DD",
+                        borderRadius: 8,
+                        cursor: "pointer",
+                        fontFamily: "inherit",
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: 14,
+                          height: 14,
+                          borderRadius: "50%",
+                          background: meta.hex,
+                          display: "inline-block",
+                        }}
+                      />
+                      <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
+                        {meta.label}
+                      </span>
+                      <span style={{ fontSize: 10, color: "#A0AABA" }}>{meta.desc}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label style={fieldLabel}>Eyebrow (texto pequeño antes del título)</label>
+              <input
+                type="text"
+                value={eyebrow}
+                onChange={(e) => setEyebrow(e.target.value)}
+                placeholder={'Opcional. Ej. "¡Felicitaciones!" o "Recibimos tu mensaje"'}
+                style={inputStyle}
+              />
+              <span style={{ fontSize: 10, color: "#A0AABA" }}>
+                Soporta variables. Aparece arriba del título grande en el color de acento.
+              </span>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label style={fieldLabel}>Imagen banner del hero (opcional)</label>
+              <ImageUploader
+                label=""
+                value={heroImageUrl}
+                onChange={setHeroImageUrl}
+                prefix={`correos/admision/${estado}`}
+                previewAspect="16/9"
+              />
+              <span style={{ fontSize: 10, color: "#A0AABA" }}>
+                Recomendado solo para correos de celebración (admitido / matriculado). Ratio
+                ~16:11 — el ancho del email es 640px.
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="flex flex-col gap-2">
+                <label style={fieldLabel}>Texto del botón CTA (opcional)</label>
+                <input
+                  type="text"
+                  value={ctaLabel}
+                  onChange={(e) => setCtaLabel(e.target.value)}
+                  placeholder='Ej. "Ver estado de mi solicitud →"'
+                  style={inputStyle}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label style={fieldLabel}>URL del botón CTA</label>
+                <input
+                  type="text"
+                  value={ctaUrl}
+                  onChange={(e) => setCtaUrl(e.target.value)}
+                  placeholder="{{url_seguimiento}} o https://..."
+                  style={inputStyle}
+                />
+              </div>
+            </div>
+            <span style={{ fontSize: 10, color: "#A0AABA" }}>
+              El botón solo aparece si tanto el texto como la URL están completos. Ambos
+              soportan variables.
+            </span>
+
+            <div className="flex flex-col gap-2">
+              <label style={fieldLabel}>Texto helper bajo el CTA (opcional)</label>
+              <input
+                type="text"
+                value={helperText}
+                onChange={(e) => setHelperText(e.target.value)}
+                placeholder='Ej. "o responde a este correo si tienes preguntas."'
+                style={inputStyle}
+              />
             </div>
           </div>
 

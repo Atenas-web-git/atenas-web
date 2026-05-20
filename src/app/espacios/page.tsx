@@ -139,7 +139,7 @@ export default async function EspaciosPage() {
           description={c?.seccion?.description ?? FALLBACK_SECCION.description}
           items={items}
           cols={3}
-          bgColor="#F8F5F0"
+          bgColor="var(--color-cream)"
         />
         <FooterCTA />
       </main>

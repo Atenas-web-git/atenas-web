@@ -25,6 +25,9 @@ const PLANTILLAS_SELECCIONABLES: PlantillaSlug[] = [
   "tpl_i_historia",
   "tpl_j_landing_matriculas",
   "tpl_m_home",
+  "tpl_r_grid_personas",
+  "tpl_s_documento_politica",
+  "tpl_t_portal_accesos",
 ];
 
 export function CambiarPlantillaBtn({ paginaId, plantillaActual, slug }: Props) {

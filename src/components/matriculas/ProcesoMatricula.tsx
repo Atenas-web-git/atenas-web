@@ -53,7 +53,7 @@ export function ProcesoMatricula({ proceso }: Props) {
             <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "#9B1B1B", letterSpacing: 2.5, textTransform: "uppercase" }}>
               {proceso.badge}
             </span>
-            <h2 style={{ fontFamily: "Poppins, sans-serif", fontSize: "clamp(22px,5vw,30px)", fontWeight: 700, color: "#0D1825", lineHeight: 1.15 }}>
+            <h2 style={{ fontFamily: "Poppins, sans-serif", fontSize: "clamp(22px,5vw,30px)", fontWeight: 700, color: "var(--color-dark)", lineHeight: 1.15 }}>
               {proceso.heading}
             </h2>
           </motion.div>
@@ -120,7 +120,7 @@ export function ProcesoMatricula({ proceso }: Props) {
                   {proceso.badge}
                 </span>
               </div>
-              <h2 style={{ fontFamily: "Poppins, sans-serif", fontSize: "clamp(24px,2vw,32px)", fontWeight: 700, color: "#0D1825", lineHeight: 1.15 }}>
+              <h2 style={{ fontFamily: "Poppins, sans-serif", fontSize: "clamp(24px,2vw,32px)", fontWeight: 700, color: "var(--color-dark)", lineHeight: 1.15 }}>
                 {proceso.heading}
               </h2>
               {proceso.subtitle && (
@@ -143,8 +143,8 @@ export function ProcesoMatricula({ proceso }: Props) {
 }
 
 function PasoCard({ paso, index, inView }: { paso: PasoMatriculaPlantillaJ; index: number; inView: boolean }) {
-  const bg = paso.isRed ? "#9B1B1B" : "#0D1825";
-  const numColor = paso.isRed ? "rgba(255,255,255,0.45)" : "#C9A84C";
+  const bg = paso.isRed ? "#9B1B1B" : "var(--color-dark)";
+  const numColor = paso.isRed ? "rgba(255,255,255,0.45)" : "var(--color-gold)";
 
   return (
     <motion.div

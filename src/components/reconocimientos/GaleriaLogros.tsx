@@ -37,7 +37,7 @@ export function GaleriaLogros({
   const teaserPhotos = photos.slice(0, 5);
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden" style={{ background: "#1A2B4A" }}>
+    <section ref={sectionRef} className="relative overflow-hidden" style={{ background: "var(--color-navy)" }}>
       {/* Parallax bg */}
       <motion.div className="absolute inset-0 pointer-events-none" style={{ y: bgY, opacity: 0.15 }}>
         {teaserPhotos[0] && (
@@ -184,7 +184,7 @@ export function GaleriaLogros({
                   fontFamily: "Poppins, sans-serif",
                   fontSize: 13,
                   fontWeight: 700,
-                  color: "#C9A84C",
+                  color: "var(--color-gold)",
                   background: "rgba(201,168,76,0.10)",
                   border: "1.5px solid rgba(201,168,76,0.45)",
                   textDecoration: "none",

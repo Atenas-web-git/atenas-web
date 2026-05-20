@@ -86,7 +86,7 @@ export function SeccionPasos({ intro, galeria, tarjetas, pasos, nota, anchorId }
     >
       <div
         className="absolute left-0 top-0 bottom-0"
-        style={{ width: 4, background: "#C9A84C" }}
+        style={{ width: 4, background: "var(--color-gold)" }}
       />
 
       <div
@@ -103,13 +103,13 @@ export function SeccionPasos({ intro, galeria, tarjetas, pasos, nota, anchorId }
           >
             {intro?.badge && (
               <div className="flex items-center gap-[10px]">
-                <span className="block bg-[#C9A84C]" style={{ width: 24, height: 2 }} />
+                <span className="block bg-gold" style={{ width: 24, height: 2 }} />
                 <span
                   style={{
                     fontFamily: "Poppins, sans-serif",
                     fontSize: 10,
                     fontWeight: 700,
-                    color: "#C9A84C",
+                    color: "var(--color-gold)",
                     letterSpacing: 2.5,
                     textTransform: "uppercase",
                   }}
@@ -310,7 +310,7 @@ export function SeccionPasos({ intro, galeria, tarjetas, pasos, nota, anchorId }
                               fontFamily: "Poppins, sans-serif",
                               fontSize: 12,
                               fontWeight: f.destacado ? 700 : 500,
-                              color: f.destacado ? "#C9A84C" : "rgba(255,255,255,0.75)",
+                              color: f.destacado ? "var(--color-gold)" : "rgba(255,255,255,0.75)",
                             }}
                           >
                             {f.value}
@@ -337,13 +337,13 @@ export function SeccionPasos({ intro, galeria, tarjetas, pasos, nota, anchorId }
               <div className="flex flex-col gap-1">
                 {pasos!.badge && (
                   <div className="flex items-center gap-[10px]">
-                    <span className="block bg-[#C9A84C]" style={{ width: 24, height: 2 }} />
+                    <span className="block bg-gold" style={{ width: 24, height: 2 }} />
                     <span
                       style={{
                         fontFamily: "Poppins, sans-serif",
                         fontSize: 10,
                         fontWeight: 700,
-                        color: "#C9A84C",
+                        color: "var(--color-gold)",
                         letterSpacing: 2.5,
                         textTransform: "uppercase",
                       }}
@@ -369,7 +369,7 @@ export function SeccionPasos({ intro, galeria, tarjetas, pasos, nota, anchorId }
 
             <div className="flex flex-col gap-[8px]">
               {pasos!.items.map((p, i) => {
-                const numColor = p.destacado ? "rgba(255,255,255,0.5)" : "#C9A84C";
+                const numColor = p.destacado ? "rgba(255,255,255,0.5)" : "var(--color-gold)";
                 const bg = p.destacado ? "#9B1B1B" : "rgba(255,255,255,0.03)";
                 return (
                   <motion.div

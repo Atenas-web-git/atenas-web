@@ -20,6 +20,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/el-atenas/politica-calidad",
+        destination: "/politicas/calidad",
+        permanent: true,
+      },
+      {
+        source: "/el-atenas/politica-seguridad",
+        destination: "/politicas/seguridad",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

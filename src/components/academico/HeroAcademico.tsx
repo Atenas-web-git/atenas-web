@@ -15,7 +15,7 @@ type Props = { hero: ContenidoPlantillaH["hero"] };
 
 export function HeroAcademico({ hero }: Props) {
   return (
-    <section className="relative overflow-hidden bg-[#0D1825] min-h-[560px] md:min-h-[640px]">
+    <section className="relative overflow-hidden bg-dark min-h-[560px] md:min-h-[640px]">
 
       {/* Fondo con overlay */}
       <div className="absolute inset-0">
@@ -64,12 +64,12 @@ export function HeroAcademico({ hero }: Props) {
         {/* Badge dorado */}
         <motion.div
           className="absolute z-20 flex flex-col gap-[3px] rounded-[10px] px-4 py-3"
-          style={{ background: "#C9A84C", right: 10, bottom: 30, boxShadow: "0 8px 24px rgba(0,0,0,0.40)" }}
+          style={{ background: "var(--color-gold)", right: 10, bottom: 30, boxShadow: "0 8px 24px rgba(0,0,0,0.40)" }}
           initial={{ opacity: 0, scale: 0.7 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 1.15, ease }}
         >
-          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:20, fontWeight:700, color:"#0D1825", lineHeight:1 }}>{hero.floatingBadgeValue}</span>
+          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:20, fontWeight:700, color:"var(--color-dark)", lineHeight:1 }}>{hero.floatingBadgeValue}</span>
           <span style={{ fontFamily:"Poppins,sans-serif", fontSize:9, fontWeight:700, color:"rgba(13,24,37,0.70)", letterSpacing:1 }}>
             {hero.floatingBadgeLabel}
           </span>
@@ -77,7 +77,7 @@ export function HeroAcademico({ hero }: Props) {
 
         <motion.div
           className="absolute"
-          style={{ left: 30, top: -20, width: 2, height: 60, background: "#C9A84C", opacity: 0.5 }}
+          style={{ left: 30, top: -20, width: 2, height: 60, background: "var(--color-gold)", opacity: 0.5 }}
           initial={{ scaleY: 0, originY: 0 }}
           animate={{ scaleY: 1 }}
           transition={{ duration: 0.6, delay: 0.4, ease }}
@@ -93,13 +93,13 @@ export function HeroAcademico({ hero }: Props) {
           transition={{ duration:0.5, delay:0.1, ease }}
         >
           <motion.span
-            className="block bg-[#C9A84C] flex-shrink-0"
+            className="block bg-gold flex-shrink-0"
             style={{ width:28, height:2 }}
             initial={{ scaleX:0, originX:0 }}
             animate={{ scaleX:1 }}
             transition={{ duration:0.4, delay:0.15, ease }}
           />
-          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"#C9A84C", letterSpacing:2, textTransform:"uppercase" }}>
+          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"var(--color-gold)", letterSpacing:2, textTransform:"uppercase" }}>
             {hero.badge}
           </span>
         </motion.div>
@@ -109,7 +109,7 @@ export function HeroAcademico({ hero }: Props) {
             <div key={i} className="overflow-hidden">
               <motion.span
                 className="block font-bold"
-                style={{ fontFamily:"Poppins,sans-serif", fontSize:"clamp(44px,5vw,72px)", fontWeight:700, lineHeight:1.1, color: i===0 ? "#FFFFFF" : "#C9A84C" }}
+                style={{ fontFamily:"Poppins,sans-serif", fontSize:"clamp(44px,5vw,72px)", fontWeight:700, lineHeight:1.1, color: i===0 ? "#FFFFFF" : "var(--color-gold)" }}
                 initial={{ y:70, opacity:0 }}
                 animate={{ y:0, opacity:1 }}
                 transition={{ duration:0.75, delay:0.28 + i*0.13, ease }}
@@ -135,8 +135,8 @@ export function HeroAcademico({ hero }: Props) {
                 className="rounded-full px-[14px] py-[6px] text-[11px] font-bold"
                 style={{
                   fontFamily:"Poppins,sans-serif",
-                  background: c.highlight ? "#C9A84C" : "rgba(255,255,255,0.08)",
-                  color: c.highlight ? "#0D1825" : "rgba(255,255,255,0.70)",
+                  background: c.highlight ? "var(--color-gold)" : "rgba(255,255,255,0.08)",
+                  color: c.highlight ? "var(--color-dark)" : "rgba(255,255,255,0.70)",
                   letterSpacing: 0.5,
                 }}
               >
@@ -176,7 +176,7 @@ function Subtitle({ text, highlight }: { text: string; highlight: string }) {
       <span className="relative inline-block">
         {highlight}
         <motion.span
-          className="absolute left-0 right-0 -bottom-0.5 block bg-[#C9A84C]"
+          className="absolute left-0 right-0 -bottom-0.5 block bg-gold"
           style={{ height:3, borderRadius:2 }}
           initial={{ scaleX:0, originX:0 }}
           animate={{ scaleX:1 }}

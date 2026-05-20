@@ -30,7 +30,7 @@ export function SeccionTexto({
   const inView = useInView(ref, { once: true, amount: 0.1 });
 
   return (
-    <section ref={ref} id={anchorId || undefined} className="bg-[#F8F5F0] scroll-mt-24">
+    <section ref={ref} id={anchorId || undefined} className="bg-cream scroll-mt-24">
       <div className="px-6 py-20 md:px-[160px] md:py-[100px]">
         <div className="flex flex-col md:flex-row gap-12 md:gap-20 items-start">
 
@@ -44,7 +44,7 @@ export function SeccionTexto({
             {/* Badge */}
             <div className="flex items-center gap-[10px]">
               <span
-                className="block bg-[#C9A84C]"
+                className="block bg-gold"
                 style={{ width: 28, height: 2 }}
               />
               <span
@@ -52,7 +52,7 @@ export function SeccionTexto({
                   fontFamily: "Poppins, sans-serif",
                   fontSize: 10,
                   fontWeight: 700,
-                  color: "#C9A84C",
+                  color: "var(--color-gold)",
                   letterSpacing: 2,
                   textTransform: "uppercase",
                 }}
@@ -67,7 +67,7 @@ export function SeccionTexto({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: "clamp(26px, 2.5vw, 38px)",
                 fontWeight: 700,
-                color: "#1A2B4A",
+                color: "var(--color-navy)",
                 lineHeight: 1.15,
               }}
             >
@@ -75,7 +75,7 @@ export function SeccionTexto({
             </h2>
 
             {/* Gold divider */}
-            <div style={{ width: 60, height: 3, background: "#C9A84C" }} />
+            <div style={{ width: 60, height: 3, background: "var(--color-gold)" }} />
 
             {/* Párrafos */}
             <div className="flex flex-col gap-5">
@@ -87,7 +87,7 @@ export function SeccionTexto({
                     fontSize: i === 0 ? 20 : 15,
                     color:
                       i === 0
-                        ? "#1A2B4A"
+                        ? "var(--color-navy)"
                         : "rgba(26,43,74,0.58)",
                     lineHeight: 1.75,
                   }}
@@ -104,7 +104,7 @@ export function SeccionTexto({
                   fontSize: 13,
                   color: "rgba(26,43,74,0.45)",
                   lineHeight: 1.65,
-                  borderLeft: "2px solid #C9A84C",
+                  borderLeft: "2px solid var(--color-gold)",
                   paddingLeft: 14,
                 }}
               >
@@ -147,7 +147,7 @@ export function SeccionTexto({
                   marginTop: 16,
                   height: 2,
                   background:
-                    "linear-gradient(90deg, #C9A84C 0%, transparent 100%)",
+                    "linear-gradient(90deg, var(--color-gold) 0%, transparent 100%)",
                 }}
               />
             </motion.div>

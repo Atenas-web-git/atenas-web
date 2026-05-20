@@ -31,7 +31,7 @@ export function InfoContactos({
   const inView = useInView(ref, { once: true, amount: 0.1 });
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-[#F8F5F0]">
+    <section ref={ref} className="relative overflow-hidden bg-cream">
 
       {/* ─── Franja fotográfica ─── */}
       <div className="relative w-full overflow-hidden" style={{ height: 220 }}>
@@ -46,7 +46,7 @@ export function InfoContactos({
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to bottom, transparent 0%, #F8F5F0 85%)",
+              "linear-gradient(to bottom, transparent 0%, var(--color-cream) 85%)",
           }}
         />
       </div>
@@ -76,7 +76,7 @@ export function InfoContactos({
         >
           <div className="flex items-center gap-[10px]">
             <span
-              className="block bg-[#C9A84C]"
+              className="block bg-gold"
               style={{ width: 28, height: 2 }}
             />
             <span
@@ -84,7 +84,7 @@ export function InfoContactos({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: 10,
                 fontWeight: 700,
-                color: "#C9A84C",
+                color: "var(--color-gold)",
                 letterSpacing: 2,
                 textTransform: "uppercase",
               }}
@@ -97,7 +97,7 @@ export function InfoContactos({
               fontFamily: "Poppins, sans-serif",
               fontSize: "clamp(22px, 2.22vw, 32px)",
               fontWeight: 700,
-              color: "#1A2B4A",
+              color: "var(--color-navy)",
             }}
           >
             {canales.heading}
@@ -116,13 +116,13 @@ export function InfoContactos({
             transition={{ duration: 0.6, delay: 0.1, ease }}
           >
             <div className="flex items-center gap-[14px]">
-              <Phone size={22} color="#C9A84C" />
+              <Phone size={22} color="var(--color-gold)" />
               <span
                 style={{
                   fontFamily: "Poppins, sans-serif",
                   fontSize: 18,
                   fontWeight: 700,
-                  color: "#1A2B4A",
+                  color: "var(--color-navy)",
                 }}
               >
                 {canales.tarjetaTelefono.titulo}
@@ -134,7 +134,7 @@ export function InfoContactos({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: 28,
                 fontWeight: 700,
-                color: "#1A2B4A",
+                color: "var(--color-navy)",
                 letterSpacing: -0.5,
               }}
             >
@@ -151,7 +151,7 @@ export function InfoContactos({
                     fontFamily: "Poppins, sans-serif",
                     fontSize: 13,
                     color: primary
-                      ? "#1A2B4A"
+                      ? "var(--color-navy)"
                       : "rgba(26,43,74,0.55)",
                     lineHeight: 1.4,
                   }}
@@ -171,13 +171,13 @@ export function InfoContactos({
             transition={{ duration: 0.6, delay: 0.22, ease }}
           >
             <div className="flex items-center gap-[14px]">
-              <MapPin size={22} color="#C9A84C" />
+              <MapPin size={22} color="var(--color-gold)" />
               <span
                 style={{
                   fontFamily: "Poppins, sans-serif",
                   fontSize: 18,
                   fontWeight: 700,
-                  color: "#1A2B4A",
+                  color: "var(--color-navy)",
                 }}
               >
                 {canales.tarjetaDireccion.titulo}
@@ -190,7 +190,7 @@ export function InfoContactos({
                   fontFamily: "Poppins, sans-serif",
                   fontSize: 20,
                   fontWeight: 700,
-                  color: "#1A2B4A",
+                  color: "var(--color-navy)",
                 }}
               >
                 {direccionLinea1}
@@ -216,7 +216,7 @@ export function InfoContactos({
                 style={{
                   fontFamily: "Poppins, sans-serif",
                   fontSize: 14,
-                  color: "#1A2B4A",
+                  color: "var(--color-navy)",
                   lineHeight: 1.5,
                 }}
               >
@@ -239,7 +239,7 @@ export function InfoContactos({
           <motion.div
             className="flex-1 flex flex-col gap-5 rounded-[16px] p-7 md:p-8"
             style={{
-              background: "#1A2B4A",
+              background: "var(--color-navy)",
               boxShadow: "0 8px 32px rgba(26,43,74,0.20)",
             }}
             initial={{ opacity: 0, y: 30 }}
@@ -247,7 +247,7 @@ export function InfoContactos({
             transition={{ duration: 0.6, delay: 0.34, ease }}
           >
             <div className="flex items-center gap-[14px]">
-              <Mail size={22} color="#C9A84C" />
+              <Mail size={22} color="var(--color-gold)" />
               <span
                 style={{
                   fontFamily: "Poppins, sans-serif",
@@ -265,7 +265,7 @@ export function InfoContactos({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: 16,
                 fontWeight: 600,
-                color: "#C9A84C",
+                color: "var(--color-gold)",
               }}
             >
               {emailPrincipal}
@@ -298,7 +298,7 @@ export function InfoContactos({
                   ? "noopener noreferrer"
                   : undefined
               }
-              className="inline-flex items-center gap-2 self-start rounded-[8px] px-[18px] py-[10px] font-bold text-[13px] bg-[#C9A84C] text-[#0D1825] hover:bg-[#dbb95a] transition-colors"
+              className="inline-flex items-center gap-2 self-start rounded-[8px] px-[18px] py-[10px] font-bold text-[13px] bg-gold text-dark hover:bg-[#dbb95a] transition-colors"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
               {canales.tarjetaEmail.ctaLabel}

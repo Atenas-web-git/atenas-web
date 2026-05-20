@@ -169,7 +169,7 @@ function Bloque({
         transition={{ duration: 0.45, delay, ease }}
       >
         <motion.span
-          className="block bg-[#C9A84C] flex-shrink-0"
+          className="block bg-gold flex-shrink-0"
           style={{ width: 24, height: 2 }}
           initial={{ scaleX: 0, originX: 0 }}
           animate={inView ? { scaleX: 1 } : {}}
@@ -180,7 +180,7 @@ function Bloque({
             fontFamily: "Poppins, sans-serif",
             fontSize: 10,
             fontWeight: 700,
-            color: "#C9A84C",
+            color: "var(--color-gold)",
             letterSpacing: 2.5,
             textTransform: "uppercase",
           }}
@@ -243,7 +243,7 @@ function LogroCard({
       className="relative overflow-hidden flex flex-col"
       style={{
         borderRadius: 14,
-        background: "#0D1825",
+        background: "var(--color-dark)",
         border: destacado
           ? "1.5px solid rgba(201,168,76,0.55)"
           : "1px solid rgba(255,255,255,0.08)",
@@ -292,8 +292,8 @@ function LogroCard({
             className="absolute flex items-center gap-1 rounded-full px-2 py-1"
             style={{ top: 14, left: 14, background: "rgba(201,168,76,0.92)" }}
           >
-            <Star size={10} fill="#0D1825" color="#0D1825" />
-            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 9, fontWeight: 700, color: "#0D1825", letterSpacing: 0.5 }}>
+            <Star size={10} fill="var(--color-dark)" color="var(--color-dark)" />
+            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 9, fontWeight: 700, color: "var(--color-dark)", letterSpacing: 0.5 }}>
               DESTACADO
             </span>
           </div>
@@ -352,7 +352,7 @@ function LogroCard({
                 style={{
                   width: i === activePhoto ? 18 : 6,
                   height: 6,
-                  background: i === activePhoto ? "#C9A84C" : "rgba(255,255,255,0.35)",
+                  background: i === activePhoto ? "var(--color-gold)" : "rgba(255,255,255,0.35)",
                   border: "none",
                   padding: 0,
                   cursor: "pointer",

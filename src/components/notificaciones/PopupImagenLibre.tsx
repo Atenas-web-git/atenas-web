@@ -48,7 +48,7 @@ export function PopupImagenLibre({
         aspectRatio: "1 / 1",
         borderRadius: 16,
         boxShadow: "0 24px 60px rgba(0,0,0,0.40)",
-        background: "#0D1825",
+        background: "var(--color-dark)",
         fontFamily: "Poppins, sans-serif",
       }}
       onClick={(e) => e.stopPropagation()}
@@ -85,7 +85,7 @@ export function PopupImagenLibre({
           alignItems: "center",
           justifyContent: "center",
           background: "rgba(255,255,255,0.92)",
-          color: "#1A2B4A",
+          color: "var(--color-navy)",
           border: "none",
           borderRadius: "50%",
           cursor: "pointer",

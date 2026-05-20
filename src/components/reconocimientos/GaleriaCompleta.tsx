@@ -28,13 +28,13 @@ export function GaleriaCompleta({
           transition={{ duration: 0.5, ease }}
         >
           <div className="flex items-center gap-[10px]">
-            <span className="block bg-[#C9A84C]" style={{ width: 24, height: 2 }} />
+            <span className="block bg-gold" style={{ width: 24, height: 2 }} />
             <span
               style={{
                 fontFamily: "Poppins, sans-serif",
                 fontSize: 10,
                 fontWeight: 700,
-                color: "#C9A84C",
+                color: "var(--color-gold)",
                 letterSpacing: 2.5,
                 textTransform: "uppercase",
               }}
@@ -109,7 +109,7 @@ export function GaleriaCompleta({
                       padding: 0,
                       border: "1px solid rgba(255,255,255,0.06)",
                       cursor: "pointer",
-                      background: "#0D1825",
+                      background: "var(--color-dark)",
                     }}
                     initial={{ opacity: 0, scale: 0.96 }}
                     whileInView={{ opacity: 1, scale: 1 }}

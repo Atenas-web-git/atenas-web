@@ -5,6 +5,17 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
 import {
+  getConfiguracion,
+  mergeMarca,
+  mergeContacto,
+  mergeCorreosDiseno,
+  mergeNavbar,
+  type Marca,
+  type Contacto,
+  type CorreosDiseno,
+  type NavbarConfig,
+} from "@/lib/cms/getConfiguracion";
+import {
   TIPOS_PLANTILLA_FORMULARIO,
   TIPOS_PLANTILLA_INFO,
   type TipoPlantillaFormulario,
@@ -35,11 +46,24 @@ export default async function EditarPlantillaFormularioPage({
   }
 
   const supabase = createAdminClient();
-  const { data: plantilla } = await supabase
-    .from("plantillas_correo_formularios")
-    .select("tipo, titulo, asunto, cuerpo_html, activo")
-    .eq("tipo", tipo)
-    .maybeSingle();
+  const [{ data: plantilla }, marcaRaw, contactoRaw, disenoRaw, navbarRaw] =
+    await Promise.all([
+      supabase
+        .from("plantillas_correo_formularios")
+        .select(
+          "tipo, titulo, asunto, cuerpo_html, activo, acento, eyebrow, hero_image_url, cta_label, cta_url, helper_text"
+        )
+        .eq("tipo", tipo)
+        .maybeSingle(),
+      getConfiguracion<Partial<Marca>>("marca"),
+      getConfiguracion<Partial<Contacto>>("contacto"),
+      getConfiguracion<Partial<CorreosDiseno>>("correos_diseno"),
+      getConfiguracion<Partial<NavbarConfig>>("navbar"),
+    ]);
+  const marca = mergeMarca(marcaRaw);
+  const contacto = mergeContacto(contactoRaw);
+  const diseno = mergeCorreosDiseno(disenoRaw);
+  const navbar = mergeNavbar(navbarRaw);
 
   return (
     <div className="flex flex-col gap-6 p-8">
@@ -71,8 +95,18 @@ export default async function EditarPlantillaFormularioPage({
           "<p>Hola, gracias por contactarte con nosotros.</p>"
         }
         initialActivo={plantilla?.activo ?? true}
+        initialAcento={(plantilla?.acento as "navy" | "red" | "gold" | undefined) ?? "navy"}
+        initialEyebrow={plantilla?.eyebrow ?? ""}
+        initialHeroImageUrl={plantilla?.hero_image_url ?? ""}
+        initialCtaLabel={plantilla?.cta_label ?? ""}
+        initialCtaUrl={plantilla?.cta_url ?? ""}
+        initialHelperText={plantilla?.helper_text ?? ""}
         variables={info.variables}
         sample={info.sample}
+        marca={marca}
+        contacto={contacto}
+        diseno={diseno}
+        navbar={navbar}
       />
     </div>
   );

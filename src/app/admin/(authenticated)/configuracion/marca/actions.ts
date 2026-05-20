@@ -63,6 +63,8 @@ export async function guardarMarcaAction(
     nombre: String(formData.get("nombre_institucion") ?? "").trim() || "Unidad Educativa Atenas",
     ruc: String(formData.get("ruc") ?? "").trim(),
     direccion: String(formData.get("direccion") ?? "").trim(),
+    ciudad: String(formData.get("ciudad") ?? "").trim() || "Ambato, Ecuador",
+    sitioWeb: String(formData.get("sitio_web") ?? "").trim() || "https://atenas.edu.ec",
     anioFundacion:
       Number.isFinite(anioFundacion) && anioFundacion > 1800 && anioFundacion < 3000
         ? anioFundacion

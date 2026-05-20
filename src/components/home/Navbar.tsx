@@ -3,8 +3,10 @@ import {
   getConfiguracion,
   mergeMegaMenu,
   mergeContacto,
+  mergeNavbar,
   type MegaMenuConfig,
   type Contacto,
+  type NavbarConfig,
 } from "@/lib/cms/getConfiguracion";
 import { NavbarClient } from "./NavbarClient";
 
@@ -25,8 +27,8 @@ const FALLBACK_MENU: MenuCategoria[] = [
       { id: "fb-mision",           label: "Misión",                  href: "/el-atenas/mision",             external: false, badge: null },
       { id: "fb-vision",           label: "Visión",                  href: "/el-atenas/vision",             external: false, badge: null },
       { id: "fb-valores",          label: "Valores Institucionales", href: "/el-atenas/valores",            external: false, badge: null },
-      { id: "fb-pol-calidad",      label: "Política de Calidad",     href: "/el-atenas/politica-calidad",   external: false, badge: null },
-      { id: "fb-pol-seguridad",    label: "Política de Seguridad",   href: "/el-atenas/politica-seguridad", external: false, badge: null },
+      { id: "fb-pol-calidad",      label: "Política de Calidad",     href: "/politicas/calidad",            external: false, badge: null },
+      { id: "fb-pol-seguridad",    label: "Política de Seguridad",   href: "/politicas/seguridad",          external: false, badge: null },
       { id: "fb-directiva-ppff",   label: "Directiva de PPFF",       href: "/el-atenas/directiva-ppff",     external: false, badge: null },
       { id: "fb-directorio-fcea",  label: "Directorio FCEA",         href: "/el-atenas/directorio-fcea",    external: false, badge: null },
     ],
@@ -160,19 +162,22 @@ function deriveContactoDelMenu(contacto: Contacto) {
 }
 
 export async function Navbar() {
-  const [categoriasDB, megaMenuRaw, contactoRaw] = await Promise.all([
+  const [categoriasDB, megaMenuRaw, contactoRaw, navbarRaw] = await Promise.all([
     getMegaMenu(),
     getConfiguracion<Partial<MegaMenuConfig>>("mega_menu"),
     getConfiguracion<Partial<Contacto>>("contacto"),
+    getConfiguracion<Partial<NavbarConfig>>("navbar"),
   ]);
   const categorias = categoriasDB.length > 0 ? categoriasDB : FALLBACK_MENU;
   const megaMenuCfg = mergeMegaMenu(megaMenuRaw);
   const contacto = mergeContacto(contactoRaw);
+  const navbarCfg = mergeNavbar(navbarRaw);
   const contactoMenu = deriveContactoDelMenu(contacto);
   return (
     <NavbarClient
       categorias={categorias}
       megaMenuCfg={megaMenuCfg}
+      navbarCfg={navbarCfg}
       phoneLine={contactoMenu.phoneLine}
       mobileContactLines={contactoMenu.mobileContactLines}
     />

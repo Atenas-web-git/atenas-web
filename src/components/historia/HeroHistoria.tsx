@@ -9,7 +9,7 @@ type Props = { hero: ContenidoPlantillaI["hero"] };
 
 export function HeroHistoria({ hero }: Props) {
   return (
-    <section className="relative overflow-hidden bg-[#0D1825] min-h-[660px] md:min-h-[900px]">
+    <section className="relative overflow-hidden bg-dark min-h-[660px] md:min-h-[900px]">
       {/* Foto de fondo */}
       <div className="absolute inset-0">
         {hero.bgImageSrc && (
@@ -86,13 +86,13 @@ export function HeroHistoria({ hero }: Props) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1, ease }}
         >
-          <span className="block bg-[#C9A84C] flex-shrink-0" style={{ width: 28, height: 2 }} />
+          <span className="block bg-gold flex-shrink-0" style={{ width: 28, height: 2 }} />
           <span
             style={{
               fontFamily: "Poppins, sans-serif",
               fontSize: 10,
               fontWeight: 700,
-              color: "#C9A84C",
+              color: "var(--color-gold)",
               letterSpacing: 2,
               textTransform: "uppercase",
             }}
@@ -111,7 +111,7 @@ export function HeroHistoria({ hero }: Props) {
                   fontSize: "clamp(44px, 5.28vw, 76px)",
                   fontWeight: 700,
                   lineHeight: 1.1,
-                  color: i === 0 ? "#FFFFFF" : "#C9A84C",
+                  color: i === 0 ? "#FFFFFF" : "var(--color-gold)",
                 }}
                 initial={{ y: 60, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}

@@ -145,7 +145,7 @@ export function FooterCTAClient({ footer, socials, contactoLine }: FooterCTAClie
         >
           <motion.a
             href={footer.ctaPrimary.href}
-            className="bg-[#9e1915] text-white text-[14px] font-bold tracking-[0.5px] px-8 py-3 text-center rounded-[6px] w-full sm:w-auto"
+            className="bg-red text-white text-[14px] font-bold tracking-[0.5px] px-8 py-3 text-center rounded-[6px] w-full sm:w-auto"
             whileHover={{ scale: 1.03, filter: "brightness(1.1)" }}
             transition={{ duration: 0.18 }}
           >

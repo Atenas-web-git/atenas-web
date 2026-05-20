@@ -41,7 +41,7 @@ export function PopupTemplateImagenTexto({
         className="relative"
         style={{
           aspectRatio: "1 / 1",
-          background: "linear-gradient(135deg, #1A2B4A 0%, #9e1915 100%)",
+          background: "linear-gradient(135deg, var(--color-navy) 0%, var(--color-red) 100%)",
         }}
       >
         {data.imagen_url && (
@@ -76,7 +76,7 @@ export function PopupTemplateImagenTexto({
             alignItems: "center",
             justifyContent: "center",
             background: "rgba(255,255,255,0.92)",
-            color: "#1A2B4A",
+            color: "var(--color-navy)",
             border: "none",
             borderRadius: "50%",
             cursor: "pointer",
@@ -97,13 +97,13 @@ export function PopupTemplateImagenTexto({
           <div className="flex items-center gap-2">
             <span
               className="block"
-              style={{ width: 4, height: 18, background: "#9e1915" }}
+              style={{ width: 4, height: 18, background: "var(--color-red)" }}
             />
             <span
               style={{
                 fontSize: 10,
                 fontWeight: 700,
-                color: "#9e1915",
+                color: "var(--color-red)",
                 letterSpacing: 2,
                 textTransform: "uppercase",
               }}
@@ -117,7 +117,7 @@ export function PopupTemplateImagenTexto({
           style={{
             fontSize: 22,
             fontWeight: 700,
-            color: "#1A2B4A",
+            color: "var(--color-navy)",
             margin: 0,
             lineHeight: 1.2,
           }}
@@ -143,7 +143,7 @@ export function PopupTemplateImagenTexto({
             className="self-start inline-flex items-center gap-2 mt-2 px-5 transition-colors"
             style={{
               height: 40,
-              background: "#9e1915",
+              background: "var(--color-red)",
               color: "#FFFFFF",
               borderRadius: 6,
               fontSize: 13,

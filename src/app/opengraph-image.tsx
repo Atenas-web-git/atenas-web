@@ -30,7 +30,7 @@ export default async function OGImage() {
           position: "relative",
           width: 1200,
           height: 630,
-          backgroundColor: "#0D1825",
+          backgroundColor: "var(--color-dark)",
           display: "flex",
           overflow: "hidden",
         }}
@@ -197,14 +197,14 @@ export default async function OGImage() {
           }}
         >
           <div
-            style={{ width: 24, height: 2, backgroundColor: "#C9A84C" }}
+            style={{ width: 24, height: 2, backgroundColor: "var(--color-gold)" }}
           />
           <div
             style={{
               fontFamily: "Poppins",
               fontWeight: 700,
               fontSize: 11,
-              color: "#C9A84C",
+              color: "var(--color-gold)",
               letterSpacing: 2,
             }}
           >
@@ -257,7 +257,7 @@ export default async function OGImage() {
             fontFamily: "Poppins",
             fontWeight: 600,
             fontSize: 14,
-            color: "#C9A84C",
+            color: "var(--color-gold)",
             letterSpacing: 0.5,
             display: "flex",
           }}
@@ -283,7 +283,7 @@ export default async function OGImage() {
               fontFamily: "Poppins",
               fontWeight: 600,
               fontSize: 13,
-              color: "#0D1825",
+              color: "var(--color-dark)",
             }}
           >
             atenas.edu.ec

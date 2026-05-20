@@ -15,7 +15,7 @@ export function NavReconocimientosClient({
 }) {
   return (
     <motion.nav
-      className="w-full bg-[#1A2B4A] overflow-x-auto"
+      className="w-full bg-navy overflow-x-auto"
       style={{ height: 64, flexShrink: 0 }}
       initial={{ y: -16, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -45,7 +45,7 @@ export function NavReconocimientosClient({
                   {item.nombre}
                 </span>
                 <motion.span
-                  className="block w-full bg-[#C9A84C]"
+                  className="block w-full bg-gold"
                   style={{ height: 2 }}
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}

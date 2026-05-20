@@ -49,7 +49,7 @@ export function Intro() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.85, ease }}
             >
-              <path fill="#1A2B4A" d={ATENAS_PATH} />
+              <path fill="var(--color-navy)" d={ATENAS_PATH} />
             </motion.svg>
 
             {/* "para toda la vida" — script en rojo, visible desktop y mobile */}
@@ -64,9 +64,9 @@ export function Intro() {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.55, ease }}
                 >
-                  <path fill="#9e1915" d={PTVIDA_PATH1} />
+                  <path fill="var(--color-red)" d={PTVIDA_PATH1} />
                   <g transform="translate(497.29, 0.02)">
-                    <path fill="#9e1915" d={PTVIDA_PATH2} />
+                    <path fill="var(--color-red)" d={PTVIDA_PATH2} />
                   </g>
                 </motion.svg>
               )}

@@ -59,7 +59,7 @@ function LevelCard({ num, title, grades, age, highlight, delay, index }: {
       whileHover={{ y:-8, transition:{ duration:0.25 } }}
     >
       <motion.span
-        style={{ fontFamily:"Poppins,sans-serif", fontSize:highlight ? 24 : 30, fontWeight:700, color:"#C9A84C", lineHeight:1 }}
+        style={{ fontFamily:"Poppins,sans-serif", fontSize:highlight ? 24 : 30, fontWeight:700, color:"var(--color-gold)", lineHeight:1 }}
         animate={{ scale: hov ? 1.06 : 1 }}
         transition={{ duration:0.2 }}
       >
@@ -96,7 +96,7 @@ export function NivelesAdmisiones({
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#1A2B4A] min-h-[700px] md:min-h-[760px]"
+      className="relative overflow-hidden bg-navy min-h-[700px] md:min-h-[760px]"
     >
       {/* Parallax overlay */}
       <motion.div className="absolute inset-0" style={{ y: bgY,
@@ -122,7 +122,7 @@ export function NivelesAdmisiones({
           {/* Texto — izquierda */}
           <div className="flex-1 md:max-w-[560px]">
             <motion.p
-              style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"#C9A84C", letterSpacing:3, textTransform:"uppercase" }}
+              style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"var(--color-gold)", letterSpacing:3, textTransform:"uppercase" }}
               initial={{ opacity:0, y:14 }}
               animate={inView ? { opacity:1, y:0 } : {}}
               transition={{ duration:0.45, ease }}
@@ -131,7 +131,7 @@ export function NivelesAdmisiones({
             </motion.p>
 
             <motion.span
-              className="block bg-[#C9A84C]"
+              className="block bg-gold"
               style={{ width:40, height:2, marginTop:8, marginBottom:10 }}
               initial={{ scaleX:0, originX:0 }}
               animate={inView ? { scaleX:1 } : {}}
@@ -149,7 +149,7 @@ export function NivelesAdmisiones({
                 <span className="relative inline-block">
                   {headingHighlight}
                   <motion.span
-                    className="absolute left-0 right-0 -bottom-1 block bg-[#C9A84C]"
+                    className="absolute left-0 right-0 -bottom-1 block bg-gold"
                     style={{ height:4, borderRadius:2 }}
                     initial={{ scaleX:0, originX:0 }}
                     animate={inView ? { scaleX:1 } : {}}
@@ -196,16 +196,16 @@ export function NivelesAdmisiones({
                 src={fotoSecundaria}
                 alt="Aula Atenas" fill className="object-cover" sizes="190px"
               />
-              <div className="absolute inset-0 border-[3px] border-[#C9A84C]/45 rounded-[12px]" />
+              <div className="absolute inset-0 border-[3px] border-gold/45 rounded-[12px]" />
             </motion.div>
             <motion.div
               className="absolute z-20 rounded-[8px] px-3 py-2"
-              style={{ background:"#C9A84C", right:0, bottom:10, boxShadow:"0 8px 24px rgba(0,0,0,0.30)" }}
+              style={{ background:"var(--color-gold)", right:0, bottom:10, boxShadow:"0 8px 24px rgba(0,0,0,0.30)" }}
               initial={{ opacity:0, scale:0.75 }}
               animate={inView ? { opacity:1, scale:1 } : {}}
               transition={{ duration:0.45, delay:0.72, ease }}
             >
-              <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"#0D1825", letterSpacing:1 }}>
+              <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"var(--color-dark)", letterSpacing:1 }}>
                 {badgeFloating}
               </span>
             </motion.div>
@@ -234,7 +234,7 @@ export function NivelesAdmisiones({
               viewport={{ once:true, amount:0.2 }}
               transition={{ duration:0.5, delay:0.05*i, ease }}
             >
-              <span style={{ fontFamily:"Poppins,sans-serif", fontSize:n.highlight ? 18 : 22, fontWeight:700, color:"#C9A84C", lineHeight:1, flexShrink:0, width:52, paddingTop:2 }}>
+              <span style={{ fontFamily:"Poppins,sans-serif", fontSize:n.highlight ? 18 : 22, fontWeight:700, color:"var(--color-gold)", lineHeight:1, flexShrink:0, width:52, paddingTop:2 }}>
                 {n.num}
               </span>
               <div className="flex flex-col gap-[3px]">

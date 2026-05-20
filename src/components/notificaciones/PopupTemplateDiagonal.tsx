@@ -31,7 +31,7 @@ export function PopupTemplateDiagonal({
         width: 460,
         maxWidth: "100%",
         maxHeight: "90vh",
-        background: "#0D1825",
+        background: "var(--color-dark)",
         borderRadius: 16,
         boxShadow: "0 24px 60px rgba(0,0,0,0.45)",
         fontFamily: "Poppins, sans-serif",
@@ -47,7 +47,7 @@ export function PopupTemplateDiagonal({
           right: -120,
           width: 400,
           height: 200,
-          background: "#9e1915",
+          background: "var(--color-red)",
           transform: "rotate(-18deg)",
           opacity: 0.92,
         }}
@@ -59,7 +59,7 @@ export function PopupTemplateDiagonal({
           right: -160,
           width: 380,
           height: 4,
-          background: "#C9A84C",
+          background: "var(--color-gold)",
           transform: "rotate(-18deg)",
           opacity: 0.85,
         }}
@@ -71,7 +71,7 @@ export function PopupTemplateDiagonal({
           right: -200,
           width: 380,
           height: 80,
-          background: "#1A2B4A",
+          background: "var(--color-navy)",
           transform: "rotate(-18deg)",
           opacity: 0.5,
         }}
@@ -112,7 +112,7 @@ export function PopupTemplateDiagonal({
             style={{
               fontSize: 9,
               fontWeight: 700,
-              color: "#C9A84C",
+              color: "var(--color-gold)",
               letterSpacing: 2,
               textTransform: "uppercase",
               paddingLeft: 2,
@@ -145,7 +145,7 @@ export function PopupTemplateDiagonal({
           style={{
             width: 48,
             height: 3,
-            background: "#C9A84C",
+            background: "var(--color-gold)",
           }}
         />
 
@@ -168,8 +168,8 @@ export function PopupTemplateDiagonal({
             className="self-start inline-flex items-center gap-2 mt-3 px-6 transition-colors"
             style={{
               height: 44,
-              background: "#C9A84C",
-              color: "#0D1825",
+              background: "var(--color-gold)",
+              color: "var(--color-dark)",
               borderRadius: 6,
               fontSize: 13,
               fontWeight: 700,
@@ -190,7 +190,7 @@ export function PopupTemplateDiagonal({
         style={{
           marginTop: "auto",
           height: 4,
-          background: "linear-gradient(90deg, #9e1915 0%, #C9A84C 50%, #1A2B4A 100%)",
+          background: "linear-gradient(90deg, var(--color-red) 0%, var(--color-gold) 50%, var(--color-navy) 100%)",
         }}
       />
     </motion.div>

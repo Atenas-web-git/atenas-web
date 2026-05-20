@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { User } from "lucide-react";
@@ -9,6 +10,10 @@ const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 export interface DirectorioItem {
   cargo: string;
   nombre: string;
+  /** Email opcional. Si está, aparece como mailto link bajo el cargo. */
+  email?: string;
+  /** Foto opcional. Si está, reemplaza el icono User genérico. */
+  photoSrc?: string;
 }
 
 interface Props {
@@ -17,6 +22,7 @@ interface Props {
   period?: string;
   items: DirectorioItem[];
   note?: string;
+  anchorId?: string;
 }
 
 export function SeccionDirectorio({
@@ -25,12 +31,13 @@ export function SeccionDirectorio({
   period,
   items,
   note,
+  anchorId,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.1 });
 
   return (
-    <section ref={ref} className="bg-[#F8F5F0]">
+    <section ref={ref} id={anchorId || undefined} className="bg-cream scroll-mt-24">
       <div className="px-6 py-20 md:px-[160px] md:py-[100px]">
 
         {/* Encabezado */}
@@ -42,7 +49,7 @@ export function SeccionDirectorio({
         >
           <div className="flex items-center gap-[10px]">
             <span
-              className="block bg-[#C9A84C]"
+              className="block bg-gold"
               style={{ width: 28, height: 2 }}
             />
             <span
@@ -50,7 +57,7 @@ export function SeccionDirectorio({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: 10,
                 fontWeight: 700,
-                color: "#C9A84C",
+                color: "var(--color-gold)",
                 letterSpacing: 2,
                 textTransform: "uppercase",
               }}
@@ -65,7 +72,7 @@ export function SeccionDirectorio({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: "clamp(26px, 2.5vw, 38px)",
                 fontWeight: 700,
-                color: "#1A2B4A",
+                color: "var(--color-navy)",
                 lineHeight: 1.15,
               }}
             >
@@ -77,7 +84,7 @@ export function SeccionDirectorio({
                 style={{
                   fontFamily: "Poppins, sans-serif",
                   background: "rgba(201,168,76,0.14)",
-                  color: "#C9A84C",
+                  color: "var(--color-gold)",
                   border: "1px solid rgba(201,168,76,0.30)",
                 }}
               >
@@ -86,12 +93,12 @@ export function SeccionDirectorio({
             )}
           </div>
 
-          <div style={{ width: 60, height: 3, background: "#C9A84C" }} />
+          <div style={{ width: 60, height: 3, background: "var(--color-gold)" }} />
         </motion.div>
 
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {items.map(({ cargo, nombre }, i) => (
+          {items.map(({ cargo, nombre, email, photoSrc }, i) => (
             <motion.div
               key={i}
               className="bg-white rounded-[14px] p-6 flex items-center gap-4"
@@ -101,18 +108,29 @@ export function SeccionDirectorio({
               transition={{ duration: 0.45, delay: i * 0.07, ease }}
             >
               <div
-                className="rounded-full flex items-center justify-center flex-shrink-0"
-                style={{ width: 44, height: 44, background: "#1A2B4A" }}
+                className="rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden"
+                style={{ width: 56, height: 56, background: "var(--color-navy)" }}
               >
-                <User size={18} color="#C9A84C" />
+                {photoSrc ? (
+                  <Image
+                    src={photoSrc}
+                    alt={nombre}
+                    width={56}
+                    height={56}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                ) : (
+                  <User size={22} color="var(--color-gold)" />
+                )}
               </div>
-              <div>
+              <div className="flex flex-col gap-0.5">
                 <p
                   style={{
                     fontFamily: "Poppins, sans-serif",
                     fontSize: 15,
                     fontWeight: 700,
-                    color: "#1A2B4A",
+                    color: "var(--color-navy)",
+                    margin: 0,
                   }}
                 >
                   {nombre}
@@ -122,11 +140,27 @@ export function SeccionDirectorio({
                     fontFamily: "Poppins, sans-serif",
                     fontSize: 12,
                     color: "rgba(26,43,74,0.55)",
-                    marginTop: 2,
+                    margin: 0,
                   }}
                 >
                   {cargo}
                 </p>
+                {email && (
+                  <a
+                    href={`mailto:${email}`}
+                    style={{
+                      fontFamily: "Poppins, sans-serif",
+                      fontSize: 11,
+                      color: "var(--color-gold)",
+                      textDecoration: "none",
+                      fontWeight: 600,
+                      marginTop: 2,
+                      wordBreak: "break-all",
+                    }}
+                  >
+                    {email}
+                  </a>
+                )}
               </div>
             </motion.div>
           ))}

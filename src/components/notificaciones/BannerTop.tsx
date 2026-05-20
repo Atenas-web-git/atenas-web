@@ -82,7 +82,7 @@ export function BannerTop({
       ref={setBannerEl}
       className="flex items-center justify-center gap-3 px-4 py-2"
       style={{
-        background: active.prioridad > 0 ? "#1A2B4A" : "#0D1825",
+        background: active.prioridad > 0 ? "var(--color-navy)" : "var(--color-dark)",
         color: "#FFFFFF",
         fontFamily: "Poppins, sans-serif",
         position: "fixed",
@@ -112,7 +112,7 @@ export function BannerTop({
             style={{
               fontSize: 12,
               fontWeight: 700,
-              color: "#C9A84C",
+              color: "var(--color-gold)",
               textDecoration: "underline",
               opacity: 0.9,
             }}

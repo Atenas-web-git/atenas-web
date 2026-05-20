@@ -30,7 +30,7 @@ export function HighlightText({ text, animated = true, color }: Props) {
     return <>{text}</>;
   }
   const [, before, keyword, after] = match;
-  const c = color ?? "var(--color-gold, #C9A84C)";
+  const c = color ?? "var(--color-gold, var(--color-gold))";
 
   return (
     <>

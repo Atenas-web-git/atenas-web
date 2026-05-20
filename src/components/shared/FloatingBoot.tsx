@@ -89,7 +89,7 @@ export function FloatingBoot({ numero, mensaje, activo }: Props) {
 
                 <div className="px-4 py-4 flex flex-col gap-3" style={{ background: "#E5DDD5" }}>
                   <div className="bg-white rounded-[10px] rounded-tl-none px-3 py-2 shadow-sm max-w-[85%]">
-                    <p style={{ fontFamily: "Poppins,sans-serif", fontSize: 12, color: "#1A2B4A" }}>
+                    <p style={{ fontFamily: "Poppins,sans-serif", fontSize: 12, color: "var(--color-navy)" }}>
                       ¡Hola! 👋 Soy el asistente de Atenas. Escríbenos por WhatsApp y con gusto te ayudamos con:
                     </p>
                     <ul className="mt-2 ml-3 list-disc" style={{ fontSize: 11, color: "rgba(26,43,74,0.75)" }}>

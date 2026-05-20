@@ -16,32 +16,32 @@ export async function POST(req: NextRequest) {
     const fecha = new Date().toLocaleDateString("es-EC", { dateStyle: "long" });
 
     const html = `
-        <div style="font-family: sans-serif; max-width: 620px; margin: 0 auto; color: #1A2B4A;">
-          <div style="background: #1A2B4A; padding: 32px; border-radius: 8px 8px 0 0;">
-            <h2 style="color: #C9A84C; margin: 0; font-size: 20px;">Nuevo mensaje desde el formulario de contacto</h2>
+        <div style="font-family: sans-serif; max-width: 620px; margin: 0 auto; color: var(--color-navy);">
+          <div style="background: var(--color-navy); padding: 32px; border-radius: 8px 8px 0 0;">
+            <h2 style="color: var(--color-gold); margin: 0; font-size: 20px;">Nuevo mensaje desde el formulario de contacto</h2>
             <p style="color: rgba(255,255,255,0.70); margin: 8px 0 0; font-size: 14px;">
               Recibido desde el formulario web — ${fecha}
             </p>
           </div>
           <div style="background: #ffffff; padding: 32px; border: 1px solid #e8e4df; border-top: none; border-radius: 0 0 8px 8px;">
-            <h3 style="color: #C9A84C; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; margin: 0 0 14px;">Datos del remitente</h3>
+            <h3 style="color: var(--color-gold); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; margin: 0 0 14px;">Datos del remitente</h3>
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 28px;">
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; width: 160px;">Nombre</td>
-                <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: #1A2B4A;">${nombre}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: var(--color-navy);">${nombre}</td>
               </tr>
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Correo</td>
-                <td style="padding: 10px 0; font-size: 14px;"><a href="mailto:${correo}" style="color: #C9A84C;">${correo}</a></td>
+                <td style="padding: 10px 0; font-size: 14px;"><a href="mailto:${correo}" style="color: var(--color-gold);">${correo}</a></td>
               </tr>
               <tr>
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Asunto</td>
-                <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: #1A2B4A;">${asunto}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: var(--color-navy);">${asunto}</td>
               </tr>
             </table>
 
-            <h3 style="color: #C9A84C; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; margin: 0 0 14px;">Mensaje</h3>
-            <div style="background: #fafaf7; border-left: 3px solid #C9A84C; padding: 16px 18px; font-size: 14px; line-height: 1.7; color: #1A2B4A; white-space: pre-wrap;">${String(mensaje).replace(/</g, "&lt;").replace(/>/g, "&gt;")}</div>
+            <h3 style="color: var(--color-gold); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; margin: 0 0 14px;">Mensaje</h3>
+            <div style="background: #fafaf7; border-left: 3px solid var(--color-gold); padding: 16px 18px; font-size: 14px; line-height: 1.7; color: var(--color-navy); white-space: pre-wrap;">${String(mensaje).replace(/</g, "&lt;").replace(/>/g, "&gt;")}</div>
           </div>
           <p style="color: #aaa; font-size: 11px; text-align: center; margin-top: 16px;">
             Formulario web — Unidad Educativa Atenas · atenas.edu.ec

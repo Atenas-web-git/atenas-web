@@ -12,7 +12,7 @@ export function FechasBannerClient({ data }: { data: FechasMatriculas }) {
   const inView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section style={{ background: "#0D1825", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+    <section style={{ background: "var(--color-dark)", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
       <div
         ref={ref}
         className="relative px-6 py-10 md:px-[160px] md:py-[44px] flex flex-col md:flex-row md:items-center md:justify-between gap-6"

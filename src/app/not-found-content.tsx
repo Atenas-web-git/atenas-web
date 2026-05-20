@@ -26,7 +26,7 @@ export function NotFoundContent() {
             fontFamily: "Poppins, sans-serif",
             fontSize: "clamp(140px, 28vw, 360px)",
             fontWeight: 700,
-            color: "#0D1825",
+            color: "var(--color-dark)",
             opacity: 0.05,
             lineHeight: 1,
             whiteSpace: "nowrap",
@@ -76,7 +76,7 @@ export function NotFoundContent() {
         {/* Badge */}
         <div className="flex items-center gap-2">
           <span
-            className="block bg-[#C9A84C] flex-shrink-0"
+            className="block bg-gold flex-shrink-0"
             style={{ width: 24, height: 2 }}
           />
           <span
@@ -84,7 +84,7 @@ export function NotFoundContent() {
               fontFamily: "Poppins, sans-serif",
               fontSize: 10,
               fontWeight: 700,
-              color: "#C9A84C",
+              color: "var(--color-gold)",
               letterSpacing: 2,
               textTransform: "uppercase",
             }}
@@ -98,7 +98,7 @@ export function NotFoundContent() {
             fontFamily: "Poppins, sans-serif",
             fontSize: "clamp(26px, 3.2vw, 40px)",
             fontWeight: 700,
-            color: "#0D1825",
+            color: "var(--color-dark)",
             lineHeight: 1.15,
             margin: 0,
           }}
@@ -128,7 +128,7 @@ export function NotFoundContent() {
               alignItems: "center",
               justifyContent: "center",
               gap: 8,
-              background: "#1A2B4A",
+              background: "var(--color-navy)",
               color: "#FFFFFF",
               fontFamily: "Poppins, sans-serif",
               fontSize: 13,
@@ -139,10 +139,10 @@ export function NotFoundContent() {
               transition: "background 0.2s ease",
             }}
             onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLAnchorElement).style.background = "#0D1825")
+              ((e.currentTarget as HTMLAnchorElement).style.background = "var(--color-dark)")
             }
             onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLAnchorElement).style.background = "#1A2B4A")
+              ((e.currentTarget as HTMLAnchorElement).style.background = "var(--color-navy)")
             }
           >
             ← Volver al inicio
@@ -155,7 +155,7 @@ export function NotFoundContent() {
               justifyContent: "center",
               gap: 8,
               background: "transparent",
-              color: "#1A2B4A",
+              color: "var(--color-navy)",
               fontFamily: "Poppins, sans-serif",
               fontSize: 13,
               fontWeight: 600,

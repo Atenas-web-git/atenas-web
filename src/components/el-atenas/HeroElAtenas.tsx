@@ -24,10 +24,15 @@ export function HeroElAtenas({
   title,
   subtitle,
   ghostText,
-  footnote = DEFAULT_FOOTNOTE,
-  bgImageSrc = DEFAULT_BG,
+  footnote,
+  bgImageSrc,
 }: Props) {
   const ghost = ghostText ?? title.toUpperCase();
+  // Tratamos string vacío igual que undefined — el editor admin puede dejar el
+  // campo en blanco y Next/Image necesita un src válido (no acepta "").
+  const bg = bgImageSrc && bgImageSrc.trim().length > 0 ? bgImageSrc : DEFAULT_BG;
+  const foot =
+    footnote && footnote.trim().length > 0 ? footnote : DEFAULT_FOOTNOTE;
 
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -39,7 +44,7 @@ export function HeroElAtenas({
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#0D1825]"
+      className="relative overflow-hidden bg-dark"
       style={{ minHeight: 640 }}
     >
       {/* ─── Fondo con parallax ─── */}
@@ -48,7 +53,7 @@ export function HeroElAtenas({
         style={{ y: bgY, willChange: "transform" }}
       >
         <Image
-          src={bgImageSrc}
+          src={bg}
           alt=""
           fill
           priority
@@ -192,7 +197,7 @@ export function HeroElAtenas({
           transition={{ duration: 0.5, delay: 0.1, ease }}
         >
           <motion.span
-            className="block bg-[#C9A84C] flex-shrink-0"
+            className="block bg-gold flex-shrink-0"
             style={{ width: 28, height: 2 }}
             initial={{ scaleX: 0, originX: 0 }}
             animate={{ scaleX: 1 }}
@@ -203,7 +208,7 @@ export function HeroElAtenas({
               fontFamily: "Poppins, sans-serif",
               fontSize: 10,
               fontWeight: 700,
-              color: "#C9A84C",
+              color: "var(--color-gold)",
               letterSpacing: 2,
               textTransform: "uppercase",
             }}
@@ -246,7 +251,7 @@ export function HeroElAtenas({
           </motion.p>
         )}
 
-        {footnote && (
+        {foot && (
           <motion.p
             style={{
               fontFamily: "Poppins, sans-serif",
@@ -258,7 +263,7 @@ export function HeroElAtenas({
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.65, ease }}
           >
-            {footnote}
+            {foot}
           </motion.p>
         )}
       </div>

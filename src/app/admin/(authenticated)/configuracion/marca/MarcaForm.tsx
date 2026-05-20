@@ -236,6 +236,26 @@ export function MarcaForm({ initialMarca }: { initialMarca: Marca }) {
             style={inputStyle}
           />
         </Field>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <Field label="Ciudad y país" hint='Ej. "Ambato, Ecuador". Aparece en el footer de los correos y en el JSON-LD.'>
+            <input
+              type="text"
+              name="ciudad"
+              defaultValue={initialMarca.institucion.ciudad}
+              placeholder="Ambato, Ecuador"
+              style={inputStyle}
+            />
+          </Field>
+          <Field label="Sitio web" hint='URL completa con https://. Aparece en el copyright de los correos.'>
+            <input
+              type="url"
+              name="sitio_web"
+              defaultValue={initialMarca.institucion.sitioWeb}
+              placeholder="https://atenas.edu.ec"
+              style={inputStyle}
+            />
+          </Field>
+        </div>
       </Card>
     </form>
   );

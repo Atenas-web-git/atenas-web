@@ -22,10 +22,10 @@ const PALETA: Record<
   CronogramaColor,
   { color: string; bg: string; border: string }
 > = {
-  gold: { color: "#C9A84C", bg: "rgba(201,168,76,0.10)", border: "rgba(201,168,76,0.20)" },
-  red:  { color: "#9e1915", bg: "rgba(158,25,21,0.07)",  border: "rgba(158,25,21,0.15)" },
+  gold: { color: "var(--color-gold)", bg: "rgba(201,168,76,0.10)", border: "rgba(201,168,76,0.20)" },
+  red:  { color: "var(--color-red)", bg: "rgba(158,25,21,0.07)",  border: "rgba(158,25,21,0.15)" },
   teal: { color: "#0D9488", bg: "rgba(13,148,136,0.08)", border: "rgba(13,148,136,0.18)" },
-  navy: { color: "#1A2B4A", bg: "rgba(26,43,74,0.07)",   border: "rgba(26,43,74,0.12)" },
+  navy: { color: "var(--color-navy)", bg: "rgba(26,43,74,0.07)",   border: "rgba(26,43,74,0.12)" },
   purple: { color: "#7C3AED", bg: "rgba(124,58,237,0.08)", border: "rgba(124,58,237,0.18)" },
 };
 
@@ -282,7 +282,7 @@ function TarjetasView({
                           }}
                         />
                         <div className="flex flex-col gap-[2px] flex-1 min-w-0">
-                          <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 13, fontWeight: 600, color: "#1A2B4A", lineHeight: 1.35 }}>
+                          <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 13, fontWeight: 600, color: "var(--color-navy)", lineHeight: 1.35 }}>
                             {e.titulo}
                           </span>
                           <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, color: "rgba(13,24,37,0.48)" }}>
@@ -405,7 +405,7 @@ function CalendarioMensual({
       >
         <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: "1px solid rgba(26,43,74,0.06)" }}>
           <NavBtn onClick={onPrev} disabled={!canPrev} dir="prev" />
-          <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 15, fontWeight: 700, color: "#1A2B4A" }}>
+          <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 15, fontWeight: 700, color: "var(--color-navy)" }}>
             {MESES_NOMBRES[month]} {year}
           </span>
           <NavBtn onClick={onNext} disabled={!canNext} dir="next" />
@@ -440,7 +440,7 @@ function CalendarioMensual({
                       fontFamily: "Poppins, sans-serif",
                       fontSize: 13,
                       fontWeight: cell.color ? 700 : cell.current ? 500 : 400,
-                      color: cell.color ? "#FFFFFF" : cell.current ? "#1A2B4A" : "rgba(26,43,74,0.22)",
+                      color: cell.color ? "#FFFFFF" : cell.current ? "var(--color-navy)" : "rgba(26,43,74,0.22)",
                     }}
                   >
                     {cell.day}
@@ -465,7 +465,7 @@ function CalendarioMensual({
               <div key={e.id} className="flex items-start gap-3">
                 <div style={{ width: 7, height: 7, borderRadius: "50%", background: palette.color, flexShrink: 0, marginTop: 5 }} />
                 <div className="flex items-baseline gap-2 flex-wrap">
-                  <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+                  <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 13, fontWeight: 600, color: "var(--color-navy)" }}>
                     {formatFecha(e)} — {e.titulo}
                   </span>
                   {tipo && (
@@ -537,7 +537,7 @@ function CalendarioSemanal({
         style={{ background: "rgba(26,43,74,0.04)", border: "1.5px solid rgba(26,43,74,0.07)" }}
       >
         <NavBtn onClick={onPrevWeek} disabled={!canPrevWeek} dir="prev" inline />
-        <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 13, fontWeight: 700, color: "#1A2B4A" }}>
+        <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 13, fontWeight: 700, color: "var(--color-navy)" }}>
           {fmt(startDay)} – {fmt(endDay)} {endDay.getFullYear()}
         </span>
         <NavBtn onClick={onNextWeek} disabled={!canNextWeek} dir="next" inline />
@@ -564,7 +564,7 @@ function CalendarioSemanal({
                 <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "rgba(26,43,74,0.45)", letterSpacing: 1 }}>
                   {DIAS[i]}
                 </span>
-                <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 18, fontWeight: 700, color: isCurrentMonth ? "#1A2B4A" : "rgba(26,43,74,0.25)" }}>
+                <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 18, fontWeight: 700, color: isCurrentMonth ? "var(--color-navy)" : "rgba(26,43,74,0.25)" }}>
                   {d}
                 </span>
               </div>
@@ -612,7 +612,7 @@ function CalendarioSemanal({
                 <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "rgba(26,43,74,0.45)", letterSpacing: 1 }}>
                   {DIAS[i]}
                 </span>
-                <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 20, fontWeight: 700, color: isCurrentMonth ? "#1A2B4A" : "rgba(26,43,74,0.25)" }}>
+                <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 20, fontWeight: 700, color: isCurrentMonth ? "var(--color-navy)" : "rgba(26,43,74,0.25)" }}>
                   {d}
                 </span>
               </div>
@@ -681,7 +681,7 @@ function CalendarioDiario({
         style={{ background: "rgba(26,43,74,0.04)", border: "1.5px solid rgba(26,43,74,0.07)" }}
       >
         <NavBtn onClick={onPrevDay} disabled={day <= 1} dir="prev" inline />
-        <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 15, fontWeight: 700, color: "#1A2B4A" }}>
+        <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 15, fontWeight: 700, color: "var(--color-navy)" }}>
           {DIA_SEMANA_LARGO[dateObj.getDay()]}, {day} de {MESES_NOMBRES[month]} {year}
         </span>
         <NavBtn onClick={onNextDay} disabled={day >= totalDays} dir="next" inline />
@@ -712,7 +712,7 @@ function CalendarioDiario({
                 >
                   <div style={{ width: 4, borderRadius: 2, background: palette.color, alignSelf: "stretch", flexShrink: 0 }} />
                   <div className="flex flex-col gap-1">
-                    <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 15, fontWeight: 700, color: "#1A2B4A" }}>
+                    <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 15, fontWeight: 700, color: "var(--color-navy)" }}>
                       {e.titulo}
                     </span>
                     {e.descripcion && (
@@ -827,7 +827,7 @@ function TimelineView({
                   style={{ borderBottom: i < evs.length - 1 ? "1px solid rgba(26,43,74,0.06)" : "none" }}
                 >
                   <div className="flex-1 flex flex-col gap-0.5">
-                    <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 14, fontWeight: 600, color: "#1A2B4A", lineHeight: 1.3 }}>
+                    <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 14, fontWeight: 600, color: "var(--color-navy)", lineHeight: 1.3 }}>
                       {e.titulo}
                     </span>
                     <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 12, color: "rgba(13,24,37,0.50)" }}>
@@ -905,7 +905,7 @@ function NavBtn({
               border: "none",
               background: "transparent",
               cursor: disabled ? "default" : "pointer",
-              color: disabled ? "rgba(26,43,74,0.22)" : "#1A2B4A",
+              color: disabled ? "rgba(26,43,74,0.22)" : "var(--color-navy)",
               fontFamily: "Poppins, sans-serif",
               fontSize: 18,
             }
@@ -915,7 +915,7 @@ function NavBtn({
               borderRadius: "50%",
               border: "none",
               background: disabled ? "transparent" : "rgba(26,43,74,0.07)",
-              color: disabled ? "rgba(26,43,74,0.22)" : "#1A2B4A",
+              color: disabled ? "rgba(26,43,74,0.22)" : "var(--color-navy)",
               cursor: disabled ? "default" : "pointer",
               fontFamily: "Poppins, sans-serif",
               fontSize: 18,
@@ -1029,20 +1029,20 @@ export function CronogramaAnual({ periodos, tipos, eventos }: Props) {
             transition={{ duration: 0.45, ease }}
           >
             <motion.span
-              className="block bg-[#C9A84C] flex-shrink-0"
+              className="block bg-gold flex-shrink-0"
               style={{ width: 28, height: 2 }}
               initial={{ scaleX: 0, originX: 0 }}
               animate={inView ? { scaleX: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.1, ease }}
             />
-            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "#C9A84C", letterSpacing: 2, textTransform: "uppercase" }}>
+            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-gold)", letterSpacing: 2, textTransform: "uppercase" }}>
               Calendario académico
             </span>
           </motion.div>
 
           <div className="overflow-hidden">
             <motion.h2
-              style={{ fontFamily: "Poppins, sans-serif", fontSize: "clamp(28px, 3vw, 42px)", fontWeight: 700, color: "#1A2B4A", lineHeight: 1.15 }}
+              style={{ fontFamily: "Poppins, sans-serif", fontSize: "clamp(28px, 3vw, 42px)", fontWeight: 700, color: "var(--color-navy)", lineHeight: 1.15 }}
               initial={{ y: 40, opacity: 0 }}
               animate={inView ? { y: 0, opacity: 1 } : {}}
               transition={{ duration: 0.6, delay: 0.15, ease }}
@@ -1082,7 +1082,7 @@ export function CronogramaAnual({ periodos, tipos, eventos }: Props) {
                     fontFamily: "Poppins, sans-serif",
                     fontSize: 13,
                     fontWeight: 600,
-                    background: vista === v ? "#1A2B4A" : "transparent",
+                    background: vista === v ? "var(--color-navy)" : "transparent",
                     color: vista === v ? "#FFFFFF" : "rgba(26,43,74,0.55)",
                     transition: "all 0.2s ease",
                   }}
@@ -1110,7 +1110,7 @@ export function CronogramaAnual({ periodos, tipos, eventos }: Props) {
                     fontFamily: "Poppins, sans-serif",
                     fontSize: 12,
                     fontWeight: 600,
-                    background: calVista === v ? "#C9A84C" : "transparent",
+                    background: calVista === v ? "var(--color-gold)" : "transparent",
                     color: calVista === v ? "#FFFFFF" : "rgba(26,43,74,0.55)",
                     transition: "all 0.2s ease",
                   }}
@@ -1173,7 +1173,7 @@ export function CronogramaAnual({ periodos, tipos, eventos }: Props) {
           style={{ background: "#FFFFFF", border: "1.5px solid rgba(26,43,74,0.08)", boxShadow: "0 2px 16px rgba(13,24,37,0.05)" }}
         >
           <div className="flex flex-col gap-1">
-            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 16, fontWeight: 700, color: "#1A2B4A" }}>
+            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 16, fontWeight: 700, color: "var(--color-navy)" }}>
               ¿Tienes dudas sobre una fecha o actividad?
             </span>
             <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 13, color: "rgba(13,24,37,0.50)", lineHeight: 1.6 }}>
@@ -1184,7 +1184,7 @@ export function CronogramaAnual({ periodos, tipos, eventos }: Props) {
             href="/contactos"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full flex-shrink-0"
             style={{
-              background: "#1A2B4A",
+              background: "var(--color-navy)",
               fontFamily: "Poppins, sans-serif",
               fontSize: 13,
               fontWeight: 700,
@@ -1193,8 +1193,8 @@ export function CronogramaAnual({ periodos, tipos, eventos }: Props) {
               transition: "background 0.2s ease",
               whiteSpace: "nowrap",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "#C9A84C")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "#1A2B4A")}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "var(--color-gold)")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "var(--color-navy)")}
           >
             Ir a Contactos <span>→</span>
           </Link>

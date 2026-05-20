@@ -24,7 +24,7 @@ export function CTAAcademico({ cta }: Props) {
   const headingParts = hl && cta.heading.includes(hl) ? cta.heading.split(hl) : null;
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-[#0D1825]" style={{ minHeight: 520 }}>
+    <section ref={sectionRef} className="relative overflow-hidden bg-dark" style={{ minHeight: 520 }}>
 
       {cta.bgImageSrc && (
         <motion.div className="absolute inset-0" style={{ y: bgY, willChange: "transform" }}>
@@ -50,7 +50,7 @@ export function CTAAcademico({ cta }: Props) {
       >
         <div className="flex-1 flex flex-col gap-[20px]">
           <motion.p
-            style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"#C9A84C", letterSpacing:3, textTransform:"uppercase" }}
+            style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"var(--color-gold)", letterSpacing:3, textTransform:"uppercase" }}
             initial={{ opacity:0, y:14 }}
             animate={inView ? { opacity:1, y:0 } : {}}
             transition={{ duration:0.45, ease }}
@@ -59,7 +59,7 @@ export function CTAAcademico({ cta }: Props) {
           </motion.p>
 
           <motion.span
-            className="block bg-[#C9A84C]"
+            className="block bg-gold"
             style={{ width:40, height:2 }}
             initial={{ scaleX:0, originX:0 }}
             animate={inView ? { scaleX:1 } : {}}
@@ -76,10 +76,10 @@ export function CTAAcademico({ cta }: Props) {
               {headingParts ? (
                 <>
                   {headingParts[0]}
-                  <span className="relative inline-block" style={{ color:"#C9A84C" }}>
+                  <span className="relative inline-block" style={{ color:"var(--color-gold)" }}>
                     {hl}
                     <motion.span
-                      className="absolute left-0 right-0 -bottom-1 block bg-[#C9A84C]"
+                      className="absolute left-0 right-0 -bottom-1 block bg-gold"
                       style={{ height:3, borderRadius:2 }}
                       initial={{ scaleX:0, originX:0 }}
                       animate={inView ? { scaleX:1 } : {}}
@@ -116,7 +116,7 @@ export function CTAAcademico({ cta }: Props) {
                 <span
                   key={i}
                   className="rounded-full px-[12px] py-[5px] text-[10px] font-bold"
-                  style={{ fontFamily:"Poppins,sans-serif", background:"rgba(201,168,76,0.14)", color:"#C9A84C", letterSpacing:0.4 }}
+                  style={{ fontFamily:"Poppins,sans-serif", background:"rgba(201,168,76,0.14)", color:"var(--color-gold)", letterSpacing:0.4 }}
                 >
                   {tag.texto}
                 </span>
@@ -131,7 +131,7 @@ export function CTAAcademico({ cta }: Props) {
           >
             <Link
               href={cta.btnHref}
-              className="inline-flex items-center gap-[10px] rounded-[6px] px-[28px] py-[14px] font-bold text-[14px] bg-[#C9A84C] text-[#0D1825] hover:bg-[#dbb95a] transition-colors"
+              className="inline-flex items-center gap-[10px] rounded-[6px] px-[28px] py-[14px] font-bold text-[14px] bg-gold text-dark hover:bg-[#dbb95a] transition-colors"
               style={{ fontFamily:"Poppins,sans-serif" }}
             >
               {cta.btnText}
@@ -157,7 +157,7 @@ export function CTAAcademico({ cta }: Props) {
               animate={inView ? { opacity:1, x:0 } : {}}
               transition={{ duration:0.5, delay:0.3 + i*0.1, ease }}
             >
-              <span style={{ fontFamily:"Poppins,sans-serif", fontSize:22, fontWeight:700, color:"#C9A84C", lineHeight:1 }}>{stat.value}</span>
+              <span style={{ fontFamily:"Poppins,sans-serif", fontSize:22, fontWeight:700, color:"var(--color-gold)", lineHeight:1 }}>{stat.value}</span>
               <span style={{ fontFamily:"Poppins,sans-serif", fontSize:12, fontWeight:700, color:"#FFFFFF", lineHeight:1.3 }}>{stat.label}</span>
               <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, color:"rgba(255,255,255,0.45)" }}>{stat.sub}</span>
             </motion.div>

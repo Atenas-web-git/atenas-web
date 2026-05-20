@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { FloatingBoot } from "@/components/shared/FloatingBoot";
+import { FloatingChatbot, getChatbotConfig, chatbotIsLive } from "@/components/chatbot/FloatingChatbot";
 import { NotificacionesPublicas } from "@/components/notificaciones/NotificacionesPublicas";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -204,14 +205,20 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   // Configuración editable desde /admin/configuracion/*.
-  const [marcaRaw, contactoRaw, integracionesRaw] = await Promise.all([
+  const [marcaRaw, contactoRaw, integracionesRaw, chatbotCfg] = await Promise.all([
     getConfiguracion<Partial<Marca>>("marca"),
     getConfiguracion<Partial<Contacto>>("contacto"),
     getConfiguracion<Partial<Integraciones>>("integraciones"),
+    getChatbotConfig(),
   ]);
   const marca = mergeMarca(marcaRaw);
   const contacto = mergeContacto(contactoRaw);
   const integraciones = mergeIntegraciones(integracionesRaw);
+
+  // Si el chatbot está activo + tiene API key configurada, reemplaza al
+  // botón flotante de WhatsApp. Sino, prevalece el WhatsApp configurado
+  // en /admin/configuracion/contacto.
+  const chatbotLive = chatbotIsLive(chatbotCfg);
 
   const isPoppins = marca.tipografia.trim().toLowerCase() === "poppins";
 
@@ -326,11 +333,15 @@ export default async function RootLayout({
         />
         <NotificacionesPublicas />
         {children}
-        <FloatingBoot
-          numero={contacto.whatsapp.numero}
-          mensaje={contacto.whatsapp.mensaje}
-          activo={contacto.whatsapp.activo}
-        />
+        {chatbotLive ? (
+          <FloatingChatbot />
+        ) : (
+          <FloatingBoot
+            numero={contacto.whatsapp.numero}
+            mensaje={contacto.whatsapp.mensaje}
+            activo={contacto.whatsapp.activo}
+          />
+        )}
         <Analytics />
         <SpeedInsights />
       </body>

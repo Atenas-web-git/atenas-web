@@ -93,7 +93,7 @@ function FormQuejas({
   const inputStyle: React.CSSProperties = {
     fontFamily: "Poppins, sans-serif",
     fontSize: 13,
-    color: "#1A2B4A",
+    color: "var(--color-navy)",
     background: "#FFFFFF",
     border: "1.5px solid rgba(26,43,74,0.14)",
     borderRadius: 8,
@@ -129,7 +129,7 @@ function FormQuejas({
           transition={{ duration: 0.65, ease }}
         >
           {/* Header */}
-          <div className="px-8 py-6" style={{ background: "#9e1915" }}>
+          <div className="px-8 py-6" style={{ background: "var(--color-red)" }}>
             <h3
               style={{
                 fontFamily: "Poppins, sans-serif",
@@ -173,7 +173,7 @@ function FormQuejas({
                     fontFamily: "Poppins, sans-serif",
                     fontSize: 15,
                     fontWeight: 700,
-                    color: "#1A2B4A",
+                    color: "var(--color-navy)",
                   }}
                 >
                   {config.successTitle}
@@ -267,7 +267,7 @@ function FormQuejas({
                     style={{
                       fontFamily: "Poppins, sans-serif",
                       fontSize: 12,
-                      color: "#9e1915",
+                      color: "var(--color-red)",
                       margin: 0,
                     }}
                   >
@@ -281,7 +281,7 @@ function FormQuejas({
                   className="flex items-center justify-center gap-2 rounded-[8px] px-6 py-[13px] font-bold text-[13px] self-start"
                   style={{
                     fontFamily: "Poppins, sans-serif",
-                    background: status === "sending" ? "rgba(158,25,21,0.55)" : "#9e1915",
+                    background: status === "sending" ? "rgba(158,25,21,0.55)" : "var(--color-red)",
                     color: "#FFFFFF",
                     border: "none",
                     cursor: status === "sending" ? "not-allowed" : "pointer",
@@ -314,7 +314,7 @@ export function DetalleServicio({ servicio, formConfig, revistaConfig }: Props) 
   const isRed = color === "red";
   const formCfg: FormQuejasConfig = formConfig ?? FORM_QUEJAS_DEFAULT;
   const revistaCfg = revistaConfig;
-  const accent = isRed ? "#9e1915" : "#C9A84C";
+  const accent = isRed ? "var(--color-red)" : "var(--color-gold)";
   const accentBg = isRed ? "rgba(158,25,21,0.10)" : "rgba(201,168,76,0.12)";
 
   const refStats = useRef<HTMLDivElement>(null);
@@ -437,7 +437,7 @@ export function DetalleServicio({ servicio, formConfig, revistaConfig }: Props) 
                       fontFamily: "Poppins, sans-serif",
                       fontSize: 13,
                       fontWeight: 700,
-                      color: "#1A2B4A",
+                      color: "var(--color-navy)",
                       lineHeight: 1.3,
                     }}
                   >
@@ -544,7 +544,7 @@ export function DetalleServicio({ servicio, formConfig, revistaConfig }: Props) 
                     fontFamily: "Poppins, sans-serif",
                     fontSize: "clamp(22px, 2.22vw, 32px)",
                     fontWeight: 700,
-                    color: "#1A2B4A",
+                    color: "var(--color-navy)",
                     lineHeight: 1.2,
                   }}
                   initial={{ y: 48, opacity: 0 }}
@@ -597,7 +597,7 @@ export function DetalleServicio({ servicio, formConfig, revistaConfig }: Props) 
                   fontFamily: "Poppins, sans-serif",
                   fontSize: 14,
                   fontWeight: 700,
-                  color: "#1A2B4A",
+                  color: "var(--color-navy)",
                 }}
               >
                 ¿Tienes alguna consulta?
@@ -619,7 +619,7 @@ export function DetalleServicio({ servicio, formConfig, revistaConfig }: Props) 
                   style={{
                     fontFamily: "Poppins, sans-serif",
                     background: accent,
-                    color: isRed ? "#FFFFFF" : "#0D1825",
+                    color: isRed ? "#FFFFFF" : "var(--color-dark)",
                     textDecoration: "none",
                   }}
                 >
@@ -683,7 +683,7 @@ export function DetalleServicio({ servicio, formConfig, revistaConfig }: Props) 
                       width: 40,
                       height: 40,
                       background: accent,
-                      color: isRed ? "#FFFFFF" : "#0D1825",
+                      color: isRed ? "#FFFFFF" : "var(--color-dark)",
                       fontFamily: "Poppins, sans-serif",
                       fontSize: 14,
                       fontWeight: 700,
@@ -761,7 +761,7 @@ function RevistaAtenasCard({ cfg }: { cfg?: RevistaConfig }) {
           rel={isExternal ? "noopener noreferrer" : undefined}
           className="group relative flex flex-col md:flex-row items-stretch overflow-hidden rounded-2xl"
           style={{
-            background: "linear-gradient(135deg, #1A2B4A 0%, #0D1825 100%)",
+            background: "linear-gradient(135deg, var(--color-navy) 0%, var(--color-dark) 100%)",
             textDecoration: "none",
             boxShadow: "0 16px 48px rgba(13,24,37,0.18)",
           }}
@@ -787,14 +787,14 @@ function RevistaAtenasCard({ cfg }: { cfg?: RevistaConfig }) {
             <div className="flex items-center gap-2">
               <span
                 className="block"
-                style={{ width: 28, height: 2, background: "#C9A84C" }}
+                style={{ width: 28, height: 2, background: "var(--color-gold)" }}
               />
               <span
                 style={{
                   fontFamily: "Poppins, sans-serif",
                   fontSize: 10,
                   fontWeight: 700,
-                  color: "#C9A84C",
+                  color: "var(--color-gold)",
                   letterSpacing: 2,
                   textTransform: "uppercase",
                 }}
@@ -834,8 +834,8 @@ function RevistaAtenasCard({ cfg }: { cfg?: RevistaConfig }) {
                 className="flex items-center justify-center gap-2 rounded-[10px] px-6 py-[14px] font-bold text-[14px]"
                 style={{
                   fontFamily: "Poppins, sans-serif",
-                  background: "#C9A84C",
-                  color: "#0D1825",
+                  background: "var(--color-gold)",
+                  color: "var(--color-dark)",
                   transition: "transform 0.18s ease",
                 }}
               >
@@ -907,7 +907,7 @@ function RevistaAtenasCard({ cfg }: { cfg?: RevistaConfig }) {
                       fontFamily: "Poppins, sans-serif",
                       fontSize: 9,
                       fontWeight: 700,
-                      color: "#C9A84C",
+                      color: "var(--color-gold)",
                       letterSpacing: 2,
                       textTransform: "uppercase",
                     }}
@@ -927,7 +927,7 @@ function RevistaAtenasCard({ cfg }: { cfg?: RevistaConfig }) {
                   </span>
                   <span
                     className="block"
-                    style={{ width: 32, height: 2, background: "#C9A84C" }}
+                    style={{ width: 32, height: 2, background: "var(--color-gold)" }}
                   />
                   <span
                     style={{

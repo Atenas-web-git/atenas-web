@@ -30,7 +30,7 @@ export function CTADescargas({ label, href, descripcion }: Props) {
     <section
       className="relative"
       style={{
-        background: "linear-gradient(180deg, #F8F5F0 0%, #FFFFFF 100%)",
+        background: "linear-gradient(180deg, var(--color-cream) 0%, #FFFFFF 100%)",
         paddingTop: 60,
         paddingBottom: 80,
       }}
@@ -72,8 +72,8 @@ export function CTADescargas({ label, href, descripcion }: Props) {
               fontSize: 13,
               fontWeight: 700,
               color: "#FFFFFF",
-              background: "var(--color-navy, #1A2B4A)",
-              border: "1.5px solid var(--color-navy, #1A2B4A)",
+              background: "var(--color-navy, var(--color-navy))",
+              border: "1.5px solid var(--color-navy, var(--color-navy))",
               textDecoration: "none",
               boxShadow: "0 6px 20px rgba(26,43,74,0.18)",
             }}

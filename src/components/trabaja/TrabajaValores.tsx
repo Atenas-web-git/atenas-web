@@ -56,9 +56,9 @@ const COLOR_BG: Record<TrabajaValorItem["color"], string> = {
 };
 
 const COLOR_FG: Record<TrabajaValorItem["color"], string> = {
-  gold: "#C9A84C",
-  navy: "#1A2B4A",
-  red: "#9e1915",
+  gold: "var(--color-gold)",
+  navy: "var(--color-navy)",
+  red: "var(--color-red)",
 };
 
 export function TrabajaValores({
@@ -82,7 +82,7 @@ export function TrabajaValores({
             transition={{ duration: 0.45, ease }}
           >
             <motion.span
-              className="block flex-shrink-0 bg-[#C9A84C]"
+              className="block flex-shrink-0 bg-gold"
               style={{ width: 28, height: 2 }}
               initial={{ scaleX: 0, originX: 0 }}
               animate={inView ? { scaleX: 1 } : {}}
@@ -93,7 +93,7 @@ export function TrabajaValores({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: 10,
                 fontWeight: 700,
-                color: "#C9A84C",
+                color: "var(--color-gold)",
                 letterSpacing: 2,
                 textTransform: "uppercase",
               }}
@@ -108,7 +108,7 @@ export function TrabajaValores({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: "clamp(28px, 2.92vw, 42px)",
                 fontWeight: 700,
-                color: "#1A2B4A",
+                color: "var(--color-navy)",
                 lineHeight: 1.15,
                 margin: 0,
               }}
@@ -191,7 +191,7 @@ export function TrabajaValores({
                     fontFamily: "Poppins, sans-serif",
                     fontSize: 16,
                     fontWeight: 700,
-                    color: "#1A2B4A",
+                    color: "var(--color-navy)",
                     margin: 0,
                   }}
                 >

@@ -163,7 +163,7 @@ export function SeccionDetalle({ intro, stats, tabla, nota, anchorId }: Props) {
                     fontFamily: "Poppins, sans-serif",
                     fontSize: 28,
                     fontWeight: 800,
-                    color: "#C9A84C",
+                    color: "var(--color-gold)",
                     lineHeight: 1.05,
                   }}
                 >
@@ -316,7 +316,7 @@ export function SeccionDetalle({ intro, stats, tabla, nota, anchorId }: Props) {
                         weight = 700;
                       }
                       if (esUltima && tabla!.destacarUltimaColumna) {
-                        color = "#C9A84C";
+                        color = "var(--color-gold)";
                         weight = 600;
                       }
                       return (

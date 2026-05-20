@@ -46,7 +46,7 @@ export function TrabajaHero({
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#0D1825]"
+      className="relative overflow-hidden bg-dark"
       style={{ minHeight: 640 }}
     >
       {/* Fondo parallax */}
@@ -199,7 +199,7 @@ export function TrabajaHero({
           transition={{ duration: 0.5, delay: 0.1, ease }}
         >
           <motion.span
-            className="block bg-[#C9A84C] flex-shrink-0"
+            className="block bg-gold flex-shrink-0"
             style={{ width: 28, height: 2 }}
             initial={{ scaleX: 0, originX: 0 }}
             animate={{ scaleX: 1 }}
@@ -210,7 +210,7 @@ export function TrabajaHero({
               fontFamily: "Poppins, sans-serif",
               fontSize: 10,
               fontWeight: 700,
-              color: "#C9A84C",
+              color: "var(--color-gold)",
               letterSpacing: 2,
               textTransform: "uppercase",
             }}

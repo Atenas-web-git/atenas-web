@@ -73,7 +73,7 @@ function LogroCard({ logro, index, inView }: { logro: LogroDestacado; index: num
         className="absolute flex items-center gap-[6px] rounded-full px-3 py-[5px]"
         style={{ top: 16, left: 16, background: "rgba(201,168,76,0.92)" }}
       >
-        <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 700, color: "#0D1825" }}>
+        <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 700, color: "var(--color-dark)" }}>
           {logro.icon} {logro.deporte}
         </span>
       </div>
@@ -108,7 +108,7 @@ function LogroCard({ logro, index, inView }: { logro: LogroDestacado; index: num
                 style={{
                   width: i === activePhoto ? 18 : 6,
                   height: 6,
-                  background: i === activePhoto ? "#C9A84C" : "rgba(255,255,255,0.35)",
+                  background: i === activePhoto ? "var(--color-gold)" : "rgba(255,255,255,0.35)",
                   border: "none",
                   padding: 0,
                   cursor: "pointer",
@@ -145,13 +145,13 @@ export function LogrosDestacados({
             transition={{ duration: 0.45, ease }}
           >
             <motion.span
-              className="block bg-[#C9A84C] flex-shrink-0"
+              className="block bg-gold flex-shrink-0"
               style={{ width: 24, height: 2 }}
               initial={{ scaleX: 0, originX: 0 }}
               animate={inView ? { scaleX: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.1, ease }}
             />
-            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "#C9A84C", letterSpacing: 2.5, textTransform: "uppercase" }}>
+            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-gold)", letterSpacing: 2.5, textTransform: "uppercase" }}>
               Logros Destacados
             </span>
           </motion.div>
@@ -199,7 +199,7 @@ export function LogrosDestacados({
                   fontFamily: "Poppins, sans-serif",
                   fontSize: 13,
                   fontWeight: 700,
-                  color: "#C9A84C",
+                  color: "var(--color-gold)",
                   background: "rgba(201,168,76,0.10)",
                   border: "1.5px solid rgba(201,168,76,0.45)",
                   textDecoration: "none",

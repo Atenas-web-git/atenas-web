@@ -53,7 +53,7 @@ const LAYOUTS: SlideLayout[] = [
   // Slide 0 — Académico (full-bleed, sin segunda imagen)
   {
     underlineW: 180,
-    badge: { supSize: 11, mainSize: 22, mainWeight: 300, dotColor: "#9e1915", size: 160 },
+    badge: { supSize: 11, mainSize: 22, mainWeight: 300, dotColor: "var(--color-red)", size: 160 },
     badgeLeft: "40.28%",
     badgeTop: "38.89%",
     leftBg: "transparent",
@@ -65,7 +65,7 @@ const LAYOUTS: SlideLayout[] = [
   // Slide 1 — Bachillerato IB
   {
     underlineW: 228,
-    badge: { supSize: 9, mainSize: 32, mainWeight: 700, dotColor: "#9e1915", size: 148 },
+    badge: { supSize: 9, mainSize: 32, mainWeight: 700, dotColor: "var(--color-red)", size: 148 },
     badgeLeft: "1.94%",
     badgeTop: "54.17%",
     leftBg: "#EEE9E2",
@@ -83,10 +83,10 @@ const LAYOUTS: SlideLayout[] = [
   // Slide 2 — Deporte
   {
     underlineW: 192,
-    badge: { supSize: 10, mainSize: 18, mainWeight: 300, dotColor: "#9e1915", size: 148 },
+    badge: { supSize: 10, mainSize: 18, mainWeight: 300, dotColor: "var(--color-red)", size: 148 },
     badgeLeft: "2.08%",
     badgeTop: "69.44%",
-    leftBg: "#1A2B4A",
+    leftBg: "var(--color-navy)",
     imagePrincipalFullBleed: false,
     stackedSecondaryLayout: {
       left: "40.91%",
@@ -101,7 +101,7 @@ const LAYOUTS: SlideLayout[] = [
   // Slide 3 — Comunidad
   {
     underlineW: 170,
-    badge: { supSize: 9, mainSize: 24, mainWeight: 300, dotColor: "#C9A84C", size: 148 },
+    badge: { supSize: 9, mainSize: 24, mainWeight: 300, dotColor: "var(--color-gold)", size: 148 },
     badgeLeft: "31.25%",
     badgeTop: "9.72%",
     leftBg: "#EEE9E2",
@@ -177,7 +177,7 @@ function MobileScrollSection({
           fontWeight: 700,
           letterSpacing: 3,
           textTransform: "uppercase",
-          color: "#9e1915",
+          color: "var(--color-red)",
           padding: "24px 24px 0",
         }}
       >
@@ -228,7 +228,7 @@ function MobileScrollSection({
               fontFamily: "Poppins, sans-serif",
               fontSize: 11,
               fontWeight: 700,
-              color: "#9e1915",
+              color: "var(--color-red)",
             }}
           >
             {String(active + 1).padStart(2, "0")}
@@ -261,7 +261,7 @@ function MobileScrollSection({
               fontWeight: 700,
               letterSpacing: 2,
               textTransform: "uppercase",
-              color: "#9e1915",
+              color: "var(--color-red)",
               marginBottom: 8,
             }}
           >
@@ -273,7 +273,7 @@ function MobileScrollSection({
               fontSize: 28,
               fontWeight: 700,
               lineHeight: 1.15,
-              color: "#1A2B4A",
+              color: "var(--color-navy)",
               margin: "0 0 12px",
               whiteSpace: "pre-line",
             }}
@@ -303,7 +303,7 @@ function MobileScrollSection({
               width: i === active ? 8 : 6,
               height: i === active ? 8 : 6,
               borderRadius: "50%",
-              background: "#1A2B4A",
+              background: "var(--color-navy)",
               opacity: i === active ? 1 : 0.25,
               border: "none",
               padding: 0,
@@ -365,7 +365,7 @@ function DesktopScrollSection({
                 style={{ left: "4.17%", top: "1.39%", opacity: 0.04 }}
               >
                 <span
-                  className="font-bold text-[#1A2B4A] whitespace-nowrap"
+                  className="font-bold text-navy whitespace-nowrap"
                   style={{ fontFamily: "Poppins, sans-serif", fontSize: "9vw" }}
                 >
                   {ghostLabel.toUpperCase()}
@@ -396,7 +396,7 @@ function DesktopScrollSection({
                       top: slide.goldAccent.top,
                       width: "7.27%",
                       height: 3,
-                      background: "#C9A84C",
+                      background: "var(--color-gold)",
                     }}
                   />
                 )}
@@ -446,7 +446,7 @@ function DesktopScrollSection({
 
               {/* BADGE */}
               <motion.div
-                className="absolute z-20 rounded-full bg-[#0D1825] flex flex-col items-center justify-center gap-1 shadow-lg"
+                className="absolute z-20 rounded-full bg-dark flex flex-col items-center justify-center gap-1 shadow-lg"
                 style={{
                   left: slide.badgeLeft,
                   top: slide.badgeTop,
@@ -484,7 +484,7 @@ function DesktopScrollSection({
 
               {/* RIGHT PANEL */}
               <div
-                className="absolute top-0 right-0 h-full bg-[#F8F5F0] flex flex-col justify-center"
+                className="absolute top-0 right-0 h-full bg-cream flex flex-col justify-center"
                 style={{
                   width: "54.17%",
                   paddingTop: 80,
@@ -504,7 +504,7 @@ function DesktopScrollSection({
                             fontSize: 11,
                             fontWeight: isActive ? 700 : 400,
                             letterSpacing: "2px",
-                            color: "#1A2B4A",
+                            color: "var(--color-navy)",
                             opacity: isActive ? 1 : 0.4,
                             textTransform: "uppercase",
                             whiteSpace: "nowrap",
@@ -516,7 +516,7 @@ function DesktopScrollSection({
                           style={{
                             height: 2,
                             width: isActive ? 60 : 46,
-                            background: isActive ? "#9e1915" : "#1A2B4A",
+                            background: isActive ? "var(--color-red)" : "var(--color-navy)",
                             opacity: isActive ? 1 : 0.15,
                           }}
                         />
@@ -532,7 +532,7 @@ function DesktopScrollSection({
                     fontSize: 11,
                     fontWeight: 700,
                     letterSpacing: "3px",
-                    color: "#9e1915",
+                    color: "var(--color-red)",
                   }}
                 >
                   {slide.counter}
@@ -545,7 +545,7 @@ function DesktopScrollSection({
                       fontSize: "clamp(28px, 3.06vw, 44px)",
                       lineHeight: 1.1,
                       fontWeight: 300,
-                      color: "#1A2B4A",
+                      color: "var(--color-navy)",
                       margin: 0,
                     }}
                   >
@@ -557,7 +557,7 @@ function DesktopScrollSection({
                       fontSize: "clamp(28px, 3.06vw, 44px)",
                       lineHeight: 1.1,
                       fontWeight: 700,
-                      color: "#9e1915",
+                      color: "var(--color-red)",
                       margin: 0,
                     }}
                   >
@@ -565,7 +565,7 @@ function DesktopScrollSection({
                   </h2>
                   <div
                     className="mt-1 rounded-sm"
-                    style={{ width: slide.underlineW, height: 3, background: "#9e1915" }}
+                    style={{ width: slide.underlineW, height: 3, background: "var(--color-red)" }}
                   />
                 </div>
 
@@ -575,7 +575,7 @@ function DesktopScrollSection({
                     fontSize: 15,
                     fontWeight: 400,
                     lineHeight: 1.75,
-                    color: "#1A2B4A",
+                    color: "var(--color-navy)",
                     opacity: 0.7,
                     maxWidth: 540,
                     margin: "0 0 40px 0",
@@ -592,7 +592,7 @@ function DesktopScrollSection({
                           fontFamily: "Poppins, sans-serif",
                           fontSize: 18,
                           fontWeight: 700,
-                          color: "#1A2B4A",
+                          color: "var(--color-navy)",
                         }}
                       >
                         {m.value}
@@ -602,7 +602,7 @@ function DesktopScrollSection({
                           fontFamily: "Poppins, sans-serif",
                           fontSize: 11,
                           fontWeight: 400,
-                          color: "#1A2B4A",
+                          color: "var(--color-navy)",
                           opacity: 0.5,
                           maxWidth: 130,
                           lineHeight: 1.4,
@@ -659,7 +659,7 @@ function DesktopScrollSection({
 
         {/* Gold progress bar */}
         <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-white/10 z-30">
-          <motion.div className="h-full bg-[#C9A84C]" style={{ width: progressWidth }} />
+          <motion.div className="h-full bg-gold" style={{ width: progressWidth }} />
         </div>
       </div>
     </div>

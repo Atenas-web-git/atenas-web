@@ -1,7 +1,10 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { sendEmail } from "@/lib/email/sendEmail";
 import type { EstadoAdmision } from "./constants";
-import { buildWrappedEmail, debeOcultarCta } from "./email_wrapper";
+import {
+  buildPremiumEmail,
+  type AcentoCorreo,
+} from "@/lib/email/buildPremiumEmail";
 
 type SolicitudInfo = {
   id?: string;
@@ -125,23 +128,41 @@ export async function notifyEstadoChange(
   const supabase = createAdminClient();
   const { data: plantilla } = await supabase
     .from("plantillas_correo_admision")
-    .select("titulo, asunto, cuerpo_html, activo")
+    .select(
+      "titulo, asunto, cuerpo_html, activo, acento, eyebrow, hero_image_url, cta_label, cta_url, helper_text"
+    )
     .eq("estado", nuevoEstado)
     .maybeSingle();
 
   if (!plantilla || !plantilla.activo) return;
 
-  const trackingUrl = `https://atenas.edu.ec/admisiones/seguimiento?numero=${encodeURIComponent(solicitud.numero)}`;
   const subject = fillTemplate(plantilla.asunto ?? "", solicitud);
   const titulo = fillTemplate(plantilla.titulo ?? "", solicitud);
   const contenido = fillTemplate(plantilla.cuerpo_html ?? "", solicitud);
+  const eyebrow = fillTemplate(plantilla.eyebrow ?? "", solicitud);
+  const ctaLabel = fillTemplate(plantilla.cta_label ?? "", solicitud);
+  const ctaUrl = fillTemplate(plantilla.cta_url ?? "", solicitud);
+  const helperText = fillTemplate(plantilla.helper_text ?? "", solicitud);
 
-  const html = buildWrappedEmail({
+  const acento: AcentoCorreo =
+    plantilla.acento === "red" || plantilla.acento === "gold"
+      ? plantilla.acento
+      : "navy";
+
+  const html = await buildPremiumEmail({
+    acento,
+    eyebrow,
     titulo,
-    contenido,
-    numero: solicitud.numero,
-    url_seguimiento: trackingUrl,
-    mostrar_cta: !debeOcultarCta(nuevoEstado),
+    cuerpoHtml: contenido,
+    heroImageUrl: plantilla.hero_image_url || undefined,
+    dataBlock: [
+      { label: "N° SEGUIMIENTO", value: solicitud.numero },
+      { label: "POSTULANTE", value: `${solicitud.est_nombres} ${solicitud.est_apellidos ?? ""}`.trim() },
+      { label: "NIVEL", value: solicitud.est_nivel },
+    ],
+    ctaLabel,
+    ctaUrl,
+    helperText,
   });
 
   const adjuntos = await loadAdjuntos(solicitud.id, nuevoEstado);

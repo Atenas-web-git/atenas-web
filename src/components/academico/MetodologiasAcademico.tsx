@@ -18,12 +18,12 @@ export function MetodologiasAcademico({ metodologias }: Props) {
   const headingParts = hl && metodologias.heading.includes(hl) ? metodologias.heading.split(hl) : null;
 
   return (
-    <section className="relative overflow-hidden bg-[#F8F5F0] min-h-[580px] md:min-h-[640px]">
+    <section className="relative overflow-hidden bg-cream min-h-[580px] md:min-h-[640px]">
       <div className="relative z-10 px-6 pt-[52px] pb-16 md:px-[120px] md:pt-[80px] md:pb-[100px]">
 
         <div ref={headerRef} className="mb-[36px] md:mb-[44px]">
           <motion.p
-            style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"#C9A84C", letterSpacing:3, textTransform:"uppercase" }}
+            style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"var(--color-gold)", letterSpacing:3, textTransform:"uppercase" }}
             initial={{ opacity:0, y:14 }}
             animate={inView ? { opacity:1, y:0 } : {}}
             transition={{ duration:0.45, ease }}
@@ -31,7 +31,7 @@ export function MetodologiasAcademico({ metodologias }: Props) {
             {metodologias.badge}
           </motion.p>
           <motion.span
-            className="block bg-[#C9A84C]"
+            className="block bg-gold"
             style={{ width:40, height:2, marginTop:8, marginBottom:10 }}
             initial={{ scaleX:0, originX:0 }}
             animate={inView ? { scaleX:1 } : {}}
@@ -39,7 +39,7 @@ export function MetodologiasAcademico({ metodologias }: Props) {
           />
           <div className="overflow-hidden">
             <motion.h2
-              style={{ fontFamily:"Poppins,sans-serif", fontSize:"clamp(26px,2.78vw,40px)", fontWeight:700, color:"#1A2B4A", lineHeight:1.2 }}
+              style={{ fontFamily:"Poppins,sans-serif", fontSize:"clamp(26px,2.78vw,40px)", fontWeight:700, color:"var(--color-navy)", lineHeight:1.2 }}
               initial={{ y:50, opacity:0 }}
               animate={inView ? { y:0, opacity:1 } : {}}
               transition={{ duration:0.65, delay:0.15, ease }}
@@ -50,7 +50,7 @@ export function MetodologiasAcademico({ metodologias }: Props) {
                   <span className="relative inline-block">
                     {hl}
                     <motion.span
-                      className="absolute left-0 right-0 -bottom-1 block bg-[#C9A84C]"
+                      className="absolute left-0 right-0 -bottom-1 block bg-gold"
                       style={{ height:4, borderRadius:2 }}
                       initial={{ scaleX:0, originX:0 }}
                       animate={inView ? { scaleX:1 } : {}}
@@ -102,7 +102,7 @@ export function MetodologiasAcademico({ metodologias }: Props) {
             <motion.div
               key={`${m.title}-${i}`}
               className="flex flex-col rounded-[12px] overflow-hidden cursor-default"
-              style={{ background: m.dark ? "#1A2B4A" : "#FFFFFF", border: m.dark ? "none" : "1px solid rgba(26,43,74,0.06)" }}
+              style={{ background: m.dark ? "var(--color-navy)" : "#FFFFFF", border: m.dark ? "none" : "1px solid rgba(26,43,74,0.06)" }}
               initial={{ opacity:0, y: i%2===0 ? -30 : 30 }}
               whileInView={{ opacity:1, y:0 }}
               viewport={{ once:true, amount:0.15 }}
@@ -131,7 +131,7 @@ export function MetodologiasAcademico({ metodologias }: Props) {
                 <span style={{ fontFamily:"Poppins,sans-serif", fontSize:11, color:"rgba(201,168,76,0.85)", letterSpacing:0.5 }}>
                   {m.scope}
                 </span>
-                <span style={{ fontFamily:"Poppins,sans-serif", fontSize:14, fontWeight:700, color: m.dark ? "#FFFFFF" : "#1A2B4A", lineHeight:1.3 }}>
+                <span style={{ fontFamily:"Poppins,sans-serif", fontSize:14, fontWeight:700, color: m.dark ? "#FFFFFF" : "var(--color-navy)", lineHeight:1.3 }}>
                   {m.title}
                 </span>
                 <span style={{ fontFamily:"Poppins,sans-serif", fontSize:11, color: m.dark ? "rgba(255,255,255,0.60)" : "rgba(13,24,37,0.60)", lineHeight:1.6 }}>

@@ -71,6 +71,18 @@ import { Trayectoria } from "@/components/home/Trayectoria";
 import { Niveles } from "@/components/home/Niveles";
 import { PorQueAtenas } from "@/components/home/PorQueAtenas";
 
+// Plantilla R — Grid de personas
+import {
+  SeccionDirectorio,
+  type DirectorioItem,
+} from "@/components/el-atenas/SeccionDirectorio";
+
+// Plantilla S — Documento de política
+import { DocumentoPoliticaRender } from "@/components/cms/DocumentoPoliticaRender";
+
+// Plantilla T — Portal de accesos
+import { PortalAccesosRender } from "@/components/cms/PortalAccesosRender";
+
 // Tipos
 import type {
   ContenidoPlantillaA,
@@ -83,6 +95,9 @@ import type {
   ContenidoPlantillaI,
   ContenidoPlantillaJ,
   ContenidoPlantillaM,
+  ContenidoPlantillaR,
+  ContenidoPlantillaS,
+  ContenidoPlantillaT,
 } from "@/app/admin/(authenticated)/contenido/plantillas";
 
 export const PLANTILLAS_SOPORTADAS_CATCH_ALL = new Set([
@@ -96,6 +111,9 @@ export const PLANTILLAS_SOPORTADAS_CATCH_ALL = new Set([
   "tpl_i_historia",
   "tpl_j_landing_matriculas",
   "tpl_m_home",
+  "tpl_r_grid_personas",
+  "tpl_s_documento_politica",
+  "tpl_t_portal_accesos",
 ]);
 
 type Props = {
@@ -137,6 +155,12 @@ function renderPlantilla(plantilla: string, contenido: unknown): React.ReactNode
       return renderJ(contenido as ContenidoPlantillaJ);
     case "tpl_m_home":
       return renderM(contenido as ContenidoPlantillaM);
+    case "tpl_r_grid_personas":
+      return renderR(contenido as Partial<ContenidoPlantillaR>);
+    case "tpl_s_documento_politica":
+      return renderS(contenido as ContenidoPlantillaS);
+    case "tpl_t_portal_accesos":
+      return renderT(contenido as ContenidoPlantillaT);
     default:
       return (
         <section className="px-6 py-20 md:px-[160px] text-center">
@@ -187,6 +211,11 @@ function renderB(c: Partial<ContenidoPlantillaB>) {
         icon: it.icon ?? "",
         name: it.title ?? "",
         desc: it.description ?? "",
+        subtitle: it.subtitle,
+        href: it.href,
+        color: it.color,
+        ctaText: it.ctaText,
+        highlight: it.highlight,
       }))
     : undefined;
   return (
@@ -382,5 +411,69 @@ function renderM(c: ContenidoPlantillaM) {
       <Niveles niveles={c.niveles} />
       <PorQueAtenas porQueAtenas={c.porQueAtenas} />
     </>
+  );
+}
+
+// ─── Plantilla R — Grid de personas ────────────────────────────
+function renderR(c: Partial<ContenidoPlantillaR>) {
+  const items: DirectorioItem[] = (c.seccion?.items ?? []).map((p) => ({
+    cargo: p.cargo ?? "",
+    nombre: p.nombre ?? "",
+    email: p.email,
+    photoSrc: p.photoSrc,
+  }));
+  return (
+    <>
+      <HeroElAtenas
+        badge={c.hero?.badge}
+        title={c.hero?.title ?? ""}
+        subtitle={c.hero?.subtitle}
+        ghostText={c.hero?.ghostText}
+        footnote={c.hero?.footnote}
+        bgImageSrc={c.hero?.bgImageSrc}
+      />
+      <SeccionDirectorio
+        badge={c.seccion?.badge ?? ""}
+        heading={c.seccion?.heading ?? ""}
+        period={c.seccion?.period || undefined}
+        items={items}
+        note={c.seccion?.note || undefined}
+        anchorId={c.anchorId}
+      />
+    </>
+  );
+}
+
+// ─── Plantilla S — Documento de política ───────────────────────
+function renderS(c: ContenidoPlantillaS) {
+  return (
+    <>
+      <HeroElAtenas
+        badge={c.hero?.badge}
+        title={c.hero?.title ?? ""}
+        subtitle={c.hero?.subtitle}
+        ghostText={c.hero?.ghostText}
+        footnote={c.hero?.footnote}
+        bgImageSrc={c.hero?.bgImageSrc}
+      />
+      <DocumentoPoliticaRender
+        meta={c.meta}
+        tituloDocumento={c.tituloDocumento}
+        secciones={c.secciones ?? []}
+        ctaPie={c.ctaPie}
+      />
+    </>
+  );
+}
+
+// ─── Plantilla T — Portal de accesos ───────────────────────────
+function renderT(c: ContenidoPlantillaT) {
+  return (
+    <PortalAccesosRender
+      hero={c.hero}
+      intro={c.intro}
+      cards={c.cards ?? []}
+      notaPie={c.notaPie}
+    />
   );
 }

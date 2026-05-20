@@ -73,7 +73,7 @@ function StatItem({ value, suffix, label, inView, delay }:
       initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay, ease }}>
       <span style={{ fontFamily: "Poppins, sans-serif", fontSize: "clamp(28px,2.2vw,36px)",
-        fontWeight: 800, color: "#C9A84C", lineHeight: 1 }}>
+        fontWeight: 800, color: "var(--color-gold)", lineHeight: 1 }}>
         {display}{suffix}
       </span>
       <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 12, fontWeight: 500,
@@ -97,7 +97,7 @@ function AnimField({ label, type = "text", placeholder, value, onChange, delay, 
       initial={{ opacity: 0, y: 18 }} animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.45, delay, ease }}>
       <label style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 600,
-        color: "#1A2B4A", letterSpacing: 0.3 }}>{label}</label>
+        color: "var(--color-navy)", letterSpacing: 0.3 }}>{label}</label>
       <motion.div
         animate={{ borderColor: focused ? "rgba(201,168,76,0.70)" : "rgba(26,43,74,0.12)",
           boxShadow: focused ? "0 0 0 3px rgba(201,168,76,0.12)" : "0 0 0 0px transparent" }}
@@ -110,7 +110,7 @@ function AnimField({ label, type = "text", placeholder, value, onChange, delay, 
           onChange={(e) => onChange(e.target.value)}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          className="w-full h-[44px] bg-[#F8F5F0] rounded-[8px] px-[14px] outline-none text-[#1A2B4A]
+          className="w-full h-[44px] bg-cream rounded-[8px] px-[14px] outline-none text-navy
             placeholder:text-[rgba(13,24,37,0.35)]"
           style={{ fontFamily: "Poppins, sans-serif", fontSize: 13, fontWeight: 400 }}
         />
@@ -129,7 +129,7 @@ function AnimTextarea({ label, placeholder, value, onChange, delay, inView }:
       initial={{ opacity: 0, y: 18 }} animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.45, delay, ease }}>
       <label style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 600,
-        color: "#1A2B4A", letterSpacing: 0.3 }}>{label}</label>
+        color: "var(--color-navy)", letterSpacing: 0.3 }}>{label}</label>
       <motion.div
         animate={{ borderColor: focused ? "rgba(201,168,76,0.70)" : "rgba(26,43,74,0.12)",
           boxShadow: focused ? "0 0 0 3px rgba(201,168,76,0.12)" : "0 0 0 0px transparent" }}
@@ -142,8 +142,8 @@ function AnimTextarea({ label, placeholder, value, onChange, delay, inView }:
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           rows={3}
-          className="w-full bg-[#F8F5F0] rounded-[8px] px-[14px] py-3 outline-none resize-none
-            text-[#1A2B4A] placeholder:text-[rgba(13,24,37,0.35)]"
+          className="w-full bg-cream rounded-[8px] px-[14px] py-3 outline-none resize-none
+            text-navy placeholder:text-[rgba(13,24,37,0.35)]"
           style={{ fontFamily: "Poppins, sans-serif", fontSize: 13, fontWeight: 400 }}
         />
       </motion.div>
@@ -160,7 +160,7 @@ function AnimSelect({ label, value, onChange, delay, inView }:
       initial={{ opacity: 0, y: 18 }} animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.45, delay, ease }}>
       <label style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 600,
-        color: "#1A2B4A", letterSpacing: 0.3 }}>{label}</label>
+        color: "var(--color-navy)", letterSpacing: 0.3 }}>{label}</label>
       <motion.div
         animate={{ borderColor: focused ? "rgba(201,168,76,0.70)" : "rgba(26,43,74,0.12)",
           boxShadow: focused ? "0 0 0 3px rgba(201,168,76,0.12)" : "0 0 0 0px transparent" }}
@@ -171,8 +171,8 @@ function AnimSelect({ label, value, onChange, delay, inView }:
           onChange={(e) => onChange(e.target.value)}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          className="w-full h-[44px] bg-[#F8F5F0] rounded-[8px] px-[14px] outline-none appearance-none
-            text-[#1A2B4A] cursor-pointer"
+          className="w-full h-[44px] bg-cream rounded-[8px] px-[14px] outline-none appearance-none
+            text-navy cursor-pointer"
           style={{ fontFamily: "Poppins, sans-serif", fontSize: 13, fontWeight: 600 }}>
           {NIVELES.map((n) => (
             <option key={n} value={n}>{n}</option>
@@ -231,7 +231,7 @@ export function FormularioAdmision({
   };
 
   return (
-    <section className="relative bg-[#F8F5F0] overflow-hidden" style={{ padding: "80px 0" }}>
+    <section className="relative bg-cream overflow-hidden" style={{ padding: "80px 0" }}>
       <div className="absolute inset-0 pointer-events-none"
         style={{ background: "radial-gradient(ellipse at bottom left, rgba(201,168,76,0.07) 0%, transparent 60%)" }} />
 
@@ -245,11 +245,11 @@ export function FormularioAdmision({
           <motion.div className="flex items-center gap-[10px]"
             initial={{ opacity: 0, y: 14 }} animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.45, ease }}>
-            <motion.span className="block bg-[#C9A84C] flex-shrink-0" style={{ width: 28, height: 2 }}
+            <motion.span className="block bg-gold flex-shrink-0" style={{ width: 28, height: 2 }}
               initial={{ scaleX: 0, originX: 0 }} animate={inView ? { scaleX: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.1, ease }} />
             <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700,
-              color: "#C9A84C", letterSpacing: 2, textTransform: "uppercase" }}>
+              color: "var(--color-gold)", letterSpacing: 2, textTransform: "uppercase" }}>
               {eyebrow}
             </span>
           </motion.div>
@@ -258,14 +258,14 @@ export function FormularioAdmision({
           <div className="overflow-hidden">
             <motion.h2
               style={{ fontFamily: "Poppins, sans-serif", fontSize: "clamp(26px,2.6vw,38px)",
-                fontWeight: 700, color: "#1A2B4A", lineHeight: 1.15 }}
+                fontWeight: 700, color: "var(--color-navy)", lineHeight: 1.15 }}
               initial={{ y: 56, opacity: 0 }} animate={inView ? { y: 0, opacity: 1 } : {}}
               transition={{ duration: 0.7, delay: 0.15, ease }}>
               {heading}
             </motion.h2>
           </div>
 
-          <motion.span className="block bg-[#C9A84C]" style={{ width: 40, height: 3, borderRadius: 2 }}
+          <motion.span className="block bg-gold" style={{ width: 40, height: 3, borderRadius: 2 }}
             initial={{ scaleX: 0, originX: 0 }} animate={inView ? { scaleX: 1 } : {}}
             transition={{ duration: 0.4, delay: 0.28, ease }} />
 
@@ -311,12 +311,12 @@ export function FormularioAdmision({
             })}
             <motion.div
               className="absolute z-20 flex items-center gap-[6px] rounded-[8px] px-[14px] py-[9px]"
-              style={{ background: "#C9A84C", left: 255, top: 222, boxShadow: "0 8px 24px rgba(201,168,76,0.40)" }}
+              style={{ background: "var(--color-gold)", left: 255, top: 222, boxShadow: "0 8px 24px rgba(201,168,76,0.40)" }}
               initial={{ opacity: 0, scale: 0.7 }} animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.95, ease }}
               whileHover={{ scale: 1.06, transition: { duration: 0.15 } }}>
               <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700,
-                color: "#0D1825", letterSpacing: 0.8 }}>{badgeFloating}</span>
+                color: "var(--color-dark)", letterSpacing: 0.8 }}>{badgeFloating}</span>
             </motion.div>
           </div>
         </div>
@@ -331,7 +331,7 @@ export function FormularioAdmision({
 
           <div className="bg-white px-8 pt-8 pb-6 flex flex-col gap-2">
             <motion.h3
-              style={{ fontFamily: "Poppins, sans-serif", fontSize: 20, fontWeight: 700, color: "#1A2B4A" }}
+              style={{ fontFamily: "Poppins, sans-serif", fontSize: 20, fontWeight: 700, color: "var(--color-navy)" }}
               initial={{ opacity: 0, y: 14 }} animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.45, delay: 0.35, ease }}>
               {formCardHeading}
@@ -345,7 +345,7 @@ export function FormularioAdmision({
             </motion.p>
           </div>
 
-          <motion.div className="bg-[#F8F5F0]" style={{ height: 1 }}
+          <motion.div className="bg-cream" style={{ height: 1 }}
             initial={{ scaleX: 0, originX: 0 }} animate={inView ? { scaleX: 1 } : {}}
             transition={{ duration: 0.5, delay: 0.45, ease }} />
 
@@ -362,7 +362,7 @@ export function FormularioAdmision({
                   transition={{ duration: 0.5, delay: 0.1, type: "spring", stiffness: 260, damping: 18 }}>
                   <span style={{ fontSize: 28 }}>✓</span>
                 </motion.div>
-                <h4 style={{ fontFamily: "Poppins, sans-serif", fontSize: 18, fontWeight: 700, color: "#1A2B4A" }}>
+                <h4 style={{ fontFamily: "Poppins, sans-serif", fontSize: 18, fontWeight: 700, color: "var(--color-navy)" }}>
                   {successTitle}
                 </h4>
                 <p style={{ fontFamily: "Poppins, sans-serif", fontSize: 14,
@@ -403,7 +403,7 @@ export function FormularioAdmision({
                   disabled={status === "sending"}
                   className="flex items-center justify-center gap-2 w-full h-[52px] rounded-[10px] font-bold
                     disabled:opacity-60 disabled:cursor-not-allowed"
-                  style={{ fontFamily: "Poppins, sans-serif", fontSize: 14, background: "#1A2B4A", color: "#FFFFFF" }}
+                  style={{ fontFamily: "Poppins, sans-serif", fontSize: 14, background: "var(--color-navy)", color: "#FFFFFF" }}
                   initial={{ opacity: 0, y: 14 }} animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.4, delay: 0.88, ease }}
                   whileHover={{ scale: 1.02, background: "#22375e", boxShadow: "0 8px 24px rgba(26,43,74,0.25)",
@@ -419,7 +419,7 @@ export function FormularioAdmision({
                       <motion.span
                         animate={{ x: [0, 4, 0] }}
                         transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-                        style={{ color: "#C9A84C" }}>
+                        style={{ color: "var(--color-gold)" }}>
                         →
                       </motion.span>
                     </>
@@ -432,7 +432,7 @@ export function FormularioAdmision({
                   initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}}
                   transition={{ duration: 0.4, delay: 0.92, ease }}>
                   {privacyTextPre}{" "}
-                  <a href={privacyLinkHref} style={{ color: "#C9A84C", textDecoration: "underline" }}>
+                  <a href={privacyLinkHref} style={{ color: "var(--color-gold)", textDecoration: "underline" }}>
                     {privacyLinkLabel}
                   </a>
                   {privacyTextPost}

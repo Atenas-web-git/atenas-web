@@ -49,8 +49,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     page("/el-atenas/mision", 0.8),
     page("/el-atenas/vision", 0.8),
     page("/el-atenas/valores", 0.8),
-    page("/el-atenas/politica-calidad", 0.7),
-    page("/el-atenas/politica-seguridad", 0.7),
+    page("/politicas", 0.7),
+    page("/politicas/calidad", 0.7),
+    page("/politicas/seguridad", 0.7),
+    page("/politicas/clientes", 0.7),
+    page("/politicas/proveedores", 0.7),
     page("/el-atenas/directiva-ppff", 0.6),
     page("/el-atenas/directorio-fcea", 0.6),
 

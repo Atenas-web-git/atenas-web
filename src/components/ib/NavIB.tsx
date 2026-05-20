@@ -31,7 +31,7 @@ export function NavIB({ current }: Props) {
   return (
     <nav
       className="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-0
-        bg-[#1A2B4A] px-6 py-5 md:px-[160px] md:py-0 md:h-[72px] overflow-x-auto"
+        bg-navy px-6 py-5 md:px-[160px] md:py-0 md:h-[72px] overflow-x-auto"
     >
       <Link
         href="/academico/ib"
@@ -39,7 +39,7 @@ export function NavIB({ current }: Props) {
           fontFamily: "Poppins, sans-serif",
           fontSize: 10,
           fontWeight: 700,
-          color: "#C9A84C",
+          color: "var(--color-gold)",
           letterSpacing: 2,
           textTransform: "uppercase",
           flexShrink: 0,

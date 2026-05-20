@@ -67,7 +67,7 @@ const ESTADO_INFO: Record<
     label: "Matriculada",
     description:
       "¡Bienvenido a la familia Atenas! La matrícula ha sido completada con éxito.",
-    color: "#1A2B4A",
+    color: "var(--color-navy)",
     bg: "#D4AF37",
     isFinal: true,
   },
@@ -102,9 +102,9 @@ function StatusCard({ data }: { data: SolicitudData }) {
       style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.09)" }}
     >
       {/* Header */}
-      <div className="bg-[#1A2B4A] px-8 py-6">
+      <div className="bg-navy px-8 py-6">
         <p
-          className="text-[#C9A84C] text-[10px] font-bold tracking-[2px] uppercase mb-2"
+          className="text-gold text-[10px] font-bold tracking-[2px] uppercase mb-2"
           style={{ fontFamily: "Poppins, sans-serif" }}
         >
           N° de seguimiento
@@ -214,26 +214,26 @@ function StatusCard({ data }: { data: SolicitudData }) {
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
               <span className="text-[#9CA3AF] w-[140px] flex-shrink-0">{label}</span>
-              <span className="text-[#1A2B4A] font-semibold">{value}</span>
+              <span className="text-navy font-semibold">{value}</span>
             </div>
           ))}
         </div>
       </div>
 
       {/* Footer */}
-      <div className="px-8 py-4 bg-[#F8F5F0] flex flex-col sm:flex-row gap-3 items-center justify-between">
+      <div className="px-8 py-4 bg-cream flex flex-col sm:flex-row gap-3 items-center justify-between">
         <p
           className="text-[11px] text-[#9CA3AF]"
           style={{ fontFamily: "Poppins, sans-serif" }}
         >
           ¿Dudas?{" "}
-          <a href="mailto:admisiones@atenas.edu.ec" className="text-[#C9A84C] underline">
+          <a href="mailto:admisiones@atenas.edu.ec" className="text-gold underline">
             admisiones@atenas.edu.ec
           </a>
         </p>
         <Link
           href="/portal-familiar"
-          className="text-[12px] font-semibold text-[#1A2B4A] hover:underline"
+          className="text-[12px] font-semibold text-navy hover:underline"
           style={{ fontFamily: "Poppins, sans-serif" }}
         >
           ← Volver al portal familiar
@@ -308,7 +308,7 @@ function SeguimientoContent({
   return (
     <>
       <header
-        className="h-[64px] bg-[#1A2B4A] flex items-center justify-between
+        className="h-[64px] bg-navy flex items-center justify-between
           px-[56px] max-sm:px-[20px] sticky top-0 z-50"
         style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}
       >
@@ -335,13 +335,13 @@ function SeguimientoContent({
           {/* Título */}
           <div className="text-center">
             <p
-              className="text-[#C9A84C] text-[11px] font-bold tracking-[2.5px] uppercase mb-3"
+              className="text-gold text-[11px] font-bold tracking-[2.5px] uppercase mb-3"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
               Módulo de Admisiones
             </p>
             <h1
-              className="text-[#1A2B4A] text-[28px] font-bold leading-tight"
+              className="text-navy text-[28px] font-bold leading-tight"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
               {introTitle}
@@ -362,15 +362,15 @@ function SeguimientoContent({
               onChange={(e) => setInput(e.target.value)}
               placeholder="ATN-2026-XXXXXX"
               className="flex-1 h-[50px] rounded-[6px] border border-[#C8C4BD] bg-white px-4
-                text-[14px] text-[#1A2B4A] placeholder:text-[#9CA3AF] outline-none
-                focus:border-[#1A2B4A] focus:shadow-[0_0_0_3px_rgba(26,43,74,0.09)]
+                text-[14px] text-navy placeholder:text-[#9CA3AF] outline-none
+                focus:border-navy focus:shadow-[0_0_0_3px_rgba(26,43,74,0.09)]
                 transition-[border-color,box-shadow] uppercase"
               style={{ fontFamily: "Poppins, sans-serif" }}
             />
             <button
               type="submit"
               disabled={loading || !input.trim()}
-              className="h-[50px] px-6 rounded-[6px] bg-[#1A2B4A] text-white text-[14px]
+              className="h-[50px] px-6 rounded-[6px] bg-navy text-white text-[14px]
                 font-semibold hover:bg-[#22375e] transition-colors disabled:opacity-50
                 disabled:cursor-not-allowed flex-shrink-0"
               style={{ fontFamily: "Poppins, sans-serif" }}
@@ -383,7 +383,7 @@ function SeguimientoContent({
           {errorMsg && (
             <div className="w-full bg-[#FEF2F2] border border-[#FECACA] rounded-[6px] px-4 py-3">
               <p
-                className="text-[13px] text-[#9e1915]"
+                className="text-[13px] text-red"
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 {errorMsg}
@@ -405,7 +405,7 @@ function SeguimientoContent({
             >
               <span style={{ fontSize: 18 }}>📬</span>
               <div className="flex flex-col gap-1">
-                <p style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A", margin: 0 }}>
+                <p style={{ fontSize: 13, fontWeight: 600, color: "var(--color-navy)", margin: 0 }}>
                   ¿No tienes el número?
                 </p>
                 <p
@@ -424,7 +424,7 @@ function SeguimientoContent({
                       borderRadius: 4,
                       fontFamily: "ui-monospace, monospace",
                       fontSize: 11,
-                      color: "#1A2B4A",
+                      color: "var(--color-navy)",
                     }}
                   >
                     ATN-YYYY-XXXXXX
@@ -432,7 +432,7 @@ function SeguimientoContent({
                   . Revisa también la carpeta de Spam. Si no lo encuentras, escríbenos a{" "}
                   <a
                     href="mailto:admisiones@atenas.edu.ec"
-                    className="text-[#C9A84C] underline font-semibold"
+                    className="text-gold underline font-semibold"
                   >
                     admisiones@atenas.edu.ec
                   </a>

@@ -22,7 +22,7 @@ export function CitaHistoria({ cita }: Props) {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#0D1825] min-h-[320px] md:min-h-[480px]"
+      className="relative overflow-hidden bg-dark min-h-[320px] md:min-h-[480px]"
     >
       {/* Fondo con parallax */}
       <motion.div className="absolute inset-0" style={{ y: bgY }}>
@@ -45,7 +45,7 @@ export function CitaHistoria({ cita }: Props) {
             fontFamily: "Poppins, sans-serif",
             fontSize: 240,
             fontWeight: 700,
-            color: "#C9A84C",
+            color: "var(--color-gold)",
             opacity: 0.12,
             lineHeight: 1,
           }}
@@ -61,7 +61,7 @@ export function CitaHistoria({ cita }: Props) {
             fontFamily: "Poppins, sans-serif",
             fontSize: 140,
             fontWeight: 700,
-            color: "#C9A84C",
+            color: "var(--color-gold)",
             opacity: 0.12,
             lineHeight: 1,
           }}
@@ -96,7 +96,7 @@ export function CitaHistoria({ cita }: Props) {
         </motion.p>
 
         <motion.span
-          className="block bg-[#C9A84C]"
+          className="block bg-gold"
           style={{ width: 48, height: 3, marginTop: 28, marginBottom: 14 }}
           initial={{ scaleX: 0, originX: 0 }}
           animate={inView ? { scaleX: 1 } : {}}

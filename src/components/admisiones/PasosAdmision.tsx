@@ -36,7 +36,7 @@ export function PasosAdmision({
   const bgY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden" style={{ background: "#0D1825", padding: "80px 0" }}>
+    <section ref={sectionRef} className="relative overflow-hidden" style={{ background: "var(--color-dark)", padding: "80px 0" }}>
 
       {/* Parallax bg */}
       <motion.div className="absolute inset-0" style={{ y: bgY, willChange: "transform" }}>
@@ -53,11 +53,11 @@ export function PasosAdmision({
           <motion.div className="flex items-center gap-[10px] mb-3"
             initial={{ opacity: 0, y: 14 }} animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.45, ease }}>
-            <motion.span className="block bg-[#C9A84C]" style={{ width: 28, height: 2 }}
+            <motion.span className="block bg-gold" style={{ width: 28, height: 2 }}
               initial={{ scaleX: 0, originX: 0 }} animate={inView ? { scaleX: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.1, ease }} />
             <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700,
-              color: "#C9A84C", letterSpacing: 2, textTransform: "uppercase" }}>
+              color: "var(--color-gold)", letterSpacing: 2, textTransform: "uppercase" }}>
               {eyebrow}
             </span>
           </motion.div>
@@ -92,8 +92,8 @@ export function PasosAdmision({
                 {/* Número */}
                 <motion.div
                   className="flex items-center justify-center rounded-lg flex-shrink-0"
-                  style={{ width: 40, height: 40, background: "#C9A84C", fontFamily: "Poppins, sans-serif",
-                    fontSize: 13, fontWeight: 700, color: "#0D1825" }}
+                  style={{ width: 40, height: 40, background: "var(--color-gold)", fontFamily: "Poppins, sans-serif",
+                    fontSize: 13, fontWeight: 700, color: "var(--color-dark)" }}
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
                   viewport={{ once: true }}

@@ -5,6 +5,11 @@ import { redirect } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
+import {
+  defaultContenidoPlantillaR,
+  defaultContenidoPlantillaS,
+  defaultContenidoPlantillaT,
+} from "../plantillas";
 
 export type PaginaActionState = { error: string | null; ok: boolean };
 
@@ -53,6 +58,9 @@ const PLANTILLAS_VALIDAS = [
   "tpl_o_admision_nivel",
   "tpl_p_admisiones_landing",
   "tpl_q_contactos_pagina",
+  "tpl_r_grid_personas",
+  "tpl_s_documento_politica",
+  "tpl_t_portal_accesos",
 ];
 
 /**
@@ -406,6 +414,30 @@ export async function crearPaginaAction(
         items: [],
       },
     };
+  } else if (plantilla === "tpl_r_grid_personas") {
+    const defaults = defaultContenidoPlantillaR();
+    contenidoDefault = {
+      ...defaults,
+      hero: { ...defaults.hero, title: titulo, ghostText: titulo.toUpperCase() },
+      seccion: { ...defaults.seccion, heading: titulo },
+    } as unknown as Record<string, unknown>;
+  } else if (plantilla === "tpl_s_documento_politica") {
+    const defaults = defaultContenidoPlantillaS();
+    contenidoDefault = {
+      ...defaults,
+      hero: {
+        ...defaults.hero,
+        title: titulo,
+        ghostText: titulo.toUpperCase(),
+      },
+      tituloDocumento: titulo,
+    } as unknown as Record<string, unknown>;
+  } else if (plantilla === "tpl_t_portal_accesos") {
+    const defaults = defaultContenidoPlantillaT();
+    contenidoDefault = {
+      ...defaults,
+      hero: { ...defaults.hero, title: titulo },
+    } as unknown as Record<string, unknown>;
   }
 
   const { data, error } = await supabase
@@ -608,6 +640,30 @@ export async function cambiarPlantillaAction(
     // Landings con bloques específicos: contenidoNuevo queda como objeto vacío con hero
     // y el editor de la plantilla se encarga de completar con defaults faltantes.
     contenidoNuevo = { hero: heroActual ?? { badge: "", title: titulo, subtitle: "" } };
+  } else if (nuevaPlantilla === "tpl_r_grid_personas") {
+    const defaults = defaultContenidoPlantillaR();
+    contenidoNuevo = {
+      ...defaults,
+      hero: { ...defaults.hero, title: titulo, ghostText: titulo.toUpperCase() },
+      seccion: { ...defaults.seccion, heading: titulo },
+    } as unknown as Record<string, unknown>;
+  } else if (nuevaPlantilla === "tpl_s_documento_politica") {
+    const defaults = defaultContenidoPlantillaS();
+    contenidoNuevo = {
+      ...defaults,
+      hero: {
+        ...defaults.hero,
+        title: titulo,
+        ghostText: titulo.toUpperCase(),
+      },
+      tituloDocumento: titulo,
+    } as unknown as Record<string, unknown>;
+  } else if (nuevaPlantilla === "tpl_t_portal_accesos") {
+    const defaults = defaultContenidoPlantillaT();
+    contenidoNuevo = {
+      ...defaults,
+      hero: { ...defaults.hero, title: titulo },
+    } as unknown as Record<string, unknown>;
   }
 
   // Si decidimos conservar el hero, lo sobreescribimos con el actual

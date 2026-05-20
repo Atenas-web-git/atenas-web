@@ -35,8 +35,8 @@ function NivelCard({ item, delay, index }: { item: NivelItem; delay: number; ind
       className="flex-1 flex flex-col gap-[12px] rounded-[12px] p-[28px_20px] min-w-0 cursor-default"
       style={{
         background: highlight
-          ? (hov ? "rgba(26,43,74,0.96)" : "#1A2B4A")
-          : (hov ? "#F0EDE6" : "#F8F5F0"),
+          ? (hov ? "rgba(26,43,74,0.96)" : "var(--color-navy)")
+          : (hov ? "#F0EDE6" : "var(--color-cream)"),
         border: highlight ? "1.5px solid rgba(201,168,76,0.50)" : "1px solid rgba(26,43,74,0.06)",
         boxShadow: hov ? "0 16px 48px rgba(0,0,0,0.14)" : "none",
         transition: "background 0.25s ease, box-shadow 0.25s ease",
@@ -49,14 +49,14 @@ function NivelCard({ item, delay, index }: { item: NivelItem; delay: number; ind
       whileHover={{ y:-8, transition:{ duration:0.25 } }}
     >
       <motion.span
-        style={{ fontFamily:"Poppins,sans-serif", fontSize:highlight ? 26 : 30, fontWeight:700, color:"#C9A84C", lineHeight:1 }}
+        style={{ fontFamily:"Poppins,sans-serif", fontSize:highlight ? 26 : 30, fontWeight:700, color:"var(--color-gold)", lineHeight:1 }}
         animate={{ scale: hov ? 1.05 : 1 }}
         transition={{ duration:0.2 }}
       >
         {item.num}
       </motion.span>
 
-      <span style={{ fontFamily:"Poppins,sans-serif", fontSize:14, fontWeight:700, color: highlight ? "#FFFFFF" : "#1A2B4A", lineHeight:1.3 }}>
+      <span style={{ fontFamily:"Poppins,sans-serif", fontSize:14, fontWeight:700, color: highlight ? "#FFFFFF" : "var(--color-navy)", lineHeight:1.3 }}>
         {item.title}
       </span>
 
@@ -65,7 +65,7 @@ function NivelCard({ item, delay, index }: { item: NivelItem; delay: number; ind
       </span>
 
       <motion.span
-        className="block bg-[#C9A84C]"
+        className="block bg-gold"
         style={{ width:32, height:2, borderRadius:1 }}
         initial={{ scaleX:0, originX:0 }}
         animate={inView ? { scaleX:1 } : {}}
@@ -89,7 +89,7 @@ function NivelCard({ item, delay, index }: { item: NivelItem; delay: number; ind
             className="rounded-full px-[10px] py-[4px] text-[9px] font-bold"
             style={{
               background: highlight ? "rgba(201,168,76,0.18)" : "rgba(26,43,74,0.08)",
-              color:      highlight ? "#C9A84C" : "#1A2B4A",
+              color:      highlight ? "var(--color-gold)" : "var(--color-navy)",
               letterSpacing: 0.5,
               fontFamily:"Poppins,sans-serif",
             }}
@@ -102,7 +102,7 @@ function NivelCard({ item, delay, index }: { item: NivelItem; delay: number; ind
       {item.badge && (
         <span
           className="inline-block rounded-[5px] px-[10px] py-[5px] text-[9px] font-bold mt-[4px] self-start"
-          style={{ background:"#C9A84C", color:"#0D1825", letterSpacing:1.2, fontFamily:"Poppins,sans-serif" }}
+          style={{ background:"var(--color-gold)", color:"var(--color-dark)", letterSpacing:1.2, fontFamily:"Poppins,sans-serif" }}
         >
           {item.badge}
         </span>
@@ -120,14 +120,14 @@ export function NivelesDetalle({ niveles }: Props) {
 
   return (
     <section className="relative overflow-hidden bg-white">
-      <div className="absolute top-0 left-0 right-0 h-[6px] bg-[#1A2B4A]" />
+      <div className="absolute top-0 left-0 right-0 h-[6px] bg-navy" />
 
       <div className="relative z-10 px-6 pt-[60px] pb-16 md:px-[120px] md:pt-[80px] md:pb-[100px]">
 
         <div className="grid md:grid-cols-[1fr_360px] gap-[48px] items-start mb-[48px] md:mb-[56px]">
           <div ref={headerRef}>
             <motion.p
-              style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"#C9A84C", letterSpacing:3, textTransform:"uppercase" }}
+              style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"var(--color-gold)", letterSpacing:3, textTransform:"uppercase" }}
               initial={{ opacity:0, y:14 }}
               animate={inView ? { opacity:1, y:0 } : {}}
               transition={{ duration:0.45, ease }}
@@ -135,7 +135,7 @@ export function NivelesDetalle({ niveles }: Props) {
               {niveles.badge}
             </motion.p>
             <motion.span
-              className="block bg-[#C9A84C]"
+              className="block bg-gold"
               style={{ width:40, height:2, marginTop:8, marginBottom:10 }}
               initial={{ scaleX:0, originX:0 }}
               animate={inView ? { scaleX:1 } : {}}
@@ -143,7 +143,7 @@ export function NivelesDetalle({ niveles }: Props) {
             />
             <div className="overflow-hidden">
               <motion.h2
-                style={{ fontFamily:"Poppins,sans-serif", fontSize:"clamp(28px,3.06vw,44px)", fontWeight:700, color:"#1A2B4A", lineHeight:1.15 }}
+                style={{ fontFamily:"Poppins,sans-serif", fontSize:"clamp(28px,3.06vw,44px)", fontWeight:700, color:"var(--color-navy)", lineHeight:1.15 }}
                 initial={{ y:50, opacity:0 }}
                 animate={inView ? { y:0, opacity:1 } : {}}
                 transition={{ duration:0.65, delay:0.15, ease }}
@@ -154,7 +154,7 @@ export function NivelesDetalle({ niveles }: Props) {
                     <span className="relative inline-block">
                       {hl}
                       <motion.span
-                        className="absolute left-0 right-0 -bottom-1 block bg-[#C9A84C]"
+                        className="absolute left-0 right-0 -bottom-1 block bg-gold"
                         style={{ height:4, borderRadius:2 }}
                         initial={{ scaleX:0, originX:0 }}
                         animate={inView ? { scaleX:1 } : {}}
@@ -203,12 +203,12 @@ export function NivelesDetalle({ niveles }: Props) {
             {niveles.badgeAcreditado && (
               <motion.div
                 className="absolute z-20 flex items-center gap-[6px] rounded-[8px] px-[12px] py-[8px]"
-                style={{ background:"#C9A84C", right:10, bottom:10, boxShadow:"0 6px 20px rgba(0,0,0,0.25)" }}
+                style={{ background:"var(--color-gold)", right:10, bottom:10, boxShadow:"0 6px 20px rgba(0,0,0,0.25)" }}
                 initial={{ opacity:0, scale:0.7 }}
                 animate={inView ? { opacity:1, scale:1 } : {}}
                 transition={{ duration:0.4, delay:0.9, ease }}
               >
-                <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"#0D1825", letterSpacing:0.8 }}>
+                <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"var(--color-dark)", letterSpacing:0.8 }}>
                   {niveles.badgeAcreditado}
                 </span>
               </motion.div>
@@ -230,7 +230,7 @@ export function NivelesDetalle({ niveles }: Props) {
               key={`${n.num}-${i}`}
               className="flex flex-col gap-[10px] rounded-[12px] p-[20px]"
               style={{
-                background: n.highlight ? "#1A2B4A" : "#F8F5F0",
+                background: n.highlight ? "var(--color-navy)" : "var(--color-cream)",
                 border: n.highlight ? "1.5px solid rgba(201,168,76,0.50)" : "1px solid rgba(26,43,74,0.06)",
               }}
               initial={{ opacity:0, x: i%2===0 ? -24 : 24 }}
@@ -239,11 +239,11 @@ export function NivelesDetalle({ niveles }: Props) {
               transition={{ duration:0.5, delay:0.05*i, ease }}
             >
               <div className="flex items-start gap-[16px]">
-                <span style={{ fontFamily:"Poppins,sans-serif", fontSize:24, fontWeight:700, color:"#C9A84C", lineHeight:1, flexShrink:0, width:52 }}>
+                <span style={{ fontFamily:"Poppins,sans-serif", fontSize:24, fontWeight:700, color:"var(--color-gold)", lineHeight:1, flexShrink:0, width:52 }}>
                   {n.num}
                 </span>
                 <div className="flex flex-col gap-[3px]">
-                  <span style={{ fontFamily:"Poppins,sans-serif", fontSize:14, fontWeight:700, color: n.highlight ? "#FFFFFF" : "#1A2B4A", lineHeight:1.3 }}>
+                  <span style={{ fontFamily:"Poppins,sans-serif", fontSize:14, fontWeight:700, color: n.highlight ? "#FFFFFF" : "var(--color-navy)", lineHeight:1.3 }}>
                     {n.title}
                   </span>
                   <span style={{ fontFamily:"Poppins,sans-serif", fontSize:11, color: n.highlight ? "rgba(255,255,255,0.50)" : "rgba(13,24,37,0.50)" }}>
@@ -259,14 +259,14 @@ export function NivelesDetalle({ niveles }: Props) {
                   <span
                     key={`${m}-${j}`}
                     className="rounded-full px-[8px] py-[3px] text-[9px] font-bold"
-                    style={{ fontFamily:"Poppins,sans-serif", background: n.highlight ? "rgba(201,168,76,0.18)" : "rgba(26,43,74,0.08)", color: n.highlight ? "#C9A84C" : "#1A2B4A" }}
+                    style={{ fontFamily:"Poppins,sans-serif", background: n.highlight ? "rgba(201,168,76,0.18)" : "rgba(26,43,74,0.08)", color: n.highlight ? "var(--color-gold)" : "var(--color-navy)" }}
                   >
                     {m}
                   </span>
                 ))}
               </div>
               {n.badge && (
-                <span className="self-start rounded-[5px] px-[10px] py-[5px] text-[9px] font-bold" style={{ background:"#C9A84C", color:"#0D1825", letterSpacing:1.2, fontFamily:"Poppins,sans-serif" }}>
+                <span className="self-start rounded-[5px] px-[10px] py-[5px] text-[9px] font-bold" style={{ background:"var(--color-gold)", color:"var(--color-dark)", letterSpacing:1.2, fontFamily:"Poppins,sans-serif" }}>
                   {n.badge}
                 </span>
               )}

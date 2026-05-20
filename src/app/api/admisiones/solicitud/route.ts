@@ -15,7 +15,7 @@ function row(label: string, value: string) {
   return `
     <tr style="border-bottom:1px solid #f0ece7;">
       <td style="padding:10px 0;font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;width:180px;">${label}</td>
-      <td style="padding:10px 0;font-size:14px;color:#1A2B4A;">${value || "—"}</td>
+      <td style="padding:10px 0;font-size:14px;color:var(--color-navy);">${value || "—"}</td>
     </tr>`;
 }
 
@@ -27,34 +27,34 @@ function emailInterno(data: {
   como_enterado: string; anio_ingreso: string; comentarios: string;
 }) {
   return `
-    <div style="font-family:sans-serif;max-width:640px;margin:0 auto;color:#1A2B4A;">
-      <div style="background:#1A2B4A;padding:32px;border-radius:8px 8px 0 0;">
-        <p style="color:#C9A84C;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin:0 0 10px;">Módulo de Admisiones</p>
+    <div style="font-family:sans-serif;max-width:640px;margin:0 auto;color:var(--color-navy);">
+      <div style="background:var(--color-navy);padding:32px;border-radius:8px 8px 0 0;">
+        <p style="color:var(--color-gold);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin:0 0 10px;">Módulo de Admisiones</p>
         <h2 style="color:#fff;margin:0;font-size:22px;font-weight:700;">Nueva solicitud formal recibida</h2>
         <p style="color:rgba(255,255,255,0.60);margin:8px 0 0;font-size:13px;">${data.fecha}</p>
       </div>
-      <div style="background:#EFF6FF;padding:20px 32px;border-left:4px solid #C9A84C;">
+      <div style="background:#EFF6FF;padding:20px 32px;border-left:4px solid var(--color-gold);">
         <p style="margin:0;font-size:12px;color:#6B7280;font-weight:600;text-transform:uppercase;letter-spacing:1px;">N° de seguimiento</p>
-        <p style="margin:4px 0 0;font-size:24px;font-weight:800;color:#1A2B4A;">${data.numero}</p>
+        <p style="margin:4px 0 0;font-size:24px;font-weight:800;color:var(--color-navy);">${data.numero}</p>
       </div>
       <div style="background:#fff;padding:32px;border:1px solid #e8e4df;border-top:none;">
-        <p style="font-size:12px;font-weight:700;color:#C9A84C;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 12px;">Estudiante</p>
+        <p style="font-size:12px;font-weight:700;color:var(--color-gold);letter-spacing:1.5px;text-transform:uppercase;margin:0 0 12px;">Estudiante</p>
         <table style="width:100%;border-collapse:collapse;margin-bottom:28px;">
           ${row("Nombres", data.est_nombres)}
           ${row("Apellidos", data.est_apellidos)}
           ${row("Fecha de nacimiento", data.est_fecha_nac)}
-          ${row("Nivel", `<strong style="color:#C9A84C">${data.est_nivel}</strong>`)}
+          ${row("Nivel", `<strong style="color:var(--color-gold)">${data.est_nivel}</strong>`)}
         </table>
-        <p style="font-size:12px;font-weight:700;color:#C9A84C;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 12px;">Representante</p>
+        <p style="font-size:12px;font-weight:700;color:var(--color-gold);letter-spacing:1.5px;text-transform:uppercase;margin:0 0 12px;">Representante</p>
         <table style="width:100%;border-collapse:collapse;margin-bottom:28px;">
           ${row("Nombres", data.rep_nombres)}
           ${row("Apellidos", data.rep_apellidos)}
           ${row("Relación", data.rep_relacion)}
-          ${row("Correo", `<a href="mailto:${data.rep_correo}" style="color:#C9A84C">${data.rep_correo}</a>`)}
+          ${row("Correo", `<a href="mailto:${data.rep_correo}" style="color:var(--color-gold)">${data.rep_correo}</a>`)}
           ${row("Teléfono", data.rep_telefono)}
         </table>
         ${(data.como_enterado || data.anio_ingreso || data.comentarios) ? `
-        <p style="font-size:12px;font-weight:700;color:#C9A84C;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 12px;">Información adicional</p>
+        <p style="font-size:12px;font-weight:700;color:var(--color-gold);letter-spacing:1.5px;text-transform:uppercase;margin:0 0 12px;">Información adicional</p>
         <table style="width:100%;border-collapse:collapse;">
           ${data.como_enterado ? row("¿Cómo se enteró?", data.como_enterado) : ""}
           ${data.anio_ingreso ? row("Año de ingreso", data.anio_ingreso) : ""}

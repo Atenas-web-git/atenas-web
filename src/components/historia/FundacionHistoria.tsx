@@ -48,7 +48,7 @@ export function FundacionHistoria({ fundacion }: Props) {
               fontFamily: "Poppins, sans-serif",
               fontSize: 10,
               fontWeight: 700,
-              color: "#C9A84C",
+              color: "var(--color-gold)",
               letterSpacing: 3,
               textTransform: "uppercase",
             }}
@@ -60,7 +60,7 @@ export function FundacionHistoria({ fundacion }: Props) {
           </motion.p>
 
           <motion.span
-            className="block bg-[#C9A84C] mt-[5px] mb-[15px]"
+            className="block bg-gold mt-[5px] mb-[15px]"
             style={{ width: 32, height: 2 }}
             initial={{ scaleX: 0, originX: 0 }}
             animate={inView ? { scaleX: 1 } : {}}
@@ -72,7 +72,7 @@ export function FundacionHistoria({ fundacion }: Props) {
               fontFamily: "Poppins, sans-serif",
               fontSize: 32,
               fontWeight: 700,
-              color: "#1A2B4A",
+              color: "var(--color-navy)",
               lineHeight: 1.15,
             }}
             initial={{ opacity: 0, y: 20 }}
@@ -103,7 +103,7 @@ export function FundacionHistoria({ fundacion }: Props) {
           {fundacion.paragraph2 && (
             <>
               <motion.span
-                className="block bg-[#C9A84C]"
+                className="block bg-gold"
                 style={{ width: 40, height: 3, marginTop: 32, marginBottom: 14 }}
                 initial={{ scaleX: 0, originX: 0 }}
                 animate={inView ? { scaleX: 1 } : {}}
@@ -114,7 +114,7 @@ export function FundacionHistoria({ fundacion }: Props) {
                   fontFamily: "Poppins, sans-serif",
                   fontSize: 14,
                   fontWeight: 600,
-                  color: "#1A2B4A",
+                  color: "var(--color-navy)",
                   lineHeight: 1.6,
                   whiteSpace: "pre-line",
                 }}
@@ -141,7 +141,7 @@ export function FundacionHistoria({ fundacion }: Props) {
               fontFamily: "Poppins, sans-serif",
               fontSize: 11,
               fontWeight: 700,
-              color: "#C9A84C",
+              color: "var(--color-gold)",
               letterSpacing: 3,
               textTransform: "uppercase",
             }}
@@ -153,7 +153,7 @@ export function FundacionHistoria({ fundacion }: Props) {
           </motion.p>
 
           <motion.span
-            className="block bg-[#C9A84C]"
+            className="block bg-gold"
             style={{ width: 40, height: 2, marginTop: 8, marginBottom: 8 }}
             initial={{ scaleX: 0, originX: 0 }}
             animate={inView ? { scaleX: 1 } : {}}
@@ -165,7 +165,7 @@ export function FundacionHistoria({ fundacion }: Props) {
               fontFamily: "Poppins, sans-serif",
               fontSize: 52,
               fontWeight: 700,
-              color: "#1A2B4A",
+              color: "var(--color-navy)",
               lineHeight: 1.1,
               marginTop: 11,
             }}
@@ -197,7 +197,7 @@ export function FundacionHistoria({ fundacion }: Props) {
           {fundacion.paragraph2 && (
             <>
               <motion.span
-                className="block bg-[#C9A84C]"
+                className="block bg-gold"
                 style={{ width: 48, height: 3, marginTop: 86, marginBottom: 16 }}
                 initial={{ scaleX: 0, originX: 0 }}
                 animate={inView ? { scaleX: 1 } : {}}
@@ -208,7 +208,7 @@ export function FundacionHistoria({ fundacion }: Props) {
                   fontFamily: "Poppins, sans-serif",
                   fontSize: 16,
                   fontWeight: 600,
-                  color: "#1A2B4A",
+                  color: "var(--color-navy)",
                   lineHeight: 1.6,
                   whiteSpace: "pre-line",
                 }}

@@ -42,7 +42,7 @@ function StatCard({
         gap: isMobile ? 4 : 6,
         padding: isMobile ? "20px 12px" : "32px 16px",
         borderRadius: 8,
-        background: dark ? "#1A2B4A" : "#FFFFFF",
+        background: dark ? "var(--color-navy)" : "#FFFFFF",
       }}
     >
       <span
@@ -50,7 +50,7 @@ function StatCard({
           fontFamily: "Poppins, sans-serif",
           fontSize: isMobile ? 32 : "clamp(36px, 3.89vw, 56px)",
           fontWeight: 700,
-          color: "#C9A84C",
+          color: "var(--color-gold)",
           lineHeight: 1,
         }}
       >
@@ -61,7 +61,7 @@ function StatCard({
           fontFamily: "Poppins, sans-serif",
           fontSize: isMobile ? 12 : 13,
           fontWeight: 600,
-          color: dark ? "#FFFFFF" : "#1A2B4A",
+          color: dark ? "#FFFFFF" : "var(--color-navy)",
           textAlign: "center",
         }}
       >
@@ -76,7 +76,7 @@ export function CifrasHistoria({ cifras }: Props) {
   const inView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <section className="relative overflow-hidden bg-[#F8F5F0] min-h-[420px] md:min-h-[500px]">
+    <section className="relative overflow-hidden bg-cream min-h-[420px] md:min-h-[500px]">
       {/* Fondo sutil */}
       {cifras.bgImageSrc && (
         <div className="absolute inset-0">
@@ -98,7 +98,7 @@ export function CifrasHistoria({ cifras }: Props) {
             fontFamily: "Poppins, sans-serif",
             fontSize: 11,
             fontWeight: 700,
-            color: "#C9A84C",
+            color: "var(--color-gold)",
             letterSpacing: 3,
             textTransform: "uppercase",
           }}
@@ -116,7 +116,7 @@ export function CifrasHistoria({ cifras }: Props) {
             fontFamily: "Poppins, sans-serif",
             fontSize: "clamp(24px, 3.06vw, 44px)",
             fontWeight: 700,
-            color: "#1A2B4A",
+            color: "var(--color-navy)",
           }}
           initial={{ opacity: 0, y: 18 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
