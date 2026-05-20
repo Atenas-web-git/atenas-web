@@ -2,6 +2,7 @@
 
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { splitHighlight } from "@/lib/cms/highlight";
 import type {
   ContenidoPlantillaF,
   SeccionInferiorPlantillaF,
@@ -351,7 +352,7 @@ export function SeccionDetalleAcademico({
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.1 });
 
-  const headingParts = intro.headingHighlight ? intro.heading.split(intro.headingHighlight) : null;
+  const headingParts = splitHighlight(intro.heading, intro.headingHighlight);
 
   return (
     <>
@@ -396,12 +397,12 @@ export function SeccionDetalleAcademico({
               >
                 {headingParts ? (
                   <>
-                    {headingParts[0]}
+                    {headingParts.before}
                     <span className="relative inline-block whitespace-nowrap">
-                      {intro.headingHighlight}
+                      {headingParts.match}
                       <BrushUnderline inView={inView} />
                     </span>
-                    {headingParts[1]}
+                    {headingParts.after}
                   </>
                 ) : (
                   intro.heading

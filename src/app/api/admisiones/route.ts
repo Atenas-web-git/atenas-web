@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sendEmail } from "@/lib/email/sendEmail";
+import { escapeHtml } from "@/lib/email/escapeHtml";
 
 // nodemailer (SMTP) requiere Node runtime — explícito para evitar Edge.
 export const runtime = "nodejs";
@@ -11,6 +12,16 @@ export async function POST(req: NextRequest) {
     if (!representante || !correo || !nivel) {
       return NextResponse.json({ error: "Faltan campos requeridos" }, { status: 400 });
     }
+
+    // Valores escapados para el HTML del correo interno.
+    const s = {
+      representante: escapeHtml(representante),
+      estudiante: escapeHtml(estudiante || "—"),
+      correo: escapeHtml(correo),
+      telefono: escapeHtml(telefono || "—"),
+      nivel: escapeHtml(nivel),
+      mensaje: escapeHtml(mensaje),
+    };
 
     const html = `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: var(--color-navy);">
@@ -24,28 +35,28 @@ export async function POST(req: NextRequest) {
           <table style="width: 100%; border-collapse: collapse;">
             <tr style="border-bottom: 1px solid #f0ece7;">
               <td style="padding: 12px 0; font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; width: 180px;">Representante</td>
-              <td style="padding: 12px 0; font-size: 14px; font-weight: 600; color: var(--color-navy);">${representante}</td>
+              <td style="padding: 12px 0; font-size: 14px; font-weight: 600; color: var(--color-navy);">${s.representante}</td>
             </tr>
             <tr style="border-bottom: 1px solid #f0ece7;">
               <td style="padding: 12px 0; font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Estudiante</td>
-              <td style="padding: 12px 0; font-size: 14px; font-weight: 600; color: var(--color-navy);">${estudiante || "—"}</td>
+              <td style="padding: 12px 0; font-size: 14px; font-weight: 600; color: var(--color-navy);">${s.estudiante}</td>
             </tr>
             <tr style="border-bottom: 1px solid #f0ece7;">
               <td style="padding: 12px 0; font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Correo</td>
-              <td style="padding: 12px 0; font-size: 14px;"><a href="mailto:${correo}" style="color: var(--color-gold);">${correo}</a></td>
+              <td style="padding: 12px 0; font-size: 14px;"><a href="mailto:${s.correo}" style="color: var(--color-gold);">${s.correo}</a></td>
             </tr>
             <tr style="border-bottom: 1px solid #f0ece7;">
               <td style="padding: 12px 0; font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">WhatsApp / Tel.</td>
-              <td style="padding: 12px 0; font-size: 14px; color: var(--color-navy);">${telefono || "—"}</td>
+              <td style="padding: 12px 0; font-size: 14px; color: var(--color-navy);">${s.telefono}</td>
             </tr>
             <tr style="border-bottom: 1px solid #f0ece7;">
               <td style="padding: 12px 0; font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Nivel de interés</td>
-              <td style="padding: 12px 0; font-size: 14px; font-weight: 700; color: var(--color-gold);">${nivel}</td>
+              <td style="padding: 12px 0; font-size: 14px; font-weight: 700; color: var(--color-gold);">${s.nivel}</td>
             </tr>
             ${mensaje ? `
             <tr>
               <td style="padding: 12px 0; font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; vertical-align: top;">Mensaje</td>
-              <td style="padding: 12px 0; font-size: 14px; color: var(--color-navy); line-height: 1.6;">${mensaje}</td>
+              <td style="padding: 12px 0; font-size: 14px; color: var(--color-navy); line-height: 1.6;">${s.mensaje}</td>
             </tr>
             ` : ""}
           </table>

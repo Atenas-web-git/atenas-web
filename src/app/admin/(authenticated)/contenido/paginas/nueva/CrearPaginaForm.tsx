@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useMemo, useState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, ExternalLink } from "lucide-react";
 import { crearPaginaAction, type PaginaActionState } from "../actions";
 import {
   PLANTILLAS_LIST,
@@ -167,6 +167,29 @@ export function CrearPaginaForm() {
                       >
                         Ej.: {p.ejemploSlugs.slice(0, 2).join(" · ")}
                       </p>
+                    )}
+                    {p.ejemploSlugs.length > 0 && (
+                      <a
+                        href={
+                          p.ejemploSlugs[0] === "/" || p.ejemploSlugs[0] === ""
+                            ? "/"
+                            : `/${p.ejemploSlugs[0].replace(/^\//, "")}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1 self-start transition-opacity hover:opacity-70"
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 600,
+                          color: "#1A2B4A",
+                          textDecoration: "none",
+                          marginTop: 2,
+                        }}
+                      >
+                        Ver ejemplo en vivo
+                        <ExternalLink size={11} strokeWidth={2.5} />
+                      </a>
                     )}
                   </label>
                 );

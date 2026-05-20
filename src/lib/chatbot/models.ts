@@ -19,19 +19,24 @@ export type ModelOption = {
 export const MODELS_BY_PROVIDER: Record<ChatbotProvider, ModelOption[]> = {
   gemini: [
     {
+      id: "gemini-2.5-flash",
+      label: "Gemini 2.5 Flash",
+      hint: "Recomendado · última generación Flash: rápida, económica y con mejor comprensión.",
+    },
+    {
       id: "gemini-2.0-flash",
       label: "Gemini 2.0 Flash",
-      hint: "Recomendado · rápido, contexto enorme, tier gratuito generoso",
+      hint: "Rápido, contexto enorme, tier gratuito generoso.",
     },
     {
       id: "gemini-1.5-flash",
       label: "Gemini 1.5 Flash",
-      hint: "Rápido y muy económico. Default.",
+      hint: "Generación anterior. Rápido y muy económico.",
     },
     {
       id: "gemini-1.5-pro",
       label: "Gemini 1.5 Pro",
-      hint: "Más capaz que Flash. Pagado.",
+      hint: "Generación anterior, más capaz que Flash. Pagado.",
     },
   ],
   anthropic: [
@@ -53,14 +58,24 @@ export const MODELS_BY_PROVIDER: Record<ChatbotProvider, ModelOption[]> = {
   ],
   openai: [
     {
-      id: "gpt-4o",
-      label: "GPT-4o",
-      hint: "Más capaz de la familia 4o.",
+      id: "gpt-5-mini",
+      label: "GPT-5 mini",
+      hint: "Recomendado · generación GPT-5 en versión rápida y económica.",
+    },
+    {
+      id: "gpt-5",
+      label: "GPT-5",
+      hint: "Máxima capacidad de OpenAI. Más caro y algo más lento.",
     },
     {
       id: "gpt-4o-mini",
       label: "GPT-4o mini",
-      hint: "Rápido y económico. Recomendado.",
+      hint: "Generación anterior. Rápido y económico.",
+    },
+    {
+      id: "gpt-4o",
+      label: "GPT-4o",
+      hint: "Generación anterior, modelo capaz de la familia 4o.",
     },
   ],
 };

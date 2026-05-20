@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import type { ContenidoPlantillaG } from "@/app/admin/(authenticated)/contenido/plantillas";
+import { splitHighlight } from "@/lib/cms/highlight";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
@@ -205,7 +206,8 @@ export function HeroIB({ hero }: Props) {
 }
 
 function Subtitle({ text, highlight }: { text: string; highlight: string }) {
-  if (!highlight || !text.includes(highlight)) {
+  const parts = splitHighlight(text, highlight);
+  if (!parts) {
     return (
       <motion.p
         style={{ fontFamily:"Poppins,sans-serif", fontSize:"clamp(15px,1.2vw,17px)", color:"rgba(255,255,255,0.65)", lineHeight:1.65, maxWidth:540 }}
@@ -217,7 +219,6 @@ function Subtitle({ text, highlight }: { text: string; highlight: string }) {
       </motion.p>
     );
   }
-  const parts = text.split(highlight);
   return (
     <motion.p
       style={{ fontFamily:"Poppins,sans-serif", fontSize:"clamp(15px,1.2vw,17px)", color:"rgba(255,255,255,0.65)", lineHeight:1.65, maxWidth:540 }}
@@ -225,9 +226,9 @@ function Subtitle({ text, highlight }: { text: string; highlight: string }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.58, ease }}
     >
-      {parts[0]}
+      {parts.before}
       <span className="relative inline-block">
-        {highlight}
+        {parts.match}
         <motion.span
           className="absolute left-0 right-0 -bottom-0.5 block bg-gold"
           style={{ height: 2, borderRadius: 2 }}
@@ -236,7 +237,7 @@ function Subtitle({ text, highlight }: { text: string; highlight: string }) {
           transition={{ duration: 0.5, delay: 0.9, ease }}
         />
       </span>
-      {parts.slice(1).join(highlight)}
+      {parts.after}
     </motion.p>
   );
 }

@@ -33,8 +33,24 @@ export async function guardarCorreosAction(
   const provider: CorreosConfig["provider"] =
     providerRaw === "smtp" ? "smtp" : "resend";
 
+  // Secretos enmascarados: si el campo viene solo con bullets, el editor
+  // no lo cambió → conservamos el valor real guardado en BD.
+  const isMasked = (s: string) => /^•+$/.test(s.trim());
+  const supabaseRead = createAdminClient();
+  const { data: currentRow } = await supabaseRead
+    .from("configuracion_global")
+    .select("value")
+    .eq("key", "correos")
+    .maybeSingle();
+  const currentCfg = (currentRow?.value as Partial<CorreosConfig> | null) ?? null;
+
+  const rawResendApiKey = String(formData.get("resend_apiKey") ?? "").trim();
+  const rawSmtpPass = String(formData.get("smtp_pass") ?? "");
+
   const resend: CorreosConfig["resend"] = {
-    apiKey: String(formData.get("resend_apiKey") ?? "").trim(),
+    apiKey: isMasked(rawResendApiKey)
+      ? currentCfg?.resend?.apiKey ?? ""
+      : rawResendApiKey,
     defaultFrom: String(formData.get("resend_defaultFrom") ?? "").trim(),
     defaultFromName: String(formData.get("resend_defaultFromName") ?? "").trim(),
   };
@@ -45,7 +61,7 @@ export async function guardarCorreosAction(
     port: Number.isFinite(portRaw) && portRaw > 0 ? portRaw : 587,
     secure: formData.get("smtp_secure") === "on",
     user: String(formData.get("smtp_user") ?? "").trim(),
-    pass: String(formData.get("smtp_pass") ?? ""),
+    pass: isMasked(rawSmtpPass) ? currentCfg?.smtp?.pass ?? "" : rawSmtpPass,
     defaultFrom: String(formData.get("smtp_defaultFrom") ?? "").trim(),
     defaultFromName: String(formData.get("smtp_defaultFromName") ?? "").trim(),
   };

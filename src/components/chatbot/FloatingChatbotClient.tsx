@@ -9,6 +9,7 @@ import { ChatWindow } from "./ChatWindow";
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
 type Props = {
+  bubbleText: string;
   welcomeMessage: string;
   fallbackMessage: string;
   fallbackCtaLabel: string;
@@ -23,6 +24,7 @@ type Props = {
  * visualmente.
  */
 export function FloatingChatbotClient({
+  bubbleText,
   welcomeMessage,
   fallbackMessage,
   fallbackCtaLabel,
@@ -117,7 +119,7 @@ export function FloatingChatbotClient({
                       display: "block",
                     }}
                   >
-                    ¿Tienes alguna pregunta sobre Atenas?
+                    {bubbleText}
                   </span>
                   <span
                     onClick={(e) => {

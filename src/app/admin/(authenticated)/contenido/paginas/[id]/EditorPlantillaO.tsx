@@ -121,6 +121,17 @@ export function EditorPlantillaO({
   const [fcPrivacyHref, setFcPrivacyHref] = useState(initialContenido.formularioConsulta?.privacyLinkHref ?? "");
   const [fcPrivacyPost, setFcPrivacyPost] = useState(initialContenido.formularioConsulta?.privacyTextPost ?? "");
 
+  // Descargar más información (CTA opcional a Google Drive / PDF)
+  const [descargasLabel, setDescargasLabel] = useState(
+    initialContenido.descargas?.label ?? ""
+  );
+  const [descargasHref, setDescargasHref] = useState(
+    initialContenido.descargas?.href ?? ""
+  );
+  const [descargasDescripcion, setDescargasDescripcion] = useState(
+    initialContenido.descargas?.descripcion ?? ""
+  );
+
   const updateStat = (i: number, patch: Partial<StatFormConsulta>) =>
     setFcStats((arr) => arr.map((s, idx) => (idx === i ? { ...s, ...patch } : s)));
   const addStat = () => setFcStats((arr) => [...arr, { value: "", suffix: "", label: "" }]);
@@ -229,6 +240,14 @@ export function EditorPlantillaO({
       privacyLinkHref: fcPrivacyHref,
       privacyTextPost: fcPrivacyPost,
     },
+    descargas:
+      descargasLabel.trim() !== "" && descargasHref.trim() !== ""
+        ? {
+            label: descargasLabel.trim(),
+            href: descargasHref.trim(),
+            descripcion: descargasDescripcion.trim() || undefined,
+          }
+        : undefined,
   });
 
   const safePrefix = `paginas/${slug.replace(/[^a-z0-9-]/g, "-")}`;
@@ -890,6 +909,47 @@ export function EditorPlantillaO({
         </div>
         <Field label="Texto después del link">
           <input type="text" value={fcPrivacyPost} onChange={(e) => setFcPrivacyPost(e.target.value)} style={inputStyle} />
+        </Field>
+      </Card>
+
+      {/* Descargar más información (CTA opcional a Google Drive / PDF) */}
+      <Card
+        title="Descargar más información (opcional)"
+        subtitle='Botón para que la familia descargue un documento de este nivel (ficha, requisitos, dossier). Pega un enlace de Google Drive, un PDF u otra página. Si dejas "Texto del botón" o "URL" vacíos, la sección NO aparece en el sitio público.'
+      >
+        <Field label="Texto del botón" hint='Ej. "Descargar información de Educación Inicial"'>
+          <input
+            type="text"
+            value={descargasLabel}
+            onChange={(e) => setDescargasLabel(e.target.value)}
+            placeholder="Descargar más información"
+            maxLength={80}
+            style={inputStyle}
+          />
+        </Field>
+        <Field
+          label="URL del archivo o página"
+          hint="Pega el link de Google Drive, PDF u otra fuente. Se abre en una pestaña nueva."
+        >
+          <input
+            type="text"
+            value={descargasHref}
+            onChange={(e) => setDescargasHref(e.target.value)}
+            placeholder="https://drive.google.com/file/d/..."
+            style={inputStyle}
+          />
+        </Field>
+        <Field
+          label="Texto descriptivo (opcional)"
+          hint="Aparece como párrafo arriba del botón."
+        >
+          <textarea
+            value={descargasDescripcion}
+            onChange={(e) => setDescargasDescripcion(e.target.value)}
+            rows={2}
+            placeholder="ej. Conoce todos los detalles del proceso de admisión a este nivel."
+            style={{ ...inputStyle, height: "auto", resize: "vertical", minHeight: 60, paddingTop: 10, paddingBottom: 10 }}
+          />
         </Field>
       </Card>
 

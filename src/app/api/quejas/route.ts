@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { sendEmail } from "@/lib/email/sendEmail";
 import { sendFormConfirmation } from "@/lib/email/sendFormConfirmation";
+import { escapeHtml } from "@/lib/email/escapeHtml";
 
 export const runtime = "nodejs";
 
@@ -66,6 +67,14 @@ export async function POST(req: NextRequest) {
       .replace(/\{nombre\}/g, String(nombre))
       .replace(/\{tipo\}/g, String(tipo));
 
+    // Valores escapados para el HTML del correo interno.
+    const s = {
+      nombre: escapeHtml(nombre),
+      correo: escapeHtml(correo),
+      tipo: escapeHtml(tipo),
+      descripcion: escapeHtml(descripcion),
+    };
+
     const html = `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: var(--color-navy);">
         <div style="background: var(--color-navy); padding: 32px; border-radius: 8px 8px 0 0;">
@@ -78,19 +87,19 @@ export async function POST(req: NextRequest) {
           <table style="width: 100%; border-collapse: collapse;">
             <tr style="border-bottom: 1px solid #f0ece7;">
               <td style="padding: 12px 0; font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; width: 160px;">Nombre</td>
-              <td style="padding: 12px 0; font-size: 14px; font-weight: 600; color: var(--color-navy);">${nombre}</td>
+              <td style="padding: 12px 0; font-size: 14px; font-weight: 600; color: var(--color-navy);">${s.nombre}</td>
             </tr>
             <tr style="border-bottom: 1px solid #f0ece7;">
               <td style="padding: 12px 0; font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Correo</td>
-              <td style="padding: 12px 0; font-size: 14px;"><a href="mailto:${correo}" style="color: var(--color-gold);">${correo}</a></td>
+              <td style="padding: 12px 0; font-size: 14px;"><a href="mailto:${s.correo}" style="color: var(--color-gold);">${s.correo}</a></td>
             </tr>
             <tr style="border-bottom: 1px solid #f0ece7;">
               <td style="padding: 12px 0; font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Tipo</td>
-              <td style="padding: 12px 0; font-size: 14px; font-weight: 700; color: var(--color-red);">${tipo}</td>
+              <td style="padding: 12px 0; font-size: 14px; font-weight: 700; color: var(--color-red);">${s.tipo}</td>
             </tr>
             <tr>
               <td style="padding: 12px 0; font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; vertical-align: top;">Descripción</td>
-              <td style="padding: 12px 0; font-size: 14px; color: var(--color-navy); line-height: 1.6;">${descripcion}</td>
+              <td style="padding: 12px 0; font-size: 14px; color: var(--color-navy); line-height: 1.6;">${s.descripcion}</td>
             </tr>
           </table>
         </div>

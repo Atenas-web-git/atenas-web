@@ -106,6 +106,13 @@ function YTLoopBackground({
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/*
+        El iframe se escala 1.3x sobre el contenedor con overflow:hidden.
+        Esto empuja el branding de YouTube (logo abajo-derecha + título
+        arriba) fuera del área visible — YouTube no permite quitarlo del
+        todo vía API, así que lo recortamos visualmente. 1.3x es el
+        balance entre tapar el branding y no acercar demasiado el video.
+      */}
       <div
         id="yt-home-hero-player"
         className="absolute"
@@ -114,7 +121,7 @@ function YTLoopBackground({
           left: "50%",
           width: "max(100%, calc(100vh * 1.7778))",
           height: "max(100%, calc(100vw * 0.5625))",
-          transform: "translate(-50%, -50%)",
+          transform: "translate(-50%, -50%) scale(1.3)",
         }}
       />
     </div>
@@ -124,15 +131,18 @@ function YTLoopBackground({
 /* ── Hero ───────────────────────────────────────────────────────────── */
 
 export function Hero({ hero }: Props) {
+  // Prioridad del fondo: video propio subido > YouTube > foto.
+  const bgVideoUrl = (hero.bgVideoUrl ?? "").trim();
+  const hasOwnVideo = bgVideoUrl.length > 0;
   const yt = parseYouTubeUrl(hero.videoYoutubeUrl);
-  const hasVideo = !!yt?.videoId;
+  const hasYouTube = !hasOwnVideo && !!yt?.videoId;
   // Si el editor no dio un linkUrl explícito, caemos al URL del video de fondo.
   const videoLinkUrl = (hero.videoLinkUrl || hero.videoYoutubeUrl || "").trim();
   const videoLinkText = hero.videoLinkText?.trim() || "REPRODUCIR VIDEO";
 
   return (
     <section className="relative h-screen min-h-[600px] overflow-hidden">
-      {/* Capa de fondo: foto (siempre) + video YouTube (encima si está) */}
+      {/* Capa de fondo: foto (siempre) + video (propio o YouTube) encima si está */}
       <motion.div
         className="absolute inset-0"
         initial={{ scale: 1.06 }}
@@ -150,7 +160,23 @@ export function Hero({ hero }: Props) {
         )}
       </motion.div>
 
-      {hasVideo && (
+      {/* Video propio subido — sin branding, autoplay mute loop */}
+      {hasOwnVideo && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+          <video
+            src={bgVideoUrl}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            className="absolute inset-0 w-full h-full object-cover object-center"
+          />
+        </div>
+      )}
+
+      {hasYouTube && (
         <YTLoopBackground
           videoId={yt!.videoId}
           startSeconds={hero.startSeconds}

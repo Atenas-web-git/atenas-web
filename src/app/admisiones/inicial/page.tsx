@@ -4,6 +4,7 @@ import { HeroElAtenas } from "@/components/el-atenas/HeroElAtenas";
 import { NavAdmisiones } from "@/components/admisiones/NavAdmisiones";
 import { SeccionAdmisionDetalle } from "@/components/admisiones/SeccionAdmisionDetalle";
 import { PasosAdmision } from "@/components/admisiones/PasosAdmision";
+import { CTADescargas } from "@/components/cms/CTADescargas";
 import { CTAIniciarSolicitud } from "@/components/admisiones/CTAIniciarSolicitud";
 import { FormularioAdmision } from "@/components/admisiones/FormularioAdmision";
 import { FooterCTA } from "@/components/home/FooterCTA";
@@ -57,6 +58,11 @@ export default async function AdmisionInicialPage() {
           ctaDescripcion={cfg?.detalle?.ctaDescripcion}
           ctaLabel={cfg?.detalle?.ctaLabel}
           ctaHref={cfg?.detalle?.ctaHref}
+        />
+        <CTADescargas
+          label={cfg?.descargas?.label}
+          href={cfg?.descargas?.href}
+          descripcion={cfg?.descargas?.descripcion}
         />
         <PasosAdmision
           eyebrow={cfg?.pasos?.eyebrow}

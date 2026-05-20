@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import type { ContenidoPlantillaH } from "@/app/admin/(authenticated)/contenido/plantillas";
+import { splitHighlight } from "@/lib/cms/highlight";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
@@ -20,8 +21,7 @@ export function CTAAcademico({ cta }: Props) {
   });
   const bgY = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
 
-  const hl = cta.headingHighlight;
-  const headingParts = hl && cta.heading.includes(hl) ? cta.heading.split(hl) : null;
+  const headingParts = splitHighlight(cta.heading, cta.headingHighlight);
 
   return (
     <section ref={sectionRef} className="relative overflow-hidden bg-dark" style={{ minHeight: 520 }}>
@@ -75,9 +75,9 @@ export function CTAAcademico({ cta }: Props) {
             >
               {headingParts ? (
                 <>
-                  {headingParts[0]}
+                  {headingParts.before}
                   <span className="relative inline-block" style={{ color:"var(--color-gold)" }}>
-                    {hl}
+                    {headingParts.match}
                     <motion.span
                       className="absolute left-0 right-0 -bottom-1 block bg-gold"
                       style={{ height:3, borderRadius:2 }}
@@ -86,7 +86,7 @@ export function CTAAcademico({ cta }: Props) {
                       transition={{ duration:0.55, delay:0.55, ease }}
                     />
                   </span>
-                  {headingParts.slice(1).join(hl)}
+                  {headingParts.after}
                 </>
               ) : (
                 cta.heading

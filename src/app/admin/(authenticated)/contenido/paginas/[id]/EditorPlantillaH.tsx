@@ -5,6 +5,7 @@ import { Save, Plus, Trash2, ArrowUp, ArrowDown } from "lucide-react";
 import { guardarPaginaAction, type PaginaActionState } from "../actions";
 import type { ContenidoPlantillaH } from "../../plantillas";
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import { HighlightPreview } from "@/components/admin/HighlightPreview";
 
 type Hero = ContenidoPlantillaH["hero"];
 type Niveles = ContenidoPlantillaH["niveles"];
@@ -122,9 +123,10 @@ function HeroEditor({ hero, setHero, prefix }: { hero: Hero; setHero: (h: Hero) 
       <Field label="Subtítulo">
         <textarea value={hero.subtitle} onChange={(e) => set({ subtitle: e.target.value })} rows={2} style={textareaStyle} />
       </Field>
-      <Field label="Fragmento subrayado en dorado del subtítulo">
+      <Field label="Fragmento subrayado en dorado del subtítulo" hint='Escribe una palabra o frase del subtítulo para subrayarla en dorado. No importan mayúsculas ni tildes. Ej.: subtítulo "Bienvenido a Atenas" → escribe "Atenas".'>
         <input type="text" value={hero.subtitleHighlight} onChange={(e) => set({ subtitleHighlight: e.target.value })} style={inputStyle} />
       </Field>
+      <HighlightPreview text={hero.subtitle} highlight={hero.subtitleHighlight} />
 
       <ImageUploader label="Imagen de fondo del hero" value={hero.bgImageSrc ?? ""} onChange={(v) => set({ bgImageSrc: v })} prefix={prefix} previewAspect="16/9" />
 
@@ -201,13 +203,14 @@ function NivelesEditor({ niveles, setNiveles, prefix }: { niveles: Niveles; setN
         <Field label="Badge" required>
           <input type="text" value={niveles.badge} onChange={(e) => set({ badge: e.target.value })} required style={inputStyle} />
         </Field>
-        <Field label="Parte resaltada del título">
+        <Field label="Parte resaltada del título" hint='Escribe una palabra o frase del encabezado para subrayarla en dorado. No importan mayúsculas ni tildes.'>
           <input type="text" value={niveles.headingHighlight} onChange={(e) => set({ headingHighlight: e.target.value })} style={inputStyle} />
         </Field>
       </div>
       <Field label="Encabezado (h2)" required>
         <input type="text" value={niveles.heading} onChange={(e) => set({ heading: e.target.value })} required style={inputStyle} />
       </Field>
+      <HighlightPreview text={niveles.heading} highlight={niveles.headingHighlight} />
       <Field label="Descripción">
         <textarea value={niveles.descripcion} onChange={(e) => set({ descripcion: e.target.value })} rows={2} style={textareaStyle} />
       </Field>
@@ -308,13 +311,14 @@ function MetodologiasEditor({ met, setMet, prefix }: { met: Metodologias; setMet
         <Field label="Badge" required>
           <input type="text" value={met.badge} onChange={(e) => set({ badge: e.target.value })} required style={inputStyle} />
         </Field>
-        <Field label="Parte resaltada del título">
+        <Field label="Parte resaltada del título" hint='Escribe una palabra o frase del encabezado para subrayarla en dorado. No importan mayúsculas ni tildes.'>
           <input type="text" value={met.headingHighlight} onChange={(e) => set({ headingHighlight: e.target.value })} style={inputStyle} />
         </Field>
       </div>
       <Field label="Encabezado (h2)" required>
         <input type="text" value={met.heading} onChange={(e) => set({ heading: e.target.value })} required style={inputStyle} />
       </Field>
+      <HighlightPreview text={met.heading} highlight={met.headingHighlight} />
 
       <span style={fieldLabel}>Strip de fotos {met.strip.length > 0 && `(${met.strip.length})`}</span>
       <div className="flex flex-col gap-3">
@@ -404,10 +408,11 @@ function CTAEditor({ cta, setCta, prefix }: { cta: CTA; setCta: (c: CTA) => void
         <Field label="Encabezado (h2)" required>
           <input type="text" value={cta.heading} onChange={(e) => set({ heading: e.target.value })} required style={inputStyle} />
         </Field>
-        <Field label="Parte resaltada del título">
+        <Field label="Parte resaltada del título" hint='Escribe una palabra o frase del encabezado para subrayarla en dorado. No importan mayúsculas ni tildes.'>
           <input type="text" value={cta.headingHighlight} onChange={(e) => set({ headingHighlight: e.target.value })} style={inputStyle} />
         </Field>
       </div>
+      <HighlightPreview text={cta.heading} highlight={cta.headingHighlight} />
       <Field label="Descripción">
         <textarea value={cta.descripcion} onChange={(e) => set({ descripcion: e.target.value })} rows={3} style={textareaStyle} />
       </Field>

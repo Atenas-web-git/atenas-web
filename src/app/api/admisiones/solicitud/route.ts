@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { sendEmail } from "@/lib/email/sendEmail";
 import { sendFormConfirmation } from "@/lib/email/sendFormConfirmation";
+import { escapeHtml } from "@/lib/email/escapeHtml";
 
 export const runtime = "nodejs";
 
@@ -19,13 +20,31 @@ function row(label: string, value: string) {
     </tr>`;
 }
 
-function emailInterno(data: {
+function emailInterno(raw: {
   numero: string; fecha: string;
   est_nombres: string; est_apellidos: string; est_fecha_nac: string; est_nivel: string;
   rep_nombres: string; rep_apellidos: string; rep_relacion: string;
   rep_correo: string; rep_telefono: string;
   como_enterado: string; anio_ingreso: string; comentarios: string;
 }) {
+  // Escapamos TODOS los campos provistos por el usuario antes de
+  // interpolarlos en el HTML del correo interno.
+  const data = {
+    numero: escapeHtml(raw.numero),
+    fecha: escapeHtml(raw.fecha),
+    est_nombres: escapeHtml(raw.est_nombres),
+    est_apellidos: escapeHtml(raw.est_apellidos),
+    est_fecha_nac: escapeHtml(raw.est_fecha_nac),
+    est_nivel: escapeHtml(raw.est_nivel),
+    rep_nombres: escapeHtml(raw.rep_nombres),
+    rep_apellidos: escapeHtml(raw.rep_apellidos),
+    rep_relacion: escapeHtml(raw.rep_relacion),
+    rep_correo: escapeHtml(raw.rep_correo),
+    rep_telefono: escapeHtml(raw.rep_telefono),
+    como_enterado: escapeHtml(raw.como_enterado),
+    anio_ingreso: escapeHtml(raw.anio_ingreso),
+    comentarios: escapeHtml(raw.comentarios),
+  };
   return `
     <div style="font-family:sans-serif;max-width:640px;margin:0 auto;color:var(--color-navy);">
       <div style="background:var(--color-navy);padding:32px;border-radius:8px 8px 0 0;">

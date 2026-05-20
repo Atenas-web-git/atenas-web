@@ -346,6 +346,8 @@ export type ChatbotConfig = {
   apiKey: string;
   /** System prompt — personalidad y reglas del asistente. */
   systemPrompt: string;
+  /** Texto del globo de sugerencia junto al botón flotante. */
+  bubbleText: string;
   /** Mensaje inicial al abrir el chat. */
   welcomeMessage: string;
   /** Mensaje cuando el chatbot no tiene respuesta. */
@@ -371,6 +373,7 @@ export const CHATBOT_DEFAULT: ChatbotConfig = {
   apiKey: "",
   systemPrompt:
     'Eres Ateneo, el asistente virtual oficial de la Unidad Educativa Atenas (Ambato, Ecuador). Responde solo sobre el colegio. Tono formal pero cercano, sin emojis, 2-4 oraciones. Si no tienes información, sugiere visitar /contactos.',
+  bubbleText: "¿Tienes alguna pregunta sobre Atenas?",
   welcomeMessage:
     "¡Hola! Soy Ateneo, asistente virtual de la Unidad Educativa Atenas. ¿En qué puedo ayudarte?",
   fallbackMessage:
@@ -393,6 +396,7 @@ export function mergeChatbot(input: Partial<ChatbotConfig> | null): ChatbotConfi
     model: input.model?.trim() || CHATBOT_DEFAULT.model,
     apiKey: input.apiKey ?? "",
     systemPrompt: input.systemPrompt?.trim() || CHATBOT_DEFAULT.systemPrompt,
+    bubbleText: input.bubbleText?.trim() || CHATBOT_DEFAULT.bubbleText,
     welcomeMessage: input.welcomeMessage?.trim() || CHATBOT_DEFAULT.welcomeMessage,
     fallbackMessage: input.fallbackMessage?.trim() || CHATBOT_DEFAULT.fallbackMessage,
     fallbackCtaLabel: input.fallbackCtaLabel?.trim() || CHATBOT_DEFAULT.fallbackCtaLabel,

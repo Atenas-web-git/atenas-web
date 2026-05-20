@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sendEmail } from "@/lib/email/sendEmail";
 import { sendFormConfirmation } from "@/lib/email/sendFormConfirmation";
+import { escapeHtml, safeHref } from "@/lib/email/escapeHtml";
 
 export const runtime = "nodejs";
 
@@ -18,6 +19,25 @@ export async function POST(req: NextRequest) {
 
     const fecha = new Date().toLocaleDateString("es-EC", { dateStyle: "long" });
 
+    // Valores escapados para interpolar en el HTML del correo interno.
+    const s = {
+      nombres: escapeHtml(nombres),
+      correo: escapeHtml(correo),
+      identificacion: escapeHtml(identificacion),
+      fechaNacimiento: escapeHtml(fechaNacimiento),
+      genero: escapeHtml(genero || "No indicado"),
+      discapacidad: escapeHtml(discapacidad || "No indicado"),
+      cargo: escapeHtml(cargo),
+      formacion: escapeHtml(formacion),
+      area: escapeHtml(area),
+      certificadoB2: escapeHtml(certificadoB2 || "No indicado"),
+      disponibilidad: escapeHtml(disponibilidad || "No indicado"),
+      expectativaSalarial: expectativaSalarial
+        ? `$${escapeHtml(expectativaSalarial)} USD/mes`
+        : "No indicado",
+    };
+    const cvHref = safeHref(enlaceCV);
+
     const html = `
         <div style="font-family: sans-serif; max-width: 620px; margin: 0 auto; color: var(--color-navy);">
           <div style="background: var(--color-navy); padding: 32px; border-radius: 8px 8px 0 0;">
@@ -31,27 +51,27 @@ export async function POST(req: NextRequest) {
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 28px;">
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; width: 200px;">Nombres</td>
-                <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: var(--color-navy);">${nombres}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: var(--color-navy);">${s.nombres}</td>
               </tr>
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Correo</td>
-                <td style="padding: 10px 0; font-size: 14px;"><a href="mailto:${correo}" style="color: var(--color-gold);">${correo}</a></td>
+                <td style="padding: 10px 0; font-size: 14px;"><a href="mailto:${s.correo}" style="color: var(--color-gold);">${s.correo}</a></td>
               </tr>
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Identificación</td>
-                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${identificacion}</td>
+                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${s.identificacion}</td>
               </tr>
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Fecha de Nacimiento</td>
-                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${fechaNacimiento}</td>
+                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${s.fechaNacimiento}</td>
               </tr>
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Género</td>
-                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${genero || "No indicado"}</td>
+                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${s.genero}</td>
               </tr>
               <tr>
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Discapacidad</td>
-                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${discapacidad || "No indicado"}</td>
+                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${s.discapacidad}</td>
               </tr>
             </table>
 
@@ -59,31 +79,31 @@ export async function POST(req: NextRequest) {
             <table style="width: 100%; border-collapse: collapse;">
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; width: 200px;">Cargo de Interés</td>
-                <td style="padding: 10px 0; font-size: 14px; font-weight: 700; color: var(--color-navy);">${cargo}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 700; color: var(--color-navy);">${s.cargo}</td>
               </tr>
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Nivel de Formación</td>
-                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${formacion}</td>
+                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${s.formacion}</td>
               </tr>
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Área</td>
-                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${area}</td>
+                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${s.area}</td>
               </tr>
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Certificado B2</td>
-                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${certificadoB2 || "No indicado"}</td>
+                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${s.certificadoB2}</td>
               </tr>
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Disponibilidad</td>
-                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${disponibilidad || "No indicado"}</td>
+                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${s.disponibilidad}</td>
               </tr>
-              <tr style="border-bottom: ${enlaceCV ? "1px solid #f0ece7" : "none"};">
+              <tr style="border-bottom: ${cvHref ? "1px solid #f0ece7" : "none"};">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Expectativa Salarial</td>
-                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${expectativaSalarial ? `$${expectativaSalarial} USD/mes` : "No indicado"}</td>
+                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${s.expectativaSalarial}</td>
               </tr>
-              ${enlaceCV ? `<tr>
+              ${cvHref ? `<tr>
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">CV / Portafolio</td>
-                <td style="padding: 10px 0; font-size: 14px;"><a href="${enlaceCV}" style="color: var(--color-gold); word-break: break-all;">${enlaceCV}</a></td>
+                <td style="padding: 10px 0; font-size: 14px;"><a href="${cvHref}" style="color: var(--color-gold); word-break: break-all;">${cvHref}</a></td>
               </tr>` : ""}
             </table>
           </div>

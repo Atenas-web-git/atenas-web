@@ -28,6 +28,7 @@ export function ChatbotConfigForm({
   const [model, setModel] = useState(initial.model);
   const [apiKey, setApiKey] = useState(initial.apiKey);
   const [systemPrompt, setSystemPrompt] = useState(initial.systemPrompt);
+  const [bubbleText, setBubbleText] = useState(initial.bubbleText);
   const [welcomeMessage, setWelcomeMessage] = useState(initial.welcomeMessage);
   const [fallbackMessage, setFallbackMessage] = useState(initial.fallbackMessage);
   const [fallbackCtaLabel, setFallbackCtaLabel] = useState(initial.fallbackCtaLabel);
@@ -80,6 +81,7 @@ export function ChatbotConfigForm({
     model,
     apiKey,
     systemPrompt,
+    bubbleText,
     welcomeMessage,
     fallbackMessage,
     fallbackCtaLabel,
@@ -245,6 +247,18 @@ export function ChatbotConfigForm({
           </Card>
 
           <Card title="Mensajes del chat" subtitle="Textos que el usuario ve al abrir el chat o cuando Ateneo no sabe responder.">
+            <Field
+              label="Texto de la burbuja flotante"
+              hint='Globo de sugerencia que aparece junto al botón flotante de Ateneo a los pocos segundos. Ej. "¿Tienes alguna pregunta sobre Atenas?"'
+              required
+            >
+              <input
+                type="text"
+                value={bubbleText}
+                onChange={(e) => setBubbleText(e.target.value)}
+                style={inputStyle}
+              />
+            </Field>
             <Field label="Mensaje de bienvenida" required>
               <textarea
                 value={welcomeMessage}

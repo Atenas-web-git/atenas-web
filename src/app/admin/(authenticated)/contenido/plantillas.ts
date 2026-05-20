@@ -994,8 +994,14 @@ export type ContenidoPlantillaI = {
     /** Foto de respaldo (visible mientras el video carga / si no hay video). */
     bgFotoSrc?: string;
     /**
-     * Video de YouTube de fondo en loop. Si no se llena, solo se ve la
-     * foto de respaldo.
+     * Video propio subido (MP4/WebM liviano) para el fondo en loop. Tiene
+     * PRIORIDAD sobre `youtube` — si está presente se usa este (sin branding
+     * ni botón de play). Si está vacío se intenta el de YouTube.
+     */
+    bgVideoUrl?: string;
+    /**
+     * Video de YouTube de fondo en loop. Solo se usa si `bgVideoUrl` está
+     * vacío. Si ambos están vacíos, solo se ve la foto de respaldo.
      */
     youtube?: {
       videoId: string;
@@ -1341,8 +1347,15 @@ export function defaultContenidoPlantillaL(): ContenidoPlantillaL {
 /** Hero del Home — fondo con video YouTube en loop. */
 export type HeroPlantillaM = {
   /**
+   * Video propio subido (MP4/WebM liviano) para el fondo en loop. Tiene
+   * PRIORIDAD sobre `videoYoutubeUrl` — si está presente, se usa este y
+   * no se carga el embed de YouTube (sin branding, sin botón de play).
+   */
+  bgVideoUrl?: string;
+  /**
    * URL de YouTube (formato libre: watch?v=, youtu.be/, /embed/, /shorts/).
-   * Si está vacío se usa la foto de fondo `bgImageSrc` como fallback.
+   * Solo se usa si `bgVideoUrl` está vacío. Si ambos están vacíos se usa
+   * la foto de fondo `bgImageSrc`.
    */
   videoYoutubeUrl: string;
   /** Segundo de inicio del loop (default 0). */
@@ -1860,6 +1873,8 @@ export type ContenidoPlantillaO = {
     privacyLinkHref: string;
     privacyTextPost: string;
   };
+  /** Bloque opcional: botón CTA "Descargar más información" (Google Drive, PDF, etc.). */
+  descargas?: DescargaInfo;
 };
 
 export function defaultContenidoPlantillaO(): ContenidoPlantillaO {

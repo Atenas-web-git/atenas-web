@@ -109,6 +109,7 @@ function YTLoopBackground({
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ opacity: 0.22 }}>
+      {/* Escala 1.3x para recortar el branding de YouTube fuera del área visible. */}
       <div
         id="yt-tl-player"
         className="absolute"
@@ -117,7 +118,7 @@ function YTLoopBackground({
           left: "50%",
           width: "max(100%, calc(100vh * 1.7778))",
           height: "max(100%, calc(100vw * 0.5625))",
-          transform: "translate(-50%, -50%)",
+          transform: "translate(-50%, -50%) scale(1.3)",
         }}
       />
     </div>
@@ -281,6 +282,9 @@ export function TimelineHistoria({ trayectoria }: Props) {
   });
   const bgY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
 
+  // Prioridad del fondo: video propio subido > YouTube > foto.
+  const bgVideoUrl = (trayectoria.bgVideoUrl ?? "").trim();
+  const hasOwnVideo = bgVideoUrl.length > 0;
   const yt = trayectoria.youtube;
   const fotosValidas = trayectoria.fotos.filter(Boolean);
 
@@ -300,7 +304,21 @@ export function TimelineHistoria({ trayectoria }: Props) {
             style={{ opacity: 0.08 }}
           />
         )}
-        {yt?.videoId && (
+        {hasOwnVideo && (
+          <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ opacity: 0.22 }}>
+            {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+            <video
+              src={bgVideoUrl}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              className="absolute inset-0 w-full h-full object-cover object-center"
+            />
+          </div>
+        )}
+        {!hasOwnVideo && yt?.videoId && (
           <YTLoopBackground
             videoId={yt.videoId}
             startSeconds={yt.startSeconds}

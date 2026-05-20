@@ -28,6 +28,18 @@ export default async function CorreosConfigPage() {
     (data?.value as Partial<CorreosConfig> | null) ?? null
   );
 
+  // Maskeo de secretos — no exponemos la API key de Resend ni la
+  // contraseña SMTP en el HTML que llega al navegador. Si hay un secreto
+  // guardado, el form recibe solo "••••••••". La action detecta ese
+  // patrón y conserva el secreto real de BD si el campo no se cambió.
+  const maskSecret = (s: string) =>
+    s && s.trim().length > 0 ? "•".repeat(16) : "";
+  const maskedConfig: CorreosConfig = {
+    ...config,
+    resend: { ...config.resend, apiKey: maskSecret(config.resend.apiKey) },
+    smtp: { ...config.smtp, pass: maskSecret(config.smtp.pass) },
+  };
+
   return (
     <div className="flex flex-col gap-6 p-8">
       <Link
@@ -49,7 +61,7 @@ export default async function CorreosConfigPage() {
         </p>
       </div>
 
-      <CorreosForm initialConfig={config} />
+      <CorreosForm initialConfig={maskedConfig} />
     </div>
   );
 }

@@ -12,6 +12,7 @@ import type {
   SeccionInferiorPlantillaF,
 } from "../../plantillas";
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import { HighlightPreview } from "@/components/admin/HighlightPreview";
 import { AnchorIdField } from "./AnchorIdField";
 
 type SeccionInferiorTipo = "ninguna" | "tarjetas" | "plataformas";
@@ -406,7 +407,7 @@ export function EditorPlantillaF({
           </Field>
           <Field
             label="Parte resaltada del título"
-            hint="Si está presente, esa parte del título se subraya con un trazo dorado."
+            hint='Escribe una palabra o frase del encabezado para subrayarla en dorado. No importan mayúsculas ni tildes. Ej.: encabezado "Formamos líderes del mundo" → escribe "líderes".'
           >
             <input
               type="text"
@@ -427,6 +428,7 @@ export function EditorPlantillaF({
             style={{ ...inputStyle, height: "auto", minHeight: 50, paddingTop: 10, paddingBottom: 10, resize: "vertical" }}
           />
         </Field>
+        <HighlightPreview text={introHeading} highlight={introHeadingHighlight} />
 
         {/* Párrafos */}
         <div className="flex flex-col gap-3">

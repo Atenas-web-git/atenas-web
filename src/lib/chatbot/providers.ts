@@ -125,21 +125,37 @@ async function chatAnthropic(args: ChatProviderArgs): Promise<string> {
 async function chatOpenAI(args: ChatProviderArgs): Promise<string> {
   const { apiKey, model, systemPrompt, messages } = args;
 
+  // La familia GPT-5 (y los modelos de razonamiento o1/o3) cambian el
+  // contrato del endpoint de Chat Completions respecto a GPT-4o:
+  //  - usan `max_completion_tokens` en vez de `max_tokens`,
+  //  - solo aceptan la `temperature` por defecto (no se envía),
+  //  - admiten `reasoning_effort` para acelerar las respuestas cortas.
+  const isReasoningModel = /^(gpt-5|o\d)/i.test(model);
+
+  const body: Record<string, unknown> = {
+    model,
+    messages: [
+      { role: "system", content: systemPrompt },
+      ...messages.map((m) => ({ role: m.role, content: m.content })),
+    ],
+  };
+  if (isReasoningModel) {
+    // 2000 deja margen para los tokens internos de razonamiento + la
+    // respuesta visible; "minimal" mantiene el chatbot rápido.
+    body.max_completion_tokens = 2000;
+    body.reasoning_effort = "minimal";
+  } else {
+    body.max_tokens = 800;
+    body.temperature = 0.4;
+  }
+
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${apiKey}`,
     },
-    body: JSON.stringify({
-      model,
-      temperature: 0.4,
-      max_tokens: 800,
-      messages: [
-        { role: "system", content: systemPrompt },
-        ...messages.map((m) => ({ role: m.role, content: m.content })),
-      ],
-    }),
+    body: JSON.stringify(body),
   });
 
   if (!res.ok) {

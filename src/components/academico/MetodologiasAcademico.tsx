@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import type { ContenidoPlantillaH } from "@/app/admin/(authenticated)/contenido/plantillas";
+import { splitHighlight } from "@/lib/cms/highlight";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
@@ -14,8 +15,7 @@ export function MetodologiasAcademico({ metodologias }: Props) {
   const inView    = useInView(headerRef, { once:true, amount:0.2 });
   const stripView = useInView(stripRef,  { once:true, amount:0.15 });
 
-  const hl = metodologias.headingHighlight;
-  const headingParts = hl && metodologias.heading.includes(hl) ? metodologias.heading.split(hl) : null;
+  const headingParts = splitHighlight(metodologias.heading, metodologias.headingHighlight);
 
   return (
     <section className="relative overflow-hidden bg-cream min-h-[580px] md:min-h-[640px]">
@@ -46,9 +46,9 @@ export function MetodologiasAcademico({ metodologias }: Props) {
             >
               {headingParts ? (
                 <>
-                  {headingParts[0]}
+                  {headingParts.before}
                   <span className="relative inline-block">
-                    {hl}
+                    {headingParts.match}
                     <motion.span
                       className="absolute left-0 right-0 -bottom-1 block bg-gold"
                       style={{ height:4, borderRadius:2 }}
@@ -57,7 +57,7 @@ export function MetodologiasAcademico({ metodologias }: Props) {
                       transition={{ duration:0.55, delay:0.55, ease }}
                     />
                   </span>
-                  {headingParts.slice(1).join(hl)}
+                  {headingParts.after}
                 </>
               ) : (
                 metodologias.heading

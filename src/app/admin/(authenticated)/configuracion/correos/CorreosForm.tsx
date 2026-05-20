@@ -59,7 +59,7 @@ export function CorreosForm({ initialConfig }: { initialConfig: CorreosConfig })
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <Field
             label="API Key"
-            hint="Empieza con re_… Se obtiene desde resend.com/api-keys."
+            hint="Empieza con re_… Se obtiene desde resend.com/api-keys. Si ya hay una clave guardada verás puntos (••••): déjalos para conservarla, o bórralos y pega una nueva para reemplazarla."
           >
             <input
               type="password"
@@ -151,7 +151,7 @@ export function CorreosForm({ initialConfig }: { initialConfig: CorreosConfig })
               autoComplete="off"
             />
           </Field>
-          <Field label="Contraseña" hint="Se guarda cifrada en la BD; no se muestra en logs.">
+          <Field label="Contraseña" hint="Solo la lee el servidor; nunca se expone en el sitio público. Si ya hay una guardada verás puntos (••••): déjalos para conservarla, o bórralos y escribe una nueva para reemplazarla.">
             <input
               type="password"
               name="smtp_pass"

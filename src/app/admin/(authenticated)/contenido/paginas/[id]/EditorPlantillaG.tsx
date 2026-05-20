@@ -5,6 +5,7 @@ import { Save, Plus, Trash2, ArrowUp, ArrowDown } from "lucide-react";
 import { guardarPaginaAction, type PaginaActionState } from "../actions";
 import type { ContenidoPlantillaG } from "../../plantillas";
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import { HighlightPreview } from "@/components/admin/HighlightPreview";
 
 type Hero = ContenidoPlantillaG["hero"];
 type Nucleo = ContenidoPlantillaG["nucleo"];
@@ -118,9 +119,10 @@ function HeroEditor({ hero, setHero, prefix }: { hero: Hero; setHero: (h: Hero) 
       <Field label="Subtítulo">
         <textarea value={hero.subtitle} onChange={(e) => set({ subtitle: e.target.value })} rows={2} style={textareaStyle} />
       </Field>
-      <Field label="Fragmento subrayado en dorado del subtítulo" hint='Si se llena, esa frase exacta del subtítulo aparece subrayada.'>
+      <Field label="Fragmento subrayado en dorado del subtítulo" hint='Escribe una palabra o frase del subtítulo para subrayarla en dorado. No importan mayúsculas ni tildes. Ej.: subtítulo "Bienvenido a Atenas" → escribe "Atenas".'>
         <input type="text" value={hero.subtitleHighlight} onChange={(e) => set({ subtitleHighlight: e.target.value })} style={inputStyle} />
       </Field>
+      <HighlightPreview text={hero.subtitle} highlight={hero.subtitleHighlight} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <Field label="Botón primario — texto" required>
@@ -200,13 +202,14 @@ function NucleoEditor({ nucleo, setNucleo, prefix }: { nucleo: Nucleo; setNucleo
         <Field label="Badge" required>
           <input type="text" value={nucleo.badge} onChange={(e) => set({ badge: e.target.value })} required style={inputStyle} />
         </Field>
-        <Field label="Parte resaltada del título" hint="Esa frase del título se subraya con dorado.">
+        <Field label="Parte resaltada del título" hint='Escribe una palabra o frase del encabezado para subrayarla en dorado. No importan mayúsculas ni tildes. Ej.: "Formamos líderes globales" → escribe "líderes".'>
           <input type="text" value={nucleo.headingHighlight} onChange={(e) => set({ headingHighlight: e.target.value })} style={inputStyle} />
         </Field>
       </div>
       <Field label="Encabezado (h2)" required>
         <input type="text" value={nucleo.heading} onChange={(e) => set({ heading: e.target.value })} required style={inputStyle} />
       </Field>
+      <HighlightPreview text={nucleo.heading} highlight={nucleo.headingHighlight} />
       <Field label="Descripción">
         <textarea value={nucleo.descripcion} onChange={(e) => set({ descripcion: e.target.value })} rows={2} style={textareaStyle} />
       </Field>
@@ -286,13 +289,14 @@ function MateriasEditor({ materias, setMaterias }: { materias: Materias; setMate
         <Field label="Badge" required>
           <input type="text" value={materias.badge} onChange={(e) => set({ badge: e.target.value })} required style={inputStyle} />
         </Field>
-        <Field label="Parte resaltada del título">
+        <Field label="Parte resaltada del título" hint='Escribe una palabra o frase del encabezado para subrayarla en dorado. No importan mayúsculas ni tildes.'>
           <input type="text" value={materias.headingHighlight} onChange={(e) => set({ headingHighlight: e.target.value })} style={inputStyle} />
         </Field>
       </div>
       <Field label="Encabezado (h2)" required>
         <input type="text" value={materias.heading} onChange={(e) => set({ heading: e.target.value })} required style={inputStyle} />
       </Field>
+      <HighlightPreview text={materias.heading} highlight={materias.headingHighlight} />
       <Field label="Descripción">
         <textarea value={materias.descripcion} onChange={(e) => set({ descripcion: e.target.value })} rows={2} style={textareaStyle} />
       </Field>
@@ -370,13 +374,14 @@ function ProcesoEditor({ proceso, setProceso, prefix }: { proceso: Proceso; setP
         <Field label="Badge" required>
           <input type="text" value={proceso.badge} onChange={(e) => set({ badge: e.target.value })} required style={inputStyle} />
         </Field>
-        <Field label="Parte resaltada del título">
+        <Field label="Parte resaltada del título" hint='Escribe una palabra o frase del encabezado para subrayarla en dorado. No importan mayúsculas ni tildes.'>
           <input type="text" value={proceso.headingHighlight} onChange={(e) => set({ headingHighlight: e.target.value })} style={inputStyle} />
         </Field>
       </div>
       <Field label="Encabezado (h2)" required>
         <input type="text" value={proceso.heading} onChange={(e) => set({ heading: e.target.value })} required style={inputStyle} />
       </Field>
+      <HighlightPreview text={proceso.heading} highlight={proceso.headingHighlight} />
 
       <ImageUploader label="Foto de fondo (parallax)" value={proceso.bgImageSrc ?? ""} onChange={(v) => set({ bgImageSrc: v })} prefix={prefix} previewAspect="16/9" hint="Aparece de fondo con efecto parallax y opacidad muy baja." />
 

@@ -9,6 +9,8 @@ import type {
   StatCifrasPlantillaI,
 } from "../../plantillas";
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import { VideoUploader } from "@/components/admin/VideoUploader";
+import { TimeInput } from "@/components/admin/TimeInput";
 import { parseYouTubeUrl } from "@/lib/cms/parseYouTubeUrl";
 
 type Hero = ContenidoPlantillaI["hero"];
@@ -306,47 +308,61 @@ function TrayectoriaEditor({ trayectoria, setTrayectoria, prefix }: { trayectori
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <Field label="Inicio del loop (segundos)" hint="Opcional. Default: 0 (desde el principio).">
-            <input
-              type="number"
-              min={0}
-              value={trayectoria.youtube?.startSeconds ?? ""}
-              onChange={(e) =>
+          <Field label="Inicio del loop (minuto:segundo)" hint='Opcional. Formato m:ss — ej. "0:28". Default: 0:00 (desde el principio).'>
+            <TimeInput
+              value={trayectoria.youtube?.startSeconds ?? 0}
+              onChange={(secs) =>
                 set({
                   youtube: trayectoria.youtube
                     ? {
                         ...trayectoria.youtube,
-                        startSeconds: e.target.value ? Number(e.target.value) : undefined,
+                        startSeconds: secs > 0 ? secs : undefined,
                       }
                     : undefined,
                 })
               }
               disabled={!trayectoria.youtube}
-              placeholder="ej. 28"
+              placeholder="0:00"
               style={trayectoria.youtube ? inputStyle : { ...inputStyle, opacity: 0.5 }}
             />
           </Field>
-          <Field label="Fin del loop (segundos)" hint="Opcional. Default: termina el video completo.">
-            <input
-              type="number"
-              min={0}
-              value={trayectoria.youtube?.endSeconds ?? ""}
-              onChange={(e) =>
+          <Field label="Fin del loop (minuto:segundo)" hint='Opcional. Formato m:ss — ej. "0:55". Default: termina el video completo.'>
+            <TimeInput
+              value={trayectoria.youtube?.endSeconds ?? 0}
+              onChange={(secs) =>
                 set({
                   youtube: trayectoria.youtube
                     ? {
                         ...trayectoria.youtube,
-                        endSeconds: e.target.value ? Number(e.target.value) : undefined,
+                        endSeconds: secs > 0 ? secs : undefined,
                       }
                     : undefined,
                 })
               }
               disabled={!trayectoria.youtube}
-              placeholder="ej. 55"
+              placeholder="0:00"
               style={trayectoria.youtube ? inputStyle : { ...inputStyle, opacity: 0.5 }}
             />
           </Field>
         </div>
+      </div>
+
+      {/* Video propio subido — alternativa a YouTube, sin branding */}
+      <div className="flex flex-col gap-3 p-4" style={panelStyle}>
+        <span style={panelLabel}>Video propio de fondo (recomendado)</span>
+        <div className="px-3 py-2 rounded-md" style={{ background: "#DCFCE7", border: "1px solid #BBF7D0" }}>
+          <p style={{ fontSize: 11, color: "#065F46", margin: 0, lineHeight: 1.5 }}>
+            Sube un video MP4 o WebM <strong>liviano y sin audio</strong> (máx. 15 MB). Tiene
+            <strong> prioridad sobre el video de YouTube</strong> y se reproduce en loop sin el
+            botón de play ni el logo de YouTube. Si subes un video aquí, el de YouTube se ignora.
+          </p>
+        </div>
+        <VideoUploader
+          value={trayectoria.bgVideoUrl ?? ""}
+          onChange={(v) => set({ bgVideoUrl: v || undefined })}
+          prefix={`${prefix}/trayectoria-video`}
+          hint="Consejo: exporta el video a 1280×720, sin audio, recortado a 10-20 segundos para que pese poco."
+        />
       </div>
 
       <ImageUploader
@@ -355,7 +371,7 @@ function TrayectoriaEditor({ trayectoria, setTrayectoria, prefix }: { trayectori
         onChange={(v) => set({ bgFotoSrc: v || undefined })}
         prefix={prefix}
         previewAspect="16/9"
-        hint="Se ve mientras el video carga, o si no hay video. También aparece sutil bajo el video."
+        hint="Se ve mientras el video carga, o si no hay ningún video (propio ni YouTube). También aparece sutil bajo el video."
       />
 
       {/* Hitos */}

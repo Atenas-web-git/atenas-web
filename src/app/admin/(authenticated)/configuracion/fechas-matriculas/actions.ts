@@ -88,9 +88,10 @@ export async function guardarFechasMatriculasAction(
   }
 
   revalidatePath("/admin/configuracion/fechas-matriculas");
-  // Revalidar todas las páginas que usan el banner
+  // Revalidar las 4 páginas que muestran el banner de fechas
   revalidatePath("/matriculas");
   revalidatePath("/matriculas/proceso");
   revalidatePath("/matriculas/valores");
+  revalidatePath("/matriculas/autorizaciones");
   return { error: null, ok: true };
 }

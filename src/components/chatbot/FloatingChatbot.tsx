@@ -30,6 +30,7 @@ export async function FloatingChatbot() {
 
   return (
     <FloatingChatbotClient
+      bubbleText={cfg.bubbleText}
       welcomeMessage={cfg.welcomeMessage}
       fallbackMessage={cfg.fallbackMessage}
       fallbackCtaLabel={cfg.fallbackCtaLabel}

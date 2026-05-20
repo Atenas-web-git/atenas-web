@@ -90,7 +90,13 @@ function getStepIndex(estado: string): number {
   return 0;
 }
 
-function StatusCard({ data }: { data: SolicitudData }) {
+function StatusCard({
+  data,
+  contactoEmail,
+}: {
+  data: SolicitudData;
+  contactoEmail: string;
+}) {
   const info = ESTADO_INFO[data.estado] ?? ESTADO_INFO.pendiente;
   const fecha = new Date(data.created_at).toLocaleDateString("es-EC", { dateStyle: "long" });
   const currentIdx = getStepIndex(data.estado);
@@ -227,8 +233,8 @@ function StatusCard({ data }: { data: SolicitudData }) {
           style={{ fontFamily: "Poppins, sans-serif" }}
         >
           ¿Dudas?{" "}
-          <a href="mailto:admisiones@atenas.edu.ec" className="text-gold underline">
-            admisiones@atenas.edu.ec
+          <a href={`mailto:${contactoEmail}`} className="text-gold underline">
+            {contactoEmail}
           </a>
         </p>
         <Link
@@ -248,6 +254,8 @@ export type SeguimientoClientProps = {
   backLabel: string;
   introTitle: string;
   introDescription: string;
+  /** Email de contacto para dudas — derivado de configuracion_global['contacto']. */
+  contactoEmail: string;
 };
 
 export function SeguimientoClient(props: SeguimientoClientProps) {
@@ -263,6 +271,7 @@ function SeguimientoContent({
   backLabel,
   introTitle,
   introDescription,
+  contactoEmail,
 }: SeguimientoClientProps) {
   const searchParams = useSearchParams();
   const [input, setInput] = useState("");
@@ -392,7 +401,7 @@ function SeguimientoContent({
           )}
 
           {/* Resultado */}
-          {result && <StatusCard data={result} />}
+          {result && <StatusCard data={result} contactoEmail={contactoEmail} />}
 
           {/* Hint cuando no hay búsqueda */}
           {!result && !errorMsg && !loading && (
@@ -431,10 +440,10 @@ function SeguimientoContent({
                   </code>
                   . Revisa también la carpeta de Spam. Si no lo encuentras, escríbenos a{" "}
                   <a
-                    href="mailto:admisiones@atenas.edu.ec"
+                    href={`mailto:${contactoEmail}`}
                     className="text-gold underline font-semibold"
                   >
-                    admisiones@atenas.edu.ec
+                    {contactoEmail}
                   </a>
                   .
                 </p>

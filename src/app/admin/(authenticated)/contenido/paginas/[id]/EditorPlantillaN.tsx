@@ -8,6 +8,7 @@ import type {
   ValorPlantillaN,
 } from "../../plantillas";
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import { IconPicker } from "@/components/admin/IconPicker";
 
 export function EditorPlantillaN({
   paginaId,
@@ -352,21 +353,12 @@ export function EditorPlantillaN({
                     style={inputStyle}
                   />
                 </Field>
-                <Field
-                  label="Icono Lucide"
-                  hint='Nombre del icono en kebab-case (ej. "briefcase", "award", "heart", "shield").'
-                >
-                  <input
-                    type="text"
-                    value={v.iconName}
-                    onChange={(e) => updateValor(i, { iconName: e.target.value })}
-                    placeholder="briefcase"
-                    style={{
-                      ...inputStyle,
-                      fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-                    }}
-                  />
-                </Field>
+                <IconPicker
+                  label="Icono"
+                  value={v.iconName}
+                  onChange={(name) => updateValor(i, { iconName: name })}
+                  hint="Buscador del catálogo completo de Lucide. Click sobre uno para seleccionarlo."
+                />
               </div>
               <Field label="Descripción">
                 <textarea

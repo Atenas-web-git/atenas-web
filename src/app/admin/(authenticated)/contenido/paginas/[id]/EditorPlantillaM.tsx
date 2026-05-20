@@ -24,6 +24,8 @@ import type {
   CardPorQuePlantillaM,
 } from "../../plantillas";
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import { VideoUploader } from "@/components/admin/VideoUploader";
+import { TimeInput } from "@/components/admin/TimeInput";
 import { parseYouTubeUrl } from "@/lib/cms/parseYouTubeUrl";
 
 type Hero = ContenidoPlantillaM["hero"];
@@ -187,25 +189,42 @@ function HeroEditor({ hero, setHero, prefix }: { hero: Hero; setHero: (h: Hero) 
         )}
 
         <div className="grid grid-cols-2 gap-3">
-          <Field label="Inicio del loop (segundos)" hint="0 = empieza del principio.">
-            <input
-              type="number"
-              min={0}
+          <Field label="Inicio del loop (minuto:segundo)" hint='Formato m:ss — ej. "2:32". Deja "0:00" para empezar del principio.'>
+            <TimeInput
               value={hero.startSeconds}
-              onChange={(e) => set({ startSeconds: Math.max(0, Number(e.target.value) || 0) })}
+              onChange={(secs) => set({ startSeconds: secs })}
+              placeholder="0:00"
               style={inputStyle}
             />
           </Field>
-          <Field label="Fin del loop (segundos)" hint="0 = sin loop por tiempo (video corre completo).">
-            <input
-              type="number"
-              min={0}
+          <Field label="Fin del loop (minuto:segundo)" hint='Formato m:ss — ej. "3:20". Deja "0:00" para que el video corra completo sin loop.'>
+            <TimeInput
               value={hero.endSeconds}
-              onChange={(e) => set({ endSeconds: Math.max(0, Number(e.target.value) || 0) })}
+              onChange={(secs) => set({ endSeconds: secs })}
+              placeholder="0:00"
               style={inputStyle}
             />
           </Field>
         </div>
+      </div>
+
+      {/* Video propio subido — alternativa a YouTube, sin branding */}
+      <div className="flex flex-col gap-3 p-4" style={panelStyle}>
+        <span style={panelLabel}>Video propio de fondo (recomendado)</span>
+        <div className="px-3 py-2 rounded-md" style={{ background: "#DCFCE7", border: "1px solid #BBF7D0" }}>
+          <p style={{ fontSize: 11, color: "#065F46", margin: 0, lineHeight: 1.5 }}>
+            Sube un video MP4 o WebM <strong>liviano y sin audio</strong> (máx. 15 MB). Tiene
+            <strong> prioridad sobre el video de YouTube</strong> y se reproduce en loop sin el
+            botón de play ni el logo de YouTube. Recomendado para un fondo limpio y profesional.
+            Si subes un video aquí, el de YouTube se ignora.
+          </p>
+        </div>
+        <VideoUploader
+          value={hero.bgVideoUrl ?? ""}
+          onChange={(v) => set({ bgVideoUrl: v })}
+          prefix={`${prefix}/hero-video`}
+          hint="Consejo: exporta el video a 1280×720, sin audio, recortado a 10-20 segundos para que pese poco."
+        />
       </div>
 
       {/* Foto de fondo (fallback / cover mientras carga el video) */}
@@ -215,7 +234,7 @@ function HeroEditor({ hero, setHero, prefix }: { hero: Hero; setHero: (h: Hero) 
         onChange={(v) => set({ bgImageSrc: v })}
         prefix={prefix}
         previewAspect="16/9"
-        hint="Se muestra siempre como capa inferior. Si no hay video YouTube, esta foto queda visible como fondo del hero."
+        hint="Se muestra siempre como capa inferior. Si no hay ningún video (propio ni YouTube), esta foto queda visible como fondo del hero."
       />
 
       {/* Líneas del título */}

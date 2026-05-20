@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import type { ContenidoPlantillaG } from "@/app/admin/(authenticated)/contenido/plantillas";
+import { splitHighlight } from "@/lib/cms/highlight";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
@@ -20,8 +21,7 @@ export function ProcesoIB({ proceso }: Props) {
   });
   const bgY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
 
-  const hl = proceso.headingHighlight;
-  const headingParts = hl && proceso.heading.includes(hl) ? proceso.heading.split(hl) : null;
+  const headingParts = splitHighlight(proceso.heading, proceso.headingHighlight);
 
   return (
     <section ref={sectionRef} id="proceso" className="relative overflow-hidden bg-dark" style={{ minHeight:600 }}>
@@ -65,9 +65,9 @@ export function ProcesoIB({ proceso }: Props) {
             >
               {headingParts ? (
                 <>
-                  {headingParts[0]}
+                  {headingParts.before}
                   <span className="relative inline-block" style={{ color:"var(--color-gold)" }}>
-                    {hl}
+                    {headingParts.match}
                     <motion.span
                       className="absolute left-0 right-0 -bottom-1 block bg-gold"
                       style={{ height:3, borderRadius:2 }}
@@ -76,7 +76,7 @@ export function ProcesoIB({ proceso }: Props) {
                       transition={{ duration:0.55, delay:0.55, ease }}
                     />
                   </span>
-                  {headingParts.slice(1).join(hl)}
+                  {headingParts.after}
                 </>
               ) : (
                 proceso.heading

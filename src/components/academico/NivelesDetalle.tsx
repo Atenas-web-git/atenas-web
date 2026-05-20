@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import type { ContenidoPlantillaH } from "@/app/admin/(authenticated)/contenido/plantillas";
+import { splitHighlight } from "@/lib/cms/highlight";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
@@ -115,8 +116,7 @@ export function NivelesDetalle({ niveles }: Props) {
   const headerRef = useRef<HTMLDivElement>(null);
   const inView    = useInView(headerRef, { once:true, amount:0.2 });
 
-  const hl = niveles.headingHighlight;
-  const headingParts = hl && niveles.heading.includes(hl) ? niveles.heading.split(hl) : null;
+  const headingParts = splitHighlight(niveles.heading, niveles.headingHighlight);
 
   return (
     <section className="relative overflow-hidden bg-white">
@@ -150,9 +150,9 @@ export function NivelesDetalle({ niveles }: Props) {
               >
                 {headingParts ? (
                   <>
-                    {headingParts[0]}
+                    {headingParts.before}
                     <span className="relative inline-block">
-                      {hl}
+                      {headingParts.match}
                       <motion.span
                         className="absolute left-0 right-0 -bottom-1 block bg-gold"
                         style={{ height:4, borderRadius:2 }}
@@ -161,7 +161,7 @@ export function NivelesDetalle({ niveles }: Props) {
                         transition={{ duration:0.55, delay:0.55, ease }}
                       />
                     </span>
-                    {headingParts.slice(1).join(hl)}
+                    {headingParts.after}
                   </>
                 ) : (
                   niveles.heading
