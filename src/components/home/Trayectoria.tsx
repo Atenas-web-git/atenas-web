@@ -116,7 +116,7 @@ export function Trayectoria({ trayectoria }: Props) {
       {trayectoria.ghostText && (
         <div
           className="absolute pointer-events-none select-none"
-          style={{ top: 20, left: -20, right: 0, overflow: "hidden" }}
+          style={{ top: 20, left: 16, right: 0, overflow: "hidden" }}
         >
           <span
             style={{

@@ -28,7 +28,7 @@ export function NavAdmisiones({ current }: Props) {
         Por nivel
       </span>
 
-      <div className="flex flex-row flex-wrap md:flex-nowrap md:items-center gap-y-2 gap-x-0 md:ml-8">
+      <div className="flex flex-row flex-wrap md:flex-nowrap md:items-center gap-y-2 gap-x-4 md:gap-x-0 md:ml-8">
         {NIVELES.map((n, i) => {
           const isActive = n.slug === current;
           return (

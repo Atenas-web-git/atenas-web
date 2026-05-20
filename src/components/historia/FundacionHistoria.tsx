@@ -9,11 +9,15 @@ const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 type Props = { fundacion: ContenidoPlantillaI["fundacion"] };
 
 export function FundacionHistoria({ fundacion }: Props) {
-  const ref = useRef<HTMLDivElement>(null);
+  // Un solo ref en el <section> (siempre visible). Antes había dos
+  // <div ref={ref}> —mobile y desktop— compartiendo el mismo ref; en
+  // mobile el ref terminaba apuntando al div desktop (display:none) y
+  // useInView nunca disparaba → el texto quedaba con opacity:0 invisible.
+  const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.15 });
 
   return (
-    <section className="relative bg-white overflow-hidden">
+    <section ref={ref} className="relative bg-white overflow-hidden">
 
       {/* ─── Mobile ─── */}
       <div className="md:hidden">
@@ -42,7 +46,7 @@ export function FundacionHistoria({ fundacion }: Props) {
         </div>
 
         {/* Texto */}
-        <div ref={ref} className="px-6 pt-8 pb-14">
+        <div className="px-6 pt-8 pb-14">
           <motion.p
             style={{
               fontFamily: "Poppins, sans-serif",
@@ -135,7 +139,7 @@ export function FundacionHistoria({ fundacion }: Props) {
         style={{ height: 760, maxWidth: 1440, marginLeft: "auto", marginRight: "auto" }}
       >
         {/* Columna de texto */}
-        <div ref={ref} className="absolute" style={{ left: 160, top: 0, width: 460, paddingTop: 120 }}>
+        <div className="absolute" style={{ left: 160, top: 0, width: 460, paddingTop: 120 }}>
           <motion.p
             style={{
               fontFamily: "Poppins, sans-serif",

@@ -44,8 +44,7 @@ export function HeroElAtenas({
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-dark"
-      style={{ minHeight: 640 }}
+      className="relative overflow-hidden bg-dark min-h-[420px] md:min-h-[640px]"
     >
       {/* ─── Fondo con parallax ─── */}
       <motion.div
@@ -101,15 +100,17 @@ export function HeroElAtenas({
       </div>
 
       {/* ─── Ghost text mobile ─── */}
+      {/* fontSize con clamp para que palabras largas (DOCUMENTOS, SEGURIDAD)
+          no desborden el borde derecho en pantallas angostas. */}
       <div
         className="md:hidden absolute pointer-events-none select-none"
-        style={{ top: 96, left: 20 }}
+        style={{ top: 96, left: 20, right: 0, overflow: "hidden" }}
       >
         <span
           style={{
             display: "block",
             fontFamily: "Poppins, sans-serif",
-            fontSize: 70,
+            fontSize: "clamp(40px, 13vw, 60px)",
             fontWeight: 700,
             color: "white",
             opacity: 0.025,
@@ -184,7 +185,7 @@ export function HeroElAtenas({
       {/* ─── Contenido principal ─── */}
       <div
         className="relative z-10
-          px-6 pt-[160px] pb-28
+          px-6 pt-[160px] pb-16
           md:px-0 md:pt-0 md:pb-0
           md:absolute md:left-[192px] md:top-[234px]
           flex flex-col gap-[16px] md:gap-[18px]"

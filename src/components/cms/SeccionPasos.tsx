@@ -172,6 +172,10 @@ export function SeccionPasos({ intro, galeria, tarjetas, pasos, nota, anchorId }
                     objectFit: "cover",
                     width: "100%",
                     height: "100%",
+                    // minWidth:0 evita el min-width:auto de los flex items:
+                    // sin esto, cada <img> no baja de su ancho intrínseco y
+                    // la 2ª foto se desbordaba fuera de pantalla en mobile.
+                    minWidth: 0,
                   }}
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).style.display = "none";

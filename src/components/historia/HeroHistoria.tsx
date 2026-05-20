@@ -9,7 +9,7 @@ type Props = { hero: ContenidoPlantillaI["hero"] };
 
 export function HeroHistoria({ hero }: Props) {
   return (
-    <section className="relative overflow-hidden bg-dark min-h-[660px] md:min-h-[900px]">
+    <section className="relative overflow-hidden bg-dark min-h-[480px] md:min-h-[900px]">
       {/* Foto de fondo */}
       <div className="absolute inset-0">
         {hero.bgImageSrc && (

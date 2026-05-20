@@ -227,15 +227,21 @@ function Subtitle({ text, highlight }: { text: string; highlight: string }) {
       transition={{ duration: 0.6, delay: 0.58, ease }}
     >
       {parts.before}
-      <span className="relative inline-block">
+      {/* Subrayado con background-gradient + box-decoration-break: así el
+          trazo dorado sigue el texto si el resaltado se parte en varias
+          líneas (antes un <span> absolute se veía como una línea suelta). */}
+      <span
+        style={{
+          backgroundImage: "linear-gradient(var(--color-gold), var(--color-gold))",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "0 100%",
+          backgroundSize: "100% 2px",
+          paddingBottom: 1,
+          WebkitBoxDecorationBreak: "clone",
+          boxDecorationBreak: "clone",
+        }}
+      >
         {parts.match}
-        <motion.span
-          className="absolute left-0 right-0 -bottom-0.5 block bg-gold"
-          style={{ height: 2, borderRadius: 2 }}
-          initial={{ scaleX: 0, originX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 0.5, delay: 0.9, ease }}
-        />
       </span>
       {parts.after}
     </motion.p>
