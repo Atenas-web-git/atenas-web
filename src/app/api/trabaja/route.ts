@@ -39,71 +39,71 @@ export async function POST(req: NextRequest) {
     const cvHref = safeHref(enlaceCV);
 
     const html = `
-        <div style="font-family: sans-serif; max-width: 620px; margin: 0 auto; color: var(--color-navy);">
-          <div style="background: var(--color-navy); padding: 32px; border-radius: 8px 8px 0 0;">
-            <h2 style="color: var(--color-gold); margin: 0; font-size: 20px;">Nueva postulación de empleo</h2>
+        <div style="font-family: sans-serif; max-width: 620px; margin: 0 auto; color: #1A2B4A;">
+          <div style="background: #1A2B4A; padding: 32px; border-radius: 8px 8px 0 0;">
+            <h2 style="color: #C9A84C; margin: 0; font-size: 20px;">Nueva postulación de empleo</h2>
             <p style="color: rgba(255,255,255,0.70); margin: 8px 0 0; font-size: 14px;">
               Recibida desde el formulario web — ${fecha}
             </p>
           </div>
           <div style="background: #ffffff; padding: 32px; border: 1px solid #e8e4df; border-top: none; border-radius: 0 0 8px 8px;">
-            <h3 style="color: var(--color-gold); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; margin: 0 0 14px;">Datos Personales</h3>
+            <h3 style="color: #C9A84C; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; margin: 0 0 14px;">Datos Personales</h3>
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 28px;">
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; width: 200px;">Nombres</td>
-                <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: var(--color-navy);">${s.nombres}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: #1A2B4A;">${s.nombres}</td>
               </tr>
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Correo</td>
-                <td style="padding: 10px 0; font-size: 14px;"><a href="mailto:${s.correo}" style="color: var(--color-gold);">${s.correo}</a></td>
+                <td style="padding: 10px 0; font-size: 14px;"><a href="mailto:${s.correo}" style="color: #C9A84C;">${s.correo}</a></td>
               </tr>
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Identificación</td>
-                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${s.identificacion}</td>
+                <td style="padding: 10px 0; font-size: 14px; color: #1A2B4A;">${s.identificacion}</td>
               </tr>
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Fecha de Nacimiento</td>
-                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${s.fechaNacimiento}</td>
+                <td style="padding: 10px 0; font-size: 14px; color: #1A2B4A;">${s.fechaNacimiento}</td>
               </tr>
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Género</td>
-                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${s.genero}</td>
+                <td style="padding: 10px 0; font-size: 14px; color: #1A2B4A;">${s.genero}</td>
               </tr>
               <tr>
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Discapacidad</td>
-                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${s.discapacidad}</td>
+                <td style="padding: 10px 0; font-size: 14px; color: #1A2B4A;">${s.discapacidad}</td>
               </tr>
             </table>
 
-            <h3 style="color: var(--color-gold); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; margin: 0 0 14px;">Perfil Profesional</h3>
+            <h3 style="color: #C9A84C; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; margin: 0 0 14px;">Perfil Profesional</h3>
             <table style="width: 100%; border-collapse: collapse;">
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; width: 200px;">Cargo de Interés</td>
-                <td style="padding: 10px 0; font-size: 14px; font-weight: 700; color: var(--color-navy);">${s.cargo}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 700; color: #1A2B4A;">${s.cargo}</td>
               </tr>
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Nivel de Formación</td>
-                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${s.formacion}</td>
+                <td style="padding: 10px 0; font-size: 14px; color: #1A2B4A;">${s.formacion}</td>
               </tr>
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Área</td>
-                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${s.area}</td>
+                <td style="padding: 10px 0; font-size: 14px; color: #1A2B4A;">${s.area}</td>
               </tr>
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Certificado B2</td>
-                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${s.certificadoB2}</td>
+                <td style="padding: 10px 0; font-size: 14px; color: #1A2B4A;">${s.certificadoB2}</td>
               </tr>
               <tr style="border-bottom: 1px solid #f0ece7;">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Disponibilidad</td>
-                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${s.disponibilidad}</td>
+                <td style="padding: 10px 0; font-size: 14px; color: #1A2B4A;">${s.disponibilidad}</td>
               </tr>
               <tr style="border-bottom: ${cvHref ? "1px solid #f0ece7" : "none"};">
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Expectativa Salarial</td>
-                <td style="padding: 10px 0; font-size: 14px; color: var(--color-navy);">${s.expectativaSalarial}</td>
+                <td style="padding: 10px 0; font-size: 14px; color: #1A2B4A;">${s.expectativaSalarial}</td>
               </tr>
               ${cvHref ? `<tr>
                 <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">CV / Portafolio</td>
-                <td style="padding: 10px 0; font-size: 14px;"><a href="${cvHref}" style="color: var(--color-gold); word-break: break-all;">${cvHref}</a></td>
+                <td style="padding: 10px 0; font-size: 14px;"><a href="${cvHref}" style="color: #C9A84C; word-break: break-all;">${cvHref}</a></td>
               </tr>` : ""}
             </table>
           </div>
@@ -113,24 +113,24 @@ export async function POST(req: NextRequest) {
         </div>
     `;
 
-    await Promise.allSettled([
-      sendEmail({
-        purpose: "trabaja",
-        subject: `Nueva postulación — ${nombres} — ${cargo}`,
-        html,
-        context: "POST /api/trabaja (interno)",
-      }),
-      sendFormConfirmation({
-        tipo: "trabaja",
-        to: String(correo),
-        variables: {
-          nombre: String(nombres),
-          correo: String(correo),
-          cargo: String(cargo),
-        },
-        context: "POST /api/trabaja (confirmación)",
-      }),
-    ]);
+    // Envío SECUENCIAL (ver nota en /api/contactos): evita abrir 2 conexiones
+    // SMTP a la vez. Best-effort — no rompe la respuesta del formulario.
+    await sendEmail({
+      purpose: "trabaja",
+      subject: `Nueva postulación — ${nombres} — ${cargo}`,
+      html,
+      context: "POST /api/trabaja (interno)",
+    }).catch(() => {});
+    await sendFormConfirmation({
+      tipo: "trabaja",
+      to: String(correo),
+      variables: {
+        nombre: String(nombres),
+        correo: String(correo),
+        cargo: String(cargo),
+      },
+      context: "POST /api/trabaja (confirmación)",
+    }).catch(() => {});
 
     return NextResponse.json({ ok: true });
   } catch (err) {

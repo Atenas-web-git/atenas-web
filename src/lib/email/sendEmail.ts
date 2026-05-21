@@ -73,6 +73,31 @@ function buildFromHeader(email: string, name?: string): string {
   return name ? `${name} <${email}>` : email;
 }
 
+/**
+ * Versión en texto plano del HTML del correo. Adjuntar una parte `text`
+ * además del `html` mejora la entregabilidad: los correos solo-HTML
+ * puntúan más alto en los filtros de spam (Gmail, Yahoo, Outlook).
+ */
+function htmlToPlainText(html: string): string {
+  return html
+    .replace(/<style[\s\S]*?<\/style>/gi, "")
+    .replace(/<head[\s\S]*?<\/head>/gi, "")
+    .replace(/<(br|\/p|\/div|\/tr|\/h[1-6]|\/li)[^>]*>/gi, "\n")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/[ \t]+/g, " ")
+    .split("\n")
+    .map((line) => line.trim())
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
 function resolveFromPreset(
   config: CorreosConfig,
   purpose: CorreoPurpose,
@@ -171,6 +196,7 @@ async function sendViaResend(args: {
       to: args.to,
       subject: args.subject,
       html: args.html,
+      text: htmlToPlainText(args.html),
       attachments:
         args.attachments && args.attachments.length > 0
           ? args.attachments.map((a) => ({
@@ -223,6 +249,7 @@ async function sendViaSmtp(args: {
       to: args.to.join(", "),
       subject: args.subject,
       html: args.html,
+      text: htmlToPlainText(args.html),
       attachments: args.attachments?.map((a) => ({
         filename: a.filename,
         content: a.content,

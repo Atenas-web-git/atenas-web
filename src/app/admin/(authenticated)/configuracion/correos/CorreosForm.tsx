@@ -8,7 +8,12 @@ import {
   type CorreosConfig,
   type CorreoPurpose,
 } from "@/lib/cms/correos";
-import { guardarCorreosAction, type CorreosActionState } from "./actions";
+import {
+  guardarCorreosAction,
+  probarEnvioCorreoAction,
+  type CorreosActionState,
+  type TestEmailResult,
+} from "./actions";
 
 export function CorreosForm({ initialConfig }: { initialConfig: CorreosConfig }) {
   const [state, action, isPending] = useActionState<CorreosActionState, FormData>(
@@ -19,6 +24,7 @@ export function CorreosForm({ initialConfig }: { initialConfig: CorreosConfig })
   const [provider, setProvider] = useState<CorreosConfig["provider"]>(initialConfig.provider);
 
   return (
+    <div className="flex flex-col gap-5">
     <form action={action} className="flex flex-col gap-5">
       <Sticky state={state} isPending={isPending} />
 
@@ -201,6 +207,220 @@ export function CorreosForm({ initialConfig }: { initialConfig: CorreosConfig })
         </div>
       </Card>
     </form>
+
+      <ProbarEnvioCard
+        notifyToContactos={initialConfig.presets.contactos.notifyTo || ""}
+        defaultEmail={
+          (initialConfig.presets.contactos.notifyTo || "")
+            .split(/[,;]/)[0]
+            ?.trim() ?? ""
+        }
+      />
+    </div>
+  );
+}
+
+/* ─── Probar envío ─── */
+
+function ProbarEnvioCard({
+  notifyToContactos,
+  defaultEmail,
+}: {
+  notifyToContactos: string;
+  defaultEmail: string;
+}) {
+  const [email, setEmail] = useState(defaultEmail);
+  const [loading, setLoading] = useState<"interno" | "directo" | null>(null);
+  const [result, setResult] = useState<TestEmailResult | null>(null);
+
+  async function run(modo: "interno" | "directo") {
+    setLoading(modo);
+    setResult(null);
+    try {
+      setResult(await probarEnvioCorreoAction(modo === "interno" ? "" : email));
+    } catch {
+      setResult({
+        ok: false,
+        modo,
+        provider: "—",
+        fromUsed: "—",
+        toUsed: modo === "interno" ? notifyToContactos : email,
+        error: "No se pudo ejecutar la prueba.",
+      });
+    } finally {
+      setLoading(null);
+    }
+  }
+
+  const busy = loading !== null;
+
+  return (
+    <Card
+      title="Probar envío"
+      subtitle="Envía correos de prueba reales con la configuración GUARDADA. Si cambiaste algo arriba, pulsa primero «Guardar cambios»."
+    >
+      <div className="flex flex-col gap-4">
+        {/* Prueba 1 — notificación interna (replica el formulario) */}
+        <div className="flex flex-col gap-2 p-3" style={panelStyle}>
+          <span
+            style={{
+              fontSize: 11,
+              fontWeight: 700,
+              color: "#1A2B4A",
+              textTransform: "uppercase",
+              letterSpacing: 0.8,
+            }}
+          >
+            1 · Notificación interna del formulario de contactos
+          </span>
+          <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.55 }}>
+            Replica exactamente lo que pasa al enviar el formulario de contactos:
+            el correo va al destinatario de «Notificar a (interno)».
+          </p>
+          <p style={{ fontSize: 12, color: "#1A2B4A", margin: 0 }}>
+            Destino guardado:{" "}
+            <strong>
+              {notifyToContactos.trim() || "(vacío — falta configurarlo y guardar)"}
+            </strong>
+          </p>
+          <button
+            type="button"
+            onClick={() => run("interno")}
+            disabled={busy}
+            className="flex items-center justify-center gap-2 px-4 rounded-md w-fit"
+            style={{
+              height: 38,
+              background: "#1A2B4A",
+              color: "#FFFFFF",
+              border: "none",
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: busy ? "wait" : "pointer",
+              opacity: busy ? 0.6 : 1,
+              whiteSpace: "nowrap",
+            }}
+          >
+            <Mail size={14} strokeWidth={2.5} />
+            {loading === "interno" ? "Enviando…" : "Probar notificación interna"}
+          </button>
+        </div>
+
+        {/* Prueba 2 — envío directo a una dirección concreta */}
+        <div className="flex flex-col gap-2 p-3" style={panelStyle}>
+          <span
+            style={{
+              fontSize: 11,
+              fontWeight: 700,
+              color: "#1A2B4A",
+              textTransform: "uppercase",
+              letterSpacing: 0.8,
+            }}
+          >
+            2 · Enviar a una dirección concreta
+          </span>
+          <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.55 }}>
+            Prueba general del servidor: envía a la dirección que escribas.
+          </p>
+          <div className="flex flex-col md:flex-row gap-2 md:items-center">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="tu-correo@ejemplo.com"
+              style={{ ...inputStyle, flex: 1 }}
+            />
+            <button
+              type="button"
+              onClick={() => run("directo")}
+              disabled={busy || !email.trim()}
+              className="flex items-center justify-center gap-2 px-4 rounded-md"
+              style={{
+                height: 38,
+                background: "#FFFFFF",
+                color: "#1A2B4A",
+                border: "1px solid #1A2B4A",
+                fontSize: 13,
+                fontWeight: 600,
+                cursor: busy || !email.trim() ? "not-allowed" : "pointer",
+                opacity: busy || !email.trim() ? 0.6 : 1,
+                whiteSpace: "nowrap",
+              }}
+            >
+              <Mail size={14} strokeWidth={2.5} />
+              {loading === "directo" ? "Enviando…" : "Enviar a esta dirección"}
+            </button>
+          </div>
+        </div>
+
+        {result && <TestResultBox result={result} />}
+      </div>
+    </Card>
+  );
+}
+
+function TestResultBox({ result }: { result: TestEmailResult }) {
+  const ok = result.ok;
+  return (
+    <div
+      style={{
+        background: ok ? "#ECFDF5" : "#FEF2F2",
+        border: `1px solid ${ok ? "#A7F3D0" : "#FECACA"}`,
+        borderRadius: 8,
+        padding: 14,
+      }}
+    >
+      <p
+        style={{
+          margin: 0,
+          fontSize: 13,
+          fontWeight: 700,
+          color: ok ? "#065F46" : "#991B1B",
+        }}
+      >
+        {ok ? "✓ El proveedor aceptó el correo" : "✗ El envío falló"}
+      </p>
+      <div style={{ marginTop: 8, fontSize: 12, color: "#4B5563", lineHeight: 1.7 }}>
+        <div>
+          <strong>Prueba:</strong>{" "}
+          {result.modo === "interno"
+            ? "notificación interna (igual que el formulario)"
+            : "envío directo"}
+        </div>
+        <div><strong>Proveedor:</strong> {result.provider}</div>
+        <div><strong>Remitente (From):</strong> {result.fromUsed}</div>
+        <div><strong>Destinatario:</strong> {result.toUsed}</div>
+        {result.messageId && (
+          <div><strong>ID del envío:</strong> {result.messageId}</div>
+        )}
+        {result.error && (
+          <div style={{ color: "#991B1B", marginTop: 4 }}>
+            <strong>Error:</strong> {result.error}
+          </div>
+        )}
+      </div>
+      {ok && (
+        <p style={{ margin: "10px 0 0", fontSize: 12, color: "#065F46", lineHeight: 1.6 }}>
+          El servidor aceptó el correo. Si no lo ves en la bandeja de entrada,
+          revisa la carpeta de SPAM / correo no deseado.
+        </p>
+      )}
+      {result.hint && (
+        <p
+          style={{
+            margin: "10px 0 0",
+            fontSize: 12,
+            color: "#92400E",
+            background: "#FFFBEB",
+            border: "1px solid #FDE68A",
+            borderRadius: 6,
+            padding: "8px 10px",
+            lineHeight: 1.6,
+          }}
+        >
+          💡 {result.hint}
+        </p>
+      )}
+    </div>
   );
 }
 
