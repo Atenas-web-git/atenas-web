@@ -237,17 +237,27 @@ function MobileCard({
         />
       )}
 
+      {/* Degradado de abajo hacia arriba: oscurece la base donde va el
+          texto para que no se confunda con la foto. */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(to right, rgba(13,24,37,0) 30%, rgba(13,24,37,0.94) 100%)",
+            "linear-gradient(to top, rgba(13,24,37,0.95) 0%, rgba(13,24,37,0.55) 38%, rgba(13,24,37,0) 78%)",
         }}
       />
 
       <div
-        className="absolute"
-        style={{ left: 16, bottom: 16, display: "flex", flexDirection: "column", gap: 4 }}
+        className="absolute inset-x-0"
+        style={{
+          bottom: 18,
+          padding: "0 16px",
+          display: "flex",
+          flexDirection: "column",
+          gap: 4,
+          alignItems: "center",
+          textAlign: "center",
+        }}
       >
         <span
           style={{
@@ -331,7 +341,7 @@ export function Niveles({ niveles }: Props) {
                   lineHeight: 1.15,
                   color: "var(--color-navy)",
                   margin: 0,
-                  textAlign: "left",
+                  textAlign: "center",
                 }}
                 initial={{ y: 56, opacity: 0, filter: "blur(8px)" }}
                 animate={inView ? { y: 0, opacity: 1, filter: "blur(0px)" } : {}}

@@ -1,71 +1,79 @@
+"use client";
+
 /**
- * Helper para renderizar texto con palabras destacadas con un subrayado
- * dorado animado, usando la sintaxis `{palabra}` en el texto plano.
+ * Resaltado tipo "marcador" para palabras clave dentro de un texto,
+ * usando la sintaxis `{palabra}` en el texto plano.
  *
- * Uso:
  *   <HighlightText text="Educamos para {transformar} el mundo" />
  *
- * Renderiza: "Educamos para [transformar con underline dorado] el mundo".
+ * La palabra entre llaves recibe una franja de color (estilo resaltador /
+ * highlighter) detrás de la mitad inferior del texto. La franja se "pinta"
+ * de izquierda a derecha cuando la palabra entra en pantalla.
  *
- * Si el texto no contiene llaves, se renderiza igual sin highlight.
+ * Detalles de diseño:
+ *  - Color dorado semi-transparente: se ve bien tanto sobre fondos claros
+ *    (queda un dorado suave) como oscuros (queda una franja cálida tenue),
+ *    y el texto encima sigue siendo legible en ambos casos.
+ *  - `box-decoration-break: clone` → la franja sigue el texto si la palabra
+ *    se parte en varias líneas (importante en mobile).
+ *  - Se anima con una transición CSS de `background-size`, disparada al
+ *    entrar en viewport con `useInView`.
  *
- * Convención: solo se procesa el primer match `{...}` por simplicidad y
- * consistencia visual (múltiples highlights distraen). Para varios highlights
- * en un mismo texto, considerar partir la frase en líneas.
+ * Si el texto no contiene llaves, se renderiza igual sin resaltado.
  */
 
-import React from "react";
+import { useRef } from "react";
+import { useInView } from "framer-motion";
 
 type Props = {
   text: string;
-  /** Si true (default), el underline se anima al aparecer en viewport. */
+  /** Si false, el resaltado aparece estático (sin animación de entrada). */
   animated?: boolean;
-  /** Color del underline. Default: var(--color-gold). */
+  /** Color del resaltador. Default: dorado semi-transparente. */
   color?: string;
 };
 
-export function HighlightText({ text, animated = true, color }: Props) {
+export function HighlightText({
+  text,
+  animated = true,
+  color = "rgba(201,168,76,0.5)",
+}: Props) {
+  const ref = useRef<HTMLSpanElement>(null);
+  // amount alto: la animación dispara cuando la palabra está bien visible.
+  const inView = useInView(ref, { once: true, amount: 0.6 });
+
   const match = text?.match(/^(.*?)\{(.+?)\}(.*)$/);
   if (!match) {
     return <>{text}</>;
   }
   const [, before, keyword, after] = match;
-  const c = color ?? "var(--color-gold, var(--color-gold))";
+
+  const painted = animated ? inView : true;
 
   return (
     <>
       {before}
       <span
+        ref={ref}
         style={{
-          position: "relative",
-          display: "inline-block",
-          whiteSpace: "nowrap",
+          // Franja de color en la mitad inferior del texto (52% → 90%):
+          // termina por encima del borde para no rozar la línea siguiente
+          // y dejar asomar los rasgos descendentes (g, y, p).
+          backgroundImage: `linear-gradient(transparent 52%, ${color} 52%, ${color} 90%, transparent 90%)`,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "0 0",
+          // Se anima el ancho: 0% → 100% pinta de izquierda a derecha.
+          backgroundSize: painted ? "100% 100%" : "0% 100%",
+          transition: animated
+            ? "background-size 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.15s"
+            : undefined,
+          WebkitBoxDecorationBreak: "clone",
+          boxDecorationBreak: "clone",
         }}
       >
         {keyword}
-        <span
-          aria-hidden
-          style={{
-            position: "absolute",
-            left: 0,
-            right: 0,
-            bottom: "-0.05em",
-            height: "0.18em",
-            background: c,
-            borderRadius: 999,
-            opacity: 0.85,
-            transformOrigin: "left center",
-            transform: animated ? "scaleX(0)" : "scaleX(1)",
-            animation: animated ? "highlightUnderline 0.7s 0.2s ease-out forwards" : undefined,
-          }}
-        />
       </span>
       {after}
-      <style>{`
-        @keyframes highlightUnderline {
-          to { transform: scaleX(1); }
-        }
-      `}</style>
     </>
   );
 }

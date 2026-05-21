@@ -2,28 +2,16 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { HighlightText } from "@/components/shared/HighlightText";
 import type { TaglinePlantillaM } from "@/app/admin/(authenticated)/contenido/plantillas";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
 type Props = { tagline: TaglinePlantillaM };
 
-/**
- * Parsea la línea 1 buscando la palabra clave entre `{` y `}`.
- * Devuelve [antes, palabra-con-underline, después]. Si no hay llaves, solo
- * devuelve la línea completa sin underline.
- */
-function parseLine(line: string): { before: string; keyword: string; after: string } {
-  const match = line.match(/^(.*?)\{(.+?)\}(.*)$/);
-  if (!match) return { before: line, keyword: "", after: "" };
-  return { before: match[1], keyword: match[2], after: match[3] };
-}
-
 export function Tagline({ tagline }: Props) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.3 });
-
-  const { before, keyword, after } = parseLine(tagline.line1);
 
   return (
     <section
@@ -64,20 +52,7 @@ export function Tagline({ tagline }: Props) {
           animate={inView ? { y: 0, opacity: 1 } : {}}
           transition={{ duration: 0.7, delay: 0.25, ease }}
         >
-          {before}
-          {keyword && (
-            <span className="relative inline-block">
-              {keyword}
-              <motion.span
-                className="absolute -bottom-1 left-0 right-0 h-[5px] bg-gold rounded-sm"
-                initial={{ scaleX: 0 }}
-                animate={inView ? { scaleX: 1 } : {}}
-                transition={{ duration: 0.55, delay: 0.75, ease }}
-                style={{ originX: 0 }}
-              />
-            </span>
-          )}
-          {after}
+          <HighlightText text={tagline.line1} />
         </motion.h2>
 
         {tagline.line2 && (

@@ -88,9 +88,9 @@ export function NavbarClient({
                 <Image
                   src={navbarCfg.aniversarioBadge.logoSrc}
                   alt={navbarCfg.aniversarioBadge.label}
-                  width={64}
-                  height={32}
-                  className="hidden sm:block h-8 w-auto"
+                  width={120}
+                  height={120}
+                  className="hidden sm:block h-12 md:h-14 w-auto"
                   unoptimized
                 />
               ) : (
