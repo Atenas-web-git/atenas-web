@@ -2,13 +2,15 @@ export type TipoPlantillaFormulario =
   | "contactos"
   | "quejas"
   | "trabaja"
-  | "admisiones-confirmacion";
+  | "admisiones-confirmacion"
+  | "admisiones-consulta";
 
 export const TIPOS_PLANTILLA_FORMULARIO: TipoPlantillaFormulario[] = [
   "contactos",
   "quejas",
   "trabaja",
   "admisiones-confirmacion",
+  "admisiones-consulta",
 ];
 
 type TipoInfo = {
@@ -70,9 +72,9 @@ export const TIPOS_PLANTILLA_INFO: Record<TipoPlantillaFormulario, TipoInfo> = {
     },
   },
   "admisiones-confirmacion": {
-    label: "Admisiones — confirmación",
+    label: "Admisiones — confirmación de solicitud",
     description:
-      "Confirmación al representante cuando envía la solicitud de admisión (antes de pasar al pipeline).",
+      "Confirmación al representante cuando envía la solicitud FORMAL de admisión (el formulario largo, antes de pasar al pipeline).",
     color: "#1A2B4A",
     variables: [
       { code: "{{rep_nombres}}", label: "Nombres del representante" },
@@ -90,6 +92,22 @@ export const TIPOS_PLANTILLA_INFO: Record<TipoPlantillaFormulario, TipoInfo> = {
       numero: "ATN-2026-543210",
       url_seguimiento:
         "https://atenas.edu.ec/admisiones/seguimiento?numero=ATN-2026-543210",
+    },
+  },
+  "admisiones-consulta": {
+    label: "Admisiones — consulta por nivel",
+    description:
+      "Confirmación al usuario que pide más información desde el formulario de una página de admisión por nivel (/admisiones/inicial, /egb-superior, etc.).",
+    color: "#1A2B4A",
+    variables: [
+      { code: "{{representante}}", label: "Nombre del representante" },
+      { code: "{{estudiante}}", label: "Nombre del estudiante" },
+      { code: "{{nivel}}", label: "Nivel de interés" },
+    ],
+    sample: {
+      representante: "Carlos Salazar",
+      estudiante: "María Salazar",
+      nivel: "Bachillerato IB",
     },
   },
 };

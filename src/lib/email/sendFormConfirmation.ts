@@ -23,7 +23,8 @@ export type TipoPlantillaFormulario =
   | "contactos"
   | "quejas"
   | "trabaja"
-  | "admisiones-confirmacion";
+  | "admisiones-confirmacion"
+  | "admisiones-consulta";
 
 function fillTemplate(text: string, vars: Record<string, string>): string {
   let out = text;
@@ -39,6 +40,8 @@ const PURPOSE_BY_TIPO: Record<TipoPlantillaFormulario, CorreoPurpose> = {
   quejas: "quejas",
   trabaja: "trabaja",
   "admisiones-confirmacion": "admisiones-confirmacion",
+  // El formulario de consulta por nivel comparte el preset de admisiones.
+  "admisiones-consulta": "admisiones-confirmacion",
 };
 
 export async function sendFormConfirmation(args: {

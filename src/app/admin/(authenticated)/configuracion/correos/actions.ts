@@ -19,8 +19,6 @@ export type CorreosActionState = { error: string | null; ok: boolean };
 /** Resultado de la prueba de envío manual. */
 export type TestEmailResult = {
   ok: boolean;
-  /** "interno" = como el formulario (usa notifyTo); "directo" = a una dirección escrita. */
-  modo: "interno" | "directo";
   /** Provider usado (resend / smtp). */
   provider: string;
   /** Remitente (From) que se intentó usar. */
@@ -78,10 +76,12 @@ export async function guardarCorreosAction(
   };
 
   const portRaw = Number(formData.get("smtp_port"));
+  const smtpPort = Number.isFinite(portRaw) && portRaw > 0 ? portRaw : 587;
   const smtp: CorreosConfig["smtp"] = {
     host: String(formData.get("smtp_host") ?? "").trim(),
-    port: Number.isFinite(portRaw) && portRaw > 0 ? portRaw : 587,
-    secure: formData.get("smtp_secure") === "on",
+    port: smtpPort,
+    // El modo seguro se deriva del puerto (465 = TLS implícito).
+    secure: smtpPort === 465,
     user: String(formData.get("smtp_user") ?? "").trim(),
     pass: isMasked(rawSmtpPass) ? currentCfg?.smtp?.pass ?? "" : rawSmtpPass,
     defaultFrom: String(formData.get("smtp_defaultFrom") ?? "").trim(),
@@ -173,39 +173,14 @@ export async function probarEnvioCorreoAction(
   const fromUsed =
     preset.fromEmail || providerDefaults.defaultFrom || "(sin remitente)";
 
-  const explicito = (destinatario ?? "").trim();
-  // Sin dirección escrita → modo "interno": replica EXACTO el formulario de
-  // contactos (sin `to`, sendEmail resuelve el destinatario desde notifyTo).
-  const modoInterno = explicito === "";
-  const modo: "interno" | "directo" = modoInterno ? "interno" : "directo";
-
-  // Modo directo: validamos la dirección escrita.
-  if (!modoInterno && !EMAIL_REGEX.test(explicito)) {
+  const to = (destinatario ?? "").trim();
+  if (!EMAIL_REGEX.test(to)) {
     return {
       ok: false,
-      modo,
       provider: config.provider,
       fromUsed,
-      toUsed: explicito,
+      toUsed: to,
       error: "El correo de destino para la prueba no es válido.",
-    };
-  }
-
-  // Modo interno sin notifyTo guardado: el formulario no tiene a quién avisar.
-  if (modoInterno && !preset.notifyTo.trim()) {
-    return {
-      ok: false,
-      modo,
-      provider: config.provider,
-      fromUsed,
-      toUsed: "(vacío)",
-      error:
-        'El preset "Formulario de contactos" no tiene "Notificar a (interno)" guardado.',
-      hint:
-        'Escribe el correo del colegio en el campo "Notificar a (interno)" del ' +
-        'preset "Formulario de contactos" y pulsa "Guardar cambios". El ' +
-        "formulario envía la notificación interna a esa dirección, y al estar " +
-        "vacía no se envía nada.",
     };
   }
 
@@ -221,7 +196,6 @@ export async function probarEnvioCorreoAction(
           desde la configuración de correos del backoffice de Atenas Web.
         </p>
         <p style="font-size:12px;color:#888;margin:18px 0 0;">
-          Modo: ${modoInterno ? "notificación interna del formulario" : "envío directo"} ·
           Fecha: ${new Date().toLocaleString("es-EC")}
         </p>
       </div>
@@ -229,24 +203,27 @@ export async function probarEnvioCorreoAction(
 
   const result = await sendEmail({
     purpose: "contactos",
-    // Interno: sin `to` → sendEmail usa preset.notifyTo, idéntico al formulario.
-    to: modoInterno ? undefined : explicito,
-    subject: modoInterno
-      ? "Prueba — notificación interna (Atenas Web)"
-      : "Prueba de envío — Atenas Web",
+    to,
+    subject: "Prueba de envío — Atenas Web",
     html,
-    context: modoInterno
-      ? "test-send interno (configuracion/correos)"
-      : "test-send directo (configuracion/correos)",
+    context: "test-send (configuracion/correos)",
   });
-
-  const toUsed = modoInterno ? preset.notifyTo : explicito;
 
   // Interpretamos el error para dar una pista accionable.
   let hint: string | undefined;
   if (!result.ok && result.error) {
     const e = result.error.toLowerCase();
     if (
+      e.includes("wrong version number") ||
+      e.includes("ssl routines") ||
+      e.includes("tls_validate") ||
+      e.includes("packet length too long")
+    ) {
+      hint =
+        "El puerto y el tipo de conexión no coinciden. Usa el puerto 465 o " +
+        "el 587 — el sistema ajusta solo el modo de seguridad según el " +
+        "puerto. Si el error persiste con uno, guarda con el otro y reintenta.";
+    } else if (
       e.includes("sender") ||
       e.includes("not owned") ||
       e.includes("not allowed") ||
@@ -281,18 +258,16 @@ export async function probarEnvioCorreoAction(
       e.includes("enotfound")
     ) {
       hint =
-        "No se pudo conectar al servidor SMTP. Revisa el host, el puerto y la " +
-        "casilla de conexión segura (puerto 465 = segura activada; 587 = " +
-        "segura desactivada).";
+        "No se pudo conectar al servidor SMTP. Revisa que el host y el " +
+        "puerto sean correctos.";
     }
   }
 
   return {
     ok: result.ok,
-    modo,
     provider: result.provider ?? config.provider,
     fromUsed,
-    toUsed,
+    toUsed: to,
     messageId: result.id,
     error: result.error,
     hint,

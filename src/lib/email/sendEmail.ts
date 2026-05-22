@@ -238,10 +238,16 @@ async function sendViaSmtp(args: {
     };
   }
   try {
+    const port = smtp.port || 587;
+    // El puerto manda: 465 = TLS implícito (secure); 587/25 = STARTTLS.
+    // Derivar el modo del puerto —en vez de una casilla manual— evita el
+    // error "wrong version number" cuando ambos no coinciden.
+    const secure = port === 465;
     const transporter = nodemailer.createTransport({
       host: smtp.host,
-      port: smtp.port,
-      secure: smtp.secure,
+      port,
+      secure,
+      requireTLS: !secure,
       auth: { user: smtp.user, pass: smtp.pass },
     });
     const info = await transporter.sendMail({

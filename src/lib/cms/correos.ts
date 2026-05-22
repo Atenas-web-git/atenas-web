@@ -31,10 +31,25 @@ export const CORREO_PURPOSES: CorreoPurpose[] = [
 
 export const CORREO_PURPOSE_LABELS: Record<CorreoPurpose, string> = {
   "admisiones-pipeline": "Admisiones — pipeline (cambios de estado)",
-  "admisiones-confirmacion": "Admisiones — confirmación al postulante",
+  "admisiones-confirmacion": "Admisiones — solicitudes y consultas",
   quejas: "Quejas y sugerencias",
   contactos: "Formulario de contactos",
   trabaja: "Trabaja con nosotros",
+};
+
+/**
+ * Descripción corta de QUÉ correo del sitio dispara cada preset. Se
+ * muestra bajo el título de cada preset en /admin/configuracion/correos
+ * para que quede claro a qué formulario corresponde.
+ */
+export const CORREO_PURPOSE_DESCRIPTIONS: Record<CorreoPurpose, string> = {
+  "admisiones-pipeline":
+    "Correos automáticos al representante cuando cambias el estado de su solicitud en el pipeline de admisiones.",
+  "admisiones-confirmacion":
+    "Cubre los DOS formularios de admisión: la solicitud formal y los formularios de «más información» de cada página de nivel (/admisiones/inicial, etc.). «From» = remitente · «Notificar a» = correo del colegio que recibe el aviso.",
+  quejas: "Formulario de quejas y sugerencias.",
+  contactos: "Formulario de la página de Contactos.",
+  trabaja: "Formulario de «Trabaja con nosotros» (postulaciones de empleo).",
 };
 
 export type CorreoPreset = {

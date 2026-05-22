@@ -5,6 +5,7 @@ import { Save, Mail, Server } from "lucide-react";
 import {
   CORREO_PURPOSES,
   CORREO_PURPOSE_LABELS,
+  CORREO_PURPOSE_DESCRIPTIONS,
   type CorreosConfig,
   type CorreoPurpose,
 } from "@/lib/cms/correos";
@@ -116,37 +117,18 @@ export function CorreosForm({ initialConfig }: { initialConfig: CorreosConfig })
               style={inputStyle}
             />
           </Field>
-          <div className="grid grid-cols-[120px_1fr] gap-3">
-            <Field label="Puerto">
-              <input
-                type="number"
-                name="smtp_port"
-                defaultValue={initialConfig.smtp.port}
-                placeholder="587"
-                style={inputStyle}
-              />
-            </Field>
-            <Field label="TLS/SSL" hint="Marcar si el puerto requiere TLS implícito (465).">
-              <label
-                className="flex items-center gap-2 cursor-pointer"
-                style={{
-                  background: "#FAFAF8",
-                  border: "1px solid #E8E4DD",
-                  borderRadius: 6,
-                  padding: "0 12px",
-                  height: 38,
-                }}
-              >
-                <input
-                  type="checkbox"
-                  name="smtp_secure"
-                  defaultChecked={initialConfig.smtp.secure}
-                  style={{ width: 16, height: 16, accentColor: "#1A2B4A" }}
-                />
-                <span style={{ fontSize: 13, color: "#1A2B4A" }}>Conexión segura</span>
-              </label>
-            </Field>
-          </div>
+          <Field
+            label="Puerto"
+            hint="Gmail / Google Workspace: 465 ó 587. La seguridad de la conexión se ajusta sola según el puerto (465 = SSL · 587 = STARTTLS) — no hay que marcar nada."
+          >
+            <input
+              type="number"
+              name="smtp_port"
+              defaultValue={initialConfig.smtp.port}
+              placeholder="465"
+              style={inputStyle}
+            />
+          </Field>
           <Field label="Usuario">
             <input
               type="text"
@@ -199,6 +181,7 @@ export function CorreosForm({ initialConfig }: { initialConfig: CorreosConfig })
               key={p}
               purpose={p}
               label={CORREO_PURPOSE_LABELS[p]}
+              descripcion={CORREO_PURPOSE_DESCRIPTIONS[p]}
               fromEmail={initialConfig.presets[p].fromEmail}
               fromName={initialConfig.presets[p].fromName}
               notifyTo={initialConfig.presets[p].notifyTo}
@@ -208,86 +191,68 @@ export function CorreosForm({ initialConfig }: { initialConfig: CorreosConfig })
       </Card>
     </form>
 
-      <ProbarEnvioCard
-        notifyToContactos={initialConfig.presets.contactos.notifyTo || ""}
-        defaultEmail={
-          (initialConfig.presets.contactos.notifyTo || "")
-            .split(/[,;]/)[0]
-            ?.trim() ?? ""
-        }
-      />
+      <ProbarEnvioCard />
     </div>
   );
 }
 
 /* ─── Probar envío ─── */
 
-function ProbarEnvioCard({
-  notifyToContactos,
-  defaultEmail,
-}: {
-  notifyToContactos: string;
-  defaultEmail: string;
-}) {
-  const [email, setEmail] = useState(defaultEmail);
-  const [loading, setLoading] = useState<"interno" | "directo" | null>(null);
+function ProbarEnvioCard() {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<TestEmailResult | null>(null);
 
-  async function run(modo: "interno" | "directo") {
-    setLoading(modo);
+  async function handleTest() {
+    if (loading || !email.trim()) return;
+    setLoading(true);
     setResult(null);
     try {
-      setResult(await probarEnvioCorreoAction(modo === "interno" ? "" : email));
+      setResult(await probarEnvioCorreoAction(email));
     } catch {
       setResult({
         ok: false,
-        modo,
         provider: "—",
         fromUsed: "—",
-        toUsed: modo === "interno" ? notifyToContactos : email,
+        toUsed: email,
         error: "No se pudo ejecutar la prueba.",
       });
     } finally {
-      setLoading(null);
+      setLoading(false);
     }
   }
 
-  const busy = loading !== null;
+  const disabled = loading || !email.trim();
 
   return (
     <Card
       title="Probar envío"
-      subtitle="Envía correos de prueba reales con la configuración GUARDADA. Si cambiaste algo arriba, pulsa primero «Guardar cambios»."
+      subtitle="Envía un correo de prueba real con la configuración SMTP guardada. Si cambiaste algo arriba, pulsa primero «Guardar cambios»."
     >
-      <div className="flex flex-col gap-4">
-        {/* Prueba 1 — notificación interna (replica el formulario) */}
-        <div className="flex flex-col gap-2 p-3" style={panelStyle}>
-          <span
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              color: "#1A2B4A",
-              textTransform: "uppercase",
-              letterSpacing: 0.8,
-            }}
-          >
-            1 · Notificación interna del formulario de contactos
-          </span>
-          <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.55 }}>
-            Replica exactamente lo que pasa al enviar el formulario de contactos:
-            el correo va al destinatario de «Notificar a (interno)».
-          </p>
-          <p style={{ fontSize: 12, color: "#1A2B4A", margin: 0 }}>
-            Destino guardado:{" "}
-            <strong>
-              {notifyToContactos.trim() || "(vacío — falta configurarlo y guardar)"}
-            </strong>
-          </p>
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-col md:flex-row gap-2 md:items-end">
+          <div style={{ flex: 1 }}>
+            <Field label="Enviar correo de prueba a">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleTest();
+                  }
+                }}
+                placeholder="correo@ejemplo.com"
+                style={inputStyle}
+              />
+            </Field>
+          </div>
           <button
             type="button"
-            onClick={() => run("interno")}
-            disabled={busy}
-            className="flex items-center justify-center gap-2 px-4 rounded-md w-fit"
+            onClick={handleTest}
+            disabled={disabled}
+            className="flex items-center justify-center gap-2 px-4 rounded-md"
             style={{
               height: 38,
               background: "#1A2B4A",
@@ -295,63 +260,15 @@ function ProbarEnvioCard({
               border: "none",
               fontSize: 13,
               fontWeight: 600,
-              cursor: busy ? "wait" : "pointer",
-              opacity: busy ? 0.6 : 1,
+              cursor: disabled ? "not-allowed" : "pointer",
+              opacity: disabled ? 0.6 : 1,
               whiteSpace: "nowrap",
             }}
           >
             <Mail size={14} strokeWidth={2.5} />
-            {loading === "interno" ? "Enviando…" : "Probar notificación interna"}
+            {loading ? "Enviando…" : "Enviar correo de prueba"}
           </button>
         </div>
-
-        {/* Prueba 2 — envío directo a una dirección concreta */}
-        <div className="flex flex-col gap-2 p-3" style={panelStyle}>
-          <span
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              color: "#1A2B4A",
-              textTransform: "uppercase",
-              letterSpacing: 0.8,
-            }}
-          >
-            2 · Enviar a una dirección concreta
-          </span>
-          <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.55 }}>
-            Prueba general del servidor: envía a la dirección que escribas.
-          </p>
-          <div className="flex flex-col md:flex-row gap-2 md:items-center">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="tu-correo@ejemplo.com"
-              style={{ ...inputStyle, flex: 1 }}
-            />
-            <button
-              type="button"
-              onClick={() => run("directo")}
-              disabled={busy || !email.trim()}
-              className="flex items-center justify-center gap-2 px-4 rounded-md"
-              style={{
-                height: 38,
-                background: "#FFFFFF",
-                color: "#1A2B4A",
-                border: "1px solid #1A2B4A",
-                fontSize: 13,
-                fontWeight: 600,
-                cursor: busy || !email.trim() ? "not-allowed" : "pointer",
-                opacity: busy || !email.trim() ? 0.6 : 1,
-                whiteSpace: "nowrap",
-              }}
-            >
-              <Mail size={14} strokeWidth={2.5} />
-              {loading === "directo" ? "Enviando…" : "Enviar a esta dirección"}
-            </button>
-          </div>
-        </div>
-
         {result && <TestResultBox result={result} />}
       </div>
     </Card>
@@ -380,12 +297,6 @@ function TestResultBox({ result }: { result: TestEmailResult }) {
         {ok ? "✓ El proveedor aceptó el correo" : "✗ El envío falló"}
       </p>
       <div style={{ marginTop: 8, fontSize: 12, color: "#4B5563", lineHeight: 1.7 }}>
-        <div>
-          <strong>Prueba:</strong>{" "}
-          {result.modo === "interno"
-            ? "notificación interna (igual que el formulario)"
-            : "envío directo"}
-        </div>
         <div><strong>Proveedor:</strong> {result.provider}</div>
         <div><strong>Remitente (From):</strong> {result.fromUsed}</div>
         <div><strong>Destinatario:</strong> {result.toUsed}</div>
@@ -493,12 +404,14 @@ function ProviderTab({
 function PresetRow({
   purpose,
   label,
+  descripcion,
   fromEmail,
   fromName,
   notifyTo,
 }: {
   purpose: CorreoPurpose;
   label: string;
+  descripcion: string;
   fromEmail: string;
   fromName: string;
   notifyTo: string;
@@ -506,7 +419,7 @@ function PresetRow({
   const showNotifyTo = purpose !== "admisiones-pipeline";
   return (
     <div className="flex flex-col gap-2 p-3" style={panelStyle}>
-      <div className="flex items-center gap-2">
+      <div className="flex flex-col gap-1">
         <span
           style={{
             fontSize: 11,
@@ -518,6 +431,9 @@ function PresetRow({
         >
           {label}
         </span>
+        <p style={{ fontSize: 11, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+          {descripcion}
+        </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
         <Field label="From (email)">
