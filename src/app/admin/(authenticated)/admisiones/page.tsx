@@ -4,29 +4,13 @@ import { Search, Download, ChevronLeft, ChevronRight } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
-import { NIVELES } from "./constants";
+import { NIVELES, ESTADOS, ESTADO_INFO, type EstadoAdmision } from "./constants";
 import { AdmisionesSubNav } from "./SubNav";
 
-const TABS = [
+const TABS: { key: string; label: string }[] = [
   { key: "todas", label: "Todas" },
-  { key: "pendiente", label: "Pendientes" },
-  { key: "revisando", label: "En revisión" },
-  { key: "entrevista_agendada", label: "Entrevistas" },
-  { key: "lista_espera", label: "Lista de espera" },
-  { key: "aceptado", label: "Aceptadas" },
-  { key: "matriculado", label: "Matriculadas" },
-  { key: "rechazado", label: "Rechazadas" },
+  ...ESTADOS.map((e) => ({ key: e, label: ESTADO_INFO[e].label })),
 ];
-
-const ESTADO_BADGE: Record<string, { bg: string; fg: string; label: string }> = {
-  pendiente: { bg: "#FEF3C7", fg: "#92400E", label: "Pendiente" },
-  revisando: { bg: "#DBEAFE", fg: "#1E40AF", label: "En revisión" },
-  entrevista_agendada: { bg: "#EDE9FE", fg: "#4C1D95", label: "Entrevista" },
-  lista_espera: { bg: "#FED7AA", fg: "#9A3412", label: "Lista de espera" },
-  aceptado: { bg: "#D1FAE5", fg: "#065F46", label: "Aceptada" },
-  matriculado: { bg: "#1A2B4A", fg: "#D4AF37", label: "Matriculada" },
-  rechazado: { bg: "#FEE2E2", fg: "#991B1B", label: "Rechazada" },
-};
 
 const PER_PAGE = 20;
 
@@ -58,13 +42,12 @@ function formatDate(iso: string): string {
 
 async function loadCounts() {
   const supabase = createAdminClient();
-  const states = ["pendiente", "revisando", "entrevista_agendada", "lista_espera", "aceptado", "matriculado", "rechazado"];
   const results = await Promise.all(
-    states.map((s) =>
+    ESTADOS.map((s) =>
       supabase.from("solicitudes_admision").select("*", { count: "exact", head: true }).eq("estado", s)
     )
   );
-  return Object.fromEntries(states.map((s, i) => [s, results[i].count ?? 0]));
+  return Object.fromEntries(ESTADOS.map((s, i) => [s, results[i].count ?? 0]));
 }
 
 export default async function AdmisionesPage({
@@ -220,7 +203,7 @@ export default async function AdmisionesPage({
             type="text"
             name="q"
             defaultValue={query}
-            placeholder="Buscar por nombre o N° ATN…"
+            placeholder="Buscar por nombre o N° ADM…"
             style={{
               border: "none",
               outline: "none",
@@ -312,7 +295,8 @@ export default async function AdmisionesPage({
               </thead>
               <tbody>
                 {solicitudes.map((s, i) => {
-                  const badge = ESTADO_BADGE[s.estado] ?? ESTADO_BADGE.pendiente;
+                  const info =
+                    ESTADO_INFO[s.estado as EstadoAdmision] ?? ESTADO_INFO.interesado;
                   const initials = getInitials(s.est_nombres, s.est_apellidos);
                   return (
                     <tr
@@ -367,13 +351,13 @@ export default async function AdmisionesPage({
                           className="inline-flex items-center px-2.5 rounded-full"
                           style={{
                             height: 22,
-                            background: badge.bg,
+                            background: info.colorBg,
                             fontSize: 11,
                             fontWeight: 600,
-                            color: badge.fg,
+                            color: info.colorFg,
                           }}
                         >
-                          {badge.label}
+                          {info.label}
                         </span>
                       </td>
                       <td style={{ padding: "14px 16px", textAlign: "right" }}>

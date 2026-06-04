@@ -9,26 +9,7 @@ import {
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole, hasRole } from "@/lib/auth/types";
-
-const ESTADO_LABELS: Record<string, string> = {
-  pendiente: "Pendiente",
-  revisando: "En revisión",
-  entrevista_agendada: "Entrevista",
-  lista_espera: "Lista de espera",
-  aceptado: "Aceptada",
-  matriculado: "Matriculada",
-  rechazado: "Rechazada",
-};
-
-const ESTADO_COLORS: Record<string, { bg: string; fg: string }> = {
-  pendiente: { bg: "#FEF3C7", fg: "#92400E" },
-  revisando: { bg: "#DBEAFE", fg: "#1E40AF" },
-  entrevista_agendada: { bg: "#DBEAFE", fg: "#1E40AF" },
-  lista_espera: { bg: "#FED7AA", fg: "#9A3412" },
-  aceptado: { bg: "#D1FAE5", fg: "#065F46" },
-  matriculado: { bg: "#1A2B4A", fg: "#D4AF37" },
-  rechazado: { bg: "#FEE2E2", fg: "#991B1B" },
-};
+import { ESTADO_INFO, type EstadoAdmision } from "./admisiones/constants";
 
 const cardStyle: React.CSSProperties = {
   background: "#FFFFFF",
@@ -39,24 +20,25 @@ const cardStyle: React.CSSProperties = {
 async function loadStats() {
   const supabase = createAdminClient();
 
+  // Métricas del funnel: entrada → intermedio → admitido → matriculado.
   const [
-    { count: pendientes },
-    { count: revisando },
-    { count: listaEspera },
+    { count: interesados },
+    { count: enEvaluacion },
+    { count: admitidos },
     { count: matriculados },
     { count: usuarios },
   ] = await Promise.all([
-    supabase.from("solicitudes_admision").select("*", { count: "exact", head: true }).eq("estado", "pendiente"),
-    supabase.from("solicitudes_admision").select("*", { count: "exact", head: true }).eq("estado", "revisando"),
-    supabase.from("solicitudes_admision").select("*", { count: "exact", head: true }).eq("estado", "lista_espera"),
+    supabase.from("solicitudes_admision").select("*", { count: "exact", head: true }).eq("estado", "interesado"),
+    supabase.from("solicitudes_admision").select("*", { count: "exact", head: true }).eq("estado", "en_evaluacion"),
+    supabase.from("solicitudes_admision").select("*", { count: "exact", head: true }).eq("estado", "admitido"),
     supabase.from("solicitudes_admision").select("*", { count: "exact", head: true }).eq("estado", "matriculado"),
     supabase.from("profiles").select("*", { count: "exact", head: true }).eq("is_active", true),
   ]);
 
   return {
-    pendientes: pendientes ?? 0,
-    revisando: revisando ?? 0,
-    listaEspera: listaEspera ?? 0,
+    interesados: interesados ?? 0,
+    enEvaluacion: enEvaluacion ?? 0,
+    admitidos: admitidos ?? 0,
     matriculados: matriculados ?? 0,
     usuarios: usuarios ?? 0,
   };
@@ -110,35 +92,35 @@ export default async function AdminDashboardPage() {
       {/* Métricas */}
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
-          icon={Clock}
-          label="Pendientes"
-          value={stats.pendientes}
+          icon={UserPlus}
+          label="Interesados"
+          value={stats.interesados}
           accent="#92400E"
           accentBg="#FEF3C7"
           enabled={canSeeAdmisiones}
         />
         <MetricCard
-          icon={UserPlus}
-          label="En revisión"
-          value={stats.revisando}
-          accent="#1E40AF"
-          accentBg="#DBEAFE"
+          icon={Clock}
+          label="En evaluación"
+          value={stats.enEvaluacion}
+          accent="#9D174D"
+          accentBg="#FCE7F3"
           enabled={canSeeAdmisiones}
         />
         <MetricCard
-          icon={Clock}
-          label="Lista de espera"
-          value={stats.listaEspera}
-          accent="#9A3412"
-          accentBg="#FED7AA"
+          icon={CheckCircle2}
+          label="Admitidos"
+          value={stats.admitidos}
+          accent="#065F46"
+          accentBg="#D1FAE5"
           enabled={canSeeAdmisiones}
         />
         <MetricCard
           icon={CheckCircle2}
           label="Matriculados"
           value={stats.matriculados}
-          accent="#065F46"
-          accentBg="#D1FAE5"
+          accent="#D4AF37"
+          accentBg="#1A2B4A"
           enabled={canSeeAdmisiones}
         />
       </section>
@@ -178,7 +160,8 @@ export default async function AdminDashboardPage() {
             ) : (
               <ul className="flex flex-col">
                 {recientes.map((s, i) => {
-                  const colors = ESTADO_COLORS[s.estado] ?? ESTADO_COLORS.pendiente;
+                  const info =
+                    ESTADO_INFO[s.estado as EstadoAdmision] ?? ESTADO_INFO.interesado;
                   return (
                     <li
                       key={s.id}
@@ -217,13 +200,13 @@ export default async function AdminDashboardPage() {
                         className="flex items-center px-2.5 rounded-full flex-shrink-0"
                         style={{
                           height: 22,
-                          background: colors.bg,
+                          background: info.colorBg,
                           fontSize: 11,
                           fontWeight: 600,
-                          color: colors.fg,
+                          color: info.colorFg,
                         }}
                       >
-                        {ESTADO_LABELS[s.estado] ?? s.estado}
+                        {info.label}
                       </span>
                     </li>
                   );

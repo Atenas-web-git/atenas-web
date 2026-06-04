@@ -14,6 +14,7 @@ type SolicitudInfo = {
   est_nombres: string;
   est_apellidos?: string;
   est_nivel: string;
+  est_institucion_origen?: string | null;
 };
 
 function fillTemplate(template: string, solicitud: SolicitudInfo): string {
@@ -23,6 +24,7 @@ function fillTemplate(template: string, solicitud: SolicitudInfo): string {
     .replaceAll("{{est_nombres}}", solicitud.est_nombres)
     .replaceAll("{{est_apellidos}}", solicitud.est_apellidos ?? "")
     .replaceAll("{{est_nivel}}", solicitud.est_nivel)
+    .replaceAll("{{est_institucion_origen}}", solicitud.est_institucion_origen ?? "")
     .replaceAll("{{rep_nombres}}", solicitud.rep_nombres)
     .replaceAll("{{url_seguimiento}}", trackingUrl);
 }

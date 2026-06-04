@@ -16,15 +16,21 @@ import {
   type NavbarConfig,
 } from "@/lib/cms/getConfiguracion";
 import { EditorClient } from "./EditorClient";
+import {
+  ESTADOS_CON_CORREO_PIPELINE,
+  ESTADO_INFO,
+} from "../../constants";
 
-const ESTADOS_INFO: Record<string, { label: string; description: string }> = {
-  revisando: { label: "En revisión", description: "Cuando empiezas a revisar la solicitud" },
-  entrevista_agendada: { label: "Entrevista agendada", description: "Cuando agendas la entrevista personal" },
-  lista_espera: { label: "Lista de espera", description: "Cuando los cupos están llenos" },
-  aceptado: { label: "Aceptada", description: "Cuando aceptas al postulante" },
-  matriculado: { label: "Matriculada", description: "Cuando se completa la matrícula" },
-  rechazado: { label: "Rechazada", description: "Cuando rechazas la solicitud" },
-};
+// Mapa estado → {label, description} construido desde la fuente única
+// de los estados (constants.ts). Antes había una copia hardcoded con
+// los 6 estados viejos, lo que causaba 404 en cualquier estado nuevo.
+const ESTADOS_PLANTILLA: Record<string, { label: string; description: string }> =
+  Object.fromEntries(
+    ESTADOS_CON_CORREO_PIPELINE.map((e) => [
+      e,
+      { label: ESTADO_INFO[e].label, description: ESTADO_INFO[e].descripcion },
+    ])
+  );
 
 export default async function EditarPlantillaPage({
   params,
@@ -33,7 +39,7 @@ export default async function EditarPlantillaPage({
 }) {
   const { estado } = await params;
 
-  if (!ESTADOS_INFO[estado]) notFound();
+  if (!ESTADOS_PLANTILLA[estado]) notFound();
 
   const user = await getCurrentUser();
   if (!user) return null;
@@ -79,7 +85,7 @@ export default async function EditarPlantillaPage({
   const diseno = mergeCorreosDiseno(disenoRaw);
   const navbar = mergeNavbar(navbarRaw);
 
-  const info = ESTADOS_INFO[estado];
+  const info = ESTADOS_PLANTILLA[estado];
 
   return (
     <div className="flex flex-col gap-6 p-8">

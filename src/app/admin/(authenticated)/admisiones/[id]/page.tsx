@@ -4,33 +4,19 @@ import { ArrowLeft, Phone, Mail, User } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole, hasRole } from "@/lib/auth/types";
-import { type EstadoAdmision } from "../constants";
+import { ESTADO_INFO, ESTADO_INICIAL, type EstadoAdmision } from "../constants";
 import { EstadoSelectorClient } from "./EstadoSelectorClient";
 import { DocumentosClient } from "./DocumentosClient";
 import { NotasClient } from "./NotasClient";
 import { AdjuntosClient } from "./AdjuntosClient";
 import { ArchivosBancoSolicitudClient } from "./ArchivosBancoSolicitudClient";
 import { EliminarSolicitudClient } from "./EliminarSolicitudClient";
-
-const ESTADO_BADGE: Record<string, { bg: string; fg: string; label: string }> = {
-  pendiente: { bg: "#FEF3C7", fg: "#92400E", label: "Pendiente" },
-  revisando: { bg: "#DBEAFE", fg: "#1E40AF", label: "En revisión" },
-  entrevista_agendada: { bg: "#EDE9FE", fg: "#4C1D95", label: "Entrevista" },
-  lista_espera: { bg: "#FED7AA", fg: "#9A3412", label: "Lista de espera" },
-  aceptado: { bg: "#D1FAE5", fg: "#065F46", label: "Aceptada" },
-  matriculado: { bg: "#1A2B4A", fg: "#D4AF37", label: "Matriculada" },
-  rechazado: { bg: "#FEE2E2", fg: "#991B1B", label: "Rechazada" },
-};
-
-const ESTADO_LABELS: Record<string, string> = {
-  pendiente: "Pendiente",
-  revisando: "En revisión",
-  entrevista_agendada: "Entrevista agendada",
-  lista_espera: "Lista de espera",
-  aceptado: "Aceptada",
-  matriculado: "Matriculada",
-  rechazado: "Rechazada",
-};
+import { DatosEditableClient } from "./DatosEditableClient";
+import {
+  getConfiguracion,
+  mergeAdmisionesTextos,
+  type AdmisionesTextosConfig,
+} from "@/lib/cms/getConfiguracion";
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("es-EC", {
@@ -76,20 +62,6 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
     >
       {children}
     </h3>
-  );
-}
-
-function DataRow({ label, value }: { label: string; value?: string | null }) {
-  return (
-    <div
-      className="flex flex-col gap-0.5 py-2"
-      style={{ borderBottom: "1px solid #F4F1EB" }}
-    >
-      <span style={{ fontSize: 11, color: "#6B6660", fontWeight: 500 }}>{label}</span>
-      <span style={{ fontSize: 13, color: "#1A2B4A", fontWeight: 500 }}>
-        {value || "—"}
-      </span>
-    </div>
   );
 }
 
@@ -155,13 +127,27 @@ export default async function SolicitudDetallePage({
       .eq("solicitud_id", id),
   ]);
 
+  // Cargar opciones para los selects del editor (niveles, relaciones,
+  // cómo se enteró) desde la misma fuente que el formulario público.
+  const [textosRaw, { data: anosLectivos }] = await Promise.all([
+    getConfiguracion<Partial<AdmisionesTextosConfig>>("admisiones_textos"),
+    supabase
+      .from("anos_lectivos")
+      .select("codigo")
+      .eq("activo", true)
+      .order("codigo", { ascending: true }),
+  ]);
+  const opcionesFormulario = mergeAdmisionesTextos(textosRaw).formulario.opciones;
+  const aniosLectivosCodigos = (anosLectivos ?? []).map((a) => a.codigo);
+
   const catalogoNombres = (catalogoDocs ?? []).map((d) => d.nombre);
   const bancoArchivosList = bancoArchivos ?? [];
   const bancoVinculadosIds = (bancoVinculados ?? []).map((v) => v.archivo_id);
 
   if (!solicitud) notFound();
 
-  const badge = ESTADO_BADGE[solicitud.estado] ?? ESTADO_BADGE.pendiente;
+  const badge =
+    ESTADO_INFO[solicitud.estado as EstadoAdmision] ?? ESTADO_INFO[ESTADO_INICIAL];
   const initials = getInitials(solicitud.est_nombres, solicitud.est_apellidos);
   const documentosRecibidos: string[] = Array.isArray(solicitud.documentos_recibidos)
     ? solicitud.documentos_recibidos
@@ -232,10 +218,10 @@ export default async function SolicitudDetallePage({
           className="inline-flex items-center px-3 rounded-full"
           style={{
             height: 28,
-            background: badge.bg,
+            background: badge.colorBg,
             fontSize: 12,
             fontWeight: 700,
-            color: badge.fg,
+            color: badge.colorFg,
           }}
         >
           {badge.label}
@@ -255,34 +241,32 @@ export default async function SolicitudDetallePage({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Columna principal */}
         <div className="lg:col-span-2 flex flex-col gap-6">
-          {/* Datos del estudiante */}
+          {/* Datos del estudiante + representante (editables) */}
           <div className="p-6" style={cardStyle}>
-            <SectionTitle>Datos del estudiante</SectionTitle>
-            <div className="flex flex-col">
-              <DataRow label="Nombres" value={solicitud.est_nombres} />
-              <DataRow label="Apellidos" value={solicitud.est_apellidos} />
-              <DataRow label="Fecha de nacimiento" value={solicitud.est_fecha_nac} />
-              <DataRow label="Nivel solicitado" value={solicitud.est_nivel} />
-              <DataRow label="Año de ingreso" value={solicitud.anio_ingreso} />
-            </div>
-          </div>
-
-          {/* Datos del representante */}
-          <div className="p-6" style={cardStyle}>
-            <SectionTitle>Datos del representante</SectionTitle>
-            <div className="flex flex-col">
-              <DataRow label="Nombres" value={solicitud.rep_nombres} />
-              <DataRow label="Apellidos" value={solicitud.rep_apellidos} />
-              <DataRow label="Relación" value={solicitud.rep_relacion} />
-              <DataRow label="Correo electrónico" value={solicitud.rep_correo} />
-              <DataRow label="Teléfono / WhatsApp" value={solicitud.rep_telefono} />
-              {solicitud.como_enterado && (
-                <DataRow label="¿Cómo se enteró del colegio?" value={solicitud.como_enterado} />
-              )}
-              {solicitud.comentarios && (
-                <DataRow label="Comentarios" value={solicitud.comentarios} />
-              )}
-            </div>
+            <DatosEditableClient
+              solicitudId={solicitud.id}
+              initial={{
+                est_nombres: solicitud.est_nombres ?? "",
+                est_apellidos: solicitud.est_apellidos ?? "",
+                est_fecha_nac: solicitud.est_fecha_nac ?? null,
+                est_nivel: solicitud.est_nivel ?? "",
+                est_institucion_origen: solicitud.est_institucion_origen ?? null,
+                anio_ingreso: solicitud.anio_ingreso ?? null,
+                rep_nombres: solicitud.rep_nombres ?? "",
+                rep_apellidos: solicitud.rep_apellidos ?? "",
+                rep_relacion: solicitud.rep_relacion ?? null,
+                rep_correo: solicitud.rep_correo ?? "",
+                rep_telefono: solicitud.rep_telefono ?? "",
+                como_enterado: solicitud.como_enterado ?? null,
+                comentarios: solicitud.comentarios ?? null,
+              }}
+              opciones={{
+                niveles: opcionesFormulario.niveles,
+                relaciones: opcionesFormulario.relaciones,
+                comoEnterado: opcionesFormulario.comoEnterado,
+                aniosLectivos: aniosLectivosCodigos,
+              }}
+            />
           </div>
 
           {/* Notas internas */}
@@ -402,7 +386,7 @@ export default async function SolicitudDetallePage({
                                 textDecoration: "line-through",
                               }}
                             >
-                              {ESTADO_LABELS[h.estado_anterior] ?? h.estado_anterior}
+                              {ESTADO_INFO[h.estado_anterior as EstadoAdmision]?.label ?? h.estado_anterior}
                             </span>
                             <span style={{ fontSize: 11, color: "#A0AABA" }}>→</span>
                           </>
@@ -414,7 +398,7 @@ export default async function SolicitudDetallePage({
                             color: "#1A2B4A",
                           }}
                         >
-                          {ESTADO_LABELS[h.estado_nuevo] ?? h.estado_nuevo}
+                          {ESTADO_INFO[h.estado_nuevo as EstadoAdmision]?.label ?? h.estado_nuevo}
                         </span>
                       </div>
                       <div className="flex items-center justify-between">

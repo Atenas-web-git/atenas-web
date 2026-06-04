@@ -77,6 +77,10 @@ export default async function CuposPage({
       .select("nivel, cupos_total, cupos_ocupados")
       .eq("ano_lectivo", anoLectivo),
     ...NIVELES.map(async (nivel) => {
+      // "ocupados" = matriculados; "esperando" = postulantes activos
+      // (todos los estados que no son terminales). Antes este conteo se
+      // basaba en el estado "lista_espera", que ya no existe en el nuevo
+      // pipeline.
       const [{ count: matriculados }, { count: esperando }] = await Promise.all([
         supabase
           .from("solicitudes_admision")
@@ -87,7 +91,14 @@ export default async function CuposPage({
           .from("solicitudes_admision")
           .select("*", { count: "exact", head: true })
           .eq("est_nivel", nivel)
-          .eq("estado", "lista_espera"),
+          .in("estado", [
+            "interesado",
+            "postulante",
+            "postulacion_completa",
+            "en_evaluacion",
+            "en_revision_comite",
+            "admitido",
+          ]),
       ]);
       return { nivel, ocupados: matriculados ?? 0, esperando: esperando ?? 0 };
     }),

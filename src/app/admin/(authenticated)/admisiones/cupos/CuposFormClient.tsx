@@ -82,7 +82,7 @@ export function CuposFormClient({
           { label: "Total cupos", value: totalCupos, color: "#1A2B4A" },
           { label: "Ocupados", value: totalOcupados, color: "#1E40AF" },
           { label: "Disponibles", value: totalDisponibles, color: "#065F46" },
-          { label: "Lista de espera", value: totalEsperando, color: "#9A3412" },
+          { label: "En espera", value: totalEsperando, color: "#9A3412" },
         ].map((card) => (
           <div
             key={card.label}
@@ -224,7 +224,7 @@ export function CuposFormClient({
         <span style={{ fontSize: 18 }}>ℹ️</span>
         <div>
           <p style={{ fontSize: 13, color: "#92400E", margin: 0, lineHeight: 1.6 }}>
-            <strong>Cupos y lista de espera:</strong> cuando los cupos disponibles llegan a cero, el formulario público sigue recibiendo solicitudes, que quedarán automáticamente en estado <em>Lista de espera</em>. Los ocupados se cuentan en base a solicitudes con estado &ldquo;Matriculada&rdquo;.
+            <strong>Cupos y postulantes en espera:</strong> &ldquo;Ocupados&rdquo; cuenta las solicitudes ya matriculadas. &ldquo;En espera&rdquo; cuenta los postulantes activos en cualquier estado del pipeline (Interesado, Postulante, En evaluación, En revisión por Comité, Admitido). Cuando un nivel se llene, el equipo decide manualmente qué postulantes avanzan.
           </p>
         </div>
       </div>

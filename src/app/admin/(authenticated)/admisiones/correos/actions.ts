@@ -4,18 +4,11 @@ import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
-import type { EstadoAdmision } from "../constants";
+import { ESTADOS_CON_CORREO_PIPELINE, type EstadoAdmision } from "../constants";
 
 export type PlantillaActionState = { error: string | null; ok: boolean };
 
-const ESTADOS_VALIDOS: EstadoAdmision[] = [
-  "revisando",
-  "entrevista_agendada",
-  "lista_espera",
-  "aceptado",
-  "matriculado",
-  "rechazado",
-];
+const ESTADOS_VALIDOS: EstadoAdmision[] = ESTADOS_CON_CORREO_PIPELINE;
 
 async function assertAdmisiones() {
   const user = await getCurrentUser();

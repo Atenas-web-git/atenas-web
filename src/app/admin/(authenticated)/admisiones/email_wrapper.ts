@@ -59,7 +59,7 @@ export function buildWrappedEmail({
 }
 
 /** Estados terminales — no muestran el CTA al seguimiento. */
-const ESTADOS_TERMINALES = new Set(["matriculado", "rechazado"]);
+const ESTADOS_TERMINALES = new Set(["matriculado", "no_admitido"]);
 
 export function debeOcultarCta(estado: string): boolean {
   return ESTADOS_TERMINALES.has(estado);

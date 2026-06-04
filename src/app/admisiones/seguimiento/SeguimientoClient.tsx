@@ -14,12 +14,15 @@ type SolicitudData = {
   est_nivel: string;
 };
 
-// Pipeline visual lineal — 5 etapas que ve el postulante
+// Pipeline visual lineal — camino feliz de 7 etapas que ve el postulante.
+// "no_admitido" es ramal terminal (se muestra aparte sin stepper).
 const PIPELINE = [
-  { key: "pendiente", label: "Recibida" },
-  { key: "revisando", label: "En revisión" },
-  { key: "entrevista_agendada", label: "Entrevista" },
-  { key: "aceptado", label: "Aceptada" },
+  { key: "interesado", label: "Recibida" },
+  { key: "postulante", label: "Requisitos" },
+  { key: "postulacion_completa", label: "Documentos" },
+  { key: "en_evaluacion", label: "Evaluación" },
+  { key: "en_revision_comite", label: "Comité" },
+  { key: "admitido", label: "Admitida" },
   { key: "matriculado", label: "Matriculada" },
 ] as const;
 
@@ -27,37 +30,43 @@ const ESTADO_INFO: Record<
   string,
   { label: string; description: string; color: string; bg: string; isFinal?: boolean; isAlt?: boolean }
 > = {
-  pendiente: {
+  interesado: {
     label: "Solicitud recibida",
     description:
-      "Tu solicitud está en cola y será revisada en las próximas 48 horas hábiles.",
+      "Recibimos tu solicitud. En las próximas horas nuestro equipo te enviará los requisitos para completar la postulación.",
     color: "#92400E",
     bg: "#FEF3C7",
   },
-  revisando: {
-    label: "En revisión",
+  postulante: {
+    label: "Esperando tu documentación",
     description:
-      "Nuestro equipo de admisiones está analizando tu solicitud. Pronto recibirás noticias.",
+      "Te enviamos los requisitos. Cuando recibamos toda la documentación, continuamos con el proceso.",
     color: "#1E40AF",
     bg: "#DBEAFE",
   },
-  entrevista_agendada: {
-    label: "Entrevista agendada",
+  postulacion_completa: {
+    label: "Documentación recibida",
     description:
-      "Te invitamos a una entrevista personal. En breve te contactaremos para coordinar fecha y hora.",
-    color: "#4C1D95",
-    bg: "#EDE9FE",
+      "Recibimos toda tu documentación. Pronto coordinaremos la entrevista familiar y la evaluación del estudiante.",
+    color: "#3730A3",
+    bg: "#E0E7FF",
   },
-  lista_espera: {
-    label: "En lista de espera",
+  en_evaluacion: {
+    label: "En evaluación",
     description:
-      "Los cupos para tu nivel están completos. Te notificaremos en cuanto se libere uno.",
+      "Estamos coordinando o realizando la entrevista familiar y la evaluación del estudiante.",
+    color: "#9D174D",
+    bg: "#FCE7F3",
+  },
+  en_revision_comite: {
+    label: "En revisión por Comité",
+    description:
+      "Tu expediente está siendo analizado por el Comité de Admisiones. Te notificaremos el resultado en las próximas 48 horas.",
     color: "#9A3412",
     bg: "#FED7AA",
-    isAlt: true,
   },
-  aceptado: {
-    label: "¡Solicitud aceptada!",
+  admitido: {
+    label: "¡Has sido admitido!",
     description:
       "Felicitaciones. Pronto recibirás los pasos para completar la matrícula.",
     color: "#065F46",
@@ -71,10 +80,10 @@ const ESTADO_INFO: Record<
     bg: "#D4AF37",
     isFinal: true,
   },
-  rechazado: {
-    label: "Solicitud no aceptada",
+  no_admitido: {
+    label: "No admitido",
     description:
-      "Lamentablemente no podemos otorgar un cupo en esta ocasión. Te animamos a postular nuevamente más adelante.",
+      "Lamentamos no poder otorgar un cupo en esta ocasión. Te animamos a postular nuevamente más adelante.",
     color: "#991B1B",
     bg: "#FEE2E2",
     isFinal: true,
@@ -84,10 +93,7 @@ const ESTADO_INFO: Record<
 
 function getStepIndex(estado: string): number {
   const idx = PIPELINE.findIndex((p) => p.key === estado);
-  if (idx >= 0) return idx;
-  // lista_espera y rechazado son ramificaciones, no pasos del pipeline
-  if (estado === "lista_espera") return 1; // visualmente cerca de "En revisión"
-  return 0;
+  return idx >= 0 ? idx : 0;
 }
 
 function StatusCard({
@@ -97,10 +103,10 @@ function StatusCard({
   data: SolicitudData;
   contactoEmail: string;
 }) {
-  const info = ESTADO_INFO[data.estado] ?? ESTADO_INFO.pendiente;
+  const info = ESTADO_INFO[data.estado] ?? ESTADO_INFO.interesado;
   const fecha = new Date(data.created_at).toLocaleDateString("es-EC", { dateStyle: "long" });
   const currentIdx = getStepIndex(data.estado);
-  const isAlt = info.isAlt; // lista_espera o rechazado
+  const isAlt = info.isAlt; // no_admitido (ramal alternativo del pipeline)
 
   return (
     <div
@@ -369,7 +375,7 @@ function SeguimientoContent({
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="ATN-2026-XXXXXX"
+              placeholder="ADM026-XXX"
               className="flex-1 h-[50px] rounded-[6px] border border-[#C8C4BD] bg-white px-4
                 text-[14px] text-navy placeholder:text-[#9CA3AF] outline-none
                 focus:border-navy focus:shadow-[0_0_0_3px_rgba(26,43,74,0.09)]
@@ -436,7 +442,7 @@ function SeguimientoContent({
                       color: "var(--color-navy)",
                     }}
                   >
-                    ATN-YYYY-XXXXXX
+                    ADM&lt;año&gt;-&lt;n&gt;
                   </code>
                   . Revisa también la carpeta de Spam. Si no lo encuentras, escríbenos a{" "}
                   <a

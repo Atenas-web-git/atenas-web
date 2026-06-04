@@ -72,7 +72,7 @@ export default async function FormularioPage({
       </header>
 
       <main>
-        <FormularioMultiStep nivelInicial={nivel ?? ""} aniosLectivos={anios} />
+        <FormularioMultiStep nivelInicial={nivel ?? ""} aniosLectivos={anios} textos={textos} />
       </main>
     </>
   );

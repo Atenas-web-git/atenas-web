@@ -4,7 +4,10 @@ import { createAdminClient } from "@/lib/supabase/admin";
 export async function GET(req: NextRequest) {
   const numero = req.nextUrl.searchParams.get("numero")?.trim().toUpperCase();
 
-  if (!numero || !/^ATN-\d{4}-\d{6}$/.test(numero)) {
+  // Formato nuevo `ADM<año3>-<seq3>` (p.ej. ADM026-278). Aceptamos también
+  // el formato viejo `ATN-<año4>-<seq6>` para no romper números antiguos
+  // que el cliente pueda tener registrados manualmente.
+  if (!numero || !(/^ADM\d{3}-\d{3,}$/.test(numero) || /^ATN-\d{4}-\d{6}$/.test(numero))) {
     return NextResponse.json({ error: "Número de seguimiento inválido" }, { status: 400 });
   }
 

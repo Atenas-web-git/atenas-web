@@ -35,7 +35,9 @@ export async function updateEstadoAction(
 
   const { data: prev } = await supabase
     .from("solicitudes_admision")
-    .select("numero, rep_correo, rep_nombres, est_nombres, est_apellidos, est_nivel, estado")
+    .select(
+      "numero, rep_correo, rep_nombres, est_nombres, est_apellidos, est_nivel, est_institucion_origen, estado"
+    )
     .eq("id", solicitudId)
     .single();
 
@@ -82,6 +84,78 @@ export async function updateDocumentosAction(
   if (error) return { error: "No se pudieron actualizar los documentos.", ok: false };
 
   revalidatePath(`/admin/admisiones/${solicitudId}`);
+  return { error: null, ok: true };
+}
+
+/**
+ * Edita manualmente los datos del estudiante y del representante de una
+ * solicitud existente. Útil para corregir errores tipográficos que el
+ * postulante cometió al llenar el formulario (un correo mal escrito, un
+ * nombre con error, relación equivocada, etc.). No toca el estado, el
+ * número, la fecha de creación ni el historial.
+ */
+export async function updateDatosSolicitudAction(
+  _prev: AdmisionActionState,
+  formData: FormData
+): Promise<AdmisionActionState> {
+  await assertAdmisiones();
+  const solicitudId = String(formData.get("solicitudId") ?? "");
+  if (!solicitudId) return { error: "ID de solicitud inválido.", ok: false };
+
+  const trim = (k: string) => String(formData.get(k) ?? "").trim();
+  const nullable = (k: string) => {
+    const v = trim(k);
+    return v === "" ? null : v;
+  };
+
+  const est_nombres = trim("est_nombres");
+  const est_apellidos = trim("est_apellidos");
+  const est_nivel = trim("est_nivel");
+  const rep_nombres = trim("rep_nombres");
+  const rep_apellidos = trim("rep_apellidos");
+  const rep_correo = trim("rep_correo");
+  const rep_telefono = trim("rep_telefono");
+
+  if (!est_nombres) return { error: "Los nombres del estudiante no pueden estar vacíos.", ok: false };
+  if (!est_apellidos) return { error: "Los apellidos del estudiante no pueden estar vacíos.", ok: false };
+  if (!est_nivel) return { error: "El nivel solicitado no puede estar vacío.", ok: false };
+  if (!rep_nombres) return { error: "Los nombres del representante no pueden estar vacíos.", ok: false };
+  if (!rep_apellidos) return { error: "Los apellidos del representante no pueden estar vacíos.", ok: false };
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(rep_correo)) {
+    return { error: "El correo del representante no es válido.", ok: false };
+  }
+  if (!rep_telefono) return { error: "El teléfono del representante no puede estar vacío.", ok: false };
+
+  const update: Record<string, string | null> = {
+    est_nombres,
+    est_apellidos,
+    est_fecha_nac: nullable("est_fecha_nac"),
+    est_nivel,
+    est_institucion_origen: nullable("est_institucion_origen"),
+    anio_ingreso: nullable("anio_ingreso"),
+    rep_nombres,
+    rep_apellidos,
+    rep_relacion: nullable("rep_relacion"),
+    rep_correo,
+    rep_telefono,
+    como_enterado: nullable("como_enterado"),
+    comentarios: nullable("comentarios"),
+    updated_at: new Date().toISOString(),
+  };
+
+  const supabase = createAdminClient();
+  const { error } = await supabase
+    .from("solicitudes_admision")
+    .update(update)
+    .eq("id", solicitudId);
+
+  if (error) {
+    console.error("[updateDatosSolicitudAction]", error);
+    return { error: "No se pudieron guardar los cambios.", ok: false };
+  }
+
+  revalidatePath(`/admin/admisiones/${solicitudId}`);
+  revalidatePath("/admin/admisiones");
   return { error: null, ok: true };
 }
 

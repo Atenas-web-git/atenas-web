@@ -2,45 +2,12 @@
 
 import { useActionState, useTransition } from "react";
 import { updateEstadoAction, type AdmisionActionState } from "../actions";
-import { type EstadoAdmision } from "../constants";
-
-const TRANSICIONES: Record<EstadoAdmision, EstadoAdmision[]> = {
-  pendiente: ["revisando", "rechazado"],
-  revisando: ["entrevista_agendada", "lista_espera", "rechazado"],
-  entrevista_agendada: ["aceptado", "lista_espera", "rechazado"],
-  lista_espera: ["aceptado", "rechazado"],
-  aceptado: ["matriculado", "rechazado"],
-  matriculado: [],
-  rechazado: [],
-};
-
-const ESTADO_LABELS: Record<EstadoAdmision, string> = {
-  pendiente: "Pendiente",
-  revisando: "En revisión",
-  entrevista_agendada: "Entrevista agendada",
-  lista_espera: "Lista de espera",
-  aceptado: "Aceptada",
-  matriculado: "Matriculada",
-  rechazado: "Rechazada",
-};
-
-const ESTADO_COLORS: Record<EstadoAdmision, { bg: string; fg: string }> = {
-  pendiente: { bg: "#FEF3C7", fg: "#92400E" },
-  revisando: { bg: "#DBEAFE", fg: "#1E40AF" },
-  entrevista_agendada: { bg: "#EDE9FE", fg: "#4C1D95" },
-  lista_espera: { bg: "#FED7AA", fg: "#9A3412" },
-  aceptado: { bg: "#D1FAE5", fg: "#065F46" },
-  matriculado: { bg: "#1A2B4A", fg: "#D4AF37" },
-  rechazado: { bg: "#FEE2E2", fg: "#991B1B" },
-};
-
-const PIPELINE: EstadoAdmision[] = [
-  "pendiente",
-  "revisando",
-  "entrevista_agendada",
-  "aceptado",
-  "matriculado",
-];
+import {
+  ESTADO_INFO,
+  PIPELINE_HAPPY_PATH,
+  TRANSITIONS,
+  type EstadoAdmision,
+} from "../constants";
 
 export function EstadoSelectorClient({
   solicitudId,
@@ -56,13 +23,15 @@ export function EstadoSelectorClient({
   const [state, setState] = useTransition();
   void state;
 
-  const siguientes = TRANSICIONES[estadoActual] ?? [];
+  const siguientes = TRANSITIONS[estadoActual] ?? [];
   const esTerminal = siguientes.length === 0;
-  const colorsActual = ESTADO_COLORS[estadoActual];
+  const infoActual = ESTADO_INFO[estadoActual];
 
-  const pipelineStates = estadoActual === "rechazado"
-    ? [...PIPELINE, "rechazado" as EstadoAdmision]
-    : PIPELINE;
+  // Si el postulante quedó "no_admitido", lo mostramos como paso extra al
+  // final del pipeline para no romper el stepper visual.
+  const pipelineStates: EstadoAdmision[] = estadoActual === "no_admitido"
+    ? [...PIPELINE_HAPPY_PATH, "no_admitido"]
+    : PIPELINE_HAPPY_PATH;
 
   const currentIndex = pipelineStates.indexOf(estadoActual);
 
@@ -73,8 +42,7 @@ export function EstadoSelectorClient({
         {pipelineStates.map((estado, idx) => {
           const isActive = estado === estadoActual;
           const isPast = idx < currentIndex;
-          const colors = ESTADO_COLORS[estado];
-          const label = ESTADO_LABELS[estado];
+          const info = ESTADO_INFO[estado];
           const isLast = idx === pipelineStates.length - 1;
 
           return (
@@ -87,11 +55,11 @@ export function EstadoSelectorClient({
                     height: 28,
                     borderRadius: "50%",
                     background: isActive
-                      ? colors.fg
+                      ? info.colorFg
                       : isPast
                       ? "#D4AF37"
                       : "#E8E4DD",
-                    border: isActive ? `2px solid ${colors.fg}` : "none",
+                    border: isActive ? `2px solid ${info.colorFg}` : "none",
                   }}
                 >
                   {isPast ? (
@@ -114,14 +82,14 @@ export function EstadoSelectorClient({
                   style={{
                     fontSize: 9,
                     fontWeight: isActive ? 700 : 500,
-                    color: isActive ? colors.fg : isPast ? "#6B6660" : "#A0AABA",
+                    color: isActive ? info.colorFg : isPast ? "#6B6660" : "#A0AABA",
                     textAlign: "center",
                     marginTop: 4,
                     lineHeight: 1.2,
                     maxWidth: 56,
                   }}
                 >
-                  {label}
+                  {info.label}
                 </span>
               </div>
               {!isLast && (
@@ -142,12 +110,12 @@ export function EstadoSelectorClient({
       {esTerminal ? (
         <div
           className="flex items-center gap-3 px-4 py-3 rounded-lg"
-          style={{ background: colorsActual.bg }}
+          style={{ background: infoActual.colorBg }}
         >
           <span
-            style={{ fontSize: 13, fontWeight: 600, color: colorsActual.fg }}
+            style={{ fontSize: 13, fontWeight: 600, color: infoActual.colorFg }}
           >
-            Estado final — {ESTADO_LABELS[estadoActual]}
+            Estado final — {infoActual.label}
           </span>
         </div>
       ) : (
@@ -175,7 +143,7 @@ export function EstadoSelectorClient({
               </option>
               {siguientes.map((s) => (
                 <option key={s} value={s}>
-                  {ESTADO_LABELS[s]}
+                  {ESTADO_INFO[s].label}
                 </option>
               ))}
             </select>

@@ -11,7 +11,7 @@ const TITLES: Record<string, { title: string; subtitle: string }> = {
   "/admin/admisiones": {
     title: "Solicitudes de admisión",
     subtitle:
-      "Pipeline completo: pendientes, entrevistas, lista de espera, aceptadas y matriculadas",
+      "Pipeline completo: interesados, postulantes, evaluación, comité, admitidos y matriculados",
   },
   "/admin/admisiones/cupos": {
     title: "Cupos por nivel",

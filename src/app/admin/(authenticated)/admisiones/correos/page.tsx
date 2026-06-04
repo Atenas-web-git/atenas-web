@@ -5,15 +5,19 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
 import { AdmisionesSubNav } from "../SubNav";
+import { ESTADOS_CON_CORREO_PIPELINE, ESTADO_INFO } from "../constants";
 
-const ESTADOS = [
-  { key: "revisando", label: "En revisión", description: "Cuando empiezas a revisar la solicitud", color: "#1E40AF" },
-  { key: "entrevista_agendada", label: "Entrevista agendada", description: "Cuando agendas la entrevista personal", color: "#4C1D95" },
-  { key: "lista_espera", label: "Lista de espera", description: "Cuando los cupos están llenos", color: "#9A3412" },
-  { key: "aceptado", label: "Aceptada", description: "Cuando aceptas al postulante", color: "#065F46" },
-  { key: "matriculado", label: "Matriculada", description: "Cuando se completa la matrícula", color: "#1A2B4A" },
-  { key: "rechazado", label: "Rechazada", description: "Cuando rechazas la solicitud", color: "#991B1B" },
-];
+// 7 estados con plantilla de correo (no "interesado" — esa la cubre el
+// correo del formulario, configurado en /admin/contenido/plantillas-formularios).
+const ESTADOS = ESTADOS_CON_CORREO_PIPELINE.map((key) => {
+  const info = ESTADO_INFO[key];
+  return {
+    key,
+    label: info.label,
+    description: info.descripcion,
+    color: info.colorFg,
+  };
+});
 
 function formatDate(iso: string | null): string {
   if (!iso) return "Nunca";
@@ -66,6 +70,7 @@ export default async function CorreosListPage() {
             <code style={codeStyle}>{"{{est_nombres}}"}</code>{" · "}
             <code style={codeStyle}>{"{{est_apellidos}}"}</code>{" · "}
             <code style={codeStyle}>{"{{est_nivel}}"}</code>{" · "}
+            <code style={codeStyle}>{"{{est_institucion_origen}}"}</code>{" · "}
             <code style={codeStyle}>{"{{rep_nombres}}"}</code>{" · "}
             <code style={codeStyle}>{"{{url_seguimiento}}"}</code>
           </p>

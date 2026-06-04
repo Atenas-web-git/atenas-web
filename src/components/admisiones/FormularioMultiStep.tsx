@@ -1,15 +1,22 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import {
+  ADMISIONES_TEXTOS_DEFAULT,
+  type AdmisionesTextosConfig,
+} from "@/lib/cms/admisionesTextos";
 
-// ── Types ──────────────────────────────────────────────────────────────────
+// ── Tipos ──────────────────────────────────────────────────────────────────
+type FormularioTextos = AdmisionesTextosConfig["formulario"];
+
 type FormData = {
   est_nombres: string;
   est_apellidos: string;
   est_fecha_nac: string;
   est_nivel: string;
+  est_institucion_origen: string;
   rep_nombres: string;
   rep_apellidos: string;
   rep_relacion: string;
@@ -23,36 +30,20 @@ type FormData = {
 function makeInitial(nivelInicial: string): FormData {
   return {
     est_nombres: "", est_apellidos: "", est_fecha_nac: "", est_nivel: nivelInicial,
+    est_institucion_origen: "",
     rep_nombres: "", rep_apellidos: "", rep_relacion: "", rep_correo: "", rep_telefono: "",
     como_enterado: "", anio_ingreso: "", comentarios: "",
   };
 }
 
-// ── Constants ──────────────────────────────────────────────────────────────
-const NIVELES = [
-  "Educación Inicial",
-  "EGB Elemental y Media",
-  "EGB Superior",
-  "Bachillerato IB",
-];
-const RELACIONES = ["Padre", "Madre", "Tutor legal", "Abuelo/a", "Otro"];
-const COMO_ENTERADO = [
-  "Redes sociales",
-  "Recomendación de amigo o familiar",
-  "Página web del colegio",
-  "Evento o feria educativa",
-  "Otro",
-];
 const ANIOS_FALLBACK = ["2026-2027", "2027-2028"];
 
-const STEPS = [
-  { label: "Estudiante" },
-  { label: "Representante" },
-  { label: "Adicional" },
-  { label: "Confirmar" },
-];
+// Etiquetas cortas del chip indicador de pasos. No editables (las largas
+// viven en `pasoTitulos`). Mantener cortas para no romper el layout.
+const STEP_INDICATOR_LABELS = ["Estudiante", "Representante", "Adicional", "Confirmar"];
 
-// ── Validation ─────────────────────────────────────────────────────────────
+// ── Validación ─────────────────────────────────────────────────────────────
+// Mensajes técnicos — no se exponen al editor.
 function validateStep(step: number, data: FormData): string | null {
   if (step === 1) {
     if (!data.est_nombres.trim()) return "Ingresa los nombres del estudiante.";
@@ -193,7 +184,7 @@ function TextareaField({
 function StepIndicator({ current }: { current: number }) {
   return (
     <div className="flex items-start w-full">
-      {STEPS.map((step, i) => {
+      {STEP_INDICATOR_LABELS.map((label, i) => {
         const n = i + 1;
         const done = n < current;
         const active = n === current;
@@ -222,7 +213,7 @@ function StepIndicator({ current }: { current: number }) {
                 className="text-[11px] font-semibold text-center hidden sm:block whitespace-nowrap"
                 style={{ fontFamily: "Poppins, sans-serif", color: done ? "var(--color-red)" : active ? "var(--color-navy)" : "#9CA3AF" }}
               >
-                {step.label}
+                {label}
               </span>
             </div>
           </Fragment>
@@ -232,83 +223,84 @@ function StepIndicator({ current }: { current: number }) {
   );
 }
 
-// ── Step titles & subtitles ────────────────────────────────────────────────
-const STEP_TITLES = [
-  "Datos del Estudiante",
-  "Datos del Representante",
-  "Información Adicional",
-  "Confirma tu solicitud",
-];
-const STEP_SUBTITLES = [
-  "Información del estudiante que desea ingresar a la institución.",
-  "Información de la persona responsable del estudiante.",
-  "Cuéntanos un poco más para personalizar el proceso de admisión.",
-  "Revisa los datos antes de enviar. Puedes editarlos si es necesario.",
-];
-
 // ── Step field sections ────────────────────────────────────────────────────
-function Step1Fields({ form, set }: {
-  form: FormData; set: (k: keyof FormData) => (v: string) => void;
+function Step1Fields({
+  form, set, textos,
+}: {
+  form: FormData; set: (k: keyof FormData) => (v: string) => void; textos: FormularioTextos;
 }) {
+  const e = textos.camposEstudiante;
   return (
     <div className="flex flex-col gap-[16px]">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px]">
-        <Field label="Nombres" placeholder="Ej. María José"
+        <Field label={e.nombresLabel} placeholder={e.nombresPlaceholder}
           value={form.est_nombres} onChange={set("est_nombres")} required />
-        <Field label="Apellidos" placeholder="Ej. Pérez Romero"
+        <Field label={e.apellidosLabel} placeholder={e.apellidosPlaceholder}
           value={form.est_apellidos} onChange={set("est_apellidos")} required />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px]">
-        <Field label="Fecha de nacimiento" type="date" placeholder=""
+        <Field label={e.fechaNacLabel} type="date" placeholder=""
           value={form.est_fecha_nac} onChange={set("est_fecha_nac")} />
-        <SelectField label="Nivel al que aplica" options={NIVELES}
+        <SelectField label={e.nivelLabel} options={textos.opciones.niveles}
           value={form.est_nivel} onChange={set("est_nivel")}
-          placeholder="Selecciona el nivel..." required />
+          placeholder={e.nivelPlaceholder} required />
       </div>
+      <Field
+        label={e.institucionLabel}
+        placeholder={e.institucionPlaceholder}
+        value={form.est_institucion_origen}
+        onChange={set("est_institucion_origen")}
+      />
     </div>
   );
 }
 
-function Step2Fields({ form, set }: {
-  form: FormData; set: (k: keyof FormData) => (v: string) => void;
+function Step2Fields({
+  form, set, textos,
+}: {
+  form: FormData; set: (k: keyof FormData) => (v: string) => void; textos: FormularioTextos;
 }) {
+  const r = textos.camposRepresentante;
   return (
     <div className="flex flex-col gap-[16px]">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px]">
-        <Field label="Nombres" placeholder="Ej. Carlos Andrés"
+        <Field label={r.nombresLabel} placeholder={r.nombresPlaceholder}
           value={form.rep_nombres} onChange={set("rep_nombres")} required />
-        <Field label="Apellidos" placeholder="Ej. Espinoza Torres"
+        <Field label={r.apellidosLabel} placeholder={r.apellidosPlaceholder}
           value={form.rep_apellidos} onChange={set("rep_apellidos")} required />
       </div>
-      <SelectField label="Relación con el estudiante" options={RELACIONES}
+      <SelectField label={r.relacionLabel} options={textos.opciones.relaciones}
         value={form.rep_relacion} onChange={set("rep_relacion")}
-        placeholder="Padre / Madre / Tutor legal..." required />
+        placeholder={r.relacionPlaceholder} required />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px]">
-        <Field label="Correo electrónico" type="email" placeholder="correo@ejemplo.com"
+        <Field label={r.correoLabel} type="email" placeholder={r.correoPlaceholder}
           value={form.rep_correo} onChange={set("rep_correo")} required inputMode="email" />
-        <Field label="Teléfono / Celular" type="tel" placeholder="+593 9__ ___ ____"
+        <Field label={r.telefonoLabel} type="tel" placeholder={r.telefonoPlaceholder}
           value={form.rep_telefono} onChange={set("rep_telefono")} required inputMode="tel" />
       </div>
     </div>
   );
 }
 
-function Step3Fields({ form, set, anios }: {
-  form: FormData; set: (k: keyof FormData) => (v: string) => void; anios: string[];
+function Step3Fields({
+  form, set, anios, textos,
+}: {
+  form: FormData; set: (k: keyof FormData) => (v: string) => void; anios: string[]; textos: FormularioTextos;
 }) {
+  const a = textos.camposAdicional;
   return (
     <div className="flex flex-col gap-[16px]">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px]">
-        <SelectField label="¿Cómo se enteró del colegio?" options={COMO_ENTERADO}
+        <SelectField label={a.comoEnteradoLabel} options={textos.opciones.comoEnterado}
           value={form.como_enterado} onChange={set("como_enterado")}
-          placeholder="Selecciona una opción..." />
-        <SelectField label="Año lectivo de ingreso" options={anios}
+          placeholder={a.comoEnteradoPlaceholder} />
+        <SelectField label={a.anioIngresoLabel} options={anios}
           value={form.anio_ingreso} onChange={set("anio_ingreso")}
-          placeholder="Selecciona el año..." />
+          placeholder={a.anioIngresoPlaceholder} />
       </div>
       <TextareaField
-        label="Comentarios adicionales (opcional)"
-        placeholder="Escribe aquí cualquier información adicional que desees compartir con el equipo de admisiones..."
+        label={a.comentariosLabel}
+        placeholder={a.comentariosPlaceholder}
         value={form.comentarios} onChange={set("comentarios")}
       />
     </div>
@@ -316,8 +308,10 @@ function Step3Fields({ form, set, anios }: {
 }
 
 // ── Confirmation summary ───────────────────────────────────────────────────
-function SummaryBlock({ title, rows, onEdit }: {
-  title: string; rows: [string, string][]; onEdit: () => void;
+function SummaryBlock({
+  title, rows, onEdit, editLabel,
+}: {
+  title: string; rows: [string, string][]; onEdit: () => void; editLabel: string;
 }) {
   return (
     <div className="relative rounded-[8px] border border-[#E2E8F0] bg-[#F8FAFC] p-[20px] flex flex-col gap-[10px]">
@@ -331,7 +325,7 @@ function SummaryBlock({ title, rows, onEdit }: {
           className="text-[12px] text-red hover:underline font-medium"
           style={{ fontFamily: "Poppins, sans-serif" }}
         >
-          Editar
+          {editLabel}
         </button>
       </div>
       {rows.map(([label, value]) => (
@@ -344,53 +338,63 @@ function SummaryBlock({ title, rows, onEdit }: {
   );
 }
 
-function Step4Review({ form, onEdit }: {
-  form: FormData; onEdit: (step: number) => void;
+function Step4Review({
+  form, onEdit, textos,
+}: {
+  form: FormData; onEdit: (step: number) => void; textos: FormularioTextos;
 }) {
+  const e = textos.camposEstudiante;
+  const r = textos.camposRepresentante;
+  const ad = textos.camposAdicional;
+  const c = textos.confirmacion;
   return (
     <div className="flex flex-col gap-[12px]">
       <SummaryBlock
-        title="Datos del Estudiante"
+        title={c.seccionEstudiante}
         onEdit={() => onEdit(1)}
+        editLabel={c.botonEditar}
         rows={[
-          ["Nombres", form.est_nombres],
-          ["Apellidos", form.est_apellidos],
-          ["Fecha de nacimiento", form.est_fecha_nac],
-          ["Nivel al que aplica", form.est_nivel],
+          [e.nombresLabel, form.est_nombres],
+          [e.apellidosLabel, form.est_apellidos],
+          [e.fechaNacLabel, form.est_fecha_nac],
+          [e.nivelLabel, form.est_nivel],
+          [e.institucionLabel, form.est_institucion_origen],
         ]}
       />
       <SummaryBlock
-        title="Datos del Representante"
+        title={c.seccionRepresentante}
         onEdit={() => onEdit(2)}
+        editLabel={c.botonEditar}
         rows={[
-          ["Nombres y apellidos", `${form.rep_nombres} ${form.rep_apellidos}`.trim()],
-          ["Relación", form.rep_relacion],
-          ["Correo", form.rep_correo],
-          ["Teléfono", form.rep_telefono],
+          [`${r.nombresLabel} y ${r.apellidosLabel.toLowerCase()}`, `${form.rep_nombres} ${form.rep_apellidos}`.trim()],
+          [r.relacionLabel, form.rep_relacion],
+          [r.correoLabel, form.rep_correo],
+          [r.telefonoLabel, form.rep_telefono],
         ]}
       />
       {(form.como_enterado || form.anio_ingreso || form.comentarios) && (
         <SummaryBlock
-          title="Información Adicional"
+          title={c.seccionAdicional}
           onEdit={() => onEdit(3)}
+          editLabel={c.botonEditar}
           rows={([
-            ["¿Cómo se enteró?", form.como_enterado],
-            ["Año de ingreso", form.anio_ingreso],
-            ["Comentarios", form.comentarios],
+            [ad.comoEnteradoLabel, form.como_enterado],
+            [ad.anioIngresoLabel, form.anio_ingreso],
+            [ad.comentariosLabel, form.comentarios],
           ] as [string, string][]).filter(([, v]) => !!v)}
         />
       )}
       <p className="text-[12px] text-[#6B7280] leading-relaxed text-center mt-2"
         style={{ fontFamily: "Poppins, sans-serif" }}>
-        Al enviar esta solicitud, nuestro equipo de admisiones se pondrá en contacto
-        contigo en un plazo de 48 horas hábiles.
+        {c.mensajeFinal}
       </p>
     </div>
   );
 }
 
 // ── Success screen ─────────────────────────────────────────────────────────
-function SuccessScreen({ numero }: { numero: string }) {
+function SuccessScreen({ numero, textos }: { numero: string; textos: FormularioTextos }) {
+  const ex = textos.exito;
   return (
     <div className="min-h-[calc(100vh-64px)] bg-[#EEF2F7] py-10 px-4 flex items-center justify-center">
       <motion.div
@@ -415,12 +419,11 @@ function SuccessScreen({ numero }: { numero: string }) {
         <div className="flex flex-col gap-[10px]">
           <h2 className="text-[26px] font-bold text-navy"
             style={{ fontFamily: "Poppins, sans-serif" }}>
-            ¡Solicitud enviada exitosamente!
+            {ex.titulo}
           </h2>
           <p className="text-[14px] text-[#6B7280] leading-relaxed"
             style={{ fontFamily: "Poppins, sans-serif" }}>
-            Hemos recibido tu solicitud. Nuestro equipo la revisará y se pondrá
-            en contacto contigo muy pronto.
+            {ex.descripcion}
           </p>
         </div>
 
@@ -428,7 +431,7 @@ function SuccessScreen({ numero }: { numero: string }) {
           flex flex-col items-center gap-[4px]">
           <span className="text-[10px] font-semibold tracking-[1.5px] uppercase text-[#6B7280]"
             style={{ fontFamily: "Poppins, sans-serif" }}>
-            N° de seguimiento
+            {ex.etiquetaSeguimiento}
           </span>
           <span className="text-[22px] font-bold text-navy"
             style={{ fontFamily: "Poppins, sans-serif" }}>
@@ -441,13 +444,9 @@ function SuccessScreen({ numero }: { numero: string }) {
         <div className="flex flex-col gap-[10px] text-left w-full">
           <p className="text-[14px] font-semibold text-navy"
             style={{ fontFamily: "Poppins, sans-serif" }}>
-            ¿Qué sigue?
+            {ex.queSigueTitulo}
           </p>
-          {[
-            "Recibirás un correo de confirmación en los próximos minutos.",
-            "Revisaremos tu solicitud en 1–2 días hábiles.",
-            "Te contactaremos para coordinar una visita o entrevista.",
-          ].map((s) => (
+          {ex.queSigueBullets.map((s) => (
             <div key={s} className="flex gap-[10px] items-start">
               <span className="text-[#16A34A] font-bold mt-[1px] flex-shrink-0">✓</span>
               <span className="text-[13px] text-[#374151]"
@@ -464,7 +463,7 @@ function SuccessScreen({ numero }: { numero: string }) {
               duration-150 flex items-center"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
-            ← Volver a admisiones
+            {ex.botonVolver}
           </Link>
           <Link
             href="/"
@@ -472,7 +471,7 @@ function SuccessScreen({ numero }: { numero: string }) {
               font-semibold hover:bg-[#22375e] transition-colors duration-150 flex items-center"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
-            Ir al inicio
+            {ex.botonInicio}
           </Link>
         </div>
       </motion.div>
@@ -480,15 +479,39 @@ function SuccessScreen({ numero }: { numero: string }) {
   );
 }
 
+// ── Texto de privacidad con link inline ────────────────────────────────────
+function PrivacyText({ texto, politicaLabel }: { texto: string; politicaLabel: string }) {
+  // Divide el texto por el marcador {{politica}}; si no existe, lo concatena al final.
+  const partes = texto.includes("{{politica}}") ? texto.split("{{politica}}") : [texto, ""];
+  return (
+    <p className="text-center text-[11px] text-[#9CA3AF] mt-6"
+      style={{ fontFamily: "Poppins, sans-serif" }}>
+      {partes[0]}
+      <Link href="/politicas" className="text-navy underline hover:no-underline">
+        {politicaLabel}
+      </Link>
+      {partes.slice(1).join("{{politica}}")}
+    </p>
+  );
+}
+
 // ── Main export ────────────────────────────────────────────────────────────
 export function FormularioMultiStep({
   nivelInicial = "",
   aniosLectivos,
+  textos: textosProp,
 }: {
   nivelInicial?: string;
   aniosLectivos?: string[];
+  textos?: FormularioTextos;
 }) {
-  const ANIOS = aniosLectivos && aniosLectivos.length > 0 ? aniosLectivos : ANIOS_FALLBACK;
+  // Fallback al default si la página no inyecta textos (p.ej. tests).
+  const textos = textosProp ?? ADMISIONES_TEXTOS_DEFAULT.formulario;
+
+  const ANIOS = useMemo(
+    () => (aniosLectivos && aniosLectivos.length > 0 ? aniosLectivos : ANIOS_FALLBACK),
+    [aniosLectivos]
+  );
   const [step, setStep] = useState(1);
   const [form, setForm] = useState<FormData>(() => makeInitial(nivelInicial));
   const [error, setError] = useState<string | null>(null);
@@ -534,7 +557,20 @@ export function FormularioMultiStep({
     }
   };
 
-  if (step === 5 && numero) return <SuccessScreen numero={numero} />;
+  if (step === 5 && numero) return <SuccessScreen numero={numero} textos={textos} />;
+
+  const titulos = [
+    textos.pasoTitulos.paso1,
+    textos.pasoTitulos.paso2,
+    textos.pasoTitulos.paso3,
+    textos.pasoTitulos.paso4,
+  ];
+  const subtitulos = [
+    textos.pasoSubtitulos.paso1,
+    textos.pasoSubtitulos.paso2,
+    textos.pasoSubtitulos.paso3,
+    textos.pasoSubtitulos.paso4,
+  ];
 
   return (
     <div className="min-h-[calc(100vh-64px)] bg-[#EEF2F7] py-10 px-4">
@@ -567,19 +603,25 @@ export function FormularioMultiStep({
                 <div className="flex flex-col gap-[6px]">
                   <h2 className="text-[22px] font-bold text-navy max-sm:text-[18px]"
                     style={{ fontFamily: "Poppins, sans-serif" }}>
-                    {STEP_TITLES[step - 1]}
+                    {titulos[step - 1]}
                   </h2>
                   <p className="text-[14px] text-[#6B7280] leading-relaxed"
                     style={{ fontFamily: "Poppins, sans-serif" }}>
-                    {STEP_SUBTITLES[step - 1]}
+                    {subtitulos[step - 1]}
                   </p>
                 </div>
 
                 {/* Fields */}
-                {step === 1 && <Step1Fields form={form} set={set} />}
-                {step === 2 && <Step2Fields form={form} set={set} />}
-                {step === 3 && <Step3Fields form={form} set={set} anios={ANIOS} />}
-                {step === 4 && <Step4Review form={form} onEdit={(s) => { setError(null); setStep(s); }} />}
+                {step === 1 && <Step1Fields form={form} set={set} textos={textos} />}
+                {step === 2 && <Step2Fields form={form} set={set} textos={textos} />}
+                {step === 3 && <Step3Fields form={form} set={set} anios={ANIOS} textos={textos} />}
+                {step === 4 && (
+                  <Step4Review
+                    form={form}
+                    onEdit={(s) => { setError(null); setStep(s); }}
+                    textos={textos}
+                  />
+                )}
 
                 {/* Error */}
                 {error && (
@@ -602,7 +644,7 @@ export function FormularioMultiStep({
                         transition-colors duration-150"
                       style={{ fontFamily: "Poppins, sans-serif" }}
                     >
-                      ← Anterior
+                      {textos.navegacion.anterior}
                     </button>
                   )}
                   {step < 4 && (
@@ -612,7 +654,7 @@ export function FormularioMultiStep({
                         font-semibold hover:bg-[#22375e] transition-colors duration-150"
                       style={{ fontFamily: "Poppins, sans-serif" }}
                     >
-                      Siguiente →
+                      {textos.navegacion.siguiente}
                     </button>
                   )}
                   {step === 4 && (
@@ -624,7 +666,7 @@ export function FormularioMultiStep({
                         disabled:opacity-60 disabled:cursor-not-allowed"
                       style={{ fontFamily: "Poppins, sans-serif" }}
                     >
-                      {submitting ? "Enviando..." : "Enviar solicitud"}
+                      {submitting ? textos.navegacion.enviando : textos.navegacion.enviar}
                     </button>
                   )}
                 </div>
@@ -634,14 +676,10 @@ export function FormularioMultiStep({
         </div>
 
         {/* Privacy note */}
-        <p className="text-center text-[11px] text-[#9CA3AF] mt-6"
-          style={{ fontFamily: "Poppins, sans-serif" }}>
-          Al enviar aceptas nuestra{" "}
-          <Link href="/politicas" className="text-navy underline hover:no-underline">
-            Política de Privacidad
-          </Link>
-          . Tus datos son usados únicamente para el proceso de admisión.
-        </p>
+        <PrivacyText
+          texto={textos.privacidad.texto}
+          politicaLabel={textos.privacidad.politicaLabel}
+        />
       </div>
     </div>
   );
