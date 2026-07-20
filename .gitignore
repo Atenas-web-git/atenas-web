@@ -43,3 +43,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# graphify — grafo de conocimiento local, se reconstruye vía hook post-commit (no versionar)
+graphify-out/
