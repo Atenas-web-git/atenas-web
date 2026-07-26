@@ -45,6 +45,10 @@ const TITLES: Record<string, { title: string; subtitle: string }> = {
     title: "Configuración",
     subtitle: "Ajustes globales del sitio y del backoffice",
   },
+  "/admin/documentacion": {
+    title: "Documentación",
+    subtitle: "Manual de uso del panel: cómo se hace cada cosa, paso a paso",
+  },
   "/admin/configuracion/anos-lectivos": {
     title: "Años lectivos",
     subtitle: "Catálogo editable de años lectivos del colegio",

@@ -8,6 +8,7 @@ import {
   FileText,
   Users,
   Settings,
+  BookOpen,
   LogOut,
 } from "lucide-react";
 import { logoutAction } from "@/app/admin/login/actions";
@@ -53,6 +54,14 @@ const navItems: NavItem[] = [
     label: "Configuración",
     icon: Settings,
     visible: (u) => hasAnyRole(u, [ROLES.SUPERADMIN, ROLES.EDITOR_ADMISIONES]),
+  },
+  {
+    // Manual de uso del panel. Visible para todos los roles: cada quien
+    // encuentra ahí lo que sí puede hacer con sus permisos.
+    href: "/admin/documentacion",
+    label: "Documentación",
+    icon: BookOpen,
+    visible: () => true,
   },
 ];
 

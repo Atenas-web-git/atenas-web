@@ -7,6 +7,7 @@ import type {
   ContactosPaginaConfig,
   ExtensionContacto,
 } from "@/lib/cms/contactosPagina";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 
 export function EditorPlantillaQ({
   paginaId,
@@ -73,6 +74,9 @@ export function EditorPlantillaQ({
   // Mapa
   const [mapaEmbed, setMapaEmbed] = useState(initialContenido.mapa.embedUrl);
   const [mapaBadge, setMapaBadge] = useState(initialContenido.mapa.badgeText);
+
+  // Prefijo de carpeta en Storage para las imágenes de esta página.
+  const safePrefix = `paginas/${slug.replace(/[^a-z0-9-]/g, "-")}`;
 
   const updateExt = (i: number, patch: Partial<ExtensionContacto>) =>
     setExtensiones((arr) => arr.map((e, idx) => (idx === i ? { ...e, ...patch } : e)));
@@ -190,14 +194,17 @@ export function EditorPlantillaQ({
         <Field label="Caption (línea pequeña inferior)">
           <input type="text" value={heroCaption} onChange={(e) => setHeroCaption(e.target.value)} style={inputStyle} />
         </Field>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <Field label="Ghost text decorativo">
-            <input type="text" value={heroGhostText} onChange={(e) => setHeroGhostText(e.target.value)} style={inputStyle} />
-          </Field>
-          <Field label="Imagen de fondo (URL)">
-            <input type="url" value={heroBgImage} onChange={(e) => setHeroBgImage(e.target.value)} placeholder="https://…" style={inputStyle} />
-          </Field>
-        </div>
+        <Field label="Ghost text decorativo">
+          <input type="text" value={heroGhostText} onChange={(e) => setHeroGhostText(e.target.value)} style={inputStyle} />
+        </Field>
+        <ImageUploader
+          label="Imagen de fondo del hero"
+          hint="Se muestra a pantalla completa con un velo oscuro encima. Usa una foto horizontal y de buena resolución (mínimo 1600 px de ancho)."
+          value={heroBgImage}
+          onChange={setHeroBgImage}
+          prefix={`${safePrefix}/hero`}
+          previewAspect="16/9"
+        />
       </Card>
 
       <Card
@@ -224,9 +231,14 @@ export function EditorPlantillaQ({
         <Field label="Heading">
           <input type="text" value={canalesHeading} onChange={(e) => setCanalesHeading(e.target.value)} style={inputStyle} />
         </Field>
-        <Field label="Imagen del banner (URL)">
-          <input type="url" value={canalesBanner} onChange={(e) => setCanalesBanner(e.target.value)} placeholder="https://…" style={inputStyle} />
-        </Field>
+        <ImageUploader
+          label="Imagen del banner de la sección"
+          hint="Foto ancha que separa el hero de las 3 tarjetas de contacto. Funciona mejor una toma horizontal del campus."
+          value={canalesBanner}
+          onChange={setCanalesBanner}
+          prefix={`${safePrefix}/canales`}
+          previewAspect="16/9"
+        />
       </Card>
 
       <Card title="Tarjeta 1 — Teléfono Central" subtitle="Título + lista de extensiones del PBX.">
