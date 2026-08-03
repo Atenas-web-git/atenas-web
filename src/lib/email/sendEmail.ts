@@ -16,7 +16,7 @@
 
 import { Resend } from "resend";
 import nodemailer from "nodemailer";
-import { getConfiguracion } from "@/lib/cms/getConfiguracion";
+import { getConfiguracionPrivada } from "@/lib/cms/getConfiguracion";
 import {
   mergeCorreos,
   type CorreosConfig,
@@ -124,7 +124,7 @@ function resolveFromPreset(
  */
 export async function sendEmail(input: SendEmailInput): Promise<SendEmailResult> {
   // 1. Resolver config
-  const raw = await getConfiguracion<Partial<CorreosConfig>>("correos");
+  const raw = await getConfiguracionPrivada<Partial<CorreosConfig>>("correos");
   const config = mergeCorreos(raw);
   const provider = config.provider;
 
@@ -280,7 +280,7 @@ async function sendViaSmtp(args: {
 export async function getCorreoPreset(
   purpose: CorreoPurpose
 ): Promise<CorreoPreset> {
-  const raw = await getConfiguracion<Partial<CorreosConfig>>("correos");
+  const raw = await getConfiguracionPrivada<Partial<CorreosConfig>>("correos");
   const config = mergeCorreos(raw);
   return config.presets[purpose];
 }

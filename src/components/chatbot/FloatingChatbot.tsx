@@ -10,7 +10,7 @@
  */
 
 import {
-  getConfiguracion,
+  getConfiguracionPrivada,
   mergeChatbot,
   chatbotIsLive,
   type ChatbotConfig,
@@ -18,7 +18,7 @@ import {
 import { FloatingChatbotClient } from "./FloatingChatbotClient";
 
 export async function getChatbotConfig(): Promise<ChatbotConfig> {
-  const raw = await getConfiguracion<Partial<ChatbotConfig>>("chatbot");
+  const raw = await getConfiguracionPrivada<Partial<ChatbotConfig>>("chatbot");
   return mergeChatbot(raw);
 }
 

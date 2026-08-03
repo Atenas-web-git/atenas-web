@@ -4,7 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
 import {
-  getConfiguracion,
+  getConfiguracionPrivada,
   mergeChatbot,
   type ChatbotConfig,
 } from "@/lib/cms/getConfiguracion";
@@ -15,7 +15,7 @@ export default async function ChatbotConfigPage() {
   if (!user) return null;
   if (!hasAnyRole(user, [ROLES.SUPERADMIN])) redirect("/admin");
 
-  const raw = await getConfiguracion<Partial<ChatbotConfig>>("chatbot");
+  const raw = await getConfiguracionPrivada<Partial<ChatbotConfig>>("chatbot");
   const config = mergeChatbot(raw);
 
   // Maskeo de la API key — el form recibe "•••••...•last4" si ya hay una key

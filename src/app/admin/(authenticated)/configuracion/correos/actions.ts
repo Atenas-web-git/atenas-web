@@ -11,7 +11,7 @@ import {
   type CorreoPreset,
   type CorreoPurpose,
 } from "@/lib/cms/correos";
-import { getConfiguracion } from "@/lib/cms/getConfiguracion";
+import { getConfiguracionPrivada } from "@/lib/cms/getConfiguracion";
 import { sendEmail } from "@/lib/email/sendEmail";
 
 export type CorreosActionState = { error: string | null; ok: boolean };
@@ -165,7 +165,7 @@ export async function probarEnvioCorreoAction(
   await assertSuperadmin();
 
   // Leemos la config guardada (la misma que usa el formulario real).
-  const raw = await getConfiguracion<Partial<CorreosConfig>>("correos");
+  const raw = await getConfiguracionPrivada<Partial<CorreosConfig>>("correos");
   const config = mergeCorreos(raw);
   const preset = config.presets.contactos;
   const providerDefaults =

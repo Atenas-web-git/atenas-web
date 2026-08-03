@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
 import {
-  getConfiguracion,
+  getConfiguracionPrivada,
   mergeChatbot,
   type ChatbotConfig,
 } from "@/lib/cms/getConfiguracion";
@@ -26,7 +26,7 @@ export async function GET() {
     return NextResponse.json({ error: "No autorizado" }, { status: 403 });
   }
 
-  const cfgRaw = await getConfiguracion<Partial<ChatbotConfig>>("chatbot");
+  const cfgRaw = await getConfiguracionPrivada<Partial<ChatbotConfig>>("chatbot");
   const cfg = mergeChatbot(cfgRaw);
 
   let knowledgeBase = "";

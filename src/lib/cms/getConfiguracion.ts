@@ -1,9 +1,15 @@
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 /**
  * Lee una entrada de la tabla `configuracion_global` por su key.
  * Devuelve `null` si la key no existe o si Supabase falla (para que el
  * componente caller pueda usar contenido fallback hardcoded).
+ *
+ * Usa la clave anónima, así que solo alcanza las keys que la política RLS
+ * expone al público (marca, contacto, footer, navbar, seo, mega_menu…).
+ * Para las keys con credenciales — `correos` y `chatbot` — usar
+ * `getConfiguracionPrivada()`.
  */
 export async function getConfiguracion<T = unknown>(
   key: string
@@ -19,6 +25,45 @@ export async function getConfiguracion<T = unknown>(
     if (error || !data) return null;
     return data.value as T;
   } catch {
+    return null;
+  }
+}
+
+/**
+ * Igual que `getConfiguracion()`, pero con la service_role key, que salta RLS.
+ *
+ * Existe para las keys que guardan credenciales (`correos` → contraseña SMTP y
+ * API key de Resend; `chatbot` → API key del modelo). Desde la migración 068
+ * esas keys NO son legibles con la clave anónima: cualquiera podría pedírselas
+ * a PostgREST desde el navegador, porque la clave anónima viaja en el bundle.
+ *
+ * ⚠️ SOLO desde servidor — route handlers, server actions y server components.
+ * Llamarla desde un archivo con "use client" filtraría las credenciales al
+ * navegador, que es justo lo que esta función existe para evitar.
+ */
+export async function getConfiguracionPrivada<T = unknown>(
+  key: string
+): Promise<T | null> {
+  try {
+    const supabase = createAdminClient();
+    const { data, error } = await supabase
+      .from("configuracion_global")
+      .select("value")
+      .eq("key", key)
+      .maybeSingle();
+
+    if (error) {
+      // A diferencia de getConfiguracion(), aquí NO fallamos en silencio: de
+      // esta lectura dependen los correos y el chatbot, y sin rastro en los
+      // logs un fallo se manifiesta como "los correos dejaron de salir" sin
+      // ninguna pista. Causa típica: falta SUPABASE_SERVICE_ROLE_KEY.
+      console.error(`[getConfiguracionPrivada] Error leyendo "${key}":`, error.message);
+      return null;
+    }
+    if (!data) return null;
+    return data.value as T;
+  } catch (e) {
+    console.error(`[getConfiguracionPrivada] Excepción leyendo "${key}":`, e);
     return null;
   }
 }

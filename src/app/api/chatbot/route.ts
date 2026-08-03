@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import {
-  getConfiguracion,
+  getConfiguracionPrivada,
   mergeChatbot,
   chatbotIsLive,
   type ChatbotConfig,
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
   }
 
   // Lee configuración del chatbot
-  const cfgRaw = await getConfiguracion<Partial<ChatbotConfig>>("chatbot");
+  const cfgRaw = await getConfiguracionPrivada<Partial<ChatbotConfig>>("chatbot");
   const cfg = mergeChatbot(cfgRaw);
 
   if (!chatbotIsLive(cfg)) {
