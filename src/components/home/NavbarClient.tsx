@@ -436,12 +436,25 @@ export function NavbarClient({
                     })}
                   </div>
                 </div>
+                {/* El teléfono va arriba y separado, no en la fila de botones:
+                    alineado con ellos se leía como un botón más. `self-start` lo
+                    sube a la altura del texto de arriba, y la etiqueta lo
+                    identifica como lo que es. Además ahora es un enlace `tel:`,
+                    antes era texto plano que no se podía tocar. */}
                 {phoneLine && (
-                  <div className="hidden md:flex items-center gap-2 text-white/50 text-[13px]">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-red)" strokeWidth="2">
-                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 17z" />
-                    </svg>
-                    {phoneLine}
+                  <div className="hidden md:flex flex-col items-end gap-[6px] self-start">
+                    <span className="text-white/35 text-[10px] font-bold tracking-[2px] uppercase">
+                      Llámanos
+                    </span>
+                    <a
+                      href={`tel:${phoneLine.replace(/[^\d+]/g, "")}`}
+                      className="flex items-center gap-2 whitespace-nowrap text-white/70 hover:text-white text-[14px] font-semibold transition-colors"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 17z" />
+                      </svg>
+                      {phoneLine}
+                    </a>
                   </div>
                 )}
               </div>
