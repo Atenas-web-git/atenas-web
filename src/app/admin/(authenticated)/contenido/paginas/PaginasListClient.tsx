@@ -422,7 +422,7 @@ function PaginaListItem({ pagina: p, isLast }: { pagina: PaginaRow; isLast: bool
           style={{
             height: 28,
             fontSize: 11,
-            color: "#C9A84C",
+            color: "#9e1915",
             fontWeight: 600,
             textDecoration: "none",
             borderRadius: 4,
@@ -443,7 +443,7 @@ function ModuloListItem({ fila, isLast }: { fila: ModuloRow; isLast: boolean }) 
       className="flex items-center gap-3 px-6 py-4"
       style={{
         borderBottom: isLast ? "none" : "1px solid #F4F1EB",
-        background: "linear-gradient(90deg, rgba(201,168,76,0.05) 0%, transparent 100%)",
+        background: "linear-gradient(90deg, rgba(158,25,21,0.05) 0%, transparent 100%)",
       }}
     >
       <Link
@@ -456,7 +456,7 @@ function ModuloListItem({ fila, isLast }: { fila: ModuloRow; isLast: boolean }) 
           style={{
             width: 36,
             height: 36,
-            background: "rgba(201,168,76,0.18)",
+            background: "rgba(158,25,21,0.18)",
             borderRadius: 8,
           }}
         >
@@ -484,7 +484,7 @@ function ModuloListItem({ fila, isLast }: { fila: ModuloRow; isLast: boolean }) 
               className="inline-flex items-center px-2 rounded-full"
               style={{
                 height: 20,
-                background: "rgba(201,168,76,0.20)",
+                background: "rgba(158,25,21,0.20)",
                 fontSize: 10,
                 fontWeight: 700,
                 color: "#7A6224",
@@ -522,7 +522,7 @@ function ModuloListItem({ fila, isLast }: { fila: ModuloRow; isLast: boolean }) 
           style={{
             height: 28,
             fontSize: 11,
-            color: "#C9A84C",
+            color: "#9e1915",
             fontWeight: 600,
             textDecoration: "none",
             borderRadius: 4,

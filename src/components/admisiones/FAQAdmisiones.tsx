@@ -46,7 +46,7 @@ export function FAQAdmisiones({
             transition={{ duration: 0.45, ease }}
           >
             <motion.span
-              className="block bg-gold flex-shrink-0"
+              className="block bg-red flex-shrink-0"
               style={{ width: 28, height: 2 }}
               initial={{ scaleX: 0, originX: 0 }}
               animate={inView ? { scaleX: 1 } : {}}
@@ -57,7 +57,7 @@ export function FAQAdmisiones({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: 10,
                 fontWeight: 700,
-                color: "var(--color-gold)",
+                color: "var(--color-red)",
                 letterSpacing: 2,
                 textTransform: "uppercase",
               }}
@@ -117,7 +117,7 @@ export function FAQAdmisiones({
                 style={{
                   background: "var(--color-cream)",
                   border: open
-                    ? "1.5px solid rgba(201,168,76,0.45)"
+                    ? "1.5px solid rgba(158,25,21,0.45)"
                     : "1px solid rgba(26,43,74,0.08)",
                   transition: "border-color 0.2s ease",
                 }}
@@ -152,8 +152,8 @@ export function FAQAdmisiones({
                     style={{
                       width: 32,
                       height: 32,
-                      background: open ? "var(--color-gold)" : "rgba(201,168,76,0.15)",
-                      color: open ? "var(--color-dark)" : "var(--color-gold)",
+                      background: open ? "var(--color-red)" : "rgba(158,25,21,0.15)",
+                      color: open ? "var(--color-dark)" : "var(--color-red)",
                       transition: "background 0.2s ease, color 0.2s ease, transform 0.25s ease",
                       transform: open ? "rotate(45deg)" : "rotate(0deg)",
                     }}

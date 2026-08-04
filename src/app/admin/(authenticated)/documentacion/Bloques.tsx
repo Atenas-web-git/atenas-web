@@ -140,7 +140,7 @@ export function RenderBloque({ bloque }: { bloque: Bloque }) {
                   width: 5,
                   height: 5,
                   borderRadius: "50%",
-                  background: "#C9A84C",
+                  background: "#9e1915",
                   marginTop: 9,
                 }}
               />

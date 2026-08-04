@@ -52,7 +52,7 @@ export function FundacionHistoria({ fundacion }: Props) {
               fontFamily: "Poppins, sans-serif",
               fontSize: 10,
               fontWeight: 700,
-              color: "var(--color-gold)",
+              color: "var(--color-red)",
               letterSpacing: 3,
               textTransform: "uppercase",
             }}
@@ -64,7 +64,7 @@ export function FundacionHistoria({ fundacion }: Props) {
           </motion.p>
 
           <motion.span
-            className="block bg-gold mt-[5px] mb-[15px]"
+            className="block bg-red mt-[5px] mb-[15px]"
             style={{ width: 32, height: 2 }}
             initial={{ scaleX: 0, originX: 0 }}
             animate={inView ? { scaleX: 1 } : {}}
@@ -107,7 +107,7 @@ export function FundacionHistoria({ fundacion }: Props) {
           {fundacion.paragraph2 && (
             <>
               <motion.span
-                className="block bg-gold"
+                className="block bg-red"
                 style={{ width: 40, height: 3, marginTop: 32, marginBottom: 14 }}
                 initial={{ scaleX: 0, originX: 0 }}
                 animate={inView ? { scaleX: 1 } : {}}
@@ -145,7 +145,7 @@ export function FundacionHistoria({ fundacion }: Props) {
               fontFamily: "Poppins, sans-serif",
               fontSize: 11,
               fontWeight: 700,
-              color: "var(--color-gold)",
+              color: "var(--color-red)",
               letterSpacing: 3,
               textTransform: "uppercase",
             }}
@@ -157,7 +157,7 @@ export function FundacionHistoria({ fundacion }: Props) {
           </motion.p>
 
           <motion.span
-            className="block bg-gold"
+            className="block bg-red"
             style={{ width: 40, height: 2, marginTop: 8, marginBottom: 8 }}
             initial={{ scaleX: 0, originX: 0 }}
             animate={inView ? { scaleX: 1 } : {}}
@@ -201,7 +201,7 @@ export function FundacionHistoria({ fundacion }: Props) {
           {fundacion.paragraph2 && (
             <>
               <motion.span
-                className="block bg-gold"
+                className="block bg-red"
                 style={{ width: 48, height: 3, marginTop: 86, marginBottom: 16 }}
                 initial={{ scaleX: 0, originX: 0 }}
                 animate={inView ? { scaleX: 1 } : {}}

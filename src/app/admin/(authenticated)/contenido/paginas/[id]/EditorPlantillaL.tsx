@@ -233,7 +233,7 @@ function DetalleEditor({ detalle, setDetalle, prefix }: { detalle: Detalle; setD
                     type="checkbox"
                     checked={f.highlight ?? false}
                     onChange={(e) => updateFicha(i, { highlight: e.target.checked || undefined })}
-                    style={{ width: 16, height: 16, accentColor: "#C9A84C" }}
+                    style={{ width: 16, height: 16, accentColor: "#9e1915" }}
                   />
                   <span style={{ fontSize: 12, color: "#1A2B4A" }}>Pintar dorado</span>
                 </label>
@@ -339,7 +339,7 @@ function ActividadesEditor({
                     type="checkbox"
                     checked={it.highlight ?? false}
                     onChange={(e) => updateItem(i, { highlight: e.target.checked || undefined })}
-                    style={{ width: 16, height: 16, accentColor: "#C9A84C" }}
+                    style={{ width: 16, height: 16, accentColor: "#9e1915" }}
                   />
                   <span style={{ fontSize: 12, color: "#1A2B4A" }}>Dorado</span>
                 </label>

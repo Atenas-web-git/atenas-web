@@ -65,20 +65,20 @@ export function HeroAcademico({ hero }: Props) {
         {/* Badge dorado */}
         <motion.div
           className="absolute z-20 flex flex-col gap-[3px] rounded-[10px] px-4 py-3"
-          style={{ background: "var(--color-gold)", right: 10, bottom: 30, boxShadow: "0 8px 24px rgba(0,0,0,0.40)" }}
+          style={{ background: "var(--color-red)", right: 10, bottom: 30, boxShadow: "0 8px 24px rgba(0,0,0,0.40)" }}
           initial={{ opacity: 0, scale: 0.7 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 1.15, ease }}
         >
-          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:20, fontWeight:700, color:"var(--color-dark)", lineHeight:1 }}>{hero.floatingBadgeValue}</span>
-          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:9, fontWeight:700, color:"rgba(13,24,37,0.70)", letterSpacing:1 }}>
+          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:20, fontWeight:700, color:"#FFFFFF", lineHeight:1 }}>{hero.floatingBadgeValue}</span>
+          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:9, fontWeight:700, color:"rgba(255,255,255,0.75)", letterSpacing:1 }}>
             {hero.floatingBadgeLabel}
           </span>
         </motion.div>
 
         <motion.div
           className="absolute"
-          style={{ left: 30, top: -20, width: 2, height: 60, background: "var(--color-gold)", opacity: 0.5 }}
+          style={{ left: 30, top: -20, width: 2, height: 60, background: "var(--color-red)", opacity: 0.5 }}
           initial={{ scaleY: 0, originY: 0 }}
           animate={{ scaleY: 1 }}
           transition={{ duration: 0.6, delay: 0.4, ease }}
@@ -94,13 +94,13 @@ export function HeroAcademico({ hero }: Props) {
           transition={{ duration:0.5, delay:0.1, ease }}
         >
           <motion.span
-            className="block bg-gold flex-shrink-0"
+            className="block bg-red flex-shrink-0"
             style={{ width:28, height:2 }}
             initial={{ scaleX:0, originX:0 }}
             animate={{ scaleX:1 }}
             transition={{ duration:0.4, delay:0.15, ease }}
           />
-          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"var(--color-gold)", letterSpacing:2, textTransform:"uppercase" }}>
+          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"#FFFFFF", letterSpacing:2, textTransform:"uppercase" }}>
             {hero.badge}
           </span>
         </motion.div>
@@ -110,7 +110,7 @@ export function HeroAcademico({ hero }: Props) {
             <div key={i} className="overflow-hidden">
               <motion.span
                 className="block font-bold"
-                style={{ fontFamily:"Poppins,sans-serif", fontSize:"clamp(44px,5vw,72px)", fontWeight:700, lineHeight:1.1, color: i===0 ? "#FFFFFF" : "var(--color-gold)" }}
+                style={{ fontFamily:"Poppins,sans-serif", fontSize:"clamp(44px,5vw,72px)", fontWeight:700, lineHeight:1.1, color: i===0 ? "#FFFFFF" : "var(--color-red)" }}
                 initial={{ y:70, opacity:0 }}
                 animate={{ y:0, opacity:1 }}
                 transition={{ duration:0.75, delay:0.28 + i*0.13, ease }}
@@ -136,7 +136,7 @@ export function HeroAcademico({ hero }: Props) {
                 className="rounded-full px-[14px] py-[6px] text-[11px] font-bold"
                 style={{
                   fontFamily:"Poppins,sans-serif",
-                  background: c.highlight ? "var(--color-gold)" : "rgba(255,255,255,0.08)",
+                  background: c.highlight ? "var(--color-red)" : "rgba(255,255,255,0.08)",
                   color: c.highlight ? "var(--color-dark)" : "rgba(255,255,255,0.70)",
                   letterSpacing: 0.5,
                 }}
@@ -178,7 +178,7 @@ function Subtitle({ text, highlight }: { text: string; highlight: string }) {
           dorado sigue el texto aunque el resaltado se parta en varias líneas. */}
       <span
         style={{
-          backgroundImage: "linear-gradient(var(--color-gold), var(--color-gold))",
+          backgroundImage: "linear-gradient(var(--color-red), var(--color-red))",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "0 100%",
           backgroundSize: "100% 2px",

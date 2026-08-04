@@ -184,9 +184,9 @@ export function GaleriaLogros({
                   fontFamily: "Poppins, sans-serif",
                   fontSize: 13,
                   fontWeight: 700,
-                  color: "var(--color-gold)",
-                  background: "rgba(201,168,76,0.10)",
-                  border: "1.5px solid rgba(201,168,76,0.45)",
+                  color:"#FFFFFF",
+                  background: "rgba(158,25,21,0.10)",
+                  border: "1.5px solid rgba(158,25,21,0.45)",
                   textDecoration: "none",
                 }}
               >

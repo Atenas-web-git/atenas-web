@@ -505,7 +505,7 @@ export function EditorPlantillaD({
               type="checkbox"
               checked={destacarUltimaColumna}
               onChange={(e) => setDestacarUltimaColumna(e.target.checked)}
-              style={{ accentColor: "#C9A84C" }}
+              style={{ accentColor: "#9e1915" }}
             />
             <span style={{ fontSize: 12, color: "#1A2B4A" }}>
               Resaltar última columna en dorado (típico para precios o valores)

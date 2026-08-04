@@ -167,7 +167,7 @@ export default async function AdmisionesPage({
                       background: isActive ? "#1A2B4A" : "#E8E4DD",
                       fontSize: 11,
                       fontWeight: 700,
-                      color: isActive ? "#D4AF37" : "#6B6660",
+                      color: isActive ? "#9e1915" : "#6B6660",
                     }}
                   >
                     {cnt}

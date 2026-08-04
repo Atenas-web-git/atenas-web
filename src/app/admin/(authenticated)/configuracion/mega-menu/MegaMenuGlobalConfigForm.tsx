@@ -39,7 +39,7 @@ export function MegaMenuGlobalConfigForm({
   const addBtn = () => setCtaButtons((arr) => [...arr, { label: "", href: "" }]);
   const removeBtn = (i: number) => setCtaButtons((arr) => arr.filter((_, idx) => idx !== i));
 
-  const btnStyleHints = ["Rojo (primario)", "Dorado outline", "Blanco outline", "Blanco outline"];
+  const btnStyleHints = ["Rojo (primario)", "Rojo outline", "Blanco outline", "Blanco outline"];
 
   return (
     <form action={formAction} className="flex flex-col gap-4 p-5"
@@ -129,7 +129,7 @@ export function MegaMenuGlobalConfigForm({
 
         <div className="flex flex-col gap-2">
           <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
-            Botones (orden fijo de estilo: rojo, dorado outline, blanco outline ×2)
+            Botones (orden fijo de estilo: rojo, rojo outline, blanco outline ×2)
           </span>
           {ctaButtons.map((b, i) => (
             <div
@@ -141,7 +141,7 @@ export function MegaMenuGlobalConfigForm({
                 style={{
                   fontSize: 10,
                   fontWeight: 700,
-                  color: "#C9A84C",
+                  color: "#9e1915",
                   letterSpacing: 0.5,
                   textTransform: "uppercase",
                   paddingBottom: 10,

@@ -21,7 +21,7 @@ export function MateriasIB({ materias }: Props) {
 
         <div ref={headerRef} className="mb-[48px] md:mb-[56px]">
           <motion.p
-            style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"var(--color-gold)", letterSpacing:3, textTransform:"uppercase" }}
+            style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"var(--color-red)", letterSpacing:3, textTransform:"uppercase" }}
             initial={{ opacity:0, y:14 }}
             animate={inView ? { opacity:1, y:0 } : {}}
             transition={{ duration:0.45, ease }}
@@ -29,7 +29,7 @@ export function MateriasIB({ materias }: Props) {
             {materias.badge}
           </motion.p>
           <motion.span
-            className="block bg-gold"
+            className="block bg-red"
             style={{ width:40, height:2, marginTop:8, marginBottom:10 }}
             initial={{ scaleX:0, originX:0 }}
             animate={inView ? { scaleX:1 } : {}}
@@ -48,7 +48,7 @@ export function MateriasIB({ materias }: Props) {
                   <span className="relative inline-block">
                     {headingParts.match}
                     <motion.span
-                      className="absolute left-0 right-0 -bottom-1 block bg-gold"
+                      className="absolute left-0 right-0 -bottom-1 block bg-red"
                       style={{ height:4, borderRadius:2 }}
                       initial={{ scaleX:0, originX:0 }}
                       animate={inView ? { scaleX:1 } : {}}
@@ -77,15 +77,18 @@ export function MateriasIB({ materias }: Props) {
         {/* Grid de grupos */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-[16px]">
           {materias.grupos.map((g, i) => {
-            const isGold = g.color === "gold";
+            // El dato sigue diciendo "gold" porque así está guardado en el CMS, pero desde
+            // el 2026-08-04 pinta rojo institucional. Al ser un fondo OSCURO, el texto
+            // encima va en blanco — antes era dorado claro con texto casi negro.
+            const isAcento = g.color === "gold";
             const isNavy = g.color === "navy";
             return (
               <motion.div
                 key={`${g.num}-${i}`}
                 className="flex flex-col gap-[10px] rounded-[12px] p-[24px_20px] cursor-default"
                 style={{
-                  background: isGold ? "var(--color-gold)" : isNavy ? "var(--color-navy)" : "#FFFFFF",
-                  border: isGold || isNavy ? "none" : "1px solid rgba(26,43,74,0.07)",
+                  background: isAcento ? "var(--color-red)" : isNavy ? "var(--color-navy)" : "#FFFFFF",
+                  border: isAcento || isNavy ? "none" : "1px solid rgba(26,43,74,0.07)",
                 }}
                 initial={{ opacity:0, y: i < 3 ? -24 : 24 }}
                 whileInView={{ opacity:1, y:0 }}
@@ -93,13 +96,13 @@ export function MateriasIB({ materias }: Props) {
                 transition={{ duration:0.55, delay:0.07*i, ease }}
                 whileHover={{ y:-5, boxShadow:"0 12px 36px rgba(0,0,0,0.12)", transition:{ duration:0.22 } }}
               >
-                <span style={{ fontFamily:"Poppins,sans-serif", fontSize:26, fontWeight:700, lineHeight:1, color: isGold ? "var(--color-dark)" : "var(--color-gold)" }}>
+                <span style={{ fontFamily:"Poppins,sans-serif", fontSize:26, fontWeight:700, lineHeight:1, color: isAcento ? "#FFFFFF" : "var(--color-red)" }}>
                   {g.num}
                 </span>
-                <span style={{ fontFamily:"Poppins,sans-serif", fontSize:15, fontWeight:700, lineHeight:1.3, color: isGold ? "var(--color-dark)" : isNavy ? "#FFFFFF" : "var(--color-navy)" }}>
+                <span style={{ fontFamily:"Poppins,sans-serif", fontSize:15, fontWeight:700, lineHeight:1.3, color: isAcento ? "#FFFFFF" : isNavy ? "#FFFFFF" : "var(--color-navy)" }}>
                   {g.title}
                 </span>
-                <span style={{ fontFamily:"Poppins,sans-serif", fontSize:12, lineHeight:1.55, color: isGold ? "rgba(13,24,37,0.65)" : isNavy ? "rgba(255,255,255,0.55)" : "rgba(13,24,37,0.55)" }}>
+                <span style={{ fontFamily:"Poppins,sans-serif", fontSize:12, lineHeight:1.55, color: isAcento ? "rgba(255,255,255,0.55)" : isNavy ? "rgba(255,255,255,0.55)" : "rgba(13,24,37,0.55)" }}>
                   {g.detail}
                 </span>
               </motion.div>
@@ -111,7 +114,7 @@ export function MateriasIB({ materias }: Props) {
         {materias.nota && (
           <motion.div
             className="mt-[28px] rounded-[10px] px-[20px] py-[14px] flex items-start gap-[12px]"
-            style={{ background:"rgba(201,168,76,0.10)", border:"1px solid rgba(201,168,76,0.28)" }}
+            style={{ background:"rgba(158,25,21,0.10)", border:"1px solid rgba(158,25,21,0.28)" }}
             initial={{ opacity:0, y:14 }}
             whileInView={{ opacity:1, y:0 }}
             viewport={{ once:true, amount:0.5 }}

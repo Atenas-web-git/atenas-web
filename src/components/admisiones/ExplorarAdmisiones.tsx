@@ -35,7 +35,7 @@ export function ExplorarAdmisiones({
     <section className="bg-cream relative overflow-hidden" style={{ padding: "80px 0" }}>
       <div
         className="absolute top-0 right-0 pointer-events-none"
-        style={{ width: 480, height: 480, background: "radial-gradient(ellipse at top right, rgba(201,168,76,0.07) 0%, transparent 65%)" }}
+        style={{ width: 480, height: 480, background: "radial-gradient(ellipse at top right, rgba(158,25,21,0.07) 0%, transparent 65%)" }}
       />
 
       <div ref={ref} className="px-6 md:px-[160px]">
@@ -49,13 +49,13 @@ export function ExplorarAdmisiones({
             transition={{ duration: 0.45, ease }}
           >
             <motion.span
-              className="block bg-gold flex-shrink-0"
+              className="block bg-red flex-shrink-0"
               style={{ width: 28, height: 2 }}
               initial={{ scaleX: 0, originX: 0 }}
               animate={inView ? { scaleX: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.1, ease }}
             />
-            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-gold)", letterSpacing: 2, textTransform: "uppercase" }}>
+            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-red)", letterSpacing: 2, textTransform: "uppercase" }}>
               {eyebrow}
             </span>
           </motion.div>
@@ -95,7 +95,7 @@ export function ExplorarAdmisiones({
                 className="flex flex-col gap-[14px] rounded-[14px] p-[24px] h-full group"
                 style={{
                   background: n.highlight ? "rgba(26,43,74,0.04)" : "#FFFFFF",
-                  border: n.highlight ? "1.5px solid rgba(201,168,76,0.45)" : "1px solid rgba(26,43,74,0.08)",
+                  border: n.highlight ? "1.5px solid rgba(158,25,21,0.45)" : "1px solid rgba(26,43,74,0.08)",
                   boxShadow: "0 2px 12px rgba(13,24,37,0.05)",
                   textDecoration: "none",
                   transition: "transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease",
@@ -104,19 +104,19 @@ export function ExplorarAdmisiones({
                   const el = e.currentTarget;
                   el.style.transform = "translateY(-6px)";
                   el.style.boxShadow = "0 16px 40px rgba(13,24,37,0.10)";
-                  el.style.borderColor = n.highlight ? "rgba(201,168,76,0.80)" : "rgba(201,168,76,0.45)";
+                  el.style.borderColor = n.highlight ? "rgba(158,25,21,0.80)" : "rgba(158,25,21,0.45)";
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget;
                   el.style.transform = "translateY(0)";
                   el.style.boxShadow = "0 2px 12px rgba(13,24,37,0.05)";
-                  el.style.borderColor = n.highlight ? "rgba(201,168,76,0.45)" : "rgba(26,43,74,0.08)";
+                  el.style.borderColor = n.highlight ? "rgba(158,25,21,0.45)" : "rgba(26,43,74,0.08)";
                 }}
               >
                 {/* Ícono */}
                 <div
                   className="flex items-center justify-center rounded-[10px] flex-shrink-0"
-                  style={{ width: 44, height: 44, background: n.highlight ? "rgba(201,168,76,0.18)" : "rgba(201,168,76,0.12)", fontSize: 20 }}
+                  style={{ width: 44, height: 44, background: n.highlight ? "rgba(158,25,21,0.18)" : "rgba(158,25,21,0.12)", fontSize: 20 }}
                 >
                   {n.icon}
                 </div>
@@ -126,7 +126,7 @@ export function ExplorarAdmisiones({
                   <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 14, fontWeight: 700, color: "var(--color-navy)", lineHeight: 1.3 }}>
                     {n.title}
                   </span>
-                  <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 600, color: "var(--color-gold)" }}>
+                  <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 600, color: "var(--color-red)" }}>
                     {n.grades} · {n.age}
                   </span>
                   <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 12, color: "rgba(13,24,37,0.52)", lineHeight: 1.65, marginTop: 4 }}>
@@ -137,12 +137,12 @@ export function ExplorarAdmisiones({
                 {/* CTA */}
                 <div className="flex items-center gap-[6px] mt-auto pt-[4px]">
                   <span
-                    style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 700, color: "var(--color-gold)", letterSpacing: 0.5 }}
+                    style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 700, color: "var(--color-red)", letterSpacing: 0.5 }}
                     className="group-hover:underline"
                   >
                     {n.ctaLabel || "Ver requisitos"}
                   </span>
-                  <span style={{ color: "var(--color-gold)", fontSize: 13, fontWeight: 700 }}>→</span>
+                  <span style={{ color: "var(--color-red)", fontSize: 13, fontWeight: 700 }}>→</span>
                 </div>
               </Link>
             </motion.div>

@@ -514,7 +514,7 @@ function SeccionEditor({
         .tiptap-editor-s ul, .tiptap-editor-s ol { margin: 8px 0; padding-left: 22px; }
         .tiptap-editor-s li { margin: 2px 0; font-size: 14px; color: #1A2B4A; }
         .tiptap-editor-s strong { font-weight: 700; color: #1A2B4A; }
-        .tiptap-editor-s a { color: #C9A84C; text-decoration: underline; }
+        .tiptap-editor-s a { color: #9e1915; text-decoration: underline; }
       `}</style>
     </div>
   );

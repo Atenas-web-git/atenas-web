@@ -45,33 +45,33 @@ function emailInterno(raw: {
   return `
     <div style="font-family:sans-serif;max-width:640px;margin:0 auto;color:#1A2B4A;">
       <div style="background:#1A2B4A;padding:32px;border-radius:8px 8px 0 0;">
-        <p style="color:#C9A84C;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin:0 0 10px;">Módulo de Admisiones</p>
+        <p style="color:#9e1915;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin:0 0 10px;">Módulo de Admisiones</p>
         <h2 style="color:#fff;margin:0;font-size:22px;font-weight:700;">Nueva solicitud formal recibida</h2>
         <p style="color:rgba(255,255,255,0.60);margin:8px 0 0;font-size:13px;">${data.fecha}</p>
       </div>
-      <div style="background:#EFF6FF;padding:20px 32px;border-left:4px solid #C9A84C;">
+      <div style="background:#EFF6FF;padding:20px 32px;border-left:4px solid #9e1915;">
         <p style="margin:0;font-size:12px;color:#6B7280;font-weight:600;text-transform:uppercase;letter-spacing:1px;">N° de seguimiento</p>
         <p style="margin:4px 0 0;font-size:24px;font-weight:800;color:#1A2B4A;">${data.numero}</p>
       </div>
       <div style="background:#fff;padding:32px;border:1px solid #e8e4df;border-top:none;">
-        <p style="font-size:12px;font-weight:700;color:#C9A84C;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 12px;">Estudiante</p>
+        <p style="font-size:12px;font-weight:700;color:#9e1915;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 12px;">Estudiante</p>
         <table style="width:100%;border-collapse:collapse;margin-bottom:28px;">
           ${row("Nombres", data.est_nombres)}
           ${row("Apellidos", data.est_apellidos)}
           ${row("Fecha de nacimiento", data.est_fecha_nac)}
-          ${row("Nivel", `<strong style="color:#C9A84C">${data.est_nivel}</strong>`)}
+          ${row("Nivel", `<strong style="color:#9e1915">${data.est_nivel}</strong>`)}
           ${data.est_institucion_origen ? row("Institución de origen", data.est_institucion_origen) : ""}
         </table>
-        <p style="font-size:12px;font-weight:700;color:#C9A84C;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 12px;">Representante</p>
+        <p style="font-size:12px;font-weight:700;color:#9e1915;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 12px;">Representante</p>
         <table style="width:100%;border-collapse:collapse;margin-bottom:28px;">
           ${row("Nombres", data.rep_nombres)}
           ${row("Apellidos", data.rep_apellidos)}
           ${row("Relación", data.rep_relacion)}
-          ${row("Correo", `<a href="mailto:${data.rep_correo}" style="color:#C9A84C">${data.rep_correo}</a>`)}
+          ${row("Correo", `<a href="mailto:${data.rep_correo}" style="color:#9e1915">${data.rep_correo}</a>`)}
           ${row("Teléfono", data.rep_telefono)}
         </table>
         ${(data.como_enterado || data.anio_ingreso || data.comentarios) ? `
-        <p style="font-size:12px;font-weight:700;color:#C9A84C;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 12px;">Información adicional</p>
+        <p style="font-size:12px;font-weight:700;color:#9e1915;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 12px;">Información adicional</p>
         <table style="width:100%;border-collapse:collapse;">
           ${data.como_enterado ? row("¿Cómo se enteró?", data.como_enterado) : ""}
           ${data.anio_ingreso ? row("Año de ingreso", data.anio_ingreso) : ""}

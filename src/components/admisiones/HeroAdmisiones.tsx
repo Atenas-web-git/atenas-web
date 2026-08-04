@@ -126,15 +126,15 @@ export function HeroAdmisiones({
         {/* Badge dorado flotante */}
         <motion.div
           className="absolute z-20 flex flex-col gap-[2px] rounded-[10px] px-4 py-3"
-          style={{ background: "var(--color-gold)", right: 10, bottom: 30, boxShadow: "0 8px 24px rgba(0,0,0,0.35)" }}
+          style={{ background: "var(--color-red)", right: 10, bottom: 30, boxShadow: "0 8px 24px rgba(0,0,0,0.35)" }}
           initial={{ opacity: 0, scale: 0.7 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 1.15, ease }}
         >
-          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:22, fontWeight:700, color:"var(--color-dark)", lineHeight:1 }}>
+          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:22, fontWeight:700, color:"#FFFFFF", lineHeight:1 }}>
             {badgeValue}
           </span>
-          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"rgba(13,24,37,0.70)", letterSpacing:1 }}>
+          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"rgba(255,255,255,0.75)", letterSpacing:1 }}>
             {badgeLabel}
           </span>
         </motion.div>
@@ -142,7 +142,7 @@ export function HeroAdmisiones({
         {/* Línea decorativa dorada */}
         <motion.div
           className="absolute"
-          style={{ left: 30, top: -20, width: 2, height: 60, background: "var(--color-gold)", opacity: 0.5 }}
+          style={{ left: 30, top: -20, width: 2, height: 60, background: "var(--color-red)", opacity: 0.5 }}
           initial={{ scaleY: 0, originY: 0 }}
           animate={{ scaleY: 1 }}
           transition={{ duration: 0.6, delay: 0.4, ease }}
@@ -165,13 +165,13 @@ export function HeroAdmisiones({
           transition={{ duration: 0.5, delay: 0.1, ease }}
         >
           <motion.span
-            className="block bg-gold flex-shrink-0"
+            className="block bg-red flex-shrink-0"
             style={{ width: 28, height: 2 }}
             initial={{ scaleX: 0, originX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ duration: 0.4, delay: 0.15, ease }}
           />
-          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"var(--color-gold)", letterSpacing:2, textTransform:"uppercase" }}>
+          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"#FFFFFF", letterSpacing:2, textTransform:"uppercase" }}>
             {eyebrow}
           </span>
         </motion.div>
@@ -182,7 +182,7 @@ export function HeroAdmisiones({
             <div key={i} className="overflow-hidden">
               <motion.span
                 className="block font-bold"
-                style={{ fontFamily:"Poppins,sans-serif", fontSize:"clamp(42px,5.28vw,76px)", fontWeight:700, lineHeight:1.1, color: i === 0 ? "#FFFFFF" : "var(--color-gold)" }}
+                style={{ fontFamily:"Poppins,sans-serif", fontSize:"clamp(42px,5.28vw,76px)", fontWeight:700, lineHeight:1.1, color: i === 0 ? "#FFFFFF" : "var(--color-red)" }}
                 initial={{ y: 70, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.75, delay: 0.28 + i * 0.13, ease }}
@@ -204,7 +204,7 @@ export function HeroAdmisiones({
           <span className="relative inline-block">
             {subtitleHighlight}
             <motion.span
-              className="absolute left-0 right-0 -bottom-0.5 block bg-gold"
+              className="absolute left-0 right-0 -bottom-0.5 block bg-red"
               style={{ height: 3, borderRadius: 2 }}
               initial={{ scaleX: 0, originX: 0 }}
               animate={{ scaleX: 1 }}
@@ -223,7 +223,7 @@ export function HeroAdmisiones({
         >
           <Link
             href={ctaPrimary.href}
-            className="inline-flex items-center justify-center rounded-[6px] px-[28px] py-[14px] font-bold text-[14px] bg-gold text-dark hover:bg-[#dbb95a] transition-colors"
+            className="inline-flex items-center justify-center rounded-[6px] px-[28px] py-[14px] font-bold text-[14px] bg-red text-white hover:bg-[#b81e19] transition-colors"
             style={{ fontFamily:"Poppins,sans-serif" }}
           >
             {ctaPrimary.label}
@@ -249,7 +249,7 @@ export function HeroAdmisiones({
         {stats.map((s, i) => (
           <div key={i} className="flex items-center gap-[32px]">
             <div className="flex flex-col gap-[2px]">
-              <span style={{ fontFamily:"Poppins,sans-serif", fontSize:28, fontWeight:700, color:"var(--color-gold)", lineHeight:1 }}>{s.value}</span>
+              <span style={{ fontFamily:"Poppins,sans-serif", fontSize:28, fontWeight:700, color:"#FFFFFF", lineHeight:1 }}>{s.value}</span>
               <span style={{ fontFamily:"Poppins,sans-serif", fontSize:12, color:"rgba(255,255,255,0.55)" }}>{s.label}</span>
             </div>
             {i < stats.length - 1 && <div style={{ width:1, height:40, background:"rgba(255,255,255,0.18)" }} />}

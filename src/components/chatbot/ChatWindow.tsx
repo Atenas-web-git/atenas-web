@@ -238,7 +238,7 @@ export function ChatWindow({
                 width: 140,
                 height: 140,
                 borderRadius: "50%",
-                background: "radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 65%)",
+                background: "radial-gradient(circle, rgba(158,25,21,0.12) 0%, transparent 65%)",
                 pointerEvents: "none",
               }}
             />
@@ -277,7 +277,7 @@ export function ChatWindow({
               </span>
               <span
                 className="flex items-center gap-1.5"
-                style={{ fontSize: 11, color: "rgba(201,168,76,0.85)", letterSpacing: 0.3 }}
+                style={{ fontSize: 11, color: "rgba(158,25,21,0.85)", letterSpacing: 0.3 }}
               >
                 <motion.span
                   animate={loading ? { scale: [1, 1.4, 1] } : { scale: 1 }}
@@ -286,7 +286,7 @@ export function ChatWindow({
                     width: 6,
                     height: 6,
                     borderRadius: "50%",
-                    background: loading ? "#C9A84C" : "#10b981",
+                    background: loading ? "#9e1915" : "#10b981",
                     display: "inline-block",
                   }}
                 />
@@ -349,7 +349,7 @@ export function ChatWindow({
                     borderRadius: "16px 16px 16px 4px",
                   }}
                 >
-                  <Loader2 size={14} className="animate-spin" color="#C9A84C" strokeWidth={2.5} />
+                  <Loader2 size={14} className="animate-spin" color="#9e1915" strokeWidth={2.5} />
                   <span style={{ fontSize: 13, color: "#6B6660", fontStyle: "italic" }}>
                     Buscando en el sitio…
                   </span>
@@ -481,7 +481,7 @@ function MessageBubble({ message }: { message: Message }) {
             href={message.ctaUrl}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-opacity hover:opacity-80"
             style={{
-              background: "#C9A84C",
+              background: "#9e1915",
               color: "#FFFFFF",
               fontSize: 12,
               fontWeight: 600,

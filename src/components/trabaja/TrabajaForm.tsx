@@ -286,7 +286,7 @@ export function TrabajaForm({
               >
                 <div
                   className="flex items-center justify-center rounded-full"
-                  style={{ width: 64, height: 64, background: "rgba(201,168,76,0.12)" }}
+                  style={{ width: 64, height: 64, background: "rgba(158,25,21,0.12)" }}
                 >
                   <span style={{ fontSize: 28 }}>✓</span>
                 </div>
@@ -336,7 +336,7 @@ export function TrabajaForm({
                           required
                           placeholder="Ej. García Pérez, Juan"
                           style={inputStyle}
-                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
+                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-red)")}
                           onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                         />
                       </Field>
@@ -349,7 +349,7 @@ export function TrabajaForm({
                           required
                           placeholder="correo@ejemplo.com"
                           style={inputStyle}
-                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
+                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-red)")}
                           onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                         />
                       </Field>
@@ -364,7 +364,7 @@ export function TrabajaForm({
                           required
                           placeholder="Cédula o pasaporte"
                           style={inputStyle}
-                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
+                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-red)")}
                           onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                         />
                       </Field>
@@ -376,7 +376,7 @@ export function TrabajaForm({
                           onChange={set("fechaNacimiento")}
                           required
                           style={inputStyle}
-                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
+                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-red)")}
                           onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                         />
                       </Field>
@@ -444,7 +444,7 @@ export function TrabajaForm({
                           onChange={set("cargo")}
                           required
                           style={{ ...inputStyle, cursor: "pointer" }}
-                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
+                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-red)")}
                           onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                         >
                           <option value="">Selecciona un cargo</option>
@@ -460,7 +460,7 @@ export function TrabajaForm({
                           onChange={set("formacion")}
                           required
                           style={{ ...inputStyle, cursor: "pointer" }}
-                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
+                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-red)")}
                           onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                         >
                           <option value="">Selecciona tu nivel</option>
@@ -479,7 +479,7 @@ export function TrabajaForm({
                           onChange={set("area")}
                           required
                           style={{ ...inputStyle, cursor: "pointer" }}
-                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
+                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-red)")}
                           onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                         >
                           <option value="">Selecciona un área</option>
@@ -494,7 +494,7 @@ export function TrabajaForm({
                           value={form.disponibilidad}
                           onChange={set("disponibilidad")}
                           style={{ ...inputStyle, cursor: "pointer" }}
-                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
+                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-red)")}
                           onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                         >
                           <option value="">Selecciona disponibilidad</option>
@@ -522,7 +522,7 @@ export function TrabajaForm({
                           onChange={set("expectativaSalarial")}
                           placeholder="Ej. 800"
                           style={inputStyle}
-                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
+                          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-red)")}
                           onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                         />
                       </Field>
@@ -536,7 +536,7 @@ export function TrabajaForm({
                         onChange={set("enlaceCV")}
                         placeholder="https://drive.google.com/..."
                         style={inputStyle}
-                        onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-gold)")}
+                        onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-red)")}
                         onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")}
                       />
                     </Field>

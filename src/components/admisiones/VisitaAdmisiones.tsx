@@ -85,7 +85,7 @@ export function VisitaAdmisiones({
           >
             <Image src={img.src} alt="" fill className="object-cover" sizes="320px" />
             {img.border && (
-              <div className="absolute inset-0 border-[3px] border-gold/50 rounded-[16px]" />
+              <div className="absolute inset-0 border-[3px] border-red/50 rounded-[16px]" />
             )}
           </motion.div>
         ))}
@@ -93,16 +93,16 @@ export function VisitaAdmisiones({
         {/* Badge flotante sobre el collage */}
         <motion.div
           className="absolute z-20 rounded-[10px] px-4 py-3 flex flex-col gap-[2px]"
-          style={{ background:"var(--color-gold)", right:0, bottom:40, boxShadow:"0 10px 30px rgba(0,0,0,0.22)" }}
+          style={{ background:"var(--color-red)", right:0, bottom:40, boxShadow:"0 10px 30px rgba(0,0,0,0.22)" }}
           initial={{ opacity:0, scale:0.75 }}
           whileInView={{ opacity:1, scale:1 }}
           viewport={{ once:true, amount:0.2 }}
           transition={{ duration:0.5, delay:0.85, ease }}
         >
-          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:20, fontWeight:700, color:"var(--color-dark)", lineHeight:1 }}>
+          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:20, fontWeight:700, color:"#FFFFFF", lineHeight:1 }}>
             {badgeFloating.linea1}
           </span>
-          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"rgba(13,24,37,0.65)", letterSpacing:1 }}>
+          <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"rgba(255,255,255,0.75)", letterSpacing:1 }}>
             {badgeFloating.linea2}
           </span>
         </motion.div>
@@ -128,7 +128,7 @@ export function VisitaAdmisiones({
           flex flex-col gap-[14px] md:gap-[18px]"
       >
         <motion.p
-          style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"var(--color-gold)", letterSpacing:3, textTransform:"uppercase" }}
+          style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"#FFFFFF", letterSpacing:3, textTransform:"uppercase" }}
           initial={{ opacity:0, y:14 }}
           animate={inView ? { opacity:1, y:0 } : {}}
           transition={{ duration:0.45, ease }}
@@ -137,7 +137,7 @@ export function VisitaAdmisiones({
         </motion.p>
 
         <motion.span
-          className="block bg-gold"
+          className="block bg-red"
           style={{ width:40, height:2 }}
           initial={{ scaleX:0, originX:0 }}
           animate={inView ? { scaleX:1 } : {}}
@@ -155,7 +155,7 @@ export function VisitaAdmisiones({
             <span className="relative inline-block">
               {headingHighlight}
               <motion.span
-                className="absolute left-0 right-0 -bottom-1 block bg-gold"
+                className="absolute left-0 right-0 -bottom-1 block bg-red"
                 style={{ height:4, borderRadius:2 }}
                 initial={{ scaleX:0, originX:0 }}
                 animate={inView ? { scaleX:1 } : {}}

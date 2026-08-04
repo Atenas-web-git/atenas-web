@@ -57,7 +57,7 @@ export function EstadoSelectorClient({
                     background: isActive
                       ? info.colorFg
                       : isPast
-                      ? "#D4AF37"
+                      ? "#9e1915"
                       : "#E8E4DD",
                     border: isActive ? `2px solid ${info.colorFg}` : "none",
                   }}
@@ -96,7 +96,7 @@ export function EstadoSelectorClient({
                 <div
                   className="flex-1 h-px"
                   style={{
-                    background: isPast ? "#D4AF37" : "#E8E4DD",
+                    background: isPast ? "#9e1915" : "#E8E4DD",
                     marginBottom: 20,
                   }}
                 />

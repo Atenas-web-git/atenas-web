@@ -498,7 +498,7 @@ export function EditorPlantillaO({
                   type="checkbox"
                   checked={Boolean(f.highlight)}
                   onChange={(e) => updateFicha(i, { highlight: e.target.checked })}
-                  style={{ accentColor: "#C9A84C" }}
+                  style={{ accentColor: "#9e1915" }}
                 />
                 Destacar
               </label>
@@ -1019,7 +1019,7 @@ function Subtitle({ text }: { text: string }) {
       style={{
         fontSize: 11,
         fontWeight: 700,
-        color: "#C9A84C",
+        color: "#9e1915",
         textTransform: "uppercase",
         letterSpacing: 1,
         marginTop: 4,

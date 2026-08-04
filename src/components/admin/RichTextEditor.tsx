@@ -131,8 +131,8 @@ export function RichTextEditor({
         .rt-editor p { margin: 6px 0; line-height: 1.65; font-size: 14px; color: #1A2B4A; }
         .rt-editor ul, .rt-editor ol { margin: 8px 0; padding-left: 24px; }
         .rt-editor li { margin: 2px 0; font-size: 14px; color: #1A2B4A; }
-        .rt-editor blockquote { border-left: 3px solid #C9A84C; padding-left: 12px; margin: 10px 0; color: #6B6660; font-style: italic; }
-        .rt-editor a { color: #C9A84C; text-decoration: underline; }
+        .rt-editor blockquote { border-left: 3px solid #9e1915; padding-left: 12px; margin: 10px 0; color: #6B6660; font-style: italic; }
+        .rt-editor a { color: #9e1915; text-decoration: underline; }
         .rt-editor strong { font-weight: 700; }
         .rt-editor em { font-style: italic; }
       `}</style>

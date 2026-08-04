@@ -230,7 +230,7 @@ export function EditorPlantillaR({
             style={{
               fontSize: 11,
               fontWeight: 700,
-              color: "#C9A84C",
+              color: "#9e1915",
               textTransform: "uppercase",
               letterSpacing: 1,
               marginTop: 4,

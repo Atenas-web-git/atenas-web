@@ -6,7 +6,7 @@
  * (Gmail, Apple Mail, iOS Mail, Outlook 2016+).
  *
  * Color configurable vía el parámetro `fill` al generar el Data URI —
- * por default usamos el dorado del colegio (`#C9A84C`).
+ * por default usamos el dorado del colegio (`#9e1915`).
  *
  * NO son configurables desde el backoffice: los logos de cada red son
  * brand assets oficiales y no deberían cambiarse.

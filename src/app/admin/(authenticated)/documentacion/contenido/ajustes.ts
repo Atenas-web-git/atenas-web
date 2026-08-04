@@ -61,7 +61,7 @@ export const CONFIGURACION: Seccion = {
         {
           t: "p",
           texto:
-            "Navy primario, rojo institucional, dorado de los 50 años, off-white de fondos y el oscuro de los textos. **Se aplican a todo el sitio público de inmediato.**",
+            "Navy primario, rojo institucional, off-white de fondos y el oscuro de los textos. **Se aplican a todo el sitio público de inmediato.** El dorado se retiró en agosto de 2026 por decisión del colegio: la única pieza que lo conserva es el logo del 50 aniversario, que es una imagen y no se pinta desde aquí.",
         },
         {
           t: "nota",

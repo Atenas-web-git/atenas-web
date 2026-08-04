@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { ContenidoPlantillaT } from "@/app/admin/(authenticated)/contenido/plantillas";
 
 const ACCENT_COLOR_MAP: Record<ContenidoPlantillaT["cards"][number]["accentColor"], string> = {
-  gold: "var(--color-gold)",
+  gold: "var(--color-red)",
   navy: "var(--color-navy)",
   red: "var(--color-red)",
 };
@@ -44,7 +44,7 @@ export function PortalAccesosRender({
       <section className="relative overflow-hidden bg-gradient-to-br from-dark via-navy to-[#0F1E30] py-16 px-6">
         <div
           className="absolute -right-[120px] -top-[120px] rounded-full pointer-events-none"
-          style={{ width: 400, height: 400, background: "rgba(201,168,76,0.08)" }}
+          style={{ width: 400, height: 400, background: "rgba(158,25,21,0.08)" }}
         />
         <div
           className="absolute -left-[80px] -bottom-[80px] rounded-full pointer-events-none"
@@ -53,14 +53,14 @@ export function PortalAccesosRender({
         <div className="relative z-10 max-w-[820px] mx-auto flex flex-col items-center text-center gap-5">
           {hero.eyebrow && (
             <div className="flex items-center gap-[10px]">
-              <span className="block bg-gold" style={{ width: 24, height: 2 }} />
+              <span className="block bg-red" style={{ width: 24, height: 2 }} />
               <span
-                className="text-gold text-[11px] font-bold tracking-[2.5px] uppercase"
+                className="text-red text-[11px] font-bold tracking-[2.5px] uppercase"
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 {hero.eyebrow}
               </span>
-              <span className="block bg-gold" style={{ width: 24, height: 2 }} />
+              <span className="block bg-red" style={{ width: 24, height: 2 }} />
             </div>
           )}
           <h1
@@ -234,8 +234,8 @@ export function PortalAccesosRender({
             <div
               className="max-w-[820px] mx-auto mt-10 px-6 py-5 rounded-[12px] flex items-start gap-3"
               style={{
-                background: "rgba(201,168,76,0.08)",
-                border: "1px solid rgba(201,168,76,0.25)",
+                background: "rgba(158,25,21,0.08)",
+                border: "1px solid rgba(158,25,21,0.25)",
                 fontFamily: "Poppins, sans-serif",
               }}
             >
@@ -257,14 +257,14 @@ export function PortalAccesosRender({
                         href={notaPie.linkHref}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gold underline font-semibold"
+                        className="text-red underline font-semibold"
                       >
                         {notaPie.linkLabel}
                       </a>
                     ) : (
                       <Link
                         href={notaPie.linkHref}
-                        className="text-gold underline font-semibold"
+                        className="text-red underline font-semibold"
                       >
                         {notaPie.linkLabel}
                       </Link>

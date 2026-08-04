@@ -143,7 +143,11 @@ export function MarcaForm({ initialMarca }: { initialMarca: Marca }) {
       >
         <ColorRow label="Navy primario" name="color_navy" value={navy} onChange={setNavy} hint="Color institucional principal (azul oscuro)." />
         <ColorRow label="Rojo institucional" name="color_rojo" value={rojo} onChange={setRojo} hint="Acento primario / botones / elementos interactivos." />
-        <ColorRow label="Dorado (50 años)" name="color_dorado" value={dorado} onChange={setDorado} hint="Acento conmemorativo. Recomendamos no cambiarlo durante la celebración de los 50 años." warn />
+        {/* El dorado se retiró del sitio el 2026-08-04 por decisión del colegio.
+            El campo se conserva —oculto— porque el valor sigue guardado en base y
+            quitarlo del formulario lo borraría al guardar. Mostrarlo sería peor:
+            un color que se puede elegir y no cambia nada en el sitio. */}
+        <input type="hidden" name="color_dorado" value={dorado} />
         <ColorRow label="Off-white de fondos" name="color_off_white" value={offWhite} onChange={setOffWhite} hint="Color de fondo de secciones claras." />
         <ColorRow label="Dark de texto" name="color_dark" value={dark} onChange={setDark} hint="Color base del texto sobre fondos claros." />
       </Card>

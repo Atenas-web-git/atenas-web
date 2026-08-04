@@ -17,11 +17,11 @@ const PALETA: Record<
   { bg: string; text: string; border: string; iconColor: string; chipBg: string }
 > = {
   gold: {
-    bg: "#C9A84C14",
+    bg: "#9e191514",
     text: "#8B6914",
-    border: "#C9A84C4D",
-    iconColor: "var(--color-gold)",
-    chipBg: "#C9A84C14",
+    border: "#9e19154D",
+    iconColor: "var(--color-red)",
+    chipBg: "#9e191514",
   },
   red: {
     bg: "#9e191514",
@@ -103,10 +103,10 @@ export function TablaDocumentos({
         className="mb-10"
       >
         <div className="flex items-center gap-2.5 mb-4">
-          <span className="block w-6 h-px" style={{ background: "var(--color-gold)" }} />
+          <span className="block w-6 h-px" style={{ background: "var(--color-red)" }} />
           <span
             className="text-[10px] font-bold tracking-[2.5px]"
-            style={{ color: "var(--color-gold)" }}
+            style={{ color: "var(--color-red)" }}
           >
             REPOSITORIO OFICIAL
           </span>
@@ -394,7 +394,7 @@ function FiltroChip({
       className="px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer"
       style={
         activo
-          ? { background: "var(--color-gold)", color: "var(--color-dark)" }
+          ? { background: "var(--color-red)", color: "#FFFFFF" }
           : { background: "#0D18250D", color: "#0D182580" }
       }
     >

@@ -42,14 +42,14 @@ export function buildFormWrappedEmail({
 
   return `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#1A2B4A;">
   <div style="background:#1A2B4A;padding:36px;border-radius:8px 8px 0 0;">
-    <p style="color:#C9A84C;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin:0 0 14px;">Unidad Educativa Atenas</p>
+    <p style="color:#9e1915;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin:0 0 14px;">Unidad Educativa Atenas</p>
     <h1 style="color:#fff;margin:0;font-size:22px;font-weight:700;line-height:1.2;">${titulo}</h1>
   </div>
   <div style="background:#fff;padding:32px;border:1px solid #E8E4DD;border-top:none;border-radius:0 0 8px 8px;">
     <div style="font-size:14px;color:#374151;line-height:1.65;">${contenido}</div>
     ${numeroBox}
     ${cta}
-    <p style="font-size:12px;color:#9CA3AF;text-align:center;margin:20px 0 0;">¿Tienes dudas? Escríbenos a <a href="mailto:atenas@atenas.edu.ec" style="color:#C9A84C;">atenas@atenas.edu.ec</a></p>
+    <p style="font-size:12px;color:#9CA3AF;text-align:center;margin:20px 0 0;">¿Tienes dudas? Escríbenos a <a href="mailto:atenas@atenas.edu.ec" style="color:#9e1915;">atenas@atenas.edu.ec</a></p>
   </div>
   <p style="color:#bbb;font-size:11px;text-align:center;margin:14px 0 0;">Unidad Educativa Atenas · Izamba, Ambato, Ecuador</p>
 </div>`;

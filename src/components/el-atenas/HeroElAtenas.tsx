@@ -74,7 +74,7 @@ export function HeroElAtenas({
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at top left, rgba(201,168,76,0.07) 0%, transparent 60%)",
+            "radial-gradient(ellipse at top left, rgba(158,25,21,0.07) 0%, transparent 60%)",
         }}
       />
 
@@ -131,7 +131,7 @@ export function HeroElAtenas({
           width: 1,
           height: 640,
           background:
-            "linear-gradient(180deg, transparent 0%, rgba(201,168,76,0.40) 35%, rgba(201,168,76,0.40) 65%, transparent 100%)",
+            "linear-gradient(180deg, transparent 0%, rgba(158,25,21,0.40) 35%, rgba(158,25,21,0.40) 65%, transparent 100%)",
         }}
       />
       <div
@@ -145,7 +145,7 @@ export function HeroElAtenas({
               width: 5,
               height: 5,
               borderRadius: "50%",
-              background: `rgba(201,168,76,${op})`,
+              background: `rgba(158,25,21,${op})`,
             }}
           />
         ))}
@@ -157,7 +157,7 @@ export function HeroElAtenas({
           top: -170,
           width: 320,
           height: 320,
-          border: "1px solid rgba(201,168,76,0.20)",
+          border: "1px solid rgba(158,25,21,0.20)",
         }}
       />
       <div
@@ -167,7 +167,7 @@ export function HeroElAtenas({
           top: -195,
           width: 264,
           height: 264,
-          border: "1px solid rgba(201,168,76,0.12)",
+          border: "1px solid rgba(158,25,21,0.12)",
         }}
       />
       <div
@@ -178,7 +178,7 @@ export function HeroElAtenas({
           width: 600,
           height: 1,
           background:
-            "linear-gradient(90deg, rgba(201,168,76,0.60) 0%, transparent 100%)",
+            "linear-gradient(90deg, rgba(158,25,21,0.60) 0%, transparent 100%)",
         }}
       />
 
@@ -198,7 +198,7 @@ export function HeroElAtenas({
           transition={{ duration: 0.5, delay: 0.1, ease }}
         >
           <motion.span
-            className="block bg-gold flex-shrink-0"
+            className="block bg-red flex-shrink-0"
             style={{ width: 28, height: 2 }}
             initial={{ scaleX: 0, originX: 0 }}
             animate={{ scaleX: 1 }}
@@ -209,7 +209,7 @@ export function HeroElAtenas({
               fontFamily: "Poppins, sans-serif",
               fontSize: 10,
               fontWeight: 700,
-              color: "var(--color-gold)",
+              color:"#FFFFFF",
               letterSpacing: 2,
               textTransform: "uppercase",
             }}

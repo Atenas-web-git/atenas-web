@@ -97,7 +97,7 @@ function DesktopCard({
             fontWeight: 700,
             letterSpacing: 3,
             textTransform: "uppercase" as const,
-            color: "var(--color-gold)",
+            color: "var(--color-red)",
           }}
         >
           {card.label}
@@ -135,7 +135,7 @@ function DesktopCard({
             fontWeight: 700,
             letterSpacing: 3,
             textTransform: "uppercase" as const,
-            color: "var(--color-gold)",
+            color: "var(--color-red)",
             display: "block",
             marginBottom: 8,
           }}
@@ -266,7 +266,7 @@ function MobileCard({
             fontWeight: 700,
             letterSpacing: 2,
             textTransform: "uppercase" as const,
-            color: "var(--color-gold)",
+            color: "var(--color-red)",
           }}
         >
           {mobileLabel}

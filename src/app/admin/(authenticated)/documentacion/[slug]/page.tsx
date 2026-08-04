@@ -54,7 +54,7 @@ export default async function SeccionDocPage({
           className="flex items-center justify-center flex-shrink-0"
           style={{ width: 44, height: 44, background: "#1A2B4A", borderRadius: 10 }}
         >
-          <IconoSeccion nombre={seccion.icono} size={21} color="#C9A84C" />
+          <IconoSeccion nombre={seccion.icono} size={21} color="#9e1915" />
         </div>
         <div className="flex flex-col gap-1">
           <h1 style={{ fontSize: 22, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>

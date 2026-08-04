@@ -21,7 +21,7 @@ export function Tagline({ tagline }: Props) {
       {/* Líneas doradas + eyebrow */}
       <div className="flex items-center gap-5 mb-8">
         <motion.span
-          className="block h-[1.5px] bg-gold w-[80px]"
+          className="block h-[1.5px] bg-red w-[80px]"
           initial={{ scaleX: 0 }}
           animate={inView ? { scaleX: 1 } : {}}
           transition={{ duration: 0.55, ease }}
@@ -36,7 +36,7 @@ export function Tagline({ tagline }: Props) {
           {tagline.eyebrow}
         </motion.span>
         <motion.span
-          className="block h-[1.5px] bg-gold w-[80px]"
+          className="block h-[1.5px] bg-red w-[80px]"
           initial={{ scaleX: 0 }}
           animate={inView ? { scaleX: 1 } : {}}
           transition={{ duration: 0.55, ease }}
@@ -69,7 +69,7 @@ export function Tagline({ tagline }: Props) {
 
       {/* Separador dorado */}
       <motion.span
-        className="block mt-9 h-[3px] bg-gold w-[64px]"
+        className="block mt-9 h-[3px] bg-red w-[64px]"
         initial={{ scaleX: 0 }}
         animate={inView ? { scaleX: 1 } : {}}
         transition={{ duration: 0.45, delay: 0.65, ease }}

@@ -122,7 +122,7 @@ export type Marca = {
     navy: string;
     /** Acento primario/interactivo (default #9e1915). */
     rojo: string;
-    /** Acento conmemorativo 50 años (default #C9A84C). */
+    /** Acento conmemorativo 50 años (default #9e1915). */
     dorado: string;
     /** Fondo de secciones claras (default #F8F5F0). */
     offWhite: string;
@@ -159,7 +159,7 @@ export const MARCA_DEFAULT: Marca = {
   paleta: {
     navy: "#1A2B4A",
     rojo: "#9e1915",
-    dorado: "#C9A84C",
+    dorado: "#9e1915",
     offWhite: "#F8F5F0",
     dark: "#2C2C2C",
   },

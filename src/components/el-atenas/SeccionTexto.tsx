@@ -44,7 +44,7 @@ export function SeccionTexto({
             {/* Badge */}
             <div className="flex items-center gap-[10px]">
               <span
-                className="block bg-gold"
+                className="block bg-red"
                 style={{ width: 28, height: 2 }}
               />
               <span
@@ -52,7 +52,7 @@ export function SeccionTexto({
                   fontFamily: "Poppins, sans-serif",
                   fontSize: 10,
                   fontWeight: 700,
-                  color: "var(--color-gold)",
+                  color: "var(--color-red)",
                   letterSpacing: 2,
                   textTransform: "uppercase",
                 }}
@@ -75,7 +75,7 @@ export function SeccionTexto({
             </h2>
 
             {/* Gold divider */}
-            <div style={{ width: 60, height: 3, background: "var(--color-gold)" }} />
+            <div style={{ width: 60, height: 3, background: "var(--color-red)" }} />
 
             {/* Párrafos */}
             <div className="flex flex-col gap-5">
@@ -104,7 +104,7 @@ export function SeccionTexto({
                   fontSize: 13,
                   color: "rgba(26,43,74,0.45)",
                   lineHeight: 1.65,
-                  borderLeft: "2px solid var(--color-gold)",
+                  borderLeft: "2px solid var(--color-red)",
                   paddingLeft: 14,
                 }}
               >
@@ -147,7 +147,7 @@ export function SeccionTexto({
                   marginTop: 16,
                   height: 2,
                   background:
-                    "linear-gradient(90deg, var(--color-gold) 0%, transparent 100%)",
+                    "linear-gradient(90deg, var(--color-red) 0%, transparent 100%)",
                 }}
               />
             </motion.div>

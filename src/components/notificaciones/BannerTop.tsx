@@ -112,7 +112,7 @@ export function BannerTop({
             style={{
               fontSize: 12,
               fontWeight: 700,
-              color: "var(--color-gold)",
+              color: "var(--color-red)",
               textDecoration: "underline",
               opacity: 0.9,
             }}

@@ -50,7 +50,7 @@ export function CTAAcademico({ cta }: Props) {
       >
         <div className="flex-1 flex flex-col gap-[20px]">
           <motion.p
-            style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"var(--color-gold)", letterSpacing:3, textTransform:"uppercase" }}
+            style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"#FFFFFF", letterSpacing:3, textTransform:"uppercase" }}
             initial={{ opacity:0, y:14 }}
             animate={inView ? { opacity:1, y:0 } : {}}
             transition={{ duration:0.45, ease }}
@@ -59,7 +59,7 @@ export function CTAAcademico({ cta }: Props) {
           </motion.p>
 
           <motion.span
-            className="block bg-gold"
+            className="block bg-red"
             style={{ width:40, height:2 }}
             initial={{ scaleX:0, originX:0 }}
             animate={inView ? { scaleX:1 } : {}}
@@ -76,10 +76,10 @@ export function CTAAcademico({ cta }: Props) {
               {headingParts ? (
                 <>
                   {headingParts.before}
-                  <span className="relative inline-block" style={{ color:"var(--color-gold)" }}>
+                  <span className="relative inline-block" style={{ color:"var(--color-red)" }}>
                     {headingParts.match}
                     <motion.span
-                      className="absolute left-0 right-0 -bottom-1 block bg-gold"
+                      className="absolute left-0 right-0 -bottom-1 block bg-red"
                       style={{ height:3, borderRadius:2 }}
                       initial={{ scaleX:0, originX:0 }}
                       animate={inView ? { scaleX:1 } : {}}
@@ -116,7 +116,7 @@ export function CTAAcademico({ cta }: Props) {
                 <span
                   key={i}
                   className="rounded-full px-[12px] py-[5px] text-[10px] font-bold"
-                  style={{ fontFamily:"Poppins,sans-serif", background:"rgba(201,168,76,0.14)", color:"var(--color-gold)", letterSpacing:0.4 }}
+                  style={{ fontFamily:"Poppins,sans-serif", background:"rgba(158,25,21,0.85)", color:"#FFFFFF", letterSpacing:0.4 }}
                 >
                   {tag.texto}
                 </span>
@@ -131,7 +131,7 @@ export function CTAAcademico({ cta }: Props) {
           >
             <Link
               href={cta.btnHref}
-              className="inline-flex items-center gap-[10px] rounded-[6px] px-[28px] py-[14px] font-bold text-[14px] bg-gold text-dark hover:bg-[#dbb95a] transition-colors"
+              className="inline-flex items-center gap-[10px] rounded-[6px] px-[28px] py-[14px] font-bold text-[14px] bg-red text-white hover:bg-[#b81e19] transition-colors"
               style={{ fontFamily:"Poppins,sans-serif" }}
             >
               {cta.btnText}
@@ -143,7 +143,7 @@ export function CTAAcademico({ cta }: Props) {
         {/* Tarjeta estadísticas derecha */}
         <motion.div
           className="w-full md:w-[320px] flex-shrink-0 flex flex-col gap-[1px] rounded-[14px] overflow-hidden"
-          style={{ border:"1.5px solid rgba(201,168,76,0.30)" }}
+          style={{ border:"1.5px solid rgba(158,25,21,0.30)" }}
           initial={{ opacity:0, x:50 }}
           animate={inView ? { opacity:1, x:0 } : {}}
           transition={{ duration:0.7, delay:0.2, ease }}
@@ -152,12 +152,12 @@ export function CTAAcademico({ cta }: Props) {
             <motion.div
               key={i}
               className="flex flex-col gap-[4px] px-[24px] py-[20px]"
-              style={{ background: i === 1 ? "rgba(201,168,76,0.12)" : "rgba(255,255,255,0.04)" }}
+              style={{ background: i === 1 ? "rgba(158,25,21,0.12)" : "rgba(255,255,255,0.04)" }}
               initial={{ opacity:0, x:30 }}
               animate={inView ? { opacity:1, x:0 } : {}}
               transition={{ duration:0.5, delay:0.3 + i*0.1, ease }}
             >
-              <span style={{ fontFamily:"Poppins,sans-serif", fontSize:22, fontWeight:700, color:"var(--color-gold)", lineHeight:1 }}>{stat.value}</span>
+              <span style={{ fontFamily:"Poppins,sans-serif", fontSize:22, fontWeight:700, color:"#FFFFFF", lineHeight:1 }}>{stat.value}</span>
               <span style={{ fontFamily:"Poppins,sans-serif", fontSize:12, fontWeight:700, color:"#FFFFFF", lineHeight:1.3 }}>{stat.label}</span>
               <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, color:"rgba(255,255,255,0.45)" }}>{stat.sub}</span>
             </motion.div>

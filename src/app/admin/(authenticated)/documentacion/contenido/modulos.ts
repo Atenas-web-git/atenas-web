@@ -93,7 +93,7 @@ export const NOTIFICACIONES: Seccion = {
             },
             {
               campo: "Plantilla — Diagonal",
-              desc: "Fondo azul marino con franja diagonal roja, escudo del colegio, título grande y botón dorado. El más llamativo: resérvalo para anuncios destacados.",
+              desc: "Fondo azul marino con franja diagonal roja, escudo del colegio, título grande y botón rojo. El más llamativo: resérvalo para anuncios destacados.",
             },
           ],
         },

@@ -60,7 +60,7 @@ export function InfoContactos({
           right: 160,
           height: 1,
           background:
-            "linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.50) 50%, transparent 100%)",
+            "linear-gradient(90deg, transparent 0%, rgba(158,25,21,0.50) 50%, transparent 100%)",
         }}
       />
 
@@ -76,7 +76,7 @@ export function InfoContactos({
         >
           <div className="flex items-center gap-[10px]">
             <span
-              className="block bg-gold"
+              className="block bg-red"
               style={{ width: 28, height: 2 }}
             />
             <span
@@ -84,7 +84,7 @@ export function InfoContactos({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: 10,
                 fontWeight: 700,
-                color: "var(--color-gold)",
+                color: "var(--color-red)",
                 letterSpacing: 2,
                 textTransform: "uppercase",
               }}
@@ -116,7 +116,7 @@ export function InfoContactos({
             transition={{ duration: 0.6, delay: 0.1, ease }}
           >
             <div className="flex items-center gap-[14px]">
-              <Phone size={22} color="var(--color-gold)" />
+              <Phone size={22} color="var(--color-red)" />
               <span
                 style={{
                   fontFamily: "Poppins, sans-serif",
@@ -171,7 +171,7 @@ export function InfoContactos({
             transition={{ duration: 0.6, delay: 0.22, ease }}
           >
             <div className="flex items-center gap-[14px]">
-              <MapPin size={22} color="var(--color-gold)" />
+              <MapPin size={22} color="var(--color-red)" />
               <span
                 style={{
                   fontFamily: "Poppins, sans-serif",
@@ -247,7 +247,7 @@ export function InfoContactos({
             transition={{ duration: 0.6, delay: 0.34, ease }}
           >
             <div className="flex items-center gap-[14px]">
-              <Mail size={22} color="var(--color-gold)" />
+              <Mail size={22} color="var(--color-red)" />
               <span
                 style={{
                   fontFamily: "Poppins, sans-serif",
@@ -265,7 +265,7 @@ export function InfoContactos({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: 16,
                 fontWeight: 600,
-                color: "var(--color-gold)",
+                color: "#FFFFFF",
               }}
             >
               {emailPrincipal}
@@ -298,7 +298,7 @@ export function InfoContactos({
                   ? "noopener noreferrer"
                   : undefined
               }
-              className="inline-flex items-center gap-2 self-start rounded-[8px] px-[18px] py-[10px] font-bold text-[13px] bg-gold text-dark hover:bg-[#dbb95a] transition-colors"
+              className="inline-flex items-center gap-2 self-start rounded-[8px] px-[18px] py-[10px] font-bold text-[13px] bg-red text-white hover:bg-[#b81e19] transition-colors"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
               {canales.tarjetaEmail.ctaLabel}

@@ -30,7 +30,7 @@ export function DisciplinaShowcase({ disciplinas, verTodosHref, heading, ctaText
 
   return (
     <section className="relative overflow-hidden" style={{ background: "#060E1A" }}>
-      <div className="absolute left-0 top-0 bottom-0" style={{ width: 4, background: "var(--color-gold)" }} />
+      <div className="absolute left-0 top-0 bottom-0" style={{ width: 4, background: "var(--color-red)" }} />
 
       <div ref={ref} className="px-6 py-14 md:px-[160px] md:py-[52px] flex flex-col gap-6">
 
@@ -53,9 +53,9 @@ export function DisciplinaShowcase({ disciplinas, verTodosHref, heading, ctaText
                   fontFamily: "Poppins, sans-serif",
                   fontSize: 12,
                   fontWeight: 600,
-                  color: "var(--color-gold)",
-                  background: "rgba(201,168,76,0.12)",
-                  border: "1px solid rgba(201,168,76,0.40)",
+                  color:"#FFFFFF",
+                  background: "rgba(158,25,21,0.12)",
+                  border: "1px solid rgba(158,25,21,0.40)",
                   textDecoration: "none",
                 }}
               >
@@ -100,16 +100,16 @@ export function DisciplinaShowcase({ disciplinas, verTodosHref, heading, ctaText
                 {/* Sport badge */}
                 <div
                   className="absolute flex items-center gap-[6px] rounded-full px-3 py-[5px]"
-                  style={{ top: 18, left: 18, background: "rgba(201,168,76,0.92)" }}
+                  style={{ top: 18, left: 18, background: "rgba(158,25,21,0.92)" }}
                 >
-                  <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 700, color: "var(--color-dark)" }}>
+                  <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 700, color: "#FFFFFF" }}>
                     {d.icon} {d.nombre}
                   </span>
                 </div>
 
                 {/* Big number */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center" style={{ paddingBottom: 60 }}>
-                  <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 72, fontWeight: 900, color: "var(--color-gold)", letterSpacing: -3, lineHeight: 1 }}>
+                  <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 72, fontWeight: 900, color:"#FFFFFF", letterSpacing: -3, lineHeight: 1 }}>
                     {d.count}
                   </span>
                   <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 12, color: "rgba(255,255,255,0.65)", marginTop: 6 }}>
@@ -122,13 +122,13 @@ export function DisciplinaShowcase({ disciplinas, verTodosHref, heading, ctaText
                   className="absolute bottom-0 left-0 right-0 flex items-center gap-2 px-[18px] py-[18px]"
                 >
                   <motion.span
-                    style={{ fontFamily: "Poppins, sans-serif", fontSize: 12, fontWeight: 600, color: "var(--color-gold)" }}
+                    style={{ fontFamily: "Poppins, sans-serif", fontSize: 12, fontWeight: 600, color:"#FFFFFF" }}
                     className="group-hover:underline"
                   >
                     {ctaText ?? "Ver logros"}
                   </motion.span>
                   <motion.span
-                    style={{ color: "var(--color-gold)", fontSize: 13, fontWeight: 700 }}
+                    style={{ color:"#FFFFFF", fontSize: 13, fontWeight: 700 }}
                     animate={{ x: [0, 4, 0] }}
                     transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut", delay: 0.2 * i }}
                   >

@@ -56,7 +56,7 @@ export function CTAIniciarSolicitud({
       {/* Círculos decorativos */}
       <div
         className="absolute -right-[120px] -top-[120px] rounded-full pointer-events-none"
-        style={{ width: 400, height: 400, background: "rgba(201,168,76,0.06)" }}
+        style={{ width: 400, height: 400, background: "rgba(158,25,21,0.06)" }}
       />
       <div
         className="absolute -left-[80px] -bottom-[80px] rounded-full pointer-events-none"
@@ -72,14 +72,14 @@ export function CTAIniciarSolicitud({
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.45, ease }}
         >
-          <span className="block bg-gold" style={{ width: 24, height: 2 }} />
+          <span className="block bg-red" style={{ width: 24, height: 2 }} />
           <span
-            className="text-gold text-[11px] font-bold tracking-[2.5px] uppercase"
+            className="text-red text-[11px] font-bold tracking-[2.5px] uppercase"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
             {eyebrow}
           </span>
-          <span className="block bg-gold" style={{ width: 24, height: 2 }} />
+          <span className="block bg-red" style={{ width: 24, height: 2 }} />
         </motion.div>
 
         {/* Heading */}
@@ -100,7 +100,7 @@ export function CTAIniciarSolicitud({
             style={{ fontFamily: "Poppins, sans-serif", fontSize: 15, maxWidth: 560 }}
           >
             {descripcionPre}{" "}
-            <span className="text-gold font-semibold">{nivel}</span>
+            <span className="text-red font-semibold">{nivel}</span>
             {descripcionPost}
           </p>
         </motion.div>
@@ -118,7 +118,7 @@ export function CTAIniciarSolicitud({
               className="flex items-center gap-[8px] text-white/70"
               style={{ fontFamily: "Poppins, sans-serif", fontSize: 13 }}
             >
-              <span className="text-gold font-bold">✓</span>
+              <span className="text-red font-bold">✓</span>
               {b}
             </span>
           ))}
@@ -134,7 +134,7 @@ export function CTAIniciarSolicitud({
           <Link
             href={href}
             className="inline-flex items-center justify-center rounded-[6px] px-[32px] py-[15px]
-              font-bold text-[15px] bg-gold text-dark hover:bg-[#dbb95a]
+              font-bold text-[15px] bg-red text-white hover:bg-[#b81e19]
               transition-colors w-full sm:w-auto"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >

@@ -314,8 +314,8 @@ export function DetalleServicio({ servicio, formConfig, revistaConfig }: Props) 
   const isRed = color === "red";
   const formCfg: FormQuejasConfig = formConfig ?? FORM_QUEJAS_DEFAULT;
   const revistaCfg = revistaConfig;
-  const accent = isRed ? "var(--color-red)" : "var(--color-gold)";
-  const accentBg = isRed ? "rgba(158,25,21,0.10)" : "rgba(201,168,76,0.12)";
+  const accent = isRed ? "var(--color-red)" : "var(--color-red)";
+  const accentBg = isRed ? "rgba(158,25,21,0.10)" : "rgba(158,25,21,0.12)";
 
   const refStats = useRef<HTMLDivElement>(null);
   const refCollage = useRef<HTMLDivElement>(null);
@@ -585,8 +585,8 @@ export function DetalleServicio({ servicio, formConfig, revistaConfig }: Props) 
             <motion.div
               className="w-full md:w-[300px] rounded-2xl p-6 flex flex-col gap-4 flex-shrink-0"
               style={{
-                background: isRed ? "rgba(158,25,21,0.06)" : "rgba(201,168,76,0.10)",
-                border: `1.5px solid ${isRed ? "rgba(158,25,21,0.25)" : "rgba(201,168,76,0.35)"}`,
+                background: isRed ? "rgba(158,25,21,0.06)" : "rgba(158,25,21,0.10)",
+                border: `1.5px solid ${isRed ? "rgba(158,25,21,0.25)" : "rgba(158,25,21,0.35)"}`,
               }}
               initial={{ opacity: 0, x: 30 }}
               animate={inDesc ? { opacity: 1, x: 0 } : {}}
@@ -619,7 +619,9 @@ export function DetalleServicio({ servicio, formConfig, revistaConfig }: Props) 
                   style={{
                     fontFamily: "Poppins, sans-serif",
                     background: accent,
-                    color: isRed ? "#FFFFFF" : "var(--color-dark)",
+                    // El acento SIEMPRE es rojo desde que se retiró el dorado (2026-08-04), y el
+                    // rojo es oscuro: el texto encima va en blanco siempre.
+                    color: "#FFFFFF",
                     textDecoration: "none",
                   }}
                 >
@@ -683,7 +685,9 @@ export function DetalleServicio({ servicio, formConfig, revistaConfig }: Props) 
                       width: 40,
                       height: 40,
                       background: accent,
-                      color: isRed ? "#FFFFFF" : "var(--color-dark)",
+                      // El acento SIEMPRE es rojo desde que se retiró el dorado (2026-08-04), y el
+                    // rojo es oscuro: el texto encima va en blanco siempre.
+                    color: "#FFFFFF",
                       fontFamily: "Poppins, sans-serif",
                       fontSize: 14,
                       fontWeight: 700,
@@ -778,7 +782,7 @@ function RevistaAtenasCard({ cfg }: { cfg?: RevistaConfig }) {
               right: -80,
               width: 380,
               height: 380,
-              background: "radial-gradient(circle, rgba(201,168,76,0.30) 0%, rgba(201,168,76,0) 65%)",
+              background: "radial-gradient(circle, rgba(158,25,21,0.30) 0%, rgba(158,25,21,0) 65%)",
               pointerEvents: "none",
             }}
           />
@@ -787,14 +791,14 @@ function RevistaAtenasCard({ cfg }: { cfg?: RevistaConfig }) {
             <div className="flex items-center gap-2">
               <span
                 className="block"
-                style={{ width: 28, height: 2, background: "var(--color-gold)" }}
+                style={{ width: 28, height: 2, background: "var(--color-red)" }}
               />
               <span
                 style={{
                   fontFamily: "Poppins, sans-serif",
                   fontSize: 10,
                   fontWeight: 700,
-                  color: "var(--color-gold)",
+                  color: "var(--color-red)",
                   letterSpacing: 2,
                   textTransform: "uppercase",
                 }}
@@ -834,8 +838,8 @@ function RevistaAtenasCard({ cfg }: { cfg?: RevistaConfig }) {
                 className="flex items-center justify-center gap-2 rounded-[10px] px-6 py-[14px] font-bold text-[14px]"
                 style={{
                   fontFamily: "Poppins, sans-serif",
-                  background: "var(--color-gold)",
-                  color: "var(--color-dark)",
+                  background: "var(--color-red)",
+                  color:"#FFFFFF",
                   transition: "transform 0.18s ease",
                 }}
               >
@@ -875,7 +879,7 @@ function RevistaAtenasCard({ cfg }: { cfg?: RevistaConfig }) {
                   height: 260,
                   transform: "rotate(-4deg)",
                   boxShadow: "0 18px 44px rgba(0,0,0,0.45)",
-                  border: "1.5px solid rgba(201,168,76,0.45)",
+                  border: "1.5px solid rgba(158,25,21,0.45)",
                 }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -897,7 +901,7 @@ function RevistaAtenasCard({ cfg }: { cfg?: RevistaConfig }) {
                   width: 180,
                   height: 220,
                   background: "rgba(255,255,255,0.04)",
-                  border: "1.5px solid rgba(201,168,76,0.35)",
+                  border: "1.5px solid rgba(158,25,21,0.35)",
                   transform: "rotate(-4deg)",
                 }}
               >
@@ -907,7 +911,7 @@ function RevistaAtenasCard({ cfg }: { cfg?: RevistaConfig }) {
                       fontFamily: "Poppins, sans-serif",
                       fontSize: 9,
                       fontWeight: 700,
-                      color: "var(--color-gold)",
+                      color: "var(--color-red)",
                       letterSpacing: 2,
                       textTransform: "uppercase",
                     }}
@@ -927,7 +931,7 @@ function RevistaAtenasCard({ cfg }: { cfg?: RevistaConfig }) {
                   </span>
                   <span
                     className="block"
-                    style={{ width: 32, height: 2, background: "var(--color-gold)" }}
+                    style={{ width: 32, height: 2, background: "var(--color-red)" }}
                   />
                   <span
                     style={{

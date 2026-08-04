@@ -448,7 +448,7 @@ export function EditorPlantillaC({
                         type="checkbox"
                         checked={!!f.destacado}
                         onChange={(e) => updateFilaTarjeta(i, j, { destacado: e.target.checked })}
-                        style={{ accentColor: "#C9A84C" }}
+                        style={{ accentColor: "#9e1915" }}
                       />
                       <span style={{ fontSize: 10, color: "#6B6660" }}>Dorado</span>
                     </label>
@@ -513,7 +513,7 @@ export function EditorPlantillaC({
                   style={{
                     fontSize: 12,
                     fontWeight: 700,
-                    color: p.destacado ? "#9B1B1B" : "#C9A84C",
+                    color: p.destacado ? "#9B1B1B" : "#9e1915",
                     marginTop: 8,
                     width: 24,
                   }}

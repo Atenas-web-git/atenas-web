@@ -187,7 +187,7 @@ export async function probarEnvioCorreoAction(
   const html = `
     <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#1A2B4A;">
       <div style="background:#1A2B4A;padding:28px;border-radius:8px 8px 0 0;">
-        <h2 style="color:#C9A84C;margin:0;font-size:18px;">Correo de prueba</h2>
+        <h2 style="color:#9e1915;margin:0;font-size:18px;">Correo de prueba</h2>
       </div>
       <div style="background:#fff;padding:28px;border:1px solid #e8e4df;border-top:none;border-radius:0 0 8px 8px;">
         <p style="font-size:14px;line-height:1.7;margin:0;">

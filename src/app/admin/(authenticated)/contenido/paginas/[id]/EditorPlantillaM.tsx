@@ -300,7 +300,7 @@ function TaglineEditor({ tagline, setTagline }: { tagline: Tagline; setTagline: 
       <Field
         label="Primera línea (con palabra clave entre llaves)"
         required
-        hint='Encierra entre {} la palabra/frase que recibe el subrayado dorado. Ej.: "La {institución referente} de Ambato,"'
+        hint='Encierra entre {} la palabra/frase que recibe el subrayado rojo. Ej.: "La {institución referente} de Ambato,"'
       >
         <input type="text" value={tagline.line1} onChange={(e) => set({ line1: e.target.value })} required style={inputStyle} />
       </Field>

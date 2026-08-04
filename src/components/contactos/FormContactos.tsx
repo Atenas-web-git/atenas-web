@@ -73,7 +73,7 @@ export function FormContactos({
             backdropFilter: "blur(8px)",
           }}
         >
-          <MapPin size={14} color="var(--color-gold)" />
+          <MapPin size={14} color="var(--color-red)" />
           <span
             style={{
               fontFamily: "Poppins, sans-serif",
@@ -108,7 +108,7 @@ export function FormContactos({
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-[10px]">
             <span
-              className="block bg-gold"
+              className="block bg-red"
               style={{ width: 28, height: 2 }}
             />
             <span
@@ -116,7 +116,7 @@ export function FormContactos({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: 10,
                 fontWeight: 700,
-                color: "var(--color-gold)",
+                color:"#FFFFFF",
                 letterSpacing: 2,
                 textTransform: "uppercase",
               }}
@@ -155,7 +155,7 @@ export function FormContactos({
           >
             <div
               className="rounded-full flex items-center justify-center"
-              style={{ width: 56, height: 56, background: "var(--color-gold)" }}
+              style={{ width: 56, height: 56, background: "var(--color-red)" }}
             >
               <Send size={22} color="var(--color-dark)" />
             </div>
@@ -225,7 +225,7 @@ export function FormContactos({
                 placeholder="Escribe tu mensaje aquí..."
                 required
                 rows={4}
-                className="w-full rounded-[8px] px-[14px] py-[10px] text-[13px] resize-none outline-none border focus:border-gold transition-colors"
+                className="w-full rounded-[8px] px-[14px] py-[10px] text-[13px] resize-none outline-none border focus:border-red transition-colors"
                 style={{
                   fontFamily: "Poppins, sans-serif",
                   color: "var(--color-navy)",
@@ -294,7 +294,7 @@ function Field({
         type={type}
         placeholder={placeholder}
         required={required}
-        className="w-full rounded-[8px] px-[14px] text-[13px] outline-none border focus:border-gold transition-colors"
+        className="w-full rounded-[8px] px-[14px] text-[13px] outline-none border focus:border-red transition-colors"
         style={{
           fontFamily: "Poppins, sans-serif",
           color: "var(--color-navy)",

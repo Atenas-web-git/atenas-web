@@ -17,13 +17,15 @@ export function NucleoIB({ nucleo }: Props) {
 
   const headingParts = splitHighlight(nucleo.heading, nucleo.headingHighlight);
 
+  // Fondo en el azul MÁS oscuro (#0D1825), no el institucional: el título lleva
+  // un fragmento en rojo y sobre el navy claro no destacaba.
   return (
-    <section className="relative overflow-hidden bg-navy">
+    <section className="relative overflow-hidden bg-dark">
       <div className="relative z-10 px-6 py-[64px] md:px-[120px] md:py-[100px]">
 
         <div ref={headerRef} className="mb-[52px] md:mb-[64px]">
           <motion.p
-            style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"var(--color-gold)", letterSpacing:3, textTransform:"uppercase" }}
+            style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"#FFFFFF", letterSpacing:3, textTransform:"uppercase" }}
             initial={{ opacity:0, y:14 }}
             animate={inView ? { opacity:1, y:0 } : {}}
             transition={{ duration:0.45, ease }}
@@ -31,7 +33,7 @@ export function NucleoIB({ nucleo }: Props) {
             {nucleo.badge}
           </motion.p>
           <motion.span
-            className="block bg-gold"
+            className="block bg-red"
             style={{ width:40, height:2, marginTop:8, marginBottom:10 }}
             initial={{ scaleX:0, originX:0 }}
             animate={inView ? { scaleX:1 } : {}}
@@ -47,10 +49,10 @@ export function NucleoIB({ nucleo }: Props) {
               {headingParts ? (
                 <>
                   {headingParts.before}
-                  <span className="relative inline-block" style={{ color:"var(--color-gold)" }}>
+                  <span className="relative inline-block" style={{ color:"var(--color-red)" }}>
                     {headingParts.match}
                     <motion.span
-                      className="absolute left-0 right-0 -bottom-1 block bg-gold"
+                      className="absolute left-0 right-0 -bottom-1 block bg-red"
                       style={{ height:3, borderRadius:2 }}
                       initial={{ scaleX:0, originX:0 }}
                       animate={inView ? { scaleX:1 } : {}}
@@ -85,8 +87,8 @@ export function NucleoIB({ nucleo }: Props) {
                 key={`${c.title}-${i}`}
                 className="flex flex-col gap-[12px] rounded-[12px] p-[28px_24px]"
                 style={{
-                  background: c.highlight ? "rgba(201,168,76,0.08)" : "rgba(255,255,255,0.05)",
-                  border: c.highlight ? "1.5px solid rgba(201,168,76,0.45)" : "1px solid rgba(255,255,255,0.08)",
+                  background: c.highlight ? "rgba(158,25,21,0.08)" : "rgba(255,255,255,0.05)",
+                  border: c.highlight ? "1.5px solid rgba(158,25,21,0.45)" : "1px solid rgba(255,255,255,0.08)",
                 }}
                 initial={{ opacity:0, x:-40 }}
                 whileInView={{ opacity:1, x:0 }}
@@ -97,12 +99,12 @@ export function NucleoIB({ nucleo }: Props) {
                 <div className="flex items-center gap-[14px]">
                   <span style={{ fontSize:28, lineHeight:1 }}>{c.icon}</span>
                   <div className="flex flex-col gap-[2px]">
-                    <span style={{ fontFamily:"Poppins,sans-serif", fontSize:18, fontWeight:700, color:"var(--color-gold)", lineHeight:1 }}>{c.title}</span>
+                    <span style={{ fontFamily:"Poppins,sans-serif", fontSize:18, fontWeight:700, color:"#FFFFFF", lineHeight:1 }}>{c.title}</span>
                     <span style={{ fontFamily:"Poppins,sans-serif", fontSize:11, color:"rgba(255,255,255,0.45)", letterSpacing:0.4 }}>{c.sub}</span>
                   </div>
                 </div>
                 <motion.span
-                  className="block bg-gold"
+                  className="block bg-red"
                   style={{ width:32, height:1.5, borderRadius:1 }}
                   initial={{ scaleX:0, originX:0 }}
                   whileInView={{ scaleX:1 }}

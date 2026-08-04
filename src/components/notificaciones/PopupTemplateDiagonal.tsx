@@ -35,7 +35,7 @@ export function PopupTemplateDiagonal({
         borderRadius: 16,
         boxShadow: "0 24px 60px rgba(0,0,0,0.45)",
         fontFamily: "Poppins, sans-serif",
-        border: "1px solid rgba(201,168,76,0.15)",
+        border: "1px solid rgba(158,25,21,0.15)",
       }}
       onClick={(e) => e.stopPropagation()}
     >
@@ -59,7 +59,7 @@ export function PopupTemplateDiagonal({
           right: -160,
           width: 380,
           height: 4,
-          background: "var(--color-gold)",
+          background: "var(--color-red)",
           transform: "rotate(-18deg)",
           opacity: 0.85,
         }}
@@ -112,7 +112,7 @@ export function PopupTemplateDiagonal({
             style={{
               fontSize: 9,
               fontWeight: 700,
-              color: "var(--color-gold)",
+              color: "var(--color-red)",
               letterSpacing: 2,
               textTransform: "uppercase",
               paddingLeft: 2,
@@ -145,7 +145,7 @@ export function PopupTemplateDiagonal({
           style={{
             width: 48,
             height: 3,
-            background: "var(--color-gold)",
+            background: "var(--color-red)",
           }}
         />
 
@@ -168,8 +168,8 @@ export function PopupTemplateDiagonal({
             className="self-start inline-flex items-center gap-2 mt-3 px-6 transition-colors"
             style={{
               height: 44,
-              background: "var(--color-gold)",
-              color: "var(--color-dark)",
+              background: "var(--color-red)",
+              color:"#FFFFFF",
               borderRadius: 6,
               fontSize: 13,
               fontWeight: 700,
@@ -190,7 +190,7 @@ export function PopupTemplateDiagonal({
         style={{
           marginTop: "auto",
           height: 4,
-          background: "linear-gradient(90deg, var(--color-red) 0%, var(--color-gold) 50%, var(--color-navy) 100%)",
+          background: "linear-gradient(90deg, var(--color-red) 0%, var(--color-red) 50%, var(--color-navy) 100%)",
         }}
       />
     </motion.div>

@@ -144,7 +144,7 @@ export function ProcesoMatricula({ proceso }: Props) {
 
 function PasoCard({ paso, index, inView }: { paso: PasoMatriculaPlantillaJ; index: number; inView: boolean }) {
   const bg = paso.isRed ? "#9B1B1B" : "var(--color-dark)";
-  const numColor = paso.isRed ? "rgba(255,255,255,0.45)" : "var(--color-gold)";
+  const numColor = paso.isRed ? "rgba(255,255,255,0.45)" : "var(--color-red)";
 
   return (
     <motion.div

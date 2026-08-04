@@ -119,7 +119,7 @@ export default async function AdminDashboardPage() {
           icon={CheckCircle2}
           label="Matriculados"
           value={stats.matriculados}
-          accent="#D4AF37"
+          accent="#9e1915"
           accentBg="#1A2B4A"
           enabled={canSeeAdmisiones}
         />

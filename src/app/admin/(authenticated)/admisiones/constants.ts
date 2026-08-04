@@ -146,7 +146,7 @@ export const ESTADO_INFO: Record<EstadoAdmision, EstadoInfo> = {
     labelLargo: "Matriculado",
     descripcion: "Completó la matrícula y formalizó su ingreso a la institución.",
     colorBg: "#1A2B4A",
-    colorFg: "#D4AF37",
+    colorFg: "#9e1915",
     acentoCorreo: "gold",
     tieneCorreoPipeline: true,
   },

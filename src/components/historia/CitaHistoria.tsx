@@ -45,7 +45,7 @@ export function CitaHistoria({ cita }: Props) {
             fontFamily: "Poppins, sans-serif",
             fontSize: 240,
             fontWeight: 700,
-            color: "var(--color-gold)",
+            color:"#FFFFFF",
             opacity: 0.12,
             lineHeight: 1,
           }}
@@ -61,7 +61,7 @@ export function CitaHistoria({ cita }: Props) {
             fontFamily: "Poppins, sans-serif",
             fontSize: 140,
             fontWeight: 700,
-            color: "var(--color-gold)",
+            color:"#FFFFFF",
             opacity: 0.12,
             lineHeight: 1,
           }}
@@ -96,7 +96,7 @@ export function CitaHistoria({ cita }: Props) {
         </motion.p>
 
         <motion.span
-          className="block bg-gold"
+          className="block bg-red"
           style={{ width: 48, height: 3, marginTop: 28, marginBottom: 14 }}
           initial={{ scaleX: 0, originX: 0 }}
           animate={inView ? { scaleX: 1 } : {}}

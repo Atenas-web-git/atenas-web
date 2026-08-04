@@ -292,7 +292,7 @@ export function EditorClient({
                   const meta = {
                     navy: { label: "Navy", hex: "#1A2B4A", desc: "Neutral" },
                     red: { label: "Rojo", hex: "#9e1915", desc: "Acción" },
-                    gold: { label: "Dorado", hex: "#C9A84C", desc: "Premium" },
+                    gold: { label: "Rojo institucional", hex: "#9e1915", desc: "Premium" },
                   }[opt];
                   const selected = acento === opt;
                   return (
@@ -599,8 +599,8 @@ export function EditorClient({
         .tiptap-editor p { margin: 6px 0; line-height: 1.6; }
         .tiptap-editor ul, .tiptap-editor ol { margin: 8px 0; padding-left: 24px; }
         .tiptap-editor li { margin: 2px 0; }
-        .tiptap-editor blockquote { border-left: 3px solid #D4AF37; padding-left: 12px; margin: 10px 0; color: #6B6660; }
-        .tiptap-editor a { color: #C9A84C; text-decoration: underline; }
+        .tiptap-editor blockquote { border-left: 3px solid #9e1915; padding-left: 12px; margin: 10px 0; color: #6B6660; }
+        .tiptap-editor a { color: #9e1915; text-decoration: underline; }
         .tiptap-editor code { background: #F4F1EB; padding: 1px 4px; border-radius: 3px; font-size: 0.9em; }
         .tiptap-editor pre { background: #1A2B4A; color: #FFFFFF; padding: 12px; border-radius: 6px; overflow-x: auto; }
         .tiptap-editor img { max-width: 100%; border-radius: 6px; }

@@ -226,7 +226,9 @@ export default async function RootLayout({
   const htmlStyle = {
     "--color-navy": marca.paleta.navy,
     "--color-red": marca.paleta.rojo,
-    "--color-gold": marca.paleta.dorado,
+    // `marca.paleta.dorado` ya no se inyecta: el dorado se retiró del sitio el
+    // 2026-08-04. El campo sigue en la configuración por compatibilidad con lo
+    // que hay guardado en base, pero no pinta nada.
     "--color-cream": marca.paleta.offWhite,
     "--color-ink": marca.paleta.dark,
     ...(isPoppins ? {} : { "--font-sans": `"${marca.tipografia}", sans-serif` }),

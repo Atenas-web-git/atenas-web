@@ -24,7 +24,7 @@ export function NavAdmisiones({ current }: Props) {
       transition={{ duration: 0.4, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
     >
       <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700,
-        color: "var(--color-gold)", letterSpacing: 2, textTransform: "uppercase", flexShrink: 0 }}>
+        color:"#FFFFFF", letterSpacing: 2, textTransform: "uppercase", flexShrink: 0 }}>
         Por nivel
       </span>
 
@@ -40,12 +40,12 @@ export function NavAdmisiones({ current }: Props) {
                 <motion.span
                   className="relative"
                   style={{ fontFamily: "Poppins, sans-serif", fontSize: 13, fontWeight: 700,
-                    color: "var(--color-gold)", whiteSpace: "nowrap" }}
+                    color:"#FFFFFF", whiteSpace: "nowrap" }}
                 >
                   <span className="hidden md:inline">{n.label}</span>
                   <span className="md:hidden">{n.short}</span>
                   <motion.span
-                    className="absolute -bottom-1 left-0 block bg-gold"
+                    className="absolute -bottom-1 left-0 block bg-red"
                     style={{ height: 2, borderRadius: 1 }}
                     initial={{ scaleX: 0, originX: 0 }}
                     animate={{ scaleX: 1 }}

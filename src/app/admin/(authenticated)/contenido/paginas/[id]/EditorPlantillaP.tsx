@@ -457,7 +457,7 @@ export function EditorPlantillaP({
                 <input type="text" value={n.age} onChange={(e) => updateNivel(i, { age: e.target.value })} style={inputStyle} />
               </Field>
               <label className="flex items-center gap-1.5 mb-[10px] cursor-pointer" style={{ fontSize: 11, color: "#1A2B4A" }}>
-                <input type="checkbox" checked={n.highlight} onChange={(e) => updateNivel(i, { highlight: e.target.checked })} style={{ accentColor: "#C9A84C" }} />
+                <input type="checkbox" checked={n.highlight} onChange={(e) => updateNivel(i, { highlight: e.target.checked })} style={{ accentColor: "#9e1915" }} />
                 Destacado
               </label>
             </div>
@@ -656,7 +656,7 @@ function ExplorarCardEditor({
             style={{
               width: 28,
               height: 28,
-              background: card.highlight ? "rgba(201,168,76,0.18)" : "rgba(201,168,76,0.10)",
+              background: card.highlight ? "rgba(158,25,21,0.18)" : "rgba(158,25,21,0.10)",
               borderRadius: 6,
               fontSize: 14,
             }}
@@ -681,7 +681,7 @@ function ExplorarCardEditor({
               type="checkbox"
               checked={card.highlight}
               onChange={(e) => update({ highlight: e.target.checked })}
-              style={{ accentColor: "#C9A84C" }}
+              style={{ accentColor: "#9e1915" }}
             />
             Destacado
           </label>
@@ -926,7 +926,7 @@ function Subtitle({ text }: { text: string }) {
       style={{
         fontSize: 11,
         fontWeight: 700,
-        color: "#C9A84C",
+        color: "#9e1915",
         textTransform: "uppercase",
         letterSpacing: 1,
         marginTop: 4,

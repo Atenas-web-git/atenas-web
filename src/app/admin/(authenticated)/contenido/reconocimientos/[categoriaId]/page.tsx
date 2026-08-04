@@ -335,7 +335,7 @@ export default async function DetalleCategoriaPage({ params }: Props) {
                           className="inline-flex items-center gap-0.5 px-1.5 rounded-full"
                           style={{
                             height: 18,
-                            background: "rgba(201,168,76,0.20)",
+                            background: "rgba(158,25,21,0.20)",
                             fontSize: 9,
                             fontWeight: 700,
                             color: "#7A6224",

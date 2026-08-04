@@ -69,7 +69,7 @@ export default async function OGImage() {
             left: 80,
             width: 1,
             height: 630,
-            backgroundColor: "rgba(201,168,76,0.33)",
+            backgroundColor: "rgba(158,25,21,0.33)",
             display: "flex",
           }}
         />
@@ -101,7 +101,7 @@ export default async function OGImage() {
             width: 420,
             height: 420,
             borderRadius: "50%",
-            border: "1.5px solid rgba(201,168,76,0.16)",
+            border: "1.5px solid rgba(158,25,21,0.16)",
             display: "flex",
           }}
         />
@@ -115,7 +115,7 @@ export default async function OGImage() {
             width: 300,
             height: 300,
             borderRadius: "50%",
-            border: "1px solid rgba(201,168,76,0.08)",
+            border: "1px solid rgba(158,25,21,0.08)",
             display: "flex",
           }}
         />
@@ -129,7 +129,7 @@ export default async function OGImage() {
             fontFamily: "Poppins",
             fontWeight: 700,
             fontSize: 168,
-            color: "rgba(201,168,76,0.12)",
+            color: "rgba(158,25,21,0.12)",
             letterSpacing: -4,
             lineHeight: 1,
             display: "flex",
@@ -197,14 +197,14 @@ export default async function OGImage() {
           }}
         >
           <div
-            style={{ width: 24, height: 2, backgroundColor: "var(--color-gold)" }}
+            style={{ width: 24, height: 2, backgroundColor: "var(--color-red)" }}
           />
           <div
             style={{
               fontFamily: "Poppins",
               fontWeight: 700,
               fontSize: 11,
-              color: "var(--color-gold)",
+              color: "var(--color-red)",
               letterSpacing: 2,
             }}
           >
@@ -257,7 +257,7 @@ export default async function OGImage() {
             fontFamily: "Poppins",
             fontWeight: 600,
             fontSize: 14,
-            color: "var(--color-gold)",
+            color: "var(--color-red)",
             letterSpacing: 0.5,
             display: "flex",
           }}
@@ -298,7 +298,7 @@ export default async function OGImage() {
             left: 112,
             width: 380,
             height: 1,
-            backgroundColor: "rgba(201,168,76,0.67)",
+            backgroundColor: "rgba(158,25,21,0.67)",
             display: "flex",
           }}
         />

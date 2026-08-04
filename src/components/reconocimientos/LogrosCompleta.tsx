@@ -169,7 +169,7 @@ function Bloque({
         transition={{ duration: 0.45, delay, ease }}
       >
         <motion.span
-          className="block bg-gold flex-shrink-0"
+          className="block bg-red flex-shrink-0"
           style={{ width: 24, height: 2 }}
           initial={{ scaleX: 0, originX: 0 }}
           animate={inView ? { scaleX: 1 } : {}}
@@ -180,7 +180,7 @@ function Bloque({
             fontFamily: "Poppins, sans-serif",
             fontSize: 10,
             fontWeight: 700,
-            color: "var(--color-gold)",
+            color:"#FFFFFF",
             letterSpacing: 2.5,
             textTransform: "uppercase",
           }}
@@ -245,7 +245,7 @@ function LogroCard({
         borderRadius: 14,
         background: "var(--color-dark)",
         border: destacado
-          ? "1.5px solid rgba(201,168,76,0.55)"
+          ? "1.5px solid rgba(158,25,21,0.55)"
           : "1px solid rgba(255,255,255,0.08)",
       }}
       initial={{ opacity: 0, y: 28 }}
@@ -290,10 +290,10 @@ function LogroCard({
         {destacado && (
           <div
             className="absolute flex items-center gap-1 rounded-full px-2 py-1"
-            style={{ top: 14, left: 14, background: "rgba(201,168,76,0.92)" }}
+            style={{ top: 14, left: 14, background: "rgba(158,25,21,0.92)" }}
           >
             <Star size={10} fill="var(--color-dark)" color="var(--color-dark)" />
-            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 9, fontWeight: 700, color: "var(--color-dark)", letterSpacing: 0.5 }}>
+            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 9, fontWeight: 700, color: "#FFFFFF", letterSpacing: 0.5 }}>
               DESTACADO
             </span>
           </div>
@@ -332,7 +332,7 @@ function LogroCard({
             style={{
               fontFamily: "Poppins, sans-serif",
               fontSize: 12,
-              color: "rgba(201,168,76,0.90)",
+              color: "rgba(255,255,255,0.75)",
             }}
           >
             {logro.descripcion}
@@ -352,7 +352,7 @@ function LogroCard({
                 style={{
                   width: i === activePhoto ? 18 : 6,
                   height: 6,
-                  background: i === activePhoto ? "var(--color-gold)" : "rgba(255,255,255,0.35)",
+                  background: i === activePhoto ? "var(--color-red)" : "rgba(255,255,255,0.35)",
                   border: "none",
                   padding: 0,
                   cursor: "pointer",

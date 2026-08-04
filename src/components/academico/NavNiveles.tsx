@@ -27,7 +27,7 @@ export function NavNiveles({ current }: Props) {
           fontFamily: "Poppins, sans-serif",
           fontSize: 10,
           fontWeight: 700,
-          color: "var(--color-gold)",
+          color:"#FFFFFF",
           letterSpacing: 2,
           textTransform: "uppercase",
           flexShrink: 0,
@@ -69,7 +69,7 @@ export function NavNiveles({ current }: Props) {
             fontFamily: "Poppins, sans-serif",
             fontSize: 13,
             fontWeight: 700,
-            color: "var(--color-gold)",
+            color:"#FFFFFF",
             textDecoration: "none",
           }}
           className="hover:brightness-110 transition-all duration-200"

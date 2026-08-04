@@ -26,7 +26,7 @@ export type ValorItem = {
 };
 
 const ACCENT = {
-  gold: { fg: "var(--color-gold)", bg: "rgba(201,168,76,0.12)", border: "rgba(201,168,76,0.45)" },
+  gold: { fg: "var(--color-red)", bg: "rgba(158,25,21,0.12)", border: "rgba(158,25,21,0.45)" },
   red: { fg: "var(--color-red)", bg: "rgba(158,25,21,0.10)", border: "rgba(158,25,21,0.45)" },
 } as const;
 
@@ -115,7 +115,7 @@ export function SeccionValores({
         >
           <div className="flex items-center gap-[10px]">
             <span
-              className="block bg-gold"
+              className="block bg-red"
               style={{ width: 28, height: 2 }}
             />
             <span
@@ -123,7 +123,7 @@ export function SeccionValores({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: 10,
                 fontWeight: 700,
-                color: "var(--color-gold)",
+                color: "var(--color-red)",
                 letterSpacing: 2,
                 textTransform: "uppercase",
               }}
@@ -142,7 +142,7 @@ export function SeccionValores({
           >
             <HighlightText text={heading ?? ""} />
           </h2>
-          <div style={{ width: 60, height: 3, background: "var(--color-gold)" }} />
+          <div style={{ width: 60, height: 3, background: "var(--color-red)" }} />
           {description && (
             <p
               style={{

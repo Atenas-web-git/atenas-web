@@ -48,7 +48,7 @@ export async function guardarMarcaAction(
   const paleta = {
     navy: normalizeHex(String(formData.get("color_navy") ?? ""), "#1A2B4A"),
     rojo: normalizeHex(String(formData.get("color_rojo") ?? ""), "#9E1915"),
-    dorado: normalizeHex(String(formData.get("color_dorado") ?? ""), "#C9A84C"),
+    dorado: normalizeHex(String(formData.get("color_dorado") ?? ""), "#9e1915"),
     offWhite: normalizeHex(String(formData.get("color_off_white") ?? ""), "#F8F5F0"),
     dark: normalizeHex(String(formData.get("color_dark") ?? ""), "#2C2C2C"),
   };

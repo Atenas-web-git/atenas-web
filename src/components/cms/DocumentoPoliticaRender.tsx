@@ -199,7 +199,7 @@ export function DocumentoPoliticaRender({
         .documento-politica-body strong { color: var(--color-dark); font-weight: 700; }
         .documento-politica-body em { font-style: italic; }
         .documento-politica-body a {
-          color: var(--color-gold);
+          color: var(--color-red);
           text-decoration: underline;
           font-weight: 600;
         }

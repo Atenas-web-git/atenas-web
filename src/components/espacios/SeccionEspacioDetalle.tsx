@@ -30,7 +30,7 @@ export function SeccionEspacioDetalle({
     <section className="relative bg-cream overflow-hidden">
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(ellipse at top right, rgba(201,168,76,0.06) 0%, transparent 60%)" }}
+        style={{ background: "radial-gradient(ellipse at top right, rgba(158,25,21,0.06) 0%, transparent 60%)" }}
       />
 
       <div
@@ -47,12 +47,12 @@ export function SeccionEspacioDetalle({
             transition={{ duration: 0.45, ease }}
           >
             <motion.span
-              className="block bg-gold flex-shrink-0"
+              className="block bg-red flex-shrink-0"
               style={{ width: 28, height: 2 }}
               initial={{ scaleX: 0, originX: 0 }} animate={inView ? { scaleX: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.1, ease }}
             />
-            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-gold)", letterSpacing: 2, textTransform: "uppercase" }}>
+            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-red)", letterSpacing: 2, textTransform: "uppercase" }}>
               {badge}
             </span>
           </motion.div>
@@ -70,7 +70,7 @@ export function SeccionEspacioDetalle({
 
           {/* Divisor dorado */}
           <motion.span
-            className="block bg-gold"
+            className="block bg-red"
             style={{ width: 40, height: 3, borderRadius: 2 }}
             initial={{ scaleX: 0, originX: 0 }} animate={inView ? { scaleX: 1 } : {}}
             transition={{ duration: 0.4, delay: 0.28, ease }}
@@ -101,7 +101,7 @@ export function SeccionEspacioDetalle({
                 style={{ fontFamily: "Poppins, sans-serif", background: "rgba(26,43,74,0.08)", color: "var(--color-navy)" }}
                 initial={{ opacity: 0, scale: 0.7 }} animate={inView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.3, delay: 0.48 + i * 0.05, type: "spring", stiffness: 300, damping: 18 }}
-                whileHover={{ scale: 1.06, background: "rgba(201,168,76,0.15)", transition: { duration: 0.15 } }}
+                whileHover={{ scale: 1.06, background: "rgba(158,25,21,0.15)", transition: { duration: 0.15 } }}
               >
                 {tag}
               </motion.span>
@@ -110,7 +110,7 @@ export function SeccionEspacioDetalle({
 
           {/* Nota */}
           <motion.div
-            style={{ borderLeft: "2px solid var(--color-gold)", paddingLeft: 16, paddingTop: 12, paddingBottom: 12 }}
+            style={{ borderLeft: "2px solid var(--color-red)", paddingLeft: 16, paddingTop: 12, paddingBottom: 12 }}
             initial={{ opacity: 0, x: -12 }} animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.62, ease }}
           >
@@ -150,7 +150,7 @@ export function SeccionEspacioDetalle({
                   <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 12, fontWeight: 500, color: "rgba(13,24,37,0.50)" }}>
                     {row.label}
                   </span>
-                  <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 12, fontWeight: 700, color: row.highlight ? "var(--color-gold)" : "var(--color-navy)" }}>
+                  <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 12, fontWeight: 700, color: row.highlight ? "var(--color-red)" : "var(--color-navy)" }}>
                     {row.value}
                   </span>
                 </motion.div>
@@ -172,7 +172,7 @@ export function SeccionEspacioDetalle({
           {/* CTA */}
           <motion.div
             className="flex flex-col gap-4 rounded-2xl p-6"
-            style={{ background: "rgba(201,168,76,0.10)", border: "1.5px solid rgba(201,168,76,0.35)" }}
+            style={{ background: "rgba(158,25,21,0.10)", border: "1.5px solid rgba(158,25,21,0.35)" }}
             initial={{ opacity: 0, y: 24 }} animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.55, delay: 0.7, ease }}
           >
@@ -186,7 +186,7 @@ export function SeccionEspacioDetalle({
               <Link
                 href="/contactos"
                 className="flex items-center justify-center gap-2 rounded-[8px] px-5 py-3 font-bold text-[13px] w-full"
-                style={{ fontFamily: "Poppins, sans-serif", background: "var(--color-gold)", color: "var(--color-dark)", textDecoration: "none" }}
+                style={{ fontFamily: "Poppins, sans-serif", background: "var(--color-red)", color: "#FFFFFF", textDecoration: "none" }}
               >
                 Agendar visita al colegio
                 <motion.span animate={{ x: [0, 4, 0] }} transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}>

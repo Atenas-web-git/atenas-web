@@ -50,13 +50,13 @@ const DEFAULT_ITEMS: TrabajaValorItem[] = [
 ];
 
 const COLOR_BG: Record<TrabajaValorItem["color"], string> = {
-  gold: "rgba(201,168,76,0.12)",
+  gold: "rgba(158,25,21,0.12)",
   navy: "rgba(26,43,74,0.08)",
   red: "rgba(158,25,21,0.08)",
 };
 
 const COLOR_FG: Record<TrabajaValorItem["color"], string> = {
-  gold: "var(--color-gold)",
+  gold: "var(--color-red)",
   navy: "var(--color-navy)",
   red: "var(--color-red)",
 };
@@ -82,7 +82,7 @@ export function TrabajaValores({
             transition={{ duration: 0.45, ease }}
           >
             <motion.span
-              className="block flex-shrink-0 bg-gold"
+              className="block flex-shrink-0 bg-red"
               style={{ width: 28, height: 2 }}
               initial={{ scaleX: 0, originX: 0 }}
               animate={inView ? { scaleX: 1 } : {}}
@@ -93,7 +93,7 @@ export function TrabajaValores({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: 10,
                 fontWeight: 700,
-                color: "var(--color-gold)",
+                color: "var(--color-red)",
                 letterSpacing: 2,
                 textTransform: "uppercase",
               }}

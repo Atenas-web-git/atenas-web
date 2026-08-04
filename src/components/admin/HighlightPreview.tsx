@@ -69,7 +69,7 @@ export function HighlightPreview({
                   right: 0,
                   bottom: -2,
                   height: 3,
-                  background: "#C9A84C",
+                  background: "#9e1915",
                   borderRadius: 999,
                 }}
               />

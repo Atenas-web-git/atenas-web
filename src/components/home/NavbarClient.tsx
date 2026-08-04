@@ -94,7 +94,7 @@ export function NavbarClient({
                   unoptimized
                 />
               ) : (
-                <span className="hidden sm:inline-flex items-center text-gold text-[9px] font-semibold tracking-[2px] border border-gold rounded-full px-2.5 py-[3px] whitespace-nowrap">
+                <span className="hidden sm:inline-flex items-center text-red text-[9px] font-semibold tracking-[2px] border border-red rounded-full px-2.5 py-[3px] whitespace-nowrap">
                   {navbarCfg.aniversarioBadge.label}
                 </span>
               ))}
@@ -113,7 +113,7 @@ export function NavbarClient({
             {navbarCfg.ctaTour.visible && (
               <a
                 href={navbarCfg.ctaTour.href}
-                className="text-gold border border-gold text-[11px] font-semibold tracking-[2px] uppercase px-3.5 h-8 flex items-center rounded-full hover:bg-gold hover:text-white transition-colors"
+                className="text-red border border-red text-[11px] font-semibold tracking-[2px] uppercase px-3.5 h-8 flex items-center rounded-full hover:bg-red hover:text-white transition-colors"
               >
                 {navbarCfg.ctaTour.label}
               </a>
@@ -278,7 +278,7 @@ export function NavbarClient({
                               transition={{ delay: i * 0.05, duration: 0.3, ease }}
                               onClick={() => setMenuOpen(false)}
                             >
-                              <span className="w-1 h-1 rounded-sm bg-gold flex-shrink-0" />
+                              <span className="w-1 h-1 rounded-sm bg-red flex-shrink-0" />
                               <span className="text-white text-[16px] font-normal group-hover:text-white/70 transition-colors flex-1">
                                 {item.label}
                               </span>
@@ -359,7 +359,7 @@ export function NavbarClient({
                                   className="flex items-center gap-3 py-2.5"
                                   onClick={() => setMenuOpen(false)}
                                 >
-                                  <span className="w-[5px] h-[5px] rounded-sm bg-gold flex-shrink-0" />
+                                  <span className="w-[5px] h-[5px] rounded-sm bg-red flex-shrink-0" />
                                   <span className="text-white/80 text-[14px] flex-1">{item.label}</span>
                                   {item.badge && (
                                     <span
@@ -416,12 +416,12 @@ export function NavbarClient({
                   )}
                   <div className="flex flex-wrap gap-3">
                     {megaMenuCfg.ctaFooter.buttons.map((btn, i) => {
-                      // Estilo fijo por posición: rojo, dorado outline, blanco outline×N
+                      // Estilo fijo por posición: rojo, rojo outline, blanco outline×N
                       const className =
                         i === 0
                           ? "bg-red text-white text-[12px] md:text-[13px] font-bold tracking-[0.5px] px-5 md:px-6 py-3 rounded hover:bg-[#7d140f] transition-colors"
                           : i === 1
-                            ? "border border-gold text-gold text-[12px] md:text-[13px] font-semibold px-5 md:px-6 py-3 rounded hover:bg-gold hover:text-white transition-colors"
+                            ? "border border-red text-red text-[12px] md:text-[13px] font-semibold px-5 md:px-6 py-3 rounded hover:bg-red hover:text-white transition-colors"
                             : "border border-white/30 text-white/80 text-[12px] md:text-[13px] px-5 md:px-6 py-3 rounded hover:bg-white/10 transition-colors";
                       return (
                         <a
@@ -438,7 +438,7 @@ export function NavbarClient({
                 </div>
                 {phoneLine && (
                   <div className="hidden md:flex items-center gap-2 text-white/50 text-[13px]">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" strokeWidth="2">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-red)" strokeWidth="2">
                       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 17z" />
                     </svg>
                     {phoneLine}

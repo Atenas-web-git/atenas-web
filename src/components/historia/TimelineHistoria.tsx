@@ -146,12 +146,12 @@ function MilestoneCard({
       style={{
         background: hovered
           ? highlight
-            ? "rgba(201,168,76,0.22)"
+            ? "rgba(158,25,21,0.22)"
             : "rgba(255,255,255,0.12)"
           : highlight
-            ? "rgba(201,168,76,0.10)"
+            ? "rgba(158,25,21,0.10)"
             : "rgba(255,255,255,0.05)",
-        border: highlight ? "1px solid rgba(201,168,76,0.33)" : "1px solid transparent",
+        border: highlight ? "1px solid rgba(158,25,21,0.33)" : "1px solid transparent",
         boxShadow: hovered ? "0 8px 32px rgba(0,0,0,0.30)" : "none",
         transition: "background 0.25s ease, box-shadow 0.25s ease",
       }}
@@ -166,7 +166,7 @@ function MilestoneCard({
           fontFamily: "Poppins, sans-serif",
           fontSize: 32,
           fontWeight: 700,
-          color: "var(--color-gold)",
+          color:"#FFFFFF",
           lineHeight: 1,
         }}
         animate={{ scale: hovered ? 1.05 : 1 }}
@@ -217,8 +217,8 @@ function MobileCard({
       ref={ref}
       className="rounded-[8px] flex gap-[16px] p-[16px]"
       style={{
-        background: highlight ? "rgba(201,168,76,0.10)" : "rgba(255,255,255,0.05)",
-        border: highlight ? "1px solid rgba(201,168,76,0.33)" : "none",
+        background: highlight ? "rgba(158,25,21,0.10)" : "rgba(255,255,255,0.05)",
+        border: highlight ? "1px solid rgba(158,25,21,0.33)" : "none",
       }}
       initial={{ opacity: 0, x: -16 }}
       animate={inView ? { opacity: 1, x: 0 } : {}}
@@ -229,7 +229,7 @@ function MobileCard({
           fontFamily: "Poppins, sans-serif",
           fontSize: 22,
           fontWeight: 700,
-          color: "var(--color-gold)",
+          color:"#FFFFFF",
           lineHeight: 1,
           flexShrink: 0,
           width: 80,
@@ -263,7 +263,7 @@ function PhotoStrip({ src, alt }: { src: string; alt: string }) {
       <img src={src} alt={alt} className="absolute inset-0 w-full h-full object-cover" />
       <div
         className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300"
-        style={{ background: "rgba(201,168,76,0.18)" }}
+        style={{ background: "rgba(158,25,21,0.18)" }}
       />
     </motion.div>
   );
@@ -364,7 +364,7 @@ export function TimelineHistoria({ trayectoria }: Props) {
             fontFamily: "Poppins, sans-serif",
             fontSize: 11,
             fontWeight: 700,
-            color: "var(--color-gold)",
+            color:"#FFFFFF",
             letterSpacing: 3,
             textTransform: "uppercase",
           }}
@@ -376,7 +376,7 @@ export function TimelineHistoria({ trayectoria }: Props) {
         </motion.p>
 
         <motion.span
-          className="block bg-gold"
+          className="block bg-red"
           style={{ width: 40, height: 2, marginTop: 8, marginBottom: 8 }}
           initial={{ scaleX: 0, originX: 0 }}
           animate={inView ? { scaleX: 1 } : {}}

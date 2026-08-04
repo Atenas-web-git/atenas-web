@@ -104,8 +104,8 @@ export function CorreosDisenoForm({ initial }: { initial: CorreosDiseno }) {
                       letterSpacing: 2,
                       padding: "3px 8px",
                       borderRadius: 999,
-                      border: "1px solid #C9A84C",
-                      color: "#C9A84C",
+                      border: "1px solid #9e1915",
+                      color: "#9e1915",
                     }}
                   >
                     50 AÑOS

@@ -45,7 +45,7 @@ export function NotFoundContent() {
           bottom: 0,
           width: 1,
           background:
-            "linear-gradient(180deg, transparent 0%, rgba(201,168,76,0.30) 35%, rgba(201,168,76,0.30) 65%, transparent 100%)",
+            "linear-gradient(180deg, transparent 0%, rgba(158,25,21,0.30) 35%, rgba(158,25,21,0.30) 65%, transparent 100%)",
         }}
       />
 
@@ -76,7 +76,7 @@ export function NotFoundContent() {
         {/* Badge */}
         <div className="flex items-center gap-2">
           <span
-            className="block bg-gold flex-shrink-0"
+            className="block bg-red flex-shrink-0"
             style={{ width: 24, height: 2 }}
           />
           <span
@@ -84,7 +84,7 @@ export function NotFoundContent() {
               fontFamily: "Poppins, sans-serif",
               fontSize: 10,
               fontWeight: 700,
-              color: "var(--color-gold)",
+              color: "var(--color-red)",
               letterSpacing: 2,
               textTransform: "uppercase",
             }}
@@ -167,7 +167,7 @@ export function NotFoundContent() {
             }}
             onMouseEnter={(e) =>
               ((e.currentTarget as HTMLAnchorElement).style.borderColor =
-                "rgba(201,168,76,0.60)")
+                "rgba(158,25,21,0.60)")
             }
             onMouseLeave={(e) =>
               ((e.currentTarget as HTMLAnchorElement).style.borderColor =

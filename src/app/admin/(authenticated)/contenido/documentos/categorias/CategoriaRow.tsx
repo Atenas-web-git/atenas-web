@@ -11,7 +11,7 @@ import {
 const COLORES = ["gold", "red", "teal", "navy", "purple"] as const;
 
 const PALETA: Record<string, string> = {
-  gold: "#C9A84C",
+  gold: "#9e1915",
   red: "#9e1915",
   teal: "#0D9488",
   navy: "#1A2B4A",

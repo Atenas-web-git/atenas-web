@@ -21,7 +21,7 @@ export const PRACTICAS: Seccion = {
             "**Fotos livianas.** Reduce las imágenes antes de subirlas. Entre 200 y 500 KB basta.",
             "**Texto alternativo siempre.** Describe cada foto en una línea: ayuda a Google y a quien no puede verla.",
             "**Una cuenta por persona.** Nunca compartas credenciales.",
-            "**El subrayado dorado se escribe idéntico** a la palabra del título, con sus tildes y mayúsculas.",
+            "**El subrayado rojo se escribe idéntico** a la palabra del título, con sus tildes y mayúsculas.",
             "**Ante algo raro, anótalo y consúltalo.** No improvises en producción: el sitio está en vivo.",
           ],
         },
@@ -93,7 +93,7 @@ export const PRACTICAS: Seccion = {
               "Añádela en **Configuración › Mega-menú**. Publicar y enlazar son dos pasos distintos.",
             ],
             [
-              "La palabra no se subraya en dorado",
+              "La palabra no se subraya en rojo",
               "No coincide exactamente",
               "Cópiala y pégala desde el título, con sus tildes y mayúsculas.",
             ],

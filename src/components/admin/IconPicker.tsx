@@ -90,12 +90,12 @@ export function IconPicker({ value, onChange, label, hint }: Props) {
             style={{
               width: 32,
               height: 32,
-              background: "rgba(201,168,76,0.12)",
+              background: "rgba(158,25,21,0.12)",
               borderRadius: 8,
             }}
           >
             {value ? (
-              <DynamicIcon name={value as never} size={18} color="#C9A84C" strokeWidth={2} />
+              <DynamicIcon name={value as never} size={18} color="#9e1915" strokeWidth={2} />
             ) : (
               <Search size={14} color="#A0AABA" strokeWidth={2} />
             )}
@@ -213,9 +213,9 @@ export function IconPicker({ value, onChange, label, hint }: Props) {
                       style={{
                         width: "100%",
                         aspectRatio: "1 / 1",
-                        background: isSelected ? "rgba(201,168,76,0.18)" : "transparent",
+                        background: isSelected ? "rgba(158,25,21,0.18)" : "transparent",
                         border: isSelected
-                          ? "1.5px solid #C9A84C"
+                          ? "1.5px solid #9e1915"
                           : "1px solid #E8E4DD",
                         borderRadius: 6,
                         cursor: "pointer",
@@ -226,7 +226,7 @@ export function IconPicker({ value, onChange, label, hint }: Props) {
                       <DynamicIcon
                         name={name as never}
                         size={18}
-                        color={isSelected ? "#C9A84C" : "#1A2B4A"}
+                        color={isSelected ? "#9e1915" : "#1A2B4A"}
                         strokeWidth={2}
                       />
                       {isSelected && (
@@ -237,7 +237,7 @@ export function IconPicker({ value, onChange, label, hint }: Props) {
                             right: 2,
                             width: 12,
                             height: 12,
-                            background: "#C9A84C",
+                            background: "#9e1915",
                             borderRadius: "50%",
                             display: "flex",
                             alignItems: "center",

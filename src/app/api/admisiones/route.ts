@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     const html = `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #1A2B4A;">
         <div style="background: #1A2B4A; padding: 32px; border-radius: 8px 8px 0 0;">
-          <h2 style="color: #C9A84C; margin: 0; font-size: 20px;">Nueva solicitud de admisión</h2>
+          <h2 style="color: #9e1915; margin: 0; font-size: 20px;">Nueva solicitud de admisión</h2>
           <p style="color: rgba(255,255,255,0.70); margin: 8px 0 0; font-size: 14px;">
             Recibida desde el formulario web — ${new Date().toLocaleDateString("es-EC", { dateStyle: "long" })}
           </p>
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
             </tr>
             <tr style="border-bottom: 1px solid #f0ece7;">
               <td style="padding: 12px 0; font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Correo</td>
-              <td style="padding: 12px 0; font-size: 14px;"><a href="mailto:${s.correo}" style="color: #C9A84C;">${s.correo}</a></td>
+              <td style="padding: 12px 0; font-size: 14px;"><a href="mailto:${s.correo}" style="color: #9e1915;">${s.correo}</a></td>
             </tr>
             <tr style="border-bottom: 1px solid #f0ece7;">
               <td style="padding: 12px 0; font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">WhatsApp / Tel.</td>
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
             </tr>
             <tr style="border-bottom: 1px solid #f0ece7;">
               <td style="padding: 12px 0; font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px;">Nivel de interés</td>
-              <td style="padding: 12px 0; font-size: 14px; font-weight: 700; color: #C9A84C;">${s.nivel}</td>
+              <td style="padding: 12px 0; font-size: 14px; font-weight: 700; color: #9e1915;">${s.nivel}</td>
             </tr>
             ${mensaje ? `
             <tr>

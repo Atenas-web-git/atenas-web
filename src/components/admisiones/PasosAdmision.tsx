@@ -44,7 +44,7 @@ export function PasosAdmision({
           alt="" fill className="object-cover object-center" style={{ opacity: 0.10 }} sizes="100vw" />
       </motion.div>
       <div className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(ellipse at center, rgba(201,168,76,0.06) 0%, transparent 65%)" }} />
+        style={{ background: "radial-gradient(ellipse at center, rgba(158,25,21,0.06) 0%, transparent 65%)" }} />
 
       <div className="relative z-10 px-6 md:px-[160px]">
 
@@ -53,11 +53,11 @@ export function PasosAdmision({
           <motion.div className="flex items-center gap-[10px] mb-3"
             initial={{ opacity: 0, y: 14 }} animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.45, ease }}>
-            <motion.span className="block bg-gold" style={{ width: 28, height: 2 }}
+            <motion.span className="block bg-red" style={{ width: 28, height: 2 }}
               initial={{ scaleX: 0, originX: 0 }} animate={inView ? { scaleX: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.1, ease }} />
             <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700,
-              color: "var(--color-gold)", letterSpacing: 2, textTransform: "uppercase" }}>
+              color: "var(--color-red)", letterSpacing: 2, textTransform: "uppercase" }}>
               {eyebrow}
             </span>
           </motion.div>
@@ -80,20 +80,20 @@ export function PasosAdmision({
               <motion.div key={paso.num}
                 className="flex flex-col gap-3 rounded-xl p-5 cursor-default"
                 style={{
-                  background: isLast ? "rgba(201,168,76,0.12)" : "rgba(255,255,255,0.05)",
-                  border: isLast ? "1.5px solid rgba(201,168,76,0.45)" : "1px solid rgba(201,168,76,0.18)",
+                  background: isLast ? "rgba(158,25,21,0.12)" : "rgba(255,255,255,0.05)",
+                  border: isLast ? "1.5px solid rgba(158,25,21,0.45)" : "1px solid rgba(158,25,21,0.18)",
                 }}
                 initial={{ opacity: 0, y: 32 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.55, delay: i * 0.08, ease }}
-                whileHover={{ y: -6, boxShadow: "0 16px 40px rgba(201,168,76,0.12)", transition: { duration: 0.2 } }}>
+                whileHover={{ y: -6, boxShadow: "0 16px 40px rgba(158,25,21,0.12)", transition: { duration: 0.2 } }}>
 
                 {/* Número */}
                 <motion.div
                   className="flex items-center justify-center rounded-lg flex-shrink-0"
-                  style={{ width: 40, height: 40, background: "var(--color-gold)", fontFamily: "Poppins, sans-serif",
-                    fontSize: 13, fontWeight: 700, color: "var(--color-dark)" }}
+                  style={{ width: 40, height: 40, background: "var(--color-red)", fontFamily: "Poppins, sans-serif",
+                    fontSize: 13, fontWeight: 700, color:"#FFFFFF" }}
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
                   viewport={{ once: true }}

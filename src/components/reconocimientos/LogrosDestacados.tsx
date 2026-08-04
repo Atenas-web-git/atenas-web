@@ -36,7 +36,7 @@ function LogroCard({ logro, index, inView }: { logro: LogroDestacado; index: num
         borderRadius: 14,
         height: 320,
         minWidth: 0,
-        border: logro.highlight ? "1.5px solid rgba(201,168,76,0.55)" : "1px solid rgba(255,255,255,0.08)",
+        border: logro.highlight ? "1.5px solid rgba(158,25,21,0.55)" : "1px solid rgba(255,255,255,0.08)",
       }}
       initial={{ opacity: 0, y: 28 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -71,9 +71,9 @@ function LogroCard({ logro, index, inView }: { logro: LogroDestacado; index: num
       {/* Sport badge */}
       <div
         className="absolute flex items-center gap-[6px] rounded-full px-3 py-[5px]"
-        style={{ top: 16, left: 16, background: "rgba(201,168,76,0.92)" }}
+        style={{ top: 16, left: 16, background: "rgba(158,25,21,0.92)" }}
       >
-        <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 700, color: "var(--color-dark)" }}>
+        <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 700, color: "#FFFFFF" }}>
           {logro.icon} {logro.deporte}
         </span>
       </div>
@@ -93,7 +93,7 @@ function LogroCard({ logro, index, inView }: { logro: LogroDestacado; index: num
         <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 15, fontWeight: 700, color: "#FFFFFF", lineHeight: 1.3 }}>
           {logro.titulo}
         </span>
-        <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 12, color: "rgba(201,168,76,0.90)" }}>
+        <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 12, color: "rgba(255,255,255,0.75)" }}>
           {logro.categoria}
         </span>
 
@@ -108,7 +108,7 @@ function LogroCard({ logro, index, inView }: { logro: LogroDestacado; index: num
                 style={{
                   width: i === activePhoto ? 18 : 6,
                   height: 6,
-                  background: i === activePhoto ? "var(--color-gold)" : "rgba(255,255,255,0.35)",
+                  background: i === activePhoto ? "var(--color-red)" : "rgba(255,255,255,0.35)",
                   border: "none",
                   padding: 0,
                   cursor: "pointer",
@@ -145,13 +145,13 @@ export function LogrosDestacados({
             transition={{ duration: 0.45, ease }}
           >
             <motion.span
-              className="block bg-gold flex-shrink-0"
+              className="block bg-red flex-shrink-0"
               style={{ width: 24, height: 2 }}
               initial={{ scaleX: 0, originX: 0 }}
               animate={inView ? { scaleX: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.1, ease }}
             />
-            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-gold)", letterSpacing: 2.5, textTransform: "uppercase" }}>
+            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color:"#FFFFFF", letterSpacing: 2.5, textTransform: "uppercase" }}>
               Logros Destacados
             </span>
           </motion.div>
@@ -199,9 +199,9 @@ export function LogrosDestacados({
                   fontFamily: "Poppins, sans-serif",
                   fontSize: 13,
                   fontWeight: 700,
-                  color: "var(--color-gold)",
-                  background: "rgba(201,168,76,0.10)",
-                  border: "1.5px solid rgba(201,168,76,0.45)",
+                  color:"#FFFFFF",
+                  background: "rgba(158,25,21,0.10)",
+                  border: "1.5px solid rgba(158,25,21,0.45)",
                   textDecoration: "none",
                 }}
               >

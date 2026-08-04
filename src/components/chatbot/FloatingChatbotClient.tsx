@@ -192,7 +192,7 @@ export function FloatingChatbotClient({
                   width: 70,
                   height: 14,
                   borderRadius: "50%",
-                  background: "radial-gradient(ellipse at center, rgba(201,168,76,0.32) 0%, transparent 70%)",
+                  background: "radial-gradient(ellipse at center, rgba(158,25,21,0.32) 0%, transparent 70%)",
                   filter: "blur(2px)",
                 }}
               />

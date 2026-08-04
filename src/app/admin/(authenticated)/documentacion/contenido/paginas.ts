@@ -124,7 +124,7 @@ export const EDITOR: Seccion = {
     {
       id: "controles",
       titulo: "Controles que se repiten",
-      resumen: "Iconos, texto enriquecido, subrayado dorado, ghost text, orden de elementos y campos opcionales.",
+      resumen: "Iconos, texto enriquecido, subrayado rojo, ghost text, orden de elementos y campos opcionales.",
       bloques: [
         {
           t: "campos",
@@ -138,8 +138,8 @@ export const EDITOR: Seccion = {
               desc: "En los campos largos (políticas, cuerpos de correo) hay una barra con **negrita**, listas, títulos y enlaces. Funciona como un procesador de texto.",
             },
             {
-              campo: "Subrayado dorado",
-              desc: "Resalta una palabra del título con el trazo dorado del colegio. **Escribe la palabra exactamente igual a como aparece en el título**, con las mismas tildes y mayúsculas. Si no coincide, no se resalta nada.",
+              campo: "Subrayado rojo",
+              desc: "Resalta una palabra del título con el trazo rojo institucional. **Escribe la palabra exactamente igual a como aparece en el título**, con las mismas tildes y mayúsculas. Si no coincide, no se resalta nada.",
             },
             {
               campo: "Ghost text",

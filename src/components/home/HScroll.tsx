@@ -101,7 +101,7 @@ const LAYOUTS: SlideLayout[] = [
   // Slide 3 — Comunidad
   {
     underlineW: 170,
-    badge: { supSize: 9, mainSize: 24, mainWeight: 300, dotColor: "var(--color-gold)", size: 148 },
+    badge: { supSize: 9, mainSize: 24, mainWeight: 300, dotColor: "var(--color-red)", size: 148 },
     badgeLeft: "31.25%",
     badgeTop: "9.72%",
     leftBg: "#EEE9E2",
@@ -396,7 +396,7 @@ function DesktopScrollSection({
                       top: slide.goldAccent.top,
                       width: "7.27%",
                       height: 3,
-                      background: "var(--color-gold)",
+                      background: "var(--color-red)",
                     }}
                   />
                 )}
@@ -659,7 +659,7 @@ function DesktopScrollSection({
 
         {/* Gold progress bar */}
         <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-white/10 z-30">
-          <motion.div className="h-full bg-gold" style={{ width: progressWidth }} />
+          <motion.div className="h-full bg-red" style={{ width: progressWidth }} />
         </div>
       </div>
     </div>

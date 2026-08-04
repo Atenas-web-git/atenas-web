@@ -54,7 +54,7 @@ export function HeroContactos({
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse at top left, rgba(201,168,76,0.05) 0%, transparent 65%)",
+              "radial-gradient(ellipse at top left, rgba(158,25,21,0.05) 0%, transparent 65%)",
           }}
         />
       </div>
@@ -109,7 +109,7 @@ export function HeroContactos({
           width: 1,
           height: 700,
           background:
-            "linear-gradient(180deg, transparent 0%, rgba(201,168,76,0.40) 40%, rgba(201,168,76,0.40) 60%, transparent 100%)",
+            "linear-gradient(180deg, transparent 0%, rgba(158,25,21,0.40) 40%, rgba(158,25,21,0.40) 60%, transparent 100%)",
         }}
       />
       <div
@@ -123,7 +123,7 @@ export function HeroContactos({
               width: 5,
               height: 5,
               borderRadius: "50%",
-              background: `rgba(201,168,76,${op})`,
+              background: `rgba(158,25,21,${op})`,
             }}
           />
         ))}
@@ -135,7 +135,7 @@ export function HeroContactos({
           top: -180,
           width: 320,
           height: 320,
-          border: "1px solid rgba(201,168,76,0.20)",
+          border: "1px solid rgba(158,25,21,0.20)",
         }}
       />
       <div
@@ -145,7 +145,7 @@ export function HeroContactos({
           top: -200,
           width: 260,
           height: 260,
-          border: "1px solid rgba(201,168,76,0.12)",
+          border: "1px solid rgba(158,25,21,0.12)",
         }}
       />
       <div
@@ -156,7 +156,7 @@ export function HeroContactos({
           width: 600,
           height: 1,
           background:
-            "linear-gradient(90deg, rgba(201,168,76,0.60) 0%, transparent 100%)",
+            "linear-gradient(90deg, rgba(158,25,21,0.60) 0%, transparent 100%)",
         }}
       />
 
@@ -176,7 +176,7 @@ export function HeroContactos({
           transition={{ duration: 0.5, delay: 0.1, ease }}
         >
           <motion.span
-            className="block bg-gold flex-shrink-0"
+            className="block bg-red flex-shrink-0"
             style={{ width: 28, height: 2 }}
             initial={{ scaleX: 0, originX: 0 }}
             animate={{ scaleX: 1 }}
@@ -187,7 +187,7 @@ export function HeroContactos({
               fontFamily: "Poppins, sans-serif",
               fontSize: 10,
               fontWeight: 700,
-              color: "var(--color-gold)",
+              color:"#FFFFFF",
               letterSpacing: 2,
               textTransform: "uppercase",
             }}
@@ -206,7 +206,7 @@ export function HeroContactos({
                   fontSize: "clamp(38px, 4.44vw, 64px)",
                   fontWeight: 700,
                   lineHeight: 1.1,
-                  color: i === 0 ? "#FFFFFF" : "var(--color-gold)",
+                  color: i === 0 ? "#FFFFFF" : "var(--color-red)",
                 }}
                 initial={{ y: 70, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -263,13 +263,13 @@ export function HeroContactos({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.65, delay: 0.6, ease }}
       >
-        <div className="px-5 py-4" style={{ background: "var(--color-gold)" }}>
+        <div className="px-5 py-4" style={{ background: "var(--color-red)" }}>
           <p
             style={{
               fontFamily: "Poppins, sans-serif",
               fontSize: 11,
               fontWeight: 700,
-              color: "var(--color-dark)",
+              color:"#FFFFFF",
               letterSpacing: 1,
             }}
           >
@@ -289,7 +289,7 @@ export function HeroContactos({
 
         <div className="flex flex-col gap-4 p-5">
           <div className="flex items-start gap-[10px]">
-            <Phone size={16} color="var(--color-gold)" className="mt-[2px] flex-shrink-0" />
+            <Phone size={16} color="var(--color-red)" className="mt-[2px] flex-shrink-0" />
             <div className="flex flex-col gap-[2px]">
               <span
                 style={{
@@ -318,7 +318,7 @@ export function HeroContactos({
           <div className="flex items-start gap-[10px]">
             <MapPin
               size={16}
-              color="var(--color-gold)"
+              color="var(--color-red)"
               className="mt-[2px] flex-shrink-0"
             />
             <p
@@ -338,7 +338,7 @@ export function HeroContactos({
           <div style={{ height: 1, background: "rgba(255,255,255,0.08)" }} />
 
           <div className="flex items-center gap-[10px]">
-            <Clock size={16} color="var(--color-gold)" className="flex-shrink-0" />
+            <Clock size={16} color="var(--color-red)" className="flex-shrink-0" />
             <span
               style={{
                 fontFamily: "Poppins, sans-serif",
@@ -364,7 +364,7 @@ export function HeroContactos({
         transition={{ duration: 0.55, delay: 0.65, ease }}
       >
         <div className="flex items-center gap-[10px] px-4 py-3">
-          <Phone size={15} color="var(--color-gold)" className="flex-shrink-0" />
+          <Phone size={15} color="var(--color-red)" className="flex-shrink-0" />
           <span
             style={{
               fontFamily: "Poppins, sans-serif",
@@ -383,7 +383,7 @@ export function HeroContactos({
               margin: "0 4px",
             }}
           />
-          <Clock size={15} color="var(--color-gold)" className="flex-shrink-0" />
+          <Clock size={15} color="var(--color-red)" className="flex-shrink-0" />
           <span
             style={{
               fontFamily: "Poppins, sans-serif",

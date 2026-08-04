@@ -22,7 +22,7 @@ const PALETA: Record<
   CronogramaColor,
   { color: string; bg: string; border: string }
 > = {
-  gold: { color: "var(--color-gold)", bg: "rgba(201,168,76,0.10)", border: "rgba(201,168,76,0.20)" },
+  gold: { color: "var(--color-red)", bg: "rgba(158,25,21,0.10)", border: "rgba(158,25,21,0.20)" },
   red:  { color: "var(--color-red)", bg: "rgba(158,25,21,0.07)",  border: "rgba(158,25,21,0.15)" },
   teal: { color: "#0D9488", bg: "rgba(13,148,136,0.08)", border: "rgba(13,148,136,0.18)" },
   navy: { color: "var(--color-navy)", bg: "rgba(26,43,74,0.07)",   border: "rgba(26,43,74,0.12)" },
@@ -1013,7 +1013,7 @@ export function CronogramaAnual({ periodos, tipos, eventos }: Props) {
     <section ref={ref} className="bg-[#F5F1EB] relative overflow-hidden">
       <div
         className="absolute top-0 right-0 pointer-events-none"
-        style={{ width: 480, height: 480, background: "radial-gradient(ellipse at top right, rgba(201,168,76,0.07) 0%, transparent 65%)" }}
+        style={{ width: 480, height: 480, background: "radial-gradient(ellipse at top right, rgba(158,25,21,0.07) 0%, transparent 65%)" }}
       />
       <div
         className="absolute bottom-0 left-0 pointer-events-none"
@@ -1029,13 +1029,13 @@ export function CronogramaAnual({ periodos, tipos, eventos }: Props) {
             transition={{ duration: 0.45, ease }}
           >
             <motion.span
-              className="block bg-gold flex-shrink-0"
+              className="block bg-red flex-shrink-0"
               style={{ width: 28, height: 2 }}
               initial={{ scaleX: 0, originX: 0 }}
               animate={inView ? { scaleX: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.1, ease }}
             />
-            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-gold)", letterSpacing: 2, textTransform: "uppercase" }}>
+            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-red)", letterSpacing: 2, textTransform: "uppercase" }}>
               Calendario académico
             </span>
           </motion.div>
@@ -1110,7 +1110,7 @@ export function CronogramaAnual({ periodos, tipos, eventos }: Props) {
                     fontFamily: "Poppins, sans-serif",
                     fontSize: 12,
                     fontWeight: 600,
-                    background: calVista === v ? "var(--color-gold)" : "transparent",
+                    background: calVista === v ? "var(--color-red)" : "transparent",
                     color: calVista === v ? "#FFFFFF" : "rgba(26,43,74,0.55)",
                     transition: "all 0.2s ease",
                   }}
@@ -1193,7 +1193,7 @@ export function CronogramaAnual({ periodos, tipos, eventos }: Props) {
               transition: "background 0.2s ease",
               whiteSpace: "nowrap",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "var(--color-gold)")}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "var(--color-red)")}
             onMouseLeave={(e) => (e.currentTarget.style.background = "var(--color-navy)")}
           >
             Ir a Contactos <span>→</span>

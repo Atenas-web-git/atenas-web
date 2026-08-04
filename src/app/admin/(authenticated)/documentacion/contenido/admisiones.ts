@@ -392,7 +392,7 @@ export const CORREOS: Seccion = {
             "Haz clic en el estado que quieras editar.",
             "Ajusta el **Asunto** — es lo que la familia ve en su bandeja de entrada.",
             "Ajusta el **Título del correo** (la cabecera azul) y el **cuerpo**, con el editor de texto enriquecido.",
-            "Elige el **color de acento**: Navy (neutral), Rojo (acción) o Dorado (celebración).",
+            "Elige el **color de acento**: Navy (neutral), Rojo (acción) o Rojo institucional (celebración).",
             "Opcionalmente añade **eyebrow**, **imagen de banner**, **botón** con su texto y URL, y un **texto de ayuda** bajo el botón.",
             "Revisa la **vista previa** de la derecha: se rellena con datos de ejemplo.",
             "Comprueba que el interruptor **activo** esté como lo quieres y **Guarda**.",

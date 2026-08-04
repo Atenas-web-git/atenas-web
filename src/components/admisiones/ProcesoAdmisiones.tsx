@@ -53,7 +53,7 @@ function StepCard({ num, title, desc, delay, index }: {
       whileHover={{ y:-8, boxShadow:"0 20px 48px rgba(26,43,74,0.14)", transition:{ duration:0.25 } }}
     >
       <motion.span
-        style={{ fontFamily:"Poppins,sans-serif", fontSize:36, fontWeight:700, color:"var(--color-gold)", lineHeight:1 }}
+        style={{ fontFamily:"Poppins,sans-serif", fontSize:36, fontWeight:700, color:"var(--color-red)", lineHeight:1 }}
         whileHover={{ scale:1.06, transition:{ duration:0.2 } }}
       >
         {num}
@@ -84,7 +84,7 @@ function MobileStep({ num, title, desc, delay, index }: {
       animate={inView ? { opacity:1, x:0 } : {}}
       transition={{ duration:0.5, delay, ease }}
     >
-      <span style={{ fontFamily:"Poppins,sans-serif", fontSize:24, fontWeight:700, color:"var(--color-gold)", lineHeight:1, flexShrink:0, width:44, paddingTop:2 }}>
+      <span style={{ fontFamily:"Poppins,sans-serif", fontSize:24, fontWeight:700, color:"var(--color-red)", lineHeight:1, flexShrink:0, width:44, paddingTop:2 }}>
         {num}
       </span>
       <div className="flex flex-col gap-[4px]">
@@ -125,7 +125,7 @@ export function ProcesoAdmisiones({
           {/* Texto */}
           <div className="flex-1 md:max-w-[520px]">
             <motion.p
-              style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"var(--color-gold)", letterSpacing:3, textTransform:"uppercase" }}
+              style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"#FFFFFF", letterSpacing:3, textTransform:"uppercase" }}
               initial={{ opacity:0, y:14 }}
               animate={inView ? { opacity:1, y:0 } : {}}
               transition={{ duration:0.45, ease }}
@@ -134,7 +134,7 @@ export function ProcesoAdmisiones({
             </motion.p>
 
             <motion.span
-              className="block bg-gold"
+              className="block bg-red"
               style={{ width:40, height:2, marginTop:8, marginBottom:10 }}
               initial={{ scaleX:0, originX:0 }}
               animate={inView ? { scaleX:1 } : {}}
@@ -152,7 +152,7 @@ export function ProcesoAdmisiones({
                 <span className="relative inline-block">
                   {headingHighlight}
                   <motion.span
-                    className="absolute left-0 right-0 -bottom-1 block bg-gold"
+                    className="absolute left-0 right-0 -bottom-1 block bg-red"
                     style={{ height:4, borderRadius:2 }}
                     initial={{ scaleX:0, originX:0 }}
                     animate={inView ? { scaleX:1 } : {}}
@@ -202,7 +202,7 @@ export function ProcesoAdmisiones({
                 alt="Aula Atenas"
                 fill className="object-cover" sizes="190px"
               />
-              <div className="absolute inset-0 border-[3px] border-gold/50 rounded-[12px]" />
+              <div className="absolute inset-0 border-[3px] border-red/50 rounded-[12px]" />
             </motion.div>
             {/* Badge flotante */}
             <motion.div
@@ -212,7 +212,7 @@ export function ProcesoAdmisiones({
               animate={inView ? { opacity:1, scale:1 } : {}}
               transition={{ duration:0.45, delay:0.72, ease }}
             >
-              <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"var(--color-gold)", letterSpacing:1 }}>
+              <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"#FFFFFF", letterSpacing:1 }}>
                 {badgeFloating}
               </span>
             </motion.div>

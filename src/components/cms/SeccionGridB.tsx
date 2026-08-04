@@ -47,7 +47,7 @@ export function SeccionGridB({
           width: 480,
           height: 480,
           background:
-            "radial-gradient(ellipse at top right, rgba(201,168,76,0.07) 0%, transparent 65%)",
+            "radial-gradient(ellipse at top right, rgba(158,25,21,0.07) 0%, transparent 65%)",
         }}
       />
 
@@ -62,7 +62,7 @@ export function SeccionGridB({
                 transition={{ duration: 0.45, ease }}
               >
                 <motion.span
-                  className="block bg-gold flex-shrink-0"
+                  className="block bg-red flex-shrink-0"
                   style={{ width: 28, height: 2 }}
                   initial={{ scaleX: 0, originX: 0 }}
                   animate={inView ? { scaleX: 1 } : {}}
@@ -73,7 +73,7 @@ export function SeccionGridB({
                     fontFamily: "Poppins, sans-serif",
                     fontSize: 10,
                     fontWeight: 700,
-                    color: "var(--color-gold)",
+                    color: "var(--color-red)",
                     letterSpacing: 2,
                     textTransform: "uppercase",
                   }}
@@ -141,14 +141,14 @@ function Tarjeta({
   inView: boolean;
 }) {
   const isRed = item.color === "red";
-  const accent = isRed ? "var(--color-red)" : "var(--color-gold)";
-  const accentBg = isRed ? "rgba(158,25,21,0.10)" : "rgba(201,168,76,0.12)";
+  const accent = isRed ? "var(--color-red)" : "var(--color-red)";
+  const accentBg = isRed ? "rgba(158,25,21,0.10)" : "rgba(158,25,21,0.12)";
   const borderDefault = item.highlight
-    ? "rgba(201,168,76,0.45)"
+    ? "rgba(158,25,21,0.45)"
     : isRed
       ? "rgba(158,25,21,0.28)"
       : "rgba(26,43,74,0.08)";
-  const borderHover = isRed ? "rgba(158,25,21,0.55)" : "rgba(201,168,76,0.55)";
+  const borderHover = isRed ? "rgba(158,25,21,0.55)" : "rgba(158,25,21,0.55)";
   const bgDefault = item.highlight
     ? "rgba(26,43,74,0.04)"
     : isRed

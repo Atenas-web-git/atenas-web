@@ -36,7 +36,7 @@ type Props = {
 export function HighlightText({
   text,
   animated = true,
-  color = "rgba(201,168,76,0.5)",
+  color = "rgba(158,25,21,0.5)",
 }: Props) {
   const ref = useRef<HTMLSpanElement>(null);
   // amount alto: la animación dispara cuando la palabra está bien visible.

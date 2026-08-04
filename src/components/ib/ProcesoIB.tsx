@@ -42,7 +42,7 @@ export function ProcesoIB({ proceso }: Props) {
 
         <div ref={headerRef} className="mb-[52px]">
           <motion.p
-            style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"var(--color-gold)", letterSpacing:3, textTransform:"uppercase" }}
+            style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"#FFFFFF", letterSpacing:3, textTransform:"uppercase" }}
             initial={{ opacity:0, y:14 }}
             animate={inView ? { opacity:1, y:0 } : {}}
             transition={{ duration:0.45, ease }}
@@ -50,7 +50,7 @@ export function ProcesoIB({ proceso }: Props) {
             {proceso.badge}
           </motion.p>
           <motion.span
-            className="block bg-gold"
+            className="block bg-red"
             style={{ width:40, height:2, marginTop:8, marginBottom:10 }}
             initial={{ scaleX:0, originX:0 }}
             animate={inView ? { scaleX:1 } : {}}
@@ -66,10 +66,10 @@ export function ProcesoIB({ proceso }: Props) {
               {headingParts ? (
                 <>
                   {headingParts.before}
-                  <span className="relative inline-block" style={{ color:"var(--color-gold)" }}>
+                  <span className="relative inline-block" style={{ color:"var(--color-red)" }}>
                     {headingParts.match}
                     <motion.span
-                      className="absolute left-0 right-0 -bottom-1 block bg-gold"
+                      className="absolute left-0 right-0 -bottom-1 block bg-red"
                       style={{ height:3, borderRadius:2 }}
                       initial={{ scaleX:0, originX:0 }}
                       animate={inView ? { scaleX:1 } : {}}
@@ -93,7 +93,7 @@ export function ProcesoIB({ proceso }: Props) {
               <motion.div
                 key={`${p.num}-${i}`}
                 className="flex gap-[20px] pb-[28px]"
-                style={{ borderLeft: i < proceso.pasos.length - 1 ? "2px solid rgba(201,168,76,0.20)" : "2px solid transparent", marginLeft:20 }}
+                style={{ borderLeft: i < proceso.pasos.length - 1 ? "2px solid rgba(158,25,21,0.20)" : "2px solid transparent", marginLeft:20 }}
                 initial={{ opacity:0, x:-24 }}
                 whileInView={{ opacity:1, x:0 }}
                 viewport={{ once:true, amount:0.3 }}
@@ -101,7 +101,7 @@ export function ProcesoIB({ proceso }: Props) {
               >
                 <div
                   className="flex-shrink-0 flex items-center justify-center rounded-full"
-                  style={{ width:40, height:40, background:"var(--color-gold)", marginLeft:-21, marginTop:2, fontFamily:"Poppins,sans-serif", fontSize:12, fontWeight:700, color:"var(--color-dark)" }}
+                  style={{ width:40, height:40, background:"var(--color-red)", marginLeft:-21, marginTop:2, fontFamily:"Poppins,sans-serif", fontSize:12, fontWeight:700, color: "#FFFFFF" }}
                 >
                   {p.num}
                 </div>
@@ -125,7 +125,7 @@ export function ProcesoIB({ proceso }: Props) {
                 className="flex flex-col gap-[12px] rounded-[14px] p-[24px]"
                 style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.08)" }}
               >
-                <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"var(--color-gold)", letterSpacing:2, textTransform:"uppercase" }}>
+                <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"#FFFFFF", letterSpacing:2, textTransform:"uppercase" }}>
                   {proceso.aliados.titulo}
                 </span>
                 <div className="flex flex-col gap-[8px]">
@@ -133,7 +133,7 @@ export function ProcesoIB({ proceso }: Props) {
                     <div key={i} className="flex items-center gap-[12px]">
                       <div
                         className="flex-shrink-0 flex items-center justify-center rounded-[6px]"
-                        style={{ width:36, height:36, background:"rgba(201,168,76,0.12)", fontFamily:"Poppins,sans-serif", fontSize:9, fontWeight:700, color:"var(--color-gold)", textAlign:"center", letterSpacing:0.3 }}
+                        style={{ width:36, height:36, background:"rgba(158,25,21,0.85)", fontFamily:"Poppins,sans-serif", fontSize:9, fontWeight:700, color:"#FFFFFF", textAlign:"center", letterSpacing:0.3 }}
                       >
                         {a.short}
                       </div>
@@ -147,7 +147,7 @@ export function ProcesoIB({ proceso }: Props) {
             {/* CTA */}
             <div
               className="flex flex-col gap-[14px] rounded-[14px] p-[24px]"
-              style={{ background:"rgba(201,168,76,0.10)", border:"1.5px solid rgba(201,168,76,0.35)" }}
+              style={{ background:"rgba(158,25,21,0.10)", border:"1.5px solid rgba(158,25,21,0.35)" }}
             >
               <span style={{ fontFamily:"Poppins,sans-serif", fontSize:14, fontWeight:700, color:"#FFFFFF", lineHeight:1.4 }}>
                 {proceso.cta.titulo}
@@ -159,7 +159,7 @@ export function ProcesoIB({ proceso }: Props) {
               )}
               <Link
                 href={proceso.cta.btnHref}
-                className="inline-flex items-center justify-center rounded-[6px] px-[20px] py-[12px] font-bold text-[13px] bg-gold text-dark hover:bg-[#dbb95a] transition-colors"
+                className="inline-flex items-center justify-center rounded-[6px] px-[20px] py-[12px] font-bold text-[13px] bg-red text-white hover:bg-[#b81e19] transition-colors"
                 style={{ fontFamily:"Poppins,sans-serif" }}
               >
                 {proceso.cta.btnText}

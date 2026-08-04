@@ -28,7 +28,7 @@ type UserListItem = {
 };
 
 const ROLE_COLORS: Record<RoleSlug, { bg: string; fg: string }> = {
-  superadmin: { bg: "#1A2B4A", fg: "#D4AF37" },
+  superadmin: { bg: "#1A2B4A", fg: "#9e1915" },
   editor_comm: { bg: "#DBEAFE", fg: "#1E40AF" },
   editor_admisiones: { bg: "#FEF3C7", fg: "#92400E" },
   editor_academico: { bg: "#E0E7FF", fg: "#3730A3" },
@@ -191,7 +191,7 @@ export default async function UsuariosPage() {
                     borderRadius: "50%",
                   }}
                 >
-                  <span style={{ fontSize: 11, fontWeight: 700, color: "#D4AF37" }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: "#9e1915" }}>
                     {initialsFromName(u.fullName, u.email)}
                   </span>
                 </div>

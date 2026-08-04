@@ -132,7 +132,7 @@ export function Sidebar({ user }: { user: AdminUser }) {
               >
                 <Icon
                   size={18}
-                  color={isActive ? "#D4AF37" : "#A0AABA"}
+                  color={isActive ? "#9e1915" : "#A0AABA"}
                   strokeWidth={2}
                 />
                 <span
@@ -150,10 +150,10 @@ export function Sidebar({ user }: { user: AdminUser }) {
                     className="flex items-center justify-center px-2 rounded-full"
                     style={{
                       height: 20,
-                      background: "#D4AF37",
+                      background: "#9e1915",
                       fontSize: 11,
                       fontWeight: 700,
-                      color: "#1A2B4A",
+                      color:"#FFFFFF",
                     }}
                   >
                     {badge}
@@ -173,12 +173,12 @@ export function Sidebar({ user }: { user: AdminUser }) {
           style={{
             width: 36,
             height: 36,
-            background: "#D4AF37",
+            background: "#9e1915",
             borderRadius: "50%",
           }}
         >
           <span
-            style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A" }}
+            style={{ fontSize: 13, fontWeight: 700, color:"#FFFFFF" }}
           >
             {initials}
           </span>

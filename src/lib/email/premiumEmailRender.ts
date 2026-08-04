@@ -53,7 +53,7 @@ export type PremiumEmailProps = {
 const ACENTO_HEX: Record<AcentoCorreo, string> = {
   navy: "#1A2B4A",
   red: "#9e1915",
-  gold: "#C9A84C",
+  gold: "#9e1915",
 };
 
 /**
@@ -205,8 +205,8 @@ function renderDataBlock(items: DataBlockItem[], navyHex: string, goldHex: strin
     .map(
       (it, i) => `
     <tr>
-      <td style="font-family:Poppins,Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#6B6660;padding:8px 0 8px 20px;${i > 0 ? `border-top:1px solid rgba(201,168,76,0.20);` : ""}">${escapeHtml(it.label)}</td>
-      <td align="right" style="font-family:Poppins,Arial,sans-serif;font-size:14px;font-weight:600;color:${navyHex};padding:8px 20px 8px 0;${i > 0 ? `border-top:1px solid rgba(201,168,76,0.20);` : ""}">${escapeHtml(it.value)}</td>
+      <td style="font-family:Poppins,Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#6B6660;padding:8px 0 8px 20px;${i > 0 ? `border-top:1px solid rgba(158,25,21,0.20);` : ""}">${escapeHtml(it.label)}</td>
+      <td align="right" style="font-family:Poppins,Arial,sans-serif;font-size:14px;font-weight:600;color:${navyHex};padding:8px 20px 8px 0;${i > 0 ? `border-top:1px solid rgba(158,25,21,0.20);` : ""}">${escapeHtml(it.value)}</td>
     </tr>`
     )
     .join("");
@@ -270,7 +270,7 @@ function escapeHtml(s: string): string {
 }
 
 function paletaSafe(m: Marca, key: "navy" | "rojo" | "gold" | "offWhite" | "dark"): string {
-  if (key === "gold") return m.paleta.dorado || "#C9A84C";
+  if (key === "gold") return m.paleta.dorado || "#9e1915";
   if (key === "navy") return m.paleta.navy || "#1A2B4A";
   if (key === "rojo") return m.paleta.rojo || "#9e1915";
   if (key === "offWhite") return m.paleta.offWhite || "#F8F5F0";

@@ -39,10 +39,10 @@ const TYPE_META: Record<
 > = {
   pagina: { label: "Página", Icon: File, color: "var(--color-navy)" },
   documento: { label: "Documento", Icon: FileText, color: "var(--color-red)" },
-  evento: { label: "Evento", Icon: Calendar, color: "var(--color-gold)" },
-  reconocimiento_categoria: { label: "Reconocimientos", Icon: Trophy, color: "var(--color-gold)" },
-  reconocimiento_subcategoria: { label: "Disciplina", Icon: Trophy, color: "var(--color-gold)" },
-  reconocimiento_logro: { label: "Logro", Icon: Trophy, color: "var(--color-gold)" },
+  evento: { label: "Evento", Icon: Calendar, color: "var(--color-red)" },
+  reconocimiento_categoria: { label: "Reconocimientos", Icon: Trophy, color: "var(--color-red)" },
+  reconocimiento_subcategoria: { label: "Disciplina", Icon: Trophy, color: "var(--color-red)" },
+  reconocimiento_logro: { label: "Logro", Icon: Trophy, color: "var(--color-red)" },
 };
 
 export function SearchOverlay({

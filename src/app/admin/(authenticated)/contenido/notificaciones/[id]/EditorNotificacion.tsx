@@ -463,7 +463,7 @@ function ModoThumb({
           right: -34,
           width: 110,
           height: 1.5,
-          background: "#C9A84C",
+          background: "#9e1915",
           transform: "rotate(-18deg)",
         }}
       />
@@ -473,7 +473,7 @@ function ModoThumb({
       >
         <div style={{ width: "70%", height: 4, background: "#FFFFFF", borderRadius: 1 }} />
         <div style={{ width: "55%", height: 4, background: "#FFFFFF", borderRadius: 1, opacity: 0.7 }} />
-        <div style={{ width: 22, height: 7, background: "#C9A84C", borderRadius: 2, marginTop: 2 }} />
+        <div style={{ width: 22, height: 7, background: "#9e1915", borderRadius: 2, marginTop: 2 }} />
       </div>
     </div>
   );

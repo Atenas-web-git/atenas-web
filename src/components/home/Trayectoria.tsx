@@ -64,9 +64,12 @@ function StatItem({
   );
 }
 
-/* Paleta de colores alternados por índice de stat (mobile) */
-function mobileColor(i: number): string {
-  return i % 2 === 0 ? "var(--color-gold)" : "#FFFFFF";
+/* Color de las cifras (mobile).
+   Antes alternaba dorado y blanco, y el dorado destacaba sobre el azul marino.
+   Con el rojo institucional no: son dos colores oscuros y las cifras pares
+   quedaban ilegibles. Sobre fondo oscuro, todas en blanco. */
+function mobileColor(_i: number): string {
+  return "#FFFFFF";
 }
 
 export function Trayectoria({ trayectoria }: Props) {
@@ -199,7 +202,7 @@ export function Trayectoria({ trayectoria }: Props) {
 
         {/* Línea dorada */}
         <motion.span
-          className="block h-[3px] bg-gold w-[48px]"
+          className="block h-[3px] bg-red w-[48px]"
           style={{ marginTop: 24, marginBottom: 24, originX: 0 }}
           initial={{ scaleX: 0 }}
           animate={inView ? { scaleX: 1 } : {}}
@@ -258,7 +261,7 @@ export function Trayectoria({ trayectoria }: Props) {
                 key={i}
                 stat={stat}
                 inView={statsInView}
-                color="var(--color-red)"
+                color="#FFFFFF"
                 fontSize="clamp(32px, 3.33vw, 48px)"
               />
             ))}

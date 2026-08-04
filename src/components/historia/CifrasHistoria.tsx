@@ -50,7 +50,7 @@ function StatCard({
           fontFamily: "Poppins, sans-serif",
           fontSize: isMobile ? 32 : "clamp(36px, 3.89vw, 56px)",
           fontWeight: 700,
-          color: "var(--color-gold)",
+          color: "var(--color-red)",
           lineHeight: 1,
         }}
       >
@@ -98,7 +98,7 @@ export function CifrasHistoria({ cifras }: Props) {
             fontFamily: "Poppins, sans-serif",
             fontSize: 11,
             fontWeight: 700,
-            color: "var(--color-gold)",
+            color: "var(--color-red)",
             letterSpacing: 3,
             textTransform: "uppercase",
           }}

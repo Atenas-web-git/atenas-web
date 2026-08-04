@@ -94,7 +94,7 @@ export function BuscadorClient({ indice }: { indice: EntradaIndice[] }) {
               >
                 <CornerDownRight
                   size={14}
-                  color="#C9A84C"
+                  color="#9e1915"
                   strokeWidth={2.5}
                   style={{ flexShrink: 0, marginTop: 3 }}
                 />

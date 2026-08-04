@@ -77,7 +77,7 @@ const ESTADO_INFO: Record<
     description:
       "¡Bienvenido a la familia Atenas! La matrícula ha sido completada con éxito.",
     color: "var(--color-navy)",
-    bg: "#D4AF37",
+    bg: "#9e1915",
     isFinal: true,
   },
   no_admitido: {
@@ -116,7 +116,7 @@ function StatusCard({
       {/* Header */}
       <div className="bg-navy px-8 py-6">
         <p
-          className="text-gold text-[10px] font-bold tracking-[2px] uppercase mb-2"
+          className="text-red text-[10px] font-bold tracking-[2px] uppercase mb-2"
           style={{ fontFamily: "Poppins, sans-serif" }}
         >
           N° de seguimiento
@@ -239,7 +239,7 @@ function StatusCard({
           style={{ fontFamily: "Poppins, sans-serif" }}
         >
           ¿Dudas?{" "}
-          <a href={`mailto:${contactoEmail}`} className="text-gold underline">
+          <a href={`mailto:${contactoEmail}`} className="text-red underline">
             {contactoEmail}
           </a>
         </p>
@@ -373,7 +373,7 @@ function SeguimientoContent({
           {/* Título */}
           <div className="text-center">
             <p
-              className="text-gold text-[11px] font-bold tracking-[2.5px] uppercase mb-3"
+              className="text-red text-[11px] font-bold tracking-[2.5px] uppercase mb-3"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
               Módulo de Admisiones
@@ -512,7 +512,7 @@ function SeguimientoContent({
                   . Revisa también la carpeta de Spam. Si no lo encuentras, escríbenos a{" "}
                   <a
                     href={`mailto:${contactoEmail}`}
-                    className="text-gold underline font-semibold"
+                    className="text-red underline font-semibold"
                   >
                     {contactoEmail}
                   </a>

@@ -4,7 +4,11 @@
   /* Brand Colors */
   --color-navy:       #1A2B4A;
   --color-red:        #9e1915;
-  --color-gold:       #C9A84C;
+  /* El dorado #C9A84C se retiró el 2026-08-04 por decisión del colegio: la
+     paleta queda solo con los colores institucionales. Lo que era dorado pasó
+     a rojo institucional, que es el único acento con contraste sobre el azul
+     marino. Única excepción: el logo del 50 aniversario, que es una pieza de
+     marca cerrada y sigue siendo dorado. */
   --color-cream:      #F8F5F0;
   --color-dark:       #0D1825;
   --color-ink:        #2C2C2C;

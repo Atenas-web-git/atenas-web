@@ -9,7 +9,7 @@ import type {
 } from "../../plantillas";
 
 const ACCENT_OPTIONS: { value: PortalCardItem["accentColor"]; label: string }[] = [
-  { value: "gold", label: "Dorado" },
+  { value: "gold", label: "Rojo institucional" },
   { value: "navy", label: "Navy" },
   { value: "red", label: "Rojo" },
 ];

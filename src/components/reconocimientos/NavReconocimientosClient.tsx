@@ -45,7 +45,7 @@ export function NavReconocimientosClient({
                   {item.nombre}
                 </span>
                 <motion.span
-                  className="block w-full bg-gold"
+                  className="block w-full bg-red"
                   style={{ height: 2 }}
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}

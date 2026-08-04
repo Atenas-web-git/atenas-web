@@ -162,7 +162,7 @@ export function LightboxFotos({ fotos, children, externalIndex = null, onClose }
                 style={{
                   fontFamily: "Poppins, sans-serif",
                   fontSize: 11,
-                  color: "rgba(201,168,76,0.80)",
+                  color: "rgba(158,25,21,0.80)",
                   letterSpacing: 1.5,
                 }}
               >

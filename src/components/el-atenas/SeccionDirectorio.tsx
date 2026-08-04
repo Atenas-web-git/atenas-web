@@ -49,7 +49,7 @@ export function SeccionDirectorio({
         >
           <div className="flex items-center gap-[10px]">
             <span
-              className="block bg-gold"
+              className="block bg-red"
               style={{ width: 28, height: 2 }}
             />
             <span
@@ -57,7 +57,7 @@ export function SeccionDirectorio({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: 10,
                 fontWeight: 700,
-                color: "var(--color-gold)",
+                color: "var(--color-red)",
                 letterSpacing: 2,
                 textTransform: "uppercase",
               }}
@@ -83,9 +83,9 @@ export function SeccionDirectorio({
                 className="self-start md:self-auto rounded-full px-4 py-1 text-[12px] font-semibold"
                 style={{
                   fontFamily: "Poppins, sans-serif",
-                  background: "rgba(201,168,76,0.14)",
-                  color: "var(--color-gold)",
-                  border: "1px solid rgba(201,168,76,0.30)",
+                  background: "rgba(158,25,21,0.14)",
+                  color: "var(--color-red)",
+                  border: "1px solid rgba(158,25,21,0.30)",
                 }}
               >
                 {period}
@@ -93,7 +93,7 @@ export function SeccionDirectorio({
             )}
           </div>
 
-          <div style={{ width: 60, height: 3, background: "var(--color-gold)" }} />
+          <div style={{ width: 60, height: 3, background: "var(--color-red)" }} />
         </motion.div>
 
         {/* Cards */}
@@ -120,7 +120,7 @@ export function SeccionDirectorio({
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   />
                 ) : (
-                  <User size={22} color="var(--color-gold)" />
+                  <User size={22} color="var(--color-red)" />
                 )}
               </div>
               <div className="flex flex-col gap-0.5">
@@ -151,7 +151,7 @@ export function SeccionDirectorio({
                     style={{
                       fontFamily: "Poppins, sans-serif",
                       fontSize: 11,
-                      color: "var(--color-gold)",
+                      color: "var(--color-red)",
                       textDecoration: "none",
                       fontWeight: 600,
                       marginTop: 2,

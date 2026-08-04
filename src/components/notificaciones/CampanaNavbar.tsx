@@ -139,7 +139,7 @@ export function CampanaNavbar() {
               minWidth: 16,
               height: 16,
               padding: "0 4px",
-              background: "var(--color-gold)",
+              background: "var(--color-red)",
               color: "#FFFFFF",
               borderRadius: 8,
               fontSize: 9,
@@ -257,7 +257,7 @@ export function CampanaNavbar() {
                       style={{
                         fontSize: 11,
                         fontWeight: 700,
-                        color: "var(--color-gold)",
+                        color: "var(--color-red)",
                         textDecoration: "none",
                       }}
                     >

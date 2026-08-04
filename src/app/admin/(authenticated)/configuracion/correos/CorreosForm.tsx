@@ -374,7 +374,7 @@ function ProviderTab({
           borderRadius: 8,
         }}
       >
-        <Icon size={18} strokeWidth={2} color={active ? "#C9A84C" : "#1A2B4A"} />
+        <Icon size={18} strokeWidth={2} color={active ? "#9e1915" : "#1A2B4A"} />
       </div>
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
@@ -384,7 +384,7 @@ function ProviderTab({
               style={{
                 fontSize: 10,
                 fontWeight: 700,
-                color: "#C9A84C",
+                color: "#9e1915",
                 letterSpacing: 1,
                 textTransform: "uppercase",
               }}

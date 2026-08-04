@@ -37,7 +37,7 @@ export default function DocumentacionIndexPage() {
           style={{
             fontSize: 10.5,
             fontWeight: 700,
-            color: "#C9A84C",
+            color: "#9e1915",
             letterSpacing: 2,
             textTransform: "uppercase",
           }}
@@ -82,7 +82,7 @@ export default function DocumentacionIndexPage() {
               }}
             >
               {a.titulo}
-              <ArrowRight size={12} color="#C9A84C" strokeWidth={2.5} />
+              <ArrowRight size={12} color="#9e1915" strokeWidth={2.5} />
             </Link>
           ))}
         </div>

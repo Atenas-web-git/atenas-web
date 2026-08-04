@@ -23,7 +23,7 @@ export function MetodologiasAcademico({ metodologias }: Props) {
 
         <div ref={headerRef} className="mb-[36px] md:mb-[44px]">
           <motion.p
-            style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"var(--color-gold)", letterSpacing:3, textTransform:"uppercase" }}
+            style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"var(--color-red)", letterSpacing:3, textTransform:"uppercase" }}
             initial={{ opacity:0, y:14 }}
             animate={inView ? { opacity:1, y:0 } : {}}
             transition={{ duration:0.45, ease }}
@@ -31,7 +31,7 @@ export function MetodologiasAcademico({ metodologias }: Props) {
             {metodologias.badge}
           </motion.p>
           <motion.span
-            className="block bg-gold"
+            className="block bg-red"
             style={{ width:40, height:2, marginTop:8, marginBottom:10 }}
             initial={{ scaleX:0, originX:0 }}
             animate={inView ? { scaleX:1 } : {}}
@@ -50,7 +50,7 @@ export function MetodologiasAcademico({ metodologias }: Props) {
                   <span className="relative inline-block">
                     {headingParts.match}
                     <motion.span
-                      className="absolute left-0 right-0 -bottom-1 block bg-gold"
+                      className="absolute left-0 right-0 -bottom-1 block bg-red"
                       style={{ height:4, borderRadius:2 }}
                       initial={{ scaleX:0, originX:0 }}
                       animate={inView ? { scaleX:1 } : {}}
@@ -128,7 +128,7 @@ export function MetodologiasAcademico({ metodologias }: Props) {
 
               <div className="flex flex-col gap-[10px] p-[18px]">
                 <span style={{ fontSize:24, lineHeight:1 }}>{m.icon}</span>
-                <span style={{ fontFamily:"Poppins,sans-serif", fontSize:11, color:"rgba(201,168,76,0.85)", letterSpacing:0.5 }}>
+                <span style={{ fontFamily:"Poppins,sans-serif", fontSize:11, color:"rgba(158,25,21,0.85)", letterSpacing:0.5 }}>
                   {m.scope}
                 </span>
                 <span style={{ fontFamily:"Poppins,sans-serif", fontSize:14, fontWeight:700, color: m.dark ? "#FFFFFF" : "var(--color-navy)", lineHeight:1.3 }}>

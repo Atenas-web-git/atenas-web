@@ -177,7 +177,7 @@ export default async function SolicitudDetallePage({
               borderRadius: "50%",
             }}
           >
-            <span style={{ fontSize: 18, fontWeight: 700, color: "#D4AF37" }}>
+            <span style={{ fontSize: 18, fontWeight: 700, color: "#9e1915" }}>
               {initials}
             </span>
           </div>

@@ -522,7 +522,7 @@ function ActionBtn({
         background: danger
           ? "rgba(220,38,38,0.85)"
           : active
-            ? "rgba(201,168,76,0.85)"
+            ? "rgba(158,25,21,0.85)"
             : "rgba(255,255,255,0.20)",
         border: "1px solid rgba(255,255,255,0.25)",
         borderRadius: 5,

@@ -45,9 +45,9 @@ function LevelCard({ num, title, grades, age, highlight, delay, index }: {
       className="flex-1 flex flex-col gap-[10px] rounded-[10px] p-[24px_20px] cursor-default min-w-0"
       style={{
         background: hov
-          ? (highlight ? "rgba(201,168,76,0.22)" : "rgba(255,255,255,0.10)")
-          : (highlight ? "rgba(201,168,76,0.12)" : "rgba(255,255,255,0.05)"),
-        border: highlight ? "1px solid rgba(201,168,76,0.35)" : "1px solid transparent",
+          ? (highlight ? "rgba(158,25,21,0.22)" : "rgba(255,255,255,0.10)")
+          : (highlight ? "rgba(158,25,21,0.12)" : "rgba(255,255,255,0.05)"),
+        border: highlight ? "1px solid rgba(158,25,21,0.35)" : "1px solid transparent",
         boxShadow: hov ? "0 12px 40px rgba(0,0,0,0.35)" : "none",
         transition: "background 0.25s ease, box-shadow 0.25s ease",
       }}
@@ -59,7 +59,7 @@ function LevelCard({ num, title, grades, age, highlight, delay, index }: {
       whileHover={{ y:-8, transition:{ duration:0.25 } }}
     >
       <motion.span
-        style={{ fontFamily:"Poppins,sans-serif", fontSize:highlight ? 24 : 30, fontWeight:700, color:"var(--color-gold)", lineHeight:1 }}
+        style={{ fontFamily:"Poppins,sans-serif", fontSize:highlight ? 24 : 30, fontWeight:700, color:"#FFFFFF", lineHeight:1 }}
         animate={{ scale: hov ? 1.06 : 1 }}
         transition={{ duration:0.2 }}
       >
@@ -96,7 +96,7 @@ export function NivelesAdmisiones({
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-navy min-h-[700px] md:min-h-[760px]"
+      className="relative overflow-hidden bg-dark min-h-[700px] md:min-h-[760px]"
     >
       {/* Parallax overlay */}
       <motion.div className="absolute inset-0" style={{ y: bgY,
@@ -122,7 +122,7 @@ export function NivelesAdmisiones({
           {/* Texto — izquierda */}
           <div className="flex-1 md:max-w-[560px]">
             <motion.p
-              style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"var(--color-gold)", letterSpacing:3, textTransform:"uppercase" }}
+              style={{ fontFamily:"Poppins,sans-serif", fontSize:11, fontWeight:700, color:"#FFFFFF", letterSpacing:3, textTransform:"uppercase" }}
               initial={{ opacity:0, y:14 }}
               animate={inView ? { opacity:1, y:0 } : {}}
               transition={{ duration:0.45, ease }}
@@ -131,7 +131,7 @@ export function NivelesAdmisiones({
             </motion.p>
 
             <motion.span
-              className="block bg-gold"
+              className="block bg-red"
               style={{ width:40, height:2, marginTop:8, marginBottom:10 }}
               initial={{ scaleX:0, originX:0 }}
               animate={inView ? { scaleX:1 } : {}}
@@ -149,7 +149,7 @@ export function NivelesAdmisiones({
                 <span className="relative inline-block">
                   {headingHighlight}
                   <motion.span
-                    className="absolute left-0 right-0 -bottom-1 block bg-gold"
+                    className="absolute left-0 right-0 -bottom-1 block bg-red"
                     style={{ height:4, borderRadius:2 }}
                     initial={{ scaleX:0, originX:0 }}
                     animate={inView ? { scaleX:1 } : {}}
@@ -196,16 +196,16 @@ export function NivelesAdmisiones({
                 src={fotoSecundaria}
                 alt="Aula Atenas" fill className="object-cover" sizes="190px"
               />
-              <div className="absolute inset-0 border-[3px] border-gold/45 rounded-[12px]" />
+              <div className="absolute inset-0 border-[3px] border-red/45 rounded-[12px]" />
             </motion.div>
             <motion.div
               className="absolute z-20 rounded-[8px] px-3 py-2"
-              style={{ background:"var(--color-gold)", right:0, bottom:10, boxShadow:"0 8px 24px rgba(0,0,0,0.30)" }}
+              style={{ background:"var(--color-red)", right:0, bottom:10, boxShadow:"0 8px 24px rgba(0,0,0,0.30)" }}
               initial={{ opacity:0, scale:0.75 }}
               animate={inView ? { opacity:1, scale:1 } : {}}
               transition={{ duration:0.45, delay:0.72, ease }}
             >
-              <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"var(--color-dark)", letterSpacing:1 }}>
+              <span style={{ fontFamily:"Poppins,sans-serif", fontSize:10, fontWeight:700, color:"#FFFFFF", letterSpacing:1 }}>
                 {badgeFloating}
               </span>
             </motion.div>
@@ -226,15 +226,15 @@ export function NivelesAdmisiones({
               key={n.num}
               className="flex gap-[16px] rounded-[10px] p-[16px]"
               style={{
-                background: n.highlight ? "rgba(201,168,76,0.12)" : "rgba(255,255,255,0.05)",
-                border:     n.highlight ? "1px solid rgba(201,168,76,0.35)" : "none",
+                background: n.highlight ? "rgba(158,25,21,0.12)" : "rgba(255,255,255,0.05)",
+                border:     n.highlight ? "1px solid rgba(158,25,21,0.35)" : "none",
               }}
               initial={{ opacity:0, x: i%2===0 ? -24 : 24 }}
               whileInView={{ opacity:1, x:0 }}
               viewport={{ once:true, amount:0.2 }}
               transition={{ duration:0.5, delay:0.05*i, ease }}
             >
-              <span style={{ fontFamily:"Poppins,sans-serif", fontSize:n.highlight ? 18 : 22, fontWeight:700, color:"var(--color-gold)", lineHeight:1, flexShrink:0, width:52, paddingTop:2 }}>
+              <span style={{ fontFamily:"Poppins,sans-serif", fontSize:n.highlight ? 18 : 22, fontWeight:700, color:"#FFFFFF", lineHeight:1, flexShrink:0, width:52, paddingTop:2 }}>
                 {n.num}
               </span>
               <div className="flex flex-col gap-[3px]">

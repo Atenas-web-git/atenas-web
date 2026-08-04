@@ -28,7 +28,7 @@ function StatsStrip({ stats }: { stats: Stats }) {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: i * 0.1, ease }}
           >
-            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-gold)", letterSpacing: 2, textTransform: "uppercase" }}>
+            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-red)", letterSpacing: 2, textTransform: "uppercase" }}>
               {s.label}
             </span>
             <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 15, fontWeight: 700, color: "var(--color-navy)", lineHeight: 1.3 }}>
@@ -86,13 +86,13 @@ function PhotoCollage({
       {badgeCollage && (
         <motion.div
           className="absolute z-20 flex items-center gap-[6px] rounded-[8px] px-[14px] py-[9px]"
-          style={{ background: "var(--color-gold)", right: 20, bottom: 20, boxShadow: "0 8px 24px rgba(201,168,76,0.40)" }}
+          style={{ background: "var(--color-red)", right: 20, bottom: 20, boxShadow: "0 8px 24px rgba(158,25,21,0.40)" }}
           initial={{ opacity: 0, scale: 0.7 }}
           animate={inView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.4, delay: 0.95, ease }}
           whileHover={{ scale: 1.06, transition: { duration: 0.15 } }}
         >
-          <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-dark)", letterSpacing: 0.8 }}>
+          <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color:"#FFFFFF", letterSpacing: 0.8 }}>
             {badgeCollage}
           </span>
         </motion.div>
@@ -114,7 +114,7 @@ function BrushUnderline({ inView }: { inView: boolean }) {
     >
       <motion.path
         d="M 2 10 C 35 4, 85 13, 138 8 C 182 4, 228 12, 272 8 C 296 6, 310 10, 320 7"
-        stroke="var(--color-gold)"
+        stroke="var(--color-red)"
         strokeWidth="5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -159,7 +159,7 @@ function CardsSection({
           <img src={bgPhoto} alt="" className="w-full h-full object-cover object-center" style={{ opacity: 0.12 }} />
         </motion.div>
       )}
-      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, rgba(201,168,76,0.06) 0%, transparent 65%)" }} />
+      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, rgba(158,25,21,0.06) 0%, transparent 65%)" }} />
 
       <div ref={ref} className="relative z-10 px-6 md:px-[160px]">
         {(badge || titulo) && (
@@ -172,13 +172,13 @@ function CardsSection({
             {badge && (
               <div className="flex items-center gap-[10px]">
                 <motion.span
-                  className="block bg-gold"
+                  className="block bg-red"
                   style={{ width: 28, height: 2 }}
                   initial={{ scaleX: 0, originX: 0 }}
                   animate={inView ? { scaleX: 1 } : {}}
                   transition={{ duration: 0.4, delay: 0.1, ease }}
                 />
-                <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-gold)", letterSpacing: 2, textTransform: "uppercase" }}>
+                <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-red)", letterSpacing: 2, textTransform: "uppercase" }}>
                   {badge}
                 </span>
               </div>
@@ -203,18 +203,18 @@ function CardsSection({
             <motion.div
               key={i}
               className="flex flex-col gap-[8px] rounded-[12px] p-[20px] cursor-default"
-              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(201,168,76,0.20)" }}
+              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(158,25,21,0.20)" }}
               initial={{ opacity: 0, y: 28 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.55, delay: 0.1 + i * 0.055, ease }}
               whileHover={{
                 y: -6,
-                boxShadow: "0 16px 48px rgba(201,168,76,0.15)",
-                borderColor: "rgba(201,168,76,0.5)",
+                boxShadow: "0 16px 48px rgba(158,25,21,0.15)",
+                borderColor: "rgba(158,25,21,0.5)",
                 transition: { duration: 0.2 },
               }}
             >
-              <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 13, fontWeight: 700, color: "var(--color-gold)" }}>
+              <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 13, fontWeight: 700, color: "var(--color-red)" }}>
                 {card.title}
               </span>
               <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, color: "rgba(255,255,255,0.55)", lineHeight: 1.55 }}>
@@ -254,7 +254,7 @@ function PlatformsSection({
           <img src={bgPhoto} alt="" className="w-full h-full object-cover object-center" style={{ opacity: 0.10 }} />
         </motion.div>
       )}
-      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at bottom right, rgba(201,168,76,0.07) 0%, transparent 60%)" }} />
+      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at bottom right, rgba(158,25,21,0.07) 0%, transparent 60%)" }} />
 
       <div ref={ref} className="relative z-10 px-6 md:px-[160px]">
         <motion.div
@@ -265,8 +265,8 @@ function PlatformsSection({
         >
           {badge && (
             <div className="flex items-center gap-[10px]">
-              <span className="block bg-gold" style={{ width: 28, height: 2 }} />
-              <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-gold)", letterSpacing: 2, textTransform: "uppercase" }}>
+              <span className="block bg-red" style={{ width: 28, height: 2 }} />
+              <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-red)", letterSpacing: 2, textTransform: "uppercase" }}>
                 {badge}
               </span>
             </div>
@@ -283,7 +283,7 @@ function PlatformsSection({
             <motion.div
               key={p.name + i}
               className="flex flex-col gap-[12px] rounded-[14px] p-[28px]"
-              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(201,168,76,0.20)" }}
+              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(158,25,21,0.20)" }}
               initial={{ opacity: 0, y: 24 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.55, delay: i * 0.1, ease }}
@@ -291,9 +291,9 @@ function PlatformsSection({
             >
               <div
                 className="flex items-center justify-center rounded-[10px]"
-                style={{ width: 44, height: 44, background: "rgba(201,168,76,0.14)" }}
+                style={{ width: 44, height: 44, background: "rgba(158,25,21,0.14)" }}
               >
-                <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 18, fontWeight: 700, color: "var(--color-gold)" }}>
+                <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 18, fontWeight: 700, color: "var(--color-red)" }}>
                   {p.name.charAt(0)}
                 </span>
               </div>
@@ -362,7 +362,7 @@ export function SeccionDetalleAcademico({
         id={anchorId || undefined}
         className="relative bg-cream scroll-mt-24"
       >
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at top right, rgba(201,168,76,0.05) 0%, transparent 60%)" }} />
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at top right, rgba(158,25,21,0.05) 0%, transparent 60%)" }} />
 
         <div
           ref={ref}
@@ -377,13 +377,13 @@ export function SeccionDetalleAcademico({
               transition={{ duration: 0.45, ease }}
             >
               <motion.span
-                className="block bg-gold flex-shrink-0"
+                className="block bg-red flex-shrink-0"
                 style={{ width: 28, height: 2 }}
                 initial={{ scaleX: 0, originX: 0 }}
                 animate={inView ? { scaleX: 1 } : {}}
                 transition={{ duration: 0.4, delay: 0.1, ease }}
               />
-              <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-gold)", letterSpacing: 2, textTransform: "uppercase" }}>
+              <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-red)", letterSpacing: 2, textTransform: "uppercase" }}>
                 {intro.badge}
               </span>
             </motion.div>
@@ -411,7 +411,7 @@ export function SeccionDetalleAcademico({
             </div>
 
             <motion.span
-              className="block bg-gold"
+              className="block bg-red"
               style={{ width: 40, height: 3, borderRadius: 2 }}
               initial={{ scaleX: 0, originX: 0 }}
               animate={inView ? { scaleX: 1 } : {}}
@@ -443,7 +443,7 @@ export function SeccionDetalleAcademico({
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.45, ease }}
               >
-                <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-gold)", letterSpacing: 2, textTransform: "uppercase" }}>
+                <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-red)", letterSpacing: 2, textTransform: "uppercase" }}>
                   {intro.chipsLabel ?? "Componentes"}
                 </span>
                 <div className="flex flex-wrap gap-[8px]">
@@ -466,7 +466,7 @@ export function SeccionDetalleAcademico({
 
             {intro.note && (
               <motion.div
-                style={{ borderLeft: "2px solid var(--color-gold)", paddingLeft: 16, paddingTop: 12, paddingBottom: 12 }}
+                style={{ borderLeft: "2px solid var(--color-red)", paddingLeft: 16, paddingTop: 12, paddingBottom: 12 }}
                 initial={{ opacity: 0, x: -10 }}
                 animate={inView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.55, ease }}

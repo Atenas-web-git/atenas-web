@@ -17,7 +17,7 @@ export function ExplorarIB({ explorar }: Props) {
     <section className="bg-cream relative overflow-hidden" style={{ padding: "80px 0" }}>
       <div
         className="absolute top-0 right-0 pointer-events-none"
-        style={{ width: 480, height: 480, background: "radial-gradient(ellipse at top right, rgba(201,168,76,0.07) 0%, transparent 65%)" }}
+        style={{ width: 480, height: 480, background: "radial-gradient(ellipse at top right, rgba(158,25,21,0.07) 0%, transparent 65%)" }}
       />
 
       <div ref={ref} className="px-6 md:px-[160px]">
@@ -30,13 +30,13 @@ export function ExplorarIB({ explorar }: Props) {
             transition={{ duration: 0.45, ease }}
           >
             <motion.span
-              className="block bg-gold flex-shrink-0"
+              className="block bg-red flex-shrink-0"
               style={{ width: 28, height: 2 }}
               initial={{ scaleX: 0, originX: 0 }}
               animate={inView ? { scaleX: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.1, ease }}
             />
-            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-gold)", letterSpacing: 2, textTransform: "uppercase" }}>
+            <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-red)", letterSpacing: 2, textTransform: "uppercase" }}>
               {explorar.badge}
             </span>
           </motion.div>
@@ -86,7 +86,7 @@ export function ExplorarIB({ explorar }: Props) {
                   const el = e.currentTarget;
                   el.style.transform = "translateY(-6px)";
                   el.style.boxShadow = "0 16px 40px rgba(13,24,37,0.10)";
-                  el.style.borderColor = "rgba(201,168,76,0.45)";
+                  el.style.borderColor = "rgba(158,25,21,0.45)";
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget;
@@ -97,7 +97,7 @@ export function ExplorarIB({ explorar }: Props) {
               >
                 <div
                   className="flex items-center justify-center rounded-[10px] flex-shrink-0"
-                  style={{ width: 44, height: 44, background: "rgba(201,168,76,0.12)", fontSize: 20 }}
+                  style={{ width: 44, height: 44, background: "rgba(158,25,21,0.12)", fontSize: 20 }}
                 >
                   {s.icon}
                 </div>
@@ -113,12 +113,12 @@ export function ExplorarIB({ explorar }: Props) {
 
                 <div className="flex items-center gap-[6px] mt-auto pt-[4px]">
                   <span
-                    style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 700, color: "var(--color-gold)", letterSpacing: 0.5 }}
+                    style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 700, color: "var(--color-red)", letterSpacing: 0.5 }}
                     className="group-hover:underline"
                   >
                     Ver más
                   </span>
-                  <span style={{ color: "var(--color-gold)", fontSize: 13, fontWeight: 700 }}>→</span>
+                  <span style={{ color: "var(--color-red)", fontSize: 13, fontWeight: 700 }}>→</span>
                 </div>
               </Link>
             </motion.div>

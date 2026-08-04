@@ -50,7 +50,7 @@ export function ActividadesEspacio({ title, photoSrc, photoCaption, actividades 
       />
 
       {/* Barra dorada izquierda */}
-      <div className="absolute left-0 top-0 bottom-0" style={{ width: 4, background: "var(--color-gold)" }} />
+      <div className="absolute left-0 top-0 bottom-0" style={{ width: 4, background: "var(--color-red)" }} />
 
       <div
         ref={contentRef}
@@ -80,7 +80,7 @@ export function ActividadesEspacio({ title, photoSrc, photoCaption, actividades 
 
           <div className="flex flex-col gap-1">
             <motion.span
-              style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 600, color: "var(--color-gold)", letterSpacing: 1 }}
+              style={{ fontFamily: "Poppins, sans-serif", fontSize: 11, fontWeight: 600, color:"#FFFFFF", letterSpacing: 1 }}
               initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.5, ease }}
             >
@@ -100,12 +100,12 @@ export function ActividadesEspacio({ title, photoSrc, photoCaption, actividades 
               transition={{ duration: 0.5, delay: 0.15, ease }}
             >
               <motion.span
-                className="block bg-gold flex-shrink-0"
+                className="block bg-red flex-shrink-0"
                 style={{ width: 24, height: 2 }}
                 initial={{ scaleX: 0, originX: 0 }} animate={inView ? { scaleX: 1 } : {}}
                 transition={{ duration: 0.4, delay: 0.2, ease }}
               />
-              <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "var(--color-gold)", letterSpacing: 2.5, textTransform: "uppercase" }}>
+              <span style={{ fontFamily: "Poppins, sans-serif", fontSize: 10, fontWeight: 700, color: "#FFFFFF", letterSpacing: 2.5, textTransform: "uppercase" }}>
                 Actividades
               </span>
             </motion.div>
@@ -121,7 +121,7 @@ export function ActividadesEspacio({ title, photoSrc, photoCaption, actividades 
             </div>
 
             <motion.span
-              className="block bg-gold"
+              className="block bg-red"
               style={{ width: 36, height: 2, borderRadius: 2 }}
               initial={{ scaleX: 0, originX: 0 }} animate={inView ? { scaleX: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.32, ease }}
@@ -135,16 +135,16 @@ export function ActividadesEspacio({ title, photoSrc, photoCaption, actividades 
                 key={act.title}
                 className="flex items-center gap-4 rounded-[12px] px-5 py-[18px]"
                 style={{
-                  background: act.highlight ? "rgba(201,168,76,0.12)" : "rgba(255,255,255,0.06)",
-                  border: act.highlight ? "1.5px solid rgba(201,168,76,0.40)" : "1px solid rgba(255,255,255,0.10)",
+                  background: act.highlight ? "rgba(158,25,21,0.12)" : "rgba(255,255,255,0.06)",
+                  border: act.highlight ? "1.5px solid rgba(158,25,21,0.40)" : "1px solid rgba(255,255,255,0.10)",
                 }}
                 initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.22 + i * 0.08, ease }}
-                whileHover={{ y: -4, borderColor: act.highlight ? "rgba(201,168,76,0.70)" : "rgba(201,168,76,0.40)", transition: { duration: 0.2 } }}
+                whileHover={{ y: -4, borderColor: act.highlight ? "rgba(158,25,21,0.70)" : "rgba(158,25,21,0.40)", transition: { duration: 0.2 } }}
               >
                 <div
                   className="flex items-center justify-center rounded-[10px] flex-shrink-0"
-                  style={{ width: 44, height: 44, background: act.highlight ? "rgba(201,168,76,0.25)" : "rgba(201,168,76,0.15)", fontSize: 20 }}
+                  style={{ width: 44, height: 44, background: act.highlight ? "rgba(158,25,21,0.25)" : "rgba(158,25,21,0.15)", fontSize: 20 }}
                 >
                   {act.icon}
                 </div>

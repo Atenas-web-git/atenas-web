@@ -86,13 +86,13 @@ export function HeroHistoria({ hero }: Props) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1, ease }}
         >
-          <span className="block bg-gold flex-shrink-0" style={{ width: 28, height: 2 }} />
+          <span className="block bg-red flex-shrink-0" style={{ width: 28, height: 2 }} />
           <span
             style={{
               fontFamily: "Poppins, sans-serif",
               fontSize: 10,
               fontWeight: 700,
-              color: "var(--color-gold)",
+              color:"#FFFFFF",
               letterSpacing: 2,
               textTransform: "uppercase",
             }}
@@ -111,7 +111,7 @@ export function HeroHistoria({ hero }: Props) {
                   fontSize: "clamp(44px, 5.28vw, 76px)",
                   fontWeight: 700,
                   lineHeight: 1.1,
-                  color: i === 0 ? "#FFFFFF" : "var(--color-gold)",
+                  color: i === 0 ? "#FFFFFF" : "var(--color-red)",
                 }}
                 initial={{ y: 60, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
