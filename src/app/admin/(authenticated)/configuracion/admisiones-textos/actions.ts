@@ -132,6 +132,13 @@ export async function guardarAdmisionesTextosAction(
       backLabel: s(formData, "s_backLabel"),
       introTitle: s(formData, "s_introTitle"),
       introDescription: s(formData, "s_introDescription"),
+      numeroLabel: s(formData, "s_numeroLabel"),
+      numeroPlaceholder: s(formData, "s_numeroPlaceholder"),
+      correoLabel: s(formData, "s_correoLabel"),
+      correoPlaceholder: s(formData, "s_correoPlaceholder"),
+      correoAyuda: s(formData, "s_correoAyuda"),
+      botonConsultar: s(formData, "s_botonConsultar"),
+      botonConsultando: s(formData, "s_botonConsultando"),
     },
   };
 

@@ -260,6 +260,13 @@ export type SeguimientoClientProps = {
   backLabel: string;
   introTitle: string;
   introDescription: string;
+  numeroLabel: string;
+  numeroPlaceholder: string;
+  correoLabel: string;
+  correoPlaceholder: string;
+  correoAyuda: string;
+  botonConsultar: string;
+  botonConsultando: string;
   /** Email de contacto para dudas — derivado de configuracion_global['contacto']. */
   contactoEmail: string;
 };
@@ -277,25 +284,41 @@ function SeguimientoContent({
   backLabel,
   introTitle,
   introDescription,
+  numeroLabel,
+  numeroPlaceholder,
+  correoLabel,
+  correoPlaceholder,
+  correoAyuda,
+  botonConsultar,
+  botonConsultando,
   contactoEmail,
 }: SeguimientoClientProps) {
   const searchParams = useSearchParams();
   const [input, setInput] = useState("");
+  const [correo, setCorreo] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<SolicitudData | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const buscar = async (numero: string) => {
+  // POST y no GET a propósito: con GET, el correo del representante quedaría
+  // escrito en la URL, y de ahí pasa a los logs del servidor, al historial del
+  // navegador y a la cabecera Referer.
+  const buscar = async (numero: string, correoRep: string) => {
     const n = numero.trim().toUpperCase();
-    if (!n) return;
+    const c = correoRep.trim().toLowerCase();
+    if (!n || !c) return;
     setLoading(true);
     setErrorMsg(null);
     setResult(null);
     try {
-      const res = await fetch(`/api/admisiones/seguimiento?numero=${encodeURIComponent(n)}`);
+      const res = await fetch("/api/admisiones/seguimiento", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ numero: n, correo: c }),
+      });
       const data = await res.json();
       if (!res.ok) {
-        setErrorMsg(data.error ?? "No se encontró ninguna solicitud con ese número.");
+        setErrorMsg(data.error ?? "No pudimos consultar la solicitud. Intenta de nuevo.");
       } else {
         setResult(data);
       }
@@ -306,18 +329,18 @@ function SeguimientoContent({
     }
   };
 
+  // El enlace del correo de confirmación trae el número en la URL. Se precarga
+  // para no hacerlo escribir, pero ya NO se busca solo: falta el correo, que es
+  // justo el dato que protege la consulta.
   useEffect(() => {
     const n = searchParams.get("numero");
-    if (n) {
-      setInput(n);
-      buscar(n);
-    }
+    if (n) setInput(n);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    buscar(input);
+    buscar(input, correo);
   };
 
   return (
@@ -369,28 +392,70 @@ function SeguimientoContent({
             </p>
           </div>
 
-          {/* Buscador */}
-          <form onSubmit={handleSubmit} className="w-full flex gap-2">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="ADM026-XXX"
-              className="flex-1 h-[50px] rounded-[6px] border border-[#C8C4BD] bg-white px-4
-                text-[14px] text-navy placeholder:text-[#9CA3AF] outline-none
-                focus:border-navy focus:shadow-[0_0_0_3px_rgba(26,43,74,0.09)]
-                transition-[border-color,box-shadow] uppercase"
-              style={{ fontFamily: "Poppins, sans-serif" }}
-            />
+          {/* Buscador — dos datos: el número y el correo del representante */}
+          <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
+            <div className="flex flex-col gap-[6px]">
+              <label
+                htmlFor="seg-numero"
+                className="text-[13px] font-medium text-navy"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
+                {numeroLabel}
+              </label>
+              <input
+                id="seg-numero"
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder={numeroPlaceholder}
+                autoComplete="off"
+                className="h-[50px] w-full rounded-[6px] border border-[#C8C4BD] bg-white px-4
+                  text-[16px] text-navy placeholder:text-[#9CA3AF] outline-none
+                  focus:border-navy focus:shadow-[0_0_0_3px_rgba(26,43,74,0.09)]
+                  transition-[border-color,box-shadow] uppercase"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              />
+            </div>
+
+            <div className="flex flex-col gap-[6px]">
+              <label
+                htmlFor="seg-correo"
+                className="text-[13px] font-medium text-navy"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
+                {correoLabel}
+              </label>
+              <input
+                id="seg-correo"
+                type="email"
+                inputMode="email"
+                value={correo}
+                onChange={(e) => setCorreo(e.target.value)}
+                placeholder={correoPlaceholder}
+                autoComplete="email"
+                className="h-[50px] w-full rounded-[6px] border border-[#C8C4BD] bg-white px-4
+                  text-[16px] text-navy placeholder:text-[#9CA3AF] outline-none
+                  focus:border-navy focus:shadow-[0_0_0_3px_rgba(26,43,74,0.09)]
+                  transition-[border-color,box-shadow]"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              />
+              <p
+                className="text-[12px] text-[#6B7280] leading-relaxed"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
+                {correoAyuda}
+              </p>
+            </div>
+
             <button
               type="submit"
-              disabled={loading || !input.trim()}
-              className="h-[50px] px-6 rounded-[6px] bg-navy text-white text-[14px]
+              disabled={loading || !input.trim() || !correo.trim()}
+              className="h-[50px] w-full rounded-[6px] bg-navy text-white text-[14px]
                 font-semibold hover:bg-[#22375e] transition-colors disabled:opacity-50
-                disabled:cursor-not-allowed flex-shrink-0"
+                disabled:cursor-not-allowed"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              {loading ? "Buscando…" : "Consultar"}
+              {loading ? botonConsultando : botonConsultar}
             </button>
           </form>
 

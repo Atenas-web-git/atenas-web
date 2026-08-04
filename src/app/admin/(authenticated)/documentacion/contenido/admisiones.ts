@@ -21,7 +21,7 @@ export const ADMISIONES: Seccion = {
             "La solicitud aparece de inmediato en **Admisiones › Solicitudes** y en el Dashboard.",
             "El equipo abre la ficha y va **cambiando el estado** conforme avanza el proceso real.",
             "Cada cambio de estado **dispara automáticamente** el correo correspondiente al representante.",
-            "El representante puede consultar en qué punto está en la página pública de **seguimiento**, con su número `ADM…`.",
+            "El representante puede consultar en qué punto está en la página pública de **seguimiento**, con su número `ADM…` **y el correo con el que registró la solicitud**.",
           ],
         },
         {
@@ -311,12 +311,24 @@ export const ADMISIONES: Seccion = {
         {
           t: "p",
           texto:
-            "En `/admisiones/seguimiento` el representante escribe su número `ADM…` y ve en qué punto del proceso está su solicitud. No necesita usuario ni contraseña: el número **es** la llave.",
+            "En `/admisiones/seguimiento` el representante escribe **dos datos**: su número `ADM…` y el **correo del representante** con el que registró la solicitud. Con eso ve en qué punto del proceso está. No necesita usuario ni contraseña.",
+        },
+        {
+          t: "nota",
+          tono: "aviso",
+          texto:
+            "**Hacen falta los dos datos, y es a propósito.** Los números son correlativos, así que con solo el número cualquiera podía ir probando `ADM026-001`, `-002`, `-003`… y sacar la lista de todos los aspirantes con su nombre y su nivel. El correo es lo que impide eso. Si una familia dice que no le funciona, casi siempre es que está usando un correo distinto al que puso en el formulario.",
         },
         {
           t: "p",
           texto:
-            "Desde la ficha, el botón **Ver seguimiento público** te muestra esa misma pantalla. Úsalo cuando alguien llame preguntando: verás exactamente lo mismo que tiene delante.",
+            "Desde la ficha, el botón **Ver seguimiento público** te muestra esa misma pantalla. Úsalo cuando alguien llame preguntando: verás exactamente lo mismo que tiene delante. Ten a mano el correo del representante, que lo tienes en la ficha.",
+        },
+        {
+          t: "nota",
+          tono: "info",
+          texto:
+            "Si haces muchas consultas seguidas, la página deja de responder un rato. Es la protección contra quien intenta adivinar datos a la fuerza, y cuenta todas las consultas, no solo las equivocadas. Espera unos minutos y vuelve a intentarlo.",
         },
         {
           t: "nota",
@@ -400,7 +412,7 @@ export const CORREOS: Seccion = {
             { campo: "`{{est_apellidos}}`", desc: "Apellidos del estudiante." },
             { campo: "`{{est_nivel}}`", desc: "Nivel solicitado." },
             { campo: "`{{rep_nombres}}`", desc: "Nombres del representante." },
-            { campo: "`{{url_seguimiento}}`", desc: "Enlace directo a la consulta de seguimiento de esa solicitud." },
+            { campo: "`{{url_seguimiento}}`", desc: "Enlace que abre la página de seguimiento con el número ya escrito. La familia todavía tiene que poner su correo y pulsar el botón para ver el estado." },
           ],
         },
         {

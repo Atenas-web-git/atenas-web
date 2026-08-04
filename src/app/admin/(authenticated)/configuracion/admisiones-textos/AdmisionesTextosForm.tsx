@@ -382,6 +382,49 @@ export function AdmisionesTextosForm({
             rows={3} style={textareaStyle}
           />
         </Field>
+        <Field label="Etiqueta del campo del número">
+          <input
+            type="text" name="s_numeroLabel"
+            defaultValue={c.seguimiento.numeroLabel} style={inputStyle}
+          />
+        </Field>
+        <Field label="Texto de ejemplo dentro del campo del número">
+          <input
+            type="text" name="s_numeroPlaceholder"
+            defaultValue={c.seguimiento.numeroPlaceholder} style={inputStyle}
+          />
+        </Field>
+        <Field label="Etiqueta del campo del correo">
+          <input
+            type="text" name="s_correoLabel"
+            defaultValue={c.seguimiento.correoLabel} style={inputStyle}
+          />
+        </Field>
+        <Field label="Texto de ejemplo dentro del campo del correo">
+          <input
+            type="text" name="s_correoPlaceholder"
+            defaultValue={c.seguimiento.correoPlaceholder} style={inputStyle}
+          />
+        </Field>
+        <Field label="Explicación de por qué se piden los dos datos (debajo del correo)">
+          <textarea
+            name="s_correoAyuda"
+            defaultValue={c.seguimiento.correoAyuda}
+            rows={2} style={textareaStyle}
+          />
+        </Field>
+        <Field label="Texto del botón">
+          <input
+            type="text" name="s_botonConsultar"
+            defaultValue={c.seguimiento.botonConsultar} style={inputStyle}
+          />
+        </Field>
+        <Field label="Texto del botón mientras busca">
+          <input
+            type="text" name="s_botonConsultando"
+            defaultValue={c.seguimiento.botonConsultando} style={inputStyle}
+          />
+        </Field>
       </Section>
     </form>
   );

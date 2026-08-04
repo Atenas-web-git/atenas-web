@@ -101,6 +101,13 @@ export type AdmisionesTextosConfig = {
     backLabel: string;
     introTitle: string;
     introDescription: string;
+    numeroLabel: string;
+    numeroPlaceholder: string;
+    correoLabel: string;
+    correoPlaceholder: string;
+    correoAyuda: string;
+    botonConsultar: string;
+    botonConsultando: string;
   };
 };
 
@@ -218,7 +225,15 @@ export const ADMISIONES_TEXTOS_DEFAULT: AdmisionesTextosConfig = {
     backLabel: "← Volver al sitio",
     introTitle: "Consulta el estado de tu solicitud",
     introDescription:
-      "Ingresa el número de seguimiento que recibiste por correo al iniciar tu proceso de admisión.",
+      "Ingresa el número de seguimiento que recibiste por correo y el correo del representante con el que registraste la solicitud.",
+    numeroLabel: "Número de seguimiento",
+    numeroPlaceholder: "ADM026-XXX",
+    correoLabel: "Correo del representante",
+    correoPlaceholder: "correo@ejemplo.com",
+    correoAyuda:
+      "Pedimos los dos datos para proteger la información de tu hijo o hija: así nadie más puede consultar su solicitud.",
+    botonConsultar: "Consultar",
+    botonConsultando: "Buscando…",
   },
 };
 
@@ -345,6 +360,13 @@ export function mergeAdmisionesTextos(
       backLabel: pickStr(s.backLabel, def.seguimiento.backLabel),
       introTitle: pickStr(s.introTitle, def.seguimiento.introTitle),
       introDescription: pickStr(s.introDescription, def.seguimiento.introDescription),
+      numeroLabel: pickStr(s.numeroLabel, def.seguimiento.numeroLabel),
+      numeroPlaceholder: pickStr(s.numeroPlaceholder, def.seguimiento.numeroPlaceholder),
+      correoLabel: pickStr(s.correoLabel, def.seguimiento.correoLabel),
+      correoPlaceholder: pickStr(s.correoPlaceholder, def.seguimiento.correoPlaceholder),
+      correoAyuda: pickStr(s.correoAyuda, def.seguimiento.correoAyuda),
+      botonConsultar: pickStr(s.botonConsultar, def.seguimiento.botonConsultar),
+      botonConsultando: pickStr(s.botonConsultando, def.seguimiento.botonConsultando),
     },
   };
 }

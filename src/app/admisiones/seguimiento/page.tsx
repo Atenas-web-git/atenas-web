@@ -38,6 +38,13 @@ export default async function SeguimientoPage() {
       backLabel={textos.backLabel}
       introTitle={textos.introTitle}
       introDescription={textos.introDescription}
+      numeroLabel={textos.numeroLabel}
+      numeroPlaceholder={textos.numeroPlaceholder}
+      correoLabel={textos.correoLabel}
+      correoPlaceholder={textos.correoPlaceholder}
+      correoAyuda={textos.correoAyuda}
+      botonConsultar={textos.botonConsultar}
+      botonConsultando={textos.botonConsultando}
       contactoEmail={contactoEmail}
     />
   );
