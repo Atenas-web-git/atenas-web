@@ -193,7 +193,7 @@ const FALLBACK: ContenidoPlantillaM = {
         desc:
           "Programas con certificación ISO 9001 y el único Bachillerato IB en el centro del Ecuador.",
         img: "/images/IMG_1889-2-2-1536x1226.jpg",
-        href: "/academico",
+        href: "/academico/niveles",
       },
       {
         label: "Identidad",

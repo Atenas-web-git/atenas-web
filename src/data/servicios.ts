@@ -174,7 +174,7 @@ export const SERVICIOS: ServicioItem[] = [
     fotos: [
       "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80",
       "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&q=80",
-      "https://images.unsplash.com/photo-1571260898936-4e3c6d30e9a9?w=400&q=80",
+      "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=400&q=80",
     ],
   },
   {
@@ -203,7 +203,7 @@ export const SERVICIOS: ServicioItem[] = [
       "Espera la resolución del Comité de Becas — los resultados se notifican por correo electrónico.",
     ],
     fotos: [
-      "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80",
+      "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80",
       "https://images.unsplash.com/photo-1471970394675-613138e45da3?w=400&q=80",
       "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&q=80",
     ],

@@ -68,7 +68,6 @@ export const FOOTER_DEFAULT: FooterConfig = {
     { label: "Política", href: "/politicas" },
     { label: "Quejas y Sugerencias", href: "/servicios/quejas-sugerencias" },
     { label: "Documentos institucionales", href: "/documentos-institucionales" },
-    { label: "Facturación", href: "/facturacion" },
   ],
   copyright: "© 2026 Unidad Educativa Atenas · Ambato, Ecuador",
 };

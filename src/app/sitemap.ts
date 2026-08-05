@@ -112,8 +112,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Trabaja y Políticas
     page("/trabaja-con-nosotros", 0.7),
-    page("/politicas", 0.5, "yearly"),
-    page("/politicas/clientes", 0.5, "yearly"),
-    page("/politicas/proveedores", 0.5, "yearly"),
   ];
 }

@@ -28,7 +28,7 @@ const FALLBACK = {
   galeria: {
     src1: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80",
     alt1: "Aulas Atenas",
-    src2: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&q=80",
+    src2: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=400&q=80",
     alt2: "Campus Atenas",
     src3: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=400&q=80",
     alt3: "Estudiantes Atenas",
