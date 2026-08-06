@@ -364,7 +364,7 @@ export const CORREOS: Seccion = {
         {
           t: "p",
           texto:
-            "Cinco correos que se envían a quien llena un formulario público, para confirmarle que su mensaje llegó. Se editan en **Contenido › Plantillas de formularios**:",
+            "Cinco correos que se envían a quien llena un formulario público, para confirmarle que su mensaje llegó. Se editan en **Contenido › Plantillas de correo para formularios**:",
         },
         {
           t: "tabla",
@@ -434,7 +434,7 @@ export const CORREOS: Seccion = {
       titulo: "Editar las confirmaciones de formularios",
       resumen: "Los cinco correos de acuse de recibo, con sus propias variables.",
       bloques: [
-        { t: "ruta", pasos: ["Contenido", "Plantillas de formularios"] },
+        { t: "ruta", pasos: ["Contenido", "Plantillas de correo para formularios"] },
         {
           t: "p",
           texto:

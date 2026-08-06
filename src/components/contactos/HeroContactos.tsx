@@ -279,7 +279,10 @@ export function HeroContactos({
             style={{
               fontFamily: "Poppins, sans-serif",
               fontSize: 10,
-              color: "rgba(13,24,37,0.55)",
+              // Blanco translúcido, no azul: esta tarjeta tiene fondo rojo y
+              // el azul institucional encima daba 2,2:1 — se leía a duras
+              // penas. Sobre rojo, el texto siempre va en blanco.
+              color: "rgba(255,255,255,0.75)",
               marginTop: 2,
             }}
           >

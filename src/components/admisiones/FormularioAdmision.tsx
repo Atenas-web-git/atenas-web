@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { FormularioDinamico } from "@/components/formularios/FormularioDinamico";
+import type { FormularioPublico } from "@/lib/formularios/getFormulario";
 import { useRef, useState } from "react";
 import { useCountUp } from "@/lib/useCountUp";
 
@@ -43,6 +45,12 @@ export type FormularioAdmisionStat = {
 export type FormularioAdmisionProps = {
   /** Nivel de interés que se pre-selecciona en el dropdown. */
   nivelDefault: Nivel | string;
+  /**
+   * Definición del formulario «consulta-admisiones» del motor. De aquí salen
+   * los campos, la validación y el envío; de esta página siguen viniendo el
+   * collage, las stats y los textos de alrededor.
+   */
+  formularioMotor: FormularioPublico | null;
   eyebrow?: string;
   heading?: string;
   description?: string;
@@ -186,6 +194,7 @@ function AnimSelect({ label, value, onChange, delay, inView }:
 /* ─── Main export ─── */
 export function FormularioAdmision({
   nivelDefault,
+  formularioMotor,
   eyebrow = "¿Aún tienes dudas?",
   heading = "Resolvemos tus preguntas antes de que des el siguiente paso",
   description = "No tienes que comprometerte con nada todavía. Si tienes preguntas sobre el proceso de admisión, los requisitos, la propuesta académica o simplemente quieres conocer más sobre el Atenas, escríbenos y te respondemos en menos de 24 horas hábiles, sin presiones.",
@@ -206,29 +215,6 @@ export function FormularioAdmision({
 }: FormularioAdmisionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.06 });
-
-  const [form, setForm] = useState({
-    representante: "", estudiante: "", correo: "", telefono: "",
-    nivel: nivelDefault, mensaje: "",
-  });
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
-
-  const set = (key: keyof typeof form) => (v: string) => setForm((f) => ({ ...f, [key]: v }));
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus("sending");
-    try {
-      const res = await fetch("/api/admisiones", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      setStatus(res.ok ? "success" : "error");
-    } catch {
-      setStatus("error");
-    }
-  };
 
   return (
     <section className="relative bg-cream overflow-hidden" style={{ padding: "80px 0" }}>
@@ -349,97 +335,49 @@ export function FormularioAdmision({
             initial={{ scaleX: 0, originX: 0 }} animate={inView ? { scaleX: 1 } : {}}
             transition={{ duration: 0.5, delay: 0.45, ease }} />
 
-          <AnimatePresence mode="wait">
-            {status === "success" ? (
-              <motion.div key="success"
-                className="bg-white px-8 py-12 flex flex-col items-center gap-4 text-center"
-                initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, type: "spring", stiffness: 250, damping: 20 }}>
-                <motion.div
-                  className="flex items-center justify-center rounded-full"
-                  style={{ width: 64, height: 64, background: "rgba(158,25,21,0.15)" }}
-                  initial={{ scale: 0 }} animate={{ scale: 1 }}
-                  transition={{ duration: 0.5, delay: 0.1, type: "spring", stiffness: 260, damping: 18 }}>
-                  <span style={{ fontSize: 28 }}>✓</span>
-                </motion.div>
-                <h4 style={{ fontFamily: "Poppins, sans-serif", fontSize: 18, fontWeight: 700, color: "var(--color-navy)" }}>
-                  {successTitle}
-                </h4>
-                <p style={{ fontFamily: "Poppins, sans-serif", fontSize: 14,
-                  color: "rgba(13,24,37,0.55)", lineHeight: 1.65, maxWidth: 320 }}>
-                  {successText}
-                </p>
-              </motion.div>
-            ) : (
-              <form key="form" onSubmit={handleSubmit} className="bg-white px-8 py-6 flex flex-col gap-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <AnimField label="Nombre del representante" placeholder="Tu nombre completo"
-                    value={form.representante} onChange={set("representante")} delay={0.5} inView={inView} />
-                  <AnimField label="Nombre del estudiante" placeholder="Nombre del hijo/a"
-                    value={form.estudiante} onChange={set("estudiante")} delay={0.56} inView={inView} />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <AnimField label="Correo electrónico" type="email" placeholder="correo@ejemplo.com"
-                    value={form.correo} onChange={set("correo")} delay={0.62} inView={inView} />
-                  <AnimField label="WhatsApp / Teléfono" type="tel" placeholder="+593 99 000 0000"
-                    value={form.telefono} onChange={set("telefono")} delay={0.68} inView={inView} />
-                </div>
-                <AnimSelect label="Nivel de interés"
-                  value={form.nivel} onChange={set("nivel")} delay={0.74} inView={inView} />
-                <AnimTextarea label="Mensaje (opcional)"
-                  placeholder="¿Tienes alguna duda o comentario para nuestro equipo?"
-                  value={form.mensaje} onChange={set("mensaje")} delay={0.80} inView={inView} />
+          {/*
+            Los campos, la validación y el envío vienen del motor de
+            formularios, así el equipo de admisiones puede cambiar las
+            preguntas desde Contenido › Formularios y ninguna consulta se
+            pierde si falla el correo. Se conservan el collage de fotos, las
+            stats y el aviso de privacidad de esta página.
 
-                {status === "error" && (
-                  <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                    style={{ fontFamily: "Poppins, sans-serif", fontSize: 12,
-                      color: "#e53e3e", textAlign: "center" }}>
-                    {errorText}
-                  </motion.p>
-                )}
-
-                <motion.button
-                  type="submit"
-                  disabled={status === "sending"}
-                  className="flex items-center justify-center gap-2 w-full h-[52px] rounded-[10px] font-bold
-                    disabled:opacity-60 disabled:cursor-not-allowed"
-                  style={{ fontFamily: "Poppins, sans-serif", fontSize: 14, background: "var(--color-navy)", color: "#FFFFFF" }}
-                  initial={{ opacity: 0, y: 14 }} animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.4, delay: 0.88, ease }}
-                  whileHover={{ scale: 1.02, background: "#22375e", boxShadow: "0 8px 24px rgba(26,43,74,0.25)",
-                    transition: { duration: 0.15 } }}
-                  whileTap={{ scale: 0.98 }}>
-                  {status === "sending" ? (
-                    <motion.span animate={{ opacity: [1, 0.4, 1] }} transition={{ duration: 1, repeat: Infinity }}>
-                      {sendingLabel}
-                    </motion.span>
-                  ) : (
-                    <>
-                      {submitLabel}
-                      <motion.span
-                        animate={{ x: [0, 4, 0] }}
-                        transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-                        style={{ color: "var(--color-red)" }}>
-                        →
-                      </motion.span>
-                    </>
-                  )}
-                </motion.button>
-
-                <motion.p
-                  style={{ fontFamily: "Poppins, sans-serif", fontSize: 11,
-                    color: "rgba(13,24,37,0.38)", textAlign: "center", lineHeight: 1.55 }}
-                  initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}}
-                  transition={{ duration: 0.4, delay: 0.92, ease }}>
+            El nivel llega ya elegido según la página: quien entra en
+            /admisiones/inicial no tiene por qué volver a decir qué nivel le
+            interesa.
+          */}
+          <div className="bg-white px-8 py-6">
+            {formularioMotor ? (
+              <>
+                <FormularioDinamico
+                  formulario={formularioMotor}
+                  mostrarEncabezado={false}
+                  colorBoton="red"
+                  anchoBoton="completo"
+                  valoresIniciales={{ nivel: nivelDefault }}
+                />
+                <p
+                  style={{
+                    fontFamily: "Poppins, sans-serif",
+                    fontSize: 11,
+                    color: "rgba(13,24,37,0.55)",
+                    textAlign: "center",
+                    lineHeight: 1.55,
+                    marginTop: 16,
+                  }}
+                >
                   {privacyTextPre}{" "}
-                  <a href={privacyLinkHref} style={{ color: "var(--color-red)", textDecoration: "underline" }}>
+                  <a
+                    href={privacyLinkHref}
+                    style={{ color: "var(--color-red)", textDecoration: "underline" }}
+                  >
                     {privacyLinkLabel}
                   </a>
                   {privacyTextPost}
-                </motion.p>
-              </form>
-            )}
-          </AnimatePresence>
+                </p>
+              </>
+            ) : null}
+          </div>
         </motion.div>
       </div>
     </section>

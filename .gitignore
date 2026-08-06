@@ -49,3 +49,6 @@ graphify-out/
 
 # agentes auditores de Claude Code — herramienta de trabajo, no parte del producto
 .claude/agents/
+
+# Configuración local del servidor de desarrollo (Claude Code)
+.claude/launch.json

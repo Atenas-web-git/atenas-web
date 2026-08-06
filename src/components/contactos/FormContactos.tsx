@@ -1,58 +1,36 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
-import { MapPin, Send } from "lucide-react";
+import { useRef } from "react";
+import { MapPin } from "lucide-react";
 import { CONTACTOS_PAGINA_DEFAULT, type ContactosPaginaConfig } from "@/lib/cms/contactosPagina";
+import { FormularioDinamico } from "@/components/formularios/FormularioDinamico";
+import type { FormularioPublico } from "@/lib/formularios/getFormulario";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
 export type FormContactosProps = {
   formulario?: ContactosPaginaConfig["formulario"];
   mapa?: ContactosPaginaConfig["mapa"];
+  /**
+   * Definición del formulario «contactos» del motor. Los campos, la
+   * validación y el envío salen de ahí; lo que sigue viviendo en el CMS de
+   * esta página son los textos del encabezado y el mapa.
+   *
+   * Si llega null —porque el formulario se desactivó desde el panel— la
+   * página se sigue sirviendo con el mapa y los datos de contacto, que es lo
+   * que de verdad necesita quien llega buscando cómo comunicarse.
+   */
+  formularioMotor: FormularioPublico | null;
 };
 
 export function FormContactos({
   formulario = CONTACTOS_PAGINA_DEFAULT.formulario,
   mapa = CONTACTOS_PAGINA_DEFAULT.mapa,
-}: FormContactosProps = {}) {
+  formularioMotor,
+}: FormContactosProps) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.1 });
-  const [sent, setSent] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (submitting) return;
-    setSubmitting(true);
-    setErrorMsg(null);
-
-    const formData = new FormData(e.currentTarget);
-    const payload = {
-      nombre: String(formData.get("nombre") ?? "").trim(),
-      correo: String(formData.get("correo") ?? "").trim(),
-      asunto: String(formData.get("asunto") ?? "").trim(),
-      mensaje: String(formData.get("mensaje") ?? "").trim(),
-    };
-
-    try {
-      const res = await fetch("/api/contactos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data?.error ?? "No pudimos enviar tu mensaje.");
-      }
-      setSent(true);
-    } catch (err) {
-      setErrorMsg(err instanceof Error ? err.message : "Error inesperado.");
-    } finally {
-      setSubmitting(false);
-    }
-  }
 
   return (
     <section
@@ -116,7 +94,10 @@ export function FormContactos({
                 fontFamily: "Poppins, sans-serif",
                 fontSize: 10,
                 fontWeight: 700,
-                color:"#FFFFFF",
+                // Esta columna tiene fondo BLANCO: en blanco el texto era
+                // invisible (contraste 1:1). Los eyebrows sobre fondo claro
+                // van en rojo institucional en todo el sitio.
+                color: "var(--color-red)",
                 letterSpacing: 2,
                 textTransform: "uppercase",
               }}
@@ -146,162 +127,20 @@ export function FormContactos({
           </p>
         </div>
 
-        {sent ? (
-          <motion.div
-            className="flex flex-col items-center gap-4 py-10 text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease }}
-          >
-            <div
-              className="rounded-full flex items-center justify-center"
-              style={{ width: 56, height: 56, background: "var(--color-red)" }}
-            >
-              <Send size={22} color="var(--color-dark)" />
-            </div>
-            <h3
-              style={{
-                fontFamily: "Poppins, sans-serif",
-                fontSize: 20,
-                fontWeight: 700,
-                color: "var(--color-navy)",
-              }}
-            >
-              {formulario.successTitle}
-            </h3>
-            <p
-              style={{
-                fontFamily: "Poppins, sans-serif",
-                fontSize: 14,
-                color: "rgba(26,43,74,0.55)",
-                maxWidth: 360,
-              }}
-            >
-              {formulario.successText}
-            </p>
-          </motion.div>
-        ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-[18px]">
-            <div className="flex flex-col md:flex-row gap-[18px]">
-              <Field
-                label="Nombre"
-                id="nombre"
-                placeholder="Tu nombre completo"
-                type="text"
-                required
-              />
-              <Field
-                label="Correo electrónico"
-                id="correo"
-                placeholder="correo@ejemplo.com"
-                type="email"
-                required
-              />
-            </div>
-
-            <Field
-              label="Asunto"
-              id="asunto"
-              placeholder="¿En qué podemos ayudarte?"
-              type="text"
-              required
-            />
-
-            <div className="flex flex-col gap-[6px]">
-              <label
-                htmlFor="mensaje"
-                style={{
-                  fontFamily: "Poppins, sans-serif",
-                  fontSize: 12,
-                  fontWeight: 600,
-                  color: "var(--color-navy)",
-                }}
-              >
-                Mensaje
-              </label>
-              <textarea
-                id="mensaje"
-                name="mensaje"
-                placeholder="Escribe tu mensaje aquí..."
-                required
-                rows={4}
-                className="w-full rounded-[8px] px-[14px] py-[10px] text-[13px] resize-none outline-none border focus:border-red transition-colors"
-                style={{
-                  fontFamily: "Poppins, sans-serif",
-                  color: "var(--color-navy)",
-                  borderColor: "#E8E4DD",
-                }}
-              />
-            </div>
-
-            {errorMsg && (
-              <p
-                style={{
-                  fontFamily: "Poppins, sans-serif",
-                  fontSize: 13,
-                  color: "#B23A48",
-                }}
-              >
-                {errorMsg}
-              </p>
-            )}
-
-            <button
-              type="submit"
-              disabled={submitting}
-              className="inline-flex items-center gap-[10px] self-start rounded-[8px] px-[28px] py-[14px] font-bold text-[14px] bg-navy text-white hover:bg-[#243d6a] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
-              style={{ fontFamily: "Poppins, sans-serif" }}
-            >
-              {submitting ? "Enviando…" : formulario.submitLabel}
-              <Send size={16} />
-            </button>
-          </form>
+        {/*
+          Los campos, la validación y el envío los pone el motor de
+          formularios: así el colegio puede añadir o quitar preguntas desde
+          Contenido › Formularios, y cada mensaje queda guardado en la bandeja
+          aunque el correo falle. La maquetación de esta página —el mapa al
+          lado, el encabezado, la animación de entrada— se queda como estaba.
+        */}
+        {formularioMotor && (
+          <FormularioDinamico
+            formulario={formularioMotor}
+            mostrarEncabezado={false}
+          />
         )}
       </motion.div>
     </section>
-  );
-}
-
-function Field({
-  label,
-  id,
-  placeholder,
-  type,
-  required,
-}: {
-  label: string;
-  id: string;
-  placeholder: string;
-  type: string;
-  required?: boolean;
-}) {
-  return (
-    <div className="flex flex-col gap-[6px] flex-1">
-      <label
-        htmlFor={id}
-        style={{
-          fontFamily: "Poppins, sans-serif",
-          fontSize: 12,
-          fontWeight: 600,
-          color: "var(--color-navy)",
-        }}
-      >
-        {label}
-      </label>
-      <input
-        id={id}
-        name={id}
-        type={type}
-        placeholder={placeholder}
-        required={required}
-        className="w-full rounded-[8px] px-[14px] text-[13px] outline-none border focus:border-red transition-colors"
-        style={{
-          fontFamily: "Poppins, sans-serif",
-          color: "var(--color-navy)",
-          borderColor: "#E8E4DD",
-          height: 44,
-        }}
-      />
-    </div>
   );
 }

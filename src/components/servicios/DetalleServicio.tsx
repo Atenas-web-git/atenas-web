@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import { FormularioDinamico } from "@/components/formularios/FormularioDinamico";
+import type { FormularioPublico } from "@/lib/formularios/getFormulario";
 import { DynamicIcon } from "lucide-react/dynamic";
 import type { IconName } from "lucide-react/dynamic";
 import type { ServicioItem } from "@/data/servicios";
@@ -47,48 +49,21 @@ interface Props {
   formConfig?: FormQuejasConfig;
   /** Solo se usa cuando slug === "biblioteca". Si es undefined, defaults hardcoded. */
   revistaConfig?: RevistaConfig;
+  /** Definición del formulario «quejas-sugerencias» del motor. */
+  formularioMotor?: FormularioPublico | null;
 }
 
 function FormQuejas({
   accent,
   config,
-  servicioSlug,
+  formularioMotor,
 }: {
   accent: string;
   config: FormQuejasConfig;
-  servicioSlug: string;
+  formularioMotor: FormularioPublico | null;
 }) {
-  const tipoInicial = config.tipos[0] ?? "Queja";
-  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
-  const [form, setForm] = useState({
-    nombre: "",
-    correo: "",
-    tipo: tipoInicial,
-    descripcion: "",
-  });
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.1 });
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus("sending");
-    try {
-      // Mandamos el slug al endpoint para que él lea el destinatario y el
-      // asunto desde la BD (no del cliente, por seguridad).
-      const res = await fetch("/api/quejas", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, servicioSlug }),
-      });
-      setStatus(res.ok ? "ok" : "error");
-    } catch {
-      setStatus("error");
-    }
-  };
 
   const inputStyle: React.CSSProperties = {
     fontFamily: "Poppins, sans-serif",
@@ -155,152 +130,19 @@ function FormQuejas({
 
           {/* Form */}
           <div className="px-8 py-8">
-            {status === "ok" ? (
-              <motion.div
-                className="flex flex-col items-center gap-4 py-8 text-center"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4 }}
-              >
-                <div
-                  className="flex items-center justify-center rounded-full"
-                  style={{ width: 56, height: 56, background: "rgba(158,25,21,0.10)" }}
-                >
-                  <span style={{ fontSize: 24 }}>✓</span>
-                </div>
-                <p
-                  style={{
-                    fontFamily: "Poppins, sans-serif",
-                    fontSize: 15,
-                    fontWeight: 700,
-                    color: "var(--color-navy)",
-                  }}
-                >
-                  {config.successTitle}
-                </p>
-                <p
-                  style={{
-                    fontFamily: "Poppins, sans-serif",
-                    fontSize: 13,
-                    color: "rgba(13,24,37,0.55)",
-                    maxWidth: 400,
-                    lineHeight: 1.65,
-                  }}
-                >
-                  {config.successText}
-                </p>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div>
-                    <label style={labelStyle}>Nombre completo *</label>
-                    <input
-                      name="nombre"
-                      value={form.nombre}
-                      onChange={handleChange}
-                      required
-                      placeholder="Tu nombre"
-                      style={inputStyle}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = accent)}
-                      onBlur={(e) =>
-                        (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")
-                      }
-                    />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Correo electrónico *</label>
-                    <input
-                      name="correo"
-                      type="email"
-                      value={form.correo}
-                      onChange={handleChange}
-                      required
-                      placeholder="correo@ejemplo.com"
-                      style={inputStyle}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = accent)}
-                      onBlur={(e) =>
-                        (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")
-                      }
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label style={labelStyle}>Tipo de comunicación *</label>
-                  <select
-                    name="tipo"
-                    value={form.tipo}
-                    onChange={handleChange}
-                    required
-                    style={{ ...inputStyle, cursor: "pointer" }}
-                    onFocus={(e) => (e.currentTarget.style.borderColor = accent)}
-                    onBlur={(e) =>
-                      (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")
-                    }
-                  >
-                    {config.tipos.map((t) => (
-                      <option key={t}>{t}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label style={labelStyle}>Descripción *</label>
-                  <textarea
-                    name="descripcion"
-                    value={form.descripcion}
-                    onChange={handleChange}
-                    required
-                    rows={5}
-                    placeholder="Describe con detalle tu comunicación…"
-                    style={{ ...inputStyle, resize: "vertical" }}
-                    onFocus={(e) => (e.currentTarget.style.borderColor = accent)}
-                    onBlur={(e) =>
-                      (e.currentTarget.style.borderColor = "rgba(26,43,74,0.14)")
-                    }
-                  />
-                </div>
-
-                {status === "error" && (
-                  <p
-                    style={{
-                      fontFamily: "Poppins, sans-serif",
-                      fontSize: 12,
-                      color: "var(--color-red)",
-                      margin: 0,
-                    }}
-                  >
-                    Ocurrió un error al enviar. Por favor intenta nuevamente.
-                  </p>
-                )}
-
-                <motion.button
-                  type="submit"
-                  disabled={status === "sending"}
-                  className="flex items-center justify-center gap-2 rounded-[8px] px-6 py-[13px] font-bold text-[13px] self-start"
-                  style={{
-                    fontFamily: "Poppins, sans-serif",
-                    background: status === "sending" ? "rgba(158,25,21,0.55)" : "var(--color-red)",
-                    color: "#FFFFFF",
-                    border: "none",
-                    cursor: status === "sending" ? "not-allowed" : "pointer",
-                    transition: "background 0.18s ease",
-                  }}
-                  whileHover={status !== "sending" ? { scale: 1.02 } : {}}
-                  whileTap={status !== "sending" ? { scale: 0.98 } : {}}
-                >
-                  {status === "sending" ? "Enviando…" : config.submitText}
-                  {status !== "sending" && (
-                    <motion.span
-                      animate={{ x: [0, 4, 0] }}
-                      transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-                    >
-                      →
-                    </motion.span>
-                  )}
-                </motion.button>
-              </form>
+            {/*
+              Los campos, la validación y el envío vienen del motor de
+              formularios: el colegio puede cambiar las preguntas y los tipos
+              de comunicación desde Contenido › Formularios, y cada mensaje
+              queda guardado en la bandeja aunque el correo falle. La tarjeta
+              con cabecera roja y el botón rojo se mantienen como estaban.
+            */}
+            {formularioMotor && (
+              <FormularioDinamico
+                formulario={formularioMotor}
+                mostrarEncabezado={false}
+                colorBoton="red"
+              />
             )}
           </div>
         </motion.div>
@@ -309,7 +151,7 @@ function FormQuejas({
   );
 }
 
-export function DetalleServicio({ servicio, formConfig, revistaConfig }: Props) {
+export function DetalleServicio({ servicio, formConfig, revistaConfig, formularioMotor = null }: Props) {
   const { slug, nombre, descripcion, stats, pasos, fotos, color } = servicio;
   const isRed = color === "red";
   const formCfg: FormQuejasConfig = formConfig ?? FORM_QUEJAS_DEFAULT;
@@ -728,7 +570,9 @@ export function DetalleServicio({ servicio, formConfig, revistaConfig }: Props) 
       )}
 
       {/* ── Formulario (solo quejas-sugerencias) ── */}
-      {isRed && <FormQuejas accent={accent} config={formCfg} servicioSlug={slug} />}
+      {isRed && (
+        <FormQuejas accent={accent} config={formCfg} formularioMotor={formularioMotor} />
+      )}
     </div>
   );
 }

@@ -10,6 +10,7 @@ import {
 } from "@/components/servicios/DetalleServicio";
 import { FooterCTA } from "@/components/home/FooterCTA";
 import { getPagina } from "@/lib/cms/getPagina";
+import { getFormularioPublico } from "@/lib/formularios/getFormulario";
 import type { ContenidoPlantillaK } from "@/app/admin/(authenticated)/contenido/plantillas";
 
 export const revalidate = 60;
@@ -92,7 +93,15 @@ export default async function ServicioPage({ params }: Props) {
 
   const pagina = await getPagina(`servicios/${slug}`);
   const cms = (pagina?.contenido as ContenidoPlantillaK | undefined) ?? null;
+
   const servicio = mergeServicio(fallback, cms);
+
+  // Los campos del formulario salen del motor. Solo lo llevan las fichas de
+  // color rojo —hoy quejas y sugerencias—; el resto muestra pasos numerados.
+  const formularioQuejas =
+    servicio.color === "red"
+      ? await getFormularioPublico("quejas-sugerencias")
+      : null;
 
   const heroBgImage = cms?.hero?.bgImageSrc?.trim() || undefined;
   // Solo se usa cuando el servicio es de color rojo (caso especial con
@@ -140,6 +149,7 @@ export default async function ServicioPage({ params }: Props) {
           servicio={servicio}
           formConfig={formConfig}
           revistaConfig={revistaConfig}
+          formularioMotor={formularioQuejas}
         />
         <FooterCTA />
       </main>

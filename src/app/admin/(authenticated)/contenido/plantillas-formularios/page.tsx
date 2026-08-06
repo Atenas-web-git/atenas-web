@@ -8,6 +8,7 @@ import {
   TIPOS_PLANTILLA_FORMULARIO,
   TIPOS_PLANTILLA_INFO,
 } from "./constants";
+import { FORMULARIOS_GESTIONADOS_APARTE } from "@/lib/formularios/gestionadosAparte";
 
 export const dynamic = "force-dynamic";
 
@@ -34,6 +35,28 @@ export default async function PlantillasFormulariosPage() {
     .from("plantillas_correo_formularios")
     .select("tipo, asunto, activo, updated_at");
 
+  // Qué formulario usa cada plantilla. Sin esto, el nombre de la plantilla es
+  // lo único que hay para adivinarlo, y en un panel que va a usar gente no
+  // técnica eso es pedir demasiado.
+  const { data: formularios } = await supabase
+    .from("formularios")
+    .select("nombre, plantilla_correo")
+    .not("plantilla_correo", "is", null);
+
+  const usadaPor = new Map<string, string[]>();
+  for (const f of (formularios ?? []) as { nombre: string; plantilla_correo: string }[]) {
+    usadaPor.set(f.plantilla_correo, [
+      ...(usadaPor.get(f.plantilla_correo) ?? []),
+      f.nombre,
+    ]);
+  }
+  for (const f of FORMULARIOS_GESTIONADOS_APARTE) {
+    usadaPor.set(f.plantillaCorreo, [
+      ...(usadaPor.get(f.plantillaCorreo) ?? []),
+      f.nombre,
+    ]);
+  }
+
   return (
     <div className="flex flex-col gap-6 p-8">
       <Link
@@ -47,7 +70,7 @@ export default async function PlantillasFormulariosPage() {
 
       <div>
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
-          Plantillas de formularios
+          Plantillas de correo para formularios
         </h1>
         <p
           style={{
@@ -160,6 +183,11 @@ export default async function PlantillasFormulariosPage() {
                 >
                   {info.description}
                 </p>
+                {usadaPor.has(tipo) && (
+                  <p style={{ fontSize: 11, color: "#6B6660", margin: "6px 0 0" }}>
+                    Formulario: <strong>{usadaPor.get(tipo)!.join(", ")}</strong>
+                  </p>
+                )}
                 <p style={{ fontSize: 11, color: "#A0AABA", margin: "6px 0 0" }}>
                   Última edición: {formatDate(plantilla?.updated_at ?? null)}
                 </p>

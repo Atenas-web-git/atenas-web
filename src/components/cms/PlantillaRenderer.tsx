@@ -17,6 +17,9 @@
 import { Navbar } from "@/components/home/Navbar";
 import { FooterCTA } from "@/components/home/FooterCTA";
 
+// Motor de formularios — bloque opcional al final de cualquier página.
+import { BloqueFormulario } from "@/components/formularios/BloqueFormulario";
+
 // Plantilla A
 import { HeroElAtenas } from "@/components/el-atenas/HeroElAtenas";
 import { SeccionTexto } from "@/components/el-atenas/SeccionTexto";
@@ -119,14 +122,22 @@ export const PLANTILLAS_SOPORTADAS_CATCH_ALL = new Set([
 type Props = {
   plantilla: string;
   contenido: unknown;
+  /**
+   * Formulario del motor asignado a la página, si tiene uno. Se pinta entre
+   * el contenido de la plantilla y el cierre de página. Va aquí y no dentro
+   * de cada plantilla para no tener que añadir el mismo campo a los 20
+   * editores del backoffice.
+   */
+  formularioId?: string | null;
 };
 
-export function PlantillaRenderer({ plantilla, contenido }: Props) {
+export function PlantillaRenderer({ plantilla, contenido, formularioId }: Props) {
   return (
     <>
       <Navbar />
       <main>
         {renderPlantilla(plantilla, contenido)}
+        {formularioId && <BloqueFormulario formularioId={formularioId} />}
         <FooterCTA />
       </main>
     </>

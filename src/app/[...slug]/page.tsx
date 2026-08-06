@@ -92,6 +92,7 @@ export default async function CatchAllPage({ params }: Props) {
     <PlantillaRenderer
       plantilla={pagina.plantilla}
       contenido={pagina.contenido}
+      formularioId={pagina.formulario_id}
     />
   );
 }

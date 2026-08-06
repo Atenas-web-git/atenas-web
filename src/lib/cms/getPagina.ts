@@ -9,6 +9,12 @@ export type PaginaPublicada = {
   meta_title: string | null;
   meta_description: string | null;
   og_image_url: string | null;
+  /**
+   * Formulario del motor que se pinta al final de la página, si la página
+   * tiene uno asignado. Va como columna y no dentro de `contenido` para que
+   * se pueda poner en cualquiera de las 20 plantillas con un solo control.
+   */
+  formulario_id: string | null;
 };
 
 /**
@@ -24,7 +30,7 @@ export async function getPagina(slug: string): Promise<PaginaPublicada | null> {
     const supabase = await createClient();
     const { data, error } = await supabase
       .from("paginas")
-      .select("id, slug, plantilla, titulo, contenido, meta_title, meta_description, og_image_url")
+      .select("id, slug, plantilla, titulo, contenido, meta_title, meta_description, og_image_url, formulario_id")
       .eq("slug", slug)
       .eq("publicada", true)
       .maybeSingle();

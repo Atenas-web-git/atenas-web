@@ -46,6 +46,7 @@ import { EditorPlantillaR } from "./EditorPlantillaR";
 import { EditorPlantillaS } from "./EditorPlantillaS";
 import { EditorPlantillaT } from "./EditorPlantillaT";
 import { CambiarPlantillaBtn } from "./CambiarPlantillaBtn";
+import { SelectorFormulario } from "./SelectorFormulario";
 import { EliminarPaginaClient } from "./EliminarPaginaClient";
 
 export default async function EditarPaginaPage({
@@ -62,15 +63,32 @@ export default async function EditarPaginaPage({
   }
 
   const supabase = createAdminClient();
-  const { data: pagina } = await supabase
+  const { data: pagina, error: errorPagina } = await supabase
     .from("paginas")
-    .select("id, slug, titulo, plantilla, contenido, meta_title, meta_description, publicada, updated_at")
+    .select("id, slug, titulo, plantilla, contenido, meta_title, meta_description, publicada, updated_at, formulario_id")
     .eq("id", id)
     .maybeSingle();
+
+  // Sin este log, cualquier fallo de base se ve como «esta página no existe» y
+  // manda a buscar el problema al sitio equivocado. El caso concreto que lo
+  // provoca: desplegar código que pide una columna cuya migración todavía no
+  // se aplicó — entonces el editor de TODAS las páginas responde 404.
+  if (errorPagina) {
+    console.error(
+      `[paginas] no se pudo leer la página ${id}:`,
+      errorPagina.message
+    );
+  }
 
   if (!pagina) notFound();
 
   const plantillaInfo = PLANTILLAS[pagina.plantilla as keyof typeof PLANTILLAS];
+
+  // Formularios disponibles para colocar al final de esta página.
+  const { data: formularios } = await supabase
+    .from("formularios")
+    .select("id, nombre, activo")
+    .order("nombre");
 
   return (
     <div className="flex flex-col gap-6 p-8">
@@ -139,6 +157,12 @@ export default async function EditarPaginaPage({
           slug={pagina.slug}
         />
       </div>
+
+      <SelectorFormulario
+        paginaId={pagina.id}
+        formularioActual={pagina.formulario_id ?? null}
+        opciones={(formularios ?? []) as { id: string; nombre: string; activo: boolean }[]}
+      />
 
       {pagina.plantilla === "tpl_a_hero_texto" && (
         <EditorPlantillaA

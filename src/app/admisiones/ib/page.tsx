@@ -9,6 +9,7 @@ import { CTAIniciarSolicitud } from "@/components/admisiones/CTAIniciarSolicitud
 import { FormularioAdmision } from "@/components/admisiones/FormularioAdmision";
 import { FooterCTA } from "@/components/home/FooterCTA";
 import { getPagina } from "@/lib/cms/getPagina";
+import { getFormularioPublico } from "@/lib/formularios/getFormulario";
 import type { ContenidoPlantillaO } from "@/app/admin/(authenticated)/contenido/plantillas";
 
 export const revalidate = 60;
@@ -31,7 +32,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AdmisionIBPage() {
-  const pagina = await getPagina(SLUG);
+  const [pagina, formularioConsulta] = await Promise.all([
+    getPagina(SLUG),
+    // Los campos de la consulta salen del motor (Contenido › Formularios).
+    getFormularioPublico("consulta-admisiones"),
+  ]);
   const cfg = (pagina?.contenido ?? null) as ContenidoPlantillaO | null;
   const nivelLabel = cfg?.nivelLabel ?? NIVEL_LABEL_FALLBACK;
 
@@ -84,6 +89,7 @@ export default async function AdmisionIBPage() {
         />
         <FormularioAdmision
           nivelDefault={nivelLabel}
+          formularioMotor={formularioConsulta}
           eyebrow={cfg?.formularioConsulta?.eyebrow}
           heading={cfg?.formularioConsulta?.heading}
           description={cfg?.formularioConsulta?.description}

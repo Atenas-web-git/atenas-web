@@ -723,3 +723,55 @@ export async function eliminarPaginaAction(
   }
   redirect("/admin/contenido/paginas");
 }
+
+/**
+ * Asigna (o quita) el formulario que se pinta al final de una página.
+ *
+ * Va en una acción propia y no dentro de `guardarPaginaAction` a propósito:
+ * cada plantilla tiene su propio editor —hay veinte— y meter el campo en el
+ * formulario de guardado obligaría a tocar los veinte archivos. Aquí es un
+ * solo control en la cabecera del editor, común a todas las plantillas.
+ */
+export async function asignarFormularioAction(
+  _prev: PaginaActionState,
+  formData: FormData
+): Promise<PaginaActionState> {
+  const user = await assertEditor();
+
+  const id = String(formData.get("id") ?? "").trim();
+  if (!id) return { error: "ID inválido.", ok: false };
+
+  const formularioId = String(formData.get("formulario_id") ?? "").trim();
+
+  const supabase = createAdminClient();
+
+  // Comprobar que existe antes de guardarlo: la clave foránea lo rechazaría
+  // igual, pero con un error de Postgres que no dice nada al editor.
+  if (formularioId) {
+    const { data: existe } = await supabase
+      .from("formularios")
+      .select("id")
+      .eq("id", formularioId)
+      .maybeSingle();
+    if (!existe) {
+      return { error: "Ese formulario ya no existe.", ok: false };
+    }
+  }
+
+  const { data: pagina } = await supabase
+    .from("paginas")
+    .select("slug")
+    .eq("id", id)
+    .single();
+
+  const { error } = await supabase
+    .from("paginas")
+    .update({ formulario_id: formularioId || null, updated_by: user.id })
+    .eq("id", id);
+
+  if (error) return { error: "No se pudo guardar.", ok: false };
+
+  revalidatePath(`/admin/contenido/paginas/${id}`);
+  if (pagina?.slug) revalidatePath(`/${pagina.slug}`);
+  return { error: null, ok: true };
+}

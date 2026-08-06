@@ -3,6 +3,7 @@ import { Navbar } from "@/components/home/Navbar";
 import { HeroContactos } from "@/components/contactos/HeroContactos";
 import { InfoContactos } from "@/components/contactos/InfoContactos";
 import { FormContactos } from "@/components/contactos/FormContactos";
+import { getFormularioPublico } from "@/lib/formularios/getFormulario";
 import { FooterCTA } from "@/components/home/FooterCTA";
 import {
   getConfiguracion,
@@ -62,9 +63,12 @@ function deriveContactoPrimario(contacto: Contacto) {
 }
 
 export default async function ContactosPage() {
-  const [pagina, rawContacto] = await Promise.all([
+  const [pagina, rawContacto, formularioContactos] = await Promise.all([
     getPagina(SLUG),
     getConfiguracion<Partial<Contacto>>("contacto"),
+    // Los campos del formulario salen del motor (Contenido › Formularios);
+    // de esta página solo vienen los textos del encabezado y el mapa.
+    getFormularioPublico("contactos"),
   ]);
   const cfg = mergeContactosPagina(
     (pagina?.contenido ?? null) as Partial<ContactosPaginaConfig> | null
@@ -86,7 +90,11 @@ export default async function ContactosPage() {
           telefonoPrincipal={primario.telefonoPrincipal}
           emailPrincipal={primario.emailPrincipal}
         />
-        <FormContactos formulario={cfg.formulario} mapa={cfg.mapa} />
+        <FormContactos
+          formulario={cfg.formulario}
+          mapa={cfg.mapa}
+          formularioMotor={formularioContactos}
+        />
         <FooterCTA />
       </main>
     </>

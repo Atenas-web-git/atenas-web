@@ -40,7 +40,7 @@ export default async function CorreosDisenoPage() {
           que varía entre todos: la <strong>variante del logo</strong> en el header
           y el <strong>texto legal</strong> del footer. El color de acento, eyebrow,
           imagen hero y botón CTA se configuran por separado en cada plantilla
-          (Admisiones › Correos y Contenido › Plantillas de formularios).
+          (Admisiones › Correos y Contenido › Plantillas de correo para formularios).
         </p>
       </div>
 

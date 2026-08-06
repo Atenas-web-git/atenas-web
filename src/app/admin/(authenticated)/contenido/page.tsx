@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { FileText, Newspaper, Calendar, Image as ImageIcon, FileBox, Trophy, Mail, ArrowRight } from "lucide-react";
+import { FileText, Newspaper, Calendar, Image as ImageIcon, FileBox, Trophy, Mail, ClipboardList, ArrowRight } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
 
@@ -48,8 +48,15 @@ const SECCIONES = [
     activa: true,
   },
   {
+    href: "/admin/contenido/formularios",
+    title: "Formularios",
+    description: "Crea tus propios formularios, elige sus campos y colócalos en cualquier página. Las respuestas llegan a una bandeja aquí mismo.",
+    icon: ClipboardList,
+    activa: true,
+  },
+  {
     href: "/admin/contenido/plantillas-formularios",
-    title: "Plantillas de formularios",
+    title: "Plantillas de correo para formularios",
     description: "Correos automáticos que se envían al admin cuando alguien usa los formularios públicos (Contactos, Quejas, Trabaja con nosotros, Admisiones).",
     icon: Mail,
     activa: true,
