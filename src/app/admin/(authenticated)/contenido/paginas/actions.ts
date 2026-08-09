@@ -10,6 +10,7 @@ import {
   defaultContenidoPlantillaS,
   defaultContenidoPlantillaT,
 } from "../plantillas";
+import { tieneRutaFisica } from "@/lib/cms/rutasFisicas";
 
 export type PaginaActionState = { error: string | null; ok: boolean };
 
@@ -763,6 +764,17 @@ export async function asignarFormularioAction(
     .select("slug")
     .eq("id", id)
     .single();
+
+  // La interfaz ya oculta el selector en estas páginas, pero se comprueba
+  // también aquí: guardar un formulario que nunca se va a pintar deja el dato
+  // en base y a alguien convencido de que la página lo lleva.
+  if (pagina?.slug && formularioId && tieneRutaFisica(pagina.slug)) {
+    return {
+      error:
+        "Esta página tiene un diseño propio y el formulario no se puede colocar desde aquí.",
+      ok: false,
+    };
+  }
 
   const { error } = await supabase
     .from("paginas")
