@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState, useState } from "react";
 import { Save, Mail, Server } from "lucide-react";
 import {
@@ -401,6 +402,23 @@ function ProviderTab({
   );
 }
 
+/**
+ * Tipos de correo cuyo destinatario ya no se decide aquí, sino en su
+ * formulario del motor. Al migrar un formulario más, se añade su entrada.
+ */
+const FORMULARIO_QUE_MANDA: Partial<
+  Record<CorreoPurpose, { slug: string; nombre: string }>
+> = {
+  contactos: { slug: "contactos", nombre: "Contactos" },
+  quejas: { slug: "quejas-sugerencias", nombre: "Quejas y sugerencias" },
+  // «admisiones-confirmacion» NO va aquí, aunque la consulta por nivel use su
+  // buzón: este mismo tipo lo comparte la SOLICITUD de admisión, que no está
+  // en el motor y sí depende de este campo. Desactivarlo dejaría al colegio
+  // sin forma de decir a dónde llegan las solicitudes.
+  // «trabaja» tampoco: su formulario sigue con el código viejo hasta que se
+  // rehaga la página.
+};
+
 function PresetRow({
   purpose,
   label,
@@ -416,7 +434,14 @@ function PresetRow({
   fromName: string;
   notifyTo: string;
 }) {
-  const showNotifyTo = purpose !== "admisiones-pipeline";
+  // Dónde se decide el destinatario de cada tipo de correo.
+  //
+  // Los formularios que ya viven en el motor traen sus propios destinatarios y
+  // se los pasan a `sendEmail`, así que este campo NO se usa para ellos: se
+  // desactiva y se enlaza al sitio donde sí manda. Dejarlo editable sería peor
+  // que quitarlo — alguien lo cambiaría, guardaría, y no pasaría nada.
+  const formularioDelMotor = FORMULARIO_QUE_MANDA[purpose];
+  const showNotifyTo = purpose !== "admisiones-pipeline" && !formularioDelMotor;
   return (
     <div className="flex flex-col gap-2 p-3" style={panelStyle}>
       <div className="flex flex-col gap-1">
@@ -457,9 +482,11 @@ function PresetRow({
         <Field
           label={showNotifyTo ? "Notificar a (interno)" : "Notificar a"}
           hint={
-            purpose === "admisiones-pipeline"
-              ? "El destinatario es el representante de cada solicitud; no aplica un fijo."
-              : "Email del admin que recibe la notificación. Acepta varios separados por coma."
+            formularioDelMotor
+              ? "Este tipo lo controla su formulario: el destinatario se cambia allí."
+              : purpose === "admisiones-pipeline"
+                ? "El destinatario es el representante de cada solicitud; no aplica un fijo."
+                : "Email del admin que recibe la notificación. Acepta varios separados por coma."
           }
         >
           <input
@@ -467,9 +494,11 @@ function PresetRow({
             name={`preset_${purpose}_notifyTo`}
             defaultValue={notifyTo}
             placeholder={
-              purpose === "admisiones-pipeline"
-                ? "— se toma del representante —"
-                : "admin@atenas.edu.ec"
+              formularioDelMotor
+                ? "— se define en el formulario —"
+                : purpose === "admisiones-pipeline"
+                  ? "— se toma del representante —"
+                  : "admin@atenas.edu.ec"
             }
             disabled={!showNotifyTo}
             style={{
@@ -480,6 +509,19 @@ function PresetRow({
           />
         </Field>
       </div>
+
+      {formularioDelMotor && (
+        <p style={{ fontSize: 11, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+          Para cambiar a quién le llegan estos mensajes, entra en{" "}
+          <Link
+            href="/admin/contenido/formularios"
+            style={{ color: "#1A2B4A", fontWeight: 600 }}
+          >
+            Contenido › Formularios › {formularioDelMotor.nombre}
+          </Link>
+          , en «A quién le llega». Aquí solo se decide desde qué buzón sale.
+        </p>
+      )}
     </div>
   );
 }

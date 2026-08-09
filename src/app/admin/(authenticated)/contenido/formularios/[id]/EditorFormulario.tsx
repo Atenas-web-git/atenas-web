@@ -252,7 +252,7 @@ export function EditorFormulario({
       >
         <Campo
           label="Correos que reciben el aviso"
-          ayuda="Separa varios con comas."
+          ayuda="Separa varios con comas. Este es el único sitio donde se decide: lo que pongas aquí manda sobre la configuración general de correos."
         >
           <input
             name="notificar_a"
@@ -261,6 +261,14 @@ export function EditorFormulario({
             style={INPUT}
           />
         </Campo>
+
+        {formulario.notificar_a.length === 0 && (
+          <Aviso>
+            Sin ningún correo aquí, las respuestas se guardan pero{" "}
+            <strong>nadie recibe aviso de que llegaron</strong>. Alguien tendría
+            que entrar a mirar la bandeja por su cuenta.
+          </Aviso>
+        )}
 
         <Fila>
           <Campo
@@ -276,7 +284,7 @@ export function EditorFormulario({
           </Campo>
           <Campo
             label="Buzón desde el que sale"
-            ayuda="Se configura en Configuración › Correos."
+            ayuda="Solo decide el remitente: desde qué dirección se envía y con qué nombre."
           >
             <select
               name="preset_correo"
@@ -291,6 +299,17 @@ export function EditorFormulario({
             </select>
           </Campo>
         </Fila>
+
+        <p style={{ fontSize: 11, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+          Los buzones y sus credenciales se administran en{" "}
+          <Link
+            href="/admin/configuracion/correos"
+            style={{ color: "#1A2B4A", fontWeight: 600 }}
+          >
+            Configuración › Correos
+          </Link>
+          . El destinatario, en cambio, se decide aquí.
+        </p>
       </Bloque>
 
       {/* ─── Confirmación ──────────────────────────────────── */}
