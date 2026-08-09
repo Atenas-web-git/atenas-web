@@ -3,7 +3,6 @@ import { Navbar } from "@/components/home/Navbar";
 import { FooterCTA } from "@/components/home/FooterCTA";
 import { TrabajaHero } from "@/components/trabaja/TrabajaHero";
 import { TrabajaValores } from "@/components/trabaja/TrabajaValores";
-import { TrabajaForm } from "@/components/trabaja/TrabajaForm";
 import { ListaVacantes } from "@/components/trabaja/ListaVacantes";
 import { getPagina } from "@/lib/cms/getPagina";
 import type {
@@ -40,7 +39,6 @@ export default async function TrabajaConNosotrosPage() {
   // (caso "publicar primero, BD después") la página siga renderizando OK.
   const hero = contenido?.hero;
   const valores = contenido?.valores;
-  const formulario = contenido?.formulario;
 
   return (
     <>
@@ -65,21 +63,14 @@ export default async function TrabajaConNosotrosPage() {
               : undefined
           }
         />
-        {/*
-          Las vacantes publicadas, si las hay. Va antes del formulario general
-          porque quien llega buscando trabajo quiere ver primero qué hay
-          abierto; el formulario de abajo es el «déjanos tus datos» para quien
-          no encaja en ninguna.
-        */}
+        {/* El tablón de vacantes: es el corazón de esta página. */}
         <ListaVacantes />
-        <TrabajaForm
-          heading={formulario?.heading}
-          subtitle={formulario?.subtitle}
-          step1Label={formulario?.step1Label}
-          step2Label={formulario?.step2Label}
-          successTitle={formulario?.successTitle}
-          successText={formulario?.successText}
-        />
+        {/*
+          El formulario general de postulación se retiró el 2026-08-06: la
+          página pasa a ser un tablón de vacantes, y cada una lleva el suyo.
+          El componente TrabajaForm y /api/trabaja siguen en el repo como vía
+          de vuelta hasta que esto lleve unos días en producción.
+        */}
         <FooterCTA />
       </main>
     </>

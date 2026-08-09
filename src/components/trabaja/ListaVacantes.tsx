@@ -1,15 +1,15 @@
 /**
  * Listado de vacantes en «Trabaja con nosotros».
  *
- * Server component: si no hay vacantes publicadas no renderiza nada, y la
- * página se queda como estaba. Así el colegio puede empezar a usarlo cuando
- * quiera sin que aparezca una sección vacía mientras tanto.
+ * Desde que se retiró el formulario general (2026-08-06), esta sección ES la
+ * página: si no hay vacantes abiertas muestra a quién escribir, en vez de
+ * desaparecer y dejar a quien busca trabajo sin ninguna salida.
  *
  * Mobile first: una columna en 375px, dos a partir de 768.
  */
 
 import Link from "next/link";
-import { ArrowRight, CalendarClock } from "lucide-react";
+import { ArrowRight, CalendarClock, Mail } from "lucide-react";
 import {
   CATEGORIA_VACANTE_INFO,
   getVacantesPublicas,
@@ -33,7 +33,14 @@ function formatearFecha(iso: string): string {
 
 export async function ListaVacantes() {
   const vacantes = await getVacantesPublicas();
-  if (vacantes.length === 0) return null;
+
+  // Sin vacantes NO se devuelve null.
+  //
+  // Desde que se retiró el formulario general, esta sección es lo único que
+  // ofrece la página: si desapareciera al quedarse sin ofertas, quien llegue
+  // buscando trabajo se encontraría un hero, tres tarjetas de valores y ni una
+  // forma de escribir. Se muestra a dónde dirigirse mientras tanto.
+  if (vacantes.length === 0) return <SinVacantes />;
 
   const porCategoria = ORDEN_CATEGORIAS.map((categoria) => ({
     categoria,
@@ -78,6 +85,48 @@ export async function ListaVacantes() {
             </div>
           </div>
         ))}
+      </div>
+    </section>
+  );
+}
+
+/**
+ * Lo que se ve cuando no hay ninguna vacante abierta.
+ *
+ * No es un hueco: da el correo de talento humano, para que alguien interesado
+ * pueda escribir igual y el colegio no pierda un candidato por haber cerrado
+ * todas sus convocatorias esa semana.
+ */
+function SinVacantes() {
+  return (
+    <section
+      id="vacantes"
+      className="px-[24px] py-[56px] sm:px-[40px] sm:py-[80px]"
+      style={{ background: "var(--color-cream)", fontFamily: FUENTE }}
+    >
+      <div className="mx-auto w-full max-w-[620px] text-center">
+        <h2
+          className="text-[22px] font-bold leading-tight sm:text-[26px]"
+          style={{ color: "var(--color-navy)" }}
+        >
+          Ahora mismo no hay vacantes abiertas
+        </h2>
+        <p
+          className="mx-auto mt-3 text-[14px] leading-relaxed"
+          style={{ color: "var(--color-muted)" }}
+        >
+          Publicamos aquí cada convocatoria en cuanto se abre. Si quieres que
+          te tengamos en cuenta para las próximas, escríbenos con tu hoja de
+          vida.
+        </p>
+        <a
+          href="mailto:gestionhumana@atenas.edu.ec"
+          className="mt-6 inline-flex items-center gap-[10px] rounded-[8px] px-[26px] py-[13px] text-[14px] font-bold"
+          style={{ background: "var(--color-navy)", color: "#FFFFFF" }}
+        >
+          <Mail size={16} />
+          gestionhumana@atenas.edu.ec
+        </a>
       </div>
     </section>
   );
