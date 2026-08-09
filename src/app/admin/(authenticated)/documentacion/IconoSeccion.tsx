@@ -8,6 +8,8 @@ import {
   FileBox,
   Trophy,
   Image as ImageIcon,
+  ClipboardList,
+  BriefcaseBusiness,
   UserPlus,
   Mail,
   Settings,
@@ -53,6 +55,10 @@ export function IconoSeccion({
       return <Trophy {...props} />;
     case "Image":
       return <ImageIcon {...props} />;
+    case "ClipboardList":
+      return <ClipboardList {...props} />;
+    case "BriefcaseBusiness":
+      return <BriefcaseBusiness {...props} />;
     case "UserPlus":
       return <UserPlus {...props} />;
     case "Mail":

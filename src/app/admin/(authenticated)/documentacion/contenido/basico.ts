@@ -170,7 +170,7 @@ export const PRIMEROS_PASOS: Seccion = {
             "**Cronograma anual** — eventos del año en tres vistas: tarjetas, calendario y línea de tiempo.",
             "**Documentos institucionales** — descargas en PDF.",
             "**Contactos** — datos, mapa y formulario de mensaje.",
-            "**Trabaja con nosotros** — formulario de postulación de empleo.",
+            "**Trabaja con nosotros** — las vacantes abiertas, cada una con su página y su formulario.",
             "**Portal familiar** y las **Políticas** institucionales.",
           ],
         },

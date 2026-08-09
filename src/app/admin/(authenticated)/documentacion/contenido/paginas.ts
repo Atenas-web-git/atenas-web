@@ -439,7 +439,7 @@ export const PAGINAS: Seccion = {
             ],
             [
               "N · Trabaja con Nosotros",
-              "Portada, tarjetas de valores con foto e icono, y encabezado del formulario de postulación.",
+              "Portada y tarjetas de valores con foto e icono. El listado de vacantes se administra aparte, en Contenido › Vacantes.",
               "Trabaja con nosotros",
             ],
             [

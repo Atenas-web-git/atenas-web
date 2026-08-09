@@ -3,6 +3,7 @@ import { PRIMEROS_PASOS, ROLES_SECCION } from "./basico";
 import { EDITOR, PAGINAS } from "./paginas";
 import { NOTIFICACIONES, CRONOGRAMA, DOCUMENTOS, RECONOCIMIENTOS, GALERIA } from "./modulos";
 import { ADMISIONES, CORREOS } from "./admisiones";
+import { FORMULARIOS, VACANTES } from "./formularios";
 import { CONFIGURACION, USUARIOS } from "./ajustes";
 import { PRACTICAS, GLOSARIO } from "./cierre";
 
@@ -17,6 +18,8 @@ export const SECCIONES: Seccion[] = [
   DOCUMENTOS,
   RECONOCIMIENTOS,
   GALERIA,
+  FORMULARIOS,
+  VACANTES,
   ADMISIONES,
   CORREOS,
   CONFIGURACION,
