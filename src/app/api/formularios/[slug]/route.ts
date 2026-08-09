@@ -36,6 +36,7 @@ import {
   type ArchivoRespuesta,
 } from "@/lib/formularios/tipos";
 import { identificadorDe, registrarIntento } from "@/lib/security/rateLimit";
+import { quizaPurgar } from "@/lib/formularios/purgarHuerfanos";
 
 export const runtime = "nodejs";
 
@@ -261,6 +262,11 @@ export async function POST(
         .update({ correo_enviado: true })
         .eq("id", respuestaId);
     }
+
+    // De vez en cuando, barrer los archivos que otras personas dejaron a medias
+    // en este formulario. No se espera: la respuesta ya está guardada y quien
+    // envió no tiene por qué aguardar a una tarea de mantenimiento.
+    quizaPurgar(slug, formulario.id);
 
     // No se devuelve el número de respuesta: es un contador correlativo, y
     // enviando el formulario dos veces cualquiera sabría cuántas
