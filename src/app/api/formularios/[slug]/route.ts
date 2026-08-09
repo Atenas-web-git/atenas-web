@@ -23,7 +23,6 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { randomUUID } from "node:crypto";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getFormulario } from "@/lib/formularios/getFormulario";
 import { normalizarDatos, validarRespuesta } from "@/lib/formularios/validar";
@@ -33,9 +32,7 @@ import {
   notificarInterno,
 } from "@/lib/formularios/notificar";
 import {
-  EXTENSIONES_ARCHIVO_DEFAULT,
   MAX_MB_ARCHIVO,
-  MIME_ARCHIVO_PERMITIDOS,
   type ArchivoRespuesta,
 } from "@/lib/formularios/tipos";
 import { identificadorDe, registrarIntento } from "@/lib/security/rateLimit";
@@ -71,11 +68,6 @@ const CAMPO_TIEMPO = "_t";
  */
 function fingirExito() {
   return NextResponse.json({ ok: true });
-}
-
-function extension(nombre: string): string {
-  const punto = nombre.lastIndexOf(".");
-  return punto === -1 ? "" : nombre.slice(punto).toLowerCase();
 }
 
 export async function POST(
@@ -127,14 +119,23 @@ export async function POST(
     }
 
     // ─── Reunir valores ──────────────────────────────────────
+    //
+    // Los archivos NO viajan en esta petición: el navegador ya los subió
+    // directo a Storage con un permiso firmado (ver ./subida) y aquí solo
+    // llega su ruta. Es lo que permite aceptar un audio de más de 4,5 MB, que
+    // es el techo del cuerpo de una petición en Vercel.
     const entrada: Record<string, unknown> = {};
-    const archivosEntrantes = new Map<string, File>();
+    const rutasEntrantes = new Map<string, string>();
 
     for (const campo of formulario.campos) {
       if (campo.tipo === "archivo") {
-        const valor = formData.get(campo.key);
-        if (valor instanceof File && valor.size > 0) {
-          archivosEntrantes.set(campo.key, valor);
+        const ruta = String(formData.get(`__ruta_${campo.key}`) ?? "").trim();
+        // Se acepta solo si tiene la forma exacta que genera el endpoint de
+        // subida Y está dentro de la carpeta de ESTE formulario. Sin lo
+        // segundo, alguien podría adjuntar a su postulación la hoja de vida
+        // que otra persona subió a otro formulario.
+        if (ruta && new RegExp(`^${slug}/[A-Za-z0-9._-]+$`).test(ruta)) {
+          rutasEntrantes.set(campo.key, ruta);
         }
         continue;
       }
@@ -152,100 +153,65 @@ export async function POST(
     const errores = validarRespuesta(
       formulario.campos,
       datos,
-      [...archivosEntrantes.keys()]
+      [...rutasEntrantes.keys()]
     );
 
     if (Object.keys(errores).length > 0) {
       return NextResponse.json({ errores }, { status: 400 });
     }
 
-    // ─── Comprobar los archivos antes de subir nada ──────────
-    for (const [key, archivo] of archivosEntrantes) {
-      const campo = formulario.campos.find((c) => c.key === key);
-      const maxMb = Math.min(campo?.maxMb ?? MAX_MB_ARCHIVO, MAX_MB_ARCHIVO);
-
-      if (archivo.size > maxMb * 1024 * 1024) {
-        return NextResponse.json(
-          {
-            errores: {
-              [key]: `El archivo supera el límite de ${maxMb} MB.`,
-            },
-          },
-          { status: 400 }
-        );
-      }
-
-      const admitidas = campo?.acepta?.length
-        ? campo.acepta
-        : EXTENSIONES_ARCHIVO_DEFAULT;
-      const ext = extension(archivo.name);
-
-      // Se comprueban las DOS cosas: la extensión la elige quien sube el
-      // archivo y se cambia renombrando, así que el tipo declarado tiene que
-      // cuadrar también con la lista de formatos que aceptamos.
-      if (!admitidas.includes(ext)) {
-        return NextResponse.json(
-          {
-            errores: {
-              [key]: `Formato no admitido. Usa ${admitidas.join(", ")}.`,
-            },
-          },
-          { status: 400 }
-        );
-      }
-
-      // Sin cortocircuito por `archivo.type` vacío: una parte del formulario
-      // enviada sin cabecera de tipo se saltaba la comprobación entera, que es
-      // justo lo que haría quien quisiera subir algo que no toca.
-      if (!MIME_ARCHIVO_PERMITIDOS.includes(archivo.type)) {
-        return NextResponse.json(
-          {
-            errores: {
-              [key]: "Ese tipo de archivo no se admite.",
-            },
-          },
-          { status: 400 }
-        );
-      }
-    }
-
-    // ─── Subir ───────────────────────────────────────────────
+    // ─── Confirmar los archivos ya subidos ───────────────────
+    //
+    // Se comprueba contra Storage que cada ruta EXISTE de verdad. El permiso
+    // de subida se pide antes de subir, así que una ruta firmada no prueba que
+    // haya llegado nada: sin esta comprobación, una postulación podría quedar
+    // con una hoja de vida que no está, y el colegio lo descubriría al ir a
+    // descargarla.
     const supabase = createAdminClient();
     const subidos: ArchivoRespuesta[] = [];
 
-    for (const [key, archivo] of archivosEntrantes) {
-      const nombreSeguro = archivo.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-80);
-      const ruta = `${slug}/${randomUUID()}_${nombreSeguro}`;
-      const buffer = Buffer.from(await archivo.arrayBuffer());
+    for (const [key, ruta] of rutasEntrantes) {
+      const carpeta = ruta.slice(0, ruta.lastIndexOf("/"));
+      const nombre = ruta.slice(ruta.lastIndexOf("/") + 1);
 
-      const { error } = await supabase.storage
+      const { data: encontrados } = await supabase.storage
         .from(BUCKET)
-        .upload(ruta, buffer, {
-          contentType: archivo.type || "application/octet-stream",
-          upsert: false,
-        });
+        .list(carpeta, { search: nombre, limit: 1 });
 
-      if (error) {
-        console.error(`[formularios] no se pudo subir "${ruta}":`, error.message);
-        // Limpiar lo que ya se subió: si no se puede completar el envío, no
-        // deben quedar archivos sueltos de una respuesta que no existe.
-        if (subidos.length > 0) {
-          await supabase.storage
-            .from(BUCKET)
-            .remove(subidos.map((a) => a.storage_path));
-        }
+      const archivo = encontrados?.find((f) => f.name === nombre);
+      if (!archivo) {
         return NextResponse.json(
-          { errores: { [key]: "No se pudo subir el archivo. Intenta de nuevo." } },
-          { status: 500 }
+          {
+            errores: {
+              [key]: "El archivo no terminó de subirse. Vuelve a adjuntarlo.",
+            },
+          },
+          { status: 400 }
+        );
+      }
+
+      const campo = formulario.campos.find((c) => c.key === key);
+      const maxMb = Math.min(campo?.maxMb ?? MAX_MB_ARCHIVO, MAX_MB_ARCHIVO);
+      const tamano = Number(archivo.metadata?.size ?? 0);
+
+      // El tamaño se vuelve a mirar aquí porque al pedir el permiso lo declara
+      // el cliente, y lo declarado no obliga a nada.
+      if (tamano > maxMb * 1024 * 1024) {
+        await supabase.storage.from(BUCKET).remove([ruta]);
+        return NextResponse.json(
+          { errores: { [key]: `El archivo supera el límite de ${maxMb} MB.` } },
+          { status: 400 }
         );
       }
 
       subidos.push({
         key,
-        filename: archivo.name.slice(-120),
+        // El nombre real se recupera quitando el identificador aleatorio que
+        // el servidor antepuso al firmar.
+        filename: nombre.replace(/^[0-9a-f-]{36}_/i, "").slice(-120),
         storage_path: ruta,
-        size_bytes: archivo.size,
-        mime_type: archivo.type || "application/octet-stream",
+        size_bytes: tamano,
+        mime_type: String(archivo.metadata?.mimetype ?? "application/octet-stream"),
       });
     }
 

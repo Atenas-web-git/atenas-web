@@ -46,7 +46,7 @@ export type CampoFormulario = {
   max?: number;
   /** Solo para archivo: extensiones admitidas, en minúscula y con punto. */
   acepta?: string[];
-  /** Solo para archivo: límite por archivo. El bucket corta en 10 MB. */
+  /** Solo para archivo: límite propio del campo. Nunca por encima de MAX_MB_ARCHIVO. */
   maxMb?: number;
   /** Ancho en la rejilla de dos columnas del escritorio. En móvil todo ocupa el ancho completo. */
   ancho?: "completo" | "medio";
@@ -226,21 +226,20 @@ export const MIME_ARCHIVO_PERMITIDOS = [
 ];
 
 /**
- * Límite por archivo.
+ * Techo absoluto por archivo.
  *
- * Son 4 MB y no 10 por una razón de la plataforma, no del bucket: **Vercel
- * corta el cuerpo de una petición en 4,5 MB**. Un archivo mayor no llega
- * siquiera a este código —la petición se rechaza antes—, así que anunciar 10
- * MB sería prometer algo que falla con un error que no dice nada.
+ * Antes eran 4 MB, y no por el bucket: Vercel corta el cuerpo de una petición
+ * en 4,5 MB, así que un archivo mayor no llegaba ni al código.
  *
- * El bucket sí admite 10 MB, para no tener que migrarlo el día que se pase a
- * subida directa a Storage. Mientras tanto, manda este número.
+ * Ya no aplica. Los archivos suben DIRECTO del navegador a Storage con un
+ * permiso firmado (`/api/formularios/[slug]/subida`) y por nuestra petición
+ * solo viaja la ruta, que son unos pocos bytes. El límite real vuelve a ser el
+ * del bucket: 100 MB, el mismo que el colegio usa en su Google Forms para el
+ * audio de presentación.
  *
- * ⚠️ Consecuencia práctica: el audio de presentación que el colegio pide a los
- * docentes de inglés tiene que ir comprimido. Un MP3 de voz a 64 kbps entra de
- * sobra (unos 8 minutos), pero uno sin comprimir no.
+ * Cada campo puede bajar de aquí con su propio `maxMb`; ninguno puede subir.
  */
-export const MAX_MB_ARCHIVO = 4;
+export const MAX_MB_ARCHIVO = 100;
 
 /** Convierte una etiqueta en una key estable: "Fecha de Nacimiento" → "fecha_de_nacimiento". */
 export function keyDesdeEtiqueta(etiqueta: string): string {

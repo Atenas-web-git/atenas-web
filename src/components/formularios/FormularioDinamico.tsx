@@ -97,6 +97,11 @@ export function FormularioDinamico({
     )
   );
   const [archivos, setArchivos] = useState<Record<string, File | null>>({});
+  // Los archivos se suben en cuanto se eligen, directo a Storage: por la
+  // petición del formulario no cabrían (Vercel corta en 4,5 MB). Aquí se
+  // guarda la ruta que devuelve esa subida y en qué punto va cada una.
+  const [rutas, setRutas] = useState<Record<string, string>>({});
+  const [subiendo, setSubiendo] = useState<Record<string, boolean>>({});
   const [errores, setErrores] = useState<ErroresValidacion>({});
   const [errorGeneral, setErrorGeneral] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
@@ -106,10 +111,81 @@ export function FormularioDinamico({
   // instantáneos, que son de robots.
   const pintadoEn = useRef<number>(Date.now());
 
+  // Lo que cuenta como «hay archivo» es la RUTA confirmada, no el File
+  // elegido: si la subida falló, el campo sigue vacío para la validación.
   const keysConArchivo = useMemo(
-    () => Object.entries(archivos).filter(([, f]) => f).map(([k]) => k),
-    [archivos]
+    () => Object.entries(rutas).filter(([, r]) => r).map(([k]) => k),
+    [rutas]
   );
+
+  const haySubidaEnCurso = Object.values(subiendo).some(Boolean);
+
+  /** Sube el archivo elegido y guarda su ruta. */
+  async function subirArchivo(key: string, archivo: File | null) {
+    setArchivos((prev) => ({ ...prev, [key]: archivo }));
+    setRutas((prev) => ({ ...prev, [key]: "" }));
+    setErrores((prev) => {
+      if (!prev[key]) return prev;
+      const siguiente = { ...prev };
+      delete siguiente[key];
+      return siguiente;
+    });
+    if (!archivo) return;
+
+    setSubiendo((prev) => ({ ...prev, [key]: true }));
+    try {
+      const permiso = await fetch(`/api/formularios/${formulario.slug}/subida`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          key,
+          filename: archivo.name,
+          size: archivo.size,
+          mime: archivo.type,
+        }),
+      });
+      const cuerpo = await permiso.json().catch(() => ({}));
+
+      if (!permiso.ok) {
+        setErrores((prev) => ({
+          ...prev,
+          [key]: typeof cuerpo?.error === "string"
+            ? cuerpo.error
+            : "No se pudo subir el archivo.",
+        }));
+        setArchivos((prev) => ({ ...prev, [key]: null }));
+        return;
+      }
+
+      const { createClient } = await import("@supabase/supabase-js");
+      const storage = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      );
+      const { error } = await storage.storage
+        .from(cuerpo.bucket)
+        .uploadToSignedUrl(cuerpo.ruta, cuerpo.token, archivo);
+
+      if (error) {
+        setErrores((prev) => ({
+          ...prev,
+          [key]: "No se pudo subir el archivo. Revisa tu conexión e intenta de nuevo.",
+        }));
+        setArchivos((prev) => ({ ...prev, [key]: null }));
+        return;
+      }
+
+      setRutas((prev) => ({ ...prev, [key]: cuerpo.ruta }));
+    } catch {
+      setErrores((prev) => ({
+        ...prev,
+        [key]: "No se pudo subir el archivo. Intenta de nuevo.",
+      }));
+      setArchivos((prev) => ({ ...prev, [key]: null }));
+    } finally {
+      setSubiendo((prev) => ({ ...prev, [key]: false }));
+    }
+  }
 
   function actualizar(key: string, valor: ValorCampo) {
     setValores((prev) => ({ ...prev, [key]: valor }));
@@ -127,6 +203,11 @@ export function FormularioDinamico({
   async function enviar(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (enviando) return;
+    // Enviar con una subida a medias guardaría la respuesta sin su archivo.
+    if (haySubidaEnCurso) {
+      setErrorGeneral("Espera a que termine de subirse el archivo.");
+      return;
+    }
 
     const encontrados = validarRespuesta(
       formulario.campos,
@@ -150,8 +231,8 @@ export function FormularioDinamico({
     const datos = new FormData();
     for (const campo of formulario.campos) {
       if (campo.tipo === "archivo") {
-        const archivo = archivos[campo.key];
-        if (archivo) datos.append(campo.key, archivo);
+        const ruta = rutas[campo.key];
+        if (ruta) datos.append(`__ruta_${campo.key}`, ruta);
         continue;
       }
       const valor = valores[campo.key];
@@ -261,15 +342,9 @@ export function FormularioDinamico({
             archivo={archivos[campo.key] ?? null}
             error={errores[campo.key]}
             onChange={(valor) => actualizar(campo.key, valor)}
-            onArchivo={(archivo) => {
-              setArchivos((prev) => ({ ...prev, [campo.key]: archivo }));
-              setErrores((prev) => {
-                if (!prev[campo.key]) return prev;
-                const siguiente = { ...prev };
-                delete siguiente[campo.key];
-                return siguiente;
-              });
-            }}
+            onArchivo={(archivo) => void subirArchivo(campo.key, archivo)}
+            subiendo={subiendo[campo.key] ?? false}
+            subido={!!rutas[campo.key]}
           />
         ))}
       </div>
@@ -315,7 +390,7 @@ export function FormularioDinamico({
 
       <button
         type="submit"
-        disabled={enviando}
+        disabled={enviando || haySubidaEnCurso}
         className={`mt-6 inline-flex w-full items-center justify-center gap-[10px] rounded-[8px] px-[28px] py-[14px] text-[14px] font-bold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-60 ${
           anchoBoton === "completo" ? "" : "sm:w-auto"
         }`}
@@ -324,12 +399,16 @@ export function FormularioDinamico({
             colorBoton === "red" ? "var(--color-red)" : "var(--color-navy)",
         }}
       >
-        {enviando ? (
+        {enviando || haySubidaEnCurso ? (
           <Loader2 size={16} className="animate-spin" />
         ) : (
           <Send size={16} />
         )}
-        {enviando ? "Enviando…" : formulario.texto_boton}
+        {enviando
+          ? "Enviando…"
+          : haySubidaEnCurso
+            ? "Subiendo archivo…"
+            : formulario.texto_boton}
       </button>
     </form>
   );
@@ -346,6 +425,8 @@ function Campo({
   error,
   onChange,
   onArchivo,
+  subiendo = false,
+  subido = false,
 }: {
   campo: CampoFormulario;
   valor: ValorCampo;
@@ -353,6 +434,10 @@ function Campo({
   error?: string;
   onChange: (valor: ValorCampo) => void;
   onArchivo: (archivo: File | null) => void;
+  /** El archivo se está subiendo a Storage ahora mismo. */
+  subiendo?: boolean;
+  /** Ya terminó de subirse y su ruta está confirmada. */
+  subido?: boolean;
 }) {
   const id = `campo-${campo.key}`;
   const idAyuda = `${id}-ayuda`;
@@ -494,9 +579,19 @@ function Campo({
               color: archivo ? "var(--color-navy)" : "var(--color-muted)",
             }}
           >
-            <Paperclip size={16} />
+            {subiendo ? (
+              <Loader2 size={16} className="animate-spin" />
+            ) : subido ? (
+              <Check size={16} color="#2F6B4F" />
+            ) : (
+              <Paperclip size={16} />
+            )}
             <span className="truncate">
-              {archivo ? archivo.name : "Elegir archivo"}
+              {subiendo
+                ? `Subiendo ${archivo?.name ?? ""}…`
+                : archivo
+                  ? archivo.name
+                  : "Elegir archivo"}
             </span>
           </label>
           <input
@@ -505,6 +600,7 @@ function Campo({
             type="file"
             accept={(campo.acepta ?? EXTENSIONES_ARCHIVO_DEFAULT).join(",")}
             onChange={(e) => onArchivo(e.target.files?.[0] ?? null)}
+            disabled={subiendo}
             aria-invalid={!!error}
             aria-describedby={describedBy}
             className="sr-only"
