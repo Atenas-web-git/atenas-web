@@ -4,6 +4,7 @@ import { FooterCTA } from "@/components/home/FooterCTA";
 import { TrabajaHero } from "@/components/trabaja/TrabajaHero";
 import { TrabajaValores } from "@/components/trabaja/TrabajaValores";
 import { TrabajaForm } from "@/components/trabaja/TrabajaForm";
+import { ListaVacantes } from "@/components/trabaja/ListaVacantes";
 import { getPagina } from "@/lib/cms/getPagina";
 import type {
   ContenidoPlantillaN,
@@ -64,6 +65,13 @@ export default async function TrabajaConNosotrosPage() {
               : undefined
           }
         />
+        {/*
+          Las vacantes publicadas, si las hay. Va antes del formulario general
+          porque quien llega buscando trabajo quiere ver primero qué hay
+          abierto; el formulario de abajo es el «déjanos tus datos» para quien
+          no encaja en ninguna.
+        */}
+        <ListaVacantes />
         <TrabajaForm
           heading={formulario?.heading}
           subtitle={formulario?.subtitle}

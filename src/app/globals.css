@@ -24,6 +24,13 @@ html {
 
 /* Prevent layout shift on page load */
 body {
+  /* Fondo base del sitio.
+     No es decorativo: sin él el fondo lo decide el navegador, y a quien tenga
+     el tema oscuro del sistema le sale NEGRO en cualquier sección que se
+     olvide de declarar el suyo. Los textos del sitio son navy y gris oscuro,
+     así que ahí quedan ilegibles. Pasó al construir las páginas de vacante.
+     Esto es la red de seguridad; cada sección sigue declarando su fondo. */
+  background: #FFFFFF;
   overflow-x: hidden;
   /* Cuando hay banner de notificación arriba, empuja todo el contenido hacia abajo
      dinámicamente. El BannerTop setea --banner-height al montarse. */

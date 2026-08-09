@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { FileText, Newspaper, Calendar, Image as ImageIcon, FileBox, Trophy, Mail, ClipboardList, ArrowRight } from "lucide-react";
+import { FileText, Newspaper, Calendar, Image as ImageIcon, FileBox, Trophy, Mail, ClipboardList, BriefcaseBusiness, ArrowRight } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
 
@@ -52,6 +52,13 @@ const SECCIONES = [
     title: "Formularios",
     description: "Crea tus propios formularios, elige sus campos y colócalos en cualquier página. Las respuestas llegan a una bandeja aquí mismo.",
     icon: ClipboardList,
+    activa: true,
+  },
+  {
+    href: "/admin/contenido/vacantes",
+    title: "Vacantes",
+    description: "Ofertas de empleo de «Trabaja con nosotros». Cada vacante tiene su página y su formulario, y las postulaciones llegan por separado.",
+    icon: BriefcaseBusiness,
     activa: true,
   },
   {

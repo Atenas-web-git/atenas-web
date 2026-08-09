@@ -26,12 +26,22 @@ type Props = {
   slug?: string;
   /** Fondo de la sección. `cream` es el de las secciones intercaladas. */
   fondo?: "blanco" | "cream";
+  /**
+   * Valores con los que arranca el formulario, por key de campo.
+   *
+   * Lo usan las páginas de vacante: el mismo formulario de postulación sirve
+   * para todas, y cada una llega con su cargo ya puesto. Así el colegio
+   * mantiene un solo formulario —como hace hoy— pero sabe a qué vacante
+   * postuló cada quien sin depender de que lo escriban bien.
+   */
+  valoresIniciales?: Record<string, string>;
 };
 
 export async function BloqueFormulario({
   formularioId,
   slug,
   fondo = "cream",
+  valoresIniciales,
 }: Props) {
   if (!formularioId && !slug) return null;
 
@@ -53,7 +63,10 @@ export async function BloqueFormulario({
         className="mx-auto w-full max-w-[720px] rounded-[12px] border p-[24px] sm:p-[40px]"
         style={{ borderColor: "#E8E4DD", background: "#FFFFFF" }}
       >
-        <FormularioDinamico formulario={formulario} />
+        <FormularioDinamico
+          formulario={formulario}
+          valoresIniciales={valoresIniciales}
+        />
       </div>
     </section>
   );
