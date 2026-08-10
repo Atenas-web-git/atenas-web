@@ -47,7 +47,7 @@ export default async function AdmisionEGBEMPage() {
         <HeroElAtenas
           badge={cfg?.hero?.badge ?? "ADMISIONES"}
           title={cfg?.hero?.title ?? "Admisión EGB Elemental y Media"}
-          subtitle={cfg?.hero?.subtitle ?? "1ro a 7mo grado — Formación sólida en valores, bilinguismo y pensamiento crítico desde la infancia."}
+          subtitle={cfg?.hero?.subtitle ?? "1ro a 7mo grado — Formación sólida en valores, bilingüismo y pensamiento crítico desde la infancia."}
           ghostText={cfg?.hero?.ghostText ?? "EGB"}
           bgImageSrc={cfg?.hero?.bgImage || undefined}
         />

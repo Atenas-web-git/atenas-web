@@ -89,9 +89,9 @@ export const TIPOS_PLANTILLA_INFO: Record<TipoPlantillaFormulario, TipoInfo> = {
       est_nombres: "María",
       est_apellidos: "Pérez",
       est_nivel: "Bachillerato IB",
-      numero: "ATN-2026-543210",
+      numero: "ADM026-278",
       url_seguimiento:
-        "https://atenas.edu.ec/admisiones/seguimiento?numero=ATN-2026-543210",
+        "https://atenas.edu.ec/admisiones/seguimiento?numero=ADM026-278",
     },
   },
   "admisiones-consulta": {

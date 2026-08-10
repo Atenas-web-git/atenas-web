@@ -39,12 +39,12 @@ const VARIABLES = [
 ];
 
 const SAMPLE = {
-  numero: "ATN-2026-543210",
+  numero: "ADM026-278",
   est_nombres: "María",
   est_apellidos: "Pérez",
   est_nivel: "Bachillerato IB",
   rep_nombres: "Carlos",
-  url_seguimiento: "https://atenas.edu.ec/admisiones/seguimiento?numero=ATN-2026-543210",
+  url_seguimiento: "https://atenas.edu.ec/admisiones/seguimiento?numero=ADM026-278",
 };
 
 function fillSample(html: string): string {

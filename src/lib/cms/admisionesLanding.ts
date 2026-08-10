@@ -225,7 +225,7 @@ export const ADMISIONES_LANDING_DEFAULT: AdmisionesLandingConfig = {
     horarioCorto: "Lun – Vie · 08:00–16:00",
     ctaPrimary: { label: "Agendar visita", href: "mailto:admisiones@atenas.edu.ec" },
     ctaSecondary: { label: "Ver proceso", href: "#proceso" },
-    contactoLine: "(03) 282-1234 · admisiones@atenas.edu.ec",
+    contactoLine: "03 2854281 ext. 135 · admisiones@atenas.edu.ec",
     fotos: [
       "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=700&q=80",
       "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&q=80",

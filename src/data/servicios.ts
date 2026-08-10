@@ -76,7 +76,7 @@ export const SERVICIOS: ServicioItem[] = [
     pasos: [
       "Preséntate en la Biblioteca con tu carné estudiantil o cédula de identidad.",
       "Solicita el libro o recurso que necesitas al personal bibliotecario.",
-      "Regístra el préstamo y devuelve el material en el plazo acordado.",
+      "Registra el préstamo y devuelve el material en el plazo acordado.",
     ],
     fotos: [
       "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&q=80",

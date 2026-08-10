@@ -10,7 +10,7 @@
 --   - cuerpo_html  → solo el mensaje (HTML rico, editable visualmente)
 --
 -- Variables disponibles dentro del cuerpo y el asunto:
---   {{numero}}            — N° de seguimiento (ATN-YYYY-XXXXXX)
+--   {{numero}}            — N° de seguimiento (ADM026-XXX)
 --   {{est_nombres}}       — Nombres del estudiante
 --   {{est_apellidos}}     — Apellidos del estudiante
 --   {{est_nivel}}         — Nivel solicitado

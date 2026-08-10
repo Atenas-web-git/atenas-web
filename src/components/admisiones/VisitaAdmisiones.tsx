@@ -52,7 +52,7 @@ export function VisitaAdmisiones({
   horarioCorto = "Lun – Vie · 08:00–16:00",
   ctaPrimary = { label: "Agendar visita", href: "mailto:admisiones@atenas.edu.ec" },
   ctaSecondary = { label: "Ver proceso", href: "#proceso" },
-  contactoLine = "(03) 282-1234 · admisiones@atenas.edu.ec",
+  contactoLine = "03 2854281 ext. 135 · admisiones@atenas.edu.ec",
   fotos = DEFAULT_PHOTOS,
   badgeFloating = { linea1: "Lun a Vie", linea2: "08:00 – 16:00" },
 }: VisitaAdmisionesProps = {}) {
