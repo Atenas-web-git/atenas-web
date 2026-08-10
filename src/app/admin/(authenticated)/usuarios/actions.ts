@@ -16,6 +16,7 @@ const VALID_ROLES: RoleSlug[] = [
   ROLES.EDITOR_COMM,
   ROLES.EDITOR_ADMISIONES,
   ROLES.EDITOR_ACADEMICO,
+  ROLES.EDITOR_TALENTO,
 ];
 
 async function assertSuperadmin() {

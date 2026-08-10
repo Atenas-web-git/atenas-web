@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { AlertTriangle, ArrowLeft, BriefcaseBusiness, Inbox, Plus } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
-import { ROLES, hasAnyRole } from "@/lib/auth/types";
+import { puedeVerVacantes } from "@/lib/auth/areas";
 import {
   CATEGORIA_VACANTE_INFO,
   listarVacantes,
@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 export default async function VacantesPage() {
   const user = await getCurrentUser();
   if (!user) return null;
-  if (!hasAnyRole(user, [ROLES.SUPERADMIN, ROLES.EDITOR_COMM])) {
+  if (!puedeVerVacantes(user)) {
     redirect("/admin");
   }
 

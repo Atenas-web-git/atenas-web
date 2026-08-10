@@ -2,8 +2,8 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, Download, Inbox } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
-import { ROLES, hasAnyRole } from "@/lib/auth/types";
-import { getFormularioPorId } from "@/lib/formularios/getFormulario";
+import { puedeVerFormularios } from "@/lib/auth/areas";
+import { getFormularioParaPanel } from "@/lib/formularios/getFormulario";
 import { createAdminClient } from "@/lib/supabase/admin";
 import {
   ESTADOS_RESPUESTA,
@@ -39,11 +39,11 @@ export default async function RespuestasPage({
 
   const user = await getCurrentUser();
   if (!user) return null;
-  if (!hasAnyRole(user, [ROLES.SUPERADMIN, ROLES.EDITOR_COMM])) {
+  if (!puedeVerFormularios(user)) {
     redirect("/admin");
   }
 
-  const formulario = await getFormularioPorId(id);
+  const formulario = await getFormularioParaPanel(id, user);
   if (!formulario) notFound();
 
   const supabase = createAdminClient();

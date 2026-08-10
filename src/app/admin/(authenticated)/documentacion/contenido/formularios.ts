@@ -13,7 +13,8 @@ export const FORMULARIOS: Seccion = {
   descripcion:
     "Crear tus propios formularios, elegir qué preguntan, colocarlos en una página y leer las respuestas.",
   icono: "ClipboardList",
-  paraQuien: "Editor de Comunicaciones · Superadministrador",
+  paraQuien:
+    "Editor de Comunicaciones · Editor de Talento Humano · Superadministrador",
   articulos: [
     {
       id: "que-es",
@@ -39,6 +40,12 @@ export const FORMULARIOS: Seccion = {
             "**Postulación de empleo** es el de «Trabaja con nosotros»: lo usan todas las vacantes.",
             "**La solicitud de admisión no está aquí**: se gestiona en su propia sección, Admisiones, porque tiene el seguimiento por etapas.",
           ],
+        },
+        {
+          t: "nota",
+          tono: "aviso",
+          texto:
+            "**No todo el mundo ve los mismos formularios.** Cada formulario pertenece a un área, y solo la ve quien tiene ese rol. Talento Humano ve únicamente el de postulación de empleo; el resto los ve Comunicaciones. Si echas en falta uno, no está borrado: es de otra área.",
         },
       ],
     },
@@ -200,8 +207,32 @@ export const VACANTES: Seccion = {
   descripcion:
     "Publicar ofertas de trabajo, redactar su perfil y recibir las postulaciones.",
   icono: "BriefcaseBusiness",
-  paraQuien: "Talento humano · Editor de Comunicaciones · Superadministrador",
+  paraQuien:
+    "Editor de Talento Humano · Editor de Comunicaciones · Superadministrador",
   articulos: [
+    {
+      id: "quien-lo-maneja",
+      titulo: "Quién debe manejar esta sección",
+      resumen: "Existe un rol propio para talento humano. Es el que hay que darle.",
+      bloques: [
+        {
+          t: "p",
+          texto:
+            "Quien contrata en el colegio necesita el rol **Editor de Talento Humano**. Con él ve las Vacantes, la página «Trabaja con nosotros», las postulaciones que llegan y el correo de confirmación que reciben los candidatos. Nada más.",
+        },
+        {
+          t: "nota",
+          tono: "aviso",
+          texto:
+            "**No le des «Editor de Comunicaciones» para que pueda publicar vacantes.** Ese rol abre además los mensajes de contacto de las familias, las quejas y las solicitudes de admisión, con datos de menores. Y al revés: quien edita textos del sitio no debería ver hojas de vida ni cédulas de los postulantes.",
+        },
+        {
+          t: "p",
+          texto:
+            "El Superadministrador asigna el rol desde **Usuarios**. Una misma persona puede tener varios roles si de verdad hace los dos trabajos.",
+        },
+      ],
+    },
     {
       id: "que-es",
       titulo: "Cómo funciona",

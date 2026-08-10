@@ -14,9 +14,9 @@
 
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
-import { ROLES, hasAnyRole } from "@/lib/auth/types";
+import { puedeVerFormularios } from "@/lib/auth/areas";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { getFormularioPorId } from "@/lib/formularios/getFormulario";
+import { getFormularioParaPanel } from "@/lib/formularios/getFormulario";
 import { valorLegible } from "@/lib/formularios/validar";
 import {
   ESTADO_LABELS,
@@ -41,11 +41,14 @@ export async function GET(
   const { id } = await params;
 
   const user = await getCurrentUser();
-  if (!user || !hasAnyRole(user, [ROLES.SUPERADMIN, ROLES.EDITOR_COMM])) {
+  if (!user || !puedeVerFormularios(user)) {
     return NextResponse.json({ error: "No autorizado" }, { status: 403 });
   }
 
-  const formulario = await getFormularioPorId(id);
+  // El Excel se lleva todas las respuestas de golpe, así que este guard es el
+  // que más importa: sin el corte por área, una URL bastaba para descargar
+  // los mensajes de contacto o las consultas de admisión enteras.
+  const formulario = await getFormularioParaPanel(id, user);
   if (!formulario) {
     return NextResponse.json({ error: "No encontrado" }, { status: 404 });
   }

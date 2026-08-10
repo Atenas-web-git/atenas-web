@@ -2,13 +2,13 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
-import { ROLES, hasAnyRole } from "@/lib/auth/types";
+import { puedeCrearFormularios } from "@/lib/auth/areas";
 import { CrearFormularioForm } from "./CrearFormularioForm";
 
 export default async function NuevoFormularioPage() {
   const user = await getCurrentUser();
   if (!user) return null;
-  if (!hasAnyRole(user, [ROLES.SUPERADMIN, ROLES.EDITOR_COMM])) {
+  if (!puedeCrearFormularios(user)) {
     redirect("/admin");
   }
 

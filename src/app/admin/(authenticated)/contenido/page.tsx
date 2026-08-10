@@ -2,15 +2,36 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FileText, Newspaper, Calendar, Image as ImageIcon, FileBox, Trophy, Mail, ClipboardList, BriefcaseBusiness, ArrowRight } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
-import { ROLES, hasAnyRole } from "@/lib/auth/types";
+import { ROLES, hasAnyRole, hasRole, type AdminUser } from "@/lib/auth/types";
+import {
+  puedeVerPaginas,
+  puedeVerFormularios,
+  puedeVerVacantes,
+  plantillasVisibles,
+} from "@/lib/auth/areas";
 
-const SECCIONES = [
+/**
+ * Qué secciones ve cada rol.
+ *
+ * `visible` es obligatoria: una sección sin ella se le muestra a todo el
+ * mundo, y eso fue exactamente el problema que resolvió la migración 079.
+ * Talento Humano solo ve las cuatro de «Trabaja con nosotros».
+ */
+const SECCIONES: {
+  href: string;
+  title: string;
+  description: string;
+  icon: typeof FileText;
+  activa: boolean;
+  visible: (u: AdminUser) => boolean;
+}[] = [
   {
     href: "/admin/contenido/paginas",
     title: "Páginas",
     description: "Misión, Visión, Valores, secciones institucionales, niveles, servicios. Editor por plantillas.",
     icon: FileText,
     activa: true,
+    visible: puedeVerPaginas,
   },
   {
     href: "/admin/contenido/notificaciones",
@@ -18,6 +39,7 @@ const SECCIONES = [
     description: "Avisos, popups y alertas para visitantes del sitio. Programables con fechas de inicio y fin.",
     icon: Newspaper,
     activa: true,
+    visible: (u) => !hasRole(u, ROLES.EDITOR_TALENTO),
   },
   {
     href: "/admin/contenido/cronograma",
@@ -25,6 +47,7 @@ const SECCIONES = [
     description: "Eventos del año lectivo con fechas, períodos (quimestres / trimestres) y tipos editables.",
     icon: Calendar,
     activa: true,
+    visible: (u) => !hasRole(u, ROLES.EDITOR_TALENTO),
   },
   {
     href: "/admin/contenido/galeria",
@@ -32,6 +55,7 @@ const SECCIONES = [
     description: "Catálogo de imágenes reutilizables del sitio. Reusa fotos ya subidas.",
     icon: ImageIcon,
     activa: true,
+    visible: (u) => !hasRole(u, ROLES.EDITOR_TALENTO),
   },
   {
     href: "/admin/contenido/documentos",
@@ -39,6 +63,7 @@ const SECCIONES = [
     description: "PDFs descargables (políticas, autorizaciones, formularios) hospedados en Google Drive.",
     icon: FileBox,
     activa: true,
+    visible: (u) => !hasRole(u, ROLES.EDITOR_TALENTO),
   },
   {
     href: "/admin/contenido/reconocimientos",
@@ -46,6 +71,7 @@ const SECCIONES = [
     description: "Categorías (académicos, deportivos, profesionales), subcategorías, logros y galerías de fotos.",
     icon: Trophy,
     activa: true,
+    visible: (u) => !hasRole(u, ROLES.EDITOR_TALENTO),
   },
   {
     href: "/admin/contenido/formularios",
@@ -53,6 +79,7 @@ const SECCIONES = [
     description: "Crea tus propios formularios, elige sus campos y colócalos en cualquier página. Las respuestas llegan a una bandeja aquí mismo.",
     icon: ClipboardList,
     activa: true,
+    visible: puedeVerFormularios,
   },
   {
     href: "/admin/contenido/vacantes",
@@ -60,22 +87,35 @@ const SECCIONES = [
     description: "Ofertas de empleo de «Trabaja con nosotros». Cada vacante tiene su página y su formulario, y las postulaciones llegan por separado.",
     icon: BriefcaseBusiness,
     activa: true,
+    visible: puedeVerVacantes,
   },
   {
     href: "/admin/contenido/plantillas-formularios",
     title: "Plantillas de correo para formularios",
-    description: "Correos automáticos que se envían al admin cuando alguien usa los formularios públicos (Contactos, Quejas, Trabaja con nosotros, Admisiones).",
+    // Sin la lista de nombres: a Talento Humano le anunciaría cuatro
+    // plantillas que su rol no le deja abrir.
+    description: "Correos automáticos que recibe quien completa uno de los formularios públicos del sitio.",
     icon: Mail,
     activa: true,
+    visible: (u) => (plantillasVisibles(u)?.length ?? 1) > 0,
   },
 ];
 
 export default async function ContenidoIndexPage() {
   const user = await getCurrentUser();
   if (!user) return null;
-  if (!hasAnyRole(user, [ROLES.SUPERADMIN, ROLES.EDITOR_COMM, ROLES.EDITOR_ACADEMICO])) {
+  if (
+    !hasAnyRole(user, [
+      ROLES.SUPERADMIN,
+      ROLES.EDITOR_COMM,
+      ROLES.EDITOR_ACADEMICO,
+      ROLES.EDITOR_TALENTO,
+    ])
+  ) {
     redirect("/admin");
   }
+
+  const secciones = SECCIONES.filter((s) => s.visible(user));
 
   return (
     <div className="flex flex-col gap-6 p-8">
@@ -89,7 +129,7 @@ export default async function ContenidoIndexPage() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {SECCIONES.map((s) => {
+        {secciones.map((s) => {
           const Icon = s.icon;
           const card = (
             <div

@@ -32,6 +32,7 @@ const ROLE_COLORS: Record<RoleSlug, { bg: string; fg: string }> = {
   editor_comm: { bg: "#DBEAFE", fg: "#1E40AF" },
   editor_admisiones: { bg: "#FEF3C7", fg: "#92400E" },
   editor_academico: { bg: "#E0E7FF", fg: "#3730A3" },
+  editor_talento: { bg: "#D1FAE5", fg: "#065F46" },
 };
 
 async function loadUsers(): Promise<UserListItem[]> {

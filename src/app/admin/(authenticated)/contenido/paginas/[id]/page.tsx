@@ -3,7 +3,12 @@ import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
-import { ROLES, hasAnyRole, hasRole } from "@/lib/auth/types";
+import { ROLES, hasRole } from "@/lib/auth/types";
+import {
+  puedeVerPaginas,
+  puedeEditarPagina,
+  areasVisibles,
+} from "@/lib/auth/areas";
 import {
   PLANTILLAS,
   type ContenidoPlantillaA,
@@ -59,7 +64,7 @@ export default async function EditarPaginaPage({
 
   const user = await getCurrentUser();
   if (!user) return null;
-  if (!hasAnyRole(user, [ROLES.SUPERADMIN, ROLES.EDITOR_COMM, ROLES.EDITOR_ACADEMICO])) {
+  if (!puedeVerPaginas(user)) {
     redirect("/admin");
   }
 
@@ -83,12 +88,20 @@ export default async function EditarPaginaPage({
 
   if (!pagina) notFound();
 
+  // Talento Humano solo edita «Trabaja con nosotros». Se responde «no
+  // encontrada» y no «no autorizada»: un id de la URL no debe servir para
+  // averiguar qué páginas existen.
+  if (!puedeEditarPagina(user, pagina.slug)) notFound();
+
   const plantillaInfo = PLANTILLAS[pagina.plantilla as keyof typeof PLANTILLAS];
 
-  // Formularios disponibles para colocar al final de esta página.
+  // Formularios disponibles para colocar al final de esta página, recortados
+  // al área del usuario: el selector no puede ser la rendija por la que
+  // Talento Humano descubre que existe un formulario de admisiones.
   const { data: formularios } = await supabase
     .from("formularios")
     .select("id, nombre, activo")
+    .in("area", areasVisibles(user))
     .order("nombre");
 
   return (
@@ -152,11 +165,19 @@ export default async function EditarPaginaPage({
             {plantillaInfo?.nombre}
           </p>
         </div>
-        <CambiarPlantillaBtn
-          paginaId={pagina.id}
-          plantillaActual={pagina.plantilla as Parameters<typeof CambiarPlantillaBtn>[0]["plantillaActual"]}
-          slug={pagina.slug}
-        />
+        {/*
+          Talento Humano edita los textos de su página, pero no cambia su
+          plantilla: la N es la que dibuja el tablón de vacantes, y cambiarla
+          dejaría la página sin la lista de ofertas. No es su trabajo y sí es
+          una forma fácil de romperla.
+        */}
+        {!hasRole(user, ROLES.EDITOR_TALENTO) && (
+          <CambiarPlantillaBtn
+            paginaId={pagina.id}
+            plantillaActual={pagina.plantilla as Parameters<typeof CambiarPlantillaBtn>[0]["plantillaActual"]}
+            slug={pagina.slug}
+          />
+        )}
       </div>
 
       <SelectorFormulario

@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
-import { ROLES, hasAnyRole } from "@/lib/auth/types";
+import { plantillasVisibles } from "@/lib/auth/areas";
 import {
   TIPOS_PLANTILLA_FORMULARIO,
   type TipoPlantillaFormulario,
@@ -11,12 +11,17 @@ import {
 
 export type PlantillaFormularioActionState = { error: string | null; ok: boolean };
 
-async function assertEditor() {
+/**
+ * Guarda una plantilla concreta, así que el guard necesita saber CUÁL: sin el
+ * tipo, Talento Humano podría guardar la plantilla de admisiones mandando
+ * otro valor en el formulario.
+ */
+async function assertEditor(tipo: string) {
   const user = await getCurrentUser();
-  if (
-    !user ||
-    !hasAnyRole(user, [ROLES.SUPERADMIN, ROLES.EDITOR_ADMISIONES, ROLES.EDITOR_COMM])
-  ) {
+  if (!user) throw new Error("No autorizado");
+
+  const visibles = plantillasVisibles(user);
+  if (visibles !== null && !visibles.includes(tipo)) {
     throw new Error("No autorizado");
   }
   return user;
@@ -26,9 +31,8 @@ export async function savePlantillaFormularioAction(
   _prev: PlantillaFormularioActionState,
   formData: FormData
 ): Promise<PlantillaFormularioActionState> {
-  const user = await assertEditor();
-
   const tipo = String(formData.get("tipo") ?? "") as TipoPlantillaFormulario;
+  const user = await assertEditor(tipo);
   const titulo = String(formData.get("titulo") ?? "").trim();
   const asunto = String(formData.get("asunto") ?? "").trim();
   const cuerpoHtml = String(formData.get("cuerpo_html") ?? "");

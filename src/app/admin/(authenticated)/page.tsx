@@ -82,8 +82,20 @@ export default async function AdminDashboardPage() {
   const canSeeAdmisiones = hasAnyRole(user, [ROLES.SUPERADMIN, ROLES.EDITOR_ADMISIONES]);
   const isSuper = hasRole(user, ROLES.SUPERADMIN);
 
+  // Ni siquiera se leen si no se van a mostrar: así el dato de admisiones no
+  // llega al servidor que renderiza para alguien que no debe verlo.
   const [stats, recientes] = await Promise.all([
-    loadStats(),
+    canSeeAdmisiones
+      ? loadStats()
+      : Promise.resolve({
+          interesados: 0,
+          enEvaluacion: 0,
+          admitidos: 0,
+          matriculados: 0,
+          // Solo lo pinta el bloque «Equipo», que es de superadmin — y todo
+          // superadmin ve admisiones, así que aquí nunca se usa.
+          usuarios: 0,
+        }),
     canSeeAdmisiones ? loadSolicitudesRecientes() : Promise.resolve([]),
   ]);
 
@@ -311,8 +323,15 @@ function MetricCard({
           <Icon size={14} color={accent} strokeWidth={2} />
         </div>
       </div>
-      <span style={{ fontSize: 28, fontWeight: 700, color: "#1A2B4A", lineHeight: 1 }}>
-        {value}
+      {/*
+        Atenuar la tarjeta no ocultaba el número: quien no administra
+        admisiones veía igualmente cuántos aspirantes hay. Es un dato del
+        colegio y no le corresponde a Comunicaciones, a Académico ni a Talento
+        Humano. Sin permiso se muestra una raya, no un cero: un cero es un
+        dato, y además falso.
+      */}
+      <span style={{ fontSize: 28, fontWeight: 700, color: enabled ? "#1A2B4A" : "#C4BFB7", lineHeight: 1 }}>
+        {enabled ? value : "—"}
       </span>
     </div>
   );

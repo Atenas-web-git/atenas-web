@@ -25,12 +25,15 @@ const ROLE_DESCRIPTIONS: Record<RoleSlug, string> = {
     "Solicitudes, cambios de estado, cupos por nivel y contenido del módulo admisiones.",
   editor_academico:
     "Niveles, IB y sub-páginas, espacios de desarrollo y documentos institucionales.",
+  editor_talento:
+    "Solo «Trabaja con nosotros»: la página, las vacantes, las postulaciones que llegan y su correo de confirmación. No ve los mensajes de contacto, las quejas ni las solicitudes de admisión.",
 };
 
 const ROLES_ORDER: RoleSlug[] = [
   ROLES.EDITOR_COMM,
   ROLES.EDITOR_ADMISIONES,
   ROLES.EDITOR_ACADEMICO,
+  ROLES.EDITOR_TALENTO,
   ROLES.SUPERADMIN,
 ];
 

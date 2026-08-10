@@ -16,6 +16,12 @@
  */
 
 import { createAdminClient } from "@/lib/supabase/admin";
+import {
+  areasVisibles,
+  normalizarArea,
+  type AreaFormulario,
+} from "@/lib/auth/areas";
+import type { AdminUser } from "@/lib/auth/types";
 import type { CampoFormulario, Formulario } from "./tipos";
 
 /** Lo único que necesita el componente que dibuja el formulario. */
@@ -35,7 +41,7 @@ const COLUMNAS =
   "id, slug, nombre, descripcion_interna, titulo, subtitulo, texto_boton, " +
   "titulo_exito, texto_exito, aviso_legal, campos, notificar_a, asunto, " +
   "preset_correo, plantilla_correo, campo_correo, confirmacion_activa, " +
-  "confirmacion_asunto, confirmacion_cuerpo, activo";
+  "confirmacion_asunto, confirmacion_cuerpo, activo, area";
 
 function normalizar(fila: Record<string, unknown>): Formulario {
   return {
@@ -44,6 +50,7 @@ function normalizar(fila: Record<string, unknown>): Formulario {
     notificar_a: Array.isArray(fila.notificar_a)
       ? (fila.notificar_a as string[])
       : [],
+    area: normalizarArea(fila.area),
   };
 }
 
@@ -148,15 +155,31 @@ export type FormularioListado = {
   respuestas_total: number;
   respuestas_nuevas: number;
   plantilla_correo: string | null;
+  area: AreaFormulario;
   updated_at: string;
 };
 
-export async function listarFormularios(): Promise<FormularioListado[]> {
+/**
+ * Listado del panel, ya recortado a lo que el usuario tiene derecho a ver.
+ *
+ * El filtro se aplica AQUÍ y no en la pantalla: si mañana aparece otro
+ * listado de formularios, hereda el corte por área sin que nadie se acuerde
+ * de repetirlo.
+ */
+export async function listarFormularios(
+  user: AdminUser | null
+): Promise<FormularioListado[]> {
+  const areas = areasVisibles(user);
+  if (areas.length === 0) return [];
+
   const supabase = createAdminClient();
 
   const { data: formularios, error } = await supabase
     .from("formularios")
-    .select("id, slug, nombre, titulo, activo, campos, plantilla_correo, updated_at")
+    .select(
+      "id, slug, nombre, titulo, activo, campos, plantilla_correo, area, updated_at"
+    )
+    .in("area", areas)
     .order("nombre");
 
   if (error || !formularios) {
@@ -187,6 +210,7 @@ export async function listarFormularios(): Promise<FormularioListado[]> {
       activo: boolean;
       campos: unknown;
       plantilla_correo: string | null;
+      area: string;
       updated_at: string;
     };
     const conteo = totales.get(fila.id) ?? { total: 0, nuevas: 0 };
@@ -200,7 +224,34 @@ export async function listarFormularios(): Promise<FormularioListado[]> {
       respuestas_total: conteo.total,
       respuestas_nuevas: conteo.nuevas,
       plantilla_correo: fila.plantilla_correo,
+      area: normalizarArea(fila.area),
       updated_at: fila.updated_at,
     };
   });
+}
+
+/**
+ * El formulario por id, pero solo si el usuario tiene derecho a su área.
+ *
+ * Es la puerta única de las pantallas del panel que abren UN formulario: el
+ * editor, la bandeja, el export y las acciones. Devolver `null` en vez de
+ * lanzar deja que cada pantalla decida si redirige o responde 403, y no
+ * revela si el id existe.
+ */
+export async function getFormularioParaPanel(
+  id: string,
+  user: AdminUser | null
+): Promise<Formulario | null> {
+  const formulario = await getFormularioPorId(id);
+  if (!formulario) return null;
+
+  const areas = areasVisibles(user);
+  if (!areas.includes(normalizarArea(formulario.area))) {
+    console.error(
+      `[formularios] ${user?.email ?? "sin sesión"} intentó abrir el formulario ` +
+        `"${formulario.slug}" (área ${formulario.area}), que su rol no cubre.`
+    );
+    return null;
+  }
+  return formulario;
 }

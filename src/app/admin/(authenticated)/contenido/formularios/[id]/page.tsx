@@ -2,8 +2,8 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, Inbox } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
-import { ROLES, hasAnyRole } from "@/lib/auth/types";
-import { getFormularioPorId } from "@/lib/formularios/getFormulario";
+import { puedeVerFormularios } from "@/lib/auth/areas";
+import { getFormularioParaPanel } from "@/lib/formularios/getFormulario";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { EditorFormulario } from "./EditorFormulario";
 
@@ -18,11 +18,13 @@ export default async function EditarFormularioPage({
 
   const user = await getCurrentUser();
   if (!user) return null;
-  if (!hasAnyRole(user, [ROLES.SUPERADMIN, ROLES.EDITOR_COMM])) {
+  if (!puedeVerFormularios(user)) {
     redirect("/admin");
   }
 
-  const formulario = await getFormularioPorId(id);
+  // Devuelve null también cuando el formulario existe pero es de otra área:
+  // así un id copiado de otra bandeja da «no encontrado» y no confirma nada.
+  const formulario = await getFormularioParaPanel(id, user);
   if (!formulario) notFound();
 
   const supabase = createAdminClient();

@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { ArrowLeft, Mail, ChevronRight, Check, X } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
-import { ROLES, hasAnyRole } from "@/lib/auth/types";
+import { plantillasVisibles } from "@/lib/auth/areas";
 import {
   TIPOS_PLANTILLA_FORMULARIO,
   TIPOS_PLANTILLA_INFO,
@@ -24,16 +24,19 @@ function formatDate(iso: string | null): string {
 export default async function PlantillasFormulariosPage() {
   const user = await getCurrentUser();
   if (!user) return null;
-  if (
-    !hasAnyRole(user, [ROLES.SUPERADMIN, ROLES.EDITOR_ADMISIONES, ROLES.EDITOR_COMM])
-  ) {
+  // `null` = todas. Talento Humano solo ve la de «Trabaja con nosotros»; las
+  // otras cuatro son de comunicaciones y admisiones.
+  const visibles = plantillasVisibles(user);
+  if (visibles !== null && visibles.length === 0) {
     redirect("/admin");
   }
 
   const supabase = createAdminClient();
-  const { data: plantillas } = await supabase
+  let consultaPlantillas = supabase
     .from("plantillas_correo_formularios")
     .select("tipo, asunto, activo, updated_at");
+  if (visibles !== null) consultaPlantillas = consultaPlantillas.in("tipo", visibles);
+  const { data: plantillas } = await consultaPlantillas;
 
   // Qué formulario usa cada plantilla. Sin esto, el nombre de la plantilla es
   // lo único que hay para adivinarlo, y en un panel que va a usar gente no
@@ -99,7 +102,9 @@ export default async function PlantillasFormulariosPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {TIPOS_PLANTILLA_FORMULARIO.map((tipo) => {
+        {TIPOS_PLANTILLA_FORMULARIO.filter(
+          (tipo) => visibles === null || visibles.includes(tipo)
+        ).map((tipo) => {
           const info = TIPOS_PLANTILLA_INFO[tipo];
           const plantilla = (plantillas ?? []).find((p) => p.tipo === tipo);
           const existe = !!plantilla;

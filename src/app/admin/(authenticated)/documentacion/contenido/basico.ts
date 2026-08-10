@@ -200,14 +200,15 @@ export const ROLES_SECCION: Seccion = {
   slug: "roles",
   titulo: "Roles y permisos",
   descripcion:
-    "Los cuatro roles del panel, qué puede hacer cada uno y por qué no todos ven lo mismo.",
+    "Los cinco roles del panel, qué puede hacer cada uno y por qué no todos ven lo mismo.",
   icono: "ShieldCheck",
   paraQuien: "Todo el equipo · imprescindible para el Superadministrador",
   articulos: [
     {
       id: "los-cuatro-roles",
-      titulo: "Los cuatro roles",
-      resumen: "Superadministrador, Editor de Comunicaciones, Editor Académico y Editor de Admisiones.",
+      titulo: "Los cinco roles",
+      resumen:
+        "Superadministrador, Editor de Comunicaciones, Editor Académico, Editor de Admisiones y Editor de Talento Humano.",
       bloques: [
         {
           t: "p",
@@ -237,6 +238,11 @@ export const ROLES_SECCION: Seccion = {
               "Editor de Admisiones",
               "Módulo de Admisiones completo + dos secciones de Configuración: Documentos de admisión y Fechas de matrículas",
               "Contenido del sitio, Usuarios y el resto de Configuración",
+            ],
+            [
+              "Editor de Talento Humano",
+              "Solo «Trabaja con nosotros»: esa página, las Vacantes, el formulario de postulación con sus respuestas y su correo de confirmación",
+              "El resto del sitio, los mensajes de contacto, las quejas, las solicitudes de admisión, Usuarios y Configuración",
             ],
           ],
         },
@@ -271,6 +277,10 @@ export const ROLES_SECCION: Seccion = {
             {
               campo: "Editor de Admisiones",
               desc: "El equipo de admisiones y secretaría. Gestiona solicitudes de principio a fin, sin poder alterar el resto del sitio.",
+            },
+            {
+              campo: "Editor de Talento Humano",
+              desc: "Quien contrata en el colegio. Publica las vacantes y lee las postulaciones que llegan. **Es el rol que hay que darle, y no Editor de Comunicaciones**: con Comunicaciones vería también los mensajes de las familias y las solicitudes de admisión.",
             },
           ],
         },

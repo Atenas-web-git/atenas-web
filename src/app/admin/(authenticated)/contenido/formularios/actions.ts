@@ -3,17 +3,33 @@
 /**
  * Acciones del constructor de formularios.
  *
- * AUTORIZACIÓN: cada acción llama a `assertEditor()` por su cuenta. No hay
+ * AUTORIZACIÓN: cada acción llama a su guard por su cuenta. No hay
  * envoltorio compartido que lo garantice, así que una acción nueva que se
  * olvide del guard queda abierta a cualquier usuario con sesión en el panel.
  * Es la primera cosa que hay que revisar al añadir algo aquí.
+ *
+ * Hay tres guards y NO son intercambiables (migración 079):
+ *   · `assertEditor()`      — solo dice que la persona entra en la sección.
+ *   · `assertFormulario(id)` — además, que ese formulario es de su área.
+ *   · `assertRespuesta(id)`  — lo mismo, partiendo de UNA respuesta.
+ *
+ * `assertEditor()` a secas basta únicamente cuando la acción no toca ningún
+ * formulario concreto. En cuanto hay un id de por medio, usar el guard
+ * general deja que Talento Humano abra la bandeja de contactos con solo
+ * cambiar el id de la URL.
  */
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
-import { ROLES, hasAnyRole } from "@/lib/auth/types";
+import {
+  puedeCrearFormularios,
+  puedeVerFormularios,
+  areasVisibles,
+  normalizarArea,
+} from "@/lib/auth/areas";
+import { getFormularioParaPanel } from "@/lib/formularios/getFormulario";
 import { CORREO_PURPOSES, type CorreoPurpose } from "@/lib/cms/correos";
 import {
   ESTADOS_RESPUESTA,
@@ -31,12 +47,56 @@ export type FormularioActionState = { error: string | null; ok: boolean };
 const SLUG_REGEX = /^[a-z0-9-]+$/;
 const BUCKET = "formularios-archivos";
 
+/** Entra en la sección. No dice nada sobre QUÉ formulario puede tocar. */
 async function assertEditor() {
   const user = await getCurrentUser();
-  if (!user || !hasAnyRole(user, [ROLES.SUPERADMIN, ROLES.EDITOR_COMM])) {
+  if (!user || !puedeVerFormularios(user)) {
     throw new Error("No autorizado");
   }
   return user;
+}
+
+/** El formulario existe y es de un área que este usuario tiene asignada. */
+async function assertFormulario(id: string) {
+  const user = await assertEditor();
+  const formulario = await getFormularioParaPanel(id, user);
+  if (!formulario) throw new Error("No autorizado");
+  return { user, formulario };
+}
+
+/**
+ * Igual, pero partiendo de una respuesta.
+ *
+ * El `formulario_id` que viaja en el formulario HTML no sirve para decidir:
+ * lo pone el navegador y se puede cambiar. Hay que preguntarle a la base de
+ * qué formulario es realmente esa respuesta.
+ */
+async function assertRespuesta(respuestaId: string) {
+  const user = await assertEditor();
+
+  const supabase = createAdminClient();
+  const { data, error } = await supabase
+    .from("formulario_respuestas")
+    .select("id, formulario_id, formularios!inner(area)")
+    .eq("id", respuestaId)
+    .maybeSingle();
+
+  if (error || !data) throw new Error("No autorizado");
+
+  const fila = data as unknown as {
+    formulario_id: string;
+    formularios: { area: string } | { area: string }[];
+  };
+  const rel = Array.isArray(fila.formularios) ? fila.formularios[0] : fila.formularios;
+
+  if (!areasVisibles(user).includes(normalizarArea(rel?.area))) {
+    console.error(
+      `[formularios] ${user.email} intentó tocar la respuesta ${respuestaId}, ` +
+        `del área ${rel?.area}, que su rol no cubre.`
+    );
+    throw new Error("No autorizado");
+  }
+  return { user, formularioId: fila.formulario_id };
 }
 
 function revalidar(id?: string) {
@@ -82,7 +142,10 @@ export async function crearFormularioAction(
   _prev: FormularioActionState,
   formData: FormData
 ): Promise<FormularioActionState> {
-  await assertEditor();
+  const user = await getCurrentUser();
+  // Talento Humano administra el formulario de postulación que ya existe,
+  // pero no crea formularios nuevos: habría que decidir a qué área van.
+  if (!puedeCrearFormularios(user)) throw new Error("No autorizado");
 
   const nombre = String(formData.get("nombre") ?? "").trim();
   const slug = String(formData.get("slug") ?? "").trim().toLowerCase();
@@ -130,10 +193,10 @@ export async function guardarFormularioAction(
   _prev: FormularioActionState,
   formData: FormData
 ): Promise<FormularioActionState> {
-  const user = await assertEditor();
-
   const id = String(formData.get("id") ?? "").trim();
   if (!id) return { error: "Falta el identificador del formulario.", ok: false };
+
+  const { user } = await assertFormulario(id);
 
   const nombre = String(formData.get("nombre") ?? "").trim();
   if (!nombre) return { error: "Ponle un nombre al formulario.", ok: false };
@@ -235,7 +298,7 @@ export async function guardarFormularioAction(
  * verse en el sitio y las respuestas se conservan.
  */
 export async function borrarFormularioAction(id: string): Promise<void> {
-  await assertEditor();
+  await assertFormulario(id);
 
   const supabase = createAdminClient();
 
@@ -272,13 +335,12 @@ export async function borrarFormularioAction(id: string): Promise<void> {
 export async function cambiarEstadoRespuestaAction(
   formData: FormData
 ): Promise<void> {
-  const user = await assertEditor();
-
   const id = String(formData.get("id") ?? "").trim();
-  const formularioId = String(formData.get("formulario_id") ?? "").trim();
   const estado = String(formData.get("estado") ?? "").trim();
 
   if (!id || !ESTADOS_RESPUESTA.includes(estado as EstadoRespuesta)) return;
+
+  const { user, formularioId } = await assertRespuesta(id);
 
   const supabase = createAdminClient();
   await supabase
@@ -292,11 +354,10 @@ export async function cambiarEstadoRespuestaAction(
 export async function guardarNotaRespuestaAction(
   formData: FormData
 ): Promise<void> {
-  const user = await assertEditor();
-
   const id = String(formData.get("id") ?? "").trim();
-  const formularioId = String(formData.get("formulario_id") ?? "").trim();
   if (!id) return;
+
+  const { user, formularioId } = await assertRespuesta(id);
 
   const supabase = createAdminClient();
   await supabase
@@ -324,11 +385,10 @@ export async function guardarNotaRespuestaAction(
  * referencie.
  */
 export async function borrarRespuestaAction(formData: FormData): Promise<void> {
-  await assertEditor();
-
   const id = String(formData.get("id") ?? "").trim();
-  const formularioId = String(formData.get("formulario_id") ?? "").trim();
   if (!id) return;
+
+  const { formularioId } = await assertRespuesta(id);
 
   const supabase = createAdminClient();
 
@@ -376,7 +436,7 @@ export async function borrarRespuestaAction(formData: FormData): Promise<void> {
 export async function urlFirmadaAdjuntoAction(
   storagePath: string
 ): Promise<string | null> {
-  await assertEditor();
+  const user = await assertEditor();
 
   // La ruta llega desde el navegador, así que se comprueba antes de usarla.
   //
@@ -398,6 +458,30 @@ export async function urlFirmadaAdjuntoAction(
   }
 
   const supabase = createAdminClient();
+
+  // El formato válido basta para que la ruta no se escape del bucket, pero no
+  // dice de QUIÉN es el archivo. La primera carpeta es el slug del
+  // formulario, así que se comprueba su área: sin esto, Talento Humano podría
+  // firmar un adjunto de admisiones escribiendo la ruta a mano, y la petición
+  // va con service_role, que se salta las políticas del bucket.
+  const slugFormulario = storagePath.split("/")[0];
+  const { data: dueno } = await supabase
+    .from("formularios")
+    .select("area")
+    .eq("slug", slugFormulario)
+    .maybeSingle();
+
+  if (
+    !dueno ||
+    !areasVisibles(user).includes(normalizarArea((dueno as { area: string }).area))
+  ) {
+    console.error(
+      `[formularios] ${user.email} pidió firmar "${storagePath}", de un ` +
+        `formulario que su rol no cubre.`
+    );
+    return null;
+  }
+
   const { data, error } = await supabase.storage
     .from(BUCKET)
     .createSignedUrl(storagePath, 60 * 60);

@@ -4,7 +4,12 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
-import { ROLES, hasAnyRole } from "@/lib/auth/types";
+import { ROLES, hasAnyRole, hasRole } from "@/lib/auth/types";
+import {
+  puedeVerPaginas,
+  puedeEditarPagina,
+  areasVisibles,
+} from "@/lib/auth/areas";
 import {
   defaultContenidoPlantillaR,
   defaultContenidoPlantillaS,
@@ -82,7 +87,44 @@ const PLANTILLAS_BLOQUEADAS_NUEVAS = new Set([
   "tpl_q_contactos_pagina",
 ]);
 
+/**
+ * Entra en la sección Páginas. NO dice qué página puede tocar.
+ *
+ * Talento Humano llega hasta aquí porque edita «Trabaja con nosotros», pero
+ * solo esa: para cualquier acción que apunte a una página concreta hay que
+ * usar `assertPagina()`. Ver `lib/auth/areas.ts`.
+ */
 async function assertEditor() {
+  const user = await getCurrentUser();
+  if (!user || !puedeVerPaginas(user)) {
+    throw new Error("No autorizado");
+  }
+  return user;
+}
+
+/** La página existe y este usuario tiene derecho a editarla. */
+async function assertPagina(id: string) {
+  const user = await assertEditor();
+
+  const supabase = createAdminClient();
+  const { data } = await supabase
+    .from("paginas")
+    .select("slug")
+    .eq("id", id)
+    .maybeSingle();
+
+  const slug = (data as { slug: string } | null)?.slug;
+  if (!slug || !puedeEditarPagina(user, slug)) {
+    console.error(
+      `[paginas] ${user.email} intentó editar "${slug ?? id}", que su rol no cubre.`
+    );
+    throw new Error("No autorizado");
+  }
+  return { user, slug };
+}
+
+/** Crear y borrar páginas no es de Talento Humano: solo edita la suya. */
+async function assertEditorGeneral() {
   const user = await getCurrentUser();
   if (
     !user ||
@@ -105,7 +147,7 @@ export async function crearPaginaAction(
   _prev: PaginaActionState,
   formData: FormData
 ): Promise<PaginaActionState> {
-  const user = await assertEditor();
+  const user = await assertEditorGeneral();
 
   const slug = String(formData.get("slug") ?? "").trim().toLowerCase();
   const titulo = String(formData.get("titulo") ?? "").trim();
@@ -475,9 +517,10 @@ export async function guardarPaginaAction(
   _prev: PaginaActionState,
   formData: FormData
 ): Promise<PaginaActionState> {
-  const user = await assertEditor();
-
   const id = String(formData.get("id") ?? "");
+  if (!id) return { error: "ID inválido.", ok: false };
+  const { user } = await assertPagina(id);
+
   const titulo = String(formData.get("titulo") ?? "").trim();
   const metaTitle = String(formData.get("meta_title") ?? "").trim();
   const metaDescription = String(formData.get("meta_description") ?? "").trim();
@@ -546,12 +589,13 @@ export async function cambiarPlantillaAction(
   _prev: PaginaActionState,
   formData: FormData
 ): Promise<PaginaActionState> {
-  const user = await assertEditor();
-
   const id = String(formData.get("id") ?? "");
   const nuevaPlantilla = String(formData.get("plantilla") ?? "");
 
   if (!id) return { error: "ID inválido.", ok: false };
+  const { user } = await assertPagina(id);
+  // El botón está oculto para Talento Humano; esto es lo que lo hace cumplir.
+  if (hasRole(user, ROLES.EDITOR_TALENTO)) throw new Error("No autorizado");
   if (!PLANTILLAS_VALIDAS.includes(nuevaPlantilla)) {
     return { error: "Plantilla no válida.", ok: false };
   }
@@ -703,7 +747,7 @@ export async function eliminarPaginaAction(
   _prev: PaginaActionState,
   formData: FormData
 ): Promise<PaginaActionState> {
-  await assertEditor();
+  await assertEditorGeneral();
 
   const id = String(formData.get("id") ?? "");
   if (!id) return { error: "ID inválido.", ok: false };
@@ -737,10 +781,9 @@ export async function asignarFormularioAction(
   _prev: PaginaActionState,
   formData: FormData
 ): Promise<PaginaActionState> {
-  const user = await assertEditor();
-
   const id = String(formData.get("id") ?? "").trim();
   if (!id) return { error: "ID inválido.", ok: false };
+  const { user } = await assertPagina(id);
 
   const formularioId = String(formData.get("formulario_id") ?? "").trim();
 
@@ -748,11 +791,17 @@ export async function asignarFormularioAction(
 
   // Comprobar que existe antes de guardarlo: la clave foránea lo rechazaría
   // igual, pero con un error de Postgres que no dice nada al editor.
+  //
+  // El filtro por área no es decorativo: el desplegable ya viene recortado,
+  // pero el id viaja en el formulario HTML y se puede cambiar. Sin esto,
+  // Talento Humano podría colgar el formulario de admisiones de su página y
+  // las respuestas caerían en una bandeja que sí puede abrir.
   if (formularioId) {
     const { data: existe } = await supabase
       .from("formularios")
       .select("id")
       .eq("id", formularioId)
+      .in("area", areasVisibles(user))
       .maybeSingle();
     if (!existe) {
       return { error: "Ese formulario ya no existe.", ok: false };

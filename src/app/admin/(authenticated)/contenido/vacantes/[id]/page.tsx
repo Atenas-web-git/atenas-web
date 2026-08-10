@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, ExternalLink, Inbox } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
-import { ROLES, hasAnyRole } from "@/lib/auth/types";
+import { puedeVerVacantes } from "@/lib/auth/areas";
 import { getVacantePorId } from "@/lib/vacantes/getVacantes";
 import { listarFormularios } from "@/lib/formularios/getFormulario";
 import { EditorVacante } from "./EditorVacante";
@@ -18,13 +18,13 @@ export default async function EditarVacantePage({
 
   const user = await getCurrentUser();
   if (!user) return null;
-  if (!hasAnyRole(user, [ROLES.SUPERADMIN, ROLES.EDITOR_COMM])) {
+  if (!puedeVerVacantes(user)) {
     redirect("/admin");
   }
 
   const [vacante, formularios] = await Promise.all([
     getVacantePorId(id),
-    listarFormularios(),
+    listarFormularios(user),
   ]);
   if (!vacante) notFound();
 

@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
-import { ROLES, hasAnyRole } from "@/lib/auth/types";
+import { plantillasVisibles } from "@/lib/auth/areas";
 import {
   getConfiguracion,
   mergeMarca,
@@ -39,9 +39,8 @@ export default async function EditarPlantillaFormularioPage({
 
   const user = await getCurrentUser();
   if (!user) return null;
-  if (
-    !hasAnyRole(user, [ROLES.SUPERADMIN, ROLES.EDITOR_ADMISIONES, ROLES.EDITOR_COMM])
-  ) {
+  const visibles = plantillasVisibles(user);
+  if (visibles !== null && !visibles.includes(tipo)) {
     redirect("/admin");
   }
 

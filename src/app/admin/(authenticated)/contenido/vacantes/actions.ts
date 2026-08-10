@@ -12,7 +12,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
-import { ROLES, hasAnyRole } from "@/lib/auth/types";
+import { puedeVerVacantes } from "@/lib/auth/areas";
 import {
   CATEGORIAS_VACANTE,
   type CategoriaVacante,
@@ -24,7 +24,7 @@ const SLUG_REGEX = /^[a-z0-9-]+$/;
 
 async function assertEditor() {
   const user = await getCurrentUser();
-  if (!user || !hasAnyRole(user, [ROLES.SUPERADMIN, ROLES.EDITOR_COMM])) {
+  if (!user || !puedeVerVacantes(user)) {
     throw new Error("No autorizado");
   }
   return user;

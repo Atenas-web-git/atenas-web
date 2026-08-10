@@ -4,6 +4,7 @@ import { ArrowLeft, Plus } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
+import { puedeVerPaginas, puedeEditarPagina } from "@/lib/auth/areas";
 import { PaginasListClient } from "./PaginasListClient";
 
 export default async function PaginasListPage({
@@ -16,7 +17,7 @@ export default async function PaginasListPage({
 
   const user = await getCurrentUser();
   if (!user) return null;
-  if (!hasAnyRole(user, [ROLES.SUPERADMIN, ROLES.EDITOR_COMM, ROLES.EDITOR_ACADEMICO])) {
+  if (!puedeVerPaginas(user)) {
     redirect("/admin");
   }
 
@@ -52,13 +53,24 @@ export default async function PaginasListPage({
     supabase.from("paginas").select("*", { count: "exact", head: true }).eq("publicada", false),
   ]);
 
-  const filas = paginas ?? [];
+  // Talento Humano solo edita «Trabaja con nosotros». Enseñarle las otras 52
+  // en gris no aporta nada: se le da la lista que puede tocar y ya.
+  const filas = (paginas ?? []).filter((p) => puedeEditarPagina(user, p.slug));
+
+  // Talento Humano no administra Reconocimientos ni crea páginas, y los
+  // contadores tienen que contar SU lista: decirle «53 páginas en el sitio»
+  // cuando solo ve una es tratarlo de mentiroso al propio panel.
+  const soloSuPagina = !hasAnyRole(user, [
+    ROLES.SUPERADMIN,
+    ROLES.EDITOR_COMM,
+    ROLES.EDITOR_ACADEMICO,
+  ]);
 
   // Construir filas sintéticas del módulo Reconocimientos para mostrarlas
   // junto a las páginas regulares. Estas filas NO llevan al editor genérico
   // (su modelo es distinto) — el "Editar" abre el backoffice dedicado.
-  const cats = recCategorias ?? [];
-  const subs = recSubcategorias ?? [];
+  const cats = soloSuPagina ? [] : (recCategorias ?? []);
+  const subs = soloSuPagina ? [] : (recSubcategorias ?? []);
   const subsByCat = new Map<number, typeof subs>();
   for (const s of subs) {
     const arr = subsByCat.get(s.categoria_id) ?? [];
@@ -124,21 +136,21 @@ export default async function PaginasListPage({
     {
       key: "todas",
       label: "Todas",
-      count: (totalCount ?? 0) + moduloTotalCount,
+      count: soloSuPagina ? filas.length : (totalCount ?? 0) + moduloTotalCount,
       isActive: filtro === "todas",
       href: "/admin/contenido/paginas",
     },
     {
       key: "publicadas",
       label: "Publicadas",
-      count: (publicadasCount ?? 0) + moduloPublicadasCount,
+      count: soloSuPagina ? filas.filter((p) => p.publicada).length : (publicadasCount ?? 0) + moduloPublicadasCount,
       isActive: filtro === "publicadas",
       href: "/admin/contenido/paginas?estado=publicadas",
     },
     {
       key: "borrador",
       label: "Borrador",
-      count: (borradorCount ?? 0) + moduloBorradorCount,
+      count: soloSuPagina ? filas.filter((p) => !p.publicada).length : (borradorCount ?? 0) + moduloBorradorCount,
       isActive: filtro === "borrador",
       href: "/admin/contenido/paginas?estado=borrador",
     },
@@ -161,26 +173,37 @@ export default async function PaginasListPage({
             Páginas
           </h1>
           <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0" }}>
-            {(totalCount ?? 0) + moduloTotalCount} página
-            {(totalCount ?? 0) + moduloTotalCount === 1 ? "" : "s"} en el sitio, agrupadas por ruta.
-            Las filas marcadas como <strong>Reconocimientos</strong> se gestionan desde su módulo dedicado.
+            {soloSuPagina ? (
+              <>
+                Las páginas del sitio que puedes editar con tu rol. El resto las
+                administra el equipo de comunicaciones.
+              </>
+            ) : (
+              <>
+                {(totalCount ?? 0) + moduloTotalCount} página
+                {(totalCount ?? 0) + moduloTotalCount === 1 ? "" : "s"} en el sitio, agrupadas por ruta.
+                Las filas marcadas como <strong>Reconocimientos</strong> se gestionan desde su módulo dedicado.
+              </>
+            )}
           </p>
         </div>
-        <Link
-          href="/admin/contenido/paginas/nueva"
-          className="flex items-center gap-2 px-4 rounded-md transition-opacity hover:opacity-80"
-          style={{
-            height: 38,
-            background: "#1A2B4A",
-            color: "#FFFFFF",
-            textDecoration: "none",
-            fontSize: 13,
-            fontWeight: 500,
-          }}
-        >
-          <Plus size={14} strokeWidth={2.5} />
-          Crear nueva página
-        </Link>
+        {!soloSuPagina && (
+          <Link
+            href="/admin/contenido/paginas/nueva"
+            className="flex items-center gap-2 px-4 rounded-md transition-opacity hover:opacity-80"
+            style={{
+              height: 38,
+              background: "#1A2B4A",
+              color: "#FFFFFF",
+              textDecoration: "none",
+              fontSize: 13,
+              fontWeight: 500,
+            }}
+          >
+            <Plus size={14} strokeWidth={2.5} />
+            Crear nueva página
+          </Link>
+        )}
       </div>
 
       <PaginasListClient paginas={filas} moduloRows={moduloFiltradas} tabs={tabs} />

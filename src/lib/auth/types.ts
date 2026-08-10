@@ -4,6 +4,7 @@ export const ROLES = {
   EDITOR_COMM: "editor_comm",
   EDITOR_ADMISIONES: "editor_admisiones",
   EDITOR_ACADEMICO: "editor_academico",
+  EDITOR_TALENTO: "editor_talento",
 } as const;
 
 export type RoleSlug = typeof ROLES[keyof typeof ROLES];
@@ -13,6 +14,7 @@ export const ROLE_LABELS: Record<RoleSlug, string> = {
   editor_comm: "Editor de Comunicaciones",
   editor_admisiones: "Editor de Admisiones",
   editor_academico: "Editor Académico",
+  editor_talento: "Editor de Talento Humano",
 };
 
 export type AdminUser = {

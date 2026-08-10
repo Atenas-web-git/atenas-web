@@ -41,7 +41,14 @@ const navItems: NavItem[] = [
     label: "Contenido",
     icon: FileText,
     visible: (u) =>
-      hasAnyRole(u, [ROLES.SUPERADMIN, ROLES.EDITOR_COMM, ROLES.EDITOR_ACADEMICO]),
+      hasAnyRole(u, [
+        ROLES.SUPERADMIN,
+        ROLES.EDITOR_COMM,
+        ROLES.EDITOR_ACADEMICO,
+        // Talento Humano entra por aquí: Vacantes, su formulario y su página
+        // viven bajo Contenido. Lo que ve dentro está recortado por área.
+        ROLES.EDITOR_TALENTO,
+      ]),
   },
   {
     href: "/admin/usuarios",
@@ -78,6 +85,7 @@ function getRoleBadge(user: AdminUser): string {
   if (hasRole(user, ROLES.EDITOR_COMM)) return "Editor Comunicaciones";
   if (hasRole(user, ROLES.EDITOR_ADMISIONES)) return "Editor Admisiones";
   if (hasRole(user, ROLES.EDITOR_ACADEMICO)) return "Editor Académico";
+  if (hasRole(user, ROLES.EDITOR_TALENTO)) return "Talento Humano";
   return "Sin rol";
 }
 

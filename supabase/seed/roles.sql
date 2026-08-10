@@ -1,5 +1,5 @@
 -- ============================================================
--- Seed — Catálogo de los 4 roles del backoffice
+-- Seed — Catálogo de los 5 roles del backoffice
 -- Ejecutar UNA vez después de la migración 001
 -- ============================================================
 
@@ -14,7 +14,10 @@ INSERT INTO roles (slug, name, description) VALUES
    'Gestiona el módulo de admisiones: solicitudes (cambios de estado, notas internas, emails), cupos por nivel y año lectivo, contenido de las páginas de admisiones y matrículas (listas de útiles, valores, autorizaciones).'),
 
   ('editor_academico', 'Editor Académico',
-   'Gestiona contenido académico: niveles educativos (Inicial, EGB E/M, Superior), Bachillerato IB y sus 7 sub-páginas, Espacios de Desarrollo (VASE, CAS, Idioma, Cultura, Ed. Física, Intercambio), documentos institucionales descargables.')
+   'Gestiona contenido académico: niveles educativos (Inicial, EGB E/M, Superior), Bachillerato IB y sus 7 sub-páginas, Espacios de Desarrollo (VASE, CAS, Idioma, Cultura, Ed. Física, Intercambio), documentos institucionales descargables.'),
+
+  ('editor_talento', 'Editor de Talento Humano',
+   'Gestiona «Trabaja con nosotros»: la página, las vacantes de empleo, el formulario de postulación con su bandeja de respuestas y la plantilla de correo de esa sección. No ve el resto del sitio, ni los mensajes de contacto, ni las quejas, ni las solicitudes de admisión.')
 ON CONFLICT (slug) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description;

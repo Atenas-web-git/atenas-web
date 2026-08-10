@@ -2,7 +2,13 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ArrowLeft, ClipboardList, ExternalLink, Inbox, Lock, Mail, Plus } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
-import { ROLES, hasAnyRole } from "@/lib/auth/types";
+import { ROLES, hasRole } from "@/lib/auth/types";
+import {
+  AREA_LABELS,
+  AREAS,
+  puedeCrearFormularios,
+  puedeVerFormularios,
+} from "@/lib/auth/areas";
 import { listarFormularios } from "@/lib/formularios/getFormulario";
 import { FORMULARIOS_GESTIONADOS_APARTE } from "@/lib/formularios/gestionadosAparte";
 import {
@@ -15,11 +21,21 @@ export const dynamic = "force-dynamic";
 export default async function FormulariosPage() {
   const user = await getCurrentUser();
   if (!user) return null;
-  if (!hasAnyRole(user, [ROLES.SUPERADMIN, ROLES.EDITOR_COMM])) {
+  if (!puedeVerFormularios(user)) {
     redirect("/admin");
   }
 
-  const formularios = await listarFormularios();
+  // El listado ya llega recortado al área del usuario (migración 079).
+  const formularios = await listarFormularios(user);
+  const puedeCrear = puedeCrearFormularios(user);
+
+  // Solo Talento Humano ve una única área; para el resto, etiquetar cada
+  // formulario sería ruido.
+  const mostrarArea = !hasRole(user, ROLES.EDITOR_TALENTO);
+
+  // El bloque de «se gestionan en otro sitio» apunta a Admisiones. A quien no
+  // administra admisiones no le sirve de nada y le enseña una puerta cerrada.
+  const mostrarGestionadosAparte = hasRole(user, ROLES.SUPERADMIN) || hasRole(user, ROLES.EDITOR_COMM);
 
   return (
     <div className="flex flex-col gap-6 p-8">
@@ -41,21 +57,23 @@ export default async function FormulariosPage() {
         </p>
       </div>
 
-      <div>
-        <Link
-          href="/admin/contenido/formularios/nuevo"
-          className="inline-flex items-center gap-2 px-4 py-2"
-          style={{
-            background: "#1A2B4A",
-            color: "#FFFFFF",
-            borderRadius: 8,
-            fontSize: 13,
-            fontWeight: 600,
-          }}
-        >
-          <Plus size={15} /> Crear formulario
-        </Link>
-      </div>
+      {puedeCrear && (
+        <div>
+          <Link
+            href="/admin/contenido/formularios/nuevo"
+            className="inline-flex items-center gap-2 px-4 py-2"
+            style={{
+              background: "#1A2B4A",
+              color: "#FFFFFF",
+              borderRadius: 8,
+              fontSize: 13,
+              fontWeight: 600,
+            }}
+          >
+            <Plus size={15} /> Crear formulario
+          </Link>
+        </div>
+      )}
 
       {formularios.length === 0 ? (
         <div
@@ -67,8 +85,9 @@ export default async function FormulariosPage() {
             Todavía no hay formularios
           </p>
           <p style={{ fontSize: 13, color: "#6B6660", margin: 0, maxWidth: 380 }}>
-            Crea el primero para empezar a recibir postulaciones, consultas o
-            inscripciones sin depender de Google Formularios.
+            {puedeCrear
+              ? "Crea el primero para empezar a recibir postulaciones, consultas o inscripciones sin depender de Google Formularios."
+              : "Cuando alguien complete un formulario de tu área, aparecerá aquí."}
           </p>
         </div>
       ) : (
@@ -98,6 +117,22 @@ export default async function FormulariosPage() {
                       }}
                     >
                       Desactivado
+                    </span>
+                  )}
+                  {mostrarArea && f.area !== AREAS.COMUNICACIONES && (
+                    <span
+                      style={{
+                        fontSize: 10,
+                        fontWeight: 700,
+                        letterSpacing: 0.5,
+                        textTransform: "uppercase",
+                        background: "#F1EEE9",
+                        color: "#6B6660",
+                        padding: "3px 8px",
+                        borderRadius: 999,
+                      }}
+                    >
+                      {AREA_LABELS[f.area]}
                     </span>
                   )}
                   {f.respuestas_nuevas > 0 && (
@@ -172,6 +207,7 @@ export default async function FormulariosPage() {
       )}
 
       {/* Formularios que existen en el sitio pero viven en su propio módulo. */}
+      {mostrarGestionadosAparte && (
       <div className="flex flex-col gap-3">
         <div>
           <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
@@ -250,6 +286,7 @@ export default async function FormulariosPage() {
           </div>
         ))}
       </div>
+      )}
     </div>
   );
 }

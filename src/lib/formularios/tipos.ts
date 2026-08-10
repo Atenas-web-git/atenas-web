@@ -94,6 +94,12 @@ export type Formulario = {
   confirmacion_asunto: string | null;
   confirmacion_cuerpo: string | null;
   activo: boolean;
+  /**
+   * Quién es dueño del formulario y de su bandeja: comunicaciones,
+   * admisiones o talento. Decide qué rol lo ve en el panel — la lógica está
+   * en `lib/auth/areas.ts`, no aquí. Migración 079.
+   */
+  area: string;
 };
 
 export const ESTADOS_RESPUESTA = [
