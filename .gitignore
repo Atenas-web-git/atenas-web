@@ -52,3 +52,7 @@ graphify-out/
 
 # Configuración local del servidor de desarrollo (Claude Code)
 .claude/launch.json
+
+# .claude/hooks/ SÍ se versiona, al revés que agents/: `settings.json` está
+# trackeado y registra el hook por ruta, así que en un clon limpio sin el
+# script cada llamada Bash fallaría.
