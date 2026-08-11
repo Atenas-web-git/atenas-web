@@ -150,6 +150,7 @@ export default async function ServicioPage({ params }: Props) {
           formConfig={formConfig}
           revistaConfig={revistaConfig}
           formularioMotor={formularioQuejas}
+          enlacesExternos={cms?.enlacesExternos ?? []}
         />
         <FooterCTA />
       </main>

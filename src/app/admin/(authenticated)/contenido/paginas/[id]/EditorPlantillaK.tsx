@@ -8,6 +8,7 @@ import type {
   StatPlantillaK,
   FormularioPlantillaK,
   RevistaAtenasConfig,
+  EnlaceExternoServicio,
 } from "../../plantillas";
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import { IconPicker } from "@/components/admin/IconPicker";
@@ -75,6 +76,10 @@ export function EditorPlantillaK({
     }
   );
 
+  const [enlacesExternos, setEnlacesExternos] = useState<EnlaceExternoServicio[]>(
+    initialContenido.enlacesExternos ?? []
+  );
+
   const safePrefix = `paginas/${slug.replace(/[^a-z0-9-]/g, "-")}`;
   // Solo persistimos `formulario` si la ficha es de color rojo (caso especial),
   // y `revistaAtenas` solo si esta página es la biblioteca.
@@ -83,6 +88,10 @@ export function EditorPlantillaK({
   if (isBiblioteca) {
     baseContenido.revistaAtenas = revistaAtenas;
   }
+  // Se guardan siempre: una lista vacía simplemente no pinta nada.
+  baseContenido.enlacesExternos = enlacesExternos.filter(
+    (e) => e.label.trim() !== "" && e.url.trim() !== ""
+  );
   const contenidoJson = JSON.stringify(baseContenido);
 
   return (
@@ -114,6 +123,7 @@ export function EditorPlantillaK({
       {ficha.color === "red" && (
         <FormularioEditor formulario={formulario} setFormulario={setFormulario} />
       )}
+      <EnlacesExternosEditor enlaces={enlacesExternos} setEnlaces={setEnlacesExternos} />
       {isBiblioteca && (
         <RevistaAtenasEditor revista={revistaAtenas} setRevista={setRevistaAtenas} />
       )}
@@ -654,4 +664,149 @@ function iconButton(disabled: boolean): React.CSSProperties {
     opacity: disabled ? 0.5 : 1,
     fontFamily: "inherit",
   };
+}
+
+/**
+ * Accesos a sistemas externos del colegio.
+ *
+ * Está en todas las fichas de servicio y no solo en la biblioteca: el paseo
+ * virtual, la facturación y el portal Idukay son la misma necesidad en otras
+ * páginas, y hasta ahora cada dirección nueva obligaba a tocar el código.
+ */
+function EnlacesExternosEditor({
+  enlaces,
+  setEnlaces,
+}: {
+  enlaces: EnlaceExternoServicio[];
+  setEnlaces: (e: EnlaceExternoServicio[]) => void;
+}) {
+  const actualizar = (i: number, patch: Partial<EnlaceExternoServicio>) =>
+    setEnlaces(enlaces.map((e, idx) => (idx === i ? { ...e, ...patch } : e)));
+  const agregar = () => setEnlaces([...enlaces, { label: "", url: "", descripcion: "" }]);
+  const quitar = (i: number) => setEnlaces(enlaces.filter((_, idx) => idx !== i));
+
+  return (
+    <Card
+      title="Accesos a sistemas externos"
+      subtitle="Botones hacia sistemas que no viven en esta web: la biblioteca virtual, la revista, el paseo virtual. Aparecen antes de la tarjeta destacada. Ojo: un acceso al que le falte el texto o la dirección NO se guarda — te lo avisa en rojo antes de que pulses Guardar."
+    >
+      {enlaces.length === 0 && (
+        <p style={{ fontSize: 12.5, color: "#6B6660", margin: "0 0 12px", lineHeight: 1.55 }}>
+          Todavía no hay ninguno.
+        </p>
+      )}
+
+      {enlaces.map((e, i) => {
+        const sinTexto = e.label.trim() === "";
+        const sinUrl = e.url.trim() === "";
+        const urlRara = !sinUrl && !/^(https?:\/\/|\/)/i.test(e.url.trim());
+        const problema = sinTexto
+          ? sinUrl
+            ? null // Fila recién añadida, todavía vacía: no hay nada que avisar.
+            : "Falta el texto del botón. Sin él, este acceso no se guardará."
+          : sinUrl
+            ? "Falta la dirección. Sin ella, este acceso no se guardará."
+            : urlRara
+              ? "La dirección tiene que empezar por https:// o por http://. Así como está, el acceso no aparecerá en la página."
+              : null;
+
+        return (
+        <div
+          key={i}
+          style={{
+            border: problema ? "1px solid #9e1915" : "1px solid #E8E4DD",
+            borderRadius: 10,
+            padding: 14,
+            marginBottom: 12,
+            background: "#FCFBF9",
+          }}
+        >
+          <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#1A2B4A" }}>
+              Acceso {i + 1}
+            </span>
+            <button
+              type="button"
+              onClick={() => quitar(i)}
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                color: "#9e1915",
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+                fontFamily: "inherit",
+              }}
+            >
+              Quitar
+            </button>
+          </div>
+          <Field label="Texto del botón" hint='Ej. "Entrar a la biblioteca virtual".'>
+            <input
+              type="text"
+              value={e.label}
+              onChange={(ev) => actualizar(i, { label: ev.target.value })}
+              placeholder="Entrar a la biblioteca virtual"
+              maxLength={70}
+              style={inputStyle}
+            />
+          </Field>
+          <Field
+            label="Dirección"
+            hint="Pega la dirección completa, con http:// o https:// al principio."
+          >
+            <input
+              type="text"
+              value={e.url}
+              onChange={(ev) => actualizar(i, { url: ev.target.value })}
+              placeholder="https://..."
+              style={inputStyle}
+            />
+          </Field>
+          <Field label="Descripción (opcional)" hint="Una línea explicando qué se encuentra ahí.">
+            <input
+              type="text"
+              value={e.descripcion ?? ""}
+              onChange={(ev) => actualizar(i, { descripcion: ev.target.value })}
+              placeholder="Consulta el catálogo y reserva libros en línea."
+              maxLength={120}
+              style={inputStyle}
+            />
+          </Field>
+          {problema && (
+            <p
+              style={{
+                fontSize: 12.5,
+                fontWeight: 600,
+                color: "#9e1915",
+                margin: "4px 0 0",
+                lineHeight: 1.5,
+              }}
+            >
+              {problema}
+            </p>
+          )}
+        </div>
+        );
+      })}
+
+      <button
+        type="button"
+        onClick={agregar}
+        style={{
+          fontSize: 13,
+          fontWeight: 600,
+          color: "#1A2B4A",
+          background: "#FFFFFF",
+          border: "1px solid #E8E4DD",
+          borderRadius: 8,
+          padding: "9px 16px",
+          cursor: "pointer",
+          fontFamily: "inherit",
+        }}
+      >
+        + Añadir acceso
+      </button>
+    </Card>
+  );
 }

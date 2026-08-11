@@ -9,6 +9,9 @@ import type { FormularioPublico } from "@/lib/formularios/getFormulario";
 import { DynamicIcon } from "lucide-react/dynamic";
 import type { IconName } from "lucide-react/dynamic";
 import type { ServicioItem } from "@/data/servicios";
+import { ExternalLink } from "lucide-react";
+import { urlSegura } from "@/lib/cms/htmlSeguro";
+import type { EnlaceExternoServicio } from "@/app/admin/(authenticated)/contenido/plantillas";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
@@ -51,6 +54,8 @@ interface Props {
   revistaConfig?: RevistaConfig;
   /** Definición del formulario «quejas-sugerencias» del motor. */
   formularioMotor?: FormularioPublico | null;
+  /** Accesos a sistemas externos del colegio, editables desde el panel. */
+  enlacesExternos?: EnlaceExternoServicio[];
 }
 
 function FormQuejas({
@@ -151,7 +156,7 @@ function FormQuejas({
   );
 }
 
-export function DetalleServicio({ servicio, formConfig, revistaConfig, formularioMotor = null }: Props) {
+export function DetalleServicio({ servicio, formConfig, revistaConfig, formularioMotor = null, enlacesExternos = [] }: Props) {
   const { slug, nombre, descripcion, stats, pasos, fotos, color } = servicio;
   const isRed = color === "red";
   const formCfg: FormQuejasConfig = formConfig ?? FORM_QUEJAS_DEFAULT;
@@ -564,6 +569,9 @@ export function DetalleServicio({ servicio, formConfig, revistaConfig, formulari
         </section>
       )}
 
+      {/* ── Accesos a sistemas externos del colegio ── */}
+      <EnlacesExternos enlaces={enlacesExternos} accent={accent} accentBg={accentBg} />
+
       {/* ── Revista Atenas (solo biblioteca, configurable) ── */}
       {slug === "biblioteca" && revistaCfg?.enabled !== false && (
         <RevistaAtenasCard cfg={revistaCfg} />
@@ -574,6 +582,119 @@ export function DetalleServicio({ servicio, formConfig, revistaConfig, formulari
         <FormQuejas accent={accent} config={formCfg} formularioMotor={formularioMotor} />
       )}
     </div>
+  );
+}
+
+/**
+ * Fila de accesos a sistemas externos: biblioteca virtual, revista, paseo
+ * virtual…
+ *
+ * Los enlaces vienen del CMS. Van por `urlSegura` como todo lo editable, y
+ * cada uno se abre en otra pestaña si sale del sitio: son sistemas ajenos y
+ * quien entra no debería perder la página del colegio.
+ *
+ * Nota sobre la biblioteca: su dirección es `http://` y con puerto alto. El
+ * navegador NO bloquea navegar ahí desde una página https —solo bloquearía
+ * incrustarla en un iframe—, así que como enlace funciona. Comprobado el
+ * 2026-08-11 que responde desde fuera de la red del colegio.
+ */
+function EnlacesExternos({
+  enlaces,
+  accent,
+  accentBg,
+}: {
+  enlaces: EnlaceExternoServicio[];
+  accent: string;
+  /**
+   * El fondo tenue del icono. Va aparte y NO se calcula pegándole opacidad a
+   * `accent`: ese es un `var(--color-red)`, y `var(--color-red)1A` es CSS
+   * inválido que el navegador descarta en silencio —el icono se quedaba sin
+   * su círculo de color y parecía un detalle sin terminar—.
+   */
+  accentBg: string;
+}) {
+  const utiles = enlaces
+    .map((e) => ({ ...e, destino: urlSegura(e.url) }))
+    .filter((e) => e.destino && e.label?.trim());
+
+  if (utiles.length === 0) return null;
+
+  return (
+    <section style={{ padding: "0 0 72px" }}>
+      <div className="px-6 md:px-[160px] flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        {utiles.map((e) => {
+          const externo = e.destino!.startsWith("http");
+          return (
+            <a
+              key={e.destino}
+              href={e.destino!}
+              target={externo ? "_blank" : undefined}
+              rel={externo ? "noopener noreferrer" : undefined}
+              // `flex-basis` en un contenedor en COLUMNA aplica al alto, no al
+              // ancho: puesto como `flex: 1 1 280px` dejaba el botón de 280 px
+              // de alto en móvil. El reparto solo tiene sentido en fila.
+              className="group flex w-full items-center gap-3 rounded-xl px-5 py-4 transition-transform hover:-translate-y-0.5 sm:w-auto sm:flex-1 sm:basis-[280px]"
+              style={{
+                background: "#FFFFFF",
+                border: "1px solid #E8E4DD",
+                textDecoration: "none",
+                boxShadow: "0 2px 10px rgba(13,24,37,0.05)",
+              }}
+            >
+              <span
+                className="flex items-center justify-center shrink-0"
+                style={{ width: 38, height: 38, borderRadius: 10, background: accentBg }}
+              >
+                <ExternalLink size={17} strokeWidth={2.2} color={accent} />
+              </span>
+              <span className="min-w-0">
+                <span
+                  className="block"
+                  style={{
+                    fontFamily: "Poppins, sans-serif",
+                    fontSize: 14,
+                    fontWeight: 700,
+                    color: "var(--color-navy, #1A2B4A)",
+                  }}
+                >
+                  {e.label}
+                </span>
+                {e.descripcion && (
+                  <span
+                    className="block"
+                    style={{
+                      fontFamily: "Poppins, sans-serif",
+                      fontSize: 13,
+                      color: "#6B6660",
+                      lineHeight: 1.5,
+                      marginTop: 2,
+                    }}
+                  >
+                    {e.descripcion}
+                  </span>
+                )}
+                {externo && (
+                  <span
+                    className="block"
+                    style={{
+                      fontFamily: "Poppins, sans-serif",
+                      fontSize: 11,
+                      fontWeight: 700,
+                      letterSpacing: 0.6,
+                      textTransform: "uppercase",
+                      color: accent,
+                      marginTop: 6,
+                    }}
+                  >
+                    Se abre en una nueva pestaña ↗
+                  </span>
+                )}
+              </span>
+            </a>
+          );
+        })}
+      </div>
+    </section>
   );
 }
 

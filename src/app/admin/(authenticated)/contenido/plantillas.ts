@@ -1215,6 +1215,23 @@ export type FormularioPlantillaK = {
   asuntoEmail: string;
 };
 
+/**
+ * Un enlace a un sistema externo del colegio: la biblioteca virtual, la
+ * revista, el paseo virtual, la facturación…
+ *
+ * Vive en el CMS y no en el código porque son direcciones que el colegio
+ * cambia sin avisarnos —y hasta ahora, cuando cambiaban, había que tocar el
+ * repositorio y desplegar.
+ */
+export type EnlaceExternoServicio = {
+  /** Lo que se lee en el botón. */
+  label: string;
+  /** A dónde va. Si es externa, se abre en otra pestaña. */
+  url: string;
+  /** Una línea explicando qué se encuentra ahí. Opcional. */
+  descripcion?: string;
+};
+
 export type ContenidoPlantillaK = {
   hero: {
     badge?: string;
@@ -1251,6 +1268,11 @@ export type ContenidoPlantillaK = {
    * son editables desde el backoffice.
    */
   revistaAtenas?: RevistaAtenasConfig;
+  /**
+   * Accesos a sistemas externos del colegio. Se pintan como una fila de
+   * botones antes de la tarjeta destacada. Lista vacía → no se pinta nada.
+   */
+  enlacesExternos?: EnlaceExternoServicio[];
 };
 
 /** Card "Revista Atenas" editable (solo aplica a /servicios/biblioteca). */
