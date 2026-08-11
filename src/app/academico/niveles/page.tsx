@@ -4,6 +4,7 @@ import { HeroAcademico } from "@/components/academico/HeroAcademico";
 import { NivelesDetalle } from "@/components/academico/NivelesDetalle";
 import { MetodologiasAcademico } from "@/components/academico/MetodologiasAcademico";
 import { CTAAcademico } from "@/components/academico/CTAAcademico";
+import { CTAAdmisionNivel } from "@/components/academico/CTAAdmisionNivel";
 import { FooterCTA } from "@/components/home/FooterCTA";
 import { getPagina } from "@/lib/cms/getPagina";
 import {
@@ -43,6 +44,19 @@ export default async function AcademicoNivelesPage() {
         <NivelesDetalle niveles={c.niveles} />
         <MetodologiasAcademico metodologias={c.metodologias} />
         <CTAAcademico cta={c.cta} />
+        {!c.ctaAdmision?.oculto && (
+        <CTAAdmisionNivel
+          nivel="el Atenas"
+          href={c.ctaAdmision?.href ?? "/admisiones"}
+          eyebrow={c.ctaAdmision?.eyebrow}
+          heading={c.ctaAdmision?.heading ?? "¿Listo para dar el paso?"}
+          descripcion={c.ctaAdmision?.descripcion}
+          ctaLabel={c.ctaAdmision?.ctaLabel ?? "Iniciar el proceso de admisión"}
+          secundarioLabel={c.ctaAdmision?.secundarioLabel}
+          secundarioHref={c.ctaAdmision?.secundarioHref}
+          variante="claro"
+        />
+        )}
         <FooterCTA />
       </main>
     </>

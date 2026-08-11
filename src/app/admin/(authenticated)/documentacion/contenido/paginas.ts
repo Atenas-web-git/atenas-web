@@ -381,10 +381,16 @@ export const PAGINAS: Seccion = {
           filas: [
             [
               "F · Ficha académica",
-              "Portada, franja de cifras, introducción con párrafos, chips y collage de 3 fotos, y una sección oscura opcional de tarjetas o plataformas.",
+              "Portada, franja de cifras, introducción con párrafos, chips y collage de 3 fotos, una sección oscura opcional de tarjetas o plataformas, y —en las páginas de Niveles— el bloque **«Iniciar admisión»** del final.",
               "Subpáginas de IB y de Niveles",
             ],
           ],
+        },
+        {
+          t: "nota",
+          tono: "info",
+          texto:
+            "**El bloque «Iniciar admisión»** aparece al final de las tres páginas de Niveles y de la página que las resume. Lleva a la admisión de ese nivel concreto, con el nivel ya elegido en el formulario. Viene con sus textos escritos: se cambian en la tarjeta «Botón «Iniciar admisión»» del editor de la página. Ojo con una cosa: **vaciar los campos no lo esconde** —se vuelve a usar el texto de por defecto—. Para quitarlo hay que marcar la casilla «No mostrar este bloque en la página».",
         },
         { t: "sub", texto: "Landings ricas" },
         {

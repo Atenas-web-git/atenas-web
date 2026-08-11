@@ -3,6 +3,7 @@ import { Navbar } from "@/components/home/Navbar";
 import { HeroElAtenas } from "@/components/el-atenas/HeroElAtenas";
 import { SeccionDetalleAcademico } from "@/components/cms/SeccionDetalleAcademico";
 import { NavNiveles } from "@/components/academico/NavNiveles";
+import { CTAAdmisionNivel } from "@/components/academico/CTAAdmisionNivel";
 import { FooterCTA } from "@/components/home/FooterCTA";
 import { getPlantillaF } from "@/lib/cms/getPlantillaF";
 import type { ContenidoPlantillaF } from "@/app/admin/(authenticated)/contenido/plantillas";
@@ -71,6 +72,18 @@ export default async function EGBElementalMediaPage() {
           intro={c.intro}
           seccionInferior={c.seccionInferior}
         />
+        {!c.ctaAdmision?.oculto && (
+        <CTAAdmisionNivel
+          nivel="EGB Elemental y Media"
+          href={c.ctaAdmision?.href ?? "/admisiones/egb-elemental-media"}
+          eyebrow={c.ctaAdmision?.eyebrow}
+          heading={c.ctaAdmision?.heading}
+          descripcion={c.ctaAdmision?.descripcion}
+          ctaLabel={c.ctaAdmision?.ctaLabel}
+          secundarioLabel={c.ctaAdmision?.secundarioLabel ?? "Ver requisitos y proceso"}
+          secundarioHref={c.ctaAdmision?.secundarioHref ?? "/admisiones/egb-elemental-media#proceso"}
+        />
+        )}
         <NavNiveles current="egb-elemental-media" />
         <FooterCTA />
       </main>

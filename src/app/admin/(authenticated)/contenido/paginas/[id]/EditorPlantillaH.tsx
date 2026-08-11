@@ -44,8 +44,26 @@ export function EditorPlantillaH({
   const [metodologias, setMetodologias] = useState<Metodologias>(initialContenido.metodologias);
   const [cta, setCta] = useState<CTA>(initialContenido.cta);
 
+  // Bloque «Iniciar admisión» del final. Sus textos tienen valor por defecto
+  // en el componente, así que aquí vacío significa «usa el de por defecto»,
+  // NO «escóndelo»: para eso está la casilla.
+  const [ctaAdmOculto, setCtaAdmOculto] = useState(initialContenido.ctaAdmision?.oculto ?? false);
+  const [ctaAdmHeading, setCtaAdmHeading] = useState(initialContenido.ctaAdmision?.heading ?? "");
+  const [ctaAdmDescripcion, setCtaAdmDescripcion] = useState(initialContenido.ctaAdmision?.descripcion ?? "");
+  const [ctaAdmLabel, setCtaAdmLabel] = useState(initialContenido.ctaAdmision?.ctaLabel ?? "");
+  const [ctaAdmHref, setCtaAdmHref] = useState(initialContenido.ctaAdmision?.href ?? "");
+
   const safePrefix = `paginas/${slug.replace(/[^a-z0-9-]/g, "-")}`;
-  const contenidoJson = JSON.stringify({ hero, niveles, metodologias, cta });
+  const contenidoJson = JSON.stringify({
+    hero, niveles, metodologias, cta,
+    ctaAdmision: {
+      oculto: ctaAdmOculto || undefined,
+      href: ctaAdmHref.trim() || undefined,
+      heading: ctaAdmHeading.trim() || undefined,
+      descripcion: ctaAdmDescripcion.trim() || undefined,
+      ctaLabel: ctaAdmLabel.trim() || undefined,
+    },
+  });
 
   return (
     <form action={action} className="flex flex-col gap-5">
@@ -67,6 +85,68 @@ export function EditorPlantillaH({
       <NivelesEditor niveles={niveles} setNiveles={setNiveles} prefix={`${safePrefix}/niveles`} />
       <MetodologiasEditor met={metodologias} setMet={setMetodologias} prefix={`${safePrefix}/metodologias`} />
       <CTAEditor cta={cta} setCta={setCta} prefix={`${safePrefix}/cta`} />
+
+      <Card
+        title="Bloque 5 — Botón «Iniciar admisión»"
+        subtitle="El bloque claro del final que lleva a Admisiones. Todos los textos ya vienen escritos: si los dejas vacíos se usan esos. Para quitarlo de la página, marca la casilla."
+      >
+        <label className="flex items-start gap-3 cursor-pointer" style={{ marginBottom: 18 }}>
+          <input
+            type="checkbox"
+            checked={ctaAdmOculto}
+            onChange={(e) => setCtaAdmOculto(e.target.checked)}
+            style={{ width: 16, height: 16, marginTop: 2, accentColor: "#1A2B4A" }}
+          />
+          <span style={{ fontSize: 13, color: "#1A2B4A", lineHeight: 1.5 }}>
+            No mostrar este bloque en la página
+            <br />
+            <span style={{ fontSize: 12, color: "#6B6660" }}>
+              Quien llegue al final de esta página se quedará sin un botón para empezar la admisión.
+            </span>
+          </span>
+        </label>
+        <Field label="Título" hint='Por defecto: "¿Listo para dar el paso?".'>
+          <input
+            type="text"
+            value={ctaAdmHeading}
+            onChange={(e) => setCtaAdmHeading(e.target.value)}
+            placeholder="¿Listo para dar el paso?"
+            maxLength={120}
+            style={inputStyle}
+          />
+        </Field>
+        <Field label="Descripción" hint="Una o dos frases debajo del título.">
+          <textarea
+            value={ctaAdmDescripcion}
+            onChange={(e) => setCtaAdmDescripcion(e.target.value)}
+            rows={2}
+            placeholder="Cuéntanos de tu hijo o hija y te acompañamos en el proceso, paso a paso. Sin compromiso."
+            style={{ ...inputStyle, height: "auto", resize: "vertical", minHeight: 60, paddingTop: 10, paddingBottom: 10 }}
+          />
+        </Field>
+        <Field label="Texto del botón" hint='Por defecto: "Iniciar el proceso de admisión".'>
+          <input
+            type="text"
+            value={ctaAdmLabel}
+            onChange={(e) => setCtaAdmLabel(e.target.value)}
+            placeholder="Iniciar el proceso de admisión"
+            maxLength={60}
+            style={inputStyle}
+          />
+        </Field>
+        <Field
+          label="A dónde lleva el botón"
+          hint="Déjalo vacío y apunta a Admisiones. Vaciarlo NO esconde el bloque: para eso está la casilla de arriba."
+        >
+          <input
+            type="text"
+            value={ctaAdmHref}
+            onChange={(e) => setCtaAdmHref(e.target.value)}
+            placeholder="/admisiones"
+            style={inputStyle}
+          />
+        </Field>
+      </Card>
 
       <Card title="SEO" subtitle="Metadatos para motores de búsqueda y previsualizaciones.">
         <Field label="Meta title" hint="Recomendado: 50-60 caracteres.">

@@ -269,6 +269,31 @@ export type DescargaInfo = {
   descripcion?: string;
 };
 
+/**
+ * Bloque CTA hacia la admisión del nivel, al final de las páginas de
+ * `/academico/niveles/*` y de la landing de niveles.
+ *
+ * Todo es opcional porque el componente trae textos por defecto: así el bloque
+ * se ve desde el primer día y el colegio los cambia cuando quiera. Solo `href`
+ * apaga el bloque si se deja vacío a propósito.
+ */
+export type CTAAdmisionInfo = {
+  /**
+   * Apaga el bloque. Hace falta un interruptor explícito porque los textos y
+   * el destino tienen valor por defecto: dejarlos vacíos NO lo esconde, y el
+   * editor llegó a prometer que sí.
+   */
+  oculto?: boolean;
+  /** A dónde lleva. Vacío → se usa la admisión del nivel. */
+  href?: string;
+  eyebrow?: string;
+  heading?: string;
+  descripcion?: string;
+  ctaLabel?: string;
+  secundarioLabel?: string;
+  secundarioHref?: string;
+};
+
 export type ContenidoPlantillaA = {
   hero: {
     badge?: string;
@@ -611,6 +636,11 @@ export type ContenidoPlantillaF = {
   seccionInferior: SeccionInferiorPlantillaF;
   /** Bloque opcional: botón CTA "Descargar más información" (Google Drive, PDF, etc.). */
   descargas?: DescargaInfo;
+  /**
+   * CTA hacia la admisión de ESTE nivel. Los textos tienen valor por defecto en
+   * el componente; lo que se guarde aquí manda.
+   */
+  ctaAdmision?: CTAAdmisionInfo;
   /** ID de anclaje opcional. Permite enlazar con `/slug#anchorId`. */
   anchorId?: string;
 };
@@ -879,6 +909,11 @@ export type ContenidoPlantillaH = {
     /** Foto pequeña al final de la stats card. */
     statsCardImg: string;
   };
+  /**
+   * CTA hacia Admisiones al final de la landing de niveles. Textos con valor
+   * por defecto en el componente; lo guardado manda.
+   */
+  ctaAdmision?: CTAAdmisionInfo;
 };
 
 /** Default vacío para crear una página nueva con plantilla H. */

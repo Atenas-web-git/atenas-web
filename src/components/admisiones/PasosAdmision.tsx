@@ -36,7 +36,7 @@ export function PasosAdmision({
   const bgY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden" style={{ background: "var(--color-dark)", padding: "80px 0" }}>
+    <section id="proceso" ref={sectionRef} className="relative overflow-hidden" style={{ background: "var(--color-dark)", padding: "80px 0" }}>
 
       {/* Parallax bg */}
       <motion.div className="absolute inset-0" style={{ y: bgY, willChange: "transform" }}>

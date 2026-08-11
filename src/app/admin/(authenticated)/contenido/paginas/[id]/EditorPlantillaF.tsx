@@ -92,6 +92,16 @@ export function EditorPlantillaF({
     initialContenido.descargas?.descripcion ?? ""
   );
 
+  // CTA hacia la admisión de este nivel. Todo opcional: el componente trae sus
+  // propios textos, así que vacío NO significa que el bloque desaparezca —solo
+  // el destino lo apaga—.
+  const [ctaAdmOculto, setCtaAdmOculto] = useState(initialContenido.ctaAdmision?.oculto ?? false);
+  const [ctaAdmHref, setCtaAdmHref] = useState(initialContenido.ctaAdmision?.href ?? "");
+  const [ctaAdmEyebrow, setCtaAdmEyebrow] = useState(initialContenido.ctaAdmision?.eyebrow ?? "");
+  const [ctaAdmHeading, setCtaAdmHeading] = useState(initialContenido.ctaAdmision?.heading ?? "");
+  const [ctaAdmDescripcion, setCtaAdmDescripcion] = useState(initialContenido.ctaAdmision?.descripcion ?? "");
+  const [ctaAdmLabel, setCtaAdmLabel] = useState(initialContenido.ctaAdmision?.ctaLabel ?? "");
+
   // ID de anclaje
   const [anchorId, setAnchorId] = useState(initialContenido.anchorId ?? "");
 
@@ -216,6 +226,14 @@ export function EditorPlantillaF({
     },
     seccionInferior: seccionInferiorJson,
     anchorId: anchorId.trim() || undefined,
+    ctaAdmision: {
+      oculto: ctaAdmOculto || undefined,
+      href: ctaAdmHref.trim() || undefined,
+      eyebrow: ctaAdmEyebrow.trim() || undefined,
+      heading: ctaAdmHeading.trim() || undefined,
+      descripcion: ctaAdmDescripcion.trim() || undefined,
+      ctaLabel: ctaAdmLabel.trim() || undefined,
+    },
     descargas:
       descargasLabel.trim() !== "" && descargasHref.trim() !== ""
         ? {
@@ -732,6 +750,79 @@ export function EditorPlantillaF({
             rows={2}
             placeholder="ej. Conoce los detalles completos del programa en este documento."
             style={{ ...inputStyle, height: "auto", resize: "vertical", minHeight: 60, paddingTop: 10, paddingBottom: 10 }}
+          />
+        </Field>
+      </Card>
+
+      {/* CTA hacia la admisión del nivel */}
+      <Card
+        title="Botón «Iniciar admisión»"
+        subtitle="El bloque azul del final que lleva a la admisión de este nivel. Todos los textos ya vienen escritos: si los dejas vacíos se usan esos. Para quitar el bloque de la página, marca la casilla de abajo."
+      >
+        <label className="flex items-start gap-3 cursor-pointer" style={{ marginBottom: 18 }}>
+          <input
+            type="checkbox"
+            checked={ctaAdmOculto}
+            onChange={(e) => setCtaAdmOculto(e.target.checked)}
+            style={{ width: 16, height: 16, marginTop: 2, accentColor: "#1A2B4A" }}
+          />
+          <span style={{ fontSize: 13, color: "#1A2B4A", lineHeight: 1.5 }}>
+            No mostrar este bloque en la página
+            <br />
+            <span style={{ fontSize: 12, color: "#6B6660" }}>
+              Quien lea sobre este nivel se quedará sin un botón para empezar la admisión.
+            </span>
+          </span>
+        </label>
+        <Field
+          label="A dónde lleva el botón"
+          hint="Déjalo vacío y apunta a la admisión de este nivel, que es lo normal. Vaciarlo NO esconde el bloque: para eso está la casilla de arriba."
+        >
+          <input
+            type="text"
+            value={ctaAdmHref}
+            onChange={(e) => setCtaAdmHref(e.target.value)}
+            placeholder="/admisiones/inicial"
+            style={inputStyle}
+          />
+        </Field>
+        <Field label="Texto pequeño de arriba" hint='Por defecto: "Admisiones abiertas".'>
+          <input
+            type="text"
+            value={ctaAdmEyebrow}
+            onChange={(e) => setCtaAdmEyebrow(e.target.value)}
+            placeholder="Admisiones abiertas"
+            maxLength={60}
+            style={inputStyle}
+          />
+        </Field>
+        <Field label="Título" hint="Por defecto pregunta por una plaza en este nivel.">
+          <input
+            type="text"
+            value={ctaAdmHeading}
+            onChange={(e) => setCtaAdmHeading(e.target.value)}
+            placeholder="¿Quieres una plaza en Educación Inicial?"
+            maxLength={120}
+            style={inputStyle}
+          />
+        </Field>
+        <Field label="Descripción" hint="Una o dos frases debajo del título.">
+          <textarea
+            value={ctaAdmDescripcion}
+            onChange={(e) => setCtaAdmDescripcion(e.target.value)}
+            rows={2}
+            placeholder="Cuéntanos de tu hijo o hija y te acompañamos en el proceso, paso a paso. Sin compromiso."
+            style={{ ...inputStyle, height: "auto", resize: "vertical", minHeight: 60, paddingTop: 10, paddingBottom: 10 }}
+          />
+        </Field>
+        <Field label="Texto del botón" hint='Por defecto: "Iniciar mi proceso de admisión".'>
+          <input
+            type="text"
+            value={ctaAdmLabel}
+            onChange={(e) => setCtaAdmLabel(e.target.value)}
+            placeholder="Iniciar mi proceso de admisión"
+            maxLength={60}
+            style={inputStyle}
           />
         </Field>
       </Card>
