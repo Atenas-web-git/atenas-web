@@ -205,7 +205,7 @@ export const ROLES_SECCION: Seccion = {
   paraQuien: "Todo el equipo · imprescindible para el Superadministrador",
   articulos: [
     {
-      id: "los-cuatro-roles",
+      id: "los-roles",
       titulo: "Los cinco roles",
       resumen:
         "Superadministrador, Editor de Comunicaciones, Editor Académico, Editor de Admisiones y Editor de Talento Humano.",
@@ -226,13 +226,13 @@ export const ROLES_SECCION: Seccion = {
             ],
             [
               "Editor de Comunicaciones",
-              "Contenido completo: páginas, notificaciones, cronograma, galería, documentos, reconocimientos y plantillas de formularios",
-              "Admisiones, Usuarios y Configuración",
+              "Contenido completo: páginas, notificaciones, cronograma, galería, documentos, reconocimientos, formularios (contactos, quejas y consultas de admisión) y sus plantillas de correo",
+              "Admisiones, Usuarios, Configuración y **las postulaciones de empleo**",
             ],
             [
               "Editor Académico",
-              "Contenido completo (igual que Comunicaciones)",
-              "Admisiones, Usuarios y Configuración",
+              "Las mismas páginas y módulos que Comunicaciones",
+              "Formularios y sus respuestas, Vacantes, Admisiones, Usuarios y Configuración",
             ],
             [
               "Editor de Admisiones",

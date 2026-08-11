@@ -201,7 +201,8 @@ export const PAGINAS: Seccion = {
   descripcion:
     "Editar cualquier página del sitio público, crear páginas nuevas y el catálogo completo de plantillas disponibles.",
   icono: "FileText",
-  paraQuien: "Editor de Comunicaciones · Editor Académico · Superadministrador",
+  paraQuien:
+    "Editor de Comunicaciones · Editor Académico · Superadministrador · Talento Humano (solo «Trabaja con nosotros»)",
   articulos: [
     {
       id: "listado",

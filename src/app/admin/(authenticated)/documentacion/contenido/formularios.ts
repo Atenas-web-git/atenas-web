@@ -192,6 +192,12 @@ export const FORMULARIOS: Seccion = {
             "Puedes poner **varios correos separados por comas** si el aviso debe llegarle a más de una persona.",
         },
         {
+          t: "nota",
+          tono: "info",
+          texto:
+            "Si tu rol es **Talento Humano**, Configuración › Correos no te aparece: contiene las credenciales del correo del colegio. Lo que sí puedes cambiar tú es a quién le llega el aviso, desde el propio formulario. Para cambiar el buzón desde el que sale, pídeselo al Superadministrador.",
+        },
+        {
           t: "p",
           texto:
             "El formulario también puede enviar una **confirmación automática** a quien lo rellenó. Para eso necesita una pregunta de tipo «Correo electrónico», que es de donde saca la dirección.",
