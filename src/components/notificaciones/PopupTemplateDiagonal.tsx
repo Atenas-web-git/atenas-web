@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { X, ArrowRight } from "lucide-react";
 import { LogoSVG } from "@/components/shared/LogoSVG";
 import type { NotificacionPublica } from "@/lib/cms/getNotificaciones";
+import { sanearHtml, urlSegura } from "@/lib/cms/htmlSeguro";
 
 /**
  * Popup template "Diagonal con personalidad" (variante C)
@@ -157,13 +158,13 @@ export function PopupTemplateDiagonal({
               lineHeight: 1.7,
               maxWidth: 380,
             }}
-            dangerouslySetInnerHTML={{ __html: data.contenido_html }}
+            dangerouslySetInnerHTML={{ __html: sanearHtml(data.contenido_html) }}
           />
         )}
 
-        {data.cta_texto && data.cta_url && (
+        {data.cta_texto && urlSegura(data.cta_url) && (
           <a
-            href={data.cta_url}
+            href={urlSegura(data.cta_url)!}
             onClick={onClose}
             className="self-start inline-flex items-center gap-2 mt-3 px-6 transition-colors"
             style={{

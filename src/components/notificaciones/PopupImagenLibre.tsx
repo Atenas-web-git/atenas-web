@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import type { NotificacionPublica } from "@/lib/cms/getNotificaciones";
+import { urlSegura } from "@/lib/cms/htmlSeguro";
 
 /**
  * Popup template "Imagen libre" (modo 1)
@@ -24,14 +25,18 @@ export function PopupImagenLibre({
 }) {
   if (!data.imagen_url) return null;
 
-  const clickeable = !!data.cta_url;
+  // La dirección la escribe el colegio en el panel, y abajo va directa a
+  // `window.location.href`, que ejecuta un `javascript:…` sin que React se
+  // entere. Si no es una dirección normal, la imagen deja de ser clicable.
+  const destino = urlSegura(data.cta_url);
+  const clickeable = !!destino;
   const titulo = data.titulo || "";
 
   const handleImagenClick = () => {
-    if (!data.cta_url) return;
+    if (!destino) return;
     onClose();
     if (typeof window !== "undefined") {
-      window.location.href = data.cta_url;
+      window.location.href = destino;
     }
   };
 

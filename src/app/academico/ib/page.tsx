@@ -11,6 +11,7 @@ import {
   defaultContenidoPlantillaG,
   type ContenidoPlantillaG,
 } from "@/app/admin/(authenticated)/contenido/plantillas";
+import { jsonParaScript } from "@/lib/cms/htmlSeguro";
 
 export const revalidate = 60;
 
@@ -71,7 +72,7 @@ export default async function IBPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(ibSchema) }}
+        dangerouslySetInnerHTML={{ __html: jsonParaScript(ibSchema) }}
       />
       <Navbar />
       <main>

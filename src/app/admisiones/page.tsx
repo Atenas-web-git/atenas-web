@@ -12,6 +12,7 @@ import {
   type AdmisionesLandingConfig,
 } from "@/lib/cms/admisionesLanding";
 import { getPagina } from "@/lib/cms/getPagina";
+import { jsonParaScript } from "@/lib/cms/htmlSeguro";
 
 export const revalidate = 60;
 
@@ -63,7 +64,7 @@ export default async function AdmisionesPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        dangerouslySetInnerHTML={{ __html: jsonParaScript(faqSchema) }}
       />
       <Navbar />
       <main>

@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { HighlightText } from "@/components/shared/HighlightText";
+import { sanearHtml } from "@/lib/cms/htmlSeguro";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
@@ -438,7 +439,7 @@ export function SeccionPasos({ intro, galeria, tarjetas, pasos, nota, anchorId }
                 color: "rgba(255,255,255,0.65)",
                 lineHeight: 1.7,
               }}
-              dangerouslySetInnerHTML={{ __html: nota!.texto }}
+              dangerouslySetInnerHTML={{ __html: sanearHtml(nota!.texto) }}
             />
           </motion.div>
         )}

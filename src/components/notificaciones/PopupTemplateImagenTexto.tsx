@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { X, ArrowRight } from "lucide-react";
 import type { NotificacionPublica } from "@/lib/cms/getNotificaciones";
+import { sanearHtml, urlSegura } from "@/lib/cms/htmlSeguro";
 
 /**
  * Popup template "Imagen + texto" (variante B)
@@ -132,13 +133,13 @@ export function PopupTemplateImagenTexto({
               color: "#374151",
               lineHeight: 1.65,
             }}
-            dangerouslySetInnerHTML={{ __html: data.contenido_html }}
+            dangerouslySetInnerHTML={{ __html: sanearHtml(data.contenido_html) }}
           />
         )}
 
-        {data.cta_texto && data.cta_url && (
+        {data.cta_texto && urlSegura(data.cta_url) && (
           <a
-            href={data.cta_url}
+            href={urlSegura(data.cta_url)!}
             onClick={onClose}
             className="self-start inline-flex items-center gap-2 mt-2 px-5 transition-colors"
             style={{

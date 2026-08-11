@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import type { FechasMatriculas } from "@/lib/cms/getConfiguracion";
+import { urlSegura } from "@/lib/cms/htmlSeguro";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
@@ -70,9 +71,9 @@ export function FechasBannerClient({ data }: { data: FechasMatriculas }) {
           animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.45, delay: 0.22, ease }}
         >
-          {data.cta_texto && data.cta_url && (
+          {data.cta_texto && urlSegura(data.cta_url) && (
             <Link
-              href={data.cta_url}
+              href={urlSegura(data.cta_url)!}
               style={{ textDecoration: "none" }}
             >
               <motion.div

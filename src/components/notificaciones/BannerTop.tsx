@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { X, ArrowRight } from "lucide-react";
 import type { NotificacionPublica } from "@/lib/cms/getNotificaciones";
+import { urlSegura } from "@/lib/cms/htmlSeguro";
 
 const STORAGE_PREFIX = "atenas-banner-cerrado-";
 
@@ -105,9 +106,9 @@ export function BannerTop({
         >
           {active.titulo}
         </span>
-        {active.cta_texto && active.cta_url && (
+        {active.cta_texto && urlSegura(active.cta_url) && (
           <a
-            href={active.cta_url}
+            href={urlSegura(active.cta_url)!}
             className="flex items-center gap-1 transition-opacity hover:opacity-100"
             style={{
               fontSize: 12,

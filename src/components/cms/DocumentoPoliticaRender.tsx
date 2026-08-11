@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import type { ContenidoPlantillaS } from "@/app/admin/(authenticated)/contenido/plantillas";
+import { sanearHtml } from "@/lib/cms/htmlSeguro";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
@@ -20,9 +21,11 @@ export type DocumentoPoliticaRenderProps = {
  *
  * El campo `cuerpoHtml` de cada sección viene de TipTap (HTML rico):
  * <p>, <strong>, <em>, <ul>/<ol>/<li>, <a>, etc. Se inyecta con
- * `dangerouslySetInnerHTML` — Supabase RLS + el editor admin (solo
- * superadmin/editor_comm) son la frontera de confianza. No se acepta
- * HTML de usuario público.
+ * `dangerouslySetInnerHTML`, pero **pasando siempre por `sanearHtml`**: quien
+ * edita estas páginas es superadmin, editor_comm o editor_academico —los tres,
+ * no dos como decía antes este comentario—, y una cuenta de esas con la
+ * contraseña robada bastaba para ejecutar código en el navegador de cualquier
+ * visitante. Ver `lib/cms/htmlSeguro.ts`.
  */
 export function DocumentoPoliticaRender({
   meta,
@@ -119,7 +122,7 @@ export function DocumentoPoliticaRender({
                 </h3>
                 <div
                   className="documento-politica-body"
-                  dangerouslySetInnerHTML={{ __html: sec.cuerpoHtml }}
+                  dangerouslySetInnerHTML={{ __html: sanearHtml(sec.cuerpoHtml) }}
                 />
               </div>
             );

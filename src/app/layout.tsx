@@ -17,6 +17,7 @@ import {
   type Seo,
 } from "@/lib/cms/getConfiguracion";
 import "./globals.css";
+import { jsonParaScript } from "@/lib/cms/htmlSeguro";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -331,7 +332,7 @@ export default async function RootLayout({
 
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: jsonParaScript(jsonLd) }}
         />
         <NotificacionesPublicas />
         {children}

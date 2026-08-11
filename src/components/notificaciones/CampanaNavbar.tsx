@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Bell, ArrowRight, X } from "lucide-react";
 import type { NotificacionPublica } from "@/lib/cms/getNotificaciones";
+import { sanearHtml, urlSegura } from "@/lib/cms/htmlSeguro";
 
 const STORAGE_PREFIX = "atenas-notif-vista-";
 
@@ -242,7 +243,7 @@ export function CampanaNavbar() {
                       fontSize: 12,
                       lineHeight: 1.55,
                     }}
-                    dangerouslySetInnerHTML={{ __html: n.contenido_html }}
+                    dangerouslySetInnerHTML={{ __html: sanearHtml(n.contenido_html) }}
                   />
                 )}
 
@@ -250,9 +251,9 @@ export function CampanaNavbar() {
                   <span style={{ fontSize: 10, color: "#A0AABA" }}>
                     {formatRelative(n.fecha_inicio)}
                   </span>
-                  {n.cta_texto && n.cta_url && (
+                  {n.cta_texto && urlSegura(n.cta_url) && (
                     <a
-                      href={n.cta_url}
+                      href={urlSegura(n.cta_url)!}
                       className="flex items-center gap-1 transition-opacity hover:opacity-70"
                       style={{
                         fontSize: 11,
