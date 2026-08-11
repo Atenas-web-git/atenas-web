@@ -213,7 +213,7 @@ export const ROLES_SECCION: Seccion = {
         {
           t: "p",
           texto:
-            "Cada persona del colegio entra con un rol. El rol decide **qué secciones aparecen en su menú lateral**. Lo que no aparece, no se puede tocar — ni escribiendo la dirección a mano.",
+            "Cada persona del colegio entra con un rol. El rol decide **qué secciones aparecen en su menú lateral**, y lo que no aparece tampoco se puede abrir escribiendo la dirección a mano. La única excepción es **Fechas de matrículas**: no sale en el menú del Editor de Comunicaciones, pero sí puede abrirla desde el enlace que hay dentro del editor de las páginas de matrículas, porque ese banner se ve en páginas que él mantiene.",
         },
         {
           t: "tabla",
@@ -227,7 +227,7 @@ export const ROLES_SECCION: Seccion = {
             [
               "Editor de Comunicaciones",
               "Contenido completo: páginas, notificaciones, cronograma, galería, documentos, reconocimientos, formularios (contactos, quejas y consultas de admisión) y sus plantillas de correo",
-              "Admisiones, Usuarios, Configuración y **las postulaciones de empleo**",
+              "Admisiones, Usuarios, Configuración —salvo Fechas de matrículas— y **las postulaciones de empleo**",
             ],
             [
               "Editor Académico",

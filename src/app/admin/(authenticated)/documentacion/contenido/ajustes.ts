@@ -35,7 +35,7 @@ export const CONFIGURACION: Seccion = {
             ["SEO defaults", "Metadatos por defecto del sitio.", "Superadmin"],
             ["Años lectivos", "El catálogo de años disponibles.", "Superadmin"],
             ["Documentos de admisión", "El checklist de papeles de cada solicitud.", "Superadmin y Editor de Admisiones"],
-            ["Fechas de matrículas", "El banner de fechas de las páginas de matrículas.", "Superadmin y Editor de Admisiones"],
+            ["Fechas de matrículas", "El banner de fechas de las páginas de matrículas.", "Superadmin, Editor de Admisiones y Editor de Comunicaciones"],
           ],
         },
       ],
@@ -254,7 +254,7 @@ export const CONFIGURACION: Seccion = {
           t: "nota",
           tono: "tip",
           texto:
-            "Las **Fechas de matrículas** y los **Documentos de admisión** son las dos únicas secciones de Configuración a las que también entra el Editor de Admisiones. Están pensadas para que el equipo las mantenga sin depender del Superadministrador.",
+            "Las **Fechas de matrículas** y los **Documentos de admisión** son las dos únicas secciones de Configuración que no están reservadas al Superadministrador: están pensadas para que el equipo las mantenga sin depender de él. A los Documentos entra el Editor de Admisiones; a las Fechas, además, el Editor de Comunicaciones, porque el banner de fechas se ve en páginas que él mantiene.",
         },
       ],
     },
