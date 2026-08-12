@@ -7,6 +7,11 @@ import {
   ADMISIONES_TEXTOS_DEFAULT,
   type AdmisionesTextosConfig,
 } from "@/lib/cms/admisionesTextos";
+import {
+  GRADOS_POR_NIVEL,
+  esNivel,
+  esTramitePresencial,
+} from "@/lib/admisiones/grados";
 
 // ── Tipos ──────────────────────────────────────────────────────────────────
 type FormularioTextos = AdmisionesTextosConfig["formulario"];
@@ -16,6 +21,7 @@ type FormData = {
   est_apellidos: string;
   est_fecha_nac: string;
   est_nivel: string;
+  est_grado: string;
   est_institucion_origen: string;
   rep_nombres: string;
   rep_apellidos: string;
@@ -30,6 +36,7 @@ type FormData = {
 function makeInitial(nivelInicial: string): FormData {
   return {
     est_nombres: "", est_apellidos: "", est_fecha_nac: "", est_nivel: nivelInicial,
+    est_grado: "",
     est_institucion_origen: "",
     rep_nombres: "", rep_apellidos: "", rep_relacion: "", rep_correo: "", rep_telefono: "",
     como_enterado: "", anio_ingreso: "", comentarios: "",
@@ -49,6 +56,13 @@ function validateStep(step: number, data: FormData): string | null {
     if (!data.est_nombres.trim()) return "Ingresa los nombres del estudiante.";
     if (!data.est_apellidos.trim()) return "Ingresa los apellidos del estudiante.";
     if (!data.est_nivel) return "Selecciona el nivel al que aplica.";
+    // Solo se exige si de verdad hay años que elegir. Las etiquetas de nivel
+    // son editables desde Configuración › Admisiones, y si el colegio escribe
+    // una que no está en el catálogo, el selector no aparece — exigirlo
+    // entonces dejaba el formulario sin salida, pidiendo rellenar algo que no
+    // se ve.
+    if (esNivel(data.est_nivel) && !data.est_grado)
+      return "Selecciona el año al que ingresa.";
   }
   if (step === 2) {
     if (!data.rep_nombres.trim()) return "Ingresa los nombres del representante.";
@@ -230,6 +244,19 @@ function Step1Fields({
   form: FormData; set: (k: keyof FormData) => (v: string) => void; textos: FormularioTextos;
 }) {
   const e = textos.camposEstudiante;
+
+  const gradosDisponibles = esNivel(form.est_nivel)
+    ? GRADOS_POR_NIVEL[form.est_nivel]
+    : [];
+
+  // Cambiar de nivel invalida el año elegido: «3ro EGB» no existe en
+  // Bachillerato. Si no se limpiara, la solicitud llegaría con una pareja
+  // imposible y nadie se enteraría hasta leerla.
+  const cambiarNivel = (valor: string) => {
+    set("est_nivel")(valor);
+    set("est_grado")("");
+  };
+
   return (
     <div className="flex flex-col gap-[16px]">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px]">
@@ -242,15 +269,103 @@ function Step1Fields({
         <Field label={e.fechaNacLabel} type="date" placeholder=""
           value={form.est_fecha_nac} onChange={set("est_fecha_nac")} />
         <SelectField label={e.nivelLabel} options={textos.opciones.niveles}
-          value={form.est_nivel} onChange={set("est_nivel")}
+          value={form.est_nivel} onChange={cambiarNivel}
           placeholder={e.nivelPlaceholder} required />
       </div>
+      {gradosDisponibles.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px]">
+          <SelectField
+            label="Año al que ingresa"
+            options={gradosDisponibles}
+            value={form.est_grado}
+            onChange={set("est_grado")}
+            placeholder="Selecciona el año..."
+            required
+          />
+        </div>
+      )}
+      <AvisoTramitePresencial grado={form.est_grado} />
       <Field
         label={e.institucionLabel}
         placeholder={e.institucionPlaceholder}
         value={form.est_institucion_origen}
         onChange={set("est_institucion_origen")}
       />
+    </div>
+  );
+}
+
+/**
+ * Aviso para 2do y 3ro de bachillerato.
+ *
+ * El colegio se reserva el derecho de admisión en esos dos años y el trámite
+ * se hace en persona. **No se bloquea el envío**: se avisa. Bloquear evitaría
+ * falsas expectativas, pero un contacto perdido no se recupera y el colegio
+ * conserva su derecho de admisión igual.
+ *
+ * Aparece en el PASO 1, en cuanto se elige el año, y no al final: quien tiene
+ * que ir presencialmente merece saberlo antes de escribir cuatro pantallas de
+ * datos.
+ */
+function AvisoTramitePresencial({ grado }: { grado: string }) {
+  if (!esTramitePresencial(grado)) return null;
+
+  return (
+    <div
+      role="status"
+      className="flex flex-col gap-2 px-5 py-4"
+      style={{
+        background: "rgba(158,25,21,0.06)",
+        border: "1px solid rgba(158,25,21,0.22)",
+        borderRadius: 12,
+      }}
+    >
+      <p
+        style={{
+          fontFamily: "Poppins, sans-serif",
+          fontSize: 14,
+          fontWeight: 700,
+          color: "var(--color-red, #9e1915)",
+          margin: 0,
+        }}
+      >
+        Para {grado}, el ingreso se gestiona en el colegio
+      </p>
+      <p
+        style={{
+          fontFamily: "Poppins, sans-serif",
+          fontSize: 13.5,
+          color: "#2C2C2C",
+          margin: 0,
+          lineHeight: 1.6,
+        }}
+      >
+        En {grado} la Unidad Educativa Atenas se reserva el derecho de admisión y
+        el trámite se realiza <strong>de forma presencial</strong>. Puedes dejar
+        tus datos aquí y nos pondremos en contacto, pero para avanzar habrá que
+        acercarse al colegio.
+      </p>
+      <p
+        style={{
+          fontFamily: "Poppins, sans-serif",
+          fontSize: 13,
+          color: "#6B6660",
+          margin: 0,
+          lineHeight: 1.6,
+        }}
+      >
+        Calle Gabriel Román s/n y Av. Pedro Vásconez, Izamba, Ambato ·{" "}
+        <a href="tel:+59332854281" style={{ color: "var(--color-navy, #1A2B4A)", fontWeight: 600 }}>
+          03 2854281
+        </a>{" "}
+        ext. 135 ·{" "}
+        <a
+          href="mailto:admisiones@atenas.edu.ec"
+          style={{ color: "var(--color-navy, #1A2B4A)", fontWeight: 600 }}
+        >
+          admisiones@atenas.edu.ec
+        </a>
+      </p>
     </div>
   );
 }
@@ -358,6 +473,7 @@ function Step4Review({
           [e.apellidosLabel, form.est_apellidos],
           [e.fechaNacLabel, form.est_fecha_nac],
           [e.nivelLabel, form.est_nivel],
+          ["Año al que ingresa", form.est_grado],
           [e.institucionLabel, form.est_institucion_origen],
         ]}
       />

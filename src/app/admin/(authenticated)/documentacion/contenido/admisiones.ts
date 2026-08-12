@@ -16,13 +16,19 @@ export const ADMISIONES: Seccion = {
         {
           t: "pasos",
           items: [
-            "Un representante entra a `/admisiones/formulario` y completa **4 pasos**: datos del estudiante (incluida la **institución de origen**), datos del representante, información adicional y confirmación.",
+            "Un representante entra a `/admisiones/formulario` y completa **4 pasos**: datos del estudiante (nivel, **año escolar** e institución de origen), datos del representante, información adicional y confirmación.",
             "Al enviar, el sistema crea la solicitud en estado **Interesado**, le asigna un **número de seguimiento** con formato `ADM<año>-<número>` (por ejemplo `ADM026-278`) y le envía un **correo de confirmación**.",
             "La solicitud aparece de inmediato en **Admisiones › Solicitudes** y en el Dashboard.",
             "El equipo abre la ficha y va **cambiando el estado** conforme avanza el proceso real.",
             "Cada cambio de estado **dispara automáticamente** el correo correspondiente al representante.",
             "El representante puede consultar en qué punto está en la página pública de **seguimiento**, con su número `ADM…` **y el correo con el que registró la solicitud**.",
           ],
+        },
+        {
+          t: "nota",
+          tono: "aviso",
+          texto:
+            "**2do y 3ro de bachillerato.** Al elegir uno de esos dos años, el formulario avisa de que el colegio se reserva el derecho de admisión y de que el trámite se hace **presencialmente**, con la dirección y el teléfono. **La solicitud se envía igual**: se decidió avisar y no bloquear, para no perder el contacto. Tenlo presente al revisar la bandeja — esas familias ya leyeron que tienen que acercarse al colegio.",
         },
         {
           t: "nota",
@@ -144,7 +150,7 @@ export const ADMISIONES: Seccion = {
         {
           t: "p",
           texto:
-            "El archivo exportado incluye número, datos del estudiante y del representante, nivel, estado, cómo se enteró del colegio, año de ingreso, comentarios y fecha.",
+            "El archivo exportado incluye número, datos del estudiante y del representante, nivel, **año escolar**, estado, cómo se enteró del colegio, año lectivo, comentarios y fecha.",
         },
         {
           t: "nota",
@@ -174,7 +180,7 @@ export const ADMISIONES: Seccion = {
             },
             {
               campo: "Datos de la solicitud",
-              desc: "**Todos los campos son editables**: nombres, nivel, fecha de nacimiento, institución de origen, datos del representante, año de ingreso, cómo se enteró y comentarios. Sirve para corregir lo que el representante escribió mal.",
+              desc: "**Todos los campos son editables**: nombres, nivel, **año escolar**, fecha de nacimiento, institución de origen, datos del representante, año lectivo, cómo se enteró y comentarios. Sirve para corregir lo que el representante escribió mal.",
             },
             {
               campo: "Notas internas",
@@ -334,7 +340,7 @@ export const ADMISIONES: Seccion = {
           t: "nota",
           tono: "info",
           texto:
-            "Los textos de esa página (encabezados y avisos) se editan en **Configuración › Admisiones — textos chicos**. La lógica del formulario y del wizard vive en el código y no se toca desde el panel.",
+            "Los encabezados de esa página se editan en **Configuración › Admisiones — textos chicos**. La lógica del formulario y del wizard vive en el código y no se toca desde el panel — y de momento tampoco el aviso de trámite presencial de 2do y 3ro de bachillerato.",
         },
       ],
     },

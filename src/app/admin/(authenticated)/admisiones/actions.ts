@@ -6,6 +6,7 @@ import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
 import { NIVELES, type EstadoAdmision } from "./constants";
 import { notifyEstadoChange } from "./emails";
+import { gradoValido } from "@/lib/admisiones/grados";
 
 export type { EstadoAdmision } from "./constants";
 
@@ -131,6 +132,12 @@ export async function updateDatosSolicitudAction(
     est_apellidos,
     est_fecha_nac: nullable("est_fecha_nac"),
     est_nivel,
+    // Mismo filtro que el endpoint público: «3ro EGB» dentro de Bachillerato es
+    // una pareja que no existe, y guardarla desde el panel la dejaba pasar por
+    // la puerta de atrás.
+    est_grado: gradoValido(est_nivel, String(formData.get("est_grado") ?? ""))
+      ? nullable("est_grado")
+      : null,
     est_institucion_origen: nullable("est_institucion_origen"),
     anio_ingreso: nullable("anio_ingreso"),
     rep_nombres,
@@ -366,6 +373,10 @@ export async function saveCuposAction(
     const total = Math.max(0, parseInt(String(formData.get(key) ?? "0"), 10) || 0);
     return {
       nivel,
+      // Cadena vacía = el cupo es del NIVEL entero, sin desglosar por año.
+      // Desde la migración 080 la clave primaria incluye el año escolar, así
+      // que hay que mandarlo o el upsert no encuentra la fila que actualizar.
+      grado: "",
       ano_lectivo: anoLectivo,
       cupos_total: total,
       updated_at: new Date().toISOString(),
@@ -373,8 +384,13 @@ export async function saveCuposAction(
     };
   });
 
+  // El `onConflict` tiene que nombrar la clave única ENTERA. Cuando la 080
+  // amplió la primaria a (nivel, grado, ano_lectivo) y esto seguía diciendo
+  // (nivel, ano_lectivo), Postgres respondía 42P10 y guardar cupos dejó de
+  // funcionar sin que nada más lo delatara: la pantalla lee bien y solo falla
+  // al pulsar Guardar.
   const { error } = await supabase.from("cupos_admision").upsert(rows, {
-    onConflict: "nivel,ano_lectivo",
+    onConflict: "nivel,grado,ano_lectivo",
   });
 
   if (error) return { error: "No se pudieron guardar los cupos.", ok: false };

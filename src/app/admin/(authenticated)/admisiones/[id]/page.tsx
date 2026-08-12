@@ -250,6 +250,7 @@ export default async function SolicitudDetallePage({
                 est_apellidos: solicitud.est_apellidos ?? "",
                 est_fecha_nac: solicitud.est_fecha_nac ?? null,
                 est_nivel: solicitud.est_nivel ?? "",
+                est_grado: solicitud.est_grado ?? null,
                 est_institucion_origen: solicitud.est_institucion_origen ?? null,
                 anio_ingreso: solicitud.anio_ingreso ?? null,
                 rep_nombres: solicitud.rep_nombres ?? "",

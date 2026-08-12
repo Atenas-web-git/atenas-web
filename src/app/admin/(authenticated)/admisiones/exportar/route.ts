@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
   let q = supabase
     .from("solicitudes_admision")
     .select(
-      "numero, est_nombres, est_apellidos, est_nivel, est_fecha_nac, rep_nombres, rep_apellidos, rep_correo, rep_telefono, rep_relacion, estado, como_enterado, anio_ingreso, comentarios, created_at"
+      "numero, est_nombres, est_apellidos, est_nivel, est_grado, est_fecha_nac, rep_nombres, rep_apellidos, rep_correo, rep_telefono, rep_relacion, estado, como_enterado, anio_ingreso, comentarios, created_at"
     )
     .order("created_at", { ascending: false });
 
@@ -47,6 +47,7 @@ export async function GET(req: NextRequest) {
     "Est. Nombres",
     "Est. Apellidos",
     "Nivel",
+    "Año escolar",
     "Fecha Nac.",
     "Rep. Nombres",
     "Rep. Apellidos",
@@ -55,7 +56,7 @@ export async function GET(req: NextRequest) {
     "Rep. Relación",
     "Estado",
     "Cómo se enteró",
-    "Año de ingreso",
+    "Año lectivo",
     "Comentarios",
     "Fecha recibida",
   ];
@@ -66,6 +67,7 @@ export async function GET(req: NextRequest) {
       s.est_nombres,
       s.est_apellidos,
       s.est_nivel,
+      s.est_grado,
       s.est_fecha_nac,
       s.rep_nombres,
       s.rep_apellidos,

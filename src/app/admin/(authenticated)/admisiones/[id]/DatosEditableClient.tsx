@@ -4,12 +4,14 @@ import { useActionState, useState } from "react";
 import { Pencil, Save, X } from "lucide-react";
 import { updateDatosSolicitudAction } from "../actions";
 import type { AdmisionActionState } from "../actions";
+import { GRADOS_POR_NIVEL, TODOS_LOS_GRADOS, esNivel } from "@/lib/admisiones/grados";
 
 type DatosSolicitud = {
   est_nombres: string;
   est_apellidos: string;
   est_fecha_nac: string | null;
   est_nivel: string;
+  est_grado: string | null;
   est_institucion_origen: string | null;
   anio_ingreso: string | null;
   rep_nombres: string;
@@ -48,6 +50,13 @@ export function DatosEditableClient({
   opciones: Opciones;
 }) {
   const [editing, setEditing] = useState(false);
+
+  // Los años que caben en el nivel guardado. Si el nivel viniera con una
+  // etiqueta que no está en el catálogo —una solicitud vieja, o un nivel
+  // renombrado— se ofrecen todos antes que dejar el desplegable vacío.
+  const gradosDelNivel = esNivel(initial.est_nivel)
+    ? GRADOS_POR_NIVEL[initial.est_nivel]
+    : TODOS_LOS_GRADOS.map((g) => g.grado);
   const [state, action, isPending] = useActionState<AdmisionActionState, FormData>(
     async (prev, formData) => {
       const result = await updateDatosSolicitudAction(prev, formData);
@@ -93,8 +102,9 @@ export function DatosEditableClient({
               <DataRow label="Apellidos" value={initial.est_apellidos} />
               <DataRow label="Fecha de nacimiento" value={initial.est_fecha_nac} />
               <DataRow label="Nivel solicitado" value={initial.est_nivel} />
+              <DataRow label="Año escolar" value={initial.est_grado ?? "No indicado"} />
               <DataRow label="Institución de origen" value={initial.est_institucion_origen} />
-              <DataRow label="Año de ingreso" value={initial.anio_ingreso} />
+              <DataRow label="Año lectivo" value={initial.anio_ingreso} />
             </div>
           </div>
           <div>
@@ -184,12 +194,17 @@ export function DatosEditableClient({
               label="Nivel solicitado *" name="est_nivel"
               options={opciones.niveles} defaultValue={initial.est_nivel}
             />
+            <FieldSelect
+              label="Año escolar" name="est_grado"
+              options={gradosDelNivel} defaultValue={initial.est_grado ?? ""}
+              allowEmpty
+            />
             <FieldInput
               label="Institución de origen" name="est_institucion_origen"
               defaultValue={initial.est_institucion_origen ?? ""}
             />
             <FieldSelect
-              label="Año de ingreso" name="anio_ingreso"
+              label="Año lectivo" name="anio_ingreso"
               options={opciones.aniosLectivos} defaultValue={initial.anio_ingreso ?? ""}
               allowEmpty
             />
