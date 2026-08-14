@@ -4,7 +4,7 @@ export const ADMISIONES: Seccion = {
   slug: "admisiones",
   titulo: "Admisiones",
   descripcion:
-    "El proceso completo: del formulario público a la matrícula. Pipeline de 8 estados, ficha de cada solicitud, cupos, banco de archivos y exportación.",
+    "El proceso completo: del formulario público a la matrícula. Pipeline de 8 estados, ficha de cada solicitud, métricas, cupos, banco de archivos y exportación.",
   icono: "UserPlus",
   paraQuien: "Editor de Admisiones · Superadministrador",
   articulos: [
@@ -225,6 +225,50 @@ export const ADMISIONES: Seccion = {
           tono: "peligro",
           texto:
             "Al final de la ficha, solo el Superadministrador ve la **Zona peligrosa**. Eliminar una solicitud borra sus datos, su historial y sus archivos **de forma permanente**. Casi nunca es la respuesta correcta: si la solicitud ya no va, muévela a **No admitido**.",
+        },
+      ],
+    },
+    {
+      id: "metricas",
+      titulo: "Métricas: cómo va el proceso",
+      resumen:
+        "Una pantalla para responder «cómo vamos» sin abrir la lista completa ni contar a mano.",
+      bloques: [
+        { t: "ruta", pasos: ["Admisiones", "Métricas"] },
+        {
+          t: "p",
+          texto:
+            "Elige arriba el **año lectivo** y la pantalla se recalcula entera. Todo lo que ves corresponde solo a ese año.",
+        },
+        { t: "sub", texto: "Qué te dice cada bloque" },
+        {
+          t: "pasos",
+          items: [
+            "**Ahora mismo** — cuántos aspirantes siguen sin resolverse, cuántos se matricularon y cuántos no fueron admitidos.",
+            "**Últimos 30 días** — cuántas solicitudes nuevas entraron y cuántas admitió el Comité en ese plazo. La segunda cifra cuenta **cuándo se admitió**, así que una persona que ya se matriculó sigue contando en el mes en que la admitieron.",
+            "**Embudo del proceso** — cuántos aspirantes han llegado *al menos* hasta cada etapa. Quien está matriculado también pasó antes por «postulante», así que las etapas de arriba nunca bajan conforme avanza el proceso. Los no admitidos cuentan hasta donde llegaron antes de salir. Al lado se indica cuántos están parados justo ahí.",
+            "**Detenidos** — los aspirantes que llevan más de 14 días sin cambiar de etapa, del más antiguo al más reciente. Haz clic en cualquiera para abrir su ficha.",
+            "**Por nivel** y **por institución de origen** — de dónde vienen los aspirantes de ese año. Si hay muchas instituciones distintas, se listan las diez primeras y el resto se agrupa en «Otras».",
+            "La institución la escribe cada familia a mano, así que **dos maneras de escribir el mismo colegio se cuentan por separado**: «Colegio San Francisco» y «colegio san francisco» salen como dos filas. Si un colegio te parece menos frecuente de lo que esperabas, mira si aparece escrito de otra forma más abajo.",
+          ],
+        },
+        {
+          t: "nota",
+          tono: "aviso",
+          texto:
+            "**Aquí solo están las solicitudes que entraron por la web.** Si alguien hace la gestión presencialmente o por teléfono y no queda registrada en la plataforma, no aparece en ningún número de esta pantalla. La propia pantalla te lo recuerda arriba.",
+        },
+        {
+          t: "nota",
+          tono: "aviso",
+          texto:
+            "**Las solicitudes que no indicaron año lectivo no entran en ningún número**, elijas el año que elijas, porque ese campo es opcional en el formulario público. Si las hay, sale un aviso amarillo arriba con cuántas son. Se completan abriendo su ficha.",
+        },
+        {
+          t: "nota",
+          tono: "info",
+          texto:
+            "«Detenidos» mide desde el **último cambio de etapa**, no desde la última vez que se editó la ficha. Corregir un apellido o añadir una nota no reinicia la cuenta: si el aspirante lleva un mes parado, lo seguirás viendo.",
         },
       ],
     },

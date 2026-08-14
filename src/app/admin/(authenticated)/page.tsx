@@ -5,6 +5,7 @@ import {
   CheckCircle2,
   Users as UsersIcon,
   ArrowUpRight,
+  BarChart3,
 } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
@@ -135,6 +136,23 @@ export default async function AdminDashboardPage() {
           accentBg="#1A2B4A"
           enabled={canSeeAdmisiones}
         />
+        {/*
+          Estas cuatro cifras suman TODOS los años lectivos, y Admisiones ›
+          Métricas cuenta uno solo. Sin decirlo, las dos pantallas dan números
+          distintos en el mismo panel y quien mire deja de fiarse de las dos.
+        */}
+        {canSeeAdmisiones && (
+          <p
+            className="sm:col-span-2 lg:col-span-4"
+            style={{ fontSize: 12, color: "#6B6660", margin: 0 }}
+          >
+            Estas cifras suman todos los años lectivos. Para verlas año por año, entra en{" "}
+            <Link href="/admin/admisiones/metricas" style={{ color: "#1A2B4A", fontWeight: 500 }}>
+              Admisiones › Métricas
+            </Link>
+            .
+          </p>
+        )}
       </section>
 
       <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -239,6 +257,13 @@ export default async function AdminDashboardPage() {
                 href="/admin/admisiones"
                 icon={UserPlus}
                 label="Ver solicitudes"
+              />
+            )}
+            {canSeeAdmisiones && (
+              <QuickLink
+                href="/admin/admisiones/metricas"
+                icon={BarChart3}
+                label="Ver métricas"
               />
             )}
             {canSeeAdmisiones && (

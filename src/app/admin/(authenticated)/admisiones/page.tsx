@@ -110,8 +110,14 @@ export default async function AdmisionesPage({
           <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
             Solicitudes de Admisión
           </h1>
+          {/*
+            «De todos los años lectivos» no sobra: Métricas cuenta un año y
+            esta pantalla los cuenta todos. Sin decirlo, las dos dan cifras
+            distintas en el mismo panel y quien mire deja de fiarse de las dos.
+          */}
           <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0" }}>
-            {totalCount} solicitud{totalCount === 1 ? "" : "es"} en total
+            {totalCount} solicitud{totalCount === 1 ? "" : "es"} en total, de todos los años
+            lectivos
           </p>
         </div>
         <a

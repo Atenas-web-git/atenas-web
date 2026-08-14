@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FileText, Layers, Mail, FolderArchive } from "lucide-react";
+import { FileText, Layers, Mail, FolderArchive, BarChart3 } from "lucide-react";
 
 const ITEMS = [
   { href: "/admin/admisiones", label: "Solicitudes", icon: FileText, exact: true },
+  { href: "/admin/admisiones/metricas", label: "Métricas", icon: BarChart3, exact: false },
   { href: "/admin/admisiones/cupos", label: "Cupos", icon: Layers, exact: false },
   { href: "/admin/admisiones/correos", label: "Correos", icon: Mail, exact: false },
   { href: "/admin/admisiones/archivos-banco", label: "Banco de archivos", icon: FolderArchive, exact: false },

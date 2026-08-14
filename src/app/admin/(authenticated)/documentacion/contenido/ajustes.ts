@@ -238,7 +238,7 @@ export const CONFIGURACION: Seccion = {
           items: [
             {
               campo: "Años lectivos",
-              desc: "La lista de años disponibles en cupos, formularios y cronograma. Al empezar un año nuevo, **este es el primer sitio que hay que actualizar**.",
+              desc: "La lista de años disponibles en cupos, métricas, formularios y cronograma. Al empezar un año nuevo, **este es el primer sitio que hay que actualizar**. Ojo al desactivar uno: las solicitudes de ese año dejan de tener pestaña en Cupos y en Métricas, y pasan a contarse en el aviso de «no aparecen en esta pantalla».",
             },
             {
               campo: "Documentos de admisión",
