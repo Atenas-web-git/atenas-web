@@ -23,17 +23,23 @@ export default async function AnosLectivosPage() {
   const codigos = (anos ?? []).map((a) => a.codigo);
   const conteos = await Promise.all(
     codigos.map(async (codigo) => {
-      const [{ count: cuposCount }, { count: solicCount }] = await Promise.all([
+      const [{ data: cuposRows }, { count: solicCount }] = await Promise.all([
+        // Se suman las PLAZAS del nivel completo, no las filas. Desde la
+        // migración 080 hay una fila por año escolar además de las de nivel:
+        // contar filas diría «19 cupos» donde hay cuatro configuraciones, y
+        // «cupos» se lee como plazas, no como registros.
         supabase
           .from("cupos_admision")
-          .select("*", { count: "exact", head: true })
-          .eq("ano_lectivo", codigo),
+          .select("cupos_total")
+          .eq("ano_lectivo", codigo)
+          .eq("grado", ""),
         supabase
           .from("solicitudes_admision")
           .select("*", { count: "exact", head: true })
           .eq("anio_ingreso", codigo),
       ]);
-      return { codigo, cupos_count: cuposCount ?? 0, solic_count: solicCount ?? 0 };
+      const plazas = (cuposRows ?? []).reduce((t, r) => t + (r.cupos_total ?? 0), 0);
+      return { codigo, cupos_count: plazas, solic_count: solicCount ?? 0 };
     })
   );
 

@@ -6,7 +6,7 @@ import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
 import { NIVELES, type EstadoAdmision } from "./constants";
 import { notifyEstadoChange } from "./emails";
-import { gradoValido } from "@/lib/admisiones/grados";
+import { TODOS_LOS_GRADOS, gradoValido } from "@/lib/admisiones/grados";
 
 export type { EstadoAdmision } from "./constants";
 
@@ -368,9 +368,29 @@ export async function saveCuposAction(
   const anoLectivo = String(formData.get("ano_lectivo") ?? "");
   if (!anoLectivo) return { error: "Año lectivo inválido.", ok: false };
 
+  const limpio = (t: string) => t.replace(/[^a-zA-Z0-9]/g, "_");
+
+  // Detalle por año escolar. Se guarda incluso en cero: una fila en cero dice
+  // «este año no tiene cupo», que no es lo mismo que no haberlo configurado, y
+  // el colegio necesita poder cerrar un año concreto.
+  const filasPorGrado = TODOS_LOS_GRADOS.map(({ nivel, grado }) => {
+    const bruto = formData.get(`cupog_${limpio(nivel)}__${limpio(grado)}`);
+    const total = Math.max(0, Math.min(999, parseInt(String(bruto ?? "0"), 10) || 0));
+    return {
+      nivel,
+      grado,
+      ano_lectivo: anoLectivo,
+      cupos_total: total,
+      updated_at: new Date().toISOString(),
+      updated_by: user.id,
+    };
+  });
+
   const rows = NIVELES.map((nivel) => {
     const key = `cupos_${nivel.replace(/[^a-zA-Z0-9]/g, "_")}`;
-    const total = Math.max(0, parseInt(String(formData.get(key) ?? "0"), 10) || 0);
+    // Mismo tope que las filas por año: el `max` del input no protege al
+    // servidor, que recibe lo que le manden.
+    const total = Math.max(0, Math.min(999, parseInt(String(formData.get(key) ?? "0"), 10) || 0));
     return {
       nivel,
       // Cadena vacía = el cupo es del NIVEL entero, sin desglosar por año.
@@ -389,9 +409,10 @@ export async function saveCuposAction(
   // (nivel, ano_lectivo), Postgres respondía 42P10 y guardar cupos dejó de
   // funcionar sin que nada más lo delatara: la pantalla lee bien y solo falla
   // al pulsar Guardar.
-  const { error } = await supabase.from("cupos_admision").upsert(rows, {
-    onConflict: "nivel,grado,ano_lectivo",
-  });
+  const { error } = await supabase.from("cupos_admision").upsert(
+    [...rows, ...filasPorGrado],
+    { onConflict: "nivel,grado,ano_lectivo" }
+  );
 
   if (error) return { error: "No se pudieron guardar los cupos.", ok: false };
 

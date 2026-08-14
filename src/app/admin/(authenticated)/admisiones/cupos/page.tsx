@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole, hasRole } from "@/lib/auth/types";
 import { NIVELES } from "../constants";
+import { TODOS_LOS_GRADOS } from "@/lib/admisiones/grados";
 import { AdmisionesSubNav } from "../SubNav";
 import { CuposFormClient } from "./CuposFormClient";
 
@@ -71,49 +72,81 @@ export default async function CuposPage({
 
   const anoLectivo = codigos.includes(sp.ano ?? "") ? (sp.ano as string) : codigos[0];
 
-  const [{ data: cuposData }, ...conteos] = await Promise.all([
+  // Estados que cuentan como «esperando»: los que siguen vivos en el pipeline.
+  const ESTADOS_ACTIVOS = [
+    "interesado",
+    "postulante",
+    "postulacion_completa",
+    "en_evaluacion",
+    "en_revision_comite",
+    "admitido",
+  ];
+
+  const [{ data: cuposData }, { data: solicitudes }] = await Promise.all([
     supabase
       .from("cupos_admision")
-      .select("nivel, cupos_total, cupos_ocupados")
+      .select("nivel, grado, cupos_total")
       .eq("ano_lectivo", anoLectivo),
-    ...NIVELES.map(async (nivel) => {
-      // "ocupados" = matriculados; "esperando" = postulantes activos
-      // (todos los estados que no son terminales). Antes este conteo se
-      // basaba en el estado "lista_espera", que ya no existe en el nuevo
-      // pipeline.
-      const [{ count: matriculados }, { count: esperando }] = await Promise.all([
-        supabase
-          .from("solicitudes_admision")
-          .select("*", { count: "exact", head: true })
-          .eq("est_nivel", nivel)
-          .eq("estado", "matriculado"),
-        supabase
-          .from("solicitudes_admision")
-          .select("*", { count: "exact", head: true })
-          .eq("est_nivel", nivel)
-          .in("estado", [
-            "interesado",
-            "postulante",
-            "postulacion_completa",
-            "en_evaluacion",
-            "en_revision_comite",
-            "admitido",
-          ]),
-      ]);
-      return { nivel, ocupados: matriculados ?? 0, esperando: esperando ?? 0 };
-    }),
+    // Una sola consulta y se agrupa aquí, en vez de dos por cada nivel y año:
+    // con 15 años escolares eso serían treinta viajes a la base para pintar
+    // una tabla.
+    //
+    // Y se filtra por AÑO LECTIVO, que antes no se hacía: la ocupación contaba
+    // todas las solicitudes de la historia contra un cupo que sí es anual, así
+    // que cambiar de pestaña no cambiaba el número.
+    // Se traen TODAS y se separan aquí. Filtrar por año en la consulta hacía
+    // desaparecer de la pantalla —de las tarjetas, del resumen y del detalle—
+    // las solicitudes sin año lectivo, y el año lectivo es un campo OPCIONAL
+    // del formulario público: no es un resto del pasado, seguirá entrando.
+    supabase
+      .from("solicitudes_admision")
+      .select("est_nivel, est_grado, estado, anio_ingreso"),
   ]);
 
-  const cupos = NIVELES.map((nivel, i) => {
-    const conf = (cuposData ?? []).find((c) => c.nivel === nivel);
-    const live = conteos[i];
+  const todas = solicitudes ?? [];
+  const filas = todas.filter((f) => f.anio_ingreso === anoLectivo);
+
+  function contar(filtro: (f: (typeof filas)[number]) => boolean) {
     return {
-      nivel,
-      cupos_total: conf?.cupos_total ?? 0,
-      ocupados: live?.ocupados ?? 0,
-      esperando: live?.esperando ?? 0,
+      ocupados: filas.filter((f) => filtro(f) && f.estado === "matriculado").length,
+      esperando: filas.filter((f) => filtro(f) && ESTADOS_ACTIVOS.includes(f.estado)).length,
     };
-  });
+  }
+
+  const cupoDe = (nivel: string, grado: string) =>
+    (cuposData ?? []).find((c) => c.nivel === nivel && (c.grado ?? "") === grado)?.cupos_total ?? 0;
+
+  // Resumen por nivel. Solo las filas con `grado` vacío, que son las del nivel
+  // completo — si no se filtrara, en cuanto exista el primer cupo por año esta
+  // tabla enseñaría ese número como si fuera el del nivel entero.
+  const cupos = NIVELES.map((nivel) => ({
+    nivel,
+    cupos_total: cupoDe(nivel, ""),
+    ...contar((f) => f.est_nivel === nivel),
+  }));
+
+  // Detalle por año escolar.
+  const cuposPorGrado = TODOS_LOS_GRADOS.map(({ nivel, grado }) => ({
+    nivel,
+    grado,
+    cupos_total: cupoDe(nivel, grado),
+    ...contar((f) => f.est_nivel === nivel && f.est_grado === grado),
+  }));
+
+  // Las solicitudes anteriores al 2026-08-11 no tienen año escolar, así que no
+  // suman en ninguna fila del detalle. Se dice en pantalla en vez de dejar que
+  // los números no cuadren sin explicación.
+  const cuenta = (f: (typeof todas)[number]) =>
+    ESTADOS_ACTIVOS.concat("matriculado").includes(f.estado);
+
+  const sinGrado = filas.filter((f) => !f.est_grado && cuenta(f)).length;
+
+  // Y las que no caen en NINGUNA pestaña: sin año lectivo, o con uno que ya no
+  // está en el catálogo. No aparecen en ninguna cifra de esta pantalla, así que
+  // se dicen.
+  const sinAnoLectivo = todas.filter(
+    (f) => cuenta(f) && !codigos.includes(f.anio_ingreso ?? "")
+  ).length;
 
   return (
     <div className="flex flex-col gap-6 p-8">
@@ -126,7 +159,7 @@ export default async function CuposPage({
             Gestión de Cupos
           </h1>
           <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0" }}>
-            Configura los cupos disponibles por nivel educativo
+            Configura los cupos disponibles por nivel y, si quieres, año por año
           </p>
         </div>
 
@@ -167,7 +200,13 @@ export default async function CuposPage({
         </div>
       </div>
 
-      <CuposFormClient anoLectivo={anoLectivo} cupos={cupos} />
+      <CuposFormClient
+        anoLectivo={anoLectivo}
+        cupos={cupos}
+        cuposPorGrado={cuposPorGrado}
+        sinGrado={sinGrado}
+        sinAnoLectivo={sinAnoLectivo}
+      />
     </div>
   );
 }

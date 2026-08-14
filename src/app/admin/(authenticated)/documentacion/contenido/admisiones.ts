@@ -230,8 +230,8 @@ export const ADMISIONES: Seccion = {
     },
     {
       id: "cupos",
-      titulo: "Cupos por nivel",
-      resumen: "Cuántos estudiantes admite cada nivel en cada año lectivo.",
+      titulo: "Cupos por nivel y por año",
+      resumen: "Cuántos estudiantes admite cada nivel —y, si quieres, cada año escolar— en cada año lectivo.",
       bloques: [
         { t: "ruta", pasos: ["Admisiones", "Cupos"] },
         {
@@ -239,19 +239,26 @@ export const ADMISIONES: Seccion = {
           items: [
             "Elige el **año lectivo** en la parte superior.",
             "Escribe cuántos **cupos totales** tiene cada uno de los cuatro niveles.",
-            "**Guarda.**",
+            "Si además llevas la cuenta año por año, rellena la tabla **Detalle por año escolar** de más abajo. Es opcional: déjala en cero si solo trabajas por nivel.",
+            "**Guarda.** Un mismo botón guarda las dos tablas.",
           ],
         },
         {
           t: "p",
           texto:
-            "La pantalla te muestra los cupos configurados junto a las solicitudes reales de cada nivel, para que veas de un vistazo cómo va el llenado.",
+            "La pantalla te muestra los cupos configurados junto a las solicitudes **de ese año lectivo**, para que veas de un vistazo cómo va el llenado. Las dos tablas son independientes: el detalle por año no cambia el total del nivel.",
+        },
+        {
+          t: "nota",
+          tono: "aviso",
+          texto:
+            "**La ocupación por año solo cuenta las solicitudes que dicen a qué año aspiran.** El formulario lo pregunta desde el 11 de agosto de 2026; las de antes salen como «sin año escolar indicado» y se avisa arriba de la tabla. Puedes completarlas abriendo su ficha.",
         },
         {
           t: "nota",
           tono: "info",
           texto:
-            "Los cupos son **informativos para el equipo**. El sistema no bloquea el formulario ni deriva a lista de espera cuando se llenan: la decisión sigue siendo del colegio.",
+            "Los cupos son **informativos para el equipo** y no se publican en el sitio. El sistema no bloquea el formulario ni deriva a lista de espera cuando se llenan: la decisión sigue siendo del colegio.",
         },
       ],
     },

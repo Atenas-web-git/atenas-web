@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { Fragment, useActionState } from "react";
 import { saveCuposAction, type AdmisionActionState } from "../actions";
 import { NIVELES } from "../constants";
 
@@ -11,8 +11,15 @@ type CupoRow = {
   esperando: number;
 };
 
-function getFieldKey(nivel: string): string {
-  return `cupos_${nivel.replace(/[^a-zA-Z0-9]/g, "_")}`;
+type CupoGradoRow = CupoRow & { grado: string };
+
+/**
+ * El nombre del campo lleva nivel Y año, porque hay quince años y algunos se
+ * repiten entre niveles. Sin el nivel, «1ro EGB» y su vecino colisionarían.
+ */
+function getFieldKey(nivel: string, grado = ""): string {
+  const limpio = (t: string) => t.replace(/[^a-zA-Z0-9]/g, "_");
+  return grado ? `cupog_${limpio(nivel)}__${limpio(grado)}` : `cupos_${limpio(nivel)}`;
 }
 
 function OcupacionBar({ ocupados, total }: { ocupados: number; total: number }) {
@@ -58,9 +65,17 @@ function EstadoCupo({ ocupados, total }: { ocupados: number; total: number }) {
 export function CuposFormClient({
   anoLectivo,
   cupos,
+  cuposPorGrado,
+  sinGrado,
+  sinAnoLectivo,
 }: {
   anoLectivo: string;
   cupos: CupoRow[];
+  cuposPorGrado: CupoGradoRow[];
+  /** Solicitudes de este año lectivo sin año escolar indicado. */
+  sinGrado: number;
+  /** Solicitudes que no caen en NINGÚN año lectivo del catálogo. */
+  sinAnoLectivo: number;
 }) {
   const [state, action, isPending] = useActionState<AdmisionActionState, FormData>(
     saveCuposAction,
@@ -75,6 +90,24 @@ export function CuposFormClient({
   return (
     <form action={action} className="flex flex-col gap-6">
       <input type="hidden" name="ano_lectivo" value={anoLectivo} />
+
+      {sinAnoLectivo > 0 && (
+        <div
+          className="flex items-start gap-3 px-5 py-4 rounded-lg"
+          style={{ background: "rgba(158,25,21,0.06)", border: "1px solid rgba(158,25,21,0.22)" }}
+        >
+          <span style={{ fontSize: 16 }}>⚠️</span>
+          <p style={{ fontSize: 13, color: "#2C2C2C", margin: 0, lineHeight: 1.6 }}>
+            <strong>
+              {sinAnoLectivo}{" "}
+              {sinAnoLectivo === 1 ? "solicitud no aparece" : "solicitudes no aparecen"} en esta
+              pantalla
+            </strong>{" "}
+            porque no tienen año lectivo, o tienen uno que ya no está en la lista. No suman en
+            ninguna pestaña. Ábrelas desde Solicitudes y asígnales el año para que cuenten.
+          </p>
+        </div>
+      )}
 
       {/* Cards de resumen */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -216,6 +249,9 @@ export function CuposFormClient({
         </table>
       </div>
 
+      {/* Detalle por año escolar */}
+      <DetallePorGrado filas={cuposPorGrado} sinGrado={sinGrado} />
+
       {/* Banner informativo */}
       <div
         className="flex items-start gap-3 px-5 py-4 rounded-lg"
@@ -224,7 +260,7 @@ export function CuposFormClient({
         <span style={{ fontSize: 18 }}>ℹ️</span>
         <div>
           <p style={{ fontSize: 13, color: "#92400E", margin: 0, lineHeight: 1.6 }}>
-            <strong>Cupos y postulantes en espera:</strong> &ldquo;Ocupados&rdquo; cuenta las solicitudes ya matriculadas. &ldquo;En espera&rdquo; cuenta los postulantes activos en cualquier estado del pipeline (Interesado, Postulante, En evaluación, En revisión por Comité, Admitido). Cuando un nivel se llene, el equipo decide manualmente qué postulantes avanzan.
+            <strong>Cupos y postulantes en espera:</strong> todos los números de esta pantalla cuentan solo las solicitudes del año lectivo <strong>{anoLectivo}</strong>. &ldquo;Ocupados&rdquo; son las ya matriculadas; &ldquo;En espera&rdquo;, los postulantes que siguen vivos en el proceso (Interesado, Postulante, Postulación completa, En evaluación, En revisión por Comité y Admitido). Cuando un nivel se llene, el equipo decide manualmente qué postulantes avanzan.
           </p>
         </div>
       </div>
@@ -263,5 +299,140 @@ export function CuposFormClient({
         </span>
       </div>
     </form>
+  );
+}
+
+/**
+ * Cupos año por año, agrupados por nivel.
+ *
+ * Va debajo del resumen por nivel y no lo sustituye: son dos cosas distintas y
+ * el colegio puede llevar solo una. Un cupo por nivel con el detalle vacío
+ * sigue siendo válido.
+ *
+ * La ocupación de cada año solo cuenta solicitudes que digan a qué año
+ * aspiran. Las anteriores al 2026-08-11 no lo dicen, así que se avisa arriba en
+ * vez de dejar que los números no cuadren sin explicación.
+ */
+function DetallePorGrado({
+  filas,
+  sinGrado,
+}: {
+  filas: CupoGradoRow[];
+  sinGrado: number;
+}) {
+  const niveles = [...new Set(filas.map((f) => f.nivel))];
+
+  return (
+    <div
+      style={{
+        background: "#FFFFFF",
+        border: "1px solid #E8E4DD",
+        borderRadius: 12,
+        overflow: "hidden",
+      }}
+    >
+      <div style={{ padding: "16px 16px 12px", borderBottom: "1px solid #E8E4DD" }}>
+        <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
+          Detalle por año escolar
+        </h2>
+        <p style={{ fontSize: 12.5, color: "#6B6660", margin: "4px 0 0", lineHeight: 1.55 }}>
+          Opcional. Si solo llevas el cupo del nivel completo, deja esto en cero: no se muestra en
+          ningún sitio del sitio público.
+        </p>
+        {sinGrado > 0 && (
+          <p style={{ fontSize: 12.5, color: "#9A3412", margin: "8px 0 0", lineHeight: 1.55 }}>
+            <strong>
+              {sinGrado} {sinGrado === 1 ? "solicitud" : "solicitudes"} de este año lectivo sin año
+              escolar indicado
+            </strong>{" "}
+            — son anteriores al cambio y no suman en ninguna fila de abajo. Puedes completarlas
+            abriendo su ficha.
+          </p>
+        )}
+      </div>
+
+      <div className="overflow-x-auto">
+      <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 520 }}>
+        <thead>
+          <tr style={{ borderBottom: "1px solid #E8E4DD" }}>
+            {["Año escolar", "Cupos", "Ocupados", "Disponibles", "En espera"].map((h) => (
+              <th
+                key={h}
+                style={{
+                  padding: "10px 16px",
+                  textAlign: "left",
+                  fontSize: 11,
+                  fontWeight: 700,
+                  color: "#6B6660",
+                  textTransform: "uppercase",
+                  letterSpacing: 0.4,
+                }}
+              >
+                {h}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {niveles.map((nivel) => (
+            <Fragment key={nivel}>
+              <tr style={{ background: "#FCFBF9" }}>
+                <td
+                  colSpan={5}
+                  style={{
+                    padding: "8px 16px",
+                    fontSize: 11.5,
+                    fontWeight: 700,
+                    color: "#1A2B4A",
+                    textTransform: "uppercase",
+                    letterSpacing: 0.5,
+                  }}
+                >
+                  {nivel}
+                </td>
+              </tr>
+              {filas
+                .filter((f) => f.nivel === nivel)
+                .map((f) => (
+                  <tr key={f.grado} style={{ borderBottom: "1px solid #F1EEE9" }}>
+                    <td style={{ padding: "8px 16px", fontSize: 13, color: "#2C2C2C" }}>
+                      {f.grado}
+                    </td>
+                    <td style={{ padding: "8px 16px" }}>
+                      <input
+                        type="number"
+                        name={getFieldKey(f.nivel, f.grado)}
+                        defaultValue={f.cupos_total}
+                        min={0}
+                        max={999}
+                        style={{
+                          width: 76,
+                          height: 32,
+                          padding: "0 10px",
+                          border: "1px solid #E8E4DD",
+                          borderRadius: 6,
+                          fontSize: 13,
+                          fontFamily: "inherit",
+                          color: "#1A2B4A",
+                        }}
+                      />
+                    </td>
+                    <td style={{ padding: "8px 16px", fontSize: 13, color: "#6B6660" }}>
+                      {f.ocupados}
+                    </td>
+                    <td style={{ padding: "8px 16px", fontSize: 13, color: "#6B6660" }}>
+                      {Math.max(0, f.cupos_total - f.ocupados)}
+                    </td>
+                    <td style={{ padding: "8px 16px", fontSize: 13, color: "#6B6660" }}>
+                      {f.esperando}
+                    </td>
+                  </tr>
+                ))}
+            </Fragment>
+          ))}
+        </tbody>
+      </table>
+      </div>
+    </div>
   );
 }

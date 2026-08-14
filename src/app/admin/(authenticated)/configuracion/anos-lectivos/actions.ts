@@ -113,10 +113,14 @@ export async function deleteAnoLectivoAction(
   const supabase = createAdminClient();
 
   // Verificar que no haya cupos ni solicitudes vinculadas
-  const [{ count: cuposCount }, { count: solicCount }] = await Promise.all([
+  // Se cuentan PLAZAS, no filas, para decir lo mismo que la pantalla. Desde la
+  // migración 080 guardar cupos escribe una fila por año escolar aunque valga
+  // cero: contando filas, un año recién configurado y vacío quedaba
+  // imborrable, con la papelera habilitada y la acción rechazando.
+  const [{ data: cuposRows }, { count: solicCount }] = await Promise.all([
     supabase
       .from("cupos_admision")
-      .select("*", { count: "exact", head: true })
+      .select("cupos_total")
       .eq("ano_lectivo", codigo),
     supabase
       .from("solicitudes_admision")
@@ -124,9 +128,17 @@ export async function deleteAnoLectivoAction(
       .eq("anio_ingreso", codigo),
   ]);
 
-  if ((cuposCount ?? 0) > 0 || (solicCount ?? 0) > 0) {
+  const plazas = (cuposRows ?? []).reduce((t, r) => t + (r.cupos_total ?? 0), 0);
+  const solicitudes = solicCount ?? 0;
+
+  if (plazas > 0 || solicitudes > 0) {
+    // El mensaje viejo afirmaba las dos cosas aunque solo se cumpliera una.
+    const motivos = [
+      plazas > 0 ? `${plazas} cupo(s) configurado(s)` : null,
+      solicitudes > 0 ? `${solicitudes} solicitud(es) vinculada(s)` : null,
+    ].filter(Boolean);
     return {
-      error: `No se puede eliminar: hay ${cuposCount ?? 0} cupo(s) y ${solicCount ?? 0} solicitud(es) vinculadas a este año.`,
+      error: `No se puede eliminar: este año lectivo tiene ${motivos.join(" y ")}.`,
       ok: false,
     };
   }
