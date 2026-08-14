@@ -336,8 +336,13 @@ export const ESPACIOS: EspacioItem[] = [
     heroSubtitle:
       "Escuelas permanentes que funcionan durante todo el año lectivo, fuera del horario de clases.",
     metaTitle: "Extracurriculares — Escuelas permanentes | Atenas",
+    // La meta-descripción nombra «extracurriculares», «fútbol» y «básquet» a
+    // propósito: el buscador del sitio solo indexa título, meta-descripción y
+    // slug —el cuerpo NO—, y el slug `espacios/extracurriculares` se tokeniza
+    // como una ruta, así que buscar «extracurriculares» no lo encontraba.
+    // Comprobado el 2026-08-14 contra el buscador en producción.
     metaDescription:
-      "Las escuelas permanentes de la Unidad Educativa Atenas ofrecen formación deportiva continua, fuera del horario regular de clases.",
+      "Actividades extracurriculares en la Unidad Educativa Atenas: escuelas permanentes de fútbol y básquet, con entrenamiento continuo durante todo el año lectivo, fuera del horario regular de clases.",
     detalle: {
       badge: "Extracurriculares",
       heading: "Formación que sigue después de la última hora de clase",
