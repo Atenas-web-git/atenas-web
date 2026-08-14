@@ -38,6 +38,7 @@ import type {
   NavbarConfig,
 } from "@/lib/cms/getConfiguracion";
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import { VistaPreviaCorreo } from "@/components/admin/VistaPreviaCorreo";
 import type { TipoPlantillaFormulario } from "../constants";
 
 type Mode = "visual" | "html";
@@ -484,11 +485,7 @@ export function EditorClient({
                     {previewAsunto || "(vacío)"}
                   </span>
                 </div>
-                <div
-                  className="rounded-md overflow-hidden"
-                  style={{ border: "1px solid #E8E4DD", background: "#FFFFFF" }}
-                  dangerouslySetInnerHTML={{ __html: previewHtml }}
-                />
+                <VistaPreviaCorreo html={previewHtml} />
                 <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, fontStyle: "italic" }}>
                   Vista previa con valores de ejemplo. Las variables se reemplazan con los
                   datos reales al enviar.

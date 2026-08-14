@@ -407,7 +407,7 @@ export const CORREOS: Seccion = {
             "Ajusta el **Título del correo** (la cabecera azul) y el **cuerpo**, con el editor de texto enriquecido.",
             "Elige el **color de acento**: Navy (neutral), Rojo (acción) o Rojo institucional (celebración).",
             "Opcionalmente añade **eyebrow**, **imagen de banner**, **botón** con su texto y URL, y un **texto de ayuda** bajo el botón.",
-            "Revisa la **vista previa** de la derecha: se rellena con datos de ejemplo.",
+            "Cambia a la pestaña **Vista previa**, sobre el editor: verás el correo tal como llega al buzón, relleno con datos de ejemplo.",
             "Comprueba que el interruptor **activo** esté como lo quieres y **Guarda**.",
           ],
         },
