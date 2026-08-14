@@ -45,6 +45,7 @@ const FALLBACK_MENU: MenuCategoria[] = [
       { id: "fb-cultura",      label: "Cultura Estética",  href: "/espacios/cultura",          external: false, badge: null },
       { id: "fb-edu-fisica",   label: "Educación Física",  href: "/espacios/educacion-fisica", external: false, badge: null },
       { id: "fb-intercambio",  label: "Intercambio",       href: "/espacios/intercambio",      external: false, badge: null },
+      { id: "fb-extracurriculares", label: "Extracurriculares", href: "/espacios/extracurriculares", external: false, badge: null },
     ],
   },
   {

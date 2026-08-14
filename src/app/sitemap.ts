@@ -86,6 +86,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     page("/espacios/cultura", 0.7),
     page("/espacios/educacion-fisica", 0.7),
     page("/espacios/intercambio", 0.7),
+    page("/espacios/extracurriculares", 0.7),
 
     // Reconocimientos — generadas dinámicamente desde BD
     ...reconocimientosUrls,

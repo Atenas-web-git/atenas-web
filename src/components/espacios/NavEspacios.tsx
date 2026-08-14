@@ -9,7 +9,8 @@ export type EspacioSlug =
   | "idioma"
   | "cultura"
   | "educacion-fisica"
-  | "intercambio";
+  | "intercambio"
+  | "extracurriculares";
 
 const ease: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
@@ -20,6 +21,7 @@ const ESPACIOS: { slug: EspacioSlug; label: string }[] = [
   { slug: "cultura",          label: "Cultura" },
   { slug: "educacion-fisica", label: "Ed. Física" },
   { slug: "intercambio",      label: "Intercambio" },
+  { slug: "extracurriculares", label: "Escuelas" },
 ];
 
 export function NavEspacios({ current }: { current: EspacioSlug }) {

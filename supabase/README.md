@@ -92,6 +92,18 @@ Ejecutar en `Supabase Dashboard → SQL Editor`, en este orden:
 36. `migrations/035_reconocimientos_modulo.sql` (5 tablas del módulo de Reconocimientos + RLS + seed inicial de 2 categorías / 8 subcategorías / logros / galerías; idempotente)
 37. `migrations/036_eliminar_plantilla_e_paginas.sql` (limpia las 10 filas seed de plantilla E del catálogo de páginas; idempotente)
 38. `migrations/037_subcategorias_hero_title_footnote.sql` (añade `hero_title` y `hero_footnote` a subcategorías de Reconocimientos; idempotente)
+
+> **Esta lista dejó de mantenerse en la 037.** Desde la 038 hasta la 081 —motor de
+> formularios, admisiones, roles, secretos, cupos por año escolar— las migraciones
+> existen en `migrations/` pero no están descritas aquí. Para saber qué hace cada
+> una, la cabecera de cada archivo lo explica; para saber cuáles están aplicadas,
+> la memoria del proyecto lleva la cuenta. **No asumas que lo que no está en esta
+> lista no existe.**
+>
+> Una avisa de algo que no se deduce leyéndola sola: la **081** hay que aplicarla
+> DESPUÉS de desplegar el código, no antes, o publica una página que devuelve 404.
+> El porqué está en su cabecera.
+
 39. `seed/roles.sql`
 40. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)
 41. Crear primer usuario en `Authentication → Users` (UI)

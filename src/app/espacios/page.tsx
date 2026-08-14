@@ -17,7 +17,7 @@ const FALLBACK_HERO = {
   badge: "UNIDAD EDUCATIVA ATENAS",
   title: "Espacios de Desarrollo",
   subtitle:
-    "Más allá del aula — seis dimensiones que forman el estudiante completo: ético, creativo, activo y global.",
+    "Más allá del aula — siete dimensiones que forman el estudiante completo: ético, creativo, activo y global.",
   ghostText: "ESPACIOS",
 };
 
@@ -90,12 +90,24 @@ const FALLBACK_ITEMS: TarjetaPlantillaB[] = [
     href: "/espacios/intercambio",
     ctaText: "Explorar espacio",
   },
+  {
+    // No «trophy»: ese ya es el de Ed. Física y dos tarjetas de deporte con el
+    // mismo icono en la misma grilla se leen como la misma cosa.
+    icon: "medal",
+    title: "Escuelas permanentes",
+    subtitle: "Extracurriculares",
+    description:
+      "Escuelas de fútbol y básquet que funcionan durante todo el año lectivo, fuera del horario de clases.",
+    color: "gold",
+    href: "/espacios/extracurriculares",
+    ctaText: "Explorar espacio",
+  },
 ];
 
 const FALLBACK_META = {
   meta_title: "Espacios de Desarrollo | Atenas",
   meta_description:
-    "Descubre los espacios de desarrollo integral de la Unidad Educativa Atenas: VASE, CAS, Idioma, Cultura, Educación Física e Intercambio Internacional.",
+    "Descubre los espacios de desarrollo integral de la Unidad Educativa Atenas: VASE, CAS, Idioma, Cultura, Educación Física, Intercambio Internacional y escuelas extracurriculares.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {

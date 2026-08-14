@@ -442,7 +442,7 @@ export const PAGINAS: Seccion = {
             [
               "L · Ficha de espacio",
               "Portada, detalle con etiquetas y ficha técnica de 4 filas, y sección oscura de actividades con foto de fondo.",
-              "CAS, Cultura, Idioma, VASE",
+              "Los siete espacios de desarrollo: VASE, CAS, Idioma, Cultura, Ed. Física, Intercambio y Escuelas permanentes",
             ],
             [
               "N · Trabaja con Nosotros",

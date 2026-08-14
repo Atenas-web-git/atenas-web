@@ -88,7 +88,22 @@ export function SeccionEspacioDetalle({
             </motion.p>
           ))}
 
-          {/* Tags */}
+          {/*
+            Las tres secciones de aquí abajo se pintan solo si tienen contenido.
+            Antes salían siempre, así que un espacio a medio llenar mostraba una
+            tarjeta «Ficha del Espacio» con la cabecera y nada dentro, y una
+            franja roja de nota vacía.
+
+            OJO: esto NO significa que el colegio pueda vaciar un campo desde el
+            panel y ver la sección desaparecer. `mergeEspacio`, en
+            `app/espacios/[espacio]/page.tsx`, repone el respaldo del código
+            cuando `tags` o `ficha` llegan vacíos —solo `nota` respeta el vacío,
+            porque usa `??` y no `||`—. Así que en los seis espacios que traen
+            respaldo, borrar todas las filas de la ficha desde el editor se
+            guarda y no cambia nada: control fantasma.
+            Aquí funciona porque el respaldo de extracurriculares ya está vacío.
+          */}
+          {tags.length > 0 && (
           <motion.div
             className="flex flex-wrap gap-2"
             initial={{ opacity: 0, y: 14 }} animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -107,8 +122,10 @@ export function SeccionEspacioDetalle({
               </motion.span>
             ))}
           </motion.div>
+          )}
 
           {/* Nota */}
+          {nota.trim() !== "" && (
           <motion.div
             style={{ borderLeft: "2px solid var(--color-red)", paddingLeft: 16, paddingTop: 12, paddingBottom: 12 }}
             initial={{ opacity: 0, x: -12 }} animate={inView ? { opacity: 1, x: 0 } : {}}
@@ -118,12 +135,14 @@ export function SeccionEspacioDetalle({
               {nota}
             </p>
           </motion.div>
+          )}
         </div>
 
         {/* ── Columna derecha ── */}
         <div className="w-full md:w-[340px] flex flex-col gap-5">
 
           {/* Ficha */}
+          {ficha.length > 0 && (
           <motion.div
             className="rounded-2xl overflow-hidden"
             style={{ boxShadow: "0 12px 40px rgba(13,24,37,0.10)" }}
@@ -157,6 +176,7 @@ export function SeccionEspacioDetalle({
               ))}
             </div>
           </motion.div>
+          )}
 
           {/* Foto */}
           <motion.div

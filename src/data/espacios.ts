@@ -1,5 +1,5 @@
 /**
- * Catálogo de los 6 espacios de desarrollo.
+ * Catálogo de los 7 espacios de desarrollo.
  *
  * Es la fuente de truth + fallback que se usa cuando la página equivalente
  * en el CMS (`paginas` con plantilla L) está en borrador o no existe. Las
@@ -303,6 +303,66 @@ export const ESPACIOS: EspacioItem[] = [
         { icon: "🌏", title: "Estudiantes internacionales", desc: "Recepción de estudiantes extranjeros que comparten sus culturas con nuestra comunidad." },
         { icon: "🎓", title: "Cursos de verano", desc: "Programas intensivos de idiomas y cultura en instituciones del extranjero." },
         { icon: "🤝", title: "Red de alumni global", desc: "Conexión permanente con ex-estudiantes de intercambio alrededor del mundo." },
+      ],
+    },
+  },
+  {
+    // Séptimo espacio, pedido por el colegio en la reunión del 2026-07-27:
+    // «página para extracurriculares como escuelas permanentes, fútbol y
+    // básket».
+    //
+    // OJO CON EL CONTENIDO. A diferencia de los otros seis, aquí NO se
+    // inventó nada: lo único que dijo el colegio es que existen escuelas
+    // permanentes de fútbol y de básquet. No hay horarios, edades, costos,
+    // cupos, entrenadores ni instalaciones porque nadie los ha dado, y este
+    // proyecto ya publicó datos de relleno una vez.
+    //
+    // Por eso `ficha` y `nota` van vacías: las secciones se saltan solas
+    // cuando no hay contenido.
+    //
+    // La fila editable de esta página la crea la migración 081, no el panel:
+    // `tpl_l_ficha_espacio` está en `PLANTILLAS_BLOQUEADAS_NUEVAS`, así que el
+    // formulario de «página nueva» la rechaza. Las seis hermanas existen
+    // porque las sembró la 026. Una vez sembrada sí se edita desde el panel,
+    // y entonces lo guardado gana sobre lo de aquí.
+    slug: "extracurriculares",
+    // «Extracurriculares» de una pieza no cabe en el hero a 375px: el clamp del
+    // título tiene 38px de mínimo y la palabra se pasa por doce píxeles, así que
+    // se recorta. Se abrevia como ya hace «Ed. Física» con «Educación Física».
+    // La palabra que pidió el colegio sigue estando: en la URL, en el badge de
+    // la sección y en el meta title.
+    nombre: "Escuelas permanentes",
+    ghostText: "ESCUELAS",
+    heroSubtitle:
+      "Escuelas permanentes que funcionan durante todo el año lectivo, fuera del horario de clases.",
+    metaTitle: "Extracurriculares — Escuelas permanentes | Atenas",
+    metaDescription:
+      "Las escuelas permanentes de la Unidad Educativa Atenas ofrecen formación deportiva continua, fuera del horario regular de clases.",
+    detalle: {
+      badge: "Extracurriculares",
+      heading: "Formación que sigue después de la última hora de clase",
+      paragraphs: [
+        "Las escuelas permanentes son programas que funcionan a lo largo de todo el año lectivo, fuera del horario regular, y están abiertas a los estudiantes que quieran profundizar en una disciplina más allá de la clase.",
+        "Hoy el colegio sostiene escuelas de fútbol y de básquet.",
+      ],
+      tags: ["Fútbol", "Básquet"],
+      // Vacías a propósito — ver la nota de arriba.
+      nota: "",
+      ficha: [],
+      // Foto de archivo, la misma que Ed. Física porque es una URL que ya se
+      // sabe que responde. Se reemplaza desde el panel con una del colegio.
+      photoSrc:
+        "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=700&q=80",
+      photoAlt: "Estudiantes en entrenamiento deportivo",
+    },
+    actividades: {
+      title: "Escuelas abiertas",
+      photoSrc:
+        "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=900&q=80",
+      photoCaption: "Escuelas permanentes — Atenas",
+      items: [
+        { icon: "⚽", title: "Escuela de fútbol", desc: "Entrenamiento continuo durante el año lectivo." },
+        { icon: "🏀", title: "Escuela de básquet", desc: "Entrenamiento continuo durante el año lectivo." },
       ],
     },
   },
