@@ -211,6 +211,25 @@ export default async function SolicitudDetallePage({
               <span style={{ fontSize: 12, color: "#6B6660" }}>
                 {formatDate(solicitud.created_at)}
               </span>
+              {/*
+                Solo se marca lo registrado a mano: lo normal es que venga del
+                formulario, y etiquetar también eso sería ruido.
+              */}
+              {solicitud.origen === "manual" && (
+                <span
+                  className="inline-flex items-center px-2 rounded-full"
+                  style={{
+                    height: 18,
+                    background: "#F4F1EB",
+                    border: "1px solid #E8E4DD",
+                    fontSize: 10,
+                    fontWeight: 600,
+                    color: "#6B6660",
+                  }}
+                >
+                  Registrada a mano
+                </span>
+              )}
             </div>
           </div>
         </div>

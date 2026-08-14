@@ -4,14 +4,15 @@ export const ADMISIONES: Seccion = {
   slug: "admisiones",
   titulo: "Admisiones",
   descripcion:
-    "El proceso completo: del formulario público a la matrícula. Pipeline de 8 estados, ficha de cada solicitud, métricas, cupos, banco de archivos y exportación.",
+    "El proceso completo, hasta la matrícula. Solicitudes del formulario público o registradas a mano, pipeline de 8 estados, ficha de cada una, métricas, cupos, banco de archivos y exportación.",
   icono: "UserPlus",
   paraQuien: "Editor de Admisiones · Superadministrador",
   articulos: [
     {
       id: "vision-general",
       titulo: "Cómo funciona el proceso, de punta a punta",
-      resumen: "Del formulario web al estado Matriculado, con correos automáticos en cada paso.",
+      resumen:
+        "De la primera solicitud —del formulario web o registrada a mano— al estado Matriculado, con correos automáticos en cada paso.",
       bloques: [
         {
           t: "pasos",
@@ -50,8 +51,8 @@ export const ADMISIONES: Seccion = {
             [
               "1",
               "Interesado",
-              "Envió el formulario y pide información. Es el estado inicial.",
-              "El de confirmación, que manda el propio formulario",
+              "Acaba de entrar y pide información. Es el estado inicial, tanto si envió el formulario como si la registraste tú a mano.",
+              "Solo si envió el formulario: el de confirmación, que manda el propio formulario. Las registradas a mano no reciben nada",
             ],
             [
               "2",
@@ -116,6 +117,49 @@ export const ADMISIONES: Seccion = {
       ],
     },
     {
+      id: "registrar-a-mano",
+      titulo: "Registrar una solicitud a mano",
+      resumen:
+        "Para quien llegó por teléfono, por WhatsApp o en persona, en vez de por el formulario web.",
+      bloques: [
+        { t: "ruta", pasos: ["Admisiones", "Solicitudes", "Registrar a mano"] },
+        {
+          t: "p",
+          texto:
+            "Entra al mismo proceso que las del formulario web y recibe su **número de seguimiento** de la misma numeración, así que no hay dos series conviviendo. Al guardar se abre su ficha, lista para seguir trabajando.",
+        },
+        {
+          t: "nota",
+          tono: "aviso",
+          texto:
+            "**El año escolar y el año lectivo son obligatorios aquí**, aunque el formulario público no los exija. Sin ellos la solicitud no cuenta en Cupos ni en Métricas: aparece en el aviso de «no aparece en esta pantalla» y no la ve nadie. Tienes a la familia delante o al teléfono — pregúntaselo.",
+        },
+        {
+          t: "nota",
+          tono: "info",
+          texto:
+            "**No se envía ningún correo** al registrarla, a propósito: estás hablando con la familia en ese momento. Si quieres que reciba algo, muévela de etapa desde su ficha y saldrá el correo de esa etapa.",
+        },
+        {
+          t: "nota",
+          tono: "aviso",
+          texto:
+            "**Dile el número de seguimiento a la familia antes de colgar.** Como no sale ningún correo, ese número no le llega por ningún otro lado, y sin él no puede consultar el estado de su solicitud en la web. En cuanto la muevas a «Postulante» sí recibirá un correo que lo incluye.",
+        },
+        {
+          t: "p",
+          texto:
+            "Las registradas así llevan la etiqueta **«A mano»** en el listado y **«Registrada a mano»** en su ficha. Las del formulario web no llevan ninguna, porque son la mayoría.",
+        },
+        {
+          t: "nota",
+          tono: "info",
+          texto:
+            "Es la vía natural para **2do y 3ro de Bachillerato**: ahí el colegio se reserva el derecho de admisión y el trámite es presencial, así que esas solicitudes siempre entran por aquí.",
+        },
+      ],
+    },
+    {
       id: "listado-solicitudes",
       titulo: "Buscar y filtrar solicitudes",
       resumen: "Pestañas por estado, filtro por nivel, buscador y exportación.",
@@ -150,7 +194,7 @@ export const ADMISIONES: Seccion = {
         {
           t: "p",
           texto:
-            "El archivo exportado incluye número, datos del estudiante y del representante, nivel, **año escolar**, estado, cómo se enteró del colegio, año lectivo, comentarios y fecha.",
+            "El archivo exportado incluye número, datos del estudiante y del representante, nivel, **año escolar**, estado, cómo se enteró del colegio, año lectivo, comentarios, fecha y **cómo llegó** — la última columna, que dice «Formulario web» o «Registrada a mano».",
         },
         {
           t: "nota",
@@ -256,7 +300,7 @@ export const ADMISIONES: Seccion = {
           t: "nota",
           tono: "aviso",
           texto:
-            "**Aquí solo están las solicitudes que entraron por la web.** Si alguien hace la gestión presencialmente o por teléfono y no queda registrada en la plataforma, no aparece en ningún número de esta pantalla. La propia pantalla te lo recuerda arriba.",
+            "**Cuenta todo lo que esté registrado**, venga del formulario web o lo hayas registrado tú a mano. Lo que no aparece es lo que nunca se anotó: si alguien pregunta por teléfono y no queda en la plataforma, no existe para ninguna de estas cifras. Por eso conviene registrar en el momento — **Solicitudes › Registrar a mano**.",
         },
         {
           t: "nota",

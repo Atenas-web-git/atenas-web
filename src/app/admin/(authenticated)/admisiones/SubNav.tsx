@@ -28,8 +28,15 @@ export function AdmisionesSubNav() {
     >
       {ITEMS.map((item) => {
         const Icon = item.icon;
+        // «Solicitudes» es `exact` porque su href es prefijo del de todas las
+        // demás: sin eso quedaría activa en Métricas, en Cupos y en el resto.
+        // Pero eso dejaba `/admin/admisiones/nueva` sin ninguna pestaña
+        // encendida, y es la única pantalla del módulo con la barra apagada.
+        // Las rutas hijas que sí pertenecen a Solicitudes se nombran aquí.
+        const HIJAS_DE_SOLICITUDES = ["/admin/admisiones/nueva"];
         const isActive = item.exact
-          ? pathname === item.href
+          ? pathname === item.href ||
+            (item.href === "/admin/admisiones" && HIJAS_DE_SOLICITUDES.includes(pathname))
           : pathname === item.href || pathname.startsWith(item.href + "/");
 
         return (

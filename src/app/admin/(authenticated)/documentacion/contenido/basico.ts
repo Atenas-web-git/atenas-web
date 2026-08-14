@@ -127,7 +127,7 @@ export const PRIMEROS_PASOS: Seccion = {
         {
           t: "lista",
           items: [
-            "**Interesados** — cuántas personas llenaron el formulario y todavía no avanzan.",
+            "**Interesados** — cuántas solicitudes acaban de entrar y todavía no avanzan, tanto las del formulario web como las que registró alguien a mano.",
             "**En evaluación** — cuántas están en entrevista o evaluación del estudiante.",
             "**Admitidos** — cuántas ya fueron aceptadas por el Comité.",
             "**Matriculados** — cuántas completaron la matrícula.",

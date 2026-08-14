@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
   let q = supabase
     .from("solicitudes_admision")
     .select(
-      "numero, est_nombres, est_apellidos, est_nivel, est_grado, est_fecha_nac, rep_nombres, rep_apellidos, rep_correo, rep_telefono, rep_relacion, estado, como_enterado, anio_ingreso, comentarios, created_at"
+      "numero, est_nombres, est_apellidos, est_nivel, est_grado, est_fecha_nac, rep_nombres, rep_apellidos, rep_correo, rep_telefono, rep_relacion, estado, como_enterado, anio_ingreso, comentarios, created_at, origen"
     )
     .order("created_at", { ascending: false });
 
@@ -59,6 +59,7 @@ export async function GET(req: NextRequest) {
     "Año lectivo",
     "Comentarios",
     "Fecha recibida",
+    "Cómo llegó",
   ];
 
   const rows = (data ?? []).map((s) =>
@@ -79,6 +80,8 @@ export async function GET(req: NextRequest) {
       s.anio_ingreso,
       s.comentarios,
       formatDate(s.created_at),
+      // En palabras, no el valor de la base: quien abre el CSV es secretaría.
+      s.origen === "manual" ? "Registrada a mano" : "Formulario web",
     ]
       .map(escapeCsv)
       .join(",")

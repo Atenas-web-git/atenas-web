@@ -4,13 +4,16 @@ import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
-import { NIVELES, type EstadoAdmision } from "./constants";
+import { NIVELES, ESTADO_INICIAL, type EstadoAdmision } from "./constants";
 import { notifyEstadoChange } from "./emails";
 import { TODOS_LOS_GRADOS, gradoValido } from "@/lib/admisiones/grados";
 
 export type { EstadoAdmision } from "./constants";
 
 export type AdmisionActionState = { error: string | null; ok: boolean };
+
+/** Como `AdmisionActionState`, más el id de la solicitud recién creada. */
+export type CrearSolicitudState = AdmisionActionState & { id: string | null };
 
 async function assertAdmisiones() {
   const user = await getCurrentUser();
@@ -356,6 +359,137 @@ export async function deleteSolicitudAction(
 
   revalidatePath("/admin/admisiones");
   return { error: null, ok: true };
+}
+
+/**
+ * Registra a mano una solicitud de admisión, sin pasar por el formulario
+ * público.
+ *
+ * Cubre el caso real del colegio: alguien llega por teléfono o en persona. Y en
+ * 2do y 3ro de bachillerato el trámite es presencial por norma, así que esas
+ * solicitudes **siempre** entran por aquí.
+ *
+ * Entra al mismo pipeline y toma número del mismo contador atómico que el
+ * formulario público, para que no haya dos series de números conviviendo.
+ */
+export async function crearSolicitudAction(
+  _prev: CrearSolicitudState,
+  formData: FormData
+): Promise<CrearSolicitudState> {
+  await assertAdmisiones();
+
+  // Topes de longitud. El único techo que había era el límite del cuerpo de la
+  // petición, casi un mega: un nombre de esa longitud revienta la ficha, el
+  // CSV y cualquier correo que lo interpole.
+  const LARGO = 200;
+  const LARGO_TEXTO = 2000;
+
+  const trim = (k: string, max = LARGO) =>
+    String(formData.get(k) ?? "").trim().slice(0, max);
+  const nullable = (k: string, max = LARGO) => trim(k, max) || null;
+
+  const est_nombres = trim("est_nombres");
+  const est_apellidos = trim("est_apellidos");
+  const est_nivel = trim("est_nivel");
+  const est_grado = trim("est_grado");
+  const anio_ingreso = trim("anio_ingreso");
+  const rep_nombres = trim("rep_nombres");
+  const rep_apellidos = trim("rep_apellidos");
+  const rep_correo = trim("rep_correo");
+  const rep_telefono = trim("rep_telefono");
+
+  if (!est_nombres) return { error: "Escribe los nombres del estudiante.", ok: false, id: null };
+  if (!est_apellidos) return { error: "Escribe los apellidos del estudiante.", ok: false, id: null };
+  if (!NIVELES.includes(est_nivel as (typeof NIVELES)[number])) {
+    return { error: "Elige el nivel al que aspira.", ok: false, id: null };
+  }
+  // Año escolar y año lectivo son OBLIGATORIOS aquí, al revés que en el
+  // formulario público donde son opcionales. Sin ellos la solicitud nace
+  // invisible: no cuenta en Cupos ni en Métricas, y aparece en el aviso de «no
+  // aparece en esta pantalla». Quien la registra tiene a la familia delante y
+  // puede preguntar; el visitante de la web, no.
+  if (!gradoValido(est_nivel, est_grado)) {
+    return { error: "Elige el año escolar, y que corresponda al nivel.", ok: false, id: null };
+  }
+  // El año lectivo se compara contra el catálogo, no solo contra el vacío. Es
+  // un desplegable en pantalla, pero la acción es un endpoint como cualquier
+  // otro: una cadena con otro formato —«2026-2027 » con espacio, o un guion
+  // largo— se guardaría, y como Cupos y Métricas filtran por igualdad exacta,
+  // la solicitud desaparecería de las dos. Justo lo que el campo obligatorio
+  // venía a evitar.
+  const anioNormalizado = anio_ingreso.replace(/[–—]/g, "-");
+  const supabase = createAdminClient();
+  const { data: anosActivos } = await supabase
+    .from("anos_lectivos")
+    .select("codigo")
+    .eq("activo", true);
+  const codigosActivos = (anosActivos ?? []).map((a) => a.codigo as string);
+  if (!codigosActivos.includes(anioNormalizado)) {
+    return { error: "Elige el año lectivo al que aspira.", ok: false, id: null };
+  }
+  if (!rep_nombres) return { error: "Escribe los nombres del representante.", ok: false, id: null };
+  if (!rep_apellidos) {
+    return { error: "Escribe los apellidos del representante.", ok: false, id: null };
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(rep_correo)) {
+    return { error: "El correo del representante no es válido.", ok: false, id: null };
+  }
+  if (!rep_telefono) {
+    return { error: "Escribe el teléfono del representante.", ok: false, id: null };
+  }
+
+  // Mismo contador atómico que el formulario público — función SECURITY
+  // DEFINER en Postgres. Generar el número aquí a mano crearía duplicados en
+  // cuanto dos personas registren a la vez.
+  const anoCodigo = String(new Date().getFullYear() % 100).padStart(3, "0");
+  const { data: seq, error: seqError } = await supabase.rpc("siguiente_numero_admision", {
+    p_ano: anoCodigo,
+  });
+  if (seqError || typeof seq !== "number") {
+    console.error("[crearSolicitudAction] contador:", seqError);
+    return { error: "No se pudo generar el número de seguimiento.", ok: false, id: null };
+  }
+  const numero = `ADM${anoCodigo}-${String(seq).padStart(3, "0")}`;
+
+  const { data: creada, error } = await supabase
+    .from("solicitudes_admision")
+    .insert({
+      numero,
+      est_nombres,
+      est_apellidos,
+      est_fecha_nac: nullable("est_fecha_nac"),
+      est_nivel,
+      est_grado,
+      est_institucion_origen: nullable("est_institucion_origen"),
+      anio_ingreso: anioNormalizado,
+      rep_nombres,
+      rep_apellidos,
+      rep_relacion: nullable("rep_relacion"),
+      rep_correo,
+      rep_telefono,
+      como_enterado: nullable("como_enterado"),
+      comentarios: nullable("comentarios", LARGO_TEXTO),
+      estado: ESTADO_INICIAL,
+      // Requiere la migración 083. Sin ella este INSERT falla entero.
+      origen: "manual",
+    })
+    .select("id")
+    .single();
+
+  if (error || !creada) {
+    console.error("[crearSolicitudAction]", error);
+    return { error: "No se pudo registrar la solicitud.", ok: false, id: null };
+  }
+
+  // NO se envía ningún correo, y es deliberado: quien registra la solicitud
+  // está hablando con la familia en ese momento, así que una confirmación
+  // automática sobra o llega a destiempo. Si más adelante hace falta, se añade
+  // como casilla opcional — pero por defecto callado.
+
+  revalidatePath("/admin/admisiones");
+  revalidatePath("/admin/admisiones/metricas");
+  revalidatePath("/admin/admisiones/cupos");
+  return { error: null, ok: true, id: creada.id };
 }
 
 export async function saveCuposAction(

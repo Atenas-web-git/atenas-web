@@ -6,6 +6,7 @@ import {
   Users as UsersIcon,
   ArrowUpRight,
   BarChart3,
+  Plus,
 } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
@@ -257,6 +258,17 @@ export default async function AdminDashboardPage() {
                 href="/admin/admisiones"
                 icon={UserPlus}
                 label="Ver solicitudes"
+              />
+            )}
+            {/*
+              Quien contesta el teléfono aterriza aquí, no en el listado, así
+              que registrar a mano tiene que estar a un clic.
+            */}
+            {canSeeAdmisiones && (
+              <QuickLink
+                href="/admin/admisiones/nueva"
+                icon={Plus}
+                label="Registrar solicitud a mano"
               />
             )}
             {canSeeAdmisiones && (

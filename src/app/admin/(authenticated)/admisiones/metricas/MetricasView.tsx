@@ -196,9 +196,13 @@ export function MetricasView({
         se toman decisiones.
       */}
       <Aviso tono="info" icono={Info}>
-        Aquí solo están las solicitudes que <strong>entraron por la web</strong> y eligieron el año
-        lectivo {anoLectivo}. Las gestiones hechas presencialmente o por teléfono no se registran
-        todavía en la plataforma, así que no aparecen en ningún número de esta pantalla.
+        Aquí están las solicitudes del año lectivo {anoLectivo}, <strong>vengan del formulario web
+        o registradas a mano</strong> desde el panel. Lo que no aparece es lo que nunca llegó a
+        registrarse: si alguien pregunta por teléfono y no se anota,{" "}
+        <Link href="/admin/admisiones/nueva" style={{ color: "#1A2B4A", fontWeight: 600 }}>
+          regístralo aquí
+        </Link>{" "}
+        o no cuenta en ningún número de esta pantalla.
       </Aviso>
 
       {m.sinAnoLectivo > 0 && (
@@ -225,8 +229,12 @@ export function MetricasView({
           <p
             style={{ fontSize: 13, color: "#6B6660", margin: 0, textAlign: "center", maxWidth: 460 }}
           >
-            En cuanto llegue la primera por el formulario de admisiones, aquí verás en qué etapa
-            está cada aspirante, cuáles llevan demasiado tiempo detenidos y de qué colegios vienen.
+            En cuanto entre la primera —por el formulario de admisiones o{" "}
+            <Link href="/admin/admisiones/nueva" style={{ color: "#1A2B4A", fontWeight: 600 }}>
+              registrándola a mano
+            </Link>
+            — aquí verás en qué etapa está cada aspirante, cuáles llevan demasiado tiempo detenidos
+            y de qué colegios vienen.
           </p>
         </div>
       ) : (

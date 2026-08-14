@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Search, Download, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, Download, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
@@ -71,7 +71,7 @@ export default async function AdmisionesPage({
   let dbQuery = supabase
     .from("solicitudes_admision")
     .select(
-      "id, numero, est_nombres, est_apellidos, est_nivel, estado, created_at",
+      "id, numero, est_nombres, est_apellidos, est_nivel, estado, created_at, origen",
       { count: "exact" }
     )
     .order("created_at", { ascending: false })
@@ -120,21 +120,39 @@ export default async function AdmisionesPage({
             lectivos
           </p>
         </div>
-        <a
-          href={`/admin/admisiones/exportar${estadoFilter !== "todas" ? `?estado=${estadoFilter}` : ""}${nivelFilter ? `${estadoFilter !== "todas" ? "&" : "?"}nivel=${encodeURIComponent(nivelFilter)}` : ""}`}
-          className="flex items-center gap-2 px-4 rounded-md transition-opacity hover:opacity-80"
-          style={{
-            height: 38,
-            background: "#1A2B4A",
-            color: "#FFFFFF",
-            textDecoration: "none",
-            fontSize: 13,
-            fontWeight: 500,
-          }}
-        >
-          <Download size={14} strokeWidth={2} />
-          Exportar CSV
-        </a>
+        <div className="flex items-center gap-2 flex-wrap">
+          <Link
+            href="/admin/admisiones/nueva"
+            className="flex items-center gap-2 px-4 rounded-md transition-opacity hover:opacity-80"
+            style={{
+              height: 38,
+              background: "#1A2B4A",
+              color: "#FFFFFF",
+              textDecoration: "none",
+              fontSize: 13,
+              fontWeight: 500,
+            }}
+          >
+            <Plus size={14} strokeWidth={2.5} />
+            Registrar a mano
+          </Link>
+          <a
+            href={`/admin/admisiones/exportar${estadoFilter !== "todas" ? `?estado=${estadoFilter}` : ""}${nivelFilter ? `${estadoFilter !== "todas" ? "&" : "?"}nivel=${encodeURIComponent(nivelFilter)}` : ""}`}
+            className="flex items-center gap-2 px-4 rounded-md transition-opacity hover:opacity-80"
+            style={{
+              height: 38,
+              background: "#FFFFFF",
+              border: "1px solid #E8E4DD",
+              color: "#1A2B4A",
+              textDecoration: "none",
+              fontSize: 13,
+              fontWeight: 500,
+            }}
+          >
+            <Download size={14} strokeWidth={2} />
+            Exportar CSV
+          </a>
+        </div>
       </div>
 
       {/* Tabs */}
@@ -342,6 +360,27 @@ export default async function AdmisionesPage({
                           <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
                             {s.est_nombres} {s.est_apellidos}
                           </span>
+                          {/*
+                            Solo se marca lo registrado a mano. La inmensa
+                            mayoría entra por la web, así que etiquetar las dos
+                            cosas sería ruido en cada fila.
+                          */}
+                          {s.origen === "manual" && (
+                            <span
+                              title="Registrada a mano desde el panel, no por el formulario web"
+                              className="inline-flex items-center px-2 rounded-full flex-shrink-0"
+                              style={{
+                                height: 18,
+                                background: "#F4F1EB",
+                                border: "1px solid #E8E4DD",
+                                fontSize: 10,
+                                fontWeight: 600,
+                                color: "#6B6660",
+                              }}
+                            >
+                              A mano
+                            </span>
+                          )}
                         </div>
                       </td>
                       <td style={{ padding: "14px 16px" }}>
