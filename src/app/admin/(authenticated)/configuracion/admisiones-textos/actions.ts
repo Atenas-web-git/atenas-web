@@ -140,6 +140,13 @@ export async function guardarAdmisionesTextosAction(
       botonConsultar: s(formData, "s_botonConsultar"),
       botonConsultando: s(formData, "s_botonConsultando"),
     },
+
+    metricas: {
+      // `Number("")` da 0, que `mergeAdmisionesTextos` rechaza por estar fuera
+      // de rango y sustituye por el default. Es lo que queremos si el campo
+      // llega vacío, igual que con los textos.
+      diasParaEstancada: Number(s(formData, "m_diasParaEstancada")),
+    },
   };
 
   const value = mergeAdmisionesTextos(raw);
@@ -150,7 +157,7 @@ export async function guardarAdmisionesTextosAction(
       key: "admisiones_textos",
       value,
       descripcion:
-        "Textos, etiquetas, placeholders y opciones editables del flujo público de admisiones (/admisiones/formulario + /admisiones/seguimiento).",
+        "Textos, etiquetas, placeholders y opciones editables del flujo público de admisiones (/admisiones/formulario + /admisiones/seguimiento), y los días sin avanzar a partir de los cuales Admisiones › Métricas da por detenido a un aspirante.",
       updated_by: user.id,
     },
     { onConflict: "key" }

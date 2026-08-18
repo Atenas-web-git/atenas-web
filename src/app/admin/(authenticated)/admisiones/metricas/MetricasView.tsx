@@ -10,7 +10,7 @@
 import Link from "next/link";
 import { AlertTriangle, Clock, Info } from "lucide-react";
 import { ESTADO_INFO } from "../constants";
-import { DIAS_PARA_ESTANCADA, DIAS_DEL_PERIODO, type Metricas } from "@/lib/admisiones/metricas";
+import { DIAS_DEL_PERIODO, type Metricas, type MesSerie } from "@/lib/admisiones/metricas";
 
 const BORDE = "1px solid #E8E4DD";
 
@@ -46,6 +46,164 @@ function Cifra({ valor, etiqueta, nota }: { valor: number; etiqueta: string; not
       <span style={{ fontSize: 13, color: "#2C2C2C", fontWeight: 500 }}>{etiqueta}</span>
       {nota && <span style={{ fontSize: 11, color: "#6B6660" }}>{nota}</span>}
     </div>
+  );
+}
+
+/**
+ * La evolución mes a mes: cuántas entraron y cuántas admitió el Comité.
+ *
+ * Barras verticales y no una línea a propósito. Son cuentas de cosas que
+ * pasaron en cada mes, no una magnitud continua: una línea invita a leer los
+ * tramos entre puntos como si significaran algo, y no significan nada.
+ *
+ * Dos series en la misma barra, una encima de otra en tono distinto, para
+ * poder comparar entradas contra admisiones sin saltar de gráfico.
+ */
+function SerieMensual({
+  meses,
+  mesesOmitidos,
+}: {
+  meses: MesSerie[];
+  mesesOmitidos: number;
+}) {
+  // El eje se escala al máximo de las dos series juntas, nunca por debajo de 1
+  // para no dividir por cero cuando todavía no ha entrado nadie.
+  const maximo = Math.max(1, ...meses.map((m) => Math.max(m.entraron, m.admitidos)));
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center gap-4 flex-wrap">
+        <Leyenda color="#1A2B4A" texto="Entraron" />
+        <Leyenda color="#92400E" texto="Admitidas por el Comité" />
+      </div>
+
+      {/*
+        Se desplaza en su propia caja si no cabe: con catorce meses en una
+        pantalla estrecha, la alternativa es que la página entera tenga scroll
+        lateral, que es lo que el proyecto no permite.
+      */}
+      {/*
+        Las sombras de los bordes avisan de que hay más meses fuera de la caja.
+        Sin ellas, en 375px se ven cinco de catorce y nada indica que el resto
+        existe: se leería como «el colegio solo tiene cinco meses de historia».
+        Van en CSS puro —`background-attachment: local` para los degradados
+        blancos, `scroll` para las sombras— así que aparecen y desaparecen solas
+        al llegar a cada extremo, sin JavaScript y sin volver cliente la vista.
+      */}
+      <div
+        style={{
+          overflowX: "auto",
+          background:
+            "linear-gradient(to right, #FFFFFF 30%, rgba(255,255,255,0)) left center," +
+            "linear-gradient(to left, #FFFFFF 30%, rgba(255,255,255,0)) right center," +
+            "radial-gradient(farthest-side at 0 50%, rgba(26,43,74,0.14), rgba(26,43,74,0)) left center," +
+            "radial-gradient(farthest-side at 100% 50%, rgba(26,43,74,0.14), rgba(26,43,74,0)) right center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "28px 100%, 28px 100%, 12px 100%, 12px 100%",
+          backgroundAttachment: "local, local, scroll, scroll",
+        }}
+      >
+        <div className="flex items-end gap-2" style={{ minWidth: meses.length * 52 }}>
+          {meses.map((m, i) => {
+            const [ano, mes] = m.clave.split("-");
+            // El año solo en la primera columna y cada vez que empieza uno
+            // nuevo. Repetirlo en las catorce lo vuelve ruido.
+            const marcaAno = i === 0 || mes === "01";
+            return (
+              <div
+                key={m.clave}
+                title={`${m.etiqueta}: entraron ${m.entraron}, admitidas ${m.admitidos}`}
+                className="flex flex-col items-center gap-1"
+                style={{ flex: 1 }}
+              >
+                <div
+                  className="flex items-end justify-center gap-[3px] w-full"
+                  style={{ height: 90 }}
+                >
+                  <Columna alto={(m.entraron / maximo) * 90} color="#1A2B4A" />
+                  <Columna alto={(m.admitidos / maximo) * 90} color="#92400E" />
+                </div>
+                {/*
+                  Horizontal y no rotada: con la etiqueta en diagonal no se leía
+                  ninguna y además desbordaba la tarjeta por abajo.
+                */}
+                <span style={{ fontSize: 10, color: "#6B6660", whiteSpace: "nowrap" }}>
+                  {m.etiqueta.split(" ")[0]}
+                </span>
+                {/*
+                  El año es la única pista de a qué ejercicio pertenece cada
+                  barra: iba en gris claro a 9px —contraste 2.3:1— y no se leía.
+                */}
+                <span style={{ fontSize: 10, color: "#6B6660", height: 12 }}>
+                  {marcaAno ? ano : ""}
+                </span>
+                {/*
+                  Las dos cifras exactas debajo, en el color de su serie. Con
+                  números pequeños —un colegio, no un ecommerce— la diferencia
+                  entre tres y cuatro no se ve en la altura de la barra.
+
+                  Un cero es un dato, no decoración: un mes sin admisiones es
+                  justo lo que admisiones necesita ver. Se atenúa para que no
+                  compita con los meses con movimiento, pero con un gris que se
+                  lee, y con el mismo criterio en las dos series —antes solo se
+                  atenuaba el cero de admitidas.
+                */}
+                <span style={{ fontSize: 11, whiteSpace: "nowrap" }}>
+                  <strong style={{ color: m.entraron > 0 ? "#1A2B4A" : "#6B6660" }}>
+                    {m.entraron}
+                  </strong>
+                  <span style={{ color: "#9A948C" }}> · </span>
+                  <strong style={{ color: m.admitidos > 0 ? "#92400E" : "#6B6660" }}>
+                    {m.admitidos}
+                  </strong>
+                </span>
+                {/*
+                  El `title` de la columna no existe para quien navega con dedo
+                  o con teclado. Esta línea no se ve pero sí se lee en voz alta,
+                  y es la única forma de saber cuál cifra es cuál sin depender
+                  del color.
+                */}
+                <span className="sr-only">
+                  {m.etiqueta}: entraron {m.entraron}, admitidas {m.admitidos}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {mesesOmitidos > 0 && (
+        <p style={{ fontSize: 11, color: "#6B6660", margin: 0 }}>
+          Se muestran los últimos {meses.length} meses.{" "}
+          {mesesOmitidos === 1 ? "Hay un mes anterior" : `Hay ${mesesOmitidos} meses anteriores`} con
+          movimiento que no cabe en el gráfico.
+        </p>
+      )}
+    </div>
+  );
+}
+
+function Columna({ alto, color }: { alto: number; color: string }) {
+  return (
+    <div
+      style={{
+        width: 12,
+        // Un pelo de altura cuando el valor es cero, para que la barra exista
+        // como sitio vacío y no como un hueco donde no hay nada.
+        height: Math.max(2, Math.round(alto)),
+        background: alto < 1 ? "#F4F1EB" : color,
+        borderRadius: "3px 3px 0 0",
+      }}
+    />
+  );
+}
+
+function Leyenda({ color, texto }: { color: string; texto: string }) {
+  return (
+    <span className="flex items-center gap-1.5" style={{ fontSize: 11, color: "#6B6660" }}>
+      <span style={{ width: 10, height: 10, borderRadius: 3, background: color }} />
+      {texto}
+    </span>
   );
 }
 
@@ -310,11 +468,19 @@ export function MetricasView({
             </div>
           </Tarjeta>
 
-          <Tarjeta titulo={`Detenidos más de ${DIAS_PARA_ESTANCADA} días`}>
+          <Tarjeta titulo="Mes a mes">
+            <p style={{ fontSize: 12, color: "#6B6660", margin: "-4px 0 0", lineHeight: 1.55 }}>
+              Cuántos aspirantes entraron cada mes y cuántos admitió el Comité. Las admisiones
+              cuentan en el mes en que se decidieron, aunque después se hayan matriculado.
+            </p>
+            <SerieMensual meses={m.serieMensual} mesesOmitidos={m.mesesOmitidos} />
+          </Tarjeta>
+
+          <Tarjeta titulo={`Detenidos más de ${m.diasParaEstancada} días`}>
             {m.estancadas.length === 0 ? (
               <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
                 Ninguno. Todos los aspirantes en proceso han cambiado de etapa en los últimos{" "}
-                {DIAS_PARA_ESTANCADA} días.
+                {m.diasParaEstancada} días.
               </p>
             ) : (
               <>

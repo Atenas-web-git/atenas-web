@@ -15,7 +15,7 @@ const TITLES: Record<string, { title: string; subtitle: string }> = {
   },
   "/admin/admisiones/metricas": {
     title: "Métricas de admisiones",
-    subtitle: "Cómo va el proceso: embudo, detenidos y de dónde vienen los aspirantes",
+    subtitle: "Cómo va el proceso: embudo, mes a mes, detenidos y de dónde vienen los aspirantes",
   },
   "/admin/admisiones/cupos": {
     title: "Cupos por nivel",

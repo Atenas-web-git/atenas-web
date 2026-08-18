@@ -8,6 +8,11 @@ import {
   type SolicitudMetrica,
   type CambioDeEstado,
 } from "@/lib/admisiones/metricas";
+import {
+  getConfiguracion,
+  mergeAdmisionesTextos,
+  type AdmisionesTextosConfig,
+} from "@/lib/cms/getConfiguracion";
 import { AdmisionesSubNav } from "../SubNav";
 import { MetricasView } from "./MetricasView";
 
@@ -78,13 +83,18 @@ export default async function MetricasPage({
 
   const supabase = createAdminClient();
 
-  const { data: anosData } = await supabase
-    .from("anos_lectivos")
-    .select("codigo, activo")
-    .eq("activo", true)
-    .order("codigo", { ascending: true });
+  const [{ data: anosData }, textosRaw] = await Promise.all([
+    supabase
+      .from("anos_lectivos")
+      .select("codigo, activo")
+      .eq("activo", true)
+      .order("codigo", { ascending: true }),
+    // El umbral de «detenido» lo edita el colegio en Configuración › Admisiones.
+    getConfiguracion<Partial<AdmisionesTextosConfig>>("admisiones_textos"),
+  ]);
 
   const codigos = (anosData ?? []).map((a) => a.codigo as string);
+  const { diasParaEstancada } = mergeAdmisionesTextos(textosRaw).metricas;
 
   if (codigos.length === 0) {
     return (
@@ -133,7 +143,14 @@ export default async function MetricasPage({
     ),
   ]);
 
-  const metricas = calcularMetricas(solicitudes, anoLectivo, codigos, historial, ahora());
+  const metricas = calcularMetricas(
+    solicitudes,
+    anoLectivo,
+    codigos,
+    historial,
+    ahora(),
+    diasParaEstancada
+  );
 
   return (
     <div className="flex flex-col gap-6 p-8">

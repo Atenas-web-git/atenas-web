@@ -291,7 +291,8 @@ export const ADMISIONES: Seccion = {
             "**Ahora mismo** — cuántos aspirantes siguen sin resolverse, cuántos se matricularon y cuántos no fueron admitidos.",
             "**Últimos 30 días** — cuántas solicitudes nuevas entraron y cuántas admitió el Comité en ese plazo. La segunda cifra cuenta **cuándo se admitió**, así que una persona que ya se matriculó sigue contando en el mes en que la admitieron.",
             "**Embudo del proceso** — cuántos aspirantes han llegado *al menos* hasta cada etapa. Quien está matriculado también pasó antes por «postulante», así que las etapas de arriba nunca bajan conforme avanza el proceso. Los no admitidos cuentan hasta donde llegaron antes de salir. Al lado se indica cuántos están parados justo ahí.",
-            "**Detenidos** — los aspirantes que llevan más de 14 días sin cambiar de etapa, del más antiguo al más reciente. Haz clic en cualquiera para abrir su ficha.",
+            "**Mes a mes** — cuántos aspirantes entraron cada mes y cuántos admitió el Comité. Las admisiones cuentan en el mes en que se decidieron, aunque después se hayan matriculado. Si el período es largo, se muestran los últimos catorce meses y se avisa de cuántos quedaron fuera.",
+            "**Detenidos** — los aspirantes que llevan demasiado tiempo sin cambiar de etapa, del más antiguo al más reciente. Haz clic en cualquiera para abrir su ficha. **Cuántos días son «demasiado» lo decides tú** en Configuración › Admisiones; de fábrica son 14.",
             "**Por nivel** y **por institución de origen** — de dónde vienen los aspirantes de ese año. Si hay muchas instituciones distintas, se listan las diez primeras y el resto se agrupa en «Otras».",
             "La institución la escribe cada familia a mano, así que **dos maneras de escribir el mismo colegio se cuentan por separado**: «Colegio San Francisco» y «colegio san francisco» salen como dos filas. Si un colegio te parece menos frecuente de lo que esperabas, mira si aparece escrito de otra forma más abajo.",
           ],
@@ -313,6 +314,12 @@ export const ADMISIONES: Seccion = {
           tono: "info",
           texto:
             "«Detenidos» mide desde el **último cambio de etapa**, no desde la última vez que se editó la ficha. Corregir un apellido o añadir una nota no reinicia la cuenta: si el aspirante lleva un mes parado, lo seguirás viendo.",
+        },
+        {
+          t: "nota",
+          tono: "info",
+          texto:
+            "**Los 14 días de «Detenidos» son un valor de partida que pusimos nosotros, no una norma del colegio.** Se ajusta en **Configuración › Admisiones — textos chicos**, en el bloque «Métricas de admisiones», a lo que de verdad les parezca demasiado tiempo sin contactar a una familia. Tiene que ser un número entre 1 y 365, el cambio se ve al instante y no hace falta avisarnos. **A esa pantalla solo entra el Superadministrador**: si eres Editor de Admisiones, pídeselo a quien lleve el panel.",
         },
       ],
     },
@@ -401,6 +408,11 @@ export const ADMISIONES: Seccion = {
           tono: "aviso",
           texto:
             "Solo el **Superadministrador** entra aquí. Bajar el contador puede producir **números repetidos**: hazlo una sola vez, al inicio del año, y con el dato confirmado.",
+        },
+        {
+          t: "p",
+          texto:
+            "Esta misma pantalla tiene, más abajo, el bloque **«Métricas de admisiones»**: ahí se fijan los días sin avanzar a partir de los cuales un aspirante aparece como detenido.",
         },
       ],
     },

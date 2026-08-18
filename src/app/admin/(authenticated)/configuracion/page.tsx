@@ -57,7 +57,7 @@ const SECCIONES = [
   {
     href: "/admin/configuracion/admisiones-textos",
     title: "Admisiones — textos chicos",
-    description: "Encabezados de /admisiones/formulario (wizard) y /admisiones/seguimiento (consulta de estado). La lógica de ambos permanece en código.",
+    description: "Encabezados de /admisiones/formulario (wizard) y /admisiones/seguimiento (consulta de estado), el contador de números ADM y los días para dar por detenido a un aspirante en Métricas.",
     icon: FileText,
     onlySuperadmin: true,
   },

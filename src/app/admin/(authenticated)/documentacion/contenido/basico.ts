@@ -143,7 +143,7 @@ export const PRIMEROS_PASOS: Seccion = {
           t: "nota",
           tono: "aviso",
           texto:
-            "**Estas cifras suman todos los años lectivos juntos.** Si quieres verlas de un año concreto —y además el embudo, quién lleva demasiado tiempo detenido y de qué colegios vienen los aspirantes—, ve a **Admisiones › Métricas**. Es normal que los números no coincidan: cuentan cosas distintas.",
+            "**Estas cifras suman todos los años lectivos juntos.** Si quieres verlas de un año concreto —y además el embudo, cuántos entraron mes a mes, quién lleva demasiado tiempo detenido y de qué colegios vienen los aspirantes—, ve a **Admisiones › Métricas**. Es normal que los números no coincidan: cuentan cosas distintas.",
         },
         {
           t: "nota",

@@ -29,7 +29,7 @@ export const CONFIGURACION: Seccion = {
             ["Diseño de correos", "Logo y texto legal de los correos.", "Superadmin"],
             ["Chatbot «Ateneo»", "El asistente de inteligencia artificial.", "Superadmin"],
             ["Footer global", "El bloque final de todas las páginas.", "Superadmin"],
-            ["Admisiones — textos chicos", "Encabezados del formulario y del seguimiento, y el contador ADM.", "Superadmin"],
+            ["Admisiones — textos chicos", "Encabezados del formulario y del seguimiento, el contador ADM y los días para considerar detenido a un aspirante en Métricas.", "Superadmin"],
             ["Barra de navegación", "Lo visible en la barra superior fija.", "Superadmin"],
             ["Mega-menú", "La estructura del menú principal.", "Superadmin"],
             ["SEO defaults", "Metadatos por defecto del sitio.", "Superadmin"],

@@ -8,7 +8,14 @@
  * Patrón #26: cada campo "string" del editor se trim()ea al guardar; si
  * queda vacío se cae al default. Los textareas con listas se parsean por
  * salto de línea.
+ *
+ * Desde 2026-08-18 esta key guarda además un ajuste que NO es del flujo
+ * público: los días a partir de los cuales Admisiones › Métricas da por
+ * detenido a un aspirante. Vive aquí porque es la pantalla de configuración
+ * de admisiones que ya existía, no porque sea un texto.
  */
+
+import { DIAS_PARA_ESTANCADA_DEFECTO } from "@/lib/admisiones/metricas";
 
 // ── Tipos ──────────────────────────────────────────────────────────────────
 
@@ -108,6 +115,25 @@ export type AdmisionesTextosConfig = {
     correoAyuda: string;
     botonConsultar: string;
     botonConsultando: string;
+  };
+
+  /**
+   * Ajustes de la pantalla de Métricas.
+   *
+   * Va aquí y no en otra clave porque esta config ya es «lo operativo de
+   * admisiones» —el contador de números vive en la misma pantalla— y no solo
+   * textos del formulario.
+   */
+  metricas: {
+    /**
+     * Días sin cambiar de etapa a partir de los cuales un aspirante sale en
+     * «Detenidos».
+     *
+     * Estaba fijo en el código, y era un número que nos inventamos nosotros:
+     * no sale de ninguna norma del colegio. Se saca aquí para que lo ajuste
+     * admisiones durante la temporada, sin desplegar y sin preguntar a nadie.
+     */
+    diasParaEstancada: number;
   };
 };
 
@@ -235,9 +261,33 @@ export const ADMISIONES_TEXTOS_DEFAULT: AdmisionesTextosConfig = {
     botonConsultar: "Consultar",
     botonConsultando: "Buscando…",
   },
+
+  metricas: {
+    // Valor de partida, no una norma del colegio. Ver el comentario del tipo.
+    //
+    // Se importa en vez de repetir el 14: son el mismo número —el que usa la
+    // pantalla cuando nadie ha configurado nada— y tenerlo escrito dos veces
+    // significa que cambiar uno deja al otro mintiendo.
+    diasParaEstancada: DIAS_PARA_ESTANCADA_DEFECTO,
+  },
 };
 
 // ── Merge tolerante ────────────────────────────────────────────────────────
+
+/**
+ * Un entero dentro de un rango, o el valor por defecto.
+ *
+ * Acota además de convertir: un cero o un negativo marcarían como detenido a
+ * todo el mundo desde el primer día, y un número enorme no marcaría nunca a
+ * nadie. Las dos cosas dejan la tarjeta inservible sin dar ningún error.
+ */
+function pickNum(v: unknown, fallback: number, min: number, max: number): number {
+  const n = typeof v === "number" ? v : Number(v);
+  if (!Number.isFinite(n)) return fallback;
+  const entero = Math.round(n);
+  if (entero < min || entero > max) return fallback;
+  return entero;
+}
 
 function pickStr(v: unknown, fallback: string): string {
   const s = typeof v === "string" ? v.trim() : "";
@@ -367,6 +417,15 @@ export function mergeAdmisionesTextos(
       correoAyuda: pickStr(s.correoAyuda, def.seguimiento.correoAyuda),
       botonConsultar: pickStr(s.botonConsultar, def.seguimiento.botonConsultar),
       botonConsultando: pickStr(s.botonConsultando, def.seguimiento.botonConsultando),
+    },
+
+    metricas: {
+      diasParaEstancada: pickNum(
+        (input.metricas as { diasParaEstancada?: unknown } | undefined)?.diasParaEstancada,
+        def.metricas.diasParaEstancada,
+        1,
+        365
+      ),
     },
   };
 }

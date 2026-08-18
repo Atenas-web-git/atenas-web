@@ -426,6 +426,51 @@ export function AdmisionesTextosForm({
           />
         </Field>
       </Section>
+
+      <Section
+        title="Métricas de admisiones"
+        subtitle="Ajustes de la pantalla Admisiones › Métricas."
+      >
+        <Field label="Días sin avanzar para considerar detenido a un aspirante">
+          {/*
+            `required` cubre un solo caso: que alguien borre el número con esta
+            sección abierta. Ahí el navegador no deja guardar y señala el campo.
+
+            NO cubre el caso que de verdad ocurre. `Section` desmonta sus hijos al
+            plegarse, y una sección plegada es el estado por defecto de todas menos
+            la primera: entonces este input no existe, el navegador no valida nada
+            que no esté montado, y la acción recibe la clave ausente y la devuelve
+            a los 14 de fábrica. Guardar sin desplegar esta sección revierte el
+            umbral en silencio — y a diferencia de un texto reseteado, que se ve en
+            la página pública, este no se nota en ningún sitio: la tarjeta sigue
+            diciendo «Detenidos más de N días» con el número que sea.
+
+            Es un fallo de toda la pantalla, no de este campo, y va por ficha:
+            2026-08-18-guardar-con-secciones-plegadas-borra-lo-no-montado.
+          */}
+          <input
+            type="number"
+            name="m_diasParaEstancada"
+            min={1}
+            max={365}
+            step={1}
+            required
+            defaultValue={c.metricas.diasParaEstancada}
+            style={inputStyle}
+          />
+        </Field>
+        <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.55 }}>
+          En <strong>Admisiones › Métricas</strong>, la tarjeta «Detenidos» lista los aspirantes que
+          llevan más de estos días sin cambiar de etapa. Se cuenta desde el último cambio de etapa,
+          no desde la última vez que se editó la ficha.
+          <br />
+          <br />
+          El valor de partida son <strong>14 días</strong>, pero es un número que pusimos nosotros,
+          no una norma del colegio: ajústalo a lo que de verdad les parezca demasiado tiempo sin
+          contactar a una familia. Tiene que ser un número entero <strong>entre 1 y 365</strong>; si
+          se guarda vacío o fuera de ese rango, vuelve solo a los 14 de fábrica.
+        </p>
+      </Section>
     </form>
   );
 }
