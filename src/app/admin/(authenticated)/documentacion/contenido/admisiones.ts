@@ -187,7 +187,7 @@ export const ADMISIONES: Seccion = {
             },
             {
               campo: "Exportar CSV",
-              desc: "Descarga las solicitudes en una hoja de cálculo. **Respeta los filtros activos**: si estás viendo solo «Admitido» de IB, eso es lo que exporta.",
+              desc: "Descarga las solicitudes en una hoja de cálculo. Respeta los filtros de **estado** y **nivel**: si estás viendo solo «Admitido» de IB, eso es lo que exporta.\n\n⚠️ **El buscador NO se aplica al archivo.** Si escribes un apellido y ves tres filas en pantalla, al exportar te bajas igualmente todas las solicitudes que dejen pasar los otros dos filtros. Fíjate en el número de filas del archivo antes de compartirlo con nadie.",
             },
           ],
         },

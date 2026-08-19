@@ -18,6 +18,9 @@ import { puedeVerFormularios } from "@/lib/auth/areas";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getFormularioParaPanel } from "@/lib/formularios/getFormulario";
 import { valorLegible } from "@/lib/formularios/validar";
+// Escapa Y neutraliza formulas: estas respuestas las escribe cualquier
+// visitante del sitio, sin cuenta. Ver src/lib/csv.ts.
+import { celdaCsv, BOM_UTF8 } from "@/lib/csv";
 import {
   ESTADO_LABELS,
   type ArchivoRespuesta,
@@ -26,13 +29,6 @@ import {
 } from "@/lib/formularios/tipos";
 
 export const runtime = "nodejs";
-
-function escaparCsv(valor: string): string {
-  if (/[",\n\r]/.test(valor)) {
-    return `"${valor.replace(/"/g, '""')}"`;
-  }
-  return valor;
-}
 
 export async function GET(
   _req: Request,
@@ -96,12 +92,12 @@ export async function GET(
       ESTADO_LABELS[fila.estado] ?? fila.estado,
       fila.nota_interna ?? "",
     ]
-      .map(escaparCsv)
+      .map(celdaCsv)
       .join(",")
   );
 
   const csv =
-    "﻿" + [cabeceras.map(escaparCsv).join(","), ...lineas].join("\r\n");
+    BOM_UTF8 + [cabeceras.map(celdaCsv).join(","), ...lineas].join("\r\n");
 
   const nombreArchivo = `${formulario.slug}_${new Date()
     .toISOString()

@@ -2,14 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
-
-function escapeCsv(val: string | null | undefined): string {
-  const s = String(val ?? "");
-  if (s.includes(",") || s.includes('"') || s.includes("\n")) {
-    return `"${s.replace(/"/g, '""')}"`;
-  }
-  return s;
-}
+// Escapa Y neutraliza formulas: el contenido de estas celdas lo escribe
+// cualquiera desde el formulario publico. Ver src/lib/csv.ts.
+import { celdaCsv, BOM_UTF8 } from "@/lib/csv";
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("es-EC", {
@@ -83,11 +78,14 @@ export async function GET(req: NextRequest) {
       // En palabras, no el valor de la base: quien abre el CSV es secretaría.
       s.origen === "manual" ? "Registrada a mano" : "Formulario web",
     ]
-      .map(escapeCsv)
+      .map(celdaCsv)
       .join(",")
   );
 
-  const csv = [headers.map(escapeCsv).join(","), ...rows].join("\r\n");
+  // Con BOM, como la exportación de formularios: las cabeceras llevan tildes y
+  // eñes («Cómo se enteró», «Año escolar») y sin él Excel en Windows las lee
+  // con la codificación rota.
+  const csv = BOM_UTF8 + [headers.map(celdaCsv).join(","), ...rows].join("\r\n");
   const filename = `admisiones_${new Date().toISOString().slice(0, 10)}.csv`;
 
   return new NextResponse(csv, {
