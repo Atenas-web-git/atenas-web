@@ -489,9 +489,26 @@ function PresetRow({
                 : "Email del admin que recibe la notificación. Acepta varios separados por coma."
           }
         >
+          {/*
+            El campo se deja desactivado a propósito —ver el comentario de
+            `showNotifyTo`—, pero desactivado significa que NO viaja en el
+            FormData, y la acción recorre todos los propósitos y guarda lo que
+            recibe. El destinatario llegaba vacío y se guardaba vacío.
+
+            Y aquí no lo rescata el merge: `notifyTo` usa `??` y no `||` como
+            sus dos campos hermanos, porque vaciarlo a propósito es la forma de
+            decir «no avises a nadie». Una cadena vacía no es `null`, así que
+            gana al valor de fábrica para siempre. Cualquier guardado de esta
+            pantalla borraba los destinatarios de contactos y quejas.
+
+            El espejo oculto manda el valor que ya había, sin dejar editarlo.
+          */}
+          {!showNotifyTo && (
+            <input type="hidden" name={`preset_${purpose}_notifyTo`} value={notifyTo} />
+          )}
           <input
             type="text"
-            name={`preset_${purpose}_notifyTo`}
+            name={showNotifyTo ? `preset_${purpose}_notifyTo` : undefined}
             defaultValue={notifyTo}
             placeholder={
               formularioDelMotor

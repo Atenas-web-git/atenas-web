@@ -78,6 +78,14 @@ export function EditorNotificacion({
     <form action={action} className="flex flex-col gap-5">
       <input type="hidden" name="id" value={id} />
       <input type="hidden" name="contenido_html" value={contenidoHtml} />
+      {/*
+        Fuera del bloque `{tipo === "popup" && …}` donde estaba: un input dentro
+        de un condicional no viaja en el FormData cuando el condicional es falso,
+        y la acción lo sustituye por «plantilla_imagen_texto». Una notificación en
+        `imagen_libre` que se pasara a banner y se guardara perdía su modo, y al
+        volver a popup salía con el diseño equivocado.
+      */}
+      <input type="hidden" name="modo_visual" value={modoVisual} />
 
       {/* Header sticky con guardar y toggle activa */}
       <div
@@ -209,7 +217,6 @@ export function EditorNotificacion({
           title="Modo visual del popup"
           subtitle="Define el diseño visual del popup. La diseñadora puede elegir entre subir un arte completo cuadrado (imagen libre) o usar una de las dos plantillas del sistema."
         >
-          <input type="hidden" name="modo_visual" value={modoVisual} />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {MODOS.map((m) => {
               const info = MODO_VISUAL_INFO[m];

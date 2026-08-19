@@ -1,12 +1,22 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { createContext, useActionState, useContext, useMemo, useRef, useState } from "react";
 import { Save, ChevronDown, ChevronRight } from "lucide-react";
 import type { AdmisionesTextosConfig } from "@/lib/cms/admisionesTextos";
 import {
   guardarAdmisionesTextosAction,
   type AdmisionesTextosActionState,
 } from "./actions";
+
+/**
+ * Fuerza a que todas las secciones se vean, pase lo que pase con su plegado.
+ * Va por contexto y no por prop para no tener que tocar las doce llamadas a
+ * `Section` —y para que la próxima que se añada lo herede sin acordarse.
+ */
+const MostrarTodo = createContext<{ activo: boolean; soltar: () => void }>({
+  activo: false,
+  soltar: () => {},
+});
 
 export function AdmisionesTextosForm({
   initialConfig,
@@ -21,9 +31,72 @@ export function AdmisionesTextosForm({
   const c = initialConfig;
   const f = c.formulario;
 
+  /*
+    Las secciones ya no se desmontan al plegarse, así que un campo inválido
+    puede quedar escondido. El navegador se niega a enviar el formulario y no
+    puede señalar el campo —no se puede enfocar lo que no se ve—, con lo que
+    guardar dejaría de responder sin decir por qué. `onInvalid` burbujea desde
+    el control hasta aquí antes de que eso ocurra: abrimos todas las secciones
+    para que el campo culpable quede a la vista.
+
+    Y hay que volver a pedir el aviso. Cuando `onInvalid` salta, el navegador
+    ya ha renunciado a mostrar el globo de «Completa este campo» —React todavía
+    no ha pintado la sección abierta—, así que sin esta segunda pasada el
+    usuario ve el formulario desplegado pero ningún mensaje que explique por
+    qué no se guardó. Comprobado en consola: «An invalid form control with
+    name='m_diasParaEstancada' is not focusable».
+
+    `setTimeout` y no `requestAnimationFrame`: en una pestaña de fondo rAF no
+    se dispara, y ese detalle ya nos costó una sesión entera en este proyecto.
+  */
+  const [abrirTodo, setAbrirTodo] = useState(false);
+  const [avisoValidacion, setAvisoValidacion] = useState(false);
+  const avisando = useRef(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  function alSerInvalido() {
+    // La segunda vuelta la provoca `reportValidity()`: si no se corta aquí,
+    // se llama a sí misma sin fin.
+    if (avisando.current) return;
+    avisando.current = true;
+    setAbrirTodo(true);
+    setAvisoValidacion(true);
+    setTimeout(() => {
+      formRef.current?.reportValidity();
+      avisando.current = false;
+    }, 0);
+  }
+
+  /*
+    El forzado NO se apaga solo pasado un rato: si se apagara, las secciones se
+    cerrarían de golpe justo después de abrirse. Se suelta al primer clic en
+    una cabecera, que es cuando la persona vuelve a tomar el mando.
+
+    Sin eso, `abierta = open || activo` dejaba el plegado muerto: se podía
+    pulsar el botón, cambiaba `open` por dentro, y la sección seguía abierta.
+    Un formulario de 68 campos desplegado entero y sin forma de recogerlo.
+  */
+  const mando = useMemo(
+    () => ({ activo: abrirTodo, soltar: () => setAbrirTodo(false) }),
+    [abrirTodo]
+  );
+
   return (
-    <form action={action} className="flex flex-col gap-5">
-      <Sticky state={state} isPending={isPending} />
+    <MostrarTodo.Provider value={mando}>
+      <form
+        ref={formRef}
+        action={action}
+        onInvalid={alSerInvalido}
+        // El aviso se retira en cuanto la persona empieza a corregir: dejarlo
+        // puesto lo convertiría en un cartel de alarma permanente.
+        onInput={() => setAvisoValidacion(false)}
+        className="flex flex-col gap-5"
+      >
+        <Sticky
+          state={state}
+          isPending={isPending}
+          avisoValidacion={avisoValidacion}
+        />
 
       {/* ── HEADER ───────────────────────────────────────────────────── */}
       <Section
@@ -470,8 +543,9 @@ export function AdmisionesTextosForm({
           contactar a una familia. Tiene que ser un número entero <strong>entre 1 y 365</strong>; si
           se guarda vacío o fuera de ese rango, vuelve solo a los 14 de fábrica.
         </p>
-      </Section>
-    </form>
+        </Section>
+      </form>
+    </MostrarTodo.Provider>
   );
 }
 
@@ -480,18 +554,33 @@ export function AdmisionesTextosForm({
 function Sticky({
   state,
   isPending,
+  avisoValidacion,
 }: {
   state: AdmisionesTextosActionState;
   isPending: boolean;
+  avisoValidacion: boolean;
 }) {
   return (
     <div
       className="flex items-center justify-between gap-3 px-5 py-3 flex-wrap sticky top-0 z-10"
       style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}
     >
-      <span style={{ fontSize: 13, color: "#6B6660" }}>
-        Los cambios aplican al guardar. Campos vacíos vuelven al valor por defecto.
-      </span>
+      {/*
+        Sin esta línea, pulsar «Guardar cambios» con un campo obligatorio a
+        medias despliega las doce secciones de golpe y lo único que explica algo
+        es el globo del navegador, que se va al primer clic. Quien no lo espera
+        ve el formulario estallar sin motivo.
+      */}
+      {avisoValidacion ? (
+        <span style={{ fontSize: 13, color: "#991B1B", fontWeight: 600 }}>
+          Falta completar un campo obligatorio. Abrimos todas las secciones y te
+          llevamos hasta él.
+        </span>
+      ) : (
+        <span style={{ fontSize: 13, color: "#6B6660" }}>
+          Los cambios aplican al guardar. Campos vacíos vuelven al valor por defecto.
+        </span>
+      )}
       <div className="flex items-center gap-3">
         {state.error && <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>}
         {state.ok && <span style={{ fontSize: 12, color: "#065F46" }}>Guardado ✓</span>}
@@ -530,6 +619,22 @@ function Section({
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(defaultOpen);
+  // El hook va suelto y no dentro de un `||`: un cortocircuito lo dejaría sin
+  // llamar cuando la sección ya está abierta, que es justo lo que las reglas de
+  // los hooks prohíben. Ver el comentario de `MostrarTodo`.
+  const { activo: mostrarTodo, soltar } = useContext(MostrarTodo);
+  const abierta = open || mostrarTodo;
+
+  // Con el forzado puesto, todas se ven abiertas: el clic tiene que cerrar la
+  // que se pulsa —que es lo que la persona está pidiendo— y devolver el mando.
+  function alPulsarCabecera() {
+    if (mostrarTodo) {
+      soltar();
+      setOpen(false);
+    } else {
+      setOpen((o) => !o);
+    }
+  }
   return (
     <div
       className="flex flex-col"
@@ -537,11 +642,11 @@ function Section({
     >
       <button
         type="button"
-        onClick={() => setOpen((o) => !o)}
+        onClick={alPulsarCabecera}
         className="flex items-center gap-2 w-full text-left p-5"
         style={{ background: "transparent", border: "none", cursor: "pointer" }}
       >
-        {open ? (
+        {abierta ? (
           <ChevronDown size={16} color="#6B6660" strokeWidth={2.5} />
         ) : (
           <ChevronRight size={16} color="#6B6660" strokeWidth={2.5} />
@@ -555,15 +660,21 @@ function Section({
           )}
         </div>
       </button>
-      {open && (
-        <div
-          className="flex flex-col gap-4 p-5 pt-0"
-          style={{ borderTop: "1px solid #F4F1EB" }}
-        >
-          <div style={{ marginTop: 16 }} />
-          {children}
-        </div>
-      )}
+      {/*
+        Se esconde con CSS, NO se desmonta. Con `{abierta && …}` los campos de
+        una sección plegada dejaban de existir, y un control que no existe no
+        viaja en el FormData: la acción recibía la clave ausente, la leía como
+        cadena vacía y la devolvía al valor de fábrica. Guardar con las
+        secciones plegadas —el estado por defecto de once de las doce— enviaba
+        15 de los 80 campos y reescribía los otros 65. Sin aviso ninguno.
+      */}
+      <div
+        className="flex flex-col gap-4 p-5 pt-0"
+        style={{ borderTop: "1px solid #F4F1EB", display: abierta ? "flex" : "none" }}
+      >
+        <div style={{ marginTop: 16 }} />
+        {children}
+      </div>
     </div>
   );
 }

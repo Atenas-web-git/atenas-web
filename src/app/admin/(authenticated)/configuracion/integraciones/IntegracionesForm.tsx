@@ -194,13 +194,19 @@ export function IntegracionesForm({
             value={ga4Id}
             onChange={(e) => setGa4Id(e.target.value)}
             placeholder="G-XXXXXXX"
-            disabled={gtmActivo}
+            // Editable aunque GTM esté activo, y esto NO es un descuido.
+            // Estaba `disabled`, y un control deshabilitado no viaja en el
+            // FormData: guardar con GTM activo borraba los tres identificadores
+            // de la base. Bloquearlo de otra forma —`readOnly`— arreglaba el
+            // borrado pero dejaba al superadmin encerrado: el aviso de conflicto
+            // le pide vaciar estos campos y no habría podido hacerlo, así que la
+            // alarma se volvía imposible de apagar desde su propia pantalla.
+            // El fondo apagado y el texto de ayuda ya dicen que no se usan.
             style={{
               ...inputStyle,
               fontFamily: monoFont,
               background: gtmActivo ? "#F4F1EB" : "#FAFAF8",
-              color: gtmActivo ? "#A0AABA" : "#1A2B4A",
-              cursor: gtmActivo ? "not-allowed" : "text",
+              color: "#1A2B4A",
             }}
           />
         </Field>
@@ -211,7 +217,7 @@ export function IntegracionesForm({
         title="Pixels de redes sociales"
         subtitle={
           gtmActivo
-            ? "Estos campos están desactivados porque tienes GTM configurado. Gestiona los pixels desde tu workspace de Google Tag Manager."
+            ? "Tienes GTM configurado, así que estos tres no se cargan en el sitio: los gestiona tu workspace de Google Tag Manager. Se guardan igual, por si algún día quitas el GTM."
             : "Tags de seguimiento para campañas en Meta (Facebook + Instagram) y TikTok. Solo se inyectan cuando hay ID configurado."
         }
       >
@@ -244,13 +250,19 @@ export function IntegracionesForm({
             value={facebookPixel}
             onChange={(e) => setFacebookPixel(e.target.value)}
             placeholder="123456789012345"
-            disabled={gtmActivo}
+            // Editable aunque GTM esté activo, y esto NO es un descuido.
+            // Estaba `disabled`, y un control deshabilitado no viaja en el
+            // FormData: guardar con GTM activo borraba los tres identificadores
+            // de la base. Bloquearlo de otra forma —`readOnly`— arreglaba el
+            // borrado pero dejaba al superadmin encerrado: el aviso de conflicto
+            // le pide vaciar estos campos y no habría podido hacerlo, así que la
+            // alarma se volvía imposible de apagar desde su propia pantalla.
+            // El fondo apagado y el texto de ayuda ya dicen que no se usan.
             style={{
               ...inputStyle,
               fontFamily: monoFont,
               background: gtmActivo ? "#F4F1EB" : "#FAFAF8",
-              color: gtmActivo ? "#A0AABA" : "#1A2B4A",
-              cursor: gtmActivo ? "not-allowed" : "text",
+              color: "#1A2B4A",
             }}
           />
         </Field>
@@ -268,13 +280,19 @@ export function IntegracionesForm({
             value={tiktokPixel}
             onChange={(e) => setTiktokPixel(e.target.value)}
             placeholder="CXXXXXXXXXXXXXXXXX"
-            disabled={gtmActivo}
+            // Editable aunque GTM esté activo, y esto NO es un descuido.
+            // Estaba `disabled`, y un control deshabilitado no viaja en el
+            // FormData: guardar con GTM activo borraba los tres identificadores
+            // de la base. Bloquearlo de otra forma —`readOnly`— arreglaba el
+            // borrado pero dejaba al superadmin encerrado: el aviso de conflicto
+            // le pide vaciar estos campos y no habría podido hacerlo, así que la
+            // alarma se volvía imposible de apagar desde su propia pantalla.
+            // El fondo apagado y el texto de ayuda ya dicen que no se usan.
             style={{
               ...inputStyle,
               fontFamily: monoFont,
               background: gtmActivo ? "#F4F1EB" : "#FAFAF8",
-              color: gtmActivo ? "#A0AABA" : "#1A2B4A",
-              cursor: gtmActivo ? "not-allowed" : "text",
+              color: "#1A2B4A",
             }}
           />
         </Field>
