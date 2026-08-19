@@ -2,6 +2,7 @@
 
 import { Fragment, useActionState } from "react";
 import { saveCuposAction, type AdmisionActionState } from "../actions";
+import { contarPlazas } from "@/lib/admisiones/cupos";
 import { NIVELES } from "../constants";
 
 type CupoRow = {
@@ -82,7 +83,42 @@ export function CuposFormClient({
     { error: null, ok: false }
   );
 
-  const totalCupos = cupos.reduce((a, c) => a + c.cupos_total, 0);
+  /*
+    El total usa `contarPlazas`, la misma regla que el listado de años lectivos
+    y que el guardia de borrado: por cada nivel manda su fila de nivel, y solo
+    si vale cero se suman sus años escolares.
+
+    Sumando solo las de nivel —como hacía antes— un año configurado únicamente
+    por año escolar enseñaba «0 cupos» aquí mientras Configuración › Años
+    lectivos ya contaba sus plazas de verdad. Dos pantallas del mismo panel
+    diciendo cosas distintas del mismo año.
+
+    Ojo: esto cambia el TOTAL, no los campos. Cada casilla sigue mostrando y
+    guardando su propia fila; si el de nivel valiera lo que suma su detalle,
+    el siguiente guardado convertiría ese desglose en un número de nivel fijo
+    sin que nadie lo pidiera.
+  */
+  const totalCupos = contarPlazas([
+    ...cupos.map((c) => ({ nivel: c.nivel, grado: "", cupos_total: c.cupos_total })),
+    ...cuposPorGrado.map((c) => ({
+      nivel: c.nivel,
+      grado: c.grado,
+      cupos_total: c.cupos_total,
+    })),
+  ]);
+  /*
+    Los niveles cuyo total sale de su desglose y no de su propia casilla. Sin
+    decirlo, la pantalla se contradice a la vista: arriba «Total cupos: 20» y
+    abajo ese nivel en «0 · Sin configurar», con la barra al 0 %. Quien no
+    conozca la regla concluye que el panel está roto.
+  */
+  const nivelesPorDetalle = cupos
+    .filter((c) => c.cupos_total === 0)
+    .map((c) => c.nivel)
+    .filter((nivel) =>
+      cuposPorGrado.some((g) => g.nivel === nivel && g.cupos_total > 0)
+    );
+
   const totalOcupados = cupos.reduce((a, c) => a + c.ocupados, 0);
   const totalEsperando = cupos.reduce((a, c) => a + c.esperando, 0);
   const totalDisponibles = Math.max(0, totalCupos - totalOcupados);
@@ -150,6 +186,31 @@ export function CuposFormClient({
           </div>
         ))}
       </div>
+
+      {nivelesPorDetalle.length > 0 && (
+        <p
+          className="px-4 py-3 rounded-lg"
+          style={{
+            fontSize: 12,
+            color: "#6B6660",
+            background: "#F8F5F0",
+            border: "1px solid #E8E4DD",
+            margin: 0,
+            lineHeight: 1.6,
+          }}
+        >
+          <strong style={{ color: "#1A2B4A" }}>
+            {nivelesPorDetalle.length === 1
+              ? `${nivelesPorDetalle[0]} no tiene cupo propio`
+              : `${nivelesPorDetalle.join(", ")} no tienen cupo propio`}
+            .
+          </strong>{" "}
+          {nivelesPorDetalle.length === 1 ? "Su fila de abajo sale" : "Sus filas de abajo salen"} en
+          cero, y para el «Total cupos» de arriba cuentan los años escolares del detalle. Si
+          prefieres llevar el cupo por nivel, escríbelo en su casilla: entonces manda ese número y
+          el detalle queda como guía.
+        </p>
+      )}
 
       {/* Tabla por nivel */}
       <div

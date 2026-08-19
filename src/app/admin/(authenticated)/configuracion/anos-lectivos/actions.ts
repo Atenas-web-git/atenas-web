@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasRole } from "@/lib/auth/types";
+import { contarPlazas } from "@/lib/admisiones/cupos";
 
 export type AnoLectivoActionState = { error: string | null; ok: boolean };
 
@@ -112,15 +113,20 @@ export async function deleteAnoLectivoAction(
 
   const supabase = createAdminClient();
 
-  // Verificar que no haya cupos ni solicitudes vinculadas
-  // Se cuentan PLAZAS, no filas, para decir lo mismo que la pantalla. Desde la
-  // migración 080 guardar cupos escribe una fila por año escolar aunque valga
-  // cero: contando filas, un año recién configurado y vacío quedaba
-  // imborrable, con la papelera habilitada y la acción rechazando.
+  // Verificar que no haya cupos ni solicitudes vinculadas.
+  //
+  // Se cuentan PLAZAS y con `contarPlazas`, la MISMA función que pinta el
+  // número en la pantalla. Aquí se sumaban todas las filas y allí solo las de
+  // nivel, así que las dos daban cifras distintas del mismo año: uno
+  // configurado solo por año escolar salía como «0 cupos», con la papelera
+  // habilitada, y esta acción lo rechazaba diciendo que tenía cupos.
+  //
+  // Contar filas tampoco vale: guardar escribe una fila por año escolar aunque
+  // valga cero, así que un año recién creado y vacío quedaba imborrable.
   const [{ data: cuposRows }, { count: solicCount }] = await Promise.all([
     supabase
       .from("cupos_admision")
-      .select("cupos_total")
+      .select("nivel, grado, cupos_total")
       .eq("ano_lectivo", codigo),
     supabase
       .from("solicitudes_admision")
@@ -128,7 +134,7 @@ export async function deleteAnoLectivoAction(
       .eq("anio_ingreso", codigo),
   ]);
 
-  const plazas = (cuposRows ?? []).reduce((t, r) => t + (r.cupos_total ?? 0), 0);
+  const plazas = contarPlazas(cuposRows ?? []);
   const solicitudes = solicCount ?? 0;
 
   if (plazas > 0 || solicitudes > 0) {

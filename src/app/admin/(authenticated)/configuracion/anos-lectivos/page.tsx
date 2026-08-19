@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasRole } from "@/lib/auth/types";
+import { contarPlazas } from "@/lib/admisiones/cupos";
 import { CrearAnoForm } from "./CrearAnoForm";
 import { AnoLectivoRow } from "./AnoLectivoRow";
 
@@ -24,21 +25,21 @@ export default async function AnosLectivosPage() {
   const conteos = await Promise.all(
     codigos.map(async (codigo) => {
       const [{ data: cuposRows }, { count: solicCount }] = await Promise.all([
-        // Se suman las PLAZAS del nivel completo, no las filas. Desde la
-        // migración 080 hay una fila por año escolar además de las de nivel:
-        // contar filas diría «19 cupos» donde hay cuatro configuraciones, y
-        // «cupos» se lee como plazas, no como registros.
+        // Se traen TODAS las filas del año y las cuenta `contarPlazas`, la
+        // misma función que usa el guardia de borrado. Antes esta pantalla
+        // miraba solo las filas de nivel y el guardia las sumaba todas: un año
+        // configurado solo por año escolar salía como «0 cupos» con la papelera
+        // habilitada, y al pulsarla el servidor la rechazaba.
         supabase
           .from("cupos_admision")
-          .select("cupos_total")
-          .eq("ano_lectivo", codigo)
-          .eq("grado", ""),
+          .select("nivel, grado, cupos_total")
+          .eq("ano_lectivo", codigo),
         supabase
           .from("solicitudes_admision")
           .select("*", { count: "exact", head: true })
           .eq("anio_ingreso", codigo),
       ]);
-      const plazas = (cuposRows ?? []).reduce((t, r) => t + (r.cupos_total ?? 0), 0);
+      const plazas = contarPlazas(cuposRows ?? []);
       return { codigo, cupos_count: plazas, solic_count: solicCount ?? 0 };
     })
   );

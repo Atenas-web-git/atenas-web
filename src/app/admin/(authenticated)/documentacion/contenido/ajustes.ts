@@ -238,7 +238,7 @@ export const CONFIGURACION: Seccion = {
           items: [
             {
               campo: "Años lectivos",
-              desc: "La lista de años disponibles en cupos, métricas, formularios y cronograma. Al empezar un año nuevo, **este es el primer sitio que hay que actualizar**. Ojo al desactivar uno: las solicitudes de ese año dejan de tener pestaña en Cupos y en Métricas, y pasan a contarse en el aviso de «no aparecen en esta pantalla».",
+              desc: "La lista de años disponibles en cupos, métricas, formularios y cronograma. Al empezar un año nuevo, **este es el primer sitio que hay que actualizar**. Ojo al desactivar uno: las solicitudes de ese año dejan de tener pestaña en Cupos y en Métricas, y pasan a contarse en el aviso de «no aparecen en esta pantalla».\n\nCada año muestra **«N cupos · N solicitudes»**: los cupos son **plazas**, no configuraciones, y salen del mismo cálculo que el «Total cupos» de Admisiones › Cupos. **Mientras un año tenga cupos o solicitudes no se puede borrar** — la papelera aparece bloqueada. Es a propósito: borrarlo dejaría esas solicitudes sin año. Si de verdad hay que quitarlo, primero pon sus cupos en cero y mueve o elimina sus solicitudes.",
             },
             {
               campo: "Documentos de admisión",

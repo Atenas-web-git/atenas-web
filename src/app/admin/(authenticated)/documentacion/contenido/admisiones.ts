@@ -341,7 +341,7 @@ export const ADMISIONES: Seccion = {
         {
           t: "p",
           texto:
-            "La pantalla te muestra los cupos configurados junto a las solicitudes **de ese año lectivo**, para que veas de un vistazo cómo va el llenado. Las dos tablas son independientes: el detalle por año no cambia el total del nivel.",
+            "La pantalla te muestra los cupos configurados junto a las solicitudes **de ese año lectivo**, para que veas de un vistazo cómo va el llenado. Cada casilla guarda su propio número: escribir en el detalle por año escolar **no cambia** la casilla del nivel, ni al revés.\n\n**El «Total cupos» de arriba sí las mira las dos**, con una regla sencilla: manda el número del nivel, y solo cuando ese está en cero cuenta los años escolares de su detalle. Así nunca suma dos veces lo mismo, y nunca dice cero cuando hay algo configurado. Es el mismo número que ves en **Configuración › Años lectivos**.",
         },
         {
           t: "nota",
