@@ -72,6 +72,35 @@ export function IntegracionesForm({
         </div>
       </div>
 
+      {/*
+        Aviso de congelacion. Va ARRIBA del todo y en rojo porque es lo unico
+        que impide hoy que el panel empiece a mandar datos de menores a Google
+        y a Meta: no existe `src/app/admin/layout.tsx`, asi que el layout raiz
+        envuelve `/admin` e inyecta aqui dentro las etiquetas que se configuren
+        abajo. Y no van por el `Referer` —que ya va en `no-referrer`— sino en
+        el cuerpo del evento, con la URL completa: el apellido que teclea
+        secretaria en el buscador de solicitudes.
+        Quitar este aviso solo cuando se cierre la ficha
+        2026-08-19-el-panel-manda-a-google-y-meta-lo-que-busca-secretaria.
+      */}
+      <div
+        className="flex items-start gap-3 p-4"
+        style={{ background: "#FEE2E2", border: "1px solid #FCA5A5", borderRadius: 10 }}
+      >
+        <AlertTriangle size={20} strokeWidth={2.5} color="#991B1B" style={{ flexShrink: 0, marginTop: 2 }} />
+        <div className="flex flex-col gap-1">
+          <p style={{ fontSize: 13, fontWeight: 700, color: "#991B1B", margin: 0 }}>
+            No configures nada de esta pantalla todavía
+          </p>
+          <p style={{ fontSize: 12, color: "#991B1B", lineHeight: 1.6, margin: 0 }}>
+            Hay un defecto pendiente de arreglar: las etiquetas que se pongan aquí se cargan
+            también <strong>dentro del panel</strong>, y le enviarían a Google y a Meta lo que
+            escribas en el buscador de solicitudes — apellidos de familias y de menores.
+            Escríbenos antes de rellenar cualquier campo; el arreglo está en marcha.
+          </p>
+        </div>
+      </div>
+
       {/* Banner educativo: cómo funcionan las integraciones */}
       <div
         className="flex flex-col gap-3 p-5"

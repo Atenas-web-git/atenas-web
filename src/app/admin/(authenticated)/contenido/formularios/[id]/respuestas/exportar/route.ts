@@ -124,6 +124,12 @@ export async function GET(
   return new NextResponse(csv, {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",
+      // Evita que la respuesta quede en la cache del navegador y que se vuelva
+      // a pintar al pulsar «atrás». Ojo con lo que NO resuelve: el archivo se
+      // descarga igual a la carpeta de Descargas del equipo, y ahí ninguna
+      // cabecera llega. Con datos de menores, eso es conversación con el
+      // colegio, no una linea de codigo.
+      "Cache-Control": "no-store, private",
       "Content-Disposition": `attachment; filename="${nombreArchivo}"`,
     },
   });

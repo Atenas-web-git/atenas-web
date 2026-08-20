@@ -6,8 +6,15 @@ import { createServerClient } from "@supabase/ssr";
  * Si no hay sesión activa, redirige al login.
  *
  * La verificación de roles + estado activo del perfil ocurre en
- * `src/app/admin/layout.tsx` (con `getCurrentUser()`), no aquí —
- * el proxy solo verifica que haya sesión.
+ * `src/app/admin/(authenticated)/layout.tsx` (con `getCurrentUser()`), no
+ * aquí — el proxy solo verifica que haya sesión.
+ *
+ * ⚠️ Ojo con el nombre: **no existe `src/app/admin/layout.tsx`**. El del panel
+ * está anidado dentro de `(authenticated)`, así que NO reemplaza al layout
+ * raíz: `src/app/layout.tsx` envuelve también todo `/admin`, con sus etiquetas
+ * de GTM, GA4 y los pixels dentro. Esta línea decía lo contrario y por eso
+ * nadie lo vio en dos meses.
+ * → ficha 2026-08-19-el-panel-manda-a-google-y-meta-lo-que-busca-secretaria
  */
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

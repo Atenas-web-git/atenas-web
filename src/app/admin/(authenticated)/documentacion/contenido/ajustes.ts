@@ -198,6 +198,12 @@ export const CONFIGURACION: Seccion = {
         },
         {
           t: "nota",
+          tono: "peligro",
+          texto:
+            "**No configures nada de esta pantalla todavía.** Hay un defecto pendiente: las etiquetas que se pongan aquí se cargan también **dentro del panel**, y le enviarían a Google y a Meta lo que escribas en el buscador de solicitudes — apellidos de familias y de menores. Avísanos antes de rellenar cualquier campo.",
+        },
+        {
+          t: "nota",
           tono: "info",
           texto:
             "Cada script se inyecta en el sitio **solo si su campo está relleno**. Un campo vacío no carga nada — el sitio no se hace más lento por dejarlos en blanco.\n\n**Con una excepción:** si tienes un **GTM** configurado, los de Google Analytics, Facebook y TikTok **se guardan pero no se cargan**, aunque estén rellenos. Es a propósito, para que una conversión no se cuente dos veces: con GTM, esos tres se manejan desde Google Tag Manager.",
