@@ -7,6 +7,7 @@ import { getFormularioParaPanel } from "@/lib/formularios/getFormulario";
 import { createAdminClient } from "@/lib/supabase/admin";
 import {
   ESTADOS_RESPUESTA,
+  estadoRespuestaValido,
   ESTADO_LABELS,
   type ArchivoRespuesta,
   type DatosRespuesta,
@@ -53,14 +54,19 @@ export default async function RespuestasPage({
     .eq("formulario_id", id)
     .order("numero", { ascending: false });
 
-  const estadoValido =
-    filtroEstado && ESTADOS_RESPUESTA.includes(filtroEstado as EstadoRespuesta)
-      ? (filtroEstado as EstadoRespuesta)
-      : null;
+  // La misma funcion que usa la exportacion: si cada una valida por su cuenta,
+  // vuelven a separarse y el archivo deja de traer lo que se ve en pantalla.
+  const estadoValido = estadoRespuestaValido(filtroEstado);
 
   if (estadoValido) consulta = consulta.eq("estado", estadoValido);
 
-  const { data } = await consulta;
+  // El enlace arrastra el filtro: sin esto, quien esta viendo «Nuevas» pulsa
+  // Descargar y se lleva todas las respuestas del formulario.
+  const urlExportar =
+    `/admin/contenido/formularios/${id}/respuestas/exportar` +
+    (estadoValido ? `?estado=${estadoValido}` : "");
+
+  const { data, error } = await consulta;
   const respuestas = (data ?? []) as unknown as Respuesta[];
 
   const sinAvisar = respuestas.filter((r) => !r.correo_enviado).length;
@@ -83,7 +89,7 @@ export default async function RespuestasPage({
 
         {respuestas.length > 0 && (
           <a
-            href={`/admin/contenido/formularios/${id}/respuestas/exportar`}
+            href={urlExportar}
             className="inline-flex shrink-0 items-center gap-1.5 px-3 py-2"
             style={{
               border: "1px solid #E8E4DD",
@@ -134,9 +140,30 @@ export default async function RespuestasPage({
           style={{ background: "#FFFFFF", border: "1px dashed #E8E4DD", borderRadius: 12 }}
         >
           <Inbox size={26} color="#9A948C" />
-          <p style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A", margin: 0 }}>
-            {estadoValido ? "Nada en este estado" : "Todavía no hay respuestas"}
+          {/*
+            Sin mirar `error`, un fallo de consulta se lee como «no hay
+            respuestas» — y aquí eso significa dar por perdidas postulaciones
+            que sí existen.
+          */}
+          <p
+            style={{
+              fontSize: 14,
+              fontWeight: 600,
+              color: error ? "#991B1B" : "#1A2B4A",
+              margin: 0,
+            }}
+          >
+            {error
+              ? "No se pudieron cargar las respuestas"
+              : estadoValido
+                ? "Nada en este estado"
+                : "Todavía no hay respuestas"}
           </p>
+          {error && (
+            <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
+              Esto no quiere decir que no haya ninguna. Vuelve a intentarlo.
+            </p>
+          )}
         </div>
       ) : (
         <div className="flex flex-col gap-3">

@@ -4,6 +4,7 @@ import { Search, Download, ChevronLeft, ChevronRight, Plus } from "lucide-react"
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
+import { filtrarSolicitudes } from "@/lib/admisiones/filtros";
 import { NIVELES, ESTADOS, ESTADO_INFO, type EstadoAdmision } from "./constants";
 import { AdmisionesSubNav } from "./SubNav";
 
@@ -77,15 +78,28 @@ export default async function AdmisionesPage({
     .order("created_at", { ascending: false })
     .range(offset, offset + PER_PAGE - 1);
 
-  if (estadoFilter !== "todas") dbQuery = dbQuery.eq("estado", estadoFilter);
-  if (nivelFilter) dbQuery = dbQuery.eq("est_nivel", nivelFilter);
-  if (query) {
-    dbQuery = dbQuery.or(
-      `numero.ilike.%${query}%,est_nombres.ilike.%${query}%,est_apellidos.ilike.%${query}%`
-    );
-  }
+  // Los tres filtros salen de la misma funcion que usa la exportacion: si no,
+  // vuelven a separarse y el archivo deja de traer lo que se ve en pantalla.
+  dbQuery = filtrarSolicitudes(dbQuery, {
+    estado: estadoFilter,
+    nivel: nivelFilter,
+    q: query,
+  });
 
-  const [{ data: solicitudes, count }, tabCounts] = await Promise.all([
+  /*
+    El enlace de «Exportar CSV» se armaba concatenando cadenas con ternarios
+    dentro del JSX, y ahí es donde se perdió el buscador: nadie ve que falta un
+    parámetro en una línea de doscientos caracteres. Con `URLSearchParams` se
+    añade uno más sin tocar la puntuación, y encodea solo.
+  */
+  const paramsExportar = new URLSearchParams();
+  if (estadoFilter !== "todas") paramsExportar.set("estado", estadoFilter);
+  if (nivelFilter) paramsExportar.set("nivel", nivelFilter);
+  if (query) paramsExportar.set("q", query);
+  const cadena = paramsExportar.toString();
+  const urlExportar = `/admin/admisiones/exportar${cadena ? `?${cadena}` : ""}`;
+
+  const [{ data: solicitudes, count, error }, tabCounts] = await Promise.all([
     dbQuery,
     loadCounts(),
   ]);
@@ -137,7 +151,7 @@ export default async function AdmisionesPage({
             Registrar a mano
           </Link>
           <a
-            href={`/admin/admisiones/exportar${estadoFilter !== "todas" ? `?estado=${estadoFilter}` : ""}${nivelFilter ? `${estadoFilter !== "todas" ? "&" : "?"}nivel=${encodeURIComponent(nivelFilter)}` : ""}`}
+            href={urlExportar}
             className="flex items-center gap-2 px-4 rounded-md transition-opacity hover:opacity-80"
             style={{
               height: 38,
@@ -287,7 +301,23 @@ export default async function AdmisionesPage({
 
       {/* Tabla */}
       <div style={cardStyle}>
-        {!solicitudes || solicitudes.length === 0 ? (
+        {/*
+          Un fallo de consulta y un resultado vacío se ven igual si nadie mira
+          `error`: la pantalla decía «no hay solicitudes que coincidan» y quien
+          la lee se lo cree. Las dos rutas de exportación ya devuelven 500 ante
+          lo mismo; la pantalla no podía seguir afirmando que no hay nada.
+        */}
+        {error ? (
+          <div className="flex flex-col items-center justify-center gap-1 py-16 px-6">
+            <p style={{ fontSize: 14, fontWeight: 600, color: "#991B1B", margin: 0 }}>
+              No se pudieron cargar las solicitudes.
+            </p>
+            <p style={{ fontSize: 13, color: "#6B6660", margin: 0, textAlign: "center" }}>
+              Esto no quiere decir que no haya ninguna. Vuelve a intentarlo y, si sigue igual,
+              avísanos.
+            </p>
+          </div>
+        ) : !solicitudes || solicitudes.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16">
             <p style={{ fontSize: 14, color: "#6B6660", margin: 0 }}>
               No hay solicitudes que coincidan con los filtros.

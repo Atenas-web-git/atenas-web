@@ -5,6 +5,7 @@ import { ROLES, hasAnyRole } from "@/lib/auth/types";
 // Escapa Y neutraliza formulas: el contenido de estas celdas lo escribe
 // cualquiera desde el formulario publico. Ver src/lib/csv.ts.
 import { celdaCsv, BOM_UTF8 } from "@/lib/csv";
+import { filtrarSolicitudes } from "@/lib/admisiones/filtros";
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("es-EC", {
@@ -23,6 +24,9 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const estado = searchParams.get("estado");
   const nivel = searchParams.get("nivel");
+  // El buscador tambien. Sin el, quien busca un apellido y ve tres filas se
+  // descarga el padron entero sin enterarse.
+  const busqueda = searchParams.get("q");
 
   const supabase = createAdminClient();
   let q = supabase
@@ -32,10 +36,27 @@ export async function GET(req: NextRequest) {
     )
     .order("created_at", { ascending: false });
 
-  if (estado) q = q.eq("estado", estado);
-  if (nivel) q = q.eq("est_nivel", nivel);
+  q = filtrarSolicitudes(q, { estado, nivel, q: busqueda });
 
-  const { data } = await q;
+  const { data, error } = await q;
+
+  /*
+    Sin mirar `error`, una consulta fallida daba `data` indefinido, cero filas y
+    un CSV con 200 y solo cabeceras: un archivo impecable que afirma que no hay
+    ni una solicitud. Es el mismo engaño que este commit combate, con el signo
+    cambiado.
+
+    Es una red de seguridad, y **no está ejercitada**: se predijo que un
+    `?q=%00` mataria la consulta y el 2026-08-19 no reprodujo —algo aguas
+    arriba neutraliza el nulo—. No se ha visto este 500 ocurrir.
+  */
+  if (error) {
+    console.error("[admisiones/exportar]", error);
+    return NextResponse.json(
+      { error: "No se pudo generar la exportación." },
+      { status: 500 }
+    );
+  }
 
   const headers = [
     "N° Solicitud",

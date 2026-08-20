@@ -26,12 +26,13 @@ import {
   type ArchivoRespuesta,
   type DatosRespuesta,
   type EstadoRespuesta,
+  estadoRespuestaValido,
 } from "@/lib/formularios/tipos";
 
 export const runtime = "nodejs";
 
 export async function GET(
-  _req: Request,
+  req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
@@ -50,11 +51,28 @@ export async function GET(
   }
 
   const supabase = createAdminClient();
-  const { data } = await supabase
+  let consulta = supabase
     .from("formulario_respuestas")
     .select("numero, datos, archivos, estado, nota_interna, created_at")
     .eq("formulario_id", id)
     .order("numero", { ascending: true });
+
+  // Mismo filtro que la bandeja, validado con la misma funcion.
+  const estado = estadoRespuestaValido(new URL(req.url).searchParams.get("estado"));
+  if (estado) consulta = consulta.eq("estado", estado);
+
+  const { data, error } = await consulta;
+
+  // Igual que en la exportación de admisiones: sin mirar `error`, una consulta
+  // fallida produce un CSV con 200 y solo cabeceras, que se lee como «este
+  // formulario no tiene ni una respuesta».
+  if (error) {
+    console.error("[respuestas/exportar]", error);
+    return NextResponse.json(
+      { error: "No se pudo generar la exportación." },
+      { status: 500 }
+    );
+  }
 
   const filas = (data ?? []) as unknown as {
     numero: number;

@@ -111,6 +111,21 @@ export const ESTADOS_RESPUESTA = [
 
 export type EstadoRespuesta = (typeof ESTADOS_RESPUESTA)[number];
 
+/**
+ * El estado que llega por la URL, o `null` si no es uno de los cuatro.
+ *
+ * Lo comparten la bandeja de respuestas y su exportación. Iba suelto en la
+ * pantalla, y por eso el archivo se llevaba **todas** las respuestas aunque
+ * estuvieras viendo solo las nuevas: talento humano descargaba «las cuatro
+ * postulaciones nuevas» y el archivo traía sesenta, cerradas incluidas.
+ * Es el mismo fallo que tenía la exportación de admisiones con el buscador.
+ */
+export function estadoRespuestaValido(valor: string | null | undefined) {
+  return valor && ESTADOS_RESPUESTA.includes(valor as EstadoRespuesta)
+    ? (valor as EstadoRespuesta)
+    : null;
+}
+
 export const ESTADO_LABELS: Record<EstadoRespuesta, string> = {
   nueva: "Nueva",
   en_proceso: "En proceso",

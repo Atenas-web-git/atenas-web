@@ -175,7 +175,7 @@ export const ADMISIONES: Seccion = {
           items: [
             {
               campo: "Pestañas de estado",
-              desc: "Una por cada estado, con el número de solicitudes en cada uno. **Todas** las muestra sin filtrar.",
+              desc: "Una por cada estado. **«Todas» quita el filtro de estado**, pero conserva el nivel y lo que hayas escrito en el buscador — no vacía la pantalla.\n\nEl número de cada pestaña cuenta **todas** las solicitudes de ese estado, sin aplicar el buscador ni el nivel. Así que es normal ver «Admitido · 12» y una sola fila en la tabla si estás buscando un apellido: doce admitidos hay, uno coincide con tu búsqueda.",
             },
             {
               campo: "Filtro por nivel",
@@ -187,7 +187,7 @@ export const ADMISIONES: Seccion = {
             },
             {
               campo: "Exportar CSV",
-              desc: "Descarga las solicitudes en una hoja de cálculo. Respeta los filtros de **estado** y **nivel**: si estás viendo solo «Admitido» de IB, eso es lo que exporta.\n\n⚠️ **El buscador NO se aplica al archivo.** Si escribes un apellido y ves tres filas en pantalla, al exportar te bajas igualmente todas las solicitudes que dejen pasar los otros dos filtros. Fíjate en el número de filas del archivo antes de compartirlo con nadie.",
+              desc: "Descarga las solicitudes en una hoja de cálculo. **Se lleva lo que dejan pasar tus filtros**: estado, nivel y lo que hayas escrito en el buscador.\n\nOjo con una diferencia: la pantalla enseña de 20 en 20, y el archivo trae **todas las páginas del filtro**, no solo la que estás viendo. Si una búsqueda encuentra 300 familias, en pantalla verás 20 y el archivo tendrá 300 — míralo antes de compartirlo.",
             },
           ],
         },
