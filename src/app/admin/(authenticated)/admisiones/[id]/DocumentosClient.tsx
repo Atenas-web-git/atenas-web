@@ -37,7 +37,7 @@ export function DocumentosClient({
         className="flex flex-col gap-2 px-4 py-3 rounded-md"
         style={{ background: "#FEF3C7", border: "1px solid #FDE68A" }}
       >
-        <p style={{ fontSize: 12, color: "#92400E", margin: 0, lineHeight: 1.5 }}>
+        <p style={{ fontSize: 13, color: "#92400E", margin: 0, lineHeight: 1.5 }}>
           Aún no hay documentos configurados en el catálogo. Configúralos en{" "}
           <a
             href="/admin/configuracion/documentos-admision"
@@ -87,7 +87,7 @@ export function DocumentosClient({
             </span>
             <span
               style={{
-                fontSize: 13,
+                fontSize: 14,
                 color: checked ? "#1A2B4A" : "#6B6660",
                 fontWeight: checked ? 500 : 400,
               }}
@@ -98,10 +98,10 @@ export function DocumentosClient({
         );
       })}
       {state?.error && (
-        <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{state.error}</p>
+        <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{state.error}</p>
       )}
       {state?.ok && (
-        <p style={{ fontSize: 12, color: "#065F46", margin: 0 }}>Guardado ✓</p>
+        <p style={{ fontSize: 13, color: "#065F46", margin: 0 }}>Guardado ✓</p>
       )}
       <button
         type="submit"
@@ -116,7 +116,7 @@ export function DocumentosClient({
           color: "#FFFFFF",
           border: "none",
           borderRadius: 6,
-          fontSize: 12,
+          fontSize: 13,
           fontWeight: 500,
           cursor: isPending ? "wait" : "pointer",
           opacity: isPending ? 0.7 : 1,

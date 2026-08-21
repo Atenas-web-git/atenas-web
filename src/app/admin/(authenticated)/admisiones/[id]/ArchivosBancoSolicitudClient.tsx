@@ -88,7 +88,7 @@ export function ArchivosBancoSolicitudClient({
           borderRadius: 6,
         }}
       >
-        <p style={{ fontSize: 12, color: "#92400E", margin: 0 }}>
+        <p style={{ fontSize: 13, color: "#92400E", margin: 0 }}>
           Aún no hay archivos en el banco. Sube los primeros desde{" "}
           <Link
             href="/admin/admisiones/archivos-banco"
@@ -104,7 +104,7 @@ export function ArchivosBancoSolicitudClient({
 
   return (
     <div className="flex flex-col gap-3">
-      <p style={{ fontSize: 12, color: "#6B6660", margin: 0 }}>
+      <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
         <Paperclip size={11} strokeWidth={2.5} className="inline-block mr-1 -mt-0.5" />
         Selecciona archivos del banco para anexar al <strong>próximo correo</strong> de
         esta solicitud (además de los archivos automáticos vinculados a la plantilla).
@@ -117,7 +117,7 @@ export function ArchivosBancoSolicitudClient({
           className="px-3 py-2 rounded-md"
           style={{ background: "#FEE2E2", border: "1px solid #FCA5A5" }}
         >
-          <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{error}</p>
+          <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{error}</p>
         </div>
       )}
 
@@ -125,7 +125,7 @@ export function ArchivosBancoSolicitudClient({
       <div>
         <p
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: "#6B6660",
             textTransform: "uppercase",
@@ -139,7 +139,7 @@ export function ArchivosBancoSolicitudClient({
           <p
             className="px-3 py-2 text-center"
             style={{
-              fontSize: 11,
+              fontSize: 12,
               color: "#6B6660",
               background: "#FAFAF8",
               border: "1px dashed #E8E4DD",
@@ -173,7 +173,7 @@ export function ArchivosBancoSolicitudClient({
         <div>
           <p
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               color: "#6B6660",
               textTransform: "uppercase",
@@ -231,11 +231,11 @@ function FileItem({
     >
       {fileIcon(archivo.tipo_mime)}
       <div className="flex-1 min-w-0">
-        <div style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
           {archivo.nombre}
         </div>
         {(archivo.categoria || archivo.tamano_bytes) && (
-          <div style={{ fontSize: 10, color: "#6B6660", marginTop: 1 }}>
+          <div style={{ fontSize: 11, color: "#6B6660", marginTop: 1 }}>
             {archivo.categoria && <span>{archivo.categoria}</span>}
             {archivo.categoria && archivo.tamano_bytes ? " · " : ""}
             {archivo.tamano_bytes && <span>{formatBytes(archivo.tamano_bytes)}</span>}
@@ -268,7 +268,7 @@ function FileItem({
         style={{
           height: 26,
           background: actionVariant === "primary" ? "#1A2B4A" : "#FFFFFF",
-          fontSize: 11,
+          fontSize: 12,
           color: actionVariant === "primary" ? "#FFFFFF" : "#991B1B",
           fontWeight: 600,
           border: actionVariant === "primary" ? "none" : "1px solid #FCA5A5",

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Link from "next/link";
 import { ArrowUp, ArrowDown, Pencil, Trash2, Save, X } from "lucide-react";
 import { DialogoConfirmacion } from "@/components/admin/DialogoConfirmacion";
 import {
@@ -86,7 +87,7 @@ export function PeriodoRow({
    * pasar por encima: se evita el paso en falso en vez de castigarlo.
    */
   const bloqueado = count > 0;
-  const motivoBloqueo = `No se puede eliminar: hay ${count} evento(s) en este período. Muévelos a otro período primero.`;
+  const motivoBloqueo = `No se puede eliminar: hay ${count} evento(s) en este período. Pulsa el número de la columna «Eventos» para verlos y moverlos a otro período.`;
 
   const eliminar = () => {
     setConfirmando(false);
@@ -151,7 +152,25 @@ export function PeriodoRow({
         {periodo.slug}
       </td>
       <td style={{ padding: "12px 16px", fontSize: 12, color: "#6B6660" }}>{anoNombre}</td>
-      <td style={{ padding: "12px 16px", fontSize: 12, color: "#6B6660" }}>{count}</td>
+      {/*
+        El contador es un enlace cuando hay eventos dentro. Es lo que convierte
+        el botón apagado en algo con salida: si no puedes borrar el período
+        porque tiene 8 eventos, pulsas el 8 y estás en esos 8 para moverlos.
+        Sin esto, deshabilitar el botón solo dice «no puedes» y te deja ahí.
+      */}
+      <td style={{ padding: "12px 16px", fontSize: 12, color: "#6B6660" }}>
+        {count > 0 ? (
+          <Link
+            href={`/admin/contenido/cronograma?periodo=${periodo.id}`}
+            style={{ color: "#1A2B4A", fontWeight: 600, textDecoration: "underline" }}
+            title={`Ver los ${count} eventos de este período`}
+          >
+            {count}
+          </Link>
+        ) : (
+          count
+        )}
+      </td>
       <td style={{ padding: "12px 16px" }}>
         <div className="flex items-center justify-end gap-1">
           <button

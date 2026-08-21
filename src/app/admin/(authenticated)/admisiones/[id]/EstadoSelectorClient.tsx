@@ -37,8 +37,27 @@ export function EstadoSelectorClient({
 
   return (
     <div className="flex flex-col gap-5">
-      {/* Pipeline visual */}
-      <div className="flex items-center gap-0">
+      {/*
+        Pipeline visual.
+
+        `overflow-x-auto` y anchos mínimos de verdad, porque antes los rótulos se
+        pisaban unos a otros. El bloque de cada paso pedía `minWidth: 60`, pero su
+        contenedor llevaba `flex-1 min-w-0`, que le permite encogerse hasta cero:
+        medido el 2026-08-21 a 424px de ancho útil, los pasos quedaban a 44px con
+        rótulos de 56px, así que «Postulación completa» se montaba sobre «En
+        evaluación». Se veía en cualquier ventana por debajo de ~1.100px.
+
+        Ahora el conjunto no baja de su ancho mínimo y, cuando no cabe, se
+        desplaza en horizontal. Un pipeline que se arrastra se lee; uno que se
+        solapa, no.
+      */}
+      <div
+        className="flex items-center gap-0"
+        // En línea y no con la clase de Tailwind: el resto del panel está escrito
+        // así, y la clase no llegó a generarse en la primera prueba.
+        style={{ overflowX: "auto", paddingBottom: 2 }}
+        data-pipeline-admisiones
+      >
         {pipelineStates.map((estado, idx) => {
           const isActive = estado === estadoActual;
           const isPast = idx < currentIndex;
@@ -46,8 +65,10 @@ export function EstadoSelectorClient({
           const isLast = idx === pipelineStates.length - 1;
 
           return (
-            <div key={estado} className="flex items-center flex-1 min-w-0">
-              <div className="flex flex-col items-center flex-shrink-0" style={{ minWidth: 60 }}>
+            // Sin `min-w-0`: es justo lo que dejaba que el paso se encogiera por
+            // debajo de su mínimo y desbordara sobre el vecino.
+            <div key={estado} className="flex items-center flex-1" style={{ minWidth: 78 }}>
+              <div className="flex flex-col items-center flex-shrink-0" style={{ width: 74 }}>
                 <div
                   className="flex items-center justify-center"
                   style={{
@@ -69,7 +90,7 @@ export function EstadoSelectorClient({
                   ) : (
                     <span
                       style={{
-                        fontSize: 11,
+                        fontSize: 12,
                         fontWeight: 700,
                         color: isActive ? "#FFFFFF" : "#A0AABA",
                       }}
@@ -80,13 +101,19 @@ export function EstadoSelectorClient({
                 </div>
                 <span
                   style={{
-                    fontSize: 9,
+                    fontSize: 11,
                     fontWeight: isActive ? 700 : 500,
                     color: isActive ? info.colorFg : isPast ? "#6B6660" : "#A0AABA",
                     textAlign: "center",
                     marginTop: 4,
-                    lineHeight: 1.2,
-                    maxWidth: 56,
+                    lineHeight: 1.25,
+                    // Al ancho de su columna, ni un píxel más. Antes eran 56px
+                    // dentro de un bloque que acababa midiendo 44: el rótulo
+                    // sobresalía por los dos lados.
+                    maxWidth: "100%",
+                    // «Postulación» no cabe entera en 74px. Sin esto, la palabra
+                    // se sale de la caja en vez de partirse.
+                    overflowWrap: "anywhere",
                   }}
                 >
                   {info.label}
@@ -113,7 +140,7 @@ export function EstadoSelectorClient({
           style={{ background: infoActual.colorBg }}
         >
           <span
-            style={{ fontSize: 13, fontWeight: 600, color: infoActual.colorFg }}
+            style={{ fontSize: 14, fontWeight: 600, color: infoActual.colorFg }}
           >
             Estado final — {infoActual.label}
           </span>
@@ -131,7 +158,7 @@ export function EstadoSelectorClient({
                 border: "1px solid #E8E4DD",
                 borderRadius: 8,
                 background: "#FFFFFF",
-                fontSize: 13,
+                fontSize: 14,
                 color: "#1A2B4A",
                 paddingLeft: 12,
                 paddingRight: 32,
@@ -158,7 +185,7 @@ export function EstadoSelectorClient({
                 color: "#FFFFFF",
                 border: "none",
                 borderRadius: 8,
-                fontSize: 13,
+                fontSize: 14,
                 fontWeight: 600,
                 cursor: isPending ? "wait" : "pointer",
                 opacity: isPending ? 0.7 : 1,

@@ -28,7 +28,7 @@ export function NotasClient({
           border: "1px solid #E8E4DD",
           borderRadius: 8,
           padding: "10px 12px",
-          fontSize: 13,
+          fontSize: 14,
           color: "#1A2B4A",
           background: "#FAFAF8",
           resize: "vertical",
@@ -39,10 +39,10 @@ export function NotasClient({
         }}
       />
       {state?.error && (
-        <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{state.error}</p>
+        <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{state.error}</p>
       )}
       {state?.ok && (
-        <p style={{ fontSize: 12, color: "#065F46", margin: 0 }}>Guardado ✓</p>
+        <p style={{ fontSize: 13, color: "#065F46", margin: 0 }}>Guardado ✓</p>
       )}
       <button
         type="submit"
@@ -56,7 +56,7 @@ export function NotasClient({
           color: "#FFFFFF",
           border: "none",
           borderRadius: 6,
-          fontSize: 12,
+          fontSize: 13,
           fontWeight: 500,
           cursor: isPending ? "wait" : "pointer",
           opacity: isPending ? 0.7 : 1,

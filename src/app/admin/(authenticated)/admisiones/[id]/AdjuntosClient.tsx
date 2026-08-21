@@ -62,7 +62,7 @@ export function AdjuntosClient({
     <div className="flex flex-col gap-3">
       {/* Lista de adjuntos */}
       {adjuntos.length === 0 ? (
-        <p style={{ fontSize: 12, color: "#6B6660", margin: 0, fontStyle: "italic" }}>
+        <p style={{ fontSize: 13, color: "#6B6660", margin: 0, fontStyle: "italic" }}>
           Sin archivos. Los que subas se enviarán adjuntos al postulante en el próximo cambio de estado.
         </p>
       ) : (
@@ -98,7 +98,7 @@ export function AdjuntosClient({
             <span
               className="truncate"
               style={{
-                fontSize: 12,
+                fontSize: 13,
                 color: pickedName ? "#1A2B4A" : "#6B6660",
                 fontWeight: pickedName ? 500 : 400,
               }}
@@ -116,7 +116,7 @@ export function AdjuntosClient({
         </label>
 
         {(clientError || uploadState.error) && (
-          <p style={{ fontSize: 11, color: "#991B1B", margin: 0 }}>
+          <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>
             {clientError || uploadState.error}
           </p>
         )}
@@ -131,7 +131,7 @@ export function AdjuntosClient({
             color: "#FFFFFF",
             border: "none",
             borderRadius: 6,
-            fontSize: 12,
+            fontSize: 13,
             fontWeight: 500,
             cursor: uploading || !pickedName ? "not-allowed" : "pointer",
             opacity: uploading || !pickedName ? 0.5 : 1,
@@ -163,11 +163,11 @@ function AdjuntoRow({ adj, solicitudId }: { adj: Adjunto; solicitudId: string })
       <div className="flex-1 min-w-0">
         <p
           className="truncate"
-          style={{ fontSize: 12, fontWeight: 500, color: "#1A2B4A", margin: 0 }}
+          style={{ fontSize: 13, fontWeight: 500, color: "#1A2B4A", margin: 0 }}
         >
           {adj.filename}
         </p>
-        <p style={{ fontSize: 10, color: "#A0AABA", margin: 0 }}>
+        <p style={{ fontSize: 11, color: "#A0AABA", margin: 0 }}>
           {formatSize(adj.size_bytes)}
         </p>
       </div>

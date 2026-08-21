@@ -52,7 +52,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <h3
       style={{
-        fontSize: 11,
+        fontSize: 12,
         fontWeight: 700,
         color: "#6B6660",
         textTransform: "uppercase",
@@ -159,7 +159,7 @@ export default async function SolicitudDetallePage({
       <Link
         href="/admin/admisiones"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a solicitudes
@@ -188,7 +188,7 @@ export default async function SolicitudDetallePage({
             <div className="flex items-center gap-3 flex-wrap">
               <span
                 style={{
-                  fontSize: 12,
+                  fontSize: 13,
                   fontWeight: 700,
                   color: "#6B6660",
                   fontFamily: "monospace",
@@ -198,17 +198,17 @@ export default async function SolicitudDetallePage({
               </span>
               <span
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   color: "#6B6660",
                 }}
               >
                 ·
               </span>
-              <span style={{ fontSize: 12, color: "#6B6660" }}>
+              <span style={{ fontSize: 13, color: "#6B6660" }}>
                 {solicitud.est_nivel}
               </span>
-              <span style={{ fontSize: 11, color: "#6B6660" }}>·</span>
-              <span style={{ fontSize: 12, color: "#6B6660" }}>
+              <span style={{ fontSize: 12, color: "#6B6660" }}>·</span>
+              <span style={{ fontSize: 13, color: "#6B6660" }}>
                 {formatDate(solicitud.created_at)}
               </span>
               {/*
@@ -222,7 +222,7 @@ export default async function SolicitudDetallePage({
                     height: 18,
                     background: "#F4F1EB",
                     border: "1px solid #E8E4DD",
-                    fontSize: 10,
+                    fontSize: 11,
                     fontWeight: 600,
                     color: "#6B6660",
                   }}
@@ -238,7 +238,7 @@ export default async function SolicitudDetallePage({
           style={{
             height: 28,
             background: badge.colorBg,
-            fontSize: 12,
+            fontSize: 13,
             fontWeight: 700,
             color: badge.colorFg,
           }}
@@ -315,7 +315,7 @@ export default async function SolicitudDetallePage({
                 }}
               >
                 <Phone size={14} color="#1A2B4A" strokeWidth={2} />
-                <span style={{ fontSize: 12, fontWeight: 500, color: "#1A2B4A" }}>
+                <span style={{ fontSize: 13, fontWeight: 500, color: "#1A2B4A" }}>
                   Llamar al representante
                 </span>
               </a>
@@ -329,7 +329,7 @@ export default async function SolicitudDetallePage({
                 }}
               >
                 <Mail size={14} color="#1A2B4A" strokeWidth={2} />
-                <span style={{ fontSize: 12, fontWeight: 500, color: "#1A2B4A" }}>
+                <span style={{ fontSize: 13, fontWeight: 500, color: "#1A2B4A" }}>
                   Enviar email
                 </span>
               </a>
@@ -344,7 +344,7 @@ export default async function SolicitudDetallePage({
                 }}
               >
                 <User size={14} color="#1A2B4A" strokeWidth={2} />
-                <span style={{ fontSize: 12, fontWeight: 500, color: "#1A2B4A" }}>
+                <span style={{ fontSize: 13, fontWeight: 500, color: "#1A2B4A" }}>
                   Ver seguimiento público
                 </span>
               </Link>
@@ -381,7 +381,7 @@ export default async function SolicitudDetallePage({
           <div className="p-6" style={cardStyle}>
             <SectionTitle>Historial de cambios</SectionTitle>
             {!historial || historial.length === 0 ? (
-              <p style={{ fontSize: 12, color: "#6B6660", margin: 0 }}>
+              <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
                 Sin cambios registrados.
               </p>
             ) : (
@@ -400,7 +400,7 @@ export default async function SolicitudDetallePage({
                           <>
                             <span
                               style={{
-                                fontSize: 11,
+                                fontSize: 12,
                                 fontWeight: 600,
                                 color: "#6B6660",
                                 textDecoration: "line-through",
@@ -408,12 +408,12 @@ export default async function SolicitudDetallePage({
                             >
                               {ESTADO_INFO[h.estado_anterior as EstadoAdmision]?.label ?? h.estado_anterior}
                             </span>
-                            <span style={{ fontSize: 11, color: "#A0AABA" }}>→</span>
+                            <span style={{ fontSize: 12, color: "#A0AABA" }}>→</span>
                           </>
                         )}
                         <span
                           style={{
-                            fontSize: 11,
+                            fontSize: 12,
                             fontWeight: 700,
                             color: "#1A2B4A",
                           }}
@@ -422,15 +422,15 @@ export default async function SolicitudDetallePage({
                         </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span style={{ fontSize: 10, color: "#A0AABA" }}>{quien}</span>
-                        <span style={{ fontSize: 10, color: "#A0AABA" }}>
+                        <span style={{ fontSize: 11, color: "#A0AABA" }}>{quien}</span>
+                        <span style={{ fontSize: 11, color: "#A0AABA" }}>
                           {formatDateTime(h.created_at)}
                         </span>
                       </div>
                       {h.nota && (
                         <p
                           style={{
-                            fontSize: 11,
+                            fontSize: 12,
                             color: "#6B6660",
                             margin: 0,
                             fontStyle: "italic",
@@ -452,7 +452,7 @@ export default async function SolicitudDetallePage({
       {hasRole(user, ROLES.SUPERADMIN) && (
         <div className="flex flex-col gap-3 p-6" style={cardStyle}>
           <SectionTitle>Zona peligrosa</SectionTitle>
-          <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
             Eliminar la solicitud borra permanentemente sus datos, historial y archivos adjuntos. No se puede recuperar.
           </p>
           <EliminarSolicitudClient solicitudId={solicitud.id} numero={solicitud.numero} />

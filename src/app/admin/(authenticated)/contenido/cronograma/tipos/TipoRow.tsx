@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Link from "next/link";
 import { ArrowUp, ArrowDown, Pencil, Trash2, Save, X } from "lucide-react";
 import { DialogoConfirmacion } from "@/components/admin/DialogoConfirmacion";
 import {
@@ -62,7 +63,7 @@ export function TipoRow({
    * dice por qué. Antes se dejaba pulsar y se contestaba con un `alert()`.
    */
   const bloqueado = count > 0;
-  const motivoBloqueo = `No se puede eliminar: hay ${count} evento(s) con este tipo. Cámbiales el tipo primero.`;
+  const motivoBloqueo = `No se puede eliminar: hay ${count} evento(s) con este tipo. Pulsa el número de la columna «Eventos» para verlos y cambiarles el tipo.`;
 
   const eliminar = () => {
     setConfirmando(false);
@@ -103,7 +104,20 @@ export function TipoRow({
       <td style={{ padding: "12px 16px", fontSize: 11, color: "#6B6660", fontFamily: "ui-monospace, monospace" }}>
         {tipo.slug}
       </td>
-      <td style={{ padding: "12px 16px", fontSize: 12, color: "#6B6660" }}>{count}</td>
+      {/* El contador enlaza a esos eventos: es la salida del botón apagado. */}
+      <td style={{ padding: "12px 16px", fontSize: 12, color: "#6B6660" }}>
+        {count > 0 ? (
+          <Link
+            href={`/admin/contenido/cronograma?tipo=${tipo.id}`}
+            style={{ color: "#1A2B4A", fontWeight: 600, textDecoration: "underline" }}
+            title={`Ver los ${count} eventos de este tipo`}
+          >
+            {count}
+          </Link>
+        ) : (
+          count
+        )}
+      </td>
       <td style={{ padding: "12px 16px" }}>
         <div className="flex items-center justify-end gap-1">
           <button

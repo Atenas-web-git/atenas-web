@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Link from "next/link";
 import { ArrowUp, ArrowDown, Pencil, Trash2, Save, X } from "lucide-react";
 import { DialogoConfirmacion } from "@/components/admin/DialogoConfirmacion";
 import {
@@ -84,7 +85,7 @@ export function CategoriaRow({
    * un `alert()`.
    */
   const bloqueado = count > 0;
-  const motivoBloqueo = `No se puede eliminar: hay ${count} documento(s) en esta categoría. Muévelos a otra categoría primero.`;
+  const motivoBloqueo = `No se puede eliminar: hay ${count} documento(s) en esta categoría. Pulsa el número de la columna «Documentos» para verlos y moverlos a otra categoría.`;
 
   const eliminar = () => {
     setConfirmando(false);
@@ -191,7 +192,20 @@ export function CategoriaRow({
       >
         {cat.icono || "—"}
       </td>
-      <td style={{ padding: "12px 16px", fontSize: 12, color: "#6B6660" }}>{count}</td>
+      {/* El contador enlaza a esos documentos: es la salida del botón apagado. */}
+      <td style={{ padding: "12px 16px", fontSize: 12, color: "#6B6660" }}>
+        {count > 0 ? (
+          <Link
+            href={`/admin/contenido/documentos?cat=${cat.id}`}
+            style={{ color: "#1A2B4A", fontWeight: 600, textDecoration: "underline" }}
+            title={`Ver los ${count} documentos de esta categoría`}
+          >
+            {count}
+          </Link>
+        ) : (
+          count
+        )}
+      </td>
       <td style={{ padding: "12px 16px", fontSize: 12, color: "#6B6660" }}>{cat.orden}</td>
       <td style={{ padding: "12px 16px" }}>
         <div className="flex items-center justify-end gap-1">

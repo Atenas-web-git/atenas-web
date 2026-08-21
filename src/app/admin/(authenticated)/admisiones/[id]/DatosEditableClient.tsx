@@ -90,7 +90,7 @@ export function DatosEditableClient({
       <>
         <div className="flex items-center justify-end gap-2 mb-2">
           {state.ok && (
-            <span style={{ fontSize: 11, color: "#065F46", fontWeight: 600 }}>
+            <span style={{ fontSize: 12, color: "#065F46", fontWeight: 600 }}>
               Guardado ✓
             </span>
           )}
@@ -102,7 +102,7 @@ export function DatosEditableClient({
               height: 30,
               background: "#F4F1EB",
               border: "1px solid #E8E4DD",
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 600,
               color: "#1A2B4A",
               cursor: "pointer",
@@ -148,12 +148,12 @@ export function DatosEditableClient({
       <input type="hidden" name="solicitudId" value={solicitudId} />
 
       <div className="flex items-center justify-between gap-3 flex-wrap">
-        <p style={{ fontSize: 12, color: "#6B6660", margin: 0 }}>
+        <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
           Editando datos. Los campos con * son obligatorios.
         </p>
         <div className="flex items-center gap-2">
           {state.error && (
-            <span style={{ fontSize: 11, color: "#991B1B", fontWeight: 600 }}>
+            <span style={{ fontSize: 12, color: "#991B1B", fontWeight: 600 }}>
               {state.error}
             </span>
           )}
@@ -165,7 +165,7 @@ export function DatosEditableClient({
               height: 32,
               background: "#FFFFFF",
               border: "1px solid #E8E4DD",
-              fontSize: 12,
+              fontSize: 13,
               fontWeight: 600,
               color: "#6B6660",
               cursor: "pointer",
@@ -182,7 +182,7 @@ export function DatosEditableClient({
               height: 32,
               background: "#1A2B4A",
               border: "none",
-              fontSize: 12,
+              fontSize: 13,
               fontWeight: 600,
               color: "#FFFFFF",
               cursor: isPending ? "wait" : "pointer",
@@ -221,7 +221,7 @@ export function DatosEditableClient({
                 allowEmpty
               />
               {gradoSeIba && (
-                <span style={{ fontSize: 12, color: "#991B1B", lineHeight: 1.5 }}>
+                <span style={{ fontSize: 13, color: "#991B1B", lineHeight: 1.5 }}>
                   «{initial.est_grado}» no existe en {nivel}. Elige el año escolar
                   que corresponde, o se guardará sin año.
                 </span>
@@ -282,7 +282,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <h3
       style={{
-        fontSize: 11,
+        fontSize: 12,
         fontWeight: 700,
         color: "#6B6660",
         textTransform: "uppercase",
@@ -301,8 +301,8 @@ function DataRow({ label, value }: { label: string; value?: string | null }) {
       className="flex flex-col gap-0.5 py-2"
       style={{ borderBottom: "1px solid #F4F1EB" }}
     >
-      <span style={{ fontSize: 11, color: "#6B6660", fontWeight: 500 }}>{label}</span>
-      <span style={{ fontSize: 13, color: "#1A2B4A", fontWeight: 500 }}>
+      <span style={{ fontSize: 12, color: "#6B6660", fontWeight: 500 }}>{label}</span>
+      <span style={{ fontSize: 14, color: "#1A2B4A", fontWeight: 500 }}>
         {value || "—"}
       </span>
     </div>
@@ -377,7 +377,7 @@ function FieldTextarea({
 }
 
 const fieldLabelStyle: React.CSSProperties = {
-  fontSize: 11,
+  fontSize: 12,
   fontWeight: 600,
   color: "#6B6660",
 };
@@ -388,7 +388,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 10,
   paddingRight: 10,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",
