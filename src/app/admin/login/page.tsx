@@ -3,6 +3,10 @@ import { redirect } from "next/navigation";
 import { LoginForm } from "./LoginForm";
 import { LogoSVG } from "@/components/shared/LogoSVG";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
+// El login está fuera de (authenticated), así que no hereda la capa del panel.
+// Se importa aquí porque también tiene campos, y es la primera pantalla que ve
+// el colegio: si el foco y el borde de los campos fallan, fallan justo ahí.
+import "../admin-ds.css";
 
 export const metadata: Metadata = {
   title: "Backoffice — Iniciar sesión",
@@ -21,7 +25,7 @@ export default async function AdminLoginPage({ searchParams }: Props) {
 
   return (
     <main
-      className="min-h-screen flex items-center justify-center px-4"
+      className="ds-admin min-h-screen flex items-center justify-center px-4"
       style={{ background: "#F4F1EB" }}
     >
       <div className="w-full max-w-[440px] flex flex-col gap-6">

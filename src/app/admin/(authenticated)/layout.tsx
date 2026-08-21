@@ -4,6 +4,10 @@ import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { canAccessAdmin } from "@/lib/auth/types";
 import { Sidebar } from "@/components/admin/Sidebar";
 import { Header } from "@/components/admin/Header";
+// Tokens del panel + la capa que arregla foco, bordes de campo y tamaño de
+// letra en las 64 pantallas a la vez. Se importa aquí y no en globals.css a
+// propósito: el sitio público no debe cargar nada de esto.
+import "../admin-ds.css";
 
 // El backoffice nunca debe indexarse. robots.txt ya bloquea /admin/,
 // pero declararlo también como metadata es defensa en profundidad.
@@ -23,7 +27,9 @@ export default async function AdminLayout({
 
   return (
     <div
-      className="min-h-screen flex"
+      // `ds-admin` es el gancho de admin-ds.css. Sin esta clase la hoja no
+      // aplica: todo lo de ahí cuelga de ella para no filtrarse al sitio público.
+      className="ds-admin min-h-screen flex"
       style={{ background: "#F4F1EB", fontFamily: "Poppins, sans-serif" }}
     >
       <Sidebar user={user} />

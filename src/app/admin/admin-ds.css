@@ -1,0 +1,296 @@
+/* =============================================================================
+   DESIGN SYSTEM DEL BACKOFFICE — Atenas Web
+   -----------------------------------------------------------------------------
+   Dos cosas viven aquí, y conviene no confundirlas:
+
+   1. LOS TOKENS (bloque `:root`). Son los colores, tamaños y radios que el panel
+      YA usa. No los inventé: salieron de contar los 3.606 hex escritos a mano en
+      las 64 pantallas. Están aquí para que lo que se escriba de ahora en adelante
+      tenga de dónde copiar, y para que cambiar un color deje de ser buscar y
+      reemplazar en 158 archivos.
+
+   2. LA CAPA DE CORRECCIÓN (todo lo demás). Arregla desde un solo sitio cuatro
+      cosas que estaban mal en las 64 pantallas a la vez.
+
+   > POR QUÉ HAY `!important` AQUÍ Y NO DEBERÍA HABERLO EN NINGÚN OTRO SITIO
+   >
+   > El panel tiene 2.433 `style={{ }}` inline contra 1.882 `className`. Un estilo
+   > inline le gana a cualquier hoja de estilos: es la regla de especificidad de
+   > CSS, no un capricho del navegador. Sin `!important` este archivo no haría
+   > absolutamente nada — se aplicaría y perdería, en silencio, que es la peor
+   > forma de fallar.
+   >
+   > Por eso `!important` está SOLO en las propiedades que compiten contra un
+   > inline existente. Donde no compite (box-shadow, outline, cursor) va limpio.
+   > Si algún día el panel migra a componentes, este archivo se borra entero.
+
+   Documentado en `Notas/DESIGN-SYSTEM-Atenas.md`. Creado 2026-08-21.
+   ========================================================================== */
+
+:root {
+  /* ---------------------------------------------------------------------
+     CAPA 1 — PRIMITIVOS
+     Valores crudos. Nadie los usa directamente en una pantalla: se usan las
+     variables semánticas de abajo. Están aquí para que exista un único sitio
+     donde el color se define.
+     El número entre paréntesis es cuántas veces aparece hoy en /admin, medido
+     el 2026-08-21. Sirve para saber qué es estructura y qué es un caso suelto.
+     --------------------------------------------------------------------- */
+
+  /* Institucionales — confirmados por el colegio, no se tocan */
+  --ds-navy:            #1A2B4A;  /* (799) */
+  --ds-navy-claro:      #2D3F6B;  /* activo del menú lateral */
+  --ds-navy-oscuro:     #0D1825;
+  --ds-rojo:            #9E1915;  /* (73) único acento de la paleta */
+
+  /* Neutros cálidos — la familia real del panel. Ninguno estaba documentado */
+  --ds-blanco:          #FFFFFF;  /* (389) fondo de tarjeta */
+  --ds-hueso:           #FAFAF8;  /* (148) fondo de fila alterna, campos deshabilitados */
+  --ds-arena:           #F4F1EB;  /* (134) fondo del panel, detrás de las tarjetas */
+  --ds-linea:           #E8E4DD;  /* (475) separadores y bordes de tarjeta */
+  --ds-linea-fuerte:    #8A857E;  /* borde de un control. 3.66:1 sobre blanco */
+  --ds-gris:            #6B6660;  /* (582) todo el texto secundario del panel */
+  --ds-gris-sidebar:    #A0AABA;  /* (163) texto secundario SOBRE navy */
+  --ds-tinta:           #2C2C2C;
+
+  /* Estado — verificados contra WCAG AA, todos por encima de 6:1 */
+  --ds-error-texto:     #991B1B;  /* (224) */
+  --ds-error-fondo:     #FEE2E2;
+  --ds-error-linea:     #FCA5A5;
+  --ds-exito-texto:     #065F46;  /* (95) */
+  --ds-exito-fondo:     #D1FAE5;
+  --ds-exito-linea:     #86EFAC;
+  --ds-aviso-texto:     #92400E;  /* (51) */
+  --ds-aviso-fondo:     #FEF3C7;
+  --ds-aviso-linea:     #FDE68A;
+  --ds-info-texto:      #1E40AF;  /* (27) */
+  --ds-info-fondo:      #EFF6FF;
+  --ds-info-linea:      #BFDBFE;
+
+  /* ---------------------------------------------------------------------
+     CAPA 2 — SEMÁNTICOS
+     Estos sí se usan al escribir una pantalla. Dicen para qué sirve el color,
+     no cuál es. Cambiar el fondo del panel entero es cambiar una línea.
+     --------------------------------------------------------------------- */
+  --ds-fondo-app:       var(--ds-arena);
+  --ds-fondo-tarjeta:   var(--ds-blanco);
+  --ds-fondo-sutil:     var(--ds-hueso);
+  --ds-texto:           var(--ds-navy);
+  --ds-texto-suave:     var(--ds-gris);
+  --ds-texto-invertido: var(--ds-blanco);
+  --ds-borde:           var(--ds-linea);
+  --ds-borde-control:   var(--ds-linea-fuerte);
+  --ds-accion:          var(--ds-navy);
+  --ds-peligro:         var(--ds-rojo);
+  --ds-foco:            var(--ds-navy);
+  --ds-foco-invertido:  var(--ds-blanco);
+
+  /* ---------------------------------------------------------------------
+     ESCALAS
+     El panel usaba 16 tamaños de letra y 15 radios distintos. Estas son las
+     escalas a las que se reducen: cada valor viejo cae en el más cercano.
+     --------------------------------------------------------------------- */
+  --ds-texto-xs:   11px;  /* etiquetas en mayúsculas, nada de prosa */
+  --ds-texto-sm:   13px;  /* apoyo, pies de campo */
+  --ds-texto-base: 14px;  /* CUERPO. Lo que se lee de verdad */
+  --ds-texto-lg:   16px;  /* título de tarjeta */
+  --ds-texto-xl:   20px;  /* título de pantalla */
+  --ds-texto-2xl:  28px;  /* cifra grande de un indicador */
+
+  --ds-radio-sm:   6px;
+  --ds-radio-md:   8px;
+  --ds-radio-lg:   12px;
+  --ds-radio-full: 999px;
+
+  --ds-sombra-tarjeta: 0 1px 2px rgba(26, 43, 74, 0.04);
+  --ds-sombra-flotante: 0 8px 24px rgba(26, 43, 74, 0.12);
+}
+
+/* =============================================================================
+   CORRECCIÓN 1 — EL TECLADO VUELVE A EXISTIR
+   -----------------------------------------------------------------------------
+   Medido el 2026-08-21: CERO estilos de foco en las 45.383 líneas del panel, y
+   `outline: none` puesto a mano en varios sitios. Quien navegue con Tab no tiene
+   forma de saber dónde está. No es una preferencia: es el requisito 2.4.7 de
+   WCAG, y es lo que usa cualquiera que no pueda o no quiera usar el ratón.
+
+   `:focus-visible` (y no `:focus`) es deliberado: el anillo sale al navegar con
+   teclado, y NO al hacer clic con el ratón. Así nadie ve un borde raro al pulsar
+   un botón, que es la razón por la que se suele borrar el foco.
+   ========================================================================== */
+
+.ds-admin :is(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--ds-foco) !important;
+  outline-offset: 2px !important;
+  border-radius: var(--ds-radio-sm);
+}
+
+/* Sobre el menú lateral el anillo navy sería invisible: el fondo ES navy.
+   Blanco sobre #1A2B4A da 14.11:1. */
+.ds-admin-sidebar :is(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--ds-foco-invertido) !important;
+  outline-offset: 2px !important;
+}
+
+/* =============================================================================
+   CORRECCIÓN 2 — LOS CAMPOS SE VEN
+   -----------------------------------------------------------------------------
+   83 de los 88 archivos con formulario dibujan el borde con #E8E4DD, que sobre
+   blanco da 1.27:1. WCAG 1.4.11 pide 3:1 para el contorno de un control. En la
+   práctica: si el colegio trabaja con la pantalla del portátil inclinada o con
+   sol de frente, no distingue dónde se puede escribir.
+
+   No sustituyo `border-color` a propósito. Un campo en error dibuja su borde
+   rojo inline, y machacarlo con gris borraría el aviso. Lo que hago es reforzar
+   el contorno POR DENTRO con un box-shadow, que en el panel no lo usa nadie
+   (medido: 0 `boxShadow` inline) y por tanto no le quita el sitio a nada.
+   ========================================================================== */
+
+.ds-admin :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+  box-shadow: inset 0 0 0 1px var(--ds-borde-control);
+}
+
+/* Al escribir, el campo se marca solo: el anillo se vuelve navy y engorda.
+   Esto es visual, no sustituye al anillo de foco de arriba. */
+.ds-admin :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea):focus {
+  box-shadow: inset 0 0 0 2px var(--ds-accion);
+}
+
+/* Un campo bloqueado tiene que PARECER bloqueado. Si no, el editor escribe,
+   no pasa nada, y cree que la plataforma está rota. */
+.ds-admin :is(input, select, textarea):disabled,
+.ds-admin :is(input, select, textarea)[readonly] {
+  box-shadow: inset 0 0 0 1px var(--ds-borde);
+  background-color: var(--ds-fondo-sutil) !important;
+  cursor: not-allowed;
+}
+
+/* Casillas y radios: son los controles más pequeños y los que peor se ven.
+   24px los deja por encima del mínimo cómodo sin descuadrar las filas. */
+.ds-admin :is(input[type="checkbox"], input[type="radio"]) {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--ds-accion);
+  cursor: pointer;
+}
+
+/* =============================================================================
+   CORRECCIÓN 3 — EL TEXTO DE LOS CAMPOS DEJA DE SER DIMINUTO
+   -----------------------------------------------------------------------------
+   El panel escribe en letra muy pequeña: 951 usos de 10px, 11px y 12px, contra
+   4 usos del tamaño normal. Y lo compensa con negrita — 358 usos de peso 700
+   contra 4 de peso 400. Cuando todo está en negrita, la negrita deja de señalar
+   nada.
+
+   Aquí solo toco los CONTROLES, que es donde el tamaño se paga caro: es el texto
+   que el colegio escribe y relee, no el que ojea. El resto de la letra pequeña
+   está en 2.433 estilos inline y no se arregla desde una hoja de estilos; queda
+   anotado en el documento del Design System como lo que es, deuda pendiente.
+   ========================================================================== */
+
+.ds-admin :is(input, select, textarea) {
+  font-size: var(--ds-texto-base) !important;
+  font-family: inherit !important;
+  color: var(--ds-texto);
+}
+
+.ds-admin ::placeholder {
+  color: var(--ds-texto-suave);
+  opacity: 1; /* Firefox lo aclara por su cuenta y lo deja ilegible */
+}
+
+/* =============================================================================
+   CORRECCIÓN 4 — LOS BOTONES SE COMPORTAN COMO BOTONES
+   -----------------------------------------------------------------------------
+   Sin `cursor: pointer` el puntero no cambia y no hay forma de saber que algo es
+   pulsable hasta pulsarlo. Y 32px de alto mínimo evita el botón de 22px que sale
+   cuando alguien pone `padding: 4px` y se olvida.
+   ========================================================================== */
+
+.ds-admin button:not(:disabled),
+.ds-admin [role="button"]:not([aria-disabled="true"]),
+.ds-admin label:has(> input[type="checkbox"]),
+.ds-admin label:has(> input[type="radio"]) {
+  cursor: pointer;
+}
+
+.ds-admin button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.ds-admin button {
+  min-height: 32px;
+  font-family: inherit;
+}
+
+/* Un botón que ocupa toda la fila de una tabla no debe estirarse a 32px si es
+   un icono suelto de 24. Los iconos sueltos se marcan con aria-label. */
+.ds-admin button[aria-label]:not([data-ds-alto]) {
+  min-height: 0;
+}
+
+/* =============================================================================
+   CORRECCIÓN 5 — QUIEN PIDIÓ MENOS MOVIMIENTO, RECIBE MENOS MOVIMIENTO
+   -----------------------------------------------------------------------------
+   Ajuste del sistema operativo. Lo activa gente con vértigo o migraña, y también
+   quien trabaja en un equipo lento. No es decorativo.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-admin *,
+  .ds-admin *::before,
+  .ds-admin *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =============================================================================
+   DIÁLOGO DE CONFIRMACIÓN
+   -----------------------------------------------------------------------------
+   El fondo oscuro de un `<dialog>` es el pseudo-elemento `::backdrop`, y no se
+   puede pintar con estilos en línea desde React. Por eso vive aquí.
+
+   Va sin `.ds-admin` delante a propósito: el navegador saca el `<dialog>` a la
+   capa superior de la página, y desde ahí un selector que cuelgue de un ancestro
+   sigue funcionando para el elemento, pero el `::backdrop` se comporta de forma
+   menos predecible entre navegadores. Con `dialog::backdrop` a secas no hay
+   ambigüedad, y en el sitio público no hay ningún `<dialog>` al que afecte.
+   ========================================================================== */
+
+dialog::backdrop {
+  background: rgba(13, 24, 37, 0.45);
+}
+
+/* Un `<dialog>` modal lo centra el navegador con `margin: auto` sobre `inset: 0`.
+   El preflight de Tailwind 4 pone `margin: 0` a TODOS los elementos, así que ese
+   centrado se pierde y el diálogo aparece pegado a la esquina superior izquierda.
+   Medido el 2026-08-21: `margin` calculado = 0px, posición = (0, 0).
+   `height: fit-content` es necesario junto al `margin: auto` vertical: sin él la
+   caja se estira a toda la altura y el centrado vertical no tiene nada que
+   repartir. */
+dialog[open] {
+  margin: auto;
+  height: fit-content;
+}
+
+/* =============================================================================
+   UTILIDAD — TEXTO SOLO PARA LECTORES DE PANTALLA
+   El panel tiene un único `sr-only` en 45.383 líneas. Esto lo deja disponible
+   sin depender de que Tailwind lo genere.
+   ========================================================================== */
+
+.ds-solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

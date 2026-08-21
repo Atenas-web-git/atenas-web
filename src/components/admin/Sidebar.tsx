@@ -96,7 +96,9 @@ export function Sidebar({ user }: { user: AdminUser }) {
 
   return (
     <aside
-      className="flex flex-col flex-shrink-0"
+      // `ds-admin-sidebar`: aquí el anillo de foco tiene que ser BLANCO, porque
+      // el navy del anillo general sería invisible sobre este mismo navy.
+      className="ds-admin-sidebar flex flex-col flex-shrink-0"
       style={{ background: "#1A2B4A", width: 260, minHeight: "100vh" }}
     >
       <div
