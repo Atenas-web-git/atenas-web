@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { ArrowUp, ArrowDown, Pencil, Trash2, Save, X } from "lucide-react";
+import { DialogoConfirmacion } from "@/components/admin/DialogoConfirmacion";
 import {
   guardarCategoriaAction,
   eliminarCategoriaAction,
@@ -44,6 +45,7 @@ export function CategoriaRow({
   const [icono, setIcono] = useState(cat.icono ?? "");
   const [color, setColor] = useState(cat.color);
   const [orden, setOrden] = useState(cat.orden);
+  const [confirmando, setConfirmando] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const guardar = () => {
@@ -76,14 +78,16 @@ export function CategoriaRow({
     startTransition(() => reordenarCategoriaAction(fd));
   };
 
+  /**
+   * Una categoría con documentos dentro no se puede borrar: el botón queda
+   * deshabilitado y dice por qué. Antes se dejaba pulsar y se contestaba con
+   * un `alert()`.
+   */
+  const bloqueado = count > 0;
+  const motivoBloqueo = `No se puede eliminar: hay ${count} documento(s) en esta categoría. Muévelos a otra categoría primero.`;
+
   const eliminar = () => {
-    if (count > 0) {
-      alert(
-        `No se puede eliminar: hay ${count} documento(s) en esta categoría. Mueve esos documentos a otra categoría primero.`
-      );
-      return;
-    }
-    if (!confirm(`¿Eliminar la categoría "${cat.nombre}"?`)) return;
+    setConfirmando(false);
     const fd = new FormData();
     fd.set("id", String(cat.id));
     startTransition(() => eliminarCategoriaAction(fd));
@@ -216,13 +220,24 @@ export function CategoriaRow({
             <Pencil size={12} strokeWidth={2.5} />
           </button>
           <button
-            onClick={eliminar}
-            disabled={isPending}
-            style={btnIcon("#991B1B", "#FECACA")}
-            aria-label="Eliminar"
+            onClick={() => setConfirmando(true)}
+            disabled={isPending || bloqueado}
+            style={btnIcon("#991B1B", "#FECACA", bloqueado)}
+            aria-label={bloqueado ? motivoBloqueo : `Eliminar la categoría ${cat.nombre}`}
+            title={bloqueado ? motivoBloqueo : "Eliminar"}
           >
             <Trash2 size={12} strokeWidth={2.5} />
           </button>
+
+          {/* Dentro del <td>: un <dialog> entre celdas es HTML inválido. */}
+          <DialogoConfirmacion
+            abierto={confirmando}
+            titulo={`¿Eliminar la categoría «${cat.nombre}»?`}
+            descripcion="Desaparece de la página pública de Documentos y del selector al subir uno nuevo. No tiene documentos dentro, así que no se borra ningún archivo."
+            textoConfirmar="Eliminar categoría"
+            onConfirmar={eliminar}
+            onCancelar={() => setConfirmando(false)}
+          />
         </div>
       </td>
     </tr>

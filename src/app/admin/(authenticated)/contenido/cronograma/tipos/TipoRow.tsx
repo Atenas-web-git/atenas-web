@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { ArrowUp, ArrowDown, Pencil, Trash2, Save, X } from "lucide-react";
+import { DialogoConfirmacion } from "@/components/admin/DialogoConfirmacion";
 import {
   guardarTipoAction,
   eliminarTipoAction,
@@ -29,6 +30,7 @@ export function TipoRow({
   const [editando, setEditando] = useState(false);
   const [nombre, setNombre] = useState(tipo.nombre);
   const [slug, setSlug] = useState(tipo.slug);
+  const [confirmando, setConfirmando] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const guardar = () => {
@@ -55,14 +57,15 @@ export function TipoRow({
     startTransition(() => reordenarTipoAction(fd));
   };
 
+  /**
+   * Un tipo que está en uso no se puede borrar: el botón queda deshabilitado y
+   * dice por qué. Antes se dejaba pulsar y se contestaba con un `alert()`.
+   */
+  const bloqueado = count > 0;
+  const motivoBloqueo = `No se puede eliminar: hay ${count} evento(s) con este tipo. Cámbiales el tipo primero.`;
+
   const eliminar = () => {
-    if (count > 0) {
-      alert(
-        `No se puede eliminar: hay ${count} evento(s) con este tipo. Cambia el tipo de esos eventos primero.`
-      );
-      return;
-    }
-    if (!confirm(`¿Eliminar el tipo "${tipo.nombre}"?`)) return;
+    setConfirmando(false);
     const fd = new FormData();
     fd.set("id", String(tipo.id));
     startTransition(() => eliminarTipoAction(fd));
@@ -124,9 +127,25 @@ export function TipoRow({
           <button onClick={() => setEditando(true)} disabled={isPending} style={btnIcon("#1A2B4A", "#E8E4DD")}>
             <Pencil size={12} strokeWidth={2.5} />
           </button>
-          <button onClick={eliminar} disabled={isPending} style={btnIcon("#991B1B", "#FECACA")}>
+          <button
+            onClick={() => setConfirmando(true)}
+            disabled={isPending || bloqueado}
+            aria-label={bloqueado ? motivoBloqueo : `Eliminar el tipo ${tipo.nombre}`}
+            title={bloqueado ? motivoBloqueo : "Eliminar"}
+            style={btnIcon("#991B1B", "#FECACA", bloqueado)}
+          >
             <Trash2 size={12} strokeWidth={2.5} />
           </button>
+
+          {/* Dentro del <td>: un <dialog> entre celdas es HTML inválido. */}
+          <DialogoConfirmacion
+            abierto={confirmando}
+            titulo={`¿Eliminar el tipo «${tipo.nombre}»?`}
+            descripcion="Desaparece de la leyenda del cronograma público y de los filtros del panel. Ningún evento lo usa, así que no cambia ninguna fecha."
+            textoConfirmar="Eliminar tipo"
+            onConfirmar={eliminar}
+            onCancelar={() => setConfirmando(false)}
+          />
         </div>
       </td>
     </tr>

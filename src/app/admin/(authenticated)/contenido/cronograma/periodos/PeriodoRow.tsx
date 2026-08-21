@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { ArrowUp, ArrowDown, Pencil, Trash2, Save, X } from "lucide-react";
+import { DialogoConfirmacion } from "@/components/admin/DialogoConfirmacion";
 import {
   guardarPeriodoAction,
   eliminarPeriodoAction,
@@ -47,6 +48,7 @@ export function PeriodoRow({
   const [slug, setSlug] = useState(periodo.slug);
   const [color, setColor] = useState(periodo.color);
   const [ano, setAno] = useState(periodo.ano_lectivo_codigo ?? "");
+  const [confirmando, setConfirmando] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const guardar = () => {
@@ -77,14 +79,17 @@ export function PeriodoRow({
     startTransition(() => reordenarPeriodoAction(fd));
   };
 
+  /**
+   * Un período con eventos dentro no se puede borrar. Antes se dejaba pulsar y
+   * se contestaba con un `alert()` — el usuario pulsaba, era regañado, y volvía
+   * a estar donde estaba. Ahora el botón está deshabilitado y dice por qué al
+   * pasar por encima: se evita el paso en falso en vez de castigarlo.
+   */
+  const bloqueado = count > 0;
+  const motivoBloqueo = `No se puede eliminar: hay ${count} evento(s) en este período. Muévelos a otro período primero.`;
+
   const eliminar = () => {
-    if (count > 0) {
-      alert(
-        `No se puede eliminar: hay ${count} evento(s) en este período. Mueve esos eventos a otro período primero.`
-      );
-      return;
-    }
-    if (!confirm(`¿Eliminar el período "${periodo.nombre}"?`)) return;
+    setConfirmando(false);
     const fd = new FormData();
     fd.set("id", String(periodo.id));
     startTransition(() => eliminarPeriodoAction(fd));
@@ -170,9 +175,26 @@ export function PeriodoRow({
           <button onClick={() => setEditando(true)} disabled={isPending} style={btnIcon("#1A2B4A", "#E8E4DD")}>
             <Pencil size={12} strokeWidth={2.5} />
           </button>
-          <button onClick={eliminar} disabled={isPending} style={btnIcon("#991B1B", "#FECACA")}>
+          <button
+            onClick={() => setConfirmando(true)}
+            disabled={isPending || bloqueado}
+            aria-label={bloqueado ? motivoBloqueo : `Eliminar el período ${periodo.nombre}`}
+            title={bloqueado ? motivoBloqueo : "Eliminar"}
+            style={btnIcon("#991B1B", "#FECACA", bloqueado)}
+          >
             <Trash2 size={12} strokeWidth={2.5} />
           </button>
+
+          {/* Dentro del <td> y no del <tr>: un <dialog> suelto entre celdas es
+              HTML inválido y el navegador lo saca de la tabla al analizarla. */}
+          <DialogoConfirmacion
+            abierto={confirmando}
+            titulo={`¿Eliminar el período «${periodo.nombre}»?`}
+            descripcion="El período desaparece del cronograma público y de los filtros del panel. No tiene eventos asociados, así que no se pierde ninguna fecha."
+            textoConfirmar="Eliminar período"
+            onConfirmar={eliminar}
+            onCancelar={() => setConfirmando(false)}
+          />
         </div>
       </td>
     </tr>

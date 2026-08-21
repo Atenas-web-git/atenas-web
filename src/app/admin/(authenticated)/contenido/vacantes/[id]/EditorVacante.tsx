@@ -10,6 +10,7 @@
 
 import { useActionState, useState } from "react";
 import Link from "next/link";
+import { DialogoConfirmacion } from "@/components/admin/DialogoConfirmacion";
 import { AlertTriangle, Trash2 } from "lucide-react";
 import { guardarVacanteAction, borrarVacanteAction } from "../actions";
 import {
@@ -247,19 +248,33 @@ export function EditorVacante({
 }
 
 function BorrarVacante({ id, titulo }: { id: string; titulo: string }) {
+  const [confirmando, setConfirmando] = useState(false);
+
   return (
     <div style={{ borderTop: "1px solid #E8E4DD", paddingTop: 16 }}>
+      <DialogoConfirmacion
+        abierto={confirmando}
+        titulo={`¿Borrar la vacante «${titulo}»?`}
+        descripcion={
+          <>
+            Desaparece de «Trabaja con nosotros» en el sitio público.
+            <br />
+            <strong style={{ color: "#1A2B4A" }}>
+              Las postulaciones que ya llegaron no se borran
+            </strong>{" "}
+            — siguen en la bandeja de su formulario.
+          </>
+        }
+        textoConfirmar="Borrar vacante"
+        onConfirmar={() => {
+          setConfirmando(false);
+          void borrarVacanteAction(id);
+        }}
+        onCancelar={() => setConfirmando(false)}
+      />
       <button
         type="button"
-        onClick={() => {
-          if (
-            confirm(
-              `Se va a borrar la vacante «${titulo}».\n\nLas postulaciones que ya llegaron NO se borran: siguen en la bandeja de su formulario.\n\n¿Continuar?`
-            )
-          ) {
-            void borrarVacanteAction(id);
-          }
-        }}
+        onClick={() => setConfirmando(true)}
         className="inline-flex items-center gap-1.5"
         style={{
           border: "1px solid #E8E4DD",

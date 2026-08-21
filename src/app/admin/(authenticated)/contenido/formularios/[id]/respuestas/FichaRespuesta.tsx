@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { Download, Loader2, MailWarning, Paperclip, Trash2 } from "lucide-react";
 import {
   borrarRespuestaAction,
@@ -17,6 +17,7 @@ import {
   type EstadoRespuesta,
 } from "@/lib/formularios/tipos";
 import { valorLegible } from "@/lib/formularios/validar";
+import { DialogoConfirmacion } from "@/components/admin/DialogoConfirmacion";
 
 type Respuesta = {
   id: string;
@@ -48,6 +49,8 @@ export function FichaRespuesta({
   const [abierta, setAbierta] = useState(respuesta.estado === "nueva");
   const [pendiente, iniciar] = useTransition();
   const [descargando, setDescargando] = useState<string | null>(null);
+  const [confirmandoBorrado, setConfirmandoBorrado] = useState(false);
+  const formBorrarRef = useRef<HTMLFormElement>(null);
 
   const fecha = new Date(respuesta.created_at).toLocaleString("es-EC", {
     dateStyle: "long",
@@ -298,22 +301,42 @@ export function FichaRespuesta({
             formularios recogen cédula y datos de salud.
           */}
           <form
+            ref={formBorrarRef}
             action={(fd) => iniciar(() => borrarRespuestaAction(fd))}
-            onSubmit={(e) => {
-              if (
-                !confirm(
-                  `Se va a borrar la respuesta #${respuesta.numero} y sus archivos adjuntos, de forma permanente. Esto no se puede deshacer.\n\n¿Continuar?`
-                )
-              ) {
-                e.preventDefault();
-              }
-            }}
             style={{ borderTop: "1px solid #F1EEE9", paddingTop: 12 }}
           >
             <input type="hidden" name="id" value={respuesta.id} />
             <input type="hidden" name="formulario_id" value={formularioId} />
+
+            <DialogoConfirmacion
+              abierto={confirmandoBorrado}
+              titulo={`¿Borrar la respuesta #${respuesta.numero} para siempre?`}
+              descripcion={
+                <>
+                  Se elimina la respuesta y sus archivos adjuntos.{" "}
+                  <strong style={{ color: "#1A2B4A" }}>
+                    No se puede deshacer y no queda copia.
+                  </strong>
+                  <br />
+                  <br />
+                  Si lo que quieres es cerrar el caso, cambia el estado a
+                  «Descartada»: se conserva todo y deja de aparecer como
+                  pendiente.
+                </>
+              }
+              textoConfirmar="Borrar definitivamente"
+              onConfirmar={() => {
+                setConfirmandoBorrado(false);
+                formBorrarRef.current?.requestSubmit();
+              }}
+              onCancelar={() => setConfirmandoBorrado(false)}
+            />
+
+            {/* `type="button"`: abre el diálogo. El envío real lo dispara
+                `requestSubmit()` al confirmar. */}
             <button
-              type="submit"
+              type="button"
+              onClick={() => setConfirmandoBorrado(true)}
               disabled={pendiente}
               className="inline-flex items-center gap-1.5"
               style={{

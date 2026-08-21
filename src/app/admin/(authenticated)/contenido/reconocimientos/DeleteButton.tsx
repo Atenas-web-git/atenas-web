@@ -1,12 +1,25 @@
 "use client";
 
+import { useRef, useState } from "react";
 import { Trash2 } from "lucide-react";
 import { useFormStatus } from "react-dom";
+import { DialogoConfirmacion } from "@/components/admin/DialogoConfirmacion";
 
 type Props = {
   action: (formData: FormData) => void;
   hiddenFields: Record<string, string | number>;
   label?: string;
+  /**
+   * Mensaje de la confirmación, en dos partes separadas por una línea en blanco:
+   *
+   *     ¿Eliminar el logro "X"?
+   *
+   *     Se borrarán también sus fotos asociadas.
+   *
+   * La primera línea es el título del diálogo y el resto la explicación. Es el
+   * formato que ya usaban los seis sitios que llaman a este componente, así que
+   * se respeta tal cual; si no hay línea en blanco, todo va como título.
+   */
   confirmMessage: string;
   variant?: "lg" | "sm";
 };
@@ -18,27 +31,64 @@ export function DeleteButton({
   confirmMessage,
   variant = "lg",
 }: Props) {
+  const [confirmando, setConfirmando] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const corte = confirmMessage.indexOf("\n\n");
+  const titulo = corte === -1 ? confirmMessage : confirmMessage.slice(0, corte);
+  const descripcion = corte === -1 ? undefined : confirmMessage.slice(corte + 2).trim();
+
   return (
-    <form
-      action={action}
-      onSubmit={(e) => {
-        if (!confirm(confirmMessage)) e.preventDefault();
-      }}
-    >
+    <form ref={formRef} action={action}>
       {Object.entries(hiddenFields).map(([k, v]) => (
         <input key={k} type="hidden" name={k} value={String(v)} />
       ))}
-      <SubmitBtn label={label} variant={variant} />
+
+      {/*
+        El botón visible es `type="button"`: abre el diálogo y no envía nada.
+        El envío de verdad lo dispara `requestSubmit()` al confirmar, que sí
+        pasa por la server action y por `useFormStatus`.
+
+        Antes esto era un `onSubmit` que llamaba a `confirm()` y hacía
+        `preventDefault()` si decías que no. Funcionaba, pero dejaba el borrado
+        a un paso de un Intro: el botón de aceptar del navegador sale enfocado.
+      */}
+      <BotonBorrar
+        label={label}
+        variant={variant}
+        onPulsar={() => setConfirmando(true)}
+      />
+
+      <DialogoConfirmacion
+        abierto={confirmando}
+        titulo={titulo}
+        descripcion={descripcion}
+        textoConfirmar={label}
+        onConfirmar={() => {
+          setConfirmando(false);
+          formRef.current?.requestSubmit();
+        }}
+        onCancelar={() => setConfirmando(false)}
+      />
     </form>
   );
 }
 
-function SubmitBtn({ label, variant }: { label: string; variant: "lg" | "sm" }) {
+function BotonBorrar({
+  label,
+  variant,
+  onPulsar,
+}: {
+  label: string;
+  variant: "lg" | "sm";
+  onPulsar: () => void;
+}) {
   const { pending } = useFormStatus();
   const isSm = variant === "sm";
   return (
     <button
-      type="submit"
+      type="button"
+      onClick={onPulsar}
       disabled={pending}
       className="flex items-center gap-1.5 rounded-md transition-opacity hover:opacity-70 disabled:opacity-50"
       style={{

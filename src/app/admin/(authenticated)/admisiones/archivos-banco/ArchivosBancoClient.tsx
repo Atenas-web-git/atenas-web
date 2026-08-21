@@ -21,6 +21,7 @@ import {
   eliminarArchivoBancoAction,
 } from "./actions";
 import type { ArchivoBancoRow } from "./page";
+import { DialogoConfirmacion } from "@/components/admin/DialogoConfirmacion";
 
 function formatBytes(bytes: number | null): string {
   if (!bytes) return "—";
@@ -489,30 +490,42 @@ function EditingRow({
 }
 
 function DeleteBtn({ id, nombre }: { id: string; nombre: string }) {
+  const [confirmando, setConfirmando] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
   return (
-    <form
-      action={eliminarArchivoBancoAction}
-      onSubmit={(e) => {
-        if (
-          !confirm(
-            `¿Eliminar "${nombre}" del banco?\n\nEsto también lo desvincula de todas las plantillas y solicitudes asociadas. La acción NO se puede deshacer.`
-          )
-        ) {
-          e.preventDefault();
-        }
-      }}
-    >
+    <form ref={formRef} action={eliminarArchivoBancoAction}>
       <input type="hidden" name="id" value={id} />
-      <SubmitDelete />
+      {/* `type="button"`: abre el diálogo. El envío real lo dispara
+          `requestSubmit()` al confirmar. */}
+      <SubmitDelete onPulsar={() => setConfirmando(true)} />
+
+      <DialogoConfirmacion
+        abierto={confirmando}
+        titulo={`¿Eliminar «${nombre}» del banco?`}
+        descripcion={
+          <>
+            Se desvincula de todas las plantillas y solicitudes que lo usaban.{" "}
+            <strong style={{ color: "#1A2B4A" }}>No se puede deshacer.</strong>
+          </>
+        }
+        textoConfirmar="Eliminar archivo"
+        onConfirmar={() => {
+          setConfirmando(false);
+          formRef.current?.requestSubmit();
+        }}
+        onCancelar={() => setConfirmando(false)}
+      />
     </form>
   );
 }
 
-function SubmitDelete() {
+function SubmitDelete({ onPulsar }: { onPulsar: () => void }) {
   const { pending } = useFormStatus();
   return (
     <button
-      type="submit"
+      type="button"
+      onClick={onPulsar}
       disabled={pending}
       title="Eliminar"
       className="flex items-center justify-center transition-opacity hover:opacity-70 disabled:opacity-40"
