@@ -139,13 +139,46 @@ export async function updateUserAction(
     .update({ full_name: fullName, is_active: isActive, updated_at: new Date().toISOString() })
     .eq("id", userId);
 
-  // Reescribir roles: borrar todos y reinsertar
-  await supabase.from("user_roles").delete().eq("user_id", userId);
+  /*
+    Reescribir roles: borrar todos y reinsertar.
 
-  const { data: rolesRows } = await supabase
+    El orden importa y no hay transacción, así que se resuelve ANTES de borrar.
+    Tal como estaba —borrar, buscar los ids, insertar, y ninguna de las tres
+    comprobando `error`— cualquier fallo dejaba al usuario **sin ningún rol**,
+    con la sesión válida y sin acceso a nada, mientras la pantalla decía
+    «Guardado ✓». Y bastaba con un slug que no estuviera en la tabla `roles`:
+    `VALID_ROLES` valida contra una lista escrita en código, no contra la base,
+    así que `editor_talento` desaparecía en silencio en cualquier entorno donde
+    la migración 079 no hubiera corrido.
+  */
+  const { data: rolesRows, error: errorRoles } = await supabase
     .from("roles")
     .select("id, slug")
     .in("slug", selectedRoles);
+
+  if (errorRoles) {
+    console.error("[usuarios] leyendo roles:", errorRoles);
+    return { error: "No se pudieron leer los roles. No se cambió nada.", ok: false };
+  }
+
+  const encontrados = (rolesRows ?? []).map((r) => r.slug as string);
+  const faltan = selectedRoles.filter((s) => !encontrados.includes(s));
+  if (faltan.length > 0) {
+    return {
+      error: `Estos roles no existen en la base: ${faltan.join(", ")}. No se cambió nada.`,
+      ok: false,
+    };
+  }
+
+  const { error: errorBorrado } = await supabase
+    .from("user_roles")
+    .delete()
+    .eq("user_id", userId);
+
+  if (errorBorrado) {
+    console.error("[usuarios] borrando roles:", errorBorrado);
+    return { error: "No se pudieron actualizar los roles. No se cambió nada.", ok: false };
+  }
 
   const inserts = (rolesRows ?? []).map((r) => ({
     user_id: userId,
@@ -154,7 +187,16 @@ export async function updateUserAction(
   }));
 
   if (inserts.length > 0) {
-    await supabase.from("user_roles").insert(inserts);
+    const { error: errorInsert } = await supabase.from("user_roles").insert(inserts);
+    if (errorInsert) {
+      console.error("[usuarios] insertando roles:", errorInsert);
+      // Aquí ya se borraron los viejos: hay que decirlo, no dar por bueno.
+      return {
+        error:
+          "Se quitaron los roles anteriores pero no se pudieron asignar los nuevos. Vuelve a guardar.",
+        ok: false,
+      };
+    }
   }
 
   revalidatePath("/admin/usuarios");
