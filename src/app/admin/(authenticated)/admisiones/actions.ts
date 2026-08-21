@@ -191,7 +191,9 @@ export async function updateNotasAction(
   return { error: null, ok: true };
 }
 
-const ADJUNTO_MAX_BYTES = 5 * 1024 * 1024; // 5 MB
+// 4 MB: es lo que deja pasar de verdad la cadena entera —el tope de las
+// server actions en next.config.ts y el corte de 4,5 MB de Vercel—.
+const ADJUNTO_MAX_BYTES = 4 * 1024 * 1024;
 
 export async function uploadAdjuntoAction(
   _prev: AdmisionActionState,

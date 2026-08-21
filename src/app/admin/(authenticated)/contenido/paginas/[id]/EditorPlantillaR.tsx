@@ -205,7 +205,7 @@ export function EditorPlantillaR({
               style={inputStyle}
             />
           </Field>
-          <Field label="Período (opcional)" hint='Ej. "2021–2026". Aparece como pill dorado al lado del heading.'>
+          <Field label="Período (opcional)" hint='Ej. "2021–2026". Aparece como pill rojo al lado del heading.'>
             <input
               type="text"
               value={seccionPeriod}

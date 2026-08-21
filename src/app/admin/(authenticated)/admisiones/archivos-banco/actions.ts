@@ -7,7 +7,9 @@ import { ROLES, hasAnyRole } from "@/lib/auth/types";
 
 export type ArchivosBancoActionState = { error: string | null; ok: boolean };
 
-const MAX_BYTES = 10 * 1024 * 1024; // 10 MB por archivo del banco
+// 4 MB, no 10: por encima de eso el archivo no llega. Ver el comentario de
+// `experimental.serverActions` en next.config.ts.
+const MAX_BYTES = 4 * 1024 * 1024;
 
 async function assertAdmisiones() {
   const user = await getCurrentUser();

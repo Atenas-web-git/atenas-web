@@ -317,7 +317,7 @@ export function EditorPlantillaF({
       {/* Hero */}
       <Card title="Hero (cabecera)" subtitle="Primera sección de la página, con título grande sobre fondo navy.">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <Field label="Badge superior" hint="Texto pequeño dorado sobre el título.">
+          <Field label="Badge superior" hint="Texto pequeño rojo sobre el título.">
             <input
               type="text"
               value={heroBadge}
@@ -375,7 +375,7 @@ export function EditorPlantillaF({
       {/* Stats strip */}
       <Card
         title="Stats (3 datos clave)"
-        subtitle="Strip horizontal sobre fondo blanco, justo después del hero. Cada stat tiene una etiqueta dorada y un valor en navy."
+        subtitle="Strip horizontal sobre fondo blanco, justo después del hero. Cada stat tiene una etiqueta roja y un valor en navy."
       >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {([stat0, stat1, stat2] as StatPlantillaF[]).map((s, i) => {
@@ -383,7 +383,7 @@ export function EditorPlantillaF({
             return (
               <div key={i} className="flex flex-col gap-3 p-4" style={panelStyle}>
                 <span style={panelLabel}>Stat #{i + 1}</span>
-                <Field label="Etiqueta" hint="Texto pequeño dorado en mayúsculas.">
+                <Field label="Etiqueta" hint="Texto pequeño rojo en mayúsculas.">
                   <input
                     type="text"
                     value={s.label}
@@ -425,7 +425,7 @@ export function EditorPlantillaF({
           </Field>
           <Field
             label="Parte resaltada del título"
-            hint='Escribe una palabra o frase del encabezado para subrayarla en dorado. No importan mayúsculas ni tildes. Ej.: encabezado "Formamos líderes del mundo" → escribe "líderes".'
+            hint='Escribe una palabra o frase del encabezado para subrayarla en rojo. No importan mayúsculas ni tildes. Ej.: encabezado "Formamos líderes del mundo" → escribe "líderes".'
           >
             <input
               type="text"
@@ -530,7 +530,7 @@ export function EditorPlantillaF({
         </div>
 
         {/* Nota */}
-        <Field label="Nota destacada" hint="Caja con borde dorado a la izquierda, debajo de los chips.">
+        <Field label="Nota destacada" hint="Caja con borde rojo a la izquierda, debajo de los chips.">
           <textarea
             value={note}
             onChange={(e) => setNote(e.target.value)}
@@ -567,7 +567,7 @@ export function EditorPlantillaF({
           />
         </div>
 
-        <Field label="Texto del badge dorado del collage" hint='Aparece sobre el collage. Ej: "ATENAS IB ★", "ATENAS ★".'>
+        <Field label="Texto del badge rojo del collage" hint='Aparece sobre el collage. Ej: "ATENAS IB ★", "ATENAS ★".'>
           <input
             type="text"
             value={badgeCollage}

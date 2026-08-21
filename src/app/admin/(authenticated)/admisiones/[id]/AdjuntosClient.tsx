@@ -16,7 +16,9 @@ type Adjunto = {
   uploaded_at: string;
 };
 
-const MAX_BYTES = 5 * 1024 * 1024;
+// 4 MB: el mismo número que el servidor y que `bodySizeLimit`. Comprobar
+// aquí evita que el archivo viaje para nada.
+const MAX_BYTES = 4 * 1024 * 1024;
 
 function formatSize(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
@@ -47,7 +49,7 @@ export function AdjuntosClient({
       return;
     }
     if (file.size > MAX_BYTES) {
-      setClientError("El archivo supera el límite de 5 MB.");
+      setClientError("El archivo supera el límite de 4 MB.");
       e.target.value = "";
       setPickedName(null);
       return;
@@ -101,7 +103,7 @@ export function AdjuntosClient({
                 fontWeight: pickedName ? 500 : 400,
               }}
             >
-              {pickedName ?? "Selecciona un archivo (máx. 5 MB)"}
+              {pickedName ?? "Selecciona un archivo (máx. 4 MB)"}
             </span>
           </div>
           <input

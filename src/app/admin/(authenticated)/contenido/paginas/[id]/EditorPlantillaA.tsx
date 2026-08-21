@@ -191,7 +191,7 @@ export function EditorPlantillaA({
       {/* Hero */}
       <Card title="Hero (cabecera)" subtitle="La primera sección visible al cargar la página, con título grande sobre fondo navy.">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <Field label="Badge superior" hint="Texto pequeño dorado sobre el título. Default: 'QUIÉNES SOMOS'.">
+          <Field label="Badge superior" hint="Texto pequeño rojo sobre el título. Default: 'QUIÉNES SOMOS'.">
             <input
               type="text"
               value={heroBadge}
@@ -357,7 +357,7 @@ export function EditorPlantillaA({
           </button>
         </div>
 
-        <Field label="Nota al pie (opcional)" hint="Texto pequeño con borde dorado a la izquierda. Útil para aclaraciones.">
+        <Field label="Nota al pie (opcional)" hint="Texto pequeño con borde rojo a la izquierda. Útil para aclaraciones.">
           <textarea
             value={seccionNote}
             onChange={(e) => setSeccionNote(e.target.value)}

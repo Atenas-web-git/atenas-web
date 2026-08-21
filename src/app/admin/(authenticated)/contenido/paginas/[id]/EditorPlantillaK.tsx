@@ -289,7 +289,7 @@ function RevistaAtenasEditor({
         </span>
       </label>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-        <Field label="Eyebrow" hint='Pequeño texto dorado arriba del título. Ej. "Recurso destacado"'>
+        <Field label="Eyebrow" hint='Pequeño texto rojo arriba del título. Ej. "Recurso destacado"'>
           <input
             type="text"
             value={revista.eyebrow ?? ""}
@@ -340,7 +340,7 @@ function RevistaAtenasEditor({
       </Field>
       <Field
         label="Foto de la portada (opcional)"
-        hint="Se muestra a la derecha de la card en desktop, con una ligera inclinación. Recomendado: imagen vertical (proporción 4:5). Si vacía, se muestra el placeholder dorado por defecto."
+        hint="Se muestra a la derecha de la card en desktop, con una ligera inclinación. Recomendado: imagen vertical (proporción 4:5). Si vacía, se muestra el placeholder rojo por defecto."
       >
         <ImageUploader
           value={revista.coverImage ?? ""}
@@ -469,7 +469,7 @@ function FichaEditor({ ficha, setFicha, prefix }: { ficha: Ficha; setFicha: (f: 
             onChange={(e) => set({ color: e.target.value as "gold" | "red" })}
             style={inputStyle}
           >
-            <option value="gold">Gold (dorado)</option>
+            <option value="gold">Gold (rojo)</option>
             <option value="red">Red (rojo)</option>
           </select>
         </Field>

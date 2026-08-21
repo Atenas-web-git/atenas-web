@@ -443,14 +443,14 @@ export function EditorPlantillaC({
                       placeholder="ej. 1234567-8"
                       style={{ ...inputStyle, height: 32, fontSize: 12 }}
                     />
-                    <label className="flex items-center gap-1 cursor-pointer" title="Resaltar valor en dorado">
+                    <label className="flex items-center gap-1 cursor-pointer" title="Resaltar valor en rojo">
                       <input
                         type="checkbox"
                         checked={!!f.destacado}
                         onChange={(e) => updateFilaTarjeta(i, j, { destacado: e.target.checked })}
                         style={{ accentColor: "#9e1915" }}
                       />
-                      <span style={{ fontSize: 10, color: "#6B6660" }}>Dorado</span>
+                      <span style={{ fontSize: 10, color: "#6B6660" }}>Rojo</span>
                     </label>
                     <button
                       type="button"
@@ -560,7 +560,7 @@ export function EditorPlantillaC({
       </Card>
 
       {/* Nota */}
-      <Card title="Nota destacada al pie (opcional)" subtitle="Aparece como recuadro dorado claro al final.">
+      <Card title="Nota destacada al pie (opcional)" subtitle="Aparece como recuadro rojo claro al final.">
         <div className="grid grid-cols-1 md:grid-cols-[80px_1fr] gap-3">
           <Field label="Icono">
             <input type="text" value={notaIcono} onChange={(e) => setNotaIcono(e.target.value)} placeholder="💬" maxLength={4} style={{ ...inputStyle, textAlign: "center" }} />

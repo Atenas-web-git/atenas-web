@@ -179,7 +179,7 @@ export function EditorPlantillaB({
       {/* Hero */}
       <Card title="Hero (cabecera)" subtitle="La primera sección visible al cargar la página, con título grande sobre fondo navy.">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <Field label="Badge superior" hint="Texto pequeño dorado sobre el título. Default: 'QUIÉNES SOMOS'.">
+          <Field label="Badge superior" hint="Texto pequeño rojo sobre el título. Default: 'QUIÉNES SOMOS'.">
             <input
               type="text"
               value={heroBadge}
@@ -466,7 +466,7 @@ export function EditorPlantillaB({
                   </Field>
                   <Field
                     label="Tarjeta destacada"
-                    hint="Marca con un fondo navy claro y borde dorado más intenso."
+                    hint="Marca con un fondo navy claro y borde rojo más intenso."
                   >
                     <label className="flex items-center gap-2" style={{ height: 38 }}>
                       <input

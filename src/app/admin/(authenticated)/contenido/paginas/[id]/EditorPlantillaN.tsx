@@ -198,7 +198,7 @@ export function EditorPlantillaN({
         title="Hero (cabecera)"
         subtitle="Primera sección con foto de fondo + título a 2 líneas (segunda línea en blanco)."
       >
-        <Field label="Eyebrow" hint='Texto pequeño dorado sobre el título.'>
+        <Field label="Eyebrow" hint='Texto pequeño rojo sobre el título.'>
           <input
             type="text"
             value={heroEyebrow}
@@ -376,7 +376,7 @@ export function EditorPlantillaN({
               </Field>
               <Field
                 label="Color de acento"
-                hint="Gold (dorado), Navy (azul oscuro) o Red (rojo)."
+                hint="Gold (rojo), Navy (azul oscuro) o Red (rojo)."
               >
                 <select
                   value={v.color}
@@ -385,7 +385,7 @@ export function EditorPlantillaN({
                   }
                   style={inputStyle}
                 >
-                  <option value="gold">Gold (dorado)</option>
+                  <option value="gold">Gold (rojo)</option>
                   <option value="navy">Navy (azul oscuro)</option>
                   <option value="red">Red (rojo)</option>
                 </select>

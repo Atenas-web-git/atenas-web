@@ -4,6 +4,28 @@ const nextConfig: NextConfig = {
   // No hace falta anunciar con qué está hecho el sitio en cada respuesta.
   poweredByHeader: false,
 
+  /*
+    El tope de lo que puede viajar en una server action.
+
+    **Next lo pone en 1 MB por defecto**, y las dos subidas del panel que van
+    por server action —los adjuntos de una solicitud y el banco de archivos—
+    prometían 5 y 10 MB en pantalla. Una cédula o una partida de nacimiento
+    escaneada pasa de 1 MB sin esfuerzo: el archivo se rechazaba con un 413 y,
+    como el proyecto no tiene `error.tsx`, no caía en ninguna pantalla de error.
+    Quien subía no sabía por qué no se subía.
+
+    4 MB y no más: **Vercel corta el cuerpo de la petición en 4,5 MB**, así que
+    prometer 10 sería cambiar una mentira por otra. Los dos topes del servidor y
+    los dos textos de pantalla se bajaron a este número.
+
+    Las subidas que NO pasan por aquí y por eso admiten más: las imágenes y
+    videos del CMS (`/api/admin/upload-*`) y los adjuntos de los formularios
+    públicos, que van firmados directo a Storage.
+  */
+  experimental: {
+    serverActions: { bodySizeLimit: "4mb" },
+  },
+
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [

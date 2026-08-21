@@ -135,7 +135,7 @@ function HeroEditor({ hero, setHero, prefix }: { hero: Hero; setHero: (h: Hero) 
         <Field label="Título — línea 1 (blanco)" required>
           <input type="text" value={hero.titleLine1} onChange={(e) => set({ titleLine1: e.target.value })} required style={inputStyle} />
         </Field>
-        <Field label="Título — línea 2 (dorado)" required>
+        <Field label="Título — línea 2 (rojo)" required>
           <input type="text" value={hero.titleLine2} onChange={(e) => set({ titleLine2: e.target.value })} required style={inputStyle} />
         </Field>
       </div>
@@ -175,7 +175,7 @@ function FundacionEditor({ fundacion, setFundacion, prefix }: { fundacion: Funda
       <Field label="Párrafo principal" hint="Texto descriptivo de los orígenes. Color gris suave en el frontend.">
         <textarea value={fundacion.paragraph1} onChange={(e) => set({ paragraph1: e.target.value })} rows={5} style={textareaStyle} />
       </Field>
-      <Field label="Párrafo destacado" hint="Aparece debajo de una línea dorada con texto en bold navy. Para hitos clave.">
+      <Field label="Párrafo destacado" hint="Aparece debajo de una línea roja con texto en bold navy. Para hitos clave.">
         <textarea value={fundacion.paragraph2} onChange={(e) => set({ paragraph2: e.target.value })} rows={3} style={textareaStyle} />
       </Field>
 
@@ -377,7 +377,7 @@ function TrayectoriaEditor({ trayectoria, setTrayectoria, prefix }: { trayectori
       {/* Hitos */}
       <span style={fieldLabel}>Hitos {trayectoria.hitos.length > 0 && `(${trayectoria.hitos.length})`}</span>
       <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
-        Se recomiendan 6 hitos (2 filas de 3 en desktop). Marca uno como destacado para resaltarlo con borde dorado.
+        Se recomiendan 6 hitos (2 filas de 3 en desktop). Marca uno como destacado para resaltarlo con borde rojo.
       </p>
       <div className="flex flex-col gap-3">
         {trayectoria.hitos.map((h, i) => (
@@ -403,7 +403,7 @@ function TrayectoriaEditor({ trayectoria, setTrayectoria, prefix }: { trayectori
                   style={{ width: 16, height: 16, accentColor: "#1A2B4A" }}
                 />
                 <span style={{ fontSize: 12, color: "#1A2B4A" }}>
-                  Borde dorado destacado (típico para el último hito o "actual")
+                  Borde rojo destacado (típico para el último hito o "actual")
                 </span>
               </label>
             </Field>
@@ -533,7 +533,7 @@ function CitaEditor({ cita, setCita, prefix }: { cita: Cita; setCita: (c: Cita) 
       <Field label="Cita principal" hint='Acepta saltos de línea con Enter. Aparece en blanco grande sobre fondo navy.'>
         <textarea value={cita.quote} onChange={(e) => set({ quote: e.target.value })} rows={4} required style={textareaStyle} />
       </Field>
-      <Field label="Atribución" hint='Texto pequeño debajo de la línea dorada (ej. "Unidad Educativa Atenas · Desde 1976").'>
+      <Field label="Atribución" hint='Texto pequeño debajo de la línea roja (ej. "Unidad Educativa Atenas · Desde 1976").'>
         <input type="text" value={cita.attribution} onChange={(e) => set({ attribution: e.target.value })} style={inputStyle} />
       </Field>
       <ImageUploader

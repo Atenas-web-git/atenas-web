@@ -298,7 +298,7 @@ export function EditorPlantillaS({
         </button>
       </Card>
 
-      <Card title="Tarjeta CTA al pie" subtitle="Tarjeta dorada al final del documento que invita a contactar.">
+      <Card title="Tarjeta CTA al pie" subtitle="Tarjeta roja al final del documento que invita a contactar.">
         <Field label="Título de la tarjeta">
           <input
             type="text"

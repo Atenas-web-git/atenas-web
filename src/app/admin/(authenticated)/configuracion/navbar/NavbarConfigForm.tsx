@@ -110,7 +110,7 @@ export function NavbarConfigForm({ initial }: { initial: NavbarConfig }) {
 
       <Card
         title="Botón «Tour Virtual»"
-        subtitle="Píldora dorada con borde. Suele apuntar al paseo virtual 360°. Cuando el cliente entregue la URL real, edítalo aquí."
+        subtitle="Píldora roja con borde. Suele apuntar al paseo virtual 360°. Cuando el cliente entregue la URL real, edítalo aquí."
       >
         <Toggle
           label="Mostrar este botón"

@@ -170,16 +170,16 @@ export function EditorPlantillaQ({
 
       <Card
         title="Hero — contenido principal"
-        subtitle="Foto de fondo + eyebrow + título a 2 líneas (segunda en dorado) + descripción + caption + ghost text."
+        subtitle="Foto de fondo + eyebrow + título a 2 líneas (segunda en rojo) + descripción + caption + ghost text."
       >
-        <Field label="Eyebrow (texto pequeño dorado)">
+        <Field label="Eyebrow (texto pequeño rojo)">
           <input type="text" value={heroEyebrow} onChange={(e) => setHeroEyebrow(e.target.value)} style={inputStyle} />
         </Field>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <Field label="Título — línea 1 (blanco)" required>
             <input type="text" value={heroTitleLine1} onChange={(e) => setHeroTitleLine1(e.target.value)} required style={inputStyle} />
           </Field>
-          <Field label="Título — línea 2 (dorado)" required>
+          <Field label="Título — línea 2 (rojo)" required>
             <input type="text" value={heroTitleLine2} onChange={(e) => setHeroTitleLine2(e.target.value)} required style={inputStyle} />
           </Field>
         </div>

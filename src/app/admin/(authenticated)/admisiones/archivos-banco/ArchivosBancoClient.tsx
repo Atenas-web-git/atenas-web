@@ -146,7 +146,7 @@ function UploadCard() {
           Subir archivo nuevo
         </h2>
         <p style={{ fontSize: 12, color: "#6B6660", margin: "2px 0 0" }}>
-          Acepta PDF, imágenes, Word, Excel. Máx 10 MB.
+          Acepta PDF, imágenes, Word, Excel. Máx 4 MB.
         </p>
       </div>
 

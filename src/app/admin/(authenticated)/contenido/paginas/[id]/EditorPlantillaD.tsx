@@ -268,7 +268,7 @@ export function EditorPlantillaD({
       {/* Hero */}
       <Card title="Hero (cabecera)" subtitle="Cabecera grande con título sobre fondo navy.">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <Field label="Badge superior" hint="Texto pequeño dorado sobre el título.">
+          <Field label="Badge superior" hint="Texto pequeño rojo sobre el título.">
             <input type="text" value={heroBadge} onChange={(e) => setHeroBadge(e.target.value)} placeholder="MATRÍCULAS" style={inputStyle} />
           </Field>
           <Field label="Ghost text" hint="Texto enorme decorativo de fondo.">
@@ -508,7 +508,7 @@ export function EditorPlantillaD({
               style={{ accentColor: "#9e1915" }}
             />
             <span style={{ fontSize: 12, color: "#1A2B4A" }}>
-              Resaltar última columna en dorado (típico para precios o valores)
+              Resaltar última columna en rojo (típico para precios o valores)
             </span>
           </label>
         </div>

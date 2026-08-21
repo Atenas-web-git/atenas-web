@@ -278,7 +278,7 @@ export function EditorPlantillaP({
       {/* HERO */}
       <Card
         title="Hero (cabecera)"
-        subtitle="Eyebrow + título a 2 líneas (segunda en dorado) + subtítulo (con fragmento subrayado en dorado) + ghost text + bgImage + badge flotante + collage de 3 fotos + 2 CTAs + stats bar."
+        subtitle="Eyebrow + título a 2 líneas (segunda en rojo) + subtítulo (con fragmento subrayado en rojo) + ghost text + bgImage + badge flotante + collage de 3 fotos + 2 CTAs + stats bar."
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <Field label="Eyebrow">
@@ -290,14 +290,14 @@ export function EditorPlantillaP({
           <Field label="Título — línea 1 (blanco)" required>
             <input type="text" value={heroTitleLine1} onChange={(e) => setHeroTitleLine1(e.target.value)} required style={inputStyle} />
           </Field>
-          <Field label="Título — línea 2 (dorado)" required>
+          <Field label="Título — línea 2 (rojo)" required>
             <input type="text" value={heroTitleLine2} onChange={(e) => setHeroTitleLine2(e.target.value)} required style={inputStyle} />
           </Field>
         </div>
         <Field label="Subtítulo — antes del subrayado">
           <input type="text" value={heroSubtitlePre} onChange={(e) => setHeroSubtitlePre(e.target.value)} style={inputStyle} />
         </Field>
-        <Field label="Subtítulo — palabra subrayada (dorado)">
+        <Field label="Subtítulo — palabra subrayada (rojo)">
           <input type="text" value={heroSubtitleHighlight} onChange={(e) => setHeroSubtitleHighlight(e.target.value)} style={inputStyle} />
         </Field>
         <Field label="Subtítulo — después del subrayado">
@@ -335,7 +335,7 @@ export function EditorPlantillaP({
 
         <Subtitle text="Botones del hero" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <Field label="CTA primario — texto" hint="Botón dorado.">
+          <Field label="CTA primario — texto" hint="Botón rojo.">
             <input type="text" value={heroCtaPriLabel} onChange={(e) => setHeroCtaPriLabel(e.target.value)} style={inputStyle} />
           </Field>
           <Field label="CTA primario — URL">
@@ -381,7 +381,7 @@ export function EditorPlantillaP({
         <Field label="Heading — antes del subrayado">
           <input type="text" value={procHeadingPre} onChange={(e) => setProcHeadingPre(e.target.value)} style={inputStyle} />
         </Field>
-        <Field label="Heading — palabra subrayada (dorado)">
+        <Field label="Heading — palabra subrayada (rojo)">
           <input type="text" value={procHeadingHighlight} onChange={(e) => setProcHeadingHighlight(e.target.value)} style={inputStyle} />
         </Field>
         <Field label="Descripción">
@@ -427,7 +427,7 @@ export function EditorPlantillaP({
         <Field label="Heading — antes del subrayado">
           <input type="text" value={nivHeadingPre} onChange={(e) => setNivHeadingPre(e.target.value)} style={inputStyle} />
         </Field>
-        <Field label="Heading — palabra subrayada (dorado)">
+        <Field label="Heading — palabra subrayada (rojo)">
           <input type="text" value={nivHeadingHighlight} onChange={(e) => setNivHeadingHighlight(e.target.value)} style={inputStyle} />
         </Field>
         <Field label="Descripción">
@@ -511,7 +511,7 @@ export function EditorPlantillaP({
           <Field label="Heading — antes del subrayado">
             <input type="text" value={visHeadingPre} onChange={(e) => setVisHeadingPre(e.target.value)} style={inputStyle} />
           </Field>
-          <Field label="Heading — palabra subrayada (dorado)">
+          <Field label="Heading — palabra subrayada (rojo)">
             <input type="text" value={visHeadingHighlight} onChange={(e) => setVisHeadingHighlight(e.target.value)} style={inputStyle} />
           </Field>
         </div>

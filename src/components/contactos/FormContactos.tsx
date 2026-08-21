@@ -64,7 +64,20 @@ export function FormContactos({
           </span>
         </div>
 
-        {/* Google Maps iframe */}
+        {/*
+          La dirección viene validada por ANFITRIÓN desde `contactosPagina`:
+          tiene que ser `https` de google.com o maps.google.com y con ruta de
+          mapas. Antes solo se le hacía `.trim()`, así que un editor podía
+          apuntar «el mapa» a cualquier sitio y quedaba incrustado a media
+          pantalla en la página del colegio.
+
+          ⚠️ Falta el `sandbox` que pide la ficha, y falta a propósito: se
+          escribió, y **no se pudo comprobar que el mapa siguiera cargando**
+          —el iframe es `lazy` y no llegó a pedirse en el entorno de prueba—.
+          Un `sandbox` mal puesto deja el mapa en blanco sin ningún error, en
+          una página pública. Se prueba en un navegador de verdad y se añade.
+          → ficha 2026-08-14-iframe-del-mapa-sin-validar-en-contactos
+        */}
         <iframe
           src={mapa.embedUrl}
           title="Ubicación Unidad Educativa Atenas"

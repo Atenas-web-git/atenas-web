@@ -214,7 +214,7 @@ function DetalleEditor({ detalle, setDetalle, prefix }: { detalle: Detalle; setD
       {/* ficha técnica */}
       <span style={fieldLabel}>Ficha técnica {detalle.ficha.length > 0 && `(${detalle.ficha.length})`}</span>
       <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
-        Recomendado 4 filas. Marca una como destacada (se pinta dorado y bold).
+        Recomendado 4 filas. Marca una como destacada (se pinta rojo y bold).
       </p>
       <div className="flex flex-col gap-3">
         {detalle.ficha.map((f, i) => (
@@ -235,7 +235,7 @@ function DetalleEditor({ detalle, setDetalle, prefix }: { detalle: Detalle; setD
                     onChange={(e) => updateFicha(i, { highlight: e.target.checked || undefined })}
                     style={{ width: 16, height: 16, accentColor: "#9e1915" }}
                   />
-                  <span style={{ fontSize: 12, color: "#1A2B4A" }}>Pintar dorado</span>
+                  <span style={{ fontSize: 12, color: "#1A2B4A" }}>Pintar rojo</span>
                 </label>
               </Field>
             </div>
@@ -320,7 +320,7 @@ function ActividadesEditor({
 
       <span style={fieldLabel}>Actividades {actividades.items.length > 0 && `(${actividades.items.length})`}</span>
       <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
-        Recomendado 4-6 actividades. Marca una como destacada (se pinta dorado).
+        Recomendado 4-6 actividades. Marca una como destacada (se pinta rojo).
       </p>
       <div className="flex flex-col gap-3">
         {actividades.items.map((it, i) => (
@@ -341,7 +341,7 @@ function ActividadesEditor({
                     onChange={(e) => updateItem(i, { highlight: e.target.checked || undefined })}
                     style={{ width: 16, height: 16, accentColor: "#9e1915" }}
                   />
-                  <span style={{ fontSize: 12, color: "#1A2B4A" }}>Dorado</span>
+                  <span style={{ fontSize: 12, color: "#1A2B4A" }}>Rojo</span>
                 </label>
               </Field>
             </div>

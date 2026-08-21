@@ -254,7 +254,10 @@ export async function guardarFormularioAction(
     .from("formularios")
     .update({
       nombre,
-      descripcion_interna: String(formData.get("descripcion_interna") ?? "").trim() || null,
+      // OJO: aquí NO se toca `descripcion_interna`. Se leía del formulario, y no
+    // existe ningún control con ese nombre en todo el panel, así que el primer
+    // guardado de cualquier formulario la ponía a null y se llevaba por delante
+    // lo que sembraron las migraciones 075 y 077.
       titulo: String(formData.get("titulo") ?? "").trim() || null,
       subtitulo: String(formData.get("subtitulo") ?? "").trim() || null,
       texto_boton: String(formData.get("texto_boton") ?? "").trim() || "Enviar",
@@ -270,8 +273,26 @@ export async function guardarFormularioAction(
       plantilla_correo: plantillaSegura(String(formData.get("plantilla_correo") ?? "")),
       campo_correo: campoCorreo || null,
       confirmacion_activa: confirmacionActiva,
-      confirmacion_asunto: String(formData.get("confirmacion_asunto") ?? "").trim() || null,
-      confirmacion_cuerpo: String(formData.get("confirmacion_cuerpo") ?? "").trim() || null,
+      /*
+        El asunto y el cuerpo solo se escriben cuando la confirmación está
+        encendida, porque solo entonces existen en la pantalla.
+
+        Con la casilla apagada, sus dos campos se desmontan y no llegan aquí.
+        Escribirlos igual los ponía a `null`: quien desmarcaba «Enviar
+        confirmación» y guardaba perdía el correo que había redactado, y al
+        volver a encenderla salían vacíos. Peor aún, el motor cae a un texto
+        genérico y el correo sigue saliendo, así que nadie se entera.
+
+        Apagar una función no es motivo para borrar lo que hay dentro.
+      */
+      ...(confirmacionActiva
+        ? {
+            confirmacion_asunto:
+              String(formData.get("confirmacion_asunto") ?? "").trim() || null,
+            confirmacion_cuerpo:
+              String(formData.get("confirmacion_cuerpo") ?? "").trim() || null,
+          }
+        : {}),
       activo: formData.get("activo") === "on",
       updated_by: user.id,
     })

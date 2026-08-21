@@ -344,13 +344,13 @@ export type TarjetaPlantillaB = {
   icon: string;
   title: string;
   description: string;
-  /** Línea pequeña dorada bajo el título (ej. "Valores, Actitudes, Servicio…"). */
+  /** Línea pequeña roja bajo el título (ej. "Valores, Actitudes, Servicio…"). */
   subtitle?: string;
   /** Si está presente, la tarjeta es un link a esa URL (interna o externa). */
   href?: string;
   /** Variante de color del acento. Default: "gold". */
   color?: "gold" | "red";
-  /** Marca la tarjeta como destacada (borde dorado más intenso). */
+  /** Marca la tarjeta como destacada (borde rojo más intenso). */
   highlight?: boolean;
   /** Texto del CTA al final de la tarjeta. Solo aparece si hay `href`. */
   ctaText?: string;
@@ -382,7 +382,7 @@ export type FilaTarjetaPlantillaC = {
   label: string;
   /** ej. "Cuenta Corriente", "12345-6". */
   value: string;
-  /** Si true, el value se pinta en dorado y bold (típico para datos clave). */
+  /** Si true, el value se pinta en rojo y bold (típico para datos clave). */
   destacado?: boolean;
 };
 
@@ -563,7 +563,7 @@ export function defaultContenidoPlantillaB(): ContenidoPlantillaB {
 // ─── Plantilla F (Hero + ficha académica + tarjetas/plataformas) ────────
 
 export type StatPlantillaF = {
-  /** Texto pequeño dorado en mayúsculas (ej. "Programa", "Grados"). */
+  /** Texto pequeño rojo en mayúsculas (ej. "Programa", "Grados"). */
   label: string;
   /** Texto principal en navy (ej. "Diploma del IB", "1ro a 7mo EGB"). */
   value: string;
@@ -619,17 +619,17 @@ export type ContenidoPlantillaF = {
   intro: {
     badge: string;
     heading: string;
-    /** Si está presente, esa parte del heading se pinta con un brush dorado debajo. */
+    /** Si está presente, esa parte del heading se pinta con un brush rojo debajo. */
     headingHighlight?: string;
     paragraphs: string[];
     /** Texto que aparece sobre los chips (ej. "Componentes", "Metodologías"). */
     chipsLabel?: string;
     chips: ChipPlantillaF[];
-    /** Nota destacada con borde dorado a la izquierda. */
+    /** Nota destacada con borde rojo a la izquierda. */
     note?: string;
     /** 3 fotos para el collage en desktop. La primera se usa también en mobile. */
     photos: [string, string, string];
-    /** Texto del badge dorado flotante sobre el collage (ej. "ATENAS IB ★"). */
+    /** Texto del badge rojo flotante sobre el collage (ej. "ATENAS IB ★"). */
     badgeCollage?: string;
   };
   /** Sección oscura inferior. Si tipo="ninguna" no se renderiza. */
@@ -682,17 +682,17 @@ export type ContenidoPlantillaG = {
     bgImageSrc?: string;
     ghostText: string;
     badge: string;
-    /** Título partido en 2 líneas (línea 2 va en dorado). */
+    /** Título partido en 2 líneas (línea 2 va en rojo). */
     titleLine1: string;
     titleLine2: string;
-    /** Subtítulo con un fragmento subrayado en dorado. */
+    /** Subtítulo con un fragmento subrayado en rojo. */
     subtitle: string;
     subtitleHighlight: string;
     ctaPrimary: CTAItem;
     ctaSecondary: CTAItem;
     /** 3 fotos del collage flotante derecha (desktop). */
     floatingPhotos: [string, string, string];
-    /** Badge dorado flotante sobre el collage (2 líneas). */
+    /** Badge rojo flotante sobre el collage (2 líneas). */
     floatingBadgeLine1: string;
     floatingBadgeLine2: string;
     chips: { texto: string }[];
@@ -845,7 +845,7 @@ export type ContenidoPlantillaH = {
     subtitle: string;
     subtitleHighlight: string;
     floatingPhotos: [string, string, string];
-    /** Badge dorado flotante: número grande + label pequeño. */
+    /** Badge rojo flotante: número grande + label pequeño. */
     floatingBadgeValue: string;
     floatingBadgeLabel: string;
     chips: { texto: string; highlight?: boolean }[];
@@ -858,7 +858,7 @@ export type ContenidoPlantillaH = {
     descripcion: string;
     /** 3 fotos del collage en el header. */
     headerPhotos: [string, string, string];
-    /** Badge dorado flotante sobre el collage. */
+    /** Badge rojo flotante sobre el collage. */
     badgeAcreditado: string;
     items: {
       num: string;
@@ -900,7 +900,7 @@ export type ContenidoPlantillaH = {
     chips: { texto: string }[];
     btnText: string;
     btnHref: string;
-    /** 3 stats en la tarjeta lateral (la del medio se renderiza con highlight dorado). */
+    /** 3 stats en la tarjeta lateral (la del medio se renderiza con highlight rojo). */
     stats: [
       { value: string; label: string; sub: string },
       { value: string; label: string; sub: string },
@@ -973,7 +973,7 @@ export type HitoTrayectoriaPlantillaI = {
   year: string;
   title: string;
   desc: string;
-  /** Si true, la tarjeta del hito se pinta con borde dorado destacado. */
+  /** Si true, la tarjeta del hito se pinta con borde rojo destacado. */
   highlight?: boolean;
 };
 
@@ -1004,7 +1004,7 @@ export type ContenidoPlantillaI = {
     ghostText: string;
     badge: string;
     titleLine1: string;
-    titleLine2: string;     // se pinta en dorado
+    titleLine2: string;     // se pinta en rojo
     subtitle: string;
     caption?: string;
   };
@@ -1014,7 +1014,7 @@ export type ContenidoPlantillaI = {
     badge: string;
     heading: string;
     paragraph1: string;
-    paragraph2: string;     // texto destacado debajo de la línea dorada
+    paragraph2: string;     // texto destacado debajo de la línea roja
     fotoPrincipal: string;  // grande izquierda
     fotoSecundaria1: string; // arriba derecha
     fotoSecundaria2: string; // abajo derecha
@@ -1279,7 +1279,7 @@ export type ContenidoPlantillaK = {
 export type RevistaAtenasConfig = {
   /** Si false, la card no se renderiza aunque biblioteca tenga este bloque. */
   enabled: boolean;
-  /** Eyebrow pequeño dorado (ej. "RECURSO DESTACADO"). */
+  /** Eyebrow pequeño rojo (ej. "RECURSO DESTACADO"). */
   eyebrow?: string;
   /** Título principal de la card (ej. "Revista Atenas"). */
   titulo?: string;
@@ -1326,7 +1326,7 @@ export type FichaItemPlantillaL = {
   label: string;
   /** Valor (ej. "Todos los niveles"). */
   value: string;
-  /** Si true, el value se pinta en dorado y bold. */
+  /** Si true, el value se pinta en rojo y bold. */
   highlight?: boolean;
 };
 
@@ -1335,7 +1335,7 @@ export type ActividadPlantillaL = {
   icon: string;
   title: string;
   desc: string;
-  /** Si true, la card se pinta en dorado destacado. */
+  /** Si true, la card se pinta en rojo destacado. */
   highlight?: boolean;
 };
 
@@ -1443,7 +1443,7 @@ export type TaglinePlantillaM = {
   eyebrow: string;
   /**
    * Primera línea del título — completar la palabra/frase clave entre
-   * "{" y "}" para que se aplique el underline dorado animado.
+   * "{" y "}" para que se aplique el underline rojo animado.
    * Ej.: "La {institución referente} de Ambato,"
    */
   line1: string;
@@ -1762,7 +1762,7 @@ export type ValorPlantillaN = {
 export type ContenidoPlantillaN = {
   hero: {
     eyebrow: string;
-    /** Título a 2 líneas (segunda en dorado). */
+    /** Título a 2 líneas (segunda en rojo). */
     titleLine1: string;
     titleLine2: string;
     description: string;
@@ -1834,7 +1834,7 @@ export function defaultContenidoPlantillaN(): ContenidoPlantillaN {
 export type FichaItemPlantillaO = {
   label: string;
   value: string;
-  /** Si true, el value se pinta en dorado y bold. */
+  /** Si true, el value se pinta en rojo y bold. */
   highlight?: boolean;
 };
 
@@ -1869,7 +1869,7 @@ export type ContenidoPlantillaO = {
     documents: string[];
     note: string;
     ficha: FichaItemPlantillaO[];
-    /** Tarjeta dorada CTA al pie de la sección. */
+    /** Tarjeta roja CTA al pie de la sección. */
     ctaTitulo: string;
     ctaDescripcion: string;
     ctaLabel: string;
@@ -1883,7 +1883,7 @@ export type ContenidoPlantillaO = {
   ctaSolicitud: {
     eyebrow: string;
     heading: string;
-    /** Antes del nombre del nivel destacado en dorado. */
+    /** Antes del nombre del nivel destacado en rojo. */
     descripcionPre: string;
     /** Después del nombre del nivel. */
     descripcionPost: string;
@@ -1914,7 +1914,7 @@ export type ContenidoPlantillaO = {
     }[];
     /** 3 fotos del collage (desktop). */
     photos: [string, string, string];
-    /** Badge dorado flotante sobre el collage. */
+    /** Badge rojo flotante sobre el collage. */
     badgeFloating: string;
     /** Tarjeta del formulario. */
     formCardHeading: string;
@@ -2132,7 +2132,7 @@ export type ContenidoPlantillaS = {
   tituloDocumento: string;
   /** Secciones del documento — se renderizan numeradas en orden. */
   secciones: SeccionPoliticaItem[];
-  /** Tarjeta dorada al pie con CTA a contactos / persona responsable. */
+  /** Tarjeta roja al pie con CTA a contactos / persona responsable. */
   ctaPie: {
     titulo: string;
     descripcion: string;

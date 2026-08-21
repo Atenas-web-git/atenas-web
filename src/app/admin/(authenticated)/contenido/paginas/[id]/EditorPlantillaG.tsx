@@ -99,7 +99,7 @@ function HeroEditor({ hero, setHero, prefix }: { hero: Hero; setHero: (h: Hero) 
   };
 
   return (
-    <Card title="Bloque 1 — Hero" subtitle="Cabecera con collage flotante de 3 fotos, badge dorado, 2 CTAs, chips y barra inferior con 4 stats.">
+    <Card title="Bloque 1 — Hero" subtitle="Cabecera con collage flotante de 3 fotos, badge rojo, 2 CTAs, chips y barra inferior con 4 stats.">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <Field label="Badge superior" required>
           <input type="text" value={hero.badge} onChange={(e) => set({ badge: e.target.value })} required style={inputStyle} />
@@ -112,14 +112,14 @@ function HeroEditor({ hero, setHero, prefix }: { hero: Hero; setHero: (h: Hero) 
         <Field label="Título — línea 1 (blanco)" required>
           <input type="text" value={hero.titleLine1} onChange={(e) => set({ titleLine1: e.target.value })} required style={inputStyle} />
         </Field>
-        <Field label="Título — línea 2 (dorado)" required>
+        <Field label="Título — línea 2 (rojo)" required>
           <input type="text" value={hero.titleLine2} onChange={(e) => set({ titleLine2: e.target.value })} required style={inputStyle} />
         </Field>
       </div>
       <Field label="Subtítulo">
         <textarea value={hero.subtitle} onChange={(e) => set({ subtitle: e.target.value })} rows={2} style={textareaStyle} />
       </Field>
-      <Field label="Fragmento subrayado en dorado del subtítulo" hint='Escribe una palabra o frase del subtítulo para subrayarla en dorado. No importan mayúsculas ni tildes. Ej.: subtítulo "Bienvenido a Atenas" → escribe "Atenas".'>
+      <Field label="Fragmento subrayado en rojo del subtítulo" hint='Escribe una palabra o frase del subtítulo para subrayarla en rojo. No importan mayúsculas ni tildes. Ej.: subtítulo "Bienvenido a Atenas" → escribe "Atenas".'>
         <input type="text" value={hero.subtitleHighlight} onChange={(e) => set({ subtitleHighlight: e.target.value })} style={inputStyle} />
       </Field>
       <HighlightPreview text={hero.subtitle} highlight={hero.subtitleHighlight} />
@@ -142,7 +142,7 @@ function HeroEditor({ hero, setHero, prefix }: { hero: Hero; setHero: (h: Hero) 
       <ChipsList
         chips={hero.chips}
         setChips={(c) => set({ chips: c })}
-        label="Chips dorados (debajo de los CTAs)"
+        label="Chips rojos (debajo de los CTAs)"
       />
 
       <ImageUploader label="Imagen de fondo del hero" value={hero.bgImageSrc ?? ""} onChange={(v) => set({ bgImageSrc: v })} prefix={prefix} previewAspect="16/9" hint="Aparece de fondo con un overlay navy oscuro." />
@@ -154,10 +154,10 @@ function HeroEditor({ hero, setHero, prefix }: { hero: Hero; setHero: (h: Hero) 
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <Field label="Badge dorado flotante — línea 1" hint="Texto principal del badge (ej. ÚNICO EN EL CENTRO).">
+        <Field label="Badge rojo flotante — línea 1" hint="Texto principal del badge (ej. ÚNICO EN EL CENTRO).">
           <input type="text" value={hero.floatingBadgeLine1} onChange={(e) => set({ floatingBadgeLine1: e.target.value })} style={inputStyle} />
         </Field>
-        <Field label="Badge dorado flotante — línea 2" hint="Texto secundario más pequeño (ej. DEL PAÍS ★).">
+        <Field label="Badge rojo flotante — línea 2" hint="Texto secundario más pequeño (ej. DEL PAÍS ★).">
           <input type="text" value={hero.floatingBadgeLine2} onChange={(e) => set({ floatingBadgeLine2: e.target.value })} style={inputStyle} />
         </Field>
       </div>
@@ -167,7 +167,7 @@ function HeroEditor({ hero, setHero, prefix }: { hero: Hero; setHero: (h: Hero) 
         {hero.stats.map((s, i) => (
           <div key={i} className="flex flex-col gap-3 p-4" style={panelStyle}>
             <span style={panelLabel}>Stat #{i + 1}</span>
-            <Field label="Valor (grande, dorado)">
+            <Field label="Valor (grande, rojo)">
               <input type="text" value={s.value} onChange={(e) => setStat(i, { value: e.target.value })} style={inputStyle} />
             </Field>
             <Field label="Etiqueta (pequeña, gris)">
@@ -202,7 +202,7 @@ function NucleoEditor({ nucleo, setNucleo, prefix }: { nucleo: Nucleo; setNucleo
         <Field label="Badge" required>
           <input type="text" value={nucleo.badge} onChange={(e) => set({ badge: e.target.value })} required style={inputStyle} />
         </Field>
-        <Field label="Parte resaltada del título" hint='Escribe una palabra o frase del encabezado para subrayarla en dorado. No importan mayúsculas ni tildes. Ej.: "Formamos líderes globales" → escribe "líderes".'>
+        <Field label="Parte resaltada del título" hint='Escribe una palabra o frase del encabezado para subrayarla en rojo. No importan mayúsculas ni tildes. Ej.: "Formamos líderes globales" → escribe "líderes".'>
           <input type="text" value={nucleo.headingHighlight} onChange={(e) => set({ headingHighlight: e.target.value })} style={inputStyle} />
         </Field>
       </div>
@@ -236,7 +236,7 @@ function NucleoEditor({ nucleo, setNucleo, prefix }: { nucleo: Nucleo; setNucleo
             <Field label="Destacado">
               <label className="flex items-center gap-2" style={{ height: 38 }}>
                 <input type="checkbox" checked={c.highlight ?? false} onChange={(e) => updateComp(i, { highlight: e.target.checked || undefined })} style={{ width: 16, height: 16, accentColor: "#1A2B4A" }} />
-                <span style={{ fontSize: 12, color: "#1A2B4A" }}>Borde dorado (destacar este componente)</span>
+                <span style={{ fontSize: 12, color: "#1A2B4A" }}>Borde rojo (destacar este componente)</span>
               </label>
             </Field>
           </div>
@@ -284,12 +284,12 @@ function MateriasEditor({ materias, setMaterias }: { materias: Materias; setMate
   };
 
   return (
-    <Card title="Bloque 3 — Grupos de asignaturas" subtitle="Grid de grupos de materias en 3 columnas. Cada grupo puede ser blanco, navy o dorado.">
+    <Card title="Bloque 3 — Grupos de asignaturas" subtitle="Grid de grupos de materias en 3 columnas. Cada grupo puede ser blanco, navy o rojo.">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <Field label="Badge" required>
           <input type="text" value={materias.badge} onChange={(e) => set({ badge: e.target.value })} required style={inputStyle} />
         </Field>
-        <Field label="Parte resaltada del título" hint='Escribe una palabra o frase del encabezado para subrayarla en dorado. No importan mayúsculas ni tildes.'>
+        <Field label="Parte resaltada del título" hint='Escribe una palabra o frase del encabezado para subrayarla en rojo. No importan mayúsculas ni tildes.'>
           <input type="text" value={materias.headingHighlight} onChange={(e) => set({ headingHighlight: e.target.value })} style={inputStyle} />
         </Field>
       </div>
@@ -314,7 +314,7 @@ function MateriasEditor({ materias, setMaterias }: { materias: Materias; setMate
                 <select value={g.color ?? "white"} onChange={(e) => updateGrupo(i, { color: e.target.value as "white" | "navy" | "gold" })} style={{ ...inputStyle, paddingRight: 28, cursor: "pointer" }}>
                   <option value="white">Blanco (default)</option>
                   <option value="navy">Navy oscuro</option>
-                  <option value="gold">Dorado</option>
+                  <option value="gold">Rojo</option>
                 </select>
               </Field>
             </div>
@@ -332,7 +332,7 @@ function MateriasEditor({ materias, setMaterias }: { materias: Materias; setMate
         Agregar grupo
       </button>
 
-      <Field label="Nota al pie" hint="Caja con borde dorado al final de la sección. Acepta texto plano (sin formato HTML).">
+      <Field label="Nota al pie" hint="Caja con borde rojo al final de la sección. Acepta texto plano (sin formato HTML).">
         <textarea value={materias.nota} onChange={(e) => set({ nota: e.target.value })} rows={3} style={textareaStyle} />
       </Field>
     </Card>
@@ -369,12 +369,12 @@ function ProcesoEditor({ proceso, setProceso, prefix }: { proceso: Proceso; setP
   };
 
   return (
-    <Card title="Bloque 4 — Proceso de admisión" subtitle="Sección oscura con timeline de pasos numerados, lista de aliados y CTA dorado en columna lateral.">
+    <Card title="Bloque 4 — Proceso de admisión" subtitle="Sección oscura con timeline de pasos numerados, lista de aliados y CTA rojo en columna lateral.">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <Field label="Badge" required>
           <input type="text" value={proceso.badge} onChange={(e) => set({ badge: e.target.value })} required style={inputStyle} />
         </Field>
-        <Field label="Parte resaltada del título" hint='Escribe una palabra o frase del encabezado para subrayarla en dorado. No importan mayúsculas ni tildes.'>
+        <Field label="Parte resaltada del título" hint='Escribe una palabra o frase del encabezado para subrayarla en rojo. No importan mayúsculas ni tildes.'>
           <input type="text" value={proceso.headingHighlight} onChange={(e) => set({ headingHighlight: e.target.value })} style={inputStyle} />
         </Field>
       </div>

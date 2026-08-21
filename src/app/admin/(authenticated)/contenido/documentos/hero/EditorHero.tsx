@@ -66,7 +66,7 @@ export function EditorHero({ initial }: Props) {
 
       <Card title="Cabecera (hero)" subtitle="Primera sección visible al cargar /documentos-institucionales, con título grande sobre fondo navy.">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <Field label="Badge superior" hint="Texto pequeño dorado sobre el título.">
+          <Field label="Badge superior" hint="Texto pequeño rojo sobre el título.">
             <input
               type="text"
               name="badge"

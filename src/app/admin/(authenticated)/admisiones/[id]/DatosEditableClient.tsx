@@ -51,12 +51,31 @@ export function DatosEditableClient({
 }) {
   const [editing, setEditing] = useState(false);
 
-  // Los años que caben en el nivel guardado. Si el nivel viniera con una
+  /*
+    El nivel que se está editando, no el guardado.
+
+    Antes esto se calculaba una sola vez desde `initial.est_nivel` y no
+    reaccionaba al desplegable. Así que al cambiar de nivel, el de «Año
+    escolar» seguía ofreciendo los años del nivel VIEJO; el servidor validaba
+    la pareja, no cuadraba, y guardaba `est_grado: null` diciendo «Guardado ✓».
+    El año escolar pasaba a «No indicado» y esa solicitud dejaba de sumar en el
+    detalle por año de Cupos, sin que nadie lo notara.
+  */
+  const [nivel, setNivel] = useState(initial.est_nivel);
+
+  // Los años que caben en el nivel elegido. Si el nivel viniera con una
   // etiqueta que no está en el catálogo —una solicitud vieja, o un nivel
   // renombrado— se ofrecen todos antes que dejar el desplegable vacío.
-  const gradosDelNivel = esNivel(initial.est_nivel)
-    ? GRADOS_POR_NIVEL[initial.est_nivel]
+  const gradosDelNivel = esNivel(nivel)
+    ? GRADOS_POR_NIVEL[nivel]
     : TODOS_LOS_GRADOS.map((g) => g.grado);
+
+  // Y si el año que había ya no cabe en el nivel nuevo, se avisa en pantalla
+  // en vez de dejar que el servidor lo borre en silencio.
+  const gradoSeIba =
+    !!initial.est_grado &&
+    nivel !== initial.est_nivel &&
+    !gradosDelNivel.includes(initial.est_grado);
   const [state, action, isPending] = useActionState<AdmisionActionState, FormData>(
     async (prev, formData) => {
       const result = await updateDatosSolicitudAction(prev, formData);
@@ -193,12 +212,21 @@ export function DatosEditableClient({
             <FieldSelect
               label="Nivel solicitado *" name="est_nivel"
               options={opciones.niveles} defaultValue={initial.est_nivel}
+              onChange={setNivel}
             />
-            <FieldSelect
-              label="Año escolar" name="est_grado"
-              options={gradosDelNivel} defaultValue={initial.est_grado ?? ""}
-              allowEmpty
-            />
+            <div className="flex flex-col gap-1">
+              <FieldSelect
+                label="Año escolar" name="est_grado"
+                options={gradosDelNivel} defaultValue={initial.est_grado ?? ""}
+                allowEmpty
+              />
+              {gradoSeIba && (
+                <span style={{ fontSize: 12, color: "#991B1B", lineHeight: 1.5 }}>
+                  «{initial.est_grado}» no existe en {nivel}. Elige el año escolar
+                  que corresponde, o se guardará sin año.
+                </span>
+              )}
+            </div>
             <FieldInput
               label="Institución de origen" name="est_institucion_origen"
               defaultValue={initial.est_institucion_origen ?? ""}
@@ -300,9 +328,12 @@ function FieldInput({
 }
 
 function FieldSelect({
-  label, name, options, defaultValue, allowEmpty = false,
+  label, name, options, defaultValue, allowEmpty = false, onChange,
 }: {
-  label: string; name: string; options: string[]; defaultValue: string; allowEmpty?: boolean;
+  label: string; name: string; options: string[]; defaultValue: string;
+  allowEmpty?: boolean;
+  /** Para el nivel, que decide qué años escolares se ofrecen al lado. */
+  onChange?: (valor: string) => void;
 }) {
   // Si el valor actual no está en las opciones, lo añadimos al inicio
   // para no perderlo silenciosamente (p.ej. nivel antiguo).
@@ -312,7 +343,12 @@ function FieldSelect({
   return (
     <label className="flex flex-col gap-1">
       <span style={fieldLabelStyle}>{label}</span>
-      <select name={name} defaultValue={defaultValue} style={inputStyle}>
+      <select
+        name={name}
+        defaultValue={defaultValue}
+        onChange={onChange ? (e) => onChange(e.target.value) : undefined}
+        style={inputStyle}
+      >
         {allowEmpty && <option value="">—</option>}
         {opts.map((o) => (
           <option key={o} value={o}>{o}</option>

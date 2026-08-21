@@ -64,6 +64,6 @@ export const MODO_VISUAL_INFO: Record<
   plantilla_diagonal: {
     label: "Plantilla — Diagonal",
     descripcion:
-      "Fondo navy con franja diagonal roja, logo del colegio, título grande, acento dorado y CTA dorado. Diseño impactante para anuncios destacados.",
+      "Fondo navy con franja diagonal roja, logo del colegio, título grande, acento rojo y CTA rojo. Diseño impactante para anuncios destacados.",
   },
 };

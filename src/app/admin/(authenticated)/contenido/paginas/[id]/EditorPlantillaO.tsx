@@ -462,7 +462,7 @@ export function EditorPlantillaO({
           <Plus size={14} strokeWidth={2.5} /> Agregar documento
         </button>
 
-        <Field label="Nota destacada" hint="Aparece con borde dorado a la izquierda.">
+        <Field label="Nota destacada" hint="Aparece con borde rojo a la izquierda.">
           <textarea
             value={detalleNote}
             onChange={(e) => setDetalleNote(e.target.value)}
@@ -563,7 +563,7 @@ export function EditorPlantillaO({
 
       <Card
         title="Sección — Pasos del proceso"
-        subtitle="Bloque oscuro con los pasos numerados específicos del nivel. El último paso se pinta destacado en dorado."
+        subtitle="Bloque oscuro con los pasos numerados específicos del nivel. El último paso se pinta destacado en rojo."
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <Field label="Eyebrow">
@@ -638,7 +638,7 @@ export function EditorPlantillaO({
 
       <Card
         title="CTA grande — solicitud de admisión"
-        subtitle="Bloque navy con badge + heading + descripción dorada con el nombre del nivel + lista de beneficios + 2 botones."
+        subtitle="Bloque navy con badge + heading + descripción roja con el nombre del nivel + lista de beneficios + 2 botones."
       >
         <Field label="Eyebrow">
           <input
@@ -708,7 +708,7 @@ export function EditorPlantillaO({
 
         <Subtitle text="Botones" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <Field label="CTA primario — texto" hint="Botón dorado.">
+          <Field label="CTA primario — texto" hint="Botón rojo.">
             <input
               type="text"
               value={solCtaPrimaryLabel}

@@ -11,6 +11,8 @@
  * exclusivamente "texto/contenido" de la página /contactos.
  */
 
+import { urlDeMapa } from "./htmlSeguro";
+
 export type ExtensionContacto = {
   /** Número de extensión (ej. "100"). */
   ext: string;
@@ -225,7 +227,10 @@ export function mergeContactosPagina(
       successText: input.formulario?.successText?.trim() || def.formulario.successText,
     },
     mapa: {
-      embedUrl: input.mapa?.embedUrl?.trim() || def.mapa.embedUrl,
+      // Se valida el anfitrión, no solo el esquema: esto va al `src` de un
+      // iframe que ocupa media pantalla. Si no es un mapa de Google, se cae al
+      // del colegio en vez de incrustar una página ajena.
+      embedUrl: urlDeMapa(input.mapa?.embedUrl) ?? def.mapa.embedUrl,
       badgeText: input.mapa?.badgeText?.trim() || def.mapa.badgeText,
     },
   };

@@ -100,6 +100,48 @@ export function urlSegura(url: string | null | undefined): string | null {
   return ESQUEMAS_DE_ENLACE.test(limpia) ? limpia : null;
 }
 
+/**
+ * Los únicos anfitriones de los que aceptamos un mapa incrustado.
+ *
+ * `urlSegura` **no basta aquí**: solo mira el esquema, así que cualquier
+ * `https://` pasaría. Y este valor no acaba en un `href` que hay que pulsar:
+ * acaba en el `src` de un iframe que se pinta a media pantalla dentro de
+ * `/contactos`. Un editor —superadmin, comunicaciones o académico— podía
+ * apuntar «el mapa» a cualquier sitio y quedaba incrustado en la página del
+ * colegio: suficiente para phishing o para meter rastreo de terceros.
+ *
+ * Por eso aquí se valida el ANFITRIÓN, no el esquema.
+ */
+const ANFITRIONES_DE_MAPA = new Set([
+  "www.google.com",
+  "google.com",
+  "maps.google.com",
+]);
+
+/**
+ * La URL de un mapa incrustado, o `null` si no lo es.
+ *
+ * Exige `https`, un anfitrión de Google y una ruta de mapas. Quien llama
+ * decide qué hacer con el `null`; en Contactos se cae al mapa por defecto,
+ * que es lo que hay que hacer: una dirección mala deja el mapa del colegio,
+ * no un hueco ni una página ajena.
+ */
+export function urlDeMapa(url: string | null | undefined): string | null {
+  if (!url) return null;
+  try {
+    const u = new URL(url.trim());
+    if (u.protocol !== "https:") return null;
+    if (!ANFITRIONES_DE_MAPA.has(u.hostname.toLowerCase())) return null;
+    // `/maps/embed`, y también `/maps/d/embed` de los mapas personalizados.
+    if (!u.pathname.startsWith("/maps/")) return null;
+    return u.toString();
+  } catch {
+    // `new URL` lanza con cualquier cosa que no sea una dirección absoluta:
+    // rutas relativas, `javascript:` a medias, texto suelto.
+    return null;
+  }
+}
+
 const OPCIONES: IFilterXSSOptions = {
   whiteList: ETIQUETAS_PERMITIDAS,
   // Una etiqueta que no está en la lista se QUITA, en vez de escaparse. Por
