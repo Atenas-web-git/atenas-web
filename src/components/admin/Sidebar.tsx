@@ -98,8 +98,13 @@ export function Sidebar({ user }: { user: AdminUser }) {
     <aside
       // `ds-admin-sidebar`: aquí el anillo de foco tiene que ser BLANCO, porque
       // el navy del anillo general sería invisible sobre este mismo navy.
-      className="ds-admin-sidebar flex flex-col flex-shrink-0"
-      style={{ background: "#1A2B4A", width: 260, minHeight: "100vh" }}
+      className="ds-admin-sidebar flex flex-col flex-shrink-0 overflow-y-auto"
+      // `height` y no `minHeight`: desde que el armazón es `h-screen` con
+      // `overflow-hidden`, un `minHeight: 100vh` podía empujar el menú por
+      // debajo del borde de la ventana y dejar el bloque del usuario —con el
+      // botón de cerrar sesión— cortado y sin forma de alcanzarlo. Con altura
+      // exacta y scroll propio, en una pantalla baja el menú se desplaza solo.
+      style={{ background: "#1A2B4A", width: 260, height: "100vh" }}
     >
       <div
         className="flex flex-col items-start gap-1 px-6 py-5"
