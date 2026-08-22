@@ -228,7 +228,7 @@ export function EditorPlantillaR({
         <div className="flex flex-col gap-4">
           <span
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               color: "#9e1915",
               textTransform: "uppercase",
@@ -333,7 +333,7 @@ function PersonaEditor({
       <div className="flex items-center justify-between gap-2">
         <span
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: "#6B6660",
             textTransform: "uppercase",
@@ -448,13 +448,13 @@ function Sticky({
           onChange={(e) => setPublicada(e.target.checked)}
           style={{ width: 16, height: 16, accentColor: "#1A2B4A" }}
         />
-        <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+        <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
           {publicada ? "Página publicada" : "Página en borrador (no visible al público)"}
         </span>
       </label>
       <div className="flex items-center gap-2">
-        {state.error && <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>}
-        {state.ok && <span style={{ fontSize: 12, color: "#065F46" }}>Guardado ✓</span>}
+        {state.error && <span style={{ fontSize: 13, color: "#991B1B" }}>{state.error}</span>}
+        {state.ok && <span style={{ fontSize: 13, color: "#065F46" }}>Guardado ✓</span>}
         <button
           type="submit"
           disabled={isPending}
@@ -464,7 +464,7 @@ function Sticky({
             background: "#1A2B4A",
             color: "#FFFFFF",
             border: "none",
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 600,
             cursor: isPending ? "wait" : "pointer",
             opacity: isPending ? 0.7 : 1,
@@ -495,7 +495,7 @@ function Card({
       <div className="flex flex-col gap-1">
         <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>{title}</h2>
         {subtitle && (
-          <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>
         )}
       </div>
       {children}
@@ -518,7 +518,7 @@ function Field({
     <div className="flex flex-col gap-1.5">
       <span
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 700,
           color: "#6B6660",
           textTransform: "uppercase",
@@ -529,7 +529,7 @@ function Field({
       </span>
       {children}
       {hint && (
-        <span style={{ fontSize: 10, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>
+        <span style={{ fontSize: 11, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>
       )}
     </div>
   );
@@ -541,7 +541,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",
@@ -573,7 +573,7 @@ const iconButtonNeutral: React.CSSProperties = {
   borderRadius: 6,
   cursor: "pointer",
   fontFamily: "inherit",
-  fontSize: 12,
+  fontSize: 13,
 };
 const addButton: React.CSSProperties = {
   height: 36,
@@ -581,7 +581,7 @@ const addButton: React.CSSProperties = {
   color: "#1A2B4A",
   border: "1px dashed #C9C4BB",
   borderRadius: 6,
-  fontSize: 12,
+  fontSize: 13,
   fontWeight: 500,
   cursor: "pointer",
   fontFamily: "inherit",

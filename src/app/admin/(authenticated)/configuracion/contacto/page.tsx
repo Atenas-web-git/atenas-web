@@ -28,7 +28,7 @@ export default async function ContactoConfigPage() {
       <Link
         href="/admin/configuracion"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a Configuración
@@ -38,7 +38,7 @@ export default async function ContactoConfigPage() {
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Contacto
         </h1>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
           Teléfonos, emails, redes sociales y WhatsApp del FloatingBoot. Se usan en el
           footer, la página de contactos, el FloatingBoot y los datos del JSON-LD del SEO.
         </p>

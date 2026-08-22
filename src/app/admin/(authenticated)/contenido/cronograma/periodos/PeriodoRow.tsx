@@ -118,7 +118,7 @@ export function PeriodoRow({
             ))}
           </select>
         </td>
-        <td style={{ padding: "10px 16px", fontSize: 12, color: "#6B6660" }}>{count}</td>
+        <td style={{ padding: "10px 16px", fontSize: 13, color: "#6B6660" }}>{count}</td>
         <td style={{ padding: "10px 16px" }}>
           <div className="flex items-center justify-end gap-1">
             <button onClick={guardar} disabled={isPending} style={btnIcon("#065F46", "#BBF7D0")}>
@@ -145,20 +145,20 @@ export function PeriodoRow({
           title={periodo.color}
         />
       </td>
-      <td style={{ padding: "12px 16px", fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+      <td style={{ padding: "12px 16px", fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
         {periodo.nombre}
       </td>
-      <td style={{ padding: "12px 16px", fontSize: 11, color: "#6B6660", fontFamily: "ui-monospace, monospace" }}>
+      <td style={{ padding: "12px 16px", fontSize: 12, color: "#6B6660", fontFamily: "ui-monospace, monospace" }}>
         {periodo.slug}
       </td>
-      <td style={{ padding: "12px 16px", fontSize: 12, color: "#6B6660" }}>{anoNombre}</td>
+      <td style={{ padding: "12px 16px", fontSize: 13, color: "#6B6660" }}>{anoNombre}</td>
       {/*
         El contador es un enlace cuando hay eventos dentro. Es lo que convierte
         el botón apagado en algo con salida: si no puedes borrar el período
         porque tiene 8 eventos, pulsas el 8 y estás en esos 8 para moverlos.
         Sin esto, deshabilitar el botón solo dice «no puedes» y te deja ahí.
       */}
-      <td style={{ padding: "12px 16px", fontSize: 12, color: "#6B6660" }}>
+      <td style={{ padding: "12px 16px", fontSize: 13, color: "#6B6660" }}>
         {count > 0 ? (
           <Link
             href={`/admin/contenido/cronograma?periodo=${periodo.id}`}
@@ -226,7 +226,7 @@ const editInput: React.CSSProperties = {
   borderRadius: 4,
   paddingLeft: 8,
   paddingRight: 8,
-  fontSize: 12,
+  fontSize: 13,
   color: "#1A2B4A",
   background: "#FFFFFF",
   outline: "none",

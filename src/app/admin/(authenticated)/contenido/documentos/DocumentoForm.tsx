@@ -59,13 +59,13 @@ export function DocumentoForm({ modo, categorias, initial }: Props) {
             onChange={(e) => setPublicado(e.target.checked)}
             style={{ width: 16, height: 16, accentColor: "#1A2B4A" }}
           />
-          <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+          <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
             {publicado ? "Documento publicado" : "Borrador (no visible al público)"}
           </span>
         </label>
         <div className="flex items-center gap-2">
-          {state.error && <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>}
-          {state.ok && <span style={{ fontSize: 12, color: "#065F46" }}>Guardado ✓</span>}
+          {state.error && <span style={{ fontSize: 13, color: "#991B1B" }}>{state.error}</span>}
+          {state.ok && <span style={{ fontSize: 13, color: "#065F46" }}>Guardado ✓</span>}
           <button
             type="submit"
             disabled={isPending}
@@ -75,7 +75,7 @@ export function DocumentoForm({ modo, categorias, initial }: Props) {
               background: "#1A2B4A",
               color: "#FFFFFF",
               border: "none",
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 600,
               cursor: isPending ? "wait" : "pointer",
               opacity: isPending ? 0.7 : 1,
@@ -130,7 +130,7 @@ export function DocumentoForm({ modo, categorias, initial }: Props) {
             ))}
           </select>
         </Field>
-        <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
+        <p style={{ fontSize: 12, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
           El orden en que aparece el documento en el sitio público se controla con las
           flechas ↑ ↓ del listado, no aquí.
         </p>
@@ -145,7 +145,7 @@ export function DocumentoForm({ modo, categorias, initial }: Props) {
           className="px-4 py-3 rounded-md"
           style={{ background: "#EFF6FF", border: "1px solid #BFDBFE" }}
         >
-          <p style={{ fontSize: 12, color: "#1E40AF", margin: 0, lineHeight: 1.6 }}>
+          <p style={{ fontSize: 13, color: "#1E40AF", margin: 0, lineHeight: 1.6 }}>
             <strong>Cómo obtener el link público:</strong>
             <br />
             1. Sube el archivo a Google Drive del colegio.
@@ -176,11 +176,11 @@ export function DocumentoForm({ modo, categorias, initial }: Props) {
           >
             <Check size={14} strokeWidth={2.5} color="#065F46" style={{ marginTop: 1 }} />
             <div className="flex flex-col gap-0.5">
-              <span style={{ fontSize: 12, color: "#065F46", fontWeight: 600 }}>
+              <span style={{ fontSize: 13, color: "#065F46", fontWeight: 600 }}>
                 URL válida de Google Drive
               </span>
               {driveFileId && (
-                <span style={{ fontSize: 11, color: "#065F46", fontFamily: "ui-monospace, monospace" }}>
+                <span style={{ fontSize: 12, color: "#065F46", fontFamily: "ui-monospace, monospace" }}>
                   ID detectado: {driveFileId}
                 </span>
               )}
@@ -189,7 +189,7 @@ export function DocumentoForm({ modo, categorias, initial }: Props) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 mt-1 transition-opacity hover:opacity-70"
-                style={{ fontSize: 11, color: "#065F46", fontWeight: 600 }}
+                style={{ fontSize: 12, color: "#065F46", fontWeight: 600 }}
               >
                 <ExternalLink size={11} strokeWidth={2.5} />
                 Abrir el enlace en otra pestaña para verificar
@@ -203,7 +203,7 @@ export function DocumentoForm({ modo, categorias, initial }: Props) {
             style={{ background: "#FEF3C7", border: "1px solid #FDE68A" }}
           >
             <AlertCircle size={14} strokeWidth={2.5} color="#92400E" style={{ marginTop: 1 }} />
-            <span style={{ fontSize: 12, color: "#92400E", lineHeight: 1.5 }}>
+            <span style={{ fontSize: 13, color: "#92400E", lineHeight: 1.5 }}>
               No parece una URL de Google Drive. Aceptamos la URL igual (puede ser otro hosting),
               pero verifica que sea pública para que cualquiera pueda descargar el documento.
             </span>
@@ -231,7 +231,7 @@ function Card({
       <div className="flex flex-col gap-1">
         <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>{title}</h2>
         {subtitle && (
-          <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>
         )}
       </div>
       {children}
@@ -262,7 +262,7 @@ function Field({
 }
 
 const fieldLabel: React.CSSProperties = {
-  fontSize: 11,
+  fontSize: 12,
   fontWeight: 700,
   color: "#6B6660",
   textTransform: "uppercase",
@@ -270,7 +270,7 @@ const fieldLabel: React.CSSProperties = {
 };
 
 const hintStyle: React.CSSProperties = {
-  fontSize: 10,
+  fontSize: 11,
   color: "#A0AABA",
   lineHeight: 1.5,
 };
@@ -281,7 +281,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",

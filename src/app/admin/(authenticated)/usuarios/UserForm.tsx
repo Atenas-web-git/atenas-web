@@ -52,7 +52,7 @@ const inputStyle: React.CSSProperties = {
 
 const labelStyle: React.CSSProperties = {
   fontFamily: "Poppins, sans-serif",
-  fontSize: 12,
+  fontSize: 13,
   fontWeight: 500,
   color: "#1A2B4A",
   display: "block",
@@ -98,7 +98,7 @@ export function UserForm(props: Props) {
           <h2 style={{ fontSize: 16, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
             Datos del usuario
           </h2>
-          <p style={{ fontSize: 12, color: "#6B6660", margin: 0 }}>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
             {isEdit
               ? "Modifica el nombre, los roles asignados o el estado de la cuenta."
               : "Recibirá un correo con sus credenciales para iniciar sesión."}
@@ -145,7 +145,7 @@ export function UserForm(props: Props) {
               onBlur={(e) => (e.currentTarget.style.borderColor = "#C8C4BD")}
             />
             {isEdit && (
-              <p style={{ fontSize: 11, color: "#6B6660", margin: "6px 0 0" }}>
+              <p style={{ fontSize: 12, color: "#6B6660", margin: "6px 0 0" }}>
                 El correo no se puede modificar después de creada la cuenta.
               </p>
             )}
@@ -168,7 +168,7 @@ export function UserForm(props: Props) {
                 onFocus={(e) => (e.currentTarget.style.borderColor = "#1A2B4A")}
                 onBlur={(e) => (e.currentTarget.style.borderColor = "#C8C4BD")}
               />
-              <p style={{ fontSize: 11, color: "#6B6660", margin: "6px 0 0" }}>
+              <p style={{ fontSize: 12, color: "#6B6660", margin: "6px 0 0" }}>
                 Se la enviarás al usuario por un canal seguro. Se recomienda que la cambie en su primer ingreso.
               </p>
             </div>
@@ -184,10 +184,10 @@ export function UserForm(props: Props) {
                 style={{ marginTop: 3, accentColor: "#1A2B4A", width: 16, height: 16 }}
               />
               <div className="flex flex-col gap-0.5">
-                <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+                <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
                   Cuenta activa
                 </span>
-                <span style={{ fontSize: 11, color: "#6B6660" }}>
+                <span style={{ fontSize: 12, color: "#6B6660" }}>
                   Si la desactivas, este usuario no podrá iniciar sesión en el backoffice.
                   {props.isSelf && " (No puedes desactivar tu propia cuenta.)"}
                 </span>
@@ -219,7 +219,7 @@ export function UserForm(props: Props) {
             style={{
               background: "#FEF2F2",
               border: "1px solid #FECACA",
-              fontSize: 12,
+              fontSize: 13,
               color: "#9A3412",
             }}
           >
@@ -233,7 +233,7 @@ export function UserForm(props: Props) {
             style={{
               background: "#F0FDF4",
               border: "1px solid #86EFAC",
-              fontSize: 12,
+              fontSize: 13,
               color: "#065F46",
             }}
           >
@@ -251,7 +251,7 @@ export function UserForm(props: Props) {
             style={{
               height: 40,
               padding: "0 18px",
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 600,
               color: "#1A2B4A",
               background: "#FFFFFF",
@@ -271,7 +271,7 @@ export function UserForm(props: Props) {
               background: "#1A2B4A",
               color: "#FFFFFF",
               border: "none",
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 600,
               cursor: isPending ? "not-allowed" : "pointer",
               opacity: isPending ? 0.6 : 1,
@@ -354,14 +354,14 @@ function RoleCheckbox({
       <div className="flex flex-col gap-0.5 min-w-0">
         <span
           style={{
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 700,
             color: isSuperRole ? "#9A3412" : "#1A2B4A",
           }}
         >
           {ROLE_LABELS[slug]}
         </span>
-        <span style={{ fontSize: 11, fontWeight: 400, color: "#6B6660" }}>
+        <span style={{ fontSize: 12, fontWeight: 400, color: "#6B6660" }}>
           {ROLE_DESCRIPTIONS[slug]}
         </span>
       </div>
@@ -391,9 +391,9 @@ function InfoCard({
     >
       <div className="flex items-center gap-2.5 mb-2">
         <Icon size={16} color={color} strokeWidth={2.5} />
-        <h3 style={{ fontSize: 13, fontWeight: 700, color, margin: 0 }}>{title}</h3>
+        <h3 style={{ fontSize: 14, fontWeight: 700, color, margin: 0 }}>{title}</h3>
       </div>
-      <p style={{ fontSize: 12, color: "#1A2B4A", lineHeight: 1.55, margin: 0 }}>
+      <p style={{ fontSize: 13, color: "#1A2B4A", lineHeight: 1.55, margin: 0 }}>
         {children}
       </p>
     </div>

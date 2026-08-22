@@ -57,7 +57,7 @@ export function SelectorFormulario({
       </div>
 
       {!soportado ? (
-        <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.6 }}>
+        <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.6 }}>
           Esta página tiene un diseño propio hecho a medida, así que el
           formulario no se puede colocar desde aquí: hay que añadirlo al diseño.
           Escríbele a Esteban si lo necesitas.
@@ -72,7 +72,7 @@ export function SelectorFormulario({
           .
         </p>
       ) : opciones.length === 0 ? (
-        <p style={{ fontSize: 12, color: "#6B6660", margin: 0 }}>
+        <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
           Todavía no hay formularios creados.{" "}
           <Link
             href="/admin/contenido/formularios/nuevo"
@@ -93,7 +93,7 @@ export function SelectorFormulario({
                 border: "1px solid #E8E4DD",
                 borderRadius: 8,
                 padding: "9px 12px",
-                fontSize: 13,
+                fontSize: 14,
                 color: "#1A2B4A",
                 background: "#FFFFFF",
               }}
@@ -114,7 +114,7 @@ export function SelectorFormulario({
                 background: "#1A2B4A",
                 color: "#FFFFFF",
                 borderRadius: 8,
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 600,
                 padding: "10px 18px",
                 opacity: pendiente ? 0.6 : 1,
@@ -124,7 +124,7 @@ export function SelectorFormulario({
             </button>
           </div>
 
-          <p style={{ fontSize: 11, color: "#6B6660", margin: 0 }}>
+          <p style={{ fontSize: 12, color: "#6B6660", margin: 0 }}>
             Se coloca debajo de todo el contenido de la página. Este ajuste se
             guarda por separado del resto del editor.
           </p>
@@ -132,10 +132,10 @@ export function SelectorFormulario({
       )}
 
       {estado.ok && (
-        <span style={{ fontSize: 12, color: "#1A2B4A", fontWeight: 600 }}>Guardado.</span>
+        <span style={{ fontSize: 13, color: "#1A2B4A", fontWeight: 600 }}>Guardado.</span>
       )}
       {estado.error && (
-        <span role="alert" style={{ fontSize: 12, color: "#9e1915", fontWeight: 600 }}>
+        <span role="alert" style={{ fontSize: 13, color: "#9e1915", fontWeight: 600 }}>
           {estado.error}
         </span>
       )}

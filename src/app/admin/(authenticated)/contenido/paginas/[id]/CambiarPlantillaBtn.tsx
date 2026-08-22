@@ -66,7 +66,7 @@ export function CambiarPlantillaBtn({ paginaId, plantillaActual, slug }: Props) 
         style={{
           height: 32,
           background: "#F4F1EB",
-          fontSize: 12,
+          fontSize: 13,
           color: "#1A2B4A",
           fontWeight: 600,
           border: "1px solid #E8E4DD",
@@ -101,7 +101,7 @@ export function CambiarPlantillaBtn({ paginaId, plantillaActual, slug }: Props) 
                 <h2 style={{ fontSize: 16, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
                   Cambiar plantilla de la página
                 </h2>
-                <p style={{ fontSize: 12, color: "#6B6660", margin: "4px 0 0", maxWidth: 480 }}>
+                <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 480 }}>
                   Al cambiar de plantilla, el contenido específico de la plantilla anterior se
                   reinicia con los defaults de la nueva. Si la nueva plantilla también soporta
                   Hero, el Hero actual <strong>se conserva</strong>.
@@ -128,7 +128,7 @@ export function CambiarPlantillaBtn({ paginaId, plantillaActual, slug }: Props) 
               style={{ background: "#FEF3C7", border: "1px solid #FDE68A" }}
             >
               <AlertTriangle size={14} color="#92400E" strokeWidth={2.5} style={{ flexShrink: 0, marginTop: 2 }} />
-              <p style={{ fontSize: 11, color: "#92400E", margin: 0, lineHeight: 1.5 }}>
+              <p style={{ fontSize: 12, color: "#92400E", margin: 0, lineHeight: 1.5 }}>
                 <strong>Advertencia</strong>: este cambio NO se puede deshacer. Te recomendamos
                 tener clara la idea antes de cambiar. El contenido específico (logros, tarjetas,
                 pasos, stats, etc.) se borrará y se reemplazará por defaults de la nueva
@@ -138,7 +138,7 @@ export function CambiarPlantillaBtn({ paginaId, plantillaActual, slug }: Props) 
             </div>
 
             <div className="flex flex-col gap-2">
-              <label style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
+              <label style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
                 Plantilla destino:
               </label>
               <select
@@ -155,7 +155,7 @@ export function CambiarPlantillaBtn({ paginaId, plantillaActual, slug }: Props) 
                   background: "#FAFAF8",
                   border: "1px solid #E8E4DD",
                   borderRadius: 6,
-                  fontSize: 13,
+                  fontSize: 14,
                   color: "#1A2B4A",
                   outline: "none",
                   fontFamily: "inherit",
@@ -177,7 +177,7 @@ export function CambiarPlantillaBtn({ paginaId, plantillaActual, slug }: Props) 
                 <p
                   className="px-3 py-2"
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     color: "#6B6660",
                     background: "#FAFAF8",
                     border: "1px solid #E8E4DD",
@@ -196,7 +196,7 @@ export function CambiarPlantillaBtn({ paginaId, plantillaActual, slug }: Props) 
                 className="px-3 py-2 rounded-md"
                 style={{ background: "#FEE2E2", border: "1px solid #FCA5A5" }}
               >
-                <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{error}</p>
+                <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{error}</p>
               </div>
             )}
 
@@ -211,7 +211,7 @@ export function CambiarPlantillaBtn({ paginaId, plantillaActual, slug }: Props) 
                   background: "#FFFFFF",
                   border: "1px solid #E8E4DD",
                   borderRadius: 6,
-                  fontSize: 13,
+                  fontSize: 14,
                   color: "#1A2B4A",
                   fontWeight: 500,
                   cursor: pending ? "wait" : "pointer",
@@ -229,7 +229,7 @@ export function CambiarPlantillaBtn({ paginaId, plantillaActual, slug }: Props) 
                   background: "#1A2B4A",
                   border: "none",
                   borderRadius: 6,
-                  fontSize: 13,
+                  fontSize: 14,
                   color: "#FFFFFF",
                   fontWeight: 600,
                   cursor: pending || selected === plantillaActual ? "not-allowed" : "pointer",

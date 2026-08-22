@@ -43,7 +43,7 @@ export default async function EditarDocumentoPage({
         <Link
           href="/admin/contenido/documentos"
           className="flex items-center gap-1.5 transition-opacity hover:opacity-70"
-          style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+          style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
         >
           <ArrowLeft size={14} strokeWidth={2.5} />
           Volver al listado
@@ -57,7 +57,7 @@ export default async function EditarDocumentoPage({
             style={{
               height: 32,
               background: "#F4F1EB",
-              fontSize: 12,
+              fontSize: 13,
               color: "#1A2B4A",
               fontWeight: 500,
               textDecoration: "none",
@@ -73,7 +73,7 @@ export default async function EditarDocumentoPage({
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           {doc.titulo}
         </h1>
-        <p style={{ fontSize: 12, color: "#6B6660", margin: "4px 0 0" }}>
+        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0" }}>
           Última edición: {new Date(doc.updated_at).toLocaleString("es-EC")}
         </p>
       </div>
@@ -99,7 +99,7 @@ export default async function EditarDocumentoPage({
       >
         <h2
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: "#6B6660",
             textTransform: "uppercase",
@@ -109,7 +109,7 @@ export default async function EditarDocumentoPage({
         >
           Zona peligrosa
         </h2>
-        <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+        <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
           Eliminar el documento borra el registro de Supabase. El archivo en Google Drive no se toca
           (solo el link que aparecía en el sitio público).
         </p>

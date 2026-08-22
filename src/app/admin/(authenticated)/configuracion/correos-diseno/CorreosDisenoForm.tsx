@@ -69,10 +69,10 @@ export function CorreosDisenoForm({ initial }: { initial: CorreosDiseno }) {
                   onChange={() => setLogoVariant(opt.value)}
                   style={{ position: "absolute", opacity: 0, width: 1, height: 1 }}
                 />
-                <span style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A" }}>
+                <span style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A" }}>
                   {opt.title}
                 </span>
-                <p style={{ fontSize: 11, color: "#6B6660", margin: 0, lineHeight: 1.55 }}>
+                <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.55 }}>
                   {opt.description}
                 </p>
                 <div
@@ -99,7 +99,7 @@ export function CorreosDisenoForm({ initial }: { initial: CorreosDiseno }) {
                     style={{
                       display: "inline-flex",
                       alignItems: "center",
-                      fontSize: 9,
+                      fontSize: 11,
                       fontWeight: 700,
                       letterSpacing: 2,
                       padding: "3px 8px",
@@ -137,7 +137,7 @@ export function CorreosDisenoForm({ initial }: { initial: CorreosDiseno }) {
             lineHeight: 1.55,
           }}
         />
-        <span style={{ fontSize: 10, color: "#A0AABA" }}>
+        <span style={{ fontSize: 11, color: "#A0AABA" }}>
           {textoLegal.length} / 1000 caracteres
         </span>
       </Card>
@@ -157,12 +157,12 @@ function Sticky({
       className="flex items-center justify-between gap-3 px-5 py-3 flex-wrap sticky top-0 z-10"
       style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}
     >
-      <span style={{ fontSize: 12, color: "#6B6660" }}>
+      <span style={{ fontSize: 13, color: "#6B6660" }}>
         Aplica a los 10 correos transaccionales al guardar.
       </span>
       <div className="flex items-center gap-2">
-        {state.error && <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>}
-        {state.ok && <span style={{ fontSize: 12, color: "#065F46" }}>Guardado ✓</span>}
+        {state.error && <span style={{ fontSize: 13, color: "#991B1B" }}>{state.error}</span>}
+        {state.ok && <span style={{ fontSize: 13, color: "#065F46" }}>Guardado ✓</span>}
         <button
           type="submit"
           disabled={isPending}
@@ -172,7 +172,7 @@ function Sticky({
             background: "#1A2B4A",
             color: "#FFFFFF",
             border: "none",
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 600,
             cursor: isPending ? "wait" : "pointer",
             opacity: isPending ? 0.7 : 1,
@@ -203,7 +203,7 @@ function Card({
       <div className="flex flex-col gap-1">
         <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>{title}</h2>
         {subtitle && (
-          <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>
         )}
       </div>
       {children}
@@ -217,7 +217,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",

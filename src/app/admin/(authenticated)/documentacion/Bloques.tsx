@@ -71,7 +71,7 @@ const TONOS: Record<Tono, { bg: string; borde: string; fg: string; Icono: typeof
 /* ── Renderer ────────────────────────────────────────────────────── */
 
 const textoBase: React.CSSProperties = {
-  fontSize: 13.5,
+  fontSize: 14.5,
   lineHeight: 1.7,
   color: "#4A4640",
   margin: 0,
@@ -90,7 +90,7 @@ export function RenderBloque({ bloque }: { bloque: Bloque }) {
       return (
         <h3
           style={{
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 700,
             color: "#1A2B4A",
             margin: "10px 0 0",
@@ -114,7 +114,7 @@ export function RenderBloque({ bloque }: { bloque: Bloque }) {
                   borderRadius: "50%",
                   background: "#1A2B4A",
                   color: "#FFFFFF",
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 700,
                   marginTop: 2,
                 }}
@@ -160,7 +160,7 @@ export function RenderBloque({ bloque }: { bloque: Bloque }) {
           style={{ background: bg, border: `1px solid ${borde}`, borderRadius: 10 }}
         >
           <Icono size={15} color={fg} strokeWidth={2.2} style={{ flexShrink: 0, marginTop: 3 }} />
-          <p style={{ ...textoBase, color: fg, fontSize: 13 }}>
+          <p style={{ ...textoBase, color: fg, fontSize: 14 }}>
             <strong style={{ fontWeight: 700 }}>{etiqueta}: </strong>
             <Inline texto={bloque.texto} />
           </p>
@@ -180,7 +180,7 @@ export function RenderBloque({ bloque }: { bloque: Bloque }) {
                     style={{
                       textAlign: "left",
                       padding: "10px 14px",
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 700,
                       color: "#6B6660",
                       textTransform: "uppercase",
@@ -202,7 +202,7 @@ export function RenderBloque({ bloque }: { bloque: Bloque }) {
                       key={j}
                       style={{
                         padding: "10px 14px",
-                        fontSize: 12.5,
+                        fontSize: 13.5,
                         lineHeight: 1.6,
                         color: j === 0 ? "#1A2B4A" : "#4A4640",
                         fontWeight: j === 0 ? 600 : 400,
@@ -228,7 +228,7 @@ export function RenderBloque({ bloque }: { bloque: Bloque }) {
           {bloque.pasos.map((paso, i) => (
             <Fragment key={i}>
               {i > 0 && <ChevronRight size={12} color="#A0AABA" strokeWidth={2.5} />}
-              <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>{paso}</span>
+              <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>{paso}</span>
             </Fragment>
           ))}
         </div>
@@ -245,7 +245,7 @@ export function RenderBloque({ bloque }: { bloque: Bloque }) {
             >
               <span
                 style={{
-                  fontSize: 12.5,
+                  fontSize: 13.5,
                   fontWeight: 600,
                   color: "#1A2B4A",
                   flexShrink: 0,
@@ -255,7 +255,7 @@ export function RenderBloque({ bloque }: { bloque: Bloque }) {
               >
                 {item.campo}
               </span>
-              <span style={{ fontSize: 12.5, lineHeight: 1.6, color: "#6B6660" }}>
+              <span style={{ fontSize: 13.5, lineHeight: 1.6, color: "#6B6660" }}>
                 <Inline texto={item.desc} />
               </span>
             </div>

@@ -110,7 +110,7 @@ export default async function EditarPaginaPage({
         <Link
           href="/admin/contenido/paginas"
           className="flex items-center gap-1.5 transition-opacity hover:opacity-70"
-          style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+          style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
         >
           <ArrowLeft size={14} strokeWidth={2.5} />
           Volver al listado
@@ -124,7 +124,7 @@ export default async function EditarPaginaPage({
             style={{
               height: 32,
               background: "#F4F1EB",
-              fontSize: 12,
+              fontSize: 13,
               color: "#1A2B4A",
               fontWeight: 500,
               textDecoration: "none",
@@ -147,7 +147,7 @@ export default async function EditarPaginaPage({
               style={{
                 height: 20,
                 background: "#EFF6FF",
-                fontSize: 10,
+                fontSize: 11,
                 fontWeight: 700,
                 color: "#1E40AF",
                 letterSpacing: 0.3,
@@ -157,7 +157,7 @@ export default async function EditarPaginaPage({
               Plantilla {plantillaInfo?.letra ?? "?"}
             </span>
           </div>
-          <p style={{ fontSize: 12, color: "#6B6660", margin: "4px 0 0" }}>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0" }}>
             <code style={{ fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace" }}>
               /{pagina.slug}
             </code>
@@ -440,7 +440,7 @@ export default async function EditarPaginaPage({
           className="px-5 py-4 rounded-md"
           style={{ background: "#FEF3C7", border: "1px solid #FDE68A" }}
         >
-          <p style={{ fontSize: 13, color: "#92400E", margin: 0 }}>
+          <p style={{ fontSize: 14, color: "#92400E", margin: 0 }}>
             La plantilla <strong>{plantillaInfo?.nombre}</strong> aún no tiene editor implementado. Próximamente.
           </p>
         </div>
@@ -458,7 +458,7 @@ export default async function EditarPaginaPage({
         >
           <h2
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               color: "#6B6660",
               textTransform: "uppercase",
@@ -468,7 +468,7 @@ export default async function EditarPaginaPage({
           >
             Zona peligrosa
           </h2>
-          <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
             Eliminar la página borra el registro de Supabase. La ruta pública dejará de funcionar inmediatamente.
           </p>
           <EliminarPaginaClient paginaId={pagina.id} titulo={pagina.titulo} />

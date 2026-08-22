@@ -72,7 +72,7 @@ export default async function DetalleCategoriaPage({ params }: Props) {
       <Link
         href="/admin/contenido/reconocimientos"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a Reconocimientos
@@ -89,7 +89,7 @@ export default async function DetalleCategoriaPage({ params }: Props) {
               style={{
                 height: 22,
                 background: cat.visible ? "#DCFCE7" : "#FEF3C7",
-                fontSize: 10,
+                fontSize: 11,
                 fontWeight: 700,
                 color: cat.visible ? "#065F46" : "#92400E",
                 letterSpacing: 0.3,
@@ -105,7 +105,7 @@ export default async function DetalleCategoriaPage({ params }: Props) {
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 transition-opacity hover:opacity-70"
             style={{
-              fontSize: 12,
+              fontSize: 13,
               color: "#6B6660",
               fontFamily: "ui-monospace, monospace",
               textDecoration: "none",
@@ -136,7 +136,7 @@ export default async function DetalleCategoriaPage({ params }: Props) {
             <h2 style={{ fontSize: 15, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
               Subcategorías ({subs.length})
             </h2>
-            <p style={{ fontSize: 12, color: "#6B6660", margin: "2px 0 0", maxWidth: 600 }}>
+            <p style={{ fontSize: 13, color: "#6B6660", margin: "2px 0 0", maxWidth: 600 }}>
               Cada subcategoría aparece como tarjeta en el showcase de la landing y tiene su
               propia página de detalle. Si tu categoría no necesita divisiones (ej. una
               categoría &quot;Profesionales&quot; con logros directos), puedes dejarla sin subcategorías
@@ -157,7 +157,7 @@ export default async function DetalleCategoriaPage({ params }: Props) {
           <p
             className="px-4 py-6 text-center"
             style={{
-              fontSize: 13,
+              fontSize: 14,
               color: "#6B6660",
               background: "#FAFAF8",
               border: "1px dashed #E8E4DD",
@@ -207,13 +207,13 @@ export default async function DetalleCategoriaPage({ params }: Props) {
                 <div className="flex-1 min-w-0">
                   <Link
                     href={`/admin/contenido/reconocimientos/${cat.id}/subcategorias/${s.id}`}
-                    style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A", textDecoration: "none" }}
+                    style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A", textDecoration: "none" }}
                   >
                     {s.nombre}
                   </Link>
                   <p
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       color: "#6B6660",
                       margin: "1px 0 0",
                       fontFamily: "ui-monospace, monospace",
@@ -228,7 +228,7 @@ export default async function DetalleCategoriaPage({ params }: Props) {
                     style={{
                       height: 18,
                       background: "#FEF3C7",
-                      fontSize: 9,
+                      fontSize: 11,
                       fontWeight: 700,
                       color: "#92400E",
                     }}
@@ -276,7 +276,7 @@ export default async function DetalleCategoriaPage({ params }: Props) {
               <Trophy size={14} strokeWidth={2.5} className="inline-block mr-1.5 -mt-0.5" />
               Logros ({logrosList.length})
             </h2>
-            <p style={{ fontSize: 12, color: "#6B6660", margin: "2px 0 0", maxWidth: 600 }}>
+            <p style={{ fontSize: 13, color: "#6B6660", margin: "2px 0 0", maxWidth: 600 }}>
               Cada logro puede pertenecer a una subcategoría o quedar directo en la categoría.
               Marca como <strong>Destacado</strong> los logros que quieres mostrar en la landing
               y en la sección &quot;Logros destacados&quot; de las páginas /logros.
@@ -296,7 +296,7 @@ export default async function DetalleCategoriaPage({ params }: Props) {
           <p
             className="px-4 py-6 text-center"
             style={{
-              fontSize: 13,
+              fontSize: 14,
               color: "#6B6660",
               background: "#FAFAF8",
               border: "1px dashed #E8E4DD",
@@ -322,7 +322,7 @@ export default async function DetalleCategoriaPage({ params }: Props) {
                       <Link
                         href={`/admin/contenido/reconocimientos/${cat.id}/logros/${l.id}`}
                         style={{
-                          fontSize: 13,
+                          fontSize: 14,
                           fontWeight: 600,
                           color: "#1A2B4A",
                           textDecoration: "none",
@@ -336,7 +336,7 @@ export default async function DetalleCategoriaPage({ params }: Props) {
                           style={{
                             height: 18,
                             background: "rgba(158,25,21,0.20)",
-                            fontSize: 9,
+                            fontSize: 11,
                             fontWeight: 700,
                             color: "#7A6224",
                           }}
@@ -350,7 +350,7 @@ export default async function DetalleCategoriaPage({ params }: Props) {
                           style={{
                             height: 18,
                             background: "#FEF3C7",
-                            fontSize: 9,
+                            fontSize: 11,
                             fontWeight: 700,
                             color: "#92400E",
                           }}
@@ -359,7 +359,7 @@ export default async function DetalleCategoriaPage({ params }: Props) {
                         </span>
                       )}
                     </div>
-                    <p style={{ fontSize: 11, color: "#6B6660", margin: "1px 0 0" }}>
+                    <p style={{ fontSize: 12, color: "#6B6660", margin: "1px 0 0" }}>
                       {l.year && <span>{l.year} · </span>}
                       {sub ? `Subcategoría: ${sub.nombre}` : "Sin subcategoría"}
                       {l.descripcion && <span> · {l.descripcion}</span>}
@@ -405,7 +405,7 @@ export default async function DetalleCategoriaPage({ params }: Props) {
             <ImageIcon size={14} strokeWidth={2.5} className="inline-block mr-1.5 -mt-0.5" />
             Galería de la categoría ({galeriaList.length} fotos)
           </h2>
-          <p style={{ fontSize: 12, color: "#6B6660", margin: "2px 0 0", maxWidth: 720 }}>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: "2px 0 0", maxWidth: 720 }}>
             Estas fotos se muestran como mosaico en la landing <code style={code}>/reconocimientos/{cat.slug}</code> (las 5
             primeras) y en la galería completa <code style={code}>/reconocimientos/{cat.slug}/galeria</code>
             (todas). En la galería pública, hacer clic en cualquier foto abre un lightbox.
@@ -426,7 +426,7 @@ export default async function DetalleCategoriaPage({ params }: Props) {
 const btnSecondary: React.CSSProperties = {
   height: 36,
   background: "#F4F1EB",
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   fontWeight: 500,
   textDecoration: "none",
@@ -435,7 +435,7 @@ const btnSecondary: React.CSSProperties = {
 const btnPrimarySm: React.CSSProperties = {
   height: 32,
   background: "#1A2B4A",
-  fontSize: 12,
+  fontSize: 13,
   color: "#FFFFFF",
   fontWeight: 600,
   textDecoration: "none",
@@ -456,5 +456,5 @@ const code: React.CSSProperties = {
   padding: "1px 6px",
   borderRadius: 4,
   fontFamily: "ui-monospace, monospace",
-  fontSize: 12,
+  fontSize: 13,
 };

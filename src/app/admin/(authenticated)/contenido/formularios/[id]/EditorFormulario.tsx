@@ -51,7 +51,7 @@ const INPUT: React.CSSProperties = {
   border: "1px solid #E8E4DD",
   borderRadius: 8,
   padding: "10px 12px",
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   outline: "none",
   background: "#FFFFFF",
@@ -158,7 +158,7 @@ export function EditorFormulario({
         ayuda="Lo que la persona rellena. El orden aquí es el orden en que se ven."
       >
         {campos.length === 0 && (
-          <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
+          <p style={{ fontSize: 14, color: "#6B6660", margin: 0 }}>
             Todavía no hay preguntas. Añade la primera abajo.
           </p>
         )}
@@ -188,7 +188,7 @@ export function EditorFormulario({
               style={{
                 border: "1px solid #E8E4DD",
                 borderRadius: 8,
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 600,
                 color: "#1A2B4A",
                 background: "#FFFFFF",
@@ -300,7 +300,7 @@ export function EditorFormulario({
           </Campo>
         </Fila>
 
-        <p style={{ fontSize: 11, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+        <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
           Los buzones y sus credenciales se administran en{" "}
           <Link
             href="/admin/configuracion/correos"
@@ -314,7 +314,7 @@ export function EditorFormulario({
 
       {/* ─── Confirmación ──────────────────────────────────── */}
       <Bloque titulo="Confirmación a quien responde">
-        <label className="flex items-center gap-2" style={{ fontSize: 13, color: "#1A2B4A" }}>
+        <label className="flex items-center gap-2" style={{ fontSize: 14, color: "#1A2B4A" }}>
           <input
             type="checkbox"
             name="confirmacion_activa"
@@ -397,7 +397,7 @@ export function EditorFormulario({
               <Link
                 href={`/admin/contenido/plantillas-formularios/${plantilla}`}
                 className="inline-flex items-center gap-1.5"
-                style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}
+                style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}
               >
                 <Mail size={13} /> Editar «
                 {TIPOS_PLANTILLA_INFO[plantilla as TipoPlantillaFormulario]?.label ??
@@ -419,7 +419,7 @@ export function EditorFormulario({
       {/* ─── Publicación ───────────────────────────────────── */}
       <Bloque titulo="Dónde se ve">
         {paginas.length === 0 ? (
-          <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
+          <p style={{ fontSize: 14, color: "#6B6660", margin: 0 }}>
             Todavía no está en ninguna página. Para colocarlo, abre la página en
             Contenido › Páginas y elígelo en «Formulario al final de la página».
           </p>
@@ -432,13 +432,13 @@ export function EditorFormulario({
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-1.5"
-                  style={{ fontSize: 13, color: "#1A2B4A", fontWeight: 600 }}
+                  style={{ fontSize: 14, color: "#1A2B4A", fontWeight: 600 }}
                 >
                   {p.titulo || `/${p.slug}`}
                   <ExternalLink size={12} />
                 </a>
                 {!p.publicada && (
-                  <span style={{ fontSize: 11, color: "#6B6660", marginLeft: 8 }}>
+                  <span style={{ fontSize: 12, color: "#6B6660", marginLeft: 8 }}>
                     (borrador)
                   </span>
                 )}
@@ -447,7 +447,7 @@ export function EditorFormulario({
           </ul>
         )}
 
-        <label className="flex items-center gap-2" style={{ fontSize: 13, color: "#1A2B4A" }}>
+        <label className="flex items-center gap-2" style={{ fontSize: 14, color: "#1A2B4A" }}>
           <input
             type="checkbox"
             name="activo"
@@ -456,7 +456,7 @@ export function EditorFormulario({
           />
           Formulario activo
         </label>
-        <p style={{ fontSize: 11, color: "#6B6660", margin: 0 }}>
+        <p style={{ fontSize: 12, color: "#6B6660", margin: 0 }}>
           Al desactivarlo deja de verse en el sitio, pero las respuestas
           recibidas se conservan. Es la forma correcta de retirar un formulario.
         </p>
@@ -471,7 +471,7 @@ export function EditorFormulario({
             background: "#1A2B4A",
             color: "#FFFFFF",
             borderRadius: 8,
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 600,
             padding: "11px 22px",
             opacity: pendiente ? 0.6 : 1,
@@ -481,12 +481,12 @@ export function EditorFormulario({
         </button>
 
         {estado.ok && (
-          <span style={{ fontSize: 12, color: "#1A2B4A", fontWeight: 600 }}>
+          <span style={{ fontSize: 13, color: "#1A2B4A", fontWeight: 600 }}>
             Guardado.
           </span>
         )}
         {estado.error && (
-          <span role="alert" style={{ fontSize: 12, color: "#9e1915", fontWeight: 600 }}>
+          <span role="alert" style={{ fontSize: 13, color: "#9e1915", fontWeight: 600 }}>
             {estado.error}
           </span>
         )}
@@ -522,7 +522,7 @@ function EditorCampo({
       <div className="flex items-start justify-between gap-3">
         <span
           style={{
-            fontSize: 10,
+            fontSize: 11,
             fontWeight: 700,
             letterSpacing: 0.6,
             textTransform: "uppercase",
@@ -606,7 +606,7 @@ function EditorCampo({
       )}
 
       <div className="flex flex-wrap items-center gap-5">
-        <label className="flex items-center gap-2" style={{ fontSize: 12, color: "#1A2B4A" }}>
+        <label className="flex items-center gap-2" style={{ fontSize: 13, color: "#1A2B4A" }}>
           <input
             type="checkbox"
             checked={campo.obligatorio}
@@ -619,7 +619,7 @@ function EditorCampo({
         {campo.tipo !== "texto_largo" &&
           campo.tipo !== "seleccion_multiple" &&
           campo.tipo !== "aceptacion" && (
-            <label className="flex items-center gap-2" style={{ fontSize: 12, color: "#1A2B4A" }}>
+            <label className="flex items-center gap-2" style={{ fontSize: 13, color: "#1A2B4A" }}>
               <input
                 type="checkbox"
                 checked={campo.ancho === "medio"}
@@ -659,7 +659,7 @@ function Bloque({
           {titulo}
         </h2>
         {ayuda && (
-          <p style={{ fontSize: 12, color: "#6B6660", margin: "3px 0 0" }}>{ayuda}</p>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: "3px 0 0" }}>{ayuda}</p>
         )}
       </div>
       {children}
@@ -682,9 +682,9 @@ function Campo({
 }) {
   return (
     <label className="flex flex-1 flex-col gap-1.5">
-      <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>{label}</span>
+      <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>{label}</span>
       {children}
-      {ayuda && <span style={{ fontSize: 11, color: "#6B6660" }}>{ayuda}</span>}
+      {ayuda && <span style={{ fontSize: 12, color: "#6B6660" }}>{ayuda}</span>}
     </label>
   );
 }
@@ -696,7 +696,7 @@ function Aviso({ children }: { children: React.ReactNode }) {
       style={{ background: "rgba(158,25,21,0.06)", borderRadius: 8 }}
     >
       <AlertTriangle size={14} color="#9e1915" style={{ marginTop: 1, flexShrink: 0 }} />
-      <span style={{ fontSize: 12, color: "#1A2B4A", lineHeight: 1.5 }}>{children}</span>
+      <span style={{ fontSize: 13, color: "#1A2B4A", lineHeight: 1.5 }}>{children}</span>
     </div>
   );
 }

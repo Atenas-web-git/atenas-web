@@ -42,8 +42,8 @@ export function EditorHero({ initial }: Props) {
         className="flex items-center justify-end gap-3 px-5 py-3 sticky top-0 z-10"
         style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}
       >
-        {state.error && <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>}
-        {state.ok && <span style={{ fontSize: 12, color: "#065F46" }}>Guardado ✓</span>}
+        {state.error && <span style={{ fontSize: 13, color: "#991B1B" }}>{state.error}</span>}
+        {state.ok && <span style={{ fontSize: 13, color: "#065F46" }}>Guardado ✓</span>}
         <button
           type="submit"
           disabled={isPending}
@@ -53,7 +53,7 @@ export function EditorHero({ initial }: Props) {
             background: "#1A2B4A",
             color: "#FFFFFF",
             border: "none",
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 600,
             cursor: isPending ? "wait" : "pointer",
             opacity: isPending ? 0.7 : 1,
@@ -153,7 +153,7 @@ function Card({
       <div className="flex flex-col gap-1">
         <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>{title}</h2>
         {subtitle && (
-          <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>
         )}
       </div>
       {children}
@@ -184,7 +184,7 @@ function Field({
 }
 
 const fieldLabel: React.CSSProperties = {
-  fontSize: 11,
+  fontSize: 12,
   fontWeight: 700,
   color: "#6B6660",
   textTransform: "uppercase",
@@ -192,7 +192,7 @@ const fieldLabel: React.CSSProperties = {
 };
 
 const hintStyle: React.CSSProperties = {
-  fontSize: 10,
+  fontSize: 11,
   color: "#A0AABA",
   lineHeight: 1.5,
 };
@@ -203,7 +203,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",

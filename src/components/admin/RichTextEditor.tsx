@@ -92,7 +92,7 @@ export function RichTextEditor({
       {label && (
         <span
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: "#6B6660",
             textTransform: "uppercase",
@@ -119,7 +119,7 @@ export function RichTextEditor({
         </div>
       </div>
       {hint && (
-        <span style={{ fontSize: 10, color: "#A0AABA", lineHeight: 1.5 }}>
+        <span style={{ fontSize: 11, color: "#A0AABA", lineHeight: 1.5 }}>
           {hint}
         </span>
       )}

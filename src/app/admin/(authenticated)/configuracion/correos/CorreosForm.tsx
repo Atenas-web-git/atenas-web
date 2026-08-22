@@ -259,7 +259,7 @@ function ProbarEnvioCard() {
               background: "#1A2B4A",
               color: "#FFFFFF",
               border: "none",
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 600,
               cursor: disabled ? "not-allowed" : "pointer",
               opacity: disabled ? 0.6 : 1,
@@ -290,14 +290,14 @@ function TestResultBox({ result }: { result: TestEmailResult }) {
       <p
         style={{
           margin: 0,
-          fontSize: 13,
+          fontSize: 14,
           fontWeight: 700,
           color: ok ? "#065F46" : "#991B1B",
         }}
       >
         {ok ? "✓ El proveedor aceptó el correo" : "✗ El envío falló"}
       </p>
-      <div style={{ marginTop: 8, fontSize: 12, color: "#4B5563", lineHeight: 1.7 }}>
+      <div style={{ marginTop: 8, fontSize: 13, color: "#4B5563", lineHeight: 1.7 }}>
         <div><strong>Proveedor:</strong> {result.provider}</div>
         <div><strong>Remitente (From):</strong> {result.fromUsed}</div>
         <div><strong>Destinatario:</strong> {result.toUsed}</div>
@@ -311,7 +311,7 @@ function TestResultBox({ result }: { result: TestEmailResult }) {
         )}
       </div>
       {ok && (
-        <p style={{ margin: "10px 0 0", fontSize: 12, color: "#065F46", lineHeight: 1.6 }}>
+        <p style={{ margin: "10px 0 0", fontSize: 13, color: "#065F46", lineHeight: 1.6 }}>
           El servidor aceptó el correo. Si no lo ves en la bandeja de entrada,
           revisa la carpeta de SPAM / correo no deseado.
         </p>
@@ -320,7 +320,7 @@ function TestResultBox({ result }: { result: TestEmailResult }) {
         <p
           style={{
             margin: "10px 0 0",
-            fontSize: 12,
+            fontSize: 13,
             color: "#92400E",
             background: "#FFFBEB",
             border: "1px solid #FDE68A",
@@ -383,7 +383,7 @@ function ProviderTab({
           {active && (
             <span
               style={{
-                fontSize: 10,
+                fontSize: 11,
                 fontWeight: 700,
                 color: "#9e1915",
                 letterSpacing: 1,
@@ -394,7 +394,7 @@ function ProviderTab({
             </span>
           )}
         </div>
-        <p style={{ fontSize: 12, opacity: active ? 0.85 : 0.65, lineHeight: 1.5, margin: 0 }}>
+        <p style={{ fontSize: 13, opacity: active ? 0.85 : 0.65, lineHeight: 1.5, margin: 0 }}>
           {description}
         </p>
       </div>
@@ -447,7 +447,7 @@ function PresetRow({
       <div className="flex flex-col gap-1">
         <span
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: "#1A2B4A",
             textTransform: "uppercase",
@@ -456,7 +456,7 @@ function PresetRow({
         >
           {label}
         </span>
-        <p style={{ fontSize: 11, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+        <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
           {descripcion}
         </p>
       </div>
@@ -528,7 +528,7 @@ function PresetRow({
       </div>
 
       {formularioDelMotor && (
-        <p style={{ fontSize: 11, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+        <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
           Para cambiar a quién le llegan estos mensajes, entra en{" "}
           <Link
             href="/admin/contenido/formularios"
@@ -549,12 +549,12 @@ function Sticky({ state, isPending }: { state: CorreosActionState; isPending: bo
       className="flex items-center justify-between gap-3 px-5 py-3 flex-wrap sticky top-0 z-10"
       style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}
     >
-      <span style={{ fontSize: 13, color: "#6B6660" }}>
+      <span style={{ fontSize: 14, color: "#6B6660" }}>
         El cambio aplica a TODOS los correos del sitio (formularios + pipeline de admisiones).
       </span>
       <div className="flex items-center gap-3">
-        {state.error && <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>}
-        {state.ok && <span style={{ fontSize: 12, color: "#065F46" }}>Guardado ✓</span>}
+        {state.error && <span style={{ fontSize: 13, color: "#991B1B" }}>{state.error}</span>}
+        {state.ok && <span style={{ fontSize: 13, color: "#065F46" }}>Guardado ✓</span>}
         <button
           type="submit"
           disabled={isPending}
@@ -564,7 +564,7 @@ function Sticky({ state, isPending }: { state: CorreosActionState; isPending: bo
             background: "#1A2B4A",
             color: "#FFFFFF",
             border: "none",
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 600,
             cursor: isPending ? "wait" : "pointer",
             opacity: isPending ? 0.7 : 1,
@@ -595,7 +595,7 @@ function Card({
       <div className="flex flex-col gap-1">
         <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>{title}</h2>
         {subtitle && (
-          <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>
         )}
       </div>
       {children}
@@ -616,7 +616,7 @@ function Field({
     <div className="flex flex-col gap-1.5">
       <span
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 700,
           color: "#6B6660",
           textTransform: "uppercase",
@@ -627,7 +627,7 @@ function Field({
       </span>
       {children}
       {hint && (
-        <span style={{ fontSize: 10, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>
+        <span style={{ fontSize: 11, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>
       )}
     </div>
   );
@@ -639,7 +639,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",

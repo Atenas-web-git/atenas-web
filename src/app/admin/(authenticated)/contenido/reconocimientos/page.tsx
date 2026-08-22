@@ -41,7 +41,7 @@ export default async function ReconocimientosIndexPage() {
       <Link
         href="/admin/contenido"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a Contenido
@@ -52,7 +52,7 @@ export default async function ReconocimientosIndexPage() {
           <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
             Reconocimientos
           </h1>
-          <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
+          <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
             Categorías de reconocimientos (académicos, deportivos, profesionales…). Cada
             categoría aparece como una sección pública en{" "}
             <code style={codeStyle}>/reconocimientos/[slug]</code> con sus subcategorías,
@@ -97,7 +97,7 @@ export default async function ReconocimientosIndexPage() {
                     style={{
                       padding: "12px 16px",
                       textAlign: "left",
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 700,
                       color: "#6B6660",
                       textTransform: "uppercase",
@@ -141,7 +141,7 @@ export default async function ReconocimientosIndexPage() {
                           <ArrowDown size={13} strokeWidth={2.5} />
                         </button>
                       </form>
-                      <span style={{ fontSize: 11, color: "#6B6660", marginLeft: 4 }}>
+                      <span style={{ fontSize: 12, color: "#6B6660", marginLeft: 4 }}>
                         {c.orden}
                       </span>
                     </div>
@@ -150,7 +150,7 @@ export default async function ReconocimientosIndexPage() {
                     <Link
                       href={`/admin/contenido/reconocimientos/${c.id}`}
                       style={{
-                        fontSize: 13,
+                        fontSize: 14,
                         fontWeight: 600,
                         color: "#1A2B4A",
                         textDecoration: "none",
@@ -162,17 +162,17 @@ export default async function ReconocimientosIndexPage() {
                   <td
                     style={{
                       padding: "14px 16px",
-                      fontSize: 12,
+                      fontSize: 13,
                       color: "#6B6660",
                       fontFamily: "ui-monospace, monospace",
                     }}
                   >
                     /reconocimientos/{c.slug}
                   </td>
-                  <td style={{ padding: "14px 16px", fontSize: 12, color: "#1A2B4A" }}>
+                  <td style={{ padding: "14px 16px", fontSize: 13, color: "#1A2B4A" }}>
                     {subCountByCat.get(c.id) ?? 0}
                   </td>
-                  <td style={{ padding: "14px 16px", fontSize: 12, color: "#1A2B4A" }}>
+                  <td style={{ padding: "14px 16px", fontSize: 13, color: "#1A2B4A" }}>
                     {logroCountByCat.get(c.id) ?? 0}
                   </td>
                   <td style={{ padding: "14px 16px" }}>
@@ -181,7 +181,7 @@ export default async function ReconocimientosIndexPage() {
                       style={{
                         height: 20,
                         background: c.visible ? "#DCFCE7" : "#FEF3C7",
-                        fontSize: 10,
+                        fontSize: 11,
                         fontWeight: 700,
                         color: c.visible ? "#065F46" : "#92400E",
                         letterSpacing: 0.3,
@@ -198,7 +198,7 @@ export default async function ReconocimientosIndexPage() {
                       style={{
                         height: 28,
                         background: "#F4F1EB",
-                        fontSize: 11,
+                        fontSize: 12,
                         fontWeight: 600,
                         color: "#1A2B4A",
                         textDecoration: "none",
@@ -220,7 +220,7 @@ export default async function ReconocimientosIndexPage() {
 const btnPrimary: React.CSSProperties = {
   height: 36,
   background: "#1A2B4A",
-  fontSize: 13,
+  fontSize: 14,
   color: "#FFFFFF",
   fontWeight: 600,
   textDecoration: "none",
@@ -241,5 +241,5 @@ const codeStyle: React.CSSProperties = {
   padding: "1px 6px",
   borderRadius: 4,
   fontFamily: "ui-monospace, monospace",
-  fontSize: 12,
+  fontSize: 13,
 };

@@ -34,7 +34,7 @@ export default async function TiposPage() {
       <Link
         href="/admin/contenido/cronograma"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver al cronograma
@@ -44,7 +44,7 @@ export default async function TiposPage() {
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Tipos de evento
         </h1>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
           Categorías que clasifican los eventos del cronograma (feriado, evaluación,
           ceremonia, deportivo, cultural, etc.). Aparecen como etiqueta debajo de cada
           evento en el frontend público. No se pueden borrar si tienen eventos asociados.
@@ -77,7 +77,7 @@ export default async function TiposPage() {
                     style={{
                       padding: "12px 16px",
                       textAlign: "left",
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 700,
                       color: "#6B6660",
                       textTransform: "uppercase",

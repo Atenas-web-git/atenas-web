@@ -61,8 +61,8 @@ export function EditorFechas({
           borderRadius: 12,
         }}
       >
-        {state.error && <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>}
-        {state.ok && <span style={{ fontSize: 12, color: "#065F46" }}>Guardado ✓</span>}
+        {state.error && <span style={{ fontSize: 13, color: "#991B1B" }}>{state.error}</span>}
+        {state.ok && <span style={{ fontSize: 13, color: "#065F46" }}>Guardado ✓</span>}
         <button
           type="submit"
           disabled={isPending}
@@ -72,7 +72,7 @@ export function EditorFechas({
             background: "#1A2B4A",
             color: "#FFFFFF",
             border: "none",
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 600,
             cursor: isPending ? "wait" : "pointer",
             opacity: isPending ? 0.7 : 1,
@@ -110,7 +110,7 @@ export function EditorFechas({
               style={{
                 background: "#FAFAF8",
                 border: "1px dashed #C9C4BB",
-                fontSize: 12,
+                fontSize: 13,
                 color: "#6B6660",
                 margin: 0,
                 textAlign: "center",
@@ -247,7 +247,7 @@ function Card({
           {title}
         </h2>
         {subtitle && (
-          <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
             {subtitle}
           </p>
         )}
@@ -272,7 +272,7 @@ function Field({
     <div className="flex flex-col gap-1.5">
       <span
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 700,
           color: "#6B6660",
           textTransform: "uppercase",
@@ -283,7 +283,7 @@ function Field({
       </span>
       {children}
       {hint && (
-        <span style={{ fontSize: 10, color: "#A0AABA", lineHeight: 1.5 }}>
+        <span style={{ fontSize: 11, color: "#A0AABA", lineHeight: 1.5 }}>
           {hint}
         </span>
       )}
@@ -292,7 +292,7 @@ function Field({
 }
 
 const smallLabel: React.CSSProperties = {
-  fontSize: 10,
+  fontSize: 11,
   fontWeight: 700,
   color: "#A0AABA",
   textTransform: "uppercase",
@@ -305,7 +305,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",
@@ -345,7 +345,7 @@ const dashedAddBtn: React.CSSProperties = {
   color: "#1A2B4A",
   border: "1px dashed #C9C4BB",
   borderRadius: 6,
-  fontSize: 12,
+  fontSize: 13,
   fontWeight: 500,
   cursor: "pointer",
   fontFamily: "inherit",

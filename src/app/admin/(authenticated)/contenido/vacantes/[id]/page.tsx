@@ -35,14 +35,14 @@ export default async function EditarVacantePage({
           <Link
             href="/admin/contenido/vacantes"
             className="inline-flex items-center gap-1"
-            style={{ fontSize: 12, color: "#6B6660" }}
+            style={{ fontSize: 13, color: "#6B6660" }}
           >
             <ArrowLeft size={13} /> Vacantes
           </Link>
           <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: "8px 0 0" }}>
             {vacante.titulo}
           </h1>
-          <p style={{ fontSize: 12, color: "#6B6660", margin: "4px 0 0" }}>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0" }}>
             /trabaja-con-nosotros/{vacante.slug}
           </p>
         </div>
@@ -57,7 +57,7 @@ export default async function EditarVacantePage({
               style={{
                 border: "1px solid #E8E4DD",
                 borderRadius: 8,
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 600,
                 color: "#1A2B4A",
               }}
@@ -72,7 +72,7 @@ export default async function EditarVacantePage({
               style={{
                 border: "1px solid #E8E4DD",
                 borderRadius: 8,
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 600,
                 color: "#1A2B4A",
               }}

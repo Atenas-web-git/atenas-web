@@ -43,7 +43,7 @@ export default async function SeccionDocPage({
         style={{ textDecoration: "none", width: "fit-content" }}
       >
         <ChevronLeft size={14} color="#6B6660" strokeWidth={2.5} />
-        <span style={{ fontSize: 12.5, fontWeight: 500, color: "#6B6660" }}>
+        <span style={{ fontSize: 13.5, fontWeight: 500, color: "#6B6660" }}>
           Toda la documentación
         </span>
       </Link>
@@ -60,12 +60,12 @@ export default async function SeccionDocPage({
           <h1 style={{ fontSize: 22, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
             {seccion.titulo}
           </h1>
-          <p style={{ fontSize: 13.5, color: "#6B6660", margin: 0, lineHeight: 1.6, maxWidth: 720 }}>
+          <p style={{ fontSize: 14.5, color: "#6B6660", margin: 0, lineHeight: 1.6, maxWidth: 720 }}>
             {seccion.descripcion}
           </p>
           <span
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               color: "#A0AABA",
               textTransform: "uppercase",
@@ -86,7 +86,7 @@ export default async function SeccionDocPage({
         >
           <span
             style={{
-              fontSize: 10.5,
+              fontSize: 11.5,
               fontWeight: 700,
               color: "#6B6660",
               textTransform: "uppercase",
@@ -100,7 +100,7 @@ export default async function SeccionDocPage({
               <li key={a.id} className="flex items-baseline gap-2.5">
                 <span
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: "#D8D3CA",
                     fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
@@ -112,7 +112,7 @@ export default async function SeccionDocPage({
                 <a
                   href={`#${a.id}`}
                   style={{
-                    fontSize: 13,
+                    fontSize: 14,
                     fontWeight: 500,
                     color: "#1A2B4A",
                     textDecoration: "none",
@@ -144,7 +144,7 @@ export default async function SeccionDocPage({
               <h2 style={{ fontSize: 17, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
                 {a.titulo}
               </h2>
-              <p style={{ fontSize: 12.5, color: "#A0A09A", margin: 0, lineHeight: 1.55 }}>
+              <p style={{ fontSize: 13.5, color: "#A0A09A", margin: 0, lineHeight: 1.55 }}>
                 {a.resumen}
               </p>
             </div>
@@ -170,8 +170,8 @@ export default async function SeccionDocPage({
           >
             <ArrowLeft size={15} color="#6B6660" strokeWidth={2.5} />
             <span className="flex flex-col">
-              <span style={{ fontSize: 10.5, color: "#A0AABA", fontWeight: 600 }}>Anterior</span>
-              <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+              <span style={{ fontSize: 11.5, color: "#A0AABA", fontWeight: 600 }}>Anterior</span>
+              <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
                 {anterior.titulo}
               </span>
             </span>
@@ -190,8 +190,8 @@ export default async function SeccionDocPage({
             }}
           >
             <span className="flex flex-col items-end">
-              <span style={{ fontSize: 10.5, color: "#A0AABA", fontWeight: 600 }}>Siguiente</span>
-              <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+              <span style={{ fontSize: 11.5, color: "#A0AABA", fontWeight: 600 }}>Siguiente</span>
+              <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
                 {siguiente.titulo}
               </span>
             </span>

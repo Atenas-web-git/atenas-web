@@ -19,7 +19,7 @@ export function EliminarEventoClient({ id, titulo }: { id: number; titulo: strin
           background: "#FFFFFF",
           color: "#991B1B",
           border: "1px solid #FECACA",
-          fontSize: 13,
+          fontSize: 14,
           fontWeight: 600,
           cursor: "pointer",
           fontFamily: "inherit",
@@ -41,7 +41,7 @@ export function EliminarEventoClient({ id, titulo }: { id: number; titulo: strin
       style={{ background: "#FEF2F2", border: "1px solid #FECACA", borderRadius: 8 }}
     >
       <input type="hidden" name="id" value={id} />
-      <p style={{ fontSize: 13, color: "#991B1B", margin: 0, lineHeight: 1.5 }}>
+      <p style={{ fontSize: 14, color: "#991B1B", margin: 0, lineHeight: 1.5 }}>
         ¿Eliminar <strong>{titulo}</strong>? Esta acción no se puede deshacer.
       </p>
       <div className="flex items-center gap-2">
@@ -54,7 +54,7 @@ export function EliminarEventoClient({ id, titulo }: { id: number; titulo: strin
             background: "#991B1B",
             color: "#FFFFFF",
             border: "none",
-            fontSize: 12,
+            fontSize: 13,
             fontWeight: 600,
             cursor: pending ? "wait" : "pointer",
             opacity: pending ? 0.7 : 1,
@@ -73,7 +73,7 @@ export function EliminarEventoClient({ id, titulo }: { id: number; titulo: strin
             background: "transparent",
             color: "#6B6660",
             border: "1px solid #E8E4DD",
-            fontSize: 12,
+            fontSize: 13,
             fontWeight: 500,
             cursor: "pointer",
             fontFamily: "inherit",

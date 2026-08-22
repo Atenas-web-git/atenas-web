@@ -34,7 +34,7 @@ export default async function AdminLoginPage({ searchParams }: Props) {
           <span
             style={{
               fontFamily: "Poppins, sans-serif",
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 600,
               color: "#6B6660",
               letterSpacing: 2,
@@ -67,7 +67,7 @@ export default async function AdminLoginPage({ searchParams }: Props) {
             <p
               style={{
                 fontFamily: "Poppins, sans-serif",
-                fontSize: 13,
+                fontSize: 14,
                 color: "#6B6660",
                 margin: 0,
                 textAlign: "center",
@@ -86,7 +86,7 @@ export default async function AdminLoginPage({ searchParams }: Props) {
             <span
               style={{
                 fontFamily: "Poppins, sans-serif",
-                fontSize: 12,
+                fontSize: 13,
                 color: "#6B6660",
               }}
             >

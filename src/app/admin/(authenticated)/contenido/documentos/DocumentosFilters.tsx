@@ -37,7 +37,7 @@ export function DocumentosFilters({
           onChange={(e) => setParam("q", e.target.value)}
           placeholder="Buscar por título…"
           className="bg-transparent outline-none w-full"
-          style={{ fontSize: 13, color: "#1A2B4A" }}
+          style={{ fontSize: 14, color: "#1A2B4A" }}
         />
       </div>
 
@@ -48,7 +48,7 @@ export function DocumentosFilters({
         style={{
           height: 36,
           background: "#F4F1EB",
-          fontSize: 13,
+          fontSize: 14,
           color: "#1A2B4A",
           border: "none",
           outline: "none",

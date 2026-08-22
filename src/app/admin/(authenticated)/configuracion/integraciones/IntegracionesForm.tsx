@@ -37,17 +37,17 @@ export function IntegracionesForm({
         className="flex items-center justify-between gap-3 px-5 py-3 flex-wrap sticky top-0 z-10"
         style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}
       >
-        <span style={{ fontSize: 13, color: "#6B6660" }}>
+        <span style={{ fontSize: 14, color: "#6B6660" }}>
           Solo el superadmin puede modificar integraciones. Vacío = integración desactivada.
         </span>
         <div className="flex items-center gap-3">
           {state.error && (
-            <span className="flex items-center gap-1" style={{ fontSize: 12, color: "#991B1B" }}>
+            <span className="flex items-center gap-1" style={{ fontSize: 13, color: "#991B1B" }}>
               <AlertTriangle size={12} strokeWidth={2.5} /> {state.error}
             </span>
           )}
           {state.ok && (
-            <span className="flex items-center gap-1" style={{ fontSize: 12, color: "#065F46" }}>
+            <span className="flex items-center gap-1" style={{ fontSize: 13, color: "#065F46" }}>
               <Check size={12} strokeWidth={2.5} /> Guardado
             </span>
           )}
@@ -60,7 +60,7 @@ export function IntegracionesForm({
               background: "#1A2B4A",
               color: "#FFFFFF",
               border: "none",
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 600,
               cursor: isPending ? "wait" : "pointer",
               opacity: isPending ? 0.7 : 1,
@@ -89,10 +89,10 @@ export function IntegracionesForm({
       >
         <AlertTriangle size={20} strokeWidth={2.5} color="#991B1B" style={{ flexShrink: 0, marginTop: 2 }} />
         <div className="flex flex-col gap-1">
-          <p style={{ fontSize: 13, fontWeight: 700, color: "#991B1B", margin: 0 }}>
+          <p style={{ fontSize: 14, fontWeight: 700, color: "#991B1B", margin: 0 }}>
             No configures nada de esta pantalla todavía
           </p>
-          <p style={{ fontSize: 12, color: "#991B1B", lineHeight: 1.6, margin: 0 }}>
+          <p style={{ fontSize: 13, color: "#991B1B", lineHeight: 1.6, margin: 0 }}>
             Hay un defecto pendiente de arreglar: las etiquetas que se pongan aquí se cargan
             también <strong>dentro del panel</strong>, y le enviarían a Google y a Meta lo que
             escribas en el buscador de solicitudes — apellidos de familias y de menores.
@@ -116,7 +116,7 @@ export function IntegracionesForm({
             <h3 style={{ fontSize: 14, fontWeight: 700, color: "#1E3A8A", margin: 0 }}>
               ¿Cómo funcionan las integraciones?
             </h3>
-            <p style={{ fontSize: 12, color: "#1E3A8A", lineHeight: 1.6, margin: 0 }}>
+            <p style={{ fontSize: 13, color: "#1E3A8A", lineHeight: 1.6, margin: 0 }}>
               Hay <strong>dos modos</strong> de instalar tags de tracking. Elige uno y configúralo abajo. <strong>No mezcles</strong> ambos modos para evitar doble conteo de conversiones.
             </p>
           </div>
@@ -131,16 +131,16 @@ export function IntegracionesForm({
             <div className="flex items-center gap-2">
               <span
                 className="inline-flex items-center px-2 rounded-full"
-                style={{ background: "#1E40AF", color: "#FFFFFF", fontSize: 10, fontWeight: 700, letterSpacing: 0.5, height: 20 }}
+                style={{ background: "#1E40AF", color: "#FFFFFF", fontSize: 11, fontWeight: 700, letterSpacing: 0.5, height: 20 }}
               >
                 RECOMENDADO
               </span>
-              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
+              <h4 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
                 Modo con Google Tag Manager
               </h4>
               {gtmActivo && <Check size={14} strokeWidth={3} color="#065F46" />}
             </div>
-            <p style={{ fontSize: 11, color: "#374151", lineHeight: 1.6, margin: 0 }}>
+            <p style={{ fontSize: 12, color: "#374151", lineHeight: 1.6, margin: 0 }}>
               Solo pegas el <strong>GTM ID</strong> abajo. Todos los demás pixels (GA4, Facebook, TikTok) y los eventos custom (Lead al enviar formulario, etc.) los configuras desde la interfaz web de Google Tag Manager (<a href="https://tagmanager.google.com" target="_blank" rel="noopener" style={{ color: "#1E40AF", textDecoration: "underline" }}>tagmanager.google.com</a>) sin tocar el código.
             </p>
           </div>
@@ -153,16 +153,16 @@ export function IntegracionesForm({
             <div className="flex items-center gap-2">
               <span
                 className="inline-flex items-center px-2 rounded-full"
-                style={{ background: "#6B6660", color: "#FFFFFF", fontSize: 10, fontWeight: 700, letterSpacing: 0.5, height: 20 }}
+                style={{ background: "#6B6660", color: "#FFFFFF", fontSize: 11, fontWeight: 700, letterSpacing: 0.5, height: 20 }}
               >
                 SIMPLE
               </span>
-              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
+              <h4 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
                 Modo sin Google Tag Manager
               </h4>
               {!gtmActivo && <Check size={14} strokeWidth={3} color="#065F46" />}
             </div>
-            <p style={{ fontSize: 11, color: "#374151", lineHeight: 1.6, margin: 0 }}>
+            <p style={{ fontSize: 12, color: "#374151", lineHeight: 1.6, margin: 0 }}>
               Pegas <strong>cada pixel individualmente</strong>. El sitio solo dispara <code style={{ fontFamily: "monospace", background: "#F4F1EB", padding: "0 4px", borderRadius: 2 }}>PageView</code> automático en TODAS las páginas. Eventos avanzados (Lead, Contact) requieren tocar el código.
             </p>
           </div>
@@ -181,10 +181,10 @@ export function IntegracionesForm({
         >
           <AlertTriangle size={20} strokeWidth={2.5} color="#92400E" style={{ flexShrink: 0, marginTop: 2 }} />
           <div className="flex flex-col gap-1">
-            <p style={{ fontSize: 13, fontWeight: 700, color: "#78350F", margin: 0 }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: "#78350F", margin: 0 }}>
               Tienes GTM configurado + pixels individuales llenos
             </p>
-            <p style={{ fontSize: 12, color: "#78350F", lineHeight: 1.6, margin: 0 }}>
+            <p style={{ fontSize: 13, color: "#78350F", lineHeight: 1.6, margin: 0 }}>
               Los pixels individuales (Facebook, TikTok, GA4) <strong>se ignoran cuando GTM está activo</strong> — para evitar doble disparo y doble counting de conversiones. Si quieres usar GTM, configura esos pixels desde la interfaz web de GTM y deja vacíos los campos de abajo. Si prefieres el modo simple, borra el GTM ID.
             </p>
           </div>
@@ -256,7 +256,7 @@ export function IntegracionesForm({
             style={{ background: "#F4F1EB", border: "1px solid #E8E4DD" }}
           >
             <Lock size={13} strokeWidth={2.5} color="#6B6660" />
-            <span style={{ fontSize: 11, color: "#6B6660", lineHeight: 1.5 }}>
+            <span style={{ fontSize: 12, color: "#6B6660", lineHeight: 1.5 }}>
               Pixels gestionados por GTM. Para configurarlos, ve a{" "}
               <a href="https://tagmanager.google.com" target="_blank" rel="noopener" style={{ color: "#1A2B4A", fontWeight: 600 }}>
                 tagmanager.google.com
@@ -353,7 +353,7 @@ export function IntegracionesForm({
           style={{ background: "#EFF6FF", border: "1px solid #BFDBFE" }}
         >
           <Info size={13} strokeWidth={2.5} color="#1E40AF" style={{ marginTop: 1, flexShrink: 0 }} />
-          <span style={{ fontSize: 11, color: "#1E40AF", lineHeight: 1.5 }}>
+          <span style={{ fontSize: 12, color: "#1E40AF", lineHeight: 1.5 }}>
             Solo pega el <strong>valor del atributo content</strong>, NO el HTML completo. Ejemplo: si Google te da <code style={{ fontFamily: "monospace" }}>{`<meta name="google-site-verification" content="abc123" />`}</code>, pega solo <code style={{ fontFamily: "monospace" }}>abc123</code>.
           </span>
         </div>
@@ -405,7 +405,7 @@ function Card({
       <div className="flex flex-col gap-1">
         <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>{title}</h2>
         {subtitle && (
-          <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>
         )}
       </div>
       {children}
@@ -426,7 +426,7 @@ function Field({
     <div className="flex flex-col gap-1.5">
       <span
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 700,
           color: "#6B6660",
           textTransform: "uppercase",
@@ -437,7 +437,7 @@ function Field({
       </span>
       {children}
       {hint && (
-        <span style={{ fontSize: 10, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>
+        <span style={{ fontSize: 11, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>
       )}
     </div>
   );
@@ -450,7 +450,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",

@@ -72,7 +72,7 @@ export function ArchivosBancoClient({ archivos }: { archivos: ArchivoBancoRow[] 
                     style={{
                       padding: "12px 16px",
                       textAlign: "left",
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 700,
                       color: "#6B6660",
                       textTransform: "uppercase",
@@ -146,14 +146,14 @@ function UploadCard() {
         <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Subir archivo nuevo
         </h2>
-        <p style={{ fontSize: 12, color: "#6B6660", margin: "2px 0 0" }}>
+        <p style={{ fontSize: 13, color: "#6B6660", margin: "2px 0 0" }}>
           Acepta PDF, imágenes, Word, Excel. Máx 4 MB.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <label className="flex flex-col gap-1">
-          <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
+          <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
             Nombre (opcional)
           </span>
           <input
@@ -165,7 +165,7 @@ function UploadCard() {
           />
         </label>
         <label className="flex flex-col gap-1">
-          <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
+          <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
             Categoría (opcional)
           </span>
           <input
@@ -179,7 +179,7 @@ function UploadCard() {
       </div>
 
       <label className="flex flex-col gap-1">
-        <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
+        <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
           Descripción (opcional)
         </span>
         <textarea
@@ -208,7 +208,7 @@ function UploadCard() {
           style={{
             height: 36,
             background: "#F4F1EB",
-            fontSize: 13,
+            fontSize: 14,
             color: "#1A2B4A",
             fontWeight: 600,
             border: "1px solid #E8E4DD",
@@ -225,7 +225,7 @@ function UploadCard() {
           style={{
             height: 36,
             background: "#1A2B4A",
-            fontSize: 13,
+            fontSize: 14,
             color: "#FFFFFF",
             fontWeight: 600,
             border: "none",
@@ -241,7 +241,7 @@ function UploadCard() {
           className="px-3 py-2 rounded-md"
           style={{ background: "#FEE2E2", border: "1px solid #FCA5A5" }}
         >
-          <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{error}</p>
+          <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{error}</p>
         </div>
       )}
       {ok && (
@@ -249,7 +249,7 @@ function UploadCard() {
           className="px-3 py-2 rounded-md"
           style={{ background: "#DCFCE7", border: "1px solid #86EFAC" }}
         >
-          <p style={{ fontSize: 12, color: "#065F46", margin: 0 }}>Archivo subido al banco ✓</p>
+          <p style={{ fontSize: 13, color: "#065F46", margin: 0 }}>Archivo subido al banco ✓</p>
         </div>
       )}
     </form>
@@ -276,13 +276,13 @@ function ArchivoRow({
         <div className="flex items-center gap-3 min-w-0">
           {fileIcon(archivo.tipo_mime)}
           <div className="flex-1 min-w-0">
-            <div style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+            <div style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
               {archivo.nombre}
             </div>
             {archivo.descripcion && (
               <p
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   color: "#6B6660",
                   margin: "2px 0 0",
                   maxWidth: 380,
@@ -304,7 +304,7 @@ function ArchivoRow({
             style={{
               height: 20,
               background: "#EFF6FF",
-              fontSize: 10,
+              fontSize: 11,
               fontWeight: 700,
               color: "#1E40AF",
               letterSpacing: 0.3,
@@ -313,10 +313,10 @@ function ArchivoRow({
             {archivo.categoria}
           </span>
         ) : (
-          <span style={{ fontSize: 11, color: "#A0AABA" }}>—</span>
+          <span style={{ fontSize: 12, color: "#A0AABA" }}>—</span>
         )}
       </td>
-      <td style={{ padding: "12px 16px", fontSize: 12, color: "#6B6660", whiteSpace: "nowrap" }}>
+      <td style={{ padding: "12px 16px", fontSize: 13, color: "#6B6660", whiteSpace: "nowrap" }}>
         {formatBytes(archivo.tamano_bytes)}
       </td>
       <td style={{ padding: "12px 16px" }}>
@@ -325,7 +325,7 @@ function ArchivoRow({
           style={{
             height: 20,
             background: archivo.activo ? "#DCFCE7" : "#FEF3C7",
-            fontSize: 10,
+            fontSize: 11,
             fontWeight: 700,
             color: archivo.activo ? "#065F46" : "#92400E",
           }}
@@ -405,7 +405,7 @@ function EditingRow({
           <input type="hidden" name="id" value={archivo.id} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <label className="flex flex-col gap-1">
-              <span style={{ fontSize: 11, fontWeight: 600, color: "#1A2B4A" }}>Nombre</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>Nombre</span>
               <input
                 type="text"
                 name="nombre"
@@ -415,7 +415,7 @@ function EditingRow({
               />
             </label>
             <label className="flex flex-col gap-1">
-              <span style={{ fontSize: 11, fontWeight: 600, color: "#1A2B4A" }}>Categoría</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>Categoría</span>
               <input
                 type="text"
                 name="categoria"
@@ -425,7 +425,7 @@ function EditingRow({
             </label>
           </div>
           <label className="flex flex-col gap-1">
-            <span style={{ fontSize: 11, fontWeight: 600, color: "#1A2B4A" }}>Descripción</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>Descripción</span>
             <textarea
               name="descripcion"
               defaultValue={archivo.descripcion ?? ""}
@@ -440,12 +440,12 @@ function EditingRow({
               defaultChecked={archivo.activo}
               style={{ width: 14, height: 14, accentColor: "#1A2B4A" }}
             />
-            <span style={{ fontSize: 12, color: "#1A2B4A" }}>
+            <span style={{ fontSize: 13, color: "#1A2B4A" }}>
               Activo (visible para asociar a plantillas y solicitudes)
             </span>
           </label>
           {error && (
-            <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{error}</p>
+            <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{error}</p>
           )}
           <div className="flex items-center justify-end gap-2">
             <button
@@ -455,7 +455,7 @@ function EditingRow({
               style={{
                 height: 30,
                 background: "#FFFFFF",
-                fontSize: 12,
+                fontSize: 13,
                 color: "#1A2B4A",
                 fontWeight: 600,
                 border: "1px solid #E8E4DD",
@@ -472,7 +472,7 @@ function EditingRow({
               style={{
                 height: 30,
                 background: "#1A2B4A",
-                fontSize: 12,
+                fontSize: 13,
                 color: "#FFFFFF",
                 fontWeight: 600,
                 border: "none",
@@ -551,7 +551,7 @@ const inputStyle: React.CSSProperties = {
   background: "#FAFAF8",
   border: "1px solid #E8E4DD",
   borderRadius: 6,
-  fontSize: 12,
+  fontSize: 13,
   color: "#1A2B4A",
   outline: "none",
   fontFamily: "inherit",

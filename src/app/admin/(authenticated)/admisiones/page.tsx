@@ -129,7 +129,7 @@ export default async function AdmisionesPage({
             esta pantalla los cuenta todos. Sin decirlo, las dos dan cifras
             distintas en el mismo panel y quien mire deja de fiarse de las dos.
           */}
-          <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0" }}>
+          <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0" }}>
             {totalCount} solicitud{totalCount === 1 ? "" : "es"} en total, de todos los años
             lectivos
           </p>
@@ -143,7 +143,7 @@ export default async function AdmisionesPage({
               background: "#1A2B4A",
               color: "#FFFFFF",
               textDecoration: "none",
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 500,
             }}
           >
@@ -159,7 +159,7 @@ export default async function AdmisionesPage({
               border: "1px solid #E8E4DD",
               color: "#1A2B4A",
               textDecoration: "none",
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 500,
             }}
           >
@@ -189,7 +189,7 @@ export default async function AdmisionesPage({
               >
                 <span
                   style={{
-                    fontSize: 13,
+                    fontSize: 14,
                     fontWeight: isActive ? 600 : 500,
                     color: isActive ? "#1A2B4A" : "#6B6660",
                   }}
@@ -203,7 +203,7 @@ export default async function AdmisionesPage({
                       minWidth: 20,
                       height: 18,
                       background: isActive ? "#1A2B4A" : "#E8E4DD",
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 700,
                       color: isActive ? "#9e1915" : "#6B6660",
                     }}
@@ -246,7 +246,7 @@ export default async function AdmisionesPage({
               border: "none",
               outline: "none",
               background: "transparent",
-              fontSize: 13,
+              fontSize: 14,
               color: "#1A2B4A",
               width: "100%",
             }}
@@ -260,7 +260,7 @@ export default async function AdmisionesPage({
             border: "1px solid #E8E4DD",
             borderRadius: 6,
             background: "#FFFFFF",
-            fontSize: 13,
+            fontSize: 14,
             color: "#1A2B4A",
             paddingLeft: 12,
             paddingRight: 28,
@@ -282,7 +282,7 @@ export default async function AdmisionesPage({
             background: "#1A2B4A",
             color: "#FFFFFF",
             border: "none",
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 500,
             cursor: "pointer",
           }}
@@ -292,7 +292,7 @@ export default async function AdmisionesPage({
         {(query || nivelFilter) && (
           <Link
             href={buildUrl({ estado: estadoFilter })}
-            style={{ fontSize: 12, color: "#6B6660", textDecoration: "underline" }}
+            style={{ fontSize: 13, color: "#6B6660", textDecoration: "underline" }}
           >
             Limpiar
           </Link>
@@ -312,7 +312,7 @@ export default async function AdmisionesPage({
             <p style={{ fontSize: 14, fontWeight: 600, color: "#991B1B", margin: 0 }}>
               No se pudieron cargar las solicitudes.
             </p>
-            <p style={{ fontSize: 13, color: "#6B6660", margin: 0, textAlign: "center" }}>
+            <p style={{ fontSize: 14, color: "#6B6660", margin: 0, textAlign: "center" }}>
               Esto no quiere decir que no haya ninguna. Vuelve a intentarlo y, si sigue igual,
               avísanos.
             </p>
@@ -334,7 +334,7 @@ export default async function AdmisionesPage({
                       style={{
                         padding: "12px 16px",
                         textAlign: "left",
-                        fontSize: 11,
+                        fontSize: 12,
                         fontWeight: 700,
                         color: "#6B6660",
                         textTransform: "uppercase",
@@ -363,7 +363,7 @@ export default async function AdmisionesPage({
                       <td style={{ padding: "14px 16px" }}>
                         <span
                           style={{
-                            fontSize: 12,
+                            fontSize: 13,
                             fontWeight: 700,
                             color: "#1A2B4A",
                             fontFamily: "monospace",
@@ -383,11 +383,11 @@ export default async function AdmisionesPage({
                               borderRadius: "50%",
                             }}
                           >
-                            <span style={{ fontSize: 12, fontWeight: 700, color: "#1A2B4A" }}>
+                            <span style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A" }}>
                               {initials}
                             </span>
                           </div>
-                          <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+                          <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
                             {s.est_nombres} {s.est_apellidos}
                           </span>
                           {/*
@@ -403,7 +403,7 @@ export default async function AdmisionesPage({
                                 height: 18,
                                 background: "#F4F1EB",
                                 border: "1px solid #E8E4DD",
-                                fontSize: 10,
+                                fontSize: 11,
                                 fontWeight: 600,
                                 color: "#6B6660",
                               }}
@@ -414,10 +414,10 @@ export default async function AdmisionesPage({
                         </div>
                       </td>
                       <td style={{ padding: "14px 16px" }}>
-                        <span style={{ fontSize: 12, color: "#6B6660" }}>{s.est_nivel}</span>
+                        <span style={{ fontSize: 13, color: "#6B6660" }}>{s.est_nivel}</span>
                       </td>
                       <td style={{ padding: "14px 16px" }}>
-                        <span style={{ fontSize: 12, color: "#6B6660" }}>
+                        <span style={{ fontSize: 13, color: "#6B6660" }}>
                           {formatDate(s.created_at)}
                         </span>
                       </td>
@@ -427,7 +427,7 @@ export default async function AdmisionesPage({
                           style={{
                             height: 22,
                             background: info.colorBg,
-                            fontSize: 11,
+                            fontSize: 12,
                             fontWeight: 600,
                             color: info.colorFg,
                           }}
@@ -440,7 +440,7 @@ export default async function AdmisionesPage({
                           href={`/admin/admisiones/${s.id}`}
                           className="transition-opacity hover:opacity-70"
                           style={{
-                            fontSize: 12,
+                            fontSize: 13,
                             fontWeight: 500,
                             color: "#1A2B4A",
                             textDecoration: "none",
@@ -464,7 +464,7 @@ export default async function AdmisionesPage({
       {/* Paginación */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between">
-          <p style={{ fontSize: 12, color: "#6B6660", margin: 0 }}>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
             Mostrando {offset + 1}–{Math.min(offset + PER_PAGE, total)} de {total}
           </p>
           <div className="flex items-center gap-2">
@@ -476,7 +476,7 @@ export default async function AdmisionesPage({
                   height: 34,
                   border: "1px solid #E8E4DD",
                   background: "#FFFFFF",
-                  fontSize: 13,
+                  fontSize: 14,
                   color: "#1A2B4A",
                   textDecoration: "none",
                 }}
@@ -491,7 +491,7 @@ export default async function AdmisionesPage({
                   height: 34,
                   border: "1px solid #E8E4DD",
                   background: "#F4F1EB",
-                  fontSize: 13,
+                  fontSize: 14,
                   color: "#A0AABA",
                 }}
               >
@@ -499,7 +499,7 @@ export default async function AdmisionesPage({
                 Anterior
               </span>
             )}
-            <span style={{ fontSize: 12, color: "#6B6660" }}>
+            <span style={{ fontSize: 13, color: "#6B6660" }}>
               Pág. {page} de {totalPages}
             </span>
             {page < totalPages ? (
@@ -510,7 +510,7 @@ export default async function AdmisionesPage({
                   height: 34,
                   border: "1px solid #E8E4DD",
                   background: "#FFFFFF",
-                  fontSize: 13,
+                  fontSize: 14,
                   color: "#1A2B4A",
                   textDecoration: "none",
                 }}
@@ -525,7 +525,7 @@ export default async function AdmisionesPage({
                   height: 34,
                   border: "1px solid #E8E4DD",
                   background: "#F4F1EB",
-                  fontSize: 13,
+                  fontSize: 14,
                   color: "#A0AABA",
                 }}
               >

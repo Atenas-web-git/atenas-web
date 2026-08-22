@@ -159,7 +159,7 @@ export function GaleriaClient({ imagenes }: { imagenes: ImagenRow[] }) {
             background: "#1A2B4A",
             color: "#FFFFFF",
             border: "none",
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 500,
             cursor: uploading ? "wait" : "pointer",
             fontFamily: "inherit",
@@ -192,7 +192,7 @@ export function GaleriaClient({ imagenes }: { imagenes: ImagenRow[] }) {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Buscar por nombre, alt o tipo…"
             className="bg-transparent outline-none w-full"
-            style={{ fontSize: 13, color: "#1A2B4A" }}
+            style={{ fontSize: 14, color: "#1A2B4A" }}
           />
           {query && (
             <button
@@ -202,7 +202,7 @@ export function GaleriaClient({ imagenes }: { imagenes: ImagenRow[] }) {
                 background: "transparent",
                 border: "none",
                 color: "#6B6660",
-                fontSize: 11,
+                fontSize: 12,
                 cursor: "pointer",
                 fontFamily: "inherit",
               }}
@@ -219,7 +219,7 @@ export function GaleriaClient({ imagenes }: { imagenes: ImagenRow[] }) {
           style={{ background: "#FEE2E2", border: "1px solid #FECACA" }}
         >
           <AlertTriangle size={14} color="#991B1B" strokeWidth={2.5} />
-          <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{uploadError}</p>
+          <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{uploadError}</p>
         </div>
       )}
       {uploadSuccess && !uploadError && (
@@ -228,12 +228,12 @@ export function GaleriaClient({ imagenes }: { imagenes: ImagenRow[] }) {
           style={{ background: "#D1FAE5", border: "1px solid #A7F3D0" }}
         >
           <Check size={14} color="#065F46" strokeWidth={2.5} />
-          <p style={{ fontSize: 12, color: "#065F46", margin: 0 }}>{uploadSuccess}</p>
+          <p style={{ fontSize: 13, color: "#065F46", margin: 0 }}>{uploadSuccess}</p>
         </div>
       )}
 
       {query && (
-        <p style={{ fontSize: 12, color: "#6B6660", margin: 0 }}>
+        <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
           {filtered.length} resultado{filtered.length === 1 ? "" : "s"} de{" "}
           {imagenes.length}
         </p>
@@ -359,7 +359,7 @@ function ImagenCard({
         <span
           className="truncate"
           style={{
-            fontSize: 12,
+            fontSize: 13,
             fontWeight: 600,
             color: "#1A2B4A",
             fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
@@ -369,11 +369,11 @@ function ImagenCard({
           {fileName}
         </span>
         <div className="flex items-center gap-2 flex-wrap">
-          <span style={{ fontSize: 10, color: "#A0AABA" }}>
+          <span style={{ fontSize: 11, color: "#A0AABA" }}>
             {formatDate(img.uploaded_at)}
           </span>
-          <span style={{ fontSize: 10, color: "#A0AABA" }}>·</span>
-          <span style={{ fontSize: 10, color: "#A0AABA" }}>
+          <span style={{ fontSize: 11, color: "#A0AABA" }}>·</span>
+          <span style={{ fontSize: 11, color: "#A0AABA" }}>
             {formatBytes(img.tamano_bytes)}
           </span>
         </div>
@@ -387,7 +387,7 @@ function ImagenCard({
             color: copied ? "#065F46" : "#1A2B4A",
             border: copied ? "1px solid #A7F3D0" : "1px solid #E8E4DD",
             borderRadius: 6,
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 600,
             cursor: "pointer",
             fontFamily: "inherit",
@@ -528,7 +528,7 @@ function ImagenDetalleModal({
                     borderRadius: 6,
                     paddingLeft: 10,
                     paddingRight: 10,
-                    fontSize: 11,
+                    fontSize: 12,
                     color: "#1A2B4A",
                     background: "#FAFAF8",
                     outline: "none",
@@ -545,7 +545,7 @@ function ImagenDetalleModal({
                     color: copied ? "#065F46" : "#FFFFFF",
                     border: copied ? "1px solid #A7F3D0" : "none",
                     borderRadius: 6,
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 600,
                     cursor: "pointer",
                     fontFamily: "inherit",
@@ -610,7 +610,7 @@ function EditarAltForm({ img }: { img: ImagenRow }) {
           border: "1px solid #E8E4DD",
           borderRadius: 6,
           padding: 10,
-          fontSize: 12,
+          fontSize: 13,
           color: "#1A2B4A",
           background: "#FFFFFF",
           outline: "none",
@@ -619,10 +619,10 @@ function EditarAltForm({ img }: { img: ImagenRow }) {
         }}
       />
       {state.error && (
-        <p style={{ fontSize: 11, color: "#991B1B", margin: 0 }}>{state.error}</p>
+        <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{state.error}</p>
       )}
       {state.ok && !state.error && (
-        <p style={{ fontSize: 11, color: "#065F46", margin: 0 }}>Guardado.</p>
+        <p style={{ fontSize: 12, color: "#065F46", margin: 0 }}>Guardado.</p>
       )}
       <button
         type="submit"
@@ -636,7 +636,7 @@ function EditarAltForm({ img }: { img: ImagenRow }) {
           color: "#FFFFFF",
           border: "none",
           borderRadius: 6,
-          fontSize: 12,
+          fontSize: 13,
           fontWeight: 600,
           cursor: pending ? "wait" : "pointer",
           opacity: pending ? 0.6 : 1,
@@ -680,7 +680,7 @@ function EliminarImagenForm({
           color: "#991B1B",
           border: "1px solid #FECACA",
           borderRadius: 6,
-          fontSize: 12,
+          fontSize: 13,
           fontWeight: 500,
           cursor: "pointer",
           fontFamily: "inherit",
@@ -701,10 +701,10 @@ function EliminarImagenForm({
       >
         <AlertTriangle size={14} color="#991B1B" strokeWidth={2.5} />
         <div className="flex flex-col gap-1 flex-1">
-          <p style={{ fontSize: 12, fontWeight: 600, color: "#991B1B", margin: 0 }}>
+          <p style={{ fontSize: 13, fontWeight: 600, color: "#991B1B", margin: 0 }}>
             ¿Eliminar esta imagen del catálogo?
           </p>
-          <p style={{ fontSize: 11, color: "#7F1D1D", margin: 0, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 12, color: "#7F1D1D", margin: 0, lineHeight: 1.5 }}>
             La imagen se borra del bucket{" "}
             <code style={{ fontFamily: "ui-monospace, monospace" }}>contenido</code>. Las
             páginas que la usan dejarán de mostrarla.
@@ -712,7 +712,7 @@ function EliminarImagenForm({
         </div>
       </div>
       {state.error && (
-        <p style={{ fontSize: 11, color: "#991B1B", margin: 0 }}>{state.error}</p>
+        <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{state.error}</p>
       )}
       <div className="flex items-center gap-2">
         <button
@@ -726,7 +726,7 @@ function EliminarImagenForm({
             color: "#6B6660",
             border: "1px solid #E8E4DD",
             borderRadius: 6,
-            fontSize: 12,
+            fontSize: 13,
             fontWeight: 500,
             cursor: "pointer",
             fontFamily: "inherit",
@@ -745,7 +745,7 @@ function EliminarImagenForm({
             color: "#FFFFFF",
             border: "none",
             borderRadius: 6,
-            fontSize: 12,
+            fontSize: 13,
             fontWeight: 600,
             cursor: pending ? "wait" : "pointer",
             opacity: pending ? 0.6 : 1,
@@ -764,7 +764,7 @@ function EliminarImagenForm({
 // ───────────────────────────────────────────────────────────
 
 const labelStyle: React.CSSProperties = {
-  fontSize: 10,
+  fontSize: 11,
   fontWeight: 700,
   color: "#6B6660",
   textTransform: "uppercase",
@@ -786,7 +786,7 @@ function FieldRow({
       <span
         className="truncate"
         style={{
-          fontSize: 12,
+          fontSize: 13,
           color: "#1A2B4A",
           fontFamily: mono
             ? "ui-monospace, SFMono-Regular, Menlo, monospace"

@@ -28,17 +28,17 @@ export function SeoForm({ initialSeo }: { initialSeo: Seo }) {
         className="flex items-center justify-between gap-3 px-5 py-3 flex-wrap sticky top-0 z-10"
         style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}
       >
-        <span style={{ fontSize: 13, color: "#6B6660" }}>
+        <span style={{ fontSize: 14, color: "#6B6660" }}>
           Solo el superadmin puede modificar el SEO. Los cambios aplican a todo el sitio.
         </span>
         <div className="flex items-center gap-3">
           {state.error && (
-            <span className="flex items-center gap-1" style={{ fontSize: 12, color: "#991B1B" }}>
+            <span className="flex items-center gap-1" style={{ fontSize: 13, color: "#991B1B" }}>
               <AlertTriangle size={12} strokeWidth={2.5} /> {state.error}
             </span>
           )}
           {state.ok && (
-            <span className="flex items-center gap-1" style={{ fontSize: 12, color: "#065F46" }}>
+            <span className="flex items-center gap-1" style={{ fontSize: 13, color: "#065F46" }}>
               <Check size={12} strokeWidth={2.5} /> Guardado
             </span>
           )}
@@ -51,7 +51,7 @@ export function SeoForm({ initialSeo }: { initialSeo: Seo }) {
               background: "#1A2B4A",
               color: "#FFFFFF",
               border: "none",
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 600,
               cursor: isPending ? "wait" : "pointer",
               opacity: isPending ? 0.7 : 1,
@@ -70,10 +70,10 @@ export function SeoForm({ initialSeo }: { initialSeo: Seo }) {
       >
         <Info size={18} strokeWidth={2.5} color="#1E40AF" style={{ flexShrink: 0, marginTop: 2 }} />
         <div className="flex flex-col gap-1">
-          <p style={{ fontSize: 13, fontWeight: 700, color: "#1E3A8A", margin: 0 }}>
+          <p style={{ fontSize: 14, fontWeight: 700, color: "#1E3A8A", margin: 0 }}>
             Cómo funciona el SEO del sitio
           </p>
-          <p style={{ fontSize: 12, color: "#1E3A8A", lineHeight: 1.6, margin: 0 }}>
+          <p style={{ fontSize: 13, color: "#1E3A8A", lineHeight: 1.6, margin: 0 }}>
             Hay dos niveles: <strong>defaults globales</strong> (este formulario, se aplican a todo el sitio) y <strong>overrides por página</strong> (en cada página del CMS, hay campos meta_title y meta_description que sobrescriben el default solo para esa página). El title template combina ambos: para una página con meta_title "Misión" y template "%s | Atenas", el title final es "Misión | Atenas".
           </p>
         </div>
@@ -120,11 +120,11 @@ export function SeoForm({ initialSeo }: { initialSeo: Seo }) {
         >
           <p style={previewLabel}>Vista previa</p>
           <div className="flex flex-col gap-1">
-            <p style={{ fontSize: 11, color: "#6B6660", margin: 0 }}>Home (sin meta_title propio):</p>
+            <p style={{ fontSize: 12, color: "#6B6660", margin: 0 }}>Home (sin meta_title propio):</p>
             <p style={previewTitle}>{titleDefault}</p>
           </div>
           <div className="flex flex-col gap-1 mt-2">
-            <p style={{ fontSize: 11, color: "#6B6660", margin: 0 }}>Página con meta_title "Misión":</p>
+            <p style={{ fontSize: 12, color: "#6B6660", margin: 0 }}>Página con meta_title "Misión":</p>
             <p style={previewTitle}>{ejemploTitle}</p>
           </div>
         </div>
@@ -227,10 +227,10 @@ export function SeoForm({ initialSeo }: { initialSeo: Seo }) {
               style={{ width: 18, height: 18, accentColor: "#1A2B4A" }}
             />
             <div className="flex flex-col gap-0.5">
-              <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+              <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
                 Permitir indexación (index)
               </span>
-              <span style={{ fontSize: 11, color: "#6B6660" }}>
+              <span style={{ fontSize: 12, color: "#6B6660" }}>
                 Google y otros motores pueden mostrar el sitio en sus resultados. Desactivar solo si el sitio está en desarrollo.
               </span>
             </div>
@@ -246,10 +246,10 @@ export function SeoForm({ initialSeo }: { initialSeo: Seo }) {
               style={{ width: 18, height: 18, accentColor: "#1A2B4A" }}
             />
             <div className="flex flex-col gap-0.5">
-              <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+              <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
                 Seguir enlaces (follow)
               </span>
-              <span style={{ fontSize: 11, color: "#6B6660" }}>
+              <span style={{ fontSize: 12, color: "#6B6660" }}>
                 Los motores siguen los links del sitio para descubrir páginas relacionadas. Desactivar solo en casos avanzados.
               </span>
             </div>
@@ -266,7 +266,7 @@ function CharCounter({ value, max }: { value: string; max: number }) {
   const length = value.length;
   const color = length > max ? "#991B1B" : length > max * 0.9 ? "#92400E" : "#A0AABA";
   return (
-    <span style={{ fontSize: 10, color, alignSelf: "flex-end" }}>
+    <span style={{ fontSize: 11, color, alignSelf: "flex-end" }}>
       {length} / {max} caracteres
     </span>
   );
@@ -277,7 +277,7 @@ function Card({ title, subtitle, children }: { title: string; subtitle?: string;
     <div className="flex flex-col gap-4 p-5" style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}>
       <div className="flex flex-col gap-1">
         <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>{title}</h2>
-        {subtitle && <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>}
+        {subtitle && <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>}
       </div>
       {children}
     </div>
@@ -308,20 +308,20 @@ function Field({
 
 const monoFont = "ui-monospace, SFMono-Regular, Menlo, monospace";
 const fieldLabel: React.CSSProperties = {
-  fontSize: 11,
+  fontSize: 12,
   fontWeight: 700,
   color: "#6B6660",
   textTransform: "uppercase",
   letterSpacing: 0.5,
 };
-const hintStyle: React.CSSProperties = { fontSize: 10, color: "#A0AABA", lineHeight: 1.5 };
+const hintStyle: React.CSSProperties = { fontSize: 11, color: "#A0AABA", lineHeight: 1.5 };
 const inputStyle: React.CSSProperties = {
   height: 38,
   border: "1px solid #E8E4DD",
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",
@@ -337,7 +337,7 @@ const textareaStyle: React.CSSProperties = {
   resize: "vertical",
 };
 const previewLabel: React.CSSProperties = {
-  fontSize: 10,
+  fontSize: 11,
   fontWeight: 700,
   color: "#6B6660",
   textTransform: "uppercase",

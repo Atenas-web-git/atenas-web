@@ -38,7 +38,7 @@ export default async function MegaMenuPage() {
       <Link
         href="/admin/configuracion"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a Configuración
@@ -48,7 +48,7 @@ export default async function MegaMenuPage() {
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Mega-menú
         </h1>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 760 }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0", maxWidth: 760 }}>
           Estructura jerárquica del menú principal del sitio. Cada categoría agrupa sub-items que enlazan a páginas internas o externas. Los cambios se reflejan en el sitio público inmediatamente al guardar.
         </p>
       </div>

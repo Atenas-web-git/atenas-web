@@ -174,7 +174,7 @@ export function CategoriaForm({ inicial }: { inicial?: Partial<CategoriaInicial>
       </Section>
 
       <Section title='Hero de la página "Todos los logros" (opcional)'>
-        <p style={{ fontSize: 11, color: "#6B6660", margin: 0 }}>
+        <p style={{ fontSize: 12, color: "#6B6660", margin: 0 }}>
           Estos campos personalizan el Hero de <code>/reconocimientos/{init.slug || "..."}/logros</code>.
           Si los dejas vacíos, esa página usa un Hero genérico construido a partir del nombre de la categoría.
         </p>
@@ -260,7 +260,7 @@ function SubmitButton({ isEditing }: { isEditing: boolean }) {
       style={{
         height: 40,
         background: "#1A2B4A",
-        fontSize: 13,
+        fontSize: 14,
         color: "#FFFFFF",
         fontWeight: 600,
         border: "none",
@@ -278,7 +278,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
       className="flex flex-col gap-4 p-5"
       style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}
     >
-      <h2 style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A", margin: 0, letterSpacing: 0.3 }}>
+      <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0, letterSpacing: 0.3 }}>
         {title}
       </h2>
       {children}
@@ -301,9 +301,9 @@ function Field({
 }) {
   return (
     <label className="flex flex-col gap-1.5">
-      <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>{label}</span>
+      <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>{label}</span>
       {children}
-      {hint && <span style={{ fontSize: 11, color: "#6B6660" }}>{hint}</span>}
+      {hint && <span style={{ fontSize: 12, color: "#6B6660" }}>{hint}</span>}
     </label>
   );
 }
@@ -314,7 +314,7 @@ function ErrorBanner({ message }: { message: string }) {
       className="px-4 py-3 rounded-md"
       style={{ background: "#FEE2E2", border: "1px solid #FCA5A5" }}
     >
-      <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{message}</p>
+      <p style={{ fontSize: 14, color: "#991B1B", margin: 0 }}>{message}</p>
     </div>
   );
 }
@@ -325,7 +325,7 @@ function SuccessBanner({ message }: { message: string }) {
       className="px-4 py-3 rounded-md"
       style={{ background: "#DCFCE7", border: "1px solid #86EFAC" }}
     >
-      <p style={{ fontSize: 13, color: "#065F46", margin: 0 }}>{message}</p>
+      <p style={{ fontSize: 14, color: "#065F46", margin: 0 }}>{message}</p>
     </div>
   );
 }
@@ -337,7 +337,7 @@ const inputStyle: React.CSSProperties = {
   background: "#FAFAF8",
   border: "1px solid #E8E4DD",
   borderRadius: 6,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   outline: "none",
   fontFamily: "inherit",
@@ -348,7 +348,7 @@ const checkboxLabel: React.CSSProperties = {
   display: "flex",
   alignItems: "center",
   gap: 8,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   cursor: "pointer",
 };

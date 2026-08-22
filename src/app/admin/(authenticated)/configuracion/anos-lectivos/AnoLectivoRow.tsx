@@ -45,20 +45,20 @@ function ViewMode({
   return (
     <tr style={{ borderBottom: "1px solid #E8E4DD" }}>
       <td style={cellStyle}>
-        <span style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A", fontFamily: "monospace" }}>
+        <span style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", fontFamily: "monospace" }}>
           {ano.codigo}
         </span>
       </td>
       <td style={cellStyle}>
-        <span style={{ fontSize: 13, color: "#1A2B4A" }}>{ano.nombre}</span>
+        <span style={{ fontSize: 14, color: "#1A2B4A" }}>{ano.nombre}</span>
       </td>
       <td style={cellStyle}>
-        <span style={{ fontSize: 12, color: "#6B6660" }}>
+        <span style={{ fontSize: 13, color: "#6B6660" }}>
           {ano.fecha_inicio ?? "—"}
         </span>
       </td>
       <td style={cellStyle}>
-        <span style={{ fontSize: 12, color: "#6B6660" }}>
+        <span style={{ fontSize: 13, color: "#6B6660" }}>
           {ano.fecha_fin ?? "—"}
         </span>
       </td>
@@ -68,7 +68,7 @@ function ViewMode({
           style={{
             height: 22,
             background: ano.activo ? "#D1FAE5" : "#FEE2E2",
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 600,
             color: ano.activo ? "#065F46" : "#991B1B",
           }}
@@ -77,7 +77,7 @@ function ViewMode({
         </span>
       </td>
       <td style={cellStyle}>
-        <span style={{ fontSize: 11, color: "#6B6660" }}>
+        <span style={{ fontSize: 12, color: "#6B6660" }}>
           {ano.cupos_count ?? 0} cupos · {ano.solic_count ?? 0} solicitudes
         </span>
       </td>
@@ -86,7 +86,7 @@ function ViewMode({
           {confirming ? (
             <form action={deleteAction} className="flex items-center gap-2">
               <input type="hidden" name="codigo" value={ano.codigo} />
-              <span style={{ fontSize: 11, color: "#991B1B", fontWeight: 600 }}>
+              <span style={{ fontSize: 12, color: "#991B1B", fontWeight: 600 }}>
                 ¿Eliminar?
               </span>
               <button
@@ -143,7 +143,7 @@ function ViewMode({
           )}
         </div>
         {delState.error && (
-          <p style={{ fontSize: 11, color: "#991B1B", margin: "4px 0 0", textAlign: "right" }}>
+          <p style={{ fontSize: 12, color: "#991B1B", margin: "4px 0 0", textAlign: "right" }}>
             {delState.error}
           </p>
         )}
@@ -226,12 +226,12 @@ function EditMode({
                   defaultChecked={ano.activo}
                   style={{ accentColor: "#1A2B4A" }}
                 />
-                <span style={{ fontSize: 12, color: "#1A2B4A" }}>Activo</span>
+                <span style={{ fontSize: 13, color: "#1A2B4A" }}>Activo</span>
               </label>
             </div>
           </div>
           {state.error && (
-            <p style={{ fontSize: 11, color: "#991B1B", margin: 0 }}>{state.error}</p>
+            <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{state.error}</p>
           )}
           <div className="flex items-center gap-2 justify-end">
             <button
@@ -245,7 +245,7 @@ function EditMode({
                 color: "#6B6660",
                 border: "1px solid #E8E4DD",
                 borderRadius: 6,
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 500,
                 cursor: "pointer",
               }}
@@ -264,7 +264,7 @@ function EditMode({
                 color: "#FFFFFF",
                 border: "none",
                 borderRadius: 6,
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 600,
                 cursor: isPending ? "wait" : "pointer",
                 opacity: isPending ? 0.7 : 1,
@@ -282,11 +282,11 @@ function EditMode({
 
 const cellStyle: React.CSSProperties = {
   padding: "12px 16px",
-  fontSize: 13,
+  fontSize: 14,
 };
 
 const labelStyle: React.CSSProperties = {
-  fontSize: 10,
+  fontSize: 11,
   fontWeight: 600,
   color: "#6B6660",
   textTransform: "uppercase",
@@ -299,7 +299,7 @@ const editInput: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 8,
   paddingRight: 8,
-  fontSize: 12,
+  fontSize: 13,
   color: "#1A2B4A",
   background: "#FFFFFF",
   outline: "none",

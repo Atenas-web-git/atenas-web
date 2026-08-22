@@ -18,14 +18,14 @@ export default async function NuevoFormularioPage() {
         <Link
           href="/admin/contenido/formularios"
           className="inline-flex items-center gap-1"
-          style={{ fontSize: 12, color: "#6B6660" }}
+          style={{ fontSize: 13, color: "#6B6660" }}
         >
           <ArrowLeft size={13} /> Formularios
         </Link>
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: "8px 0 0" }}>
           Crear formulario
         </h1>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 560 }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0", maxWidth: 560 }}>
           Empieza con el nombre. En el paso siguiente eliges las preguntas y a
           quién le llegan las respuestas.
         </p>

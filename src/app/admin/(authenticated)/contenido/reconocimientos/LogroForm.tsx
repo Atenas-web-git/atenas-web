@@ -126,7 +126,7 @@ export function LogroForm({
       </Section>
 
       <Section title="Fotos del logro (mini-galería rotativa)">
-        <p style={{ fontSize: 12, color: "#6B6660", margin: 0 }}>
+        <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
           Cada logro tiene su propio carrusel de fotos. Si añades varias, en el frontend
           aparecen como puntos navegables debajo de la tarjeta. Recomendado: 1 a 5 fotos.
         </p>
@@ -146,7 +146,7 @@ export function LogroForm({
             </div>
             <div className="flex-1 flex flex-col gap-2">
               <label className="flex flex-col gap-1">
-                <span style={{ fontSize: 11, fontWeight: 600, color: "#1A2B4A" }}>
+                <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
                   Alt (descripción accesible)
                 </span>
                 <input
@@ -186,7 +186,7 @@ export function LogroForm({
                   style={{
                     height: 28,
                     background: "#FEE2E2",
-                    fontSize: 11,
+                    fontSize: 12,
                     color: "#991B1B",
                     fontWeight: 600,
                     border: "1px solid #FCA5A5",
@@ -209,7 +209,7 @@ export function LogroForm({
           style={{
             height: 34,
             background: "#F4F1EB",
-            fontSize: 12,
+            fontSize: 13,
             color: "#1A2B4A",
             fontWeight: 600,
             border: "1px dashed #C9C0B0",
@@ -242,7 +242,7 @@ function SubmitButton({ isEditing }: { isEditing: boolean }) {
       style={{
         height: 40,
         background: "#1A2B4A",
-        fontSize: 13,
+        fontSize: 14,
         color: "#FFFFFF",
         fontWeight: 600,
         border: "none",
@@ -260,7 +260,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
       className="flex flex-col gap-4 p-5"
       style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}
     >
-      <h2 style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>{title}</h2>
+      <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>{title}</h2>
       {children}
     </div>
   );
@@ -281,9 +281,9 @@ function Field({
 }) {
   return (
     <label className="flex flex-col gap-1.5">
-      <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>{label}</span>
+      <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>{label}</span>
       {children}
-      {hint && <span style={{ fontSize: 11, color: "#6B6660" }}>{hint}</span>}
+      {hint && <span style={{ fontSize: 12, color: "#6B6660" }}>{hint}</span>}
     </label>
   );
 }
@@ -294,7 +294,7 @@ function ErrorBanner({ message }: { message: string }) {
       className="px-4 py-3 rounded-md"
       style={{ background: "#FEE2E2", border: "1px solid #FCA5A5" }}
     >
-      <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{message}</p>
+      <p style={{ fontSize: 14, color: "#991B1B", margin: 0 }}>{message}</p>
     </div>
   );
 }
@@ -305,7 +305,7 @@ function SuccessBanner({ message }: { message: string }) {
       className="px-4 py-3 rounded-md"
       style={{ background: "#DCFCE7", border: "1px solid #86EFAC" }}
     >
-      <p style={{ fontSize: 13, color: "#065F46", margin: 0 }}>{message}</p>
+      <p style={{ fontSize: 14, color: "#065F46", margin: 0 }}>{message}</p>
     </div>
   );
 }
@@ -317,7 +317,7 @@ const inputStyle: React.CSSProperties = {
   background: "#FAFAF8",
   border: "1px solid #E8E4DD",
   borderRadius: 6,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   outline: "none",
   fontFamily: "inherit",
@@ -331,7 +331,7 @@ const smallInputStyle: React.CSSProperties = {
   background: "#FFFFFF",
   border: "1px solid #E8E4DD",
   borderRadius: 4,
-  fontSize: 12,
+  fontSize: 13,
   color: "#1A2B4A",
   outline: "none",
 };
@@ -340,7 +340,7 @@ const checkboxLabel: React.CSSProperties = {
   display: "flex",
   alignItems: "center",
   gap: 8,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   cursor: "pointer",
 };

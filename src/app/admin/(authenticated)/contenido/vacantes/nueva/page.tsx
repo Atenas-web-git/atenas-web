@@ -18,14 +18,14 @@ export default async function NuevaVacantePage() {
         <Link
           href="/admin/contenido/vacantes"
           className="inline-flex items-center gap-1"
-          style={{ fontSize: 12, color: "#6B6660" }}
+          style={{ fontSize: 13, color: "#6B6660" }}
         >
           <ArrowLeft size={13} /> Vacantes
         </Link>
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: "8px 0 0" }}>
           Publicar vacante
         </h1>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 560 }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0", maxWidth: 560 }}>
           Empieza por el título. Se crea como borrador: podrás redactar el
           perfil con calma y publicarla cuando esté lista.
         </p>

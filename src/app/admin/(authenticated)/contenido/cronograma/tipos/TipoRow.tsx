@@ -81,7 +81,7 @@ export function TipoRow({
         <td style={{ padding: "10px 16px" }}>
           <input value={slug} onChange={(e) => setSlug(e.target.value)} pattern="[a-z0-9-]+" style={editInput} />
         </td>
-        <td style={{ padding: "10px 16px", fontSize: 12, color: "#6B6660" }}>{count}</td>
+        <td style={{ padding: "10px 16px", fontSize: 13, color: "#6B6660" }}>{count}</td>
         <td style={{ padding: "10px 16px" }}>
           <div className="flex items-center justify-end gap-1">
             <button onClick={guardar} disabled={isPending} style={btnIcon("#065F46", "#BBF7D0")}>
@@ -98,14 +98,14 @@ export function TipoRow({
 
   return (
     <tr style={{ borderBottom: "1px solid #F4F1EB" }}>
-      <td style={{ padding: "12px 16px", fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+      <td style={{ padding: "12px 16px", fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
         {tipo.nombre}
       </td>
-      <td style={{ padding: "12px 16px", fontSize: 11, color: "#6B6660", fontFamily: "ui-monospace, monospace" }}>
+      <td style={{ padding: "12px 16px", fontSize: 12, color: "#6B6660", fontFamily: "ui-monospace, monospace" }}>
         {tipo.slug}
       </td>
       {/* El contador enlaza a esos eventos: es la salida del botón apagado. */}
-      <td style={{ padding: "12px 16px", fontSize: 12, color: "#6B6660" }}>
+      <td style={{ padding: "12px 16px", fontSize: 13, color: "#6B6660" }}>
         {count > 0 ? (
           <Link
             href={`/admin/contenido/cronograma?tipo=${tipo.id}`}
@@ -172,7 +172,7 @@ const editInput: React.CSSProperties = {
   borderRadius: 4,
   paddingLeft: 8,
   paddingRight: 8,
-  fontSize: 12,
+  fontSize: 13,
   color: "#1A2B4A",
   background: "#FFFFFF",
   outline: "none",

@@ -69,7 +69,7 @@ export default async function EditarPlantillaFormularioPage({
       <Link
         href="/admin/contenido/plantillas-formularios"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a plantillas
@@ -79,7 +79,7 @@ export default async function EditarPlantillaFormularioPage({
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Plantilla — {info.label}
         </h1>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0" }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0" }}>
           {info.description}
         </p>
       </div>

@@ -66,10 +66,10 @@ export function MegaMenuEditor({ tree }: Props) {
       >
         <Info size={18} strokeWidth={2.5} color="#1E40AF" style={{ flexShrink: 0, marginTop: 2 }} />
         <div className="flex flex-col gap-1">
-          <p style={{ fontSize: 13, fontWeight: 700, color: "#1E3A8A", margin: 0 }}>
+          <p style={{ fontSize: 14, fontWeight: 700, color: "#1E3A8A", margin: 0 }}>
             Cómo funciona el mega-menú
           </p>
-          <p style={{ fontSize: 12, color: "#1E3A8A", lineHeight: 1.6, margin: 0 }}>
+          <p style={{ fontSize: 13, color: "#1E3A8A", lineHeight: 1.6, margin: 0 }}>
             Cada <strong>categoría</strong> (Quiénes Somos, Académico, etc.) agrupa <strong>sub-items</strong> que apuntan a páginas del sitio o URLs externas. Las URLs que empiezan con <code style={{ fontFamily: "monospace" }}>http://</code> o <code style={{ fontFamily: "monospace" }}>https://</code> se abren en una nueva pestaña automáticamente. Puedes ocultar items temporalmente sin eliminarlos (toggle 👁).
           </p>
         </div>
@@ -81,7 +81,7 @@ export function MegaMenuEditor({ tree }: Props) {
           style={{ background: "#FEE2E2", border: "1px solid #FECACA" }}
         >
           <AlertTriangle size={14} color="#991B1B" strokeWidth={2.5} />
-          <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{error}</p>
+          <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{error}</p>
         </div>
       )}
 
@@ -96,7 +96,7 @@ export function MegaMenuEditor({ tree }: Props) {
           color: "#FFFFFF",
           border: "none",
           borderRadius: 6,
-          fontSize: 13,
+          fontSize: 14,
           fontWeight: 600,
           cursor: "pointer",
           fontFamily: "inherit",
@@ -152,7 +152,7 @@ export function MegaMenuEditor({ tree }: Props) {
                     )}
                   </button>
 
-                  <span style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A", flex: 1 }}>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", flex: 1 }}>
                     {cat.label}
                   </span>
 
@@ -161,7 +161,7 @@ export function MegaMenuEditor({ tree }: Props) {
                     style={{
                       height: 20,
                       background: "#F4F1EB",
-                      fontSize: 10,
+                      fontSize: 11,
                       fontWeight: 700,
                       color: "#6B6660",
                       letterSpacing: 0.3,
@@ -173,7 +173,7 @@ export function MegaMenuEditor({ tree }: Props) {
                   {!cat.visible && (
                     <span
                       className="inline-flex items-center gap-1 px-2 rounded-full"
-                      style={{ height: 20, background: "#FEE2E2", color: "#991B1B", fontSize: 10, fontWeight: 700 }}
+                      style={{ height: 20, background: "#FEE2E2", color: "#991B1B", fontSize: 11, fontWeight: 700 }}
                     >
                       <EyeOff size={10} strokeWidth={2.5} />
                       OCULTA
@@ -226,7 +226,7 @@ export function MegaMenuEditor({ tree }: Props) {
                         className="flex items-center justify-center py-6 px-5"
                         style={{ borderBottom: "1px solid #F4F1EB" }}
                       >
-                        <p style={{ fontSize: 12, color: "#A0AABA", margin: 0 }}>
+                        <p style={{ fontSize: 13, color: "#A0AABA", margin: 0 }}>
                           Sin sub-items en esta categoría.
                         </p>
                       </div>
@@ -336,7 +336,7 @@ function SubItemRow({
       <span style={{ width: 12, height: 1, background: "#C9C4BB" }} />
       <div className="flex flex-col gap-0.5 flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>{sub.label}</span>
+          <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>{sub.label}</span>
           {isExternal && (
             <ExternalLink size={11} strokeWidth={2.5} color="#A0AABA" />
           )}
@@ -347,7 +347,7 @@ function SubItemRow({
                 height: 16,
                 background: "#9e1915",
                 color: "#FFFFFF",
-                fontSize: 9,
+                fontSize: 11,
                 fontWeight: 700,
                 letterSpacing: 0.3,
                 textTransform: "uppercase",
@@ -362,7 +362,7 @@ function SubItemRow({
           className="truncate"
           style={{
             fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-            fontSize: 11,
+            fontSize: 12,
             color: "#6B6660",
           }}
           title={sub.href ?? ""}
@@ -470,7 +470,7 @@ function CrearModal({
         </Field>
         {error && (
           <div className="px-3 py-2 rounded-md" style={{ background: "#FEE2E2", border: "1px solid #FECACA" }}>
-            <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{error}</p>
+            <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{error}</p>
           </div>
         )}
         <div className="flex items-center gap-2 justify-end">
@@ -551,14 +551,14 @@ function EditarModal({
           />
           <div className="flex items-center gap-2">
             {visible ? <Eye size={14} strokeWidth={2.5} color="#1A2B4A" /> : <EyeOff size={14} strokeWidth={2.5} color="#991B1B" />}
-            <span style={{ fontSize: 13, color: "#1A2B4A" }}>
+            <span style={{ fontSize: 14, color: "#1A2B4A" }}>
               {visible ? "Visible en el sitio público" : "Oculto (no se muestra al visitante)"}
             </span>
           </div>
         </label>
         {error && (
           <div className="px-3 py-2 rounded-md" style={{ background: "#FEE2E2", border: "1px solid #FECACA" }}>
-            <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{error}</p>
+            <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{error}</p>
           </div>
         )}
         <div className="flex items-center gap-2 justify-end">
@@ -605,10 +605,10 @@ function EliminarModal({
         >
           <AlertTriangle size={18} strokeWidth={2.5} color="#991B1B" style={{ flexShrink: 0, marginTop: 1 }} />
           <div className="flex flex-col gap-1">
-            <p style={{ fontSize: 13, fontWeight: 700, color: "#991B1B", margin: 0 }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: "#991B1B", margin: 0 }}>
               ¿Eliminar "{item.label}"?
             </p>
-            <p style={{ fontSize: 12, color: "#7F1D1D", margin: 0, lineHeight: 1.6 }}>
+            <p style={{ fontSize: 13, color: "#7F1D1D", margin: 0, lineHeight: 1.6 }}>
               {isCategoria
                 ? "Esto eliminará la categoría Y TODOS sus sub-items. Esta acción es irreversible."
                 : "Esta acción es irreversible."}
@@ -617,7 +617,7 @@ function EliminarModal({
         </div>
         {error && (
           <div className="px-3 py-2 rounded-md" style={{ background: "#FEE2E2", border: "1px solid #FECACA" }}>
-            <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{error}</p>
+            <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{error}</p>
           </div>
         )}
         <div className="flex items-center gap-2 justify-end">
@@ -712,7 +712,7 @@ function Field({
     <div className="flex flex-col gap-1.5">
       <span
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 700,
           color: "#6B6660",
           textTransform: "uppercase",
@@ -723,7 +723,7 @@ function Field({
       </span>
       {children}
       {hint && (
-        <span style={{ fontSize: 10, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>
+        <span style={{ fontSize: 11, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>
       )}
     </div>
   );
@@ -736,7 +736,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",
@@ -749,7 +749,7 @@ const addSubButton: React.CSSProperties = {
   color: "#1A2B4A",
   border: "1px dashed #C9C4BB",
   borderRadius: 6,
-  fontSize: 11,
+  fontSize: 12,
   fontWeight: 500,
   cursor: "pointer",
   fontFamily: "inherit",
@@ -762,7 +762,7 @@ const submitBtn: React.CSSProperties = {
   color: "#FFFFFF",
   border: "none",
   borderRadius: 6,
-  fontSize: 12,
+  fontSize: 13,
   fontWeight: 600,
   cursor: "pointer",
   fontFamily: "inherit",
@@ -775,7 +775,7 @@ const cancelBtn: React.CSSProperties = {
   color: "#6B6660",
   border: "1px solid #E8E4DD",
   borderRadius: 6,
-  fontSize: 12,
+  fontSize: 13,
   fontWeight: 500,
   cursor: "pointer",
   fontFamily: "inherit",

@@ -58,7 +58,7 @@ export default async function NuevoLogroPage({ params, searchParams }: Props) {
             : `/admin/contenido/reconocimientos/${cat.id}`
         }
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a {subcontext ? subcontext.nombre : cat.nombre}
@@ -68,7 +68,7 @@ export default async function NuevoLogroPage({ params, searchParams }: Props) {
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Nuevo logro {subcontext ? `en ${subcontext.nombre}` : `en ${cat.nombre}`}
         </h1>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
           {subcontext ? (
             <>
               Subcategoría pre-seleccionada: <strong>{subcontext.nombre}</strong>. Puedes

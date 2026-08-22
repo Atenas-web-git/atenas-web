@@ -114,7 +114,7 @@ export default async function UsuariosPage() {
     <div className="flex flex-col gap-5 p-8">
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-1">
-          <span style={{ fontSize: 12, color: "#6B6660" }}>
+          <span style={{ fontSize: 13, color: "#6B6660" }}>
             {users.length} usuario{users.length === 1 ? "" : "s"} en total
           </span>
         </div>
@@ -126,7 +126,7 @@ export default async function UsuariosPage() {
             padding: "0 18px",
             background: "#1A2B4A",
             color: "#FFFFFF",
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 600,
             textDecoration: "none",
           }}
@@ -150,7 +150,7 @@ export default async function UsuariosPage() {
           style={{
             background: "#FAF8F4",
             borderBottom: "1px solid #E8E4DD",
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: "#6B6660",
             textTransform: "uppercase",
@@ -167,7 +167,7 @@ export default async function UsuariosPage() {
 
         {users.length === 0 ? (
           <div className="px-6 py-12 text-center">
-            <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
+            <p style={{ fontSize: 14, color: "#6B6660", margin: 0 }}>
               No hay usuarios registrados aún. Crea el primero.
             </p>
           </div>
@@ -192,13 +192,13 @@ export default async function UsuariosPage() {
                     borderRadius: "50%",
                   }}
                 >
-                  <span style={{ fontSize: 11, fontWeight: 700, color: "#9e1915" }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: "#9e1915" }}>
                     {initialsFromName(u.fullName, u.email)}
                   </span>
                 </div>
                 <span
                   className="truncate"
-                  style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}
+                  style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}
                 >
                   {u.fullName}
                 </span>
@@ -206,14 +206,14 @@ export default async function UsuariosPage() {
 
               <span
                 className="truncate"
-                style={{ width: 280, fontSize: 12, color: "#6B6660" }}
+                style={{ width: 280, fontSize: 13, color: "#6B6660" }}
               >
                 {u.email}
               </span>
 
               <div className="flex items-center gap-1.5 flex-wrap" style={{ width: 280 }}>
                 {u.roles.length === 0 ? (
-                  <span style={{ fontSize: 11, color: "#9CA3AF", fontStyle: "italic" }}>
+                  <span style={{ fontSize: 12, color: "#9CA3AF", fontStyle: "italic" }}>
                     Sin roles
                   </span>
                 ) : (
@@ -226,7 +226,7 @@ export default async function UsuariosPage() {
                         style={{
                           height: 22,
                           background: c.bg,
-                          fontSize: 10,
+                          fontSize: 11,
                           fontWeight: 700,
                           color: c.fg,
                         }}
@@ -249,7 +249,7 @@ export default async function UsuariosPage() {
                 />
                 <span
                   style={{
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: 500,
                     color: u.isActive ? "#0F8458" : "#6B6660",
                   }}
@@ -259,7 +259,7 @@ export default async function UsuariosPage() {
               </div>
 
               <span
-                style={{ width: 130, fontSize: 12, color: "#6B6660" }}
+                style={{ width: 130, fontSize: 13, color: "#6B6660" }}
               >
                 {formatRelativeOrAbsolute(u.lastSignIn)}
               </span>

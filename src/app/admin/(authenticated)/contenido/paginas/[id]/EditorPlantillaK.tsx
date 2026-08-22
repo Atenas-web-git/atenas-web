@@ -108,7 +108,7 @@ export function EditorPlantillaK({
         <Field label="Slug (URL)" hint="No editable.">
           <input type="text" value={`/${slug}`} readOnly disabled style={{ ...inputStyle, background: "#F4F1EB", color: "#A0AABA" }} />
         </Field>
-        <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
+        <p style={{ fontSize: 12, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
           Esta ficha aparece en{" "}
           <code style={{ fontFamily: "ui-monospace, monospace" }}>/{slug}</code>. La card del landing{" "}
           <a href="/admin/contenido/paginas" style={{ color: "#1A2B4A", fontWeight: 500 }}>
@@ -187,7 +187,7 @@ function FormularioEditor({
       <span style={fieldLabel}>
         Tipos de comunicación {formulario.tipos.length > 0 && `(${formulario.tipos.length})`}
       </span>
-      <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
+      <p style={{ fontSize: 12, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
         Opciones del dropdown "Tipo" (ej. "Queja", "Sugerencia", "Reconocimiento").
       </p>
       <div className="flex flex-col gap-2">
@@ -227,10 +227,10 @@ function FormularioEditor({
         className="flex flex-col gap-3 p-4 rounded-md"
         style={{ background: "#FEF3C7", border: "1px solid #FDE68A" }}
       >
-        <p style={{ fontSize: 12, fontWeight: 700, color: "#92400E", margin: 0, textTransform: "uppercase", letterSpacing: 0.5 }}>
+        <p style={{ fontSize: 13, fontWeight: 700, color: "#92400E", margin: 0, textTransform: "uppercase", letterSpacing: 0.5 }}>
           Envío por correo (Resend)
         </p>
-        <p style={{ fontSize: 11, color: "#92400E", margin: 0, lineHeight: 1.6 }}>
+        <p style={{ fontSize: 12, color: "#92400E", margin: 0, lineHeight: 1.6 }}>
           Estos campos se aplican cuando Resend esté activo. El servidor lee el destinatario directamente de la base de datos (no del navegador), así que no se puede manipular desde el cliente.
         </p>
         <Field label="Correo destinatario" required hint="A esta dirección llegarán los formularios enviados.">
@@ -282,7 +282,7 @@ function RevistaAtenasEditor({
           onChange={(e) => set({ enabled: e.target.checked })}
           style={{ width: 16, height: 16, accentColor: "#1A2B4A" }}
         />
-        <span style={{ fontSize: 13, color: "#1A2B4A" }}>
+        <span style={{ fontSize: 14, color: "#1A2B4A" }}>
           {revista.enabled
             ? "Card visible en /servicios/biblioteca"
             : "Card oculta (no se muestra al visitante)"}
@@ -477,7 +477,7 @@ function FichaEditor({ ficha, setFicha, prefix }: { ficha: Ficha; setFicha: (f: 
 
       {/* STATS */}
       <span style={fieldLabel}>Stats superiores {ficha.stats.length > 0 && `(${ficha.stats.length})`}</span>
-      <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
+      <p style={{ fontSize: 12, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
         Recomendado 3 stats. Cada una: icono Lucide + etiqueta + valor.
       </p>
       <div className="flex flex-col gap-3">
@@ -507,7 +507,7 @@ function FichaEditor({ ficha, setFicha, prefix }: { ficha: Ficha; setFicha: (f: 
 
       {/* FOTOS */}
       <span style={fieldLabel}>Collage de fotos (3)</span>
-      <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
+      <p style={{ fontSize: 12, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
         En desktop: foto 1 grande a la izquierda + fotos 2 y 3 apiladas a la derecha.
       </p>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -518,7 +518,7 @@ function FichaEditor({ ficha, setFicha, prefix }: { ficha: Ficha; setFicha: (f: 
 
       {/* DESCRIPCIÓN */}
       <span style={fieldLabel}>Descripción en párrafos {ficha.descripcion.length > 0 && `(${ficha.descripcion.length})`}</span>
-      <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
+      <p style={{ fontSize: 12, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
         El primer párrafo se muestra más grande y oscuro.
       </p>
       <div className="flex flex-col gap-3">
@@ -536,7 +536,7 @@ function FichaEditor({ ficha, setFicha, prefix }: { ficha: Ficha; setFicha: (f: 
 
       {/* PASOS */}
       <span style={fieldLabel}>Pasos para acceder {ficha.pasos.length > 0 && `(${ficha.pasos.length})`}</span>
-      <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
+      <p style={{ fontSize: 12, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
         Lista numerada. <strong>No se muestra</strong> si el color es Red (caso especial con formulario, ej. quejas-sugerencias).
       </p>
       <div className="flex flex-col gap-3">
@@ -587,13 +587,13 @@ function Sticky({ publicada, setPublicada, state, isPending }: { publicada: bool
           onChange={(e) => setPublicada(e.target.checked)}
           style={{ width: 16, height: 16, accentColor: "#1A2B4A" }}
         />
-        <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+        <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
           {publicada ? "Página publicada" : "Página en borrador (no visible al público)"}
         </span>
       </label>
       <div className="flex items-center gap-2">
-        {state.error && <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>}
-        {state.ok && <span style={{ fontSize: 12, color: "#065F46" }}>Guardado ✓</span>}
+        {state.error && <span style={{ fontSize: 13, color: "#991B1B" }}>{state.error}</span>}
+        {state.ok && <span style={{ fontSize: 13, color: "#065F46" }}>Guardado ✓</span>}
         <button
           type="submit"
           disabled={isPending}
@@ -603,7 +603,7 @@ function Sticky({ publicada, setPublicada, state, isPending }: { publicada: bool
             background: "#1A2B4A",
             color: "#FFFFFF",
             border: "none",
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 600,
             cursor: isPending ? "wait" : "pointer",
             opacity: isPending ? 0.7 : 1,
@@ -622,7 +622,7 @@ function Card({ title, subtitle, children }: { title: string; subtitle?: string;
     <div className="flex flex-col gap-4 p-5" style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}>
       <div className="flex flex-col gap-1">
         <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>{title}</h2>
-        {subtitle && <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>}
+        {subtitle && <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>}
       </div>
       {children}
     </div>
@@ -641,13 +641,13 @@ function Field({ label, hint, required, children }: { label: string; hint?: stri
   );
 }
 
-const fieldLabel: React.CSSProperties = { fontSize: 11, fontWeight: 700, color: "#6B6660", textTransform: "uppercase", letterSpacing: 0.5 };
-const hintStyle: React.CSSProperties = { fontSize: 10, color: "#A0AABA", lineHeight: 1.5 };
-const inputStyle: React.CSSProperties = { height: 38, border: "1px solid #E8E4DD", borderRadius: 6, paddingLeft: 12, paddingRight: 12, fontSize: 13, color: "#1A2B4A", background: "#FAFAF8", outline: "none", fontFamily: "inherit" };
+const fieldLabel: React.CSSProperties = { fontSize: 12, fontWeight: 700, color: "#6B6660", textTransform: "uppercase", letterSpacing: 0.5 };
+const hintStyle: React.CSSProperties = { fontSize: 11, color: "#A0AABA", lineHeight: 1.5 };
+const inputStyle: React.CSSProperties = { height: 38, border: "1px solid #E8E4DD", borderRadius: 6, paddingLeft: 12, paddingRight: 12, fontSize: 14, color: "#1A2B4A", background: "#FAFAF8", outline: "none", fontFamily: "inherit" };
 const textareaStyle: React.CSSProperties = { ...inputStyle, height: "auto", minHeight: 70, paddingTop: 10, paddingBottom: 10, resize: "vertical" };
 const panelStyle: React.CSSProperties = { background: "#FAFAF8", border: "1px solid #E8E4DD", borderRadius: 10 };
-const panelLabel: React.CSSProperties = { fontSize: 11, fontWeight: 700, color: "#A0AABA", textTransform: "uppercase", letterSpacing: 0.5 };
-const addButton: React.CSSProperties = { height: 36, background: "transparent", color: "#1A2B4A", border: "1px dashed #C9C4BB", borderRadius: 6, fontSize: 12, fontWeight: 500, cursor: "pointer", fontFamily: "inherit" };
+const panelLabel: React.CSSProperties = { fontSize: 12, fontWeight: 700, color: "#A0AABA", textTransform: "uppercase", letterSpacing: 0.5 };
+const addButton: React.CSSProperties = { height: 36, background: "transparent", color: "#1A2B4A", border: "1px dashed #C9C4BB", borderRadius: 6, fontSize: 13, fontWeight: 500, cursor: "pointer", fontFamily: "inherit" };
 
 function iconButton(disabled: boolean): React.CSSProperties {
   return {
@@ -691,7 +691,7 @@ function EnlacesExternosEditor({
       subtitle="Botones hacia sistemas que no viven en esta web: la biblioteca virtual, la revista, el paseo virtual. Aparecen antes de la tarjeta destacada. Ojo: un acceso al que le falte el texto o la dirección NO se guarda — te lo avisa en rojo antes de que pulses Guardar."
     >
       {enlaces.length === 0 && (
-        <p style={{ fontSize: 12.5, color: "#6B6660", margin: "0 0 12px", lineHeight: 1.55 }}>
+        <p style={{ fontSize: 13.5, color: "#6B6660", margin: "0 0 12px", lineHeight: 1.55 }}>
           Todavía no hay ninguno.
         </p>
       )}
@@ -722,14 +722,14 @@ function EnlacesExternosEditor({
           }}
         >
           <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
-            <span style={{ fontSize: 12, fontWeight: 700, color: "#1A2B4A" }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A" }}>
               Acceso {i + 1}
             </span>
             <button
               type="button"
               onClick={() => quitar(i)}
               style={{
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 600,
                 color: "#9e1915",
                 background: "transparent",
@@ -776,7 +776,7 @@ function EnlacesExternosEditor({
           {problema && (
             <p
               style={{
-                fontSize: 12.5,
+                fontSize: 13.5,
                 fontWeight: 600,
                 color: "#9e1915",
                 margin: "4px 0 0",
@@ -794,7 +794,7 @@ function EnlacesExternosEditor({
         type="button"
         onClick={agregar}
         style={{
-          fontSize: 13,
+          fontSize: 14,
           fontWeight: 600,
           color: "#1A2B4A",
           background: "#FFFFFF",

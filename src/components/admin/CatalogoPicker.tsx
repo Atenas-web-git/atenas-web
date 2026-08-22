@@ -203,7 +203,7 @@ export function CatalogoPicker({
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Buscar por nombre, alt o tipo…"
               className="bg-transparent outline-none w-full"
-              style={{ fontSize: 12, color: "#1A2B4A" }}
+              style={{ fontSize: 13, color: "#1A2B4A" }}
               autoFocus
             />
             {query && (
@@ -214,7 +214,7 @@ export function CatalogoPicker({
                   background: "transparent",
                   border: "none",
                   color: "#6B6660",
-                  fontSize: 11,
+                  fontSize: 12,
                   cursor: "pointer",
                   fontFamily: "inherit",
                 }}
@@ -234,7 +234,7 @@ export function CatalogoPicker({
               color: "#FFFFFF",
               border: "none",
               borderRadius: 6,
-              fontSize: 12,
+              fontSize: 13,
               fontWeight: 600,
               cursor: uploading ? "wait" : "pointer",
               opacity: uploading ? 0.6 : 1,
@@ -275,7 +275,7 @@ export function CatalogoPicker({
             style={{ background: "#FEE2E2", border: "1px solid #FECACA" }}
           >
             <AlertTriangle size={13} color="#991B1B" strokeWidth={2.5} />
-            <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{error}</p>
+            <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{error}</p>
           </div>
         )}
 
@@ -287,7 +287,7 @@ export function CatalogoPicker({
           {loading ? (
             <div className="flex items-center justify-center py-16 gap-2">
               <Loader2 size={16} strokeWidth={2.5} className="animate-spin" color="#6B6660" />
-              <span style={{ fontSize: 13, color: "#6B6660" }}>Cargando catálogo…</span>
+              <span style={{ fontSize: 14, color: "#6B6660" }}>Cargando catálogo…</span>
             </div>
           ) : items.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 gap-3">
@@ -297,13 +297,13 @@ export function CatalogoPicker({
               >
                 <ImageIcon size={20} color="#6B6660" strokeWidth={2} />
               </div>
-              <p style={{ fontSize: 13, color: "#6B6660", margin: 0, textAlign: "center" }}>
+              <p style={{ fontSize: 14, color: "#6B6660", margin: 0, textAlign: "center" }}>
                 El catálogo está vacío. Sube la primera imagen con el botón de arriba.
               </p>
             </div>
           ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12">
-              <p style={{ fontSize: 13, color: "#6B6660", margin: 0, textAlign: "center" }}>
+              <p style={{ fontSize: 14, color: "#6B6660", margin: 0, textAlign: "center" }}>
                 {`Ninguna imagen coincide con "${query}".`}
               </p>
             </div>
@@ -383,7 +383,7 @@ export function CatalogoPicker({
                       <span
                         className="truncate"
                         style={{
-                          fontSize: 11,
+                          fontSize: 12,
                           fontWeight: 600,
                           color: "#1A2B4A",
                           fontFamily:
@@ -393,7 +393,7 @@ export function CatalogoPicker({
                       >
                         {fileName}
                       </span>
-                      <span style={{ fontSize: 10, color: "#A0AABA" }}>
+                      <span style={{ fontSize: 11, color: "#A0AABA" }}>
                         {formatBytes(img.tamano_bytes)}
                       </span>
                     </div>
@@ -409,7 +409,7 @@ export function CatalogoPicker({
           className="flex items-center justify-between gap-3 px-5 py-3 flex-wrap"
           style={{ borderTop: "1px solid #E8E4DD" }}
         >
-          <span style={{ fontSize: 11, color: "#6B6660" }}>
+          <span style={{ fontSize: 12, color: "#6B6660" }}>
             {loading
               ? "—"
               : `${filtered.length} ${
@@ -427,7 +427,7 @@ export function CatalogoPicker({
               color: "#6B6660",
               border: "1px solid #E8E4DD",
               borderRadius: 6,
-              fontSize: 12,
+              fontSize: 13,
               fontWeight: 500,
               cursor: "pointer",
               fontFamily: "inherit",

@@ -45,7 +45,7 @@ export function CrearPaginaForm() {
       >
         <div className="flex flex-col gap-1">
           <span style={fieldLabel}>Plantilla</span>
-          <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
             Elige el formato visual de la página. No se puede cambiar después de crear.
           </p>
         </div>
@@ -56,7 +56,7 @@ export function CrearPaginaForm() {
               <div className="flex flex-col gap-0.5">
                 <h3
                   style={{
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: 700,
                     color: "#1A2B4A",
                     margin: 0,
@@ -66,13 +66,13 @@ export function CrearPaginaForm() {
                 >
                   {grupo.label}
                 </h3>
-                <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, lineHeight: 1.4 }}>
+                <p style={{ fontSize: 12, color: "#A0AABA", margin: 0, lineHeight: 1.4 }}>
                   {grupo.description}
                 </p>
               </div>
               <span
                 style={{
-                  fontSize: 10,
+                  fontSize: 11,
                   fontWeight: 700,
                   color: "#6B6660",
                   background: "#F4F1EB",
@@ -132,7 +132,7 @@ export function CrearPaginaForm() {
                           style={{
                             height: 18,
                             background: "#F4F1EB",
-                            fontSize: 9,
+                            fontSize: 11,
                             fontWeight: 700,
                             color: "#6B6660",
                             letterSpacing: 0.5,
@@ -142,12 +142,12 @@ export function CrearPaginaForm() {
                         </span>
                       )}
                     </div>
-                    <h3 style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
+                    <h3 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
                       {p.nombre}
                     </h3>
                     <p
                       style={{
-                        fontSize: 11,
+                        fontSize: 12,
                         color: "#6B6660",
                         margin: 0,
                         lineHeight: 1.5,
@@ -158,7 +158,7 @@ export function CrearPaginaForm() {
                     {p.ejemploSlugs.length > 0 && (
                       <p
                         style={{
-                          fontSize: 10,
+                          fontSize: 11,
                           color: "#A0AABA",
                           margin: 0,
                           fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
@@ -180,7 +180,7 @@ export function CrearPaginaForm() {
                         onClick={(e) => e.stopPropagation()}
                         className="inline-flex items-center gap-1 self-start transition-opacity hover:opacity-70"
                         style={{
-                          fontSize: 11,
+                          fontSize: 12,
                           fontWeight: 600,
                           color: "#1A2B4A",
                           textDecoration: "none",
@@ -232,7 +232,7 @@ export function CrearPaginaForm() {
           <div className="flex items-center gap-2">
             <span
               style={{
-                fontSize: 13,
+                fontSize: 14,
                 color: "#A0AABA",
                 fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
               }}
@@ -265,7 +265,7 @@ export function CrearPaginaForm() {
           style={{
             background: "#FEE2E2",
             border: "1px solid #FECACA",
-            fontSize: 12,
+            fontSize: 13,
             color: "#991B1B",
             margin: 0,
           }}
@@ -284,7 +284,7 @@ export function CrearPaginaForm() {
             background: "#1A2B4A",
             color: "#FFFFFF",
             border: "none",
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 600,
             cursor: isPending ? "wait" : "pointer",
             opacity: isPending ? 0.7 : 1,
@@ -293,7 +293,7 @@ export function CrearPaginaForm() {
           <Plus size={14} strokeWidth={2.5} />
           {isPending ? "Creando…" : "Crear página"}
         </button>
-        <p style={{ fontSize: 11, color: "#A0AABA", margin: 0 }}>
+        <p style={{ fontSize: 12, color: "#A0AABA", margin: 0 }}>
           Se creará en estado <strong style={{ color: "#6B6660" }}>borrador</strong>. La publicas desde el editor.
         </p>
       </div>
@@ -302,7 +302,7 @@ export function CrearPaginaForm() {
 }
 
 const fieldLabel: React.CSSProperties = {
-  fontSize: 11,
+  fontSize: 12,
   fontWeight: 700,
   color: "#6B6660",
   textTransform: "uppercase",
@@ -315,7 +315,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",
@@ -323,6 +323,6 @@ const inputStyle: React.CSSProperties = {
 };
 
 const hintStyle: React.CSSProperties = {
-  fontSize: 10,
+  fontSize: 11,
   color: "#A0AABA",
 };

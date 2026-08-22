@@ -65,7 +65,7 @@ export default async function PlantillasFormulariosPage() {
       <Link
         href="/admin/contenido"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a Contenido
@@ -77,7 +77,7 @@ export default async function PlantillasFormulariosPage() {
         </h1>
         <p
           style={{
-            fontSize: 13,
+            fontSize: 14,
             color: "#6B6660",
             margin: "4px 0 0",
             maxWidth: 720,
@@ -94,7 +94,7 @@ export default async function PlantillasFormulariosPage() {
         style={{ background: "#EFF6FF", border: "1px solid #BFDBFE" }}
       >
         <Mail size={18} color="#1E40AF" strokeWidth={2} />
-        <p style={{ fontSize: 13, color: "#1E40AF", margin: 0, lineHeight: 1.6 }}>
+        <p style={{ fontSize: 14, color: "#1E40AF", margin: 0, lineHeight: 1.6 }}>
           Las plantillas comparten el mismo wrapper navy de admisiones para mantener una
           identidad visual consistente. Cada plantilla tiene sus propias variables
           disponibles (mostradas en el editor).
@@ -151,7 +151,7 @@ export default async function PlantillasFormulariosPage() {
                       style={{
                         height: 20,
                         background: activo ? "#D1FAE5" : "#FEE2E2",
-                        fontSize: 10,
+                        fontSize: 11,
                         fontWeight: 700,
                         color: activo ? "#065F46" : "#991B1B",
                       }}
@@ -169,7 +169,7 @@ export default async function PlantillasFormulariosPage() {
                       style={{
                         height: 20,
                         background: "#F4F1EB",
-                        fontSize: 10,
+                        fontSize: 11,
                         fontWeight: 700,
                         color: "#6B6660",
                       }}
@@ -180,7 +180,7 @@ export default async function PlantillasFormulariosPage() {
                 </div>
                 <p
                   style={{
-                    fontSize: 12,
+                    fontSize: 13,
                     color: "#6B6660",
                     margin: "4px 0 0",
                     lineHeight: 1.5,
@@ -189,11 +189,11 @@ export default async function PlantillasFormulariosPage() {
                   {info.description}
                 </p>
                 {usadaPor.has(tipo) && (
-                  <p style={{ fontSize: 11, color: "#6B6660", margin: "6px 0 0" }}>
+                  <p style={{ fontSize: 12, color: "#6B6660", margin: "6px 0 0" }}>
                     Formulario: <strong>{usadaPor.get(tipo)!.join(", ")}</strong>
                   </p>
                 )}
-                <p style={{ fontSize: 11, color: "#A0AABA", margin: "6px 0 0" }}>
+                <p style={{ fontSize: 12, color: "#A0AABA", margin: "6px 0 0" }}>
                   Última edición: {formatDate(plantilla?.updated_at ?? null)}
                 </p>
               </div>

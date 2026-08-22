@@ -484,7 +484,7 @@ export function Header({ user }: { user: AdminUser }) {
             <Link
               href="/admin"
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 500,
                 color: "#6B6660",
                 textDecoration: "none",
@@ -502,7 +502,7 @@ export function Header({ user }: { user: AdminUser }) {
                   <Link
                     href={miga.href}
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 500,
                       color: "#6B6660",
                       textDecoration: "none",
@@ -515,7 +515,7 @@ export function Header({ user }: { user: AdminUser }) {
                      tramo sin página propia es que no responde al ratón, no que
                      esté más claro: #A0AABA sobre blanco da 2.35:1 y a 11px eso
                      no se lee. */
-                  <span style={{ fontSize: 11, fontWeight: 500, color: "#6B6660" }}>
+                  <span style={{ fontSize: 12, fontWeight: 500, color: "#6B6660" }}>
                     {miga.etiqueta}
                   </span>
                 )}
@@ -537,7 +537,7 @@ export function Header({ user }: { user: AdminUser }) {
         </h1>
         <p
           style={{
-            fontSize: 12,
+            fontSize: 13,
             fontWeight: 400,
             color: "#6B6660",
             margin: 0,

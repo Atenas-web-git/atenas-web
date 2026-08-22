@@ -34,7 +34,7 @@ export function HighlightPreview({
     >
       <span
         style={{
-          fontSize: 10,
+          fontSize: 11,
           fontWeight: 700,
           letterSpacing: 0.5,
           textTransform: "uppercase",
@@ -81,7 +81,7 @@ export function HighlightPreview({
         )}
       </p>
       {!parts && tieneHighlight && (
-        <p style={{ margin: "5px 0 0", fontSize: 11, color: "#B45309", lineHeight: 1.4 }}>
+        <p style={{ margin: "5px 0 0", fontSize: 12, color: "#B45309", lineHeight: 1.4 }}>
           ⚠ «{highlight}» no se encontró dentro del título. Revísalo: debe ser
           una palabra o frase que aparezca tal cual en el título (las
           mayúsculas y las tildes no importan).

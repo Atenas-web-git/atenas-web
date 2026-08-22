@@ -532,7 +532,7 @@ export function AdmisionesTextosForm({
             style={inputStyle}
           />
         </Field>
-        <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.55 }}>
+        <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.55 }}>
           En <strong>Admisiones › Métricas</strong>, la tarjeta «Detenidos» lista los aspirantes que
           llevan más de estos días sin cambiar de etapa. Se cuenta desde el último cambio de etapa,
           no desde la última vez que se editó la ficha.
@@ -572,18 +572,18 @@ function Sticky({
         ve el formulario estallar sin motivo.
       */}
       {avisoValidacion ? (
-        <span style={{ fontSize: 13, color: "#991B1B", fontWeight: 600 }}>
+        <span style={{ fontSize: 14, color: "#991B1B", fontWeight: 600 }}>
           Falta completar un campo obligatorio. Abrimos todas las secciones y te
           llevamos hasta él.
         </span>
       ) : (
-        <span style={{ fontSize: 13, color: "#6B6660" }}>
+        <span style={{ fontSize: 14, color: "#6B6660" }}>
           Los cambios aplican al guardar. Campos vacíos vuelven al valor por defecto.
         </span>
       )}
       <div className="flex items-center gap-3">
-        {state.error && <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>}
-        {state.ok && <span style={{ fontSize: 12, color: "#065F46" }}>Guardado ✓</span>}
+        {state.error && <span style={{ fontSize: 13, color: "#991B1B" }}>{state.error}</span>}
+        {state.ok && <span style={{ fontSize: 13, color: "#065F46" }}>Guardado ✓</span>}
         <button
           type="submit"
           disabled={isPending}
@@ -593,7 +593,7 @@ function Sticky({
             background: "#1A2B4A",
             color: "#FFFFFF",
             border: "none",
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 600,
             cursor: isPending ? "wait" : "pointer",
             opacity: isPending ? 0.7 : 1,
@@ -654,7 +654,7 @@ function Section({
         <div className="flex flex-col gap-0.5 flex-1">
           <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>{title}</h2>
           {subtitle && (
-            <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+            <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
               {subtitle}
             </p>
           )}
@@ -692,7 +692,7 @@ function Field({
     <div className="flex flex-col gap-1.5">
       <span
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 700,
           color: "#6B6660",
           textTransform: "uppercase",
@@ -703,7 +703,7 @@ function Field({
       </span>
       {children}
       {hint && (
-        <span style={{ fontSize: 10, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>
+        <span style={{ fontSize: 11, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>
       )}
     </div>
   );
@@ -742,7 +742,7 @@ function CampoConPlaceholder({
           type="text" name={phName} defaultValue={phDefault} style={inputStyle}
         />
         {phHint && (
-          <span style={{ fontSize: 10, color: "#A0AABA", lineHeight: 1.4 }}>{phHint}</span>
+          <span style={{ fontSize: 11, color: "#A0AABA", lineHeight: 1.4 }}>{phHint}</span>
         )}
       </div>
     </div>
@@ -755,7 +755,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",
@@ -767,7 +767,7 @@ const textareaStyle: React.CSSProperties = {
   border: "1px solid #E8E4DD",
   borderRadius: 6,
   padding: "10px 12px",
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",
@@ -785,14 +785,14 @@ const tagStyle: React.CSSProperties = {
   height: 22,
   background: "#F4F1EB",
   borderRadius: 4,
-  fontSize: 11,
+  fontSize: 12,
   fontWeight: 700,
   color: "#1A2B4A",
   letterSpacing: 0.3,
 };
 
 const subLabelStyle: React.CSSProperties = {
-  fontSize: 10,
+  fontSize: 11,
   fontWeight: 700,
   color: "#A0AABA",
   textTransform: "uppercase",

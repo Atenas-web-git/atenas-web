@@ -108,13 +108,13 @@ export function ChatbotConfigForm({
             onChange={(e) => setActivo(e.target.checked)}
             style={{ width: 16, height: 16, accentColor: "#1A2B4A" }}
           />
-          <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+          <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
             {activo ? "Chatbot ACTIVO" : "Chatbot inactivo (predomina WhatsApp)"}
           </span>
         </label>
         <div className="flex items-center gap-2">
-          {state.error && <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>}
-          {state.ok && <span style={{ fontSize: 12, color: "#065F46" }}>Guardado ✓</span>}
+          {state.error && <span style={{ fontSize: 13, color: "#991B1B" }}>{state.error}</span>}
+          {state.ok && <span style={{ fontSize: 13, color: "#065F46" }}>Guardado ✓</span>}
           <button
             type="submit"
             disabled={isPending}
@@ -124,7 +124,7 @@ export function ChatbotConfigForm({
               background: "#1A2B4A",
               color: "#FFFFFF",
               border: "none",
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 600,
               cursor: isPending ? "wait" : "pointer",
               opacity: isPending ? 0.7 : 1,
@@ -156,10 +156,10 @@ export function ChatbotConfigForm({
                       fontFamily: "inherit",
                     }}
                   >
-                    <span style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A" }}>
+                    <span style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A" }}>
                       {PROVIDER_LABELS[p]}
                     </span>
-                    <span style={{ fontSize: 11, color: "#6B6660" }}>
+                    <span style={{ fontSize: 12, color: "#6B6660" }}>
                       {p === "gemini"
                         ? "Tier gratuito generoso · default"
                         : p === "anthropic"
@@ -224,11 +224,11 @@ export function ChatbotConfigForm({
                 </button>
               </div>
               {keyConfigured ? (
-                <span style={{ fontSize: 11, color: "#065F46", display: "flex", alignItems: "center", gap: 4 }}>
+                <span style={{ fontSize: 12, color: "#065F46", display: "flex", alignItems: "center", gap: 4 }}>
                   <CheckCircle2 size={11} strokeWidth={2.5} /> API key configurada
                 </span>
               ) : (
-                <span style={{ fontSize: 11, color: "#92400E", display: "flex", alignItems: "center", gap: 4 }}>
+                <span style={{ fontSize: 12, color: "#92400E", display: "flex", alignItems: "center", gap: 4 }}>
                   <AlertCircle size={11} strokeWidth={2.5} /> Sin API key — el chatbot no podrá responder
                 </span>
               )}
@@ -241,7 +241,7 @@ export function ChatbotConfigForm({
                 value={systemPrompt}
                 onChange={(e) => setSystemPrompt(e.target.value)}
                 rows={10}
-                style={{ ...inputStyle, height: "auto", minHeight: 200, paddingTop: 10, paddingBottom: 10, resize: "vertical", lineHeight: 1.55, fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace", fontSize: 12 }}
+                style={{ ...inputStyle, height: "auto", minHeight: 200, paddingTop: 10, paddingBottom: 10, resize: "vertical", lineHeight: 1.55, fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace", fontSize: 13 }}
               />
             </Field>
           </Card>
@@ -321,10 +321,10 @@ export function ChatbotConfigForm({
                   resize: "vertical",
                   lineHeight: 1.55,
                   fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-                  fontSize: 12,
+                  fontSize: 13,
                 }}
               />
-              <span style={{ fontSize: 10, color: "#A0AABA" }}>
+              <span style={{ fontSize: 11, color: "#A0AABA" }}>
                 {extraKnowledge.length} caracteres · {extraKnowledge.length > 8000 ? "⚠ muy extenso (puede aumentar costo del bot)" : "tamaño OK"}
               </span>
             </Field>
@@ -356,10 +356,10 @@ export function ChatbotConfigForm({
             style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}
           >
             <Image src="/images/ateneo-comunicador.png" alt="Ateneo" width={140} height={140} style={{ height: 140, width: "auto" }} />
-            <p style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A", margin: 0, textAlign: "center" }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0, textAlign: "center" }}>
               Mascota: Ateneo
             </p>
-            <p style={{ fontSize: 11, color: "#6B6660", margin: 0, textAlign: "center", lineHeight: 1.5 }}>
+            <p style={{ fontSize: 12, color: "#6B6660", margin: 0, textAlign: "center", lineHeight: 1.5 }}>
               Aparece como botón flotante en cualquier página pública cuando el
               chatbot está activo. La mascota cambia según el estado:
               comunicador (idle), indagador (pensando), informador
@@ -373,7 +373,7 @@ export function ChatbotConfigForm({
           >
             <h3
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 700,
                 color: "#6B6660",
                 textTransform: "uppercase",
@@ -383,17 +383,17 @@ export function ChatbotConfigForm({
             >
               Conocimiento del bot
             </h3>
-            <p style={{ fontSize: 11, color: "#6B6660", margin: 0, lineHeight: 1.55 }}>
+            <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.55 }}>
               Ateneo lee automáticamente y en cada consulta:
             </p>
-            <ul style={{ margin: 0, paddingLeft: 16, fontSize: 11, color: "#6B6660", lineHeight: 1.65 }}>
+            <ul style={{ margin: 0, paddingLeft: 16, fontSize: 12, color: "#6B6660", lineHeight: 1.65 }}>
               <li>Páginas del CMS publicadas</li>
               <li>Documentos institucionales</li>
               <li>Eventos del cronograma anual</li>
               <li>Categorías y logros de Reconocimientos</li>
               <li>Datos de Marca + Contacto</li>
             </ul>
-            <p style={{ fontSize: 11, color: "#6B6660", margin: "4px 0 0", lineHeight: 1.55 }}>
+            <p style={{ fontSize: 12, color: "#6B6660", margin: "4px 0 0", lineHeight: 1.55 }}>
               No requiere indexación manual. Al actualizar cualquier contenido
               desde el backoffice, Ateneo lo refleja al siguiente turno.
             </p>
@@ -407,7 +407,7 @@ export function ChatbotConfigForm({
                 color: "#1A2B4A",
                 border: "1px solid #E8E4DD",
                 borderRadius: 6,
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 600,
                 cursor: "pointer",
                 fontFamily: "inherit",
@@ -445,7 +445,7 @@ export function ChatbotConfigForm({
                 <h2 style={{ fontSize: 15, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
                   Conocimiento que ve Ateneo
                 </h2>
-                <p style={{ fontSize: 11, color: "#6B6660", margin: "2px 0 0" }}>
+                <p style={{ fontSize: 12, color: "#6B6660", margin: "2px 0 0" }}>
                   Esto es exactamente el texto que se envía al modelo de IA en cada turno.
                   Si Ateneo dice &quot;no tengo información&quot; sobre un tema, revisa que aparezca aquí.
                 </p>
@@ -466,20 +466,20 @@ export function ChatbotConfigForm({
             </div>
             {debugLoading ? (
               <div className="flex-1 flex items-center justify-center py-12">
-                <span style={{ fontSize: 13, color: "#6B6660" }}>Cargando…</span>
+                <span style={{ fontSize: 14, color: "#6B6660" }}>Cargando…</span>
               </div>
             ) : debugData?.kbError ? (
               <div
                 className="px-4 py-3 rounded-md"
                 style={{ background: "#FEE2E2", border: "1px solid #FCA5A5" }}
               >
-                <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>
+                <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>
                   Error: {debugData.kbError}
                 </p>
               </div>
             ) : debugData ? (
               <>
-                <div className="flex items-center gap-3 text-[11px]" style={{ color: "#6B6660" }}>
+                <div className="flex items-center gap-3 text-[12px]" style={{ color: "#6B6660" }}>
                   <span>
                     Tamaño: <strong>{debugData.knowledgeBaseLength.toLocaleString()}</strong>{" "}
                     caracteres
@@ -495,7 +495,7 @@ export function ChatbotConfigForm({
                     border: "1px solid #E8E4DD",
                     borderRadius: 8,
                     padding: 16,
-                    fontSize: 11,
+                    fontSize: 12,
                     fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
                     color: "#1A2B4A",
                     lineHeight: 1.55,
@@ -532,7 +532,7 @@ function Card({
       <div className="flex flex-col gap-1">
         <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>{title}</h2>
         {subtitle && (
-          <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>
         )}
       </div>
       {children}
@@ -555,7 +555,7 @@ function Field({
     <div className="flex flex-col gap-1.5">
       <span
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 700,
           color: "#6B6660",
           textTransform: "uppercase",
@@ -566,7 +566,7 @@ function Field({
       </span>
       {children}
       {hint && (
-        <span style={{ fontSize: 10, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>
+        <span style={{ fontSize: 11, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>
       )}
     </div>
   );
@@ -578,7 +578,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",

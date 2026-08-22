@@ -133,7 +133,7 @@ export function CategoriaRow({
             style={editInput}
           />
         </td>
-        <td style={{ padding: "10px 16px", fontSize: 12, color: "#6B6660" }}>{count}</td>
+        <td style={{ padding: "10px 16px", fontSize: 13, color: "#6B6660" }}>{count}</td>
         <td style={{ padding: "10px 16px" }}>
           <input
             type="number"
@@ -169,13 +169,13 @@ export function CategoriaRow({
           title={cat.color}
         />
       </td>
-      <td style={{ padding: "12px 16px", fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+      <td style={{ padding: "12px 16px", fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
         {cat.nombre}
       </td>
       <td
         style={{
           padding: "12px 16px",
-          fontSize: 11,
+          fontSize: 12,
           color: "#6B6660",
           fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
         }}
@@ -185,7 +185,7 @@ export function CategoriaRow({
       <td
         style={{
           padding: "12px 16px",
-          fontSize: 11,
+          fontSize: 12,
           color: "#6B6660",
           fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
         }}
@@ -193,7 +193,7 @@ export function CategoriaRow({
         {cat.icono || "—"}
       </td>
       {/* El contador enlaza a esos documentos: es la salida del botón apagado. */}
-      <td style={{ padding: "12px 16px", fontSize: 12, color: "#6B6660" }}>
+      <td style={{ padding: "12px 16px", fontSize: 13, color: "#6B6660" }}>
         {count > 0 ? (
           <Link
             href={`/admin/contenido/documentos?cat=${cat.id}`}
@@ -206,7 +206,7 @@ export function CategoriaRow({
           count
         )}
       </td>
-      <td style={{ padding: "12px 16px", fontSize: 12, color: "#6B6660" }}>{cat.orden}</td>
+      <td style={{ padding: "12px 16px", fontSize: 13, color: "#6B6660" }}>{cat.orden}</td>
       <td style={{ padding: "12px 16px" }}>
         <div className="flex items-center justify-end gap-1">
           <button
@@ -264,7 +264,7 @@ const editInput: React.CSSProperties = {
   borderRadius: 4,
   paddingLeft: 8,
   paddingRight: 8,
-  fontSize: 12,
+  fontSize: 13,
   color: "#1A2B4A",
   background: "#FFFFFF",
   outline: "none",

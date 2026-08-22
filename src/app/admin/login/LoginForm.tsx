@@ -20,7 +20,7 @@ const inputStyle: React.CSSProperties = {
 
 const labelStyle: React.CSSProperties = {
   fontFamily: "Poppins, sans-serif",
-  fontSize: 12,
+  fontSize: 13,
   fontWeight: 500,
   color: "#1A2B4A",
   display: "block",
@@ -77,7 +77,7 @@ export function LoginForm({ next }: { next: string }) {
             background: "#FEF2F2",
             border: "1px solid #FECACA",
             fontFamily: "Poppins, sans-serif",
-            fontSize: 12,
+            fontSize: 13,
             color: "#9A3412",
           }}
         >

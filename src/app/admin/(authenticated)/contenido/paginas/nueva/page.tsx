@@ -17,7 +17,7 @@ export default async function CrearPaginaPage() {
       <Link
         href="/admin/contenido/paginas"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver al listado
@@ -27,7 +27,7 @@ export default async function CrearPaginaPage() {
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Crear nueva página
         </h1>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0" }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0" }}>
           Elige una plantilla, define el slug (URL) y el título interno. Después podrás editar todo el contenido.
         </p>
       </div>

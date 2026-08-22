@@ -50,7 +50,7 @@ export function AdmisionesSubNav() {
               color: isActive ? "#FFFFFF" : "#6B6660",
               borderRadius: 7,
               textDecoration: "none",
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: isActive ? 600 : 500,
             }}
           >

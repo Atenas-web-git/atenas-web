@@ -30,7 +30,7 @@ export function EliminarNotificacionClient({
           color: "#991B1B",
           border: "1px solid #FECACA",
           borderRadius: 6,
-          fontSize: 12,
+          fontSize: 13,
           fontWeight: 500,
           cursor: "pointer",
           fontFamily: "inherit",
@@ -51,10 +51,10 @@ export function EliminarNotificacionClient({
       >
         <AlertTriangle size={18} color="#991B1B" strokeWidth={2} />
         <div className="flex flex-col gap-2 flex-1">
-          <p style={{ fontSize: 13, fontWeight: 600, color: "#991B1B", margin: 0 }}>
+          <p style={{ fontSize: 14, fontWeight: 600, color: "#991B1B", margin: 0 }}>
             Esta acción es irreversible
           </p>
-          <p style={{ fontSize: 12, color: "#7F1D1D", margin: 0, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 13, color: "#7F1D1D", margin: 0, lineHeight: 1.5 }}>
             Para confirmar, escribe el título <strong>{titulo}</strong> abajo.
           </p>
           <input
@@ -68,7 +68,7 @@ export function EliminarNotificacionClient({
               borderRadius: 6,
               paddingLeft: 12,
               paddingRight: 12,
-              fontSize: 12,
+              fontSize: 13,
               color: "#1A2B4A",
               background: "#FFFFFF",
               outline: "none",
@@ -76,7 +76,7 @@ export function EliminarNotificacionClient({
             }}
           />
           {state.error && (
-            <p style={{ fontSize: 11, color: "#991B1B", margin: 0 }}>{state.error}</p>
+            <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{state.error}</p>
           )}
           <div className="flex items-center gap-2">
             <button
@@ -116,7 +116,7 @@ const cancelBtn: React.CSSProperties = {
   color: "#6B6660",
   border: "1px solid #E8E4DD",
   borderRadius: 6,
-  fontSize: 12,
+  fontSize: 13,
   fontWeight: 500,
   cursor: "pointer",
   fontFamily: "inherit",
@@ -130,7 +130,7 @@ const confirmBtn: React.CSSProperties = {
   color: "#FFFFFF",
   border: "none",
   borderRadius: 6,
-  fontSize: 12,
+  fontSize: 13,
   fontWeight: 600,
   fontFamily: "inherit",
 };

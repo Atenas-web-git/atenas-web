@@ -49,15 +49,15 @@ export function MarcaForm({ initialMarca }: { initialMarca: Marca }) {
         className="flex items-center justify-between gap-3 px-5 py-3 flex-wrap sticky top-0 z-10"
         style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}
       >
-        <span style={{ fontSize: 13, color: "#6B6660" }}>
+        <span style={{ fontSize: 14, color: "#6B6660" }}>
           Los cambios aplican a TODO el sitio público al guardar.
         </span>
         <div className="flex items-center gap-3">
           {state.error && (
-            <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>
+            <span style={{ fontSize: 13, color: "#991B1B" }}>{state.error}</span>
           )}
           {state.ok && (
-            <span style={{ fontSize: 12, color: "#065F46" }}>Guardado ✓</span>
+            <span style={{ fontSize: 13, color: "#065F46" }}>Guardado ✓</span>
           )}
           <button
             type="submit"
@@ -68,7 +68,7 @@ export function MarcaForm({ initialMarca }: { initialMarca: Marca }) {
               background: "#1A2B4A",
               color: "#FFFFFF",
               border: "none",
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 600,
               cursor: isPending ? "wait" : "pointer",
               opacity: isPending ? 0.7 : 1,
@@ -172,7 +172,7 @@ export function MarcaForm({ initialMarca }: { initialMarca: Marca }) {
           className="rounded-md p-4"
           style={{ background: "#FAFAF8", border: "1px solid #E8E4DD" }}
         >
-          <p style={{ fontSize: 11, fontWeight: 700, color: "#6B6660", textTransform: "uppercase", letterSpacing: 0.5, margin: "0 0 8px" }}>
+          <p style={{ fontSize: 12, fontWeight: 700, color: "#6B6660", textTransform: "uppercase", letterSpacing: 0.5, margin: "0 0 8px" }}>
             Vista previa
           </p>
           <p
@@ -326,9 +326,9 @@ function ColorRow({
 
       {/* Label + hint */}
       <div className="flex flex-col gap-0.5">
-        <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>{label}</span>
+        <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>{label}</span>
         {hint && (
-          <span style={{ fontSize: 10, color: warn ? "#92400E" : "#A0AABA", lineHeight: 1.5 }}>
+          <span style={{ fontSize: 11, color: warn ? "#92400E" : "#A0AABA", lineHeight: 1.5 }}>
             {hint}
           </span>
         )}
@@ -356,7 +356,7 @@ function Card({
           {title}
         </h2>
         {subtitle && (
-          <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
             {subtitle}
           </p>
         )}
@@ -381,7 +381,7 @@ function Field({
     <div className="flex flex-col gap-1.5">
       <span
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 700,
           color: "#6B6660",
           textTransform: "uppercase",
@@ -392,7 +392,7 @@ function Field({
       </span>
       {children}
       {hint && (
-        <span style={{ fontSize: 10, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>
+        <span style={{ fontSize: 11, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>
       )}
     </div>
   );
@@ -404,7 +404,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",

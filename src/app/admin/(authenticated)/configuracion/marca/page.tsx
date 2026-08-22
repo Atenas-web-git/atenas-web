@@ -28,7 +28,7 @@ export default async function MarcaPage() {
       <Link
         href="/admin/configuracion"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a Configuración
@@ -38,7 +38,7 @@ export default async function MarcaPage() {
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Marca / Identidad visual
         </h1>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
           Logos, paleta de colores, tipografía e información institucional global. Los
           colores se inyectan como CSS variables al sitio público y los nuevos
           componentes los usarán automáticamente. Los datos de institución alimentan el

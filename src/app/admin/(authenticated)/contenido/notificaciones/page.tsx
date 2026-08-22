@@ -93,7 +93,7 @@ export default async function NotificacionesListPage({
       <Link
         href="/admin/contenido"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a Contenido
@@ -104,7 +104,7 @@ export default async function NotificacionesListPage({
           <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
             Notificaciones
           </h1>
-          <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0" }}>
+          <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0" }}>
             Avisos, popups y banners para visitantes del sitio. Programables con fechas de inicio y fin.
           </p>
         </div>
@@ -139,7 +139,7 @@ export default async function NotificacionesListPage({
                 color: isActive ? "#FFFFFF" : "#6B6660",
                 borderRadius: 7,
                 textDecoration: "none",
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: isActive ? 600 : 500,
               }}
             >
@@ -152,7 +152,7 @@ export default async function NotificacionesListPage({
                   paddingLeft: 6,
                   paddingRight: 6,
                   background: isActive ? "rgba(255,255,255,0.15)" : "#F4F1EB",
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 600,
                   color: isActive ? "#FFFFFF" : "#6B6660",
                 }}
@@ -230,7 +230,7 @@ export default async function NotificacionesListPage({
                           style={{
                             height: 20,
                             background: estadoInfo.bg,
-                            fontSize: 10,
+                            fontSize: 11,
                             fontWeight: 700,
                             color: estadoInfo.color,
                             letterSpacing: 0.3,
@@ -244,7 +244,7 @@ export default async function NotificacionesListPage({
                             style={{
                               height: 20,
                               background: "#FEF3C7",
-                              fontSize: 10,
+                              fontSize: 11,
                               fontWeight: 700,
                               color: "#92400E",
                               letterSpacing: 0.3,
@@ -260,7 +260,7 @@ export default async function NotificacionesListPage({
                           style={{
                             height: 20,
                             background: "#F4F1EB",
-                            fontSize: 10,
+                            fontSize: 11,
                             fontWeight: 600,
                             color: "#6B6660",
                           }}
@@ -269,7 +269,7 @@ export default async function NotificacionesListPage({
                         </span>
                         <span
                           className="flex items-center gap-1"
-                          style={{ fontSize: 11, color: "#A0AABA" }}
+                          style={{ fontSize: 12, color: "#A0AABA" }}
                         >
                           <Calendar size={11} strokeWidth={2} />
                           {formatDate(n.fecha_inicio)}
@@ -277,7 +277,7 @@ export default async function NotificacionesListPage({
                         {n.fecha_fin && (
                           <span
                             className="flex items-center gap-1"
-                            style={{ fontSize: 11, color: "#A0AABA" }}
+                            style={{ fontSize: 12, color: "#A0AABA" }}
                           >
                             <Clock size={11} strokeWidth={2} />
                             hasta {formatDate(n.fecha_fin)}

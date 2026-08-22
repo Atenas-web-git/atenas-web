@@ -83,7 +83,7 @@ export function CrearSolicitudForm({ opciones }: { opciones: Opciones }) {
           Antes de la grilla y no después: si va debajo, quien rellena ve los
           asteriscos y se pregunta por qué antes de encontrar la explicación.
         */}
-        <p style={{ fontSize: 11, color: "#6B6660", margin: 0, lineHeight: 1.55 }}>
+        <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.55 }}>
           El <strong>año escolar</strong> y el <strong>año lectivo</strong> son obligatorios aquí
           aunque el formulario público no los exija: sin ellos la solicitud no cuenta en Cupos ni en
           Métricas. Tienes a la familia al teléfono — pregúntaselo.
@@ -190,7 +190,7 @@ export function CrearSolicitudForm({ opciones }: { opciones: Opciones }) {
             background: "#1A2B4A",
             color: "#FFFFFF",
             border: "none",
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 600,
             fontFamily: "inherit",
             cursor: isPending ? "wait" : "pointer",
@@ -202,7 +202,7 @@ export function CrearSolicitudForm({ opciones }: { opciones: Opciones }) {
         </button>
         <Link
           href="/admin/admisiones"
-          style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+          style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
         >
           Cancelar
         </Link>
@@ -239,7 +239,7 @@ function Bloque({ titulo, children }: { titulo: string; children: React.ReactNod
     >
       <h2
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 700,
           color: "#6B6660",
           textTransform: "uppercase",
@@ -323,13 +323,13 @@ function Aviso({
       style={{ background: c.bg, border: `1px solid ${c.borde}`, borderRadius: 10 }}
     >
       <Icono size={16} strokeWidth={2} style={{ color: c.fg, flexShrink: 0, marginTop: 1 }} />
-      <div style={{ fontSize: 13, color: c.fg, lineHeight: 1.55 }}>{children}</div>
+      <div style={{ fontSize: 14, color: c.fg, lineHeight: 1.55 }}>{children}</div>
     </div>
   );
 }
 
 const etiqueta: React.CSSProperties = {
-  fontSize: 11,
+  fontSize: 12,
   fontWeight: 600,
   color: "#6B6660",
 };
@@ -340,7 +340,7 @@ const campo: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 10,
   paddingRight: 10,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",

@@ -78,7 +78,7 @@ export default async function RespuestasPage({
           <Link
             href={`/admin/contenido/formularios/${id}`}
             className="inline-flex items-center gap-1"
-            style={{ fontSize: 12, color: "#6B6660" }}
+            style={{ fontSize: 13, color: "#6B6660" }}
           >
             <ArrowLeft size={13} /> {formulario.nombre}
           </Link>
@@ -94,7 +94,7 @@ export default async function RespuestasPage({
             style={{
               border: "1px solid #E8E4DD",
               borderRadius: 8,
-              fontSize: 12,
+              fontSize: 13,
               fontWeight: 600,
               color: "#1A2B4A",
             }}
@@ -109,7 +109,7 @@ export default async function RespuestasPage({
           className="px-4 py-3"
           style={{ background: "rgba(158,25,21,0.06)", borderRadius: 8 }}
         >
-          <p style={{ fontSize: 12, color: "#1A2B4A", margin: 0, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 13, color: "#1A2B4A", margin: 0, lineHeight: 1.5 }}>
             <strong>
               {sinAvisar}{" "}
               {sinAvisar === 1 ? "respuesta llegó" : "respuestas llegaron"} sin
@@ -160,7 +160,7 @@ export default async function RespuestasPage({
                 : "Todavía no hay respuestas"}
           </p>
           {error && (
-            <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
+            <p style={{ fontSize: 14, color: "#6B6660", margin: 0 }}>
               Esto no quiere decir que no haya ninguna. Vuelve a intentarlo.
             </p>
           )}
@@ -202,7 +202,7 @@ function FiltroEstado({
       className="px-3 py-1.5"
       style={{
         borderRadius: 999,
-        fontSize: 12,
+        fontSize: 13,
         fontWeight: 600,
         border: "1px solid #E8E4DD",
         background: activo ? "#1A2B4A" : "#FFFFFF",

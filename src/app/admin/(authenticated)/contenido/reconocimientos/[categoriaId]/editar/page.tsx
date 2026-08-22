@@ -34,7 +34,7 @@ export default async function EditarCategoriaPage({ params }: Props) {
       <Link
         href={`/admin/contenido/reconocimientos/${id}`}
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a la categoría
@@ -47,7 +47,7 @@ export default async function EditarCategoriaPage({ params }: Props) {
           </h1>
           <p
             style={{
-              fontSize: 12,
+              fontSize: 13,
               color: "#6B6660",
               margin: "4px 0 0",
               fontFamily: "ui-monospace, monospace",

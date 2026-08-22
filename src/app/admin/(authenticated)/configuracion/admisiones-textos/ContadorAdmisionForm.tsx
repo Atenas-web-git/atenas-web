@@ -32,7 +32,7 @@ export function ContadorAdmisionForm({
         <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Numeración de solicitudes
         </h2>
-        <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+        <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
           Cada solicitud recibe un código secuencial con formato{" "}
           <code style={codeStyle}>ADM&lt;año&gt;-&lt;n&gt;</code> (p.ej.{" "}
           <code style={codeStyle}>ADM026-278</code>). Si el colegio ya entregó
@@ -86,8 +86,8 @@ export function ContadorAdmisionForm({
       </div>
 
       <div className="flex items-center justify-end gap-3 flex-wrap">
-        {state.error && <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>}
-        {state.ok && <span style={{ fontSize: 12, color: "#065F46" }}>Guardado ✓</span>}
+        {state.error && <span style={{ fontSize: 13, color: "#991B1B" }}>{state.error}</span>}
+        {state.ok && <span style={{ fontSize: 13, color: "#065F46" }}>Guardado ✓</span>}
         <button
           type="submit"
           disabled={isPending}
@@ -97,7 +97,7 @@ export function ContadorAdmisionForm({
             background: "#1A2B4A",
             color: "#FFFFFF",
             border: "none",
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 600,
             cursor: isPending ? "wait" : "pointer",
             opacity: isPending ? 0.7 : 1,
@@ -124,7 +124,7 @@ function Field({
     <div className="flex flex-col gap-1.5">
       <span
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 700,
           color: "#6B6660",
           textTransform: "uppercase",
@@ -135,7 +135,7 @@ function Field({
       </span>
       {children}
       {hint && (
-        <span style={{ fontSize: 10, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>
+        <span style={{ fontSize: 11, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>
       )}
     </div>
   );
@@ -147,7 +147,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",
@@ -161,7 +161,7 @@ const codeStyle: React.CSSProperties = {
   background: "#F4F1EB",
   borderRadius: 4,
   padding: "1px 6px",
-  fontSize: 11,
+  fontSize: 12,
   fontFamily: "monospace",
   color: "#1A2B4A",
 };

@@ -70,7 +70,7 @@ export function ContactoForm({ initialContacto }: { initialContacto: Contacto })
                   style={inputStyle}
                 />
               </Field>
-              <label className="flex items-center gap-2 mb-[10px]" style={{ fontSize: 12, color: "#1A2B4A" }}>
+              <label className="flex items-center gap-2 mb-[10px]" style={{ fontSize: 13, color: "#1A2B4A" }}>
                 <input
                   type="checkbox"
                   checked={t.esWhatsApp}
@@ -175,7 +175,7 @@ export function ContactoForm({ initialContacto }: { initialContacto: Contacto })
               defaultChecked={initialContacto.whatsapp.activo}
               style={{ width: 18, height: 18, accentColor: "#25D366" }}
             />
-            <span className="flex items-center gap-2" style={{ fontSize: 13, color: "#1A2B4A", fontWeight: 500 }}>
+            <span className="flex items-center gap-2" style={{ fontSize: 14, color: "#1A2B4A", fontWeight: 500 }}>
               <MessageCircle size={14} strokeWidth={2.5} color="#25D366" />
               Mostrar el botón flotante de WhatsApp en el sitio público
             </span>
@@ -221,12 +221,12 @@ function Sticky({ state, isPending }: { state: ContactoActionState; isPending: b
       className="flex items-center justify-between gap-3 px-5 py-3 flex-wrap sticky top-0 z-10"
       style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}
     >
-      <span style={{ fontSize: 13, color: "#6B6660" }}>
+      <span style={{ fontSize: 14, color: "#6B6660" }}>
         Los cambios aplican al sitio público (FloatingBoot, JSON-LD del SEO) al guardar.
       </span>
       <div className="flex items-center gap-3">
-        {state.error && <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>}
-        {state.ok && <span style={{ fontSize: 12, color: "#065F46" }}>Guardado ✓</span>}
+        {state.error && <span style={{ fontSize: 13, color: "#991B1B" }}>{state.error}</span>}
+        {state.ok && <span style={{ fontSize: 13, color: "#065F46" }}>Guardado ✓</span>}
         <button
           type="submit"
           disabled={isPending}
@@ -236,7 +236,7 @@ function Sticky({ state, isPending }: { state: ContactoActionState; isPending: b
             background: "#1A2B4A",
             color: "#FFFFFF",
             border: "none",
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 600,
             cursor: isPending ? "wait" : "pointer",
             opacity: isPending ? 0.7 : 1,
@@ -255,7 +255,7 @@ function Card({ title, subtitle, children }: { title: string; subtitle?: string;
     <div className="flex flex-col gap-4 p-5" style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}>
       <div className="flex flex-col gap-1">
         <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>{title}</h2>
-        {subtitle && <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>}
+        {subtitle && <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>}
       </div>
       {children}
     </div>
@@ -265,11 +265,11 @@ function Card({ title, subtitle, children }: { title: string; subtitle?: string;
 function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <span style={{ fontSize: 11, fontWeight: 700, color: "#6B6660", textTransform: "uppercase", letterSpacing: 0.5 }}>
+      <span style={{ fontSize: 12, fontWeight: 700, color: "#6B6660", textTransform: "uppercase", letterSpacing: 0.5 }}>
         {label}
       </span>
       {children}
-      {hint && <span style={{ fontSize: 10, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>}
+      {hint && <span style={{ fontSize: 11, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>}
     </div>
   );
 }
@@ -280,7 +280,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",
@@ -307,7 +307,7 @@ const addButton: React.CSSProperties = {
   color: "#1A2B4A",
   border: "1px dashed #C9C4BB",
   borderRadius: 6,
-  fontSize: 12,
+  fontSize: 13,
   fontWeight: 500,
   cursor: "pointer",
   fontFamily: "inherit",

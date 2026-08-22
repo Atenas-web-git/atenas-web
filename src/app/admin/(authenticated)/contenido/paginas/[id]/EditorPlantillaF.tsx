@@ -263,13 +263,13 @@ export function EditorPlantillaF({
             onChange={(e) => setPublicada(e.target.checked)}
             style={{ width: 16, height: 16, accentColor: "#1A2B4A" }}
           />
-          <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+          <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
             {publicada ? "Página publicada" : "Página en borrador (no visible al público)"}
           </span>
         </label>
         <div className="flex items-center gap-2">
-          {state.error && <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>}
-          {state.ok && <span style={{ fontSize: 12, color: "#065F46" }}>Guardado ✓</span>}
+          {state.error && <span style={{ fontSize: 13, color: "#991B1B" }}>{state.error}</span>}
+          {state.ok && <span style={{ fontSize: 13, color: "#065F46" }}>Guardado ✓</span>}
           <button
             type="submit"
             disabled={isPending}
@@ -279,7 +279,7 @@ export function EditorPlantillaF({
               background: "#1A2B4A",
               color: "#FFFFFF",
               border: "none",
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 600,
               cursor: isPending ? "wait" : "pointer",
               opacity: isPending ? 0.7 : 1,
@@ -497,7 +497,7 @@ export function EditorPlantillaF({
           </Field>
           <span style={fieldLabel}>Chips {chips.length > 0 && `(${chips.length})`}</span>
           {chips.length === 0 && (
-            <p className="px-4 py-3 rounded-md" style={{ background: "#FAFAF8", border: "1px dashed #C9C4BB", fontSize: 12, color: "#6B6660", margin: 0, textAlign: "center" }}>
+            <p className="px-4 py-3 rounded-md" style={{ background: "#FAFAF8", border: "1px dashed #C9C4BB", fontSize: 13, color: "#6B6660", margin: 0, textAlign: "center" }}>
               Aún no hay chips. Agrega el primero abajo.
             </p>
           )}
@@ -633,7 +633,7 @@ export function EditorPlantillaF({
             <div className="flex flex-col gap-3">
               <span style={fieldLabel}>Tarjetas {tarjetas.length > 0 && `(${tarjetas.length})`}</span>
               {tarjetas.length === 0 && (
-                <p className="px-4 py-3 rounded-md" style={{ background: "#FAFAF8", border: "1px dashed #C9C4BB", fontSize: 12, color: "#6B6660", margin: 0, textAlign: "center" }}>
+                <p className="px-4 py-3 rounded-md" style={{ background: "#FAFAF8", border: "1px dashed #C9C4BB", fontSize: 13, color: "#6B6660", margin: 0, textAlign: "center" }}>
                   Aún no hay tarjetas. Agrega la primera abajo.
                 </p>
               )}
@@ -675,7 +675,7 @@ export function EditorPlantillaF({
           <div className="flex flex-col gap-3">
             <span style={fieldLabel}>Plataformas {plataformas.length > 0 && `(${plataformas.length})`}</span>
             {plataformas.length === 0 && (
-              <p className="px-4 py-3 rounded-md" style={{ background: "#FAFAF8", border: "1px dashed #C9C4BB", fontSize: 12, color: "#6B6660", margin: 0, textAlign: "center" }}>
+              <p className="px-4 py-3 rounded-md" style={{ background: "#FAFAF8", border: "1px dashed #C9C4BB", fontSize: 13, color: "#6B6660", margin: 0, textAlign: "center" }}>
                 Aún no hay plataformas. Agrega la primera abajo.
               </p>
             )}
@@ -766,10 +766,10 @@ export function EditorPlantillaF({
             onChange={(e) => setCtaAdmOculto(e.target.checked)}
             style={{ width: 16, height: 16, marginTop: 2, accentColor: "#1A2B4A" }}
           />
-          <span style={{ fontSize: 13, color: "#1A2B4A", lineHeight: 1.5 }}>
+          <span style={{ fontSize: 14, color: "#1A2B4A", lineHeight: 1.5 }}>
             No mostrar este bloque en la página
             <br />
-            <span style={{ fontSize: 12, color: "#6B6660" }}>
+            <span style={{ fontSize: 13, color: "#6B6660" }}>
               Quien lea sobre este nivel se quedará sin un botón para empezar la admisión.
             </span>
           </span>
@@ -853,7 +853,7 @@ function Card({ title, subtitle, children }: { title: string; subtitle?: string;
     <div className="flex flex-col gap-4 p-5" style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}>
       <div className="flex flex-col gap-1">
         <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>{title}</h2>
-        {subtitle && <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>}
+        {subtitle && <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>}
       </div>
       {children}
     </div>
@@ -873,7 +873,7 @@ function Field({ label, hint, required, children }: { label: string; hint?: stri
 }
 
 const fieldLabel: React.CSSProperties = {
-  fontSize: 11,
+  fontSize: 12,
   fontWeight: 700,
   color: "#6B6660",
   textTransform: "uppercase",
@@ -881,7 +881,7 @@ const fieldLabel: React.CSSProperties = {
 };
 
 const hintStyle: React.CSSProperties = {
-  fontSize: 10,
+  fontSize: 11,
   color: "#A0AABA",
   lineHeight: 1.5,
 };
@@ -892,7 +892,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",
@@ -906,7 +906,7 @@ const panelStyle: React.CSSProperties = {
 };
 
 const panelLabel: React.CSSProperties = {
-  fontSize: 11,
+  fontSize: 12,
   fontWeight: 700,
   color: "#A0AABA",
   textTransform: "uppercase",
@@ -919,7 +919,7 @@ const addButton: React.CSSProperties = {
   color: "#1A2B4A",
   border: "1px dashed #C9C4BB",
   borderRadius: 6,
-  fontSize: 12,
+  fontSize: 13,
   fontWeight: 500,
   cursor: "pointer",
   fontFamily: "inherit",

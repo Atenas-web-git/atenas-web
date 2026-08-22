@@ -69,7 +69,7 @@ export default async function DocumentosPage({
       <Link
         href="/admin/contenido"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a Contenido
@@ -80,7 +80,7 @@ export default async function DocumentosPage({
           <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
             Documentos descargables
           </h1>
-          <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
+          <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
             Documentos institucionales hospedados en Google Drive (no se suben a Supabase).
             El archivo va a Google Drive como público y aquí pegas el link. Total:{" "}
             <strong style={{ color: "#1A2B4A" }}>{docs.length}</strong> documentos,{" "}
@@ -94,7 +94,7 @@ export default async function DocumentosPage({
             style={{
               height: 36,
               background: "#F4F1EB",
-              fontSize: 13,
+              fontSize: 14,
               color: "#1A2B4A",
               fontWeight: 500,
               textDecoration: "none",
@@ -109,7 +109,7 @@ export default async function DocumentosPage({
             style={{
               height: 36,
               background: "#F4F1EB",
-              fontSize: 13,
+              fontSize: 14,
               color: "#1A2B4A",
               fontWeight: 500,
               textDecoration: "none",
@@ -124,7 +124,7 @@ export default async function DocumentosPage({
             style={{
               height: 36,
               background: "#1A2B4A",
-              fontSize: 13,
+              fontSize: 14,
               color: "#FFFFFF",
               fontWeight: 600,
               textDecoration: "none",
@@ -148,7 +148,7 @@ export default async function DocumentosPage({
           className="px-5 py-4 rounded-md"
           style={{ background: "#FEF3C7", border: "1px solid #FDE68A" }}
         >
-          <p style={{ fontSize: 13, color: "#92400E", margin: 0 }}>
+          <p style={{ fontSize: 14, color: "#92400E", margin: 0 }}>
             Aún no hay categorías. Crea al menos una desde{" "}
             <Link href="/admin/contenido/documentos/categorias" style={{ color: "#92400E", fontWeight: 600 }}>
               gestionar categorías
@@ -187,7 +187,7 @@ export default async function DocumentosPage({
                     style={{
                       padding: "12px 16px",
                       textAlign: "left",
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 700,
                       color: "#6B6660",
                       textTransform: "uppercase",
@@ -209,14 +209,14 @@ export default async function DocumentosPage({
                     <td style={{ padding: "14px 16px" }}>
                       <Link
                         href={`/admin/contenido/documentos/${doc.id}`}
-                        style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A", textDecoration: "none" }}
+                        style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A", textDecoration: "none" }}
                       >
                         {doc.titulo}
                       </Link>
                       {doc.descripcion && (
                         <p
                           style={{
-                            fontSize: 11,
+                            fontSize: 12,
                             color: "#6B6660",
                             margin: "2px 0 0",
                             maxWidth: 380,
@@ -229,7 +229,7 @@ export default async function DocumentosPage({
                         </p>
                       )}
                     </td>
-                    <td style={{ padding: "14px 16px", fontSize: 12, color: "#6B6660" }}>
+                    <td style={{ padding: "14px 16px", fontSize: 13, color: "#6B6660" }}>
                       {cat?.nombre ?? "—"}
                     </td>
                     <td style={{ padding: "14px 16px" }}>
@@ -239,14 +239,14 @@ export default async function DocumentosPage({
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-1 transition-opacity hover:opacity-70"
-                          style={{ fontSize: 11, color: "#1A2B4A", textDecoration: "none" }}
+                          style={{ fontSize: 12, color: "#1A2B4A", textDecoration: "none" }}
                           title={doc.drive_url}
                         >
                           <ExternalLink size={11} strokeWidth={2.5} />
                           Abrir
                         </a>
                       ) : (
-                        <span style={{ fontSize: 11, color: "#9CA3AF", fontStyle: "italic" }}>
+                        <span style={{ fontSize: 12, color: "#9CA3AF", fontStyle: "italic" }}>
                           (sin link)
                         </span>
                       )}
@@ -257,7 +257,7 @@ export default async function DocumentosPage({
                         style={{
                           height: 20,
                           background: doc.publicado ? "#DCFCE7" : "#FEF3C7",
-                          fontSize: 10,
+                          fontSize: 11,
                           fontWeight: 700,
                           color: doc.publicado ? "#065F46" : "#92400E",
                           letterSpacing: 0.3,
@@ -280,7 +280,7 @@ export default async function DocumentosPage({
                         style={{
                           height: 28,
                           background: "#F4F1EB",
-                          fontSize: 11,
+                          fontSize: 12,
                           fontWeight: 600,
                           color: "#1A2B4A",
                           textDecoration: "none",

@@ -161,7 +161,7 @@ export default async function PaginasListPage({
       <Link
         href="/admin/contenido"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a Contenido
@@ -172,7 +172,7 @@ export default async function PaginasListPage({
           <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
             Páginas
           </h1>
-          <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0" }}>
+          <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0" }}>
             {soloSuPagina ? (
               <>
                 Las páginas del sitio que puedes editar con tu rol. El resto las
@@ -196,7 +196,7 @@ export default async function PaginasListPage({
               background: "#1A2B4A",
               color: "#FFFFFF",
               textDecoration: "none",
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 500,
             }}
           >

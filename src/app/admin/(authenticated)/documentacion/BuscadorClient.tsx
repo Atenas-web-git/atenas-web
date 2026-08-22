@@ -61,7 +61,7 @@ export function BuscadorClient({ indice }: { indice: EntradaIndice[] }) {
               background: "transparent",
               border: "none",
               color: "#6B6660",
-              fontSize: 12,
+              fontSize: 13,
               cursor: "pointer",
               fontFamily: "inherit",
               whiteSpace: "nowrap",
@@ -78,7 +78,7 @@ export function BuscadorClient({ indice }: { indice: EntradaIndice[] }) {
           style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 10, overflow: "hidden" }}
         >
           {resultados.length === 0 ? (
-            <p style={{ fontSize: 13, color: "#6B6660", margin: 0, padding: "16px 18px" }}>
+            <p style={{ fontSize: 14, color: "#6B6660", margin: 0, padding: "16px 18px" }}>
               Nada coincide con «{query}». Prueba con menos palabras o revisa el índice de secciones.
             </p>
           ) : (
@@ -99,15 +99,15 @@ export function BuscadorClient({ indice }: { indice: EntradaIndice[] }) {
                   style={{ flexShrink: 0, marginTop: 3 }}
                 />
                 <span className="flex flex-col gap-0.5 min-w-0">
-                  <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+                  <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
                     {r.titulo}
                   </span>
-                  <span style={{ fontSize: 12, color: "#6B6660", lineHeight: 1.5 }}>
+                  <span style={{ fontSize: 13, color: "#6B6660", lineHeight: 1.5 }}>
                     {r.resumen}
                   </span>
                   <span
                     style={{
-                      fontSize: 10.5,
+                      fontSize: 11.5,
                       fontWeight: 700,
                       color: "#A0AABA",
                       textTransform: "uppercase",

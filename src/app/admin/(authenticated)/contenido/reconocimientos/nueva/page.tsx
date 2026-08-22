@@ -17,7 +17,7 @@ export default async function NuevaCategoriaPage() {
       <Link
         href="/admin/contenido/reconocimientos"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a Reconocimientos
@@ -27,7 +27,7 @@ export default async function NuevaCategoriaPage() {
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Nueva categoría de reconocimientos
         </h1>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
           Crea una nueva categoría (ej. Académicos, Deportivos, Profesionales). Al guardarse
           se abrirá la vista de detalle donde podrás añadir sus subcategorías, logros y
           galería de fotos.

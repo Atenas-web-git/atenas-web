@@ -48,7 +48,7 @@ export default async function EditarUsuarioPage({ params }: Props) {
         href="/admin/usuarios"
         className="flex items-center gap-1.5 transition-opacity hover:opacity-70"
         style={{
-          fontSize: 12,
+          fontSize: 13,
           fontWeight: 500,
           color: "#1A2B4A",
           textDecoration: "none",

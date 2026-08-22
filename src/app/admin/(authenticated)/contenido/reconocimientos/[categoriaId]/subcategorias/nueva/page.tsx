@@ -32,7 +32,7 @@ export default async function NuevaSubcategoriaPage({ params }: Props) {
       <Link
         href={`/admin/contenido/reconocimientos/${cat.id}`}
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a {cat.nombre}
@@ -42,7 +42,7 @@ export default async function NuevaSubcategoriaPage({ params }: Props) {
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Nueva subcategoría en {cat.nombre}
         </h1>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
           La subcategoría aparece como tarjeta en el showcase de la landing y tiene su propia
           página de detalle con logros y galería.
         </p>

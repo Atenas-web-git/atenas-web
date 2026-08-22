@@ -23,7 +23,7 @@ export default async function CorreosDisenoPage() {
       <Link
         href="/admin/configuracion"
         className="flex items-center gap-1.5 transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a Configuración
@@ -33,7 +33,7 @@ export default async function CorreosDisenoPage() {
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Diseño de correos
         </h1>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 760, lineHeight: 1.5 }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0", maxWidth: 760, lineHeight: 1.5 }}>
           Identidad común a los 10 correos transaccionales del sitio. El logo, la
           paleta y los datos institucionales se leen automáticamente de{" "}
           <strong>Marca</strong> y <strong>Contacto</strong>. Aquí editas solo lo

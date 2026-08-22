@@ -158,7 +158,7 @@ export function PaginasListClient({
                 color: t.isActive ? "#FFFFFF" : "#6B6660",
                 borderRadius: 7,
                 textDecoration: "none",
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: t.isActive ? 600 : 500,
               }}
             >
@@ -171,7 +171,7 @@ export function PaginasListClient({
                   paddingLeft: 6,
                   paddingRight: 6,
                   background: t.isActive ? "rgba(255,255,255,0.15)" : "#F4F1EB",
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 600,
                   color: t.isActive ? "#FFFFFF" : "#6B6660",
                 }}
@@ -201,7 +201,7 @@ export function PaginasListClient({
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Buscar por título o ruta…"
             className="bg-transparent outline-none w-full"
-            style={{ fontSize: 13, color: "#1A2B4A" }}
+            style={{ fontSize: 14, color: "#1A2B4A" }}
           />
           {query && (
             <button
@@ -211,7 +211,7 @@ export function PaginasListClient({
                 background: "transparent",
                 border: "none",
                 color: "#6B6660",
-                fontSize: 11,
+                fontSize: 12,
                 cursor: "pointer",
                 fontFamily: "inherit",
               }}
@@ -224,7 +224,7 @@ export function PaginasListClient({
 
       {/* Resumen del filtro activo */}
       {query && (
-        <p style={{ fontSize: 12, color: "#6B6660", margin: 0 }}>
+        <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
           {totalVisibles} resultado{totalVisibles === 1 ? "" : "s"} en {groups.length}{" "}
           grupo{groups.length === 1 ? "" : "s"}
         </p>
@@ -279,7 +279,7 @@ export function PaginasListClient({
                   )}
                   <span
                     style={{
-                      fontSize: 13,
+                      fontSize: 14,
                       fontWeight: 700,
                       color: "#1A2B4A",
                     }}
@@ -288,7 +288,7 @@ export function PaginasListClient({
                   </span>
                   <span
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       color: "#6B6660",
                       fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
                     }}
@@ -300,7 +300,7 @@ export function PaginasListClient({
                     style={{
                       height: 20,
                       background: "#F4F1EB",
-                      fontSize: 10,
+                      fontSize: 11,
                       fontWeight: 700,
                       color: "#6B6660",
                       letterSpacing: 0.3,
@@ -372,7 +372,7 @@ function PaginaListItem({ pagina: p, isLast }: { pagina: PaginaRow; isLast: bool
               style={{
                 height: 20,
                 background: p.publicada ? "#D1FAE5" : "#F4F1EB",
-                fontSize: 10,
+                fontSize: 11,
                 fontWeight: 700,
                 color: p.publicada ? "#065F46" : "#6B6660",
                 letterSpacing: 0.3,
@@ -385,7 +385,7 @@ function PaginaListItem({ pagina: p, isLast }: { pagina: PaginaRow; isLast: bool
               style={{
                 height: 20,
                 background: "#EFF6FF",
-                fontSize: 10,
+                fontSize: 11,
                 fontWeight: 700,
                 color: "#1E40AF",
                 letterSpacing: 0.3,
@@ -398,15 +398,15 @@ function PaginaListItem({ pagina: p, isLast }: { pagina: PaginaRow; isLast: bool
           <div className="flex items-center gap-3 flex-wrap">
             <code
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 color: "#6B6660",
                 fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
               }}
             >
               {p.slug === "/" ? "/" : `/${p.slug}`}
             </code>
-            <span style={{ fontSize: 11, color: "#A0AABA" }}>·</span>
-            <span style={{ fontSize: 11, color: "#A0AABA" }}>
+            <span style={{ fontSize: 12, color: "#A0AABA" }}>·</span>
+            <span style={{ fontSize: 12, color: "#A0AABA" }}>
               Editado {formatDate(p.updated_at)}
             </span>
           </div>
@@ -421,7 +421,7 @@ function PaginaListItem({ pagina: p, isLast }: { pagina: PaginaRow; isLast: bool
           className="flex items-center gap-1 px-2 transition-opacity hover:opacity-70 flex-shrink-0"
           style={{
             height: 28,
-            fontSize: 11,
+            fontSize: 12,
             color: "#9e1915",
             fontWeight: 600,
             textDecoration: "none",
@@ -472,7 +472,7 @@ function ModuloListItem({ fila, isLast }: { fila: ModuloRow; isLast: boolean }) 
               style={{
                 height: 20,
                 background: fila.visible ? "#D1FAE5" : "#F4F1EB",
-                fontSize: 10,
+                fontSize: 11,
                 fontWeight: 700,
                 color: fila.visible ? "#065F46" : "#6B6660",
                 letterSpacing: 0.3,
@@ -485,7 +485,7 @@ function ModuloListItem({ fila, isLast }: { fila: ModuloRow; isLast: boolean }) 
               style={{
                 height: 20,
                 background: "rgba(158,25,21,0.20)",
-                fontSize: 10,
+                fontSize: 11,
                 fontWeight: 700,
                 color: "#7A6224",
                 letterSpacing: 0.3,
@@ -498,15 +498,15 @@ function ModuloListItem({ fila, isLast }: { fila: ModuloRow; isLast: boolean }) 
           <div className="flex items-center gap-3 flex-wrap">
             <code
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 color: "#6B6660",
                 fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
               }}
             >
               /{fila.slug}
             </code>
-            <span style={{ fontSize: 11, color: "#A0AABA" }}>·</span>
-            <span style={{ fontSize: 11, color: "#A0AABA" }}>
+            <span style={{ fontSize: 12, color: "#A0AABA" }}>·</span>
+            <span style={{ fontSize: 12, color: "#A0AABA" }}>
               Editado {formatDate(fila.updated_at)}
             </span>
           </div>
@@ -521,7 +521,7 @@ function ModuloListItem({ fila, isLast }: { fila: ModuloRow; isLast: boolean }) 
           className="flex items-center gap-1 px-2 transition-opacity hover:opacity-70 flex-shrink-0"
           style={{
             height: 28,
-            fontSize: 11,
+            fontSize: 12,
             color: "#9e1915",
             fontWeight: 600,
             textDecoration: "none",

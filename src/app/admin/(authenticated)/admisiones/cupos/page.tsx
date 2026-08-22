@@ -58,7 +58,7 @@ export default async function CuposPage({
                 background: "#1A2B4A",
                 color: "#FFFFFF",
                 textDecoration: "none",
-                fontSize: 13,
+                fontSize: 14,
                 fontWeight: 500,
               }}
             >
@@ -158,7 +158,7 @@ export default async function CuposPage({
           <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
             Gestión de Cupos
           </h1>
-          <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0" }}>
+          <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0" }}>
             Configura los cupos disponibles por nivel y, si quieres, año por año
           </p>
         </div>
@@ -188,7 +188,7 @@ export default async function CuposPage({
                   background: isActive ? "#1A2B4A" : "transparent",
                   color: isActive ? "#FFFFFF" : "#6B6660",
                   textDecoration: "none",
-                  fontSize: 13,
+                  fontSize: 14,
                   fontWeight: isActive ? 600 : 500,
                   transition: "all 0.15s ease",
                 }}

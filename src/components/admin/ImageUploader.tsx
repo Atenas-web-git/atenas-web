@@ -106,7 +106,7 @@ export function ImageUploader({
       {label && (
         <span
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: "#6B6660",
             textTransform: "uppercase",
@@ -152,7 +152,7 @@ export function ImageUploader({
                 color: "#1A2B4A",
                 border: "1px solid #E8E4DD",
                 borderRadius: 6,
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 500,
                 cursor: uploading ? "wait" : "pointer",
                 opacity: uploading ? 0.5 : 1,
@@ -176,7 +176,7 @@ export function ImageUploader({
                 color: "#1A2B4A",
                 border: "1px solid #E8E4DD",
                 borderRadius: 6,
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 500,
                 cursor: "pointer",
                 fontFamily: "inherit",
@@ -195,7 +195,7 @@ export function ImageUploader({
                 color: "#991B1B",
                 border: "1px solid #FECACA",
                 borderRadius: 6,
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 500,
                 cursor: "pointer",
                 fontFamily: "inherit",
@@ -207,7 +207,7 @@ export function ImageUploader({
             <span
               className="truncate flex-1 min-w-0"
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 color: "#A0AABA",
                 fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
               }}
@@ -232,7 +232,7 @@ export function ImageUploader({
                   color: "#6B6660",
                   border: "1.5px dashed #C9C4BB",
                   borderRadius: 10,
-                  fontSize: 13,
+                  fontSize: 14,
                   fontWeight: 500,
                   cursor: uploading ? "wait" : "pointer",
                   fontFamily: "inherit",
@@ -259,7 +259,7 @@ export function ImageUploader({
                     background: "transparent",
                     border: "none",
                     color: "#6B6660",
-                    fontSize: 11,
+                    fontSize: 12,
                     cursor: "pointer",
                     fontFamily: "inherit",
                     padding: 0,
@@ -268,7 +268,7 @@ export function ImageUploader({
                   <FolderOpen size={11} strokeWidth={2} />
                   Elegir del catálogo
                 </button>
-                <span style={{ fontSize: 11, color: "#C9C4BB" }}>·</span>
+                <span style={{ fontSize: 12, color: "#C9C4BB" }}>·</span>
                 <button
                   type="button"
                   onClick={() => setShowUrlInput(true)}
@@ -277,7 +277,7 @@ export function ImageUploader({
                     background: "transparent",
                     border: "none",
                     color: "#6B6660",
-                    fontSize: 11,
+                    fontSize: 12,
                     cursor: "pointer",
                     fontFamily: "inherit",
                     padding: 0,
@@ -303,7 +303,7 @@ export function ImageUploader({
                   borderRadius: 6,
                   paddingLeft: 12,
                   paddingRight: 12,
-                  fontSize: 12,
+                  fontSize: 13,
                   color: "#1A2B4A",
                   background: "#FFFFFF",
                   outline: "none",
@@ -327,7 +327,7 @@ export function ImageUploader({
                   color: "#FFFFFF",
                   border: "none",
                   borderRadius: 6,
-                  fontSize: 12,
+                  fontSize: 13,
                   fontWeight: 600,
                   cursor: "pointer",
                   fontFamily: "inherit",
@@ -346,7 +346,7 @@ export function ImageUploader({
                   background: "transparent",
                   border: "none",
                   color: "#6B6660",
-                  fontSize: 12,
+                  fontSize: 13,
                   cursor: "pointer",
                   fontFamily: "inherit",
                   padding: 0,
@@ -368,11 +368,11 @@ export function ImageUploader({
       />
 
       {error && (
-        <p style={{ fontSize: 11, color: "#991B1B", margin: 0 }}>{error}</p>
+        <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{error}</p>
       )}
 
       {hint && !error && (
-        <span style={{ fontSize: 10, color: "#A0AABA", lineHeight: 1.5 }}>
+        <span style={{ fontSize: 11, color: "#A0AABA", lineHeight: 1.5 }}>
           {hint}
         </span>
       )}

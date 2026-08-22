@@ -28,7 +28,7 @@ export function NuevoPeriodoForm({ anosLectivos }: { anosLectivos: Ano[] }) {
         style={{
           height: 36,
           background: "#1A2B4A",
-          fontSize: 13,
+          fontSize: 14,
           color: "#FFFFFF",
           fontWeight: 600,
           border: "none",
@@ -49,7 +49,7 @@ export function NuevoPeriodoForm({ anosLectivos }: { anosLectivos: Ano[] }) {
       style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}
     >
       <div className="flex items-center justify-between gap-3">
-        <h3 style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
+        <h3 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Nuevo período
         </h3>
         <button
@@ -59,7 +59,7 @@ export function NuevoPeriodoForm({ anosLectivos }: { anosLectivos: Ano[] }) {
             background: "transparent",
             color: "#6B6660",
             border: "none",
-            fontSize: 12,
+            fontSize: 13,
             cursor: "pointer",
             fontFamily: "inherit",
           }}
@@ -89,7 +89,7 @@ export function NuevoPeriodoForm({ anosLectivos }: { anosLectivos: Ano[] }) {
           </select>
         </Field>
       </div>
-      <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
+      <p style={{ fontSize: 12, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
         El orden se controla con las flechas ↑ ↓ del listado, no aquí. Los nuevos
         períodos se agregan al final automáticamente.
       </p>
@@ -104,7 +104,7 @@ export function NuevoPeriodoForm({ anosLectivos }: { anosLectivos: Ano[] }) {
             background: "#1A2B4A",
             color: "#FFFFFF",
             border: "none",
-            fontSize: 12,
+            fontSize: 13,
             fontWeight: 600,
             cursor: isPending ? "wait" : "pointer",
             opacity: isPending ? 0.7 : 1,
@@ -113,7 +113,7 @@ export function NuevoPeriodoForm({ anosLectivos }: { anosLectivos: Ano[] }) {
         >
           {isPending ? "Creando…" : "Crear período"}
         </button>
-        {state.error && <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>}
+        {state.error && <span style={{ fontSize: 13, color: "#991B1B" }}>{state.error}</span>}
       </div>
     </form>
   );
@@ -122,11 +122,11 @@ export function NuevoPeriodoForm({ anosLectivos }: { anosLectivos: Ano[] }) {
 function Field({ label, hint, required, children }: { label: string; hint?: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <span style={{ fontSize: 11, fontWeight: 700, color: "#6B6660", textTransform: "uppercase", letterSpacing: 0.5 }}>
+      <span style={{ fontSize: 12, fontWeight: 700, color: "#6B6660", textTransform: "uppercase", letterSpacing: 0.5 }}>
         {label} {required && <span style={{ color: "#991B1B" }}>*</span>}
       </span>
       {children}
-      {hint && <span style={{ fontSize: 10, color: "#A0AABA", lineHeight: 1.4 }}>{hint}</span>}
+      {hint && <span style={{ fontSize: 11, color: "#A0AABA", lineHeight: 1.4 }}>{hint}</span>}
     </div>
   );
 }
@@ -137,7 +137,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",

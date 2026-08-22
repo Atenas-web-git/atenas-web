@@ -118,7 +118,7 @@ export default async function MetricasPage({
                 background: "#1A2B4A",
                 color: "#FFFFFF",
                 textDecoration: "none",
-                fontSize: 13,
+                fontSize: 14,
                 fontWeight: 500,
               }}
             >

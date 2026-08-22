@@ -51,7 +51,7 @@ export default async function FechasMatriculasPage() {
       <Link
         href="/admin/configuracion"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a Configuración
@@ -64,7 +64,7 @@ export default async function FechasMatriculasPage() {
             Fechas de matrículas
           </h1>
         </div>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: "6px 0 0", lineHeight: 1.6 }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: "6px 0 0", lineHeight: 1.6 }}>
           Banner que aparece en todas las páginas de Matrículas (Proceso,
           Valores y Autorizaciones). Define el año lectivo, las etapas del
           proceso y el botón de llamada a la acción. Los cambios se reflejan

@@ -49,7 +49,7 @@ export default async function AdmisionesTextosPage() {
       <Link
         href="/admin/configuracion"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a Configuración
@@ -59,7 +59,7 @@ export default async function AdmisionesTextosPage() {
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Textos chicos de /admisiones (formulario + seguimiento)
         </h1>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
           Encabezados del wizard de postulación (<code>/admisiones/formulario</code>) y de
           la página de consulta de estado (<code>/admisiones/seguimiento</code>). La lógica
           del wizard y la búsqueda permanece en código.

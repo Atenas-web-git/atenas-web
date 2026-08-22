@@ -80,7 +80,7 @@ export function VideoUploader({
       {label && (
         <span
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: "#6B6660",
             textTransform: "uppercase",
@@ -124,7 +124,7 @@ export function VideoUploader({
                 color: "#1A2B4A",
                 border: "1px solid #E8E4DD",
                 borderRadius: 6,
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 500,
                 cursor: uploading ? "wait" : "pointer",
                 opacity: uploading ? 0.5 : 1,
@@ -148,7 +148,7 @@ export function VideoUploader({
                 color: "#991B1B",
                 border: "1px solid #FECACA",
                 borderRadius: 6,
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 500,
                 cursor: "pointer",
                 fontFamily: "inherit",
@@ -160,7 +160,7 @@ export function VideoUploader({
             <span
               className="truncate flex-1 min-w-0"
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 color: "#A0AABA",
                 fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
               }}
@@ -182,7 +182,7 @@ export function VideoUploader({
             color: "#6B6660",
             border: "1.5px dashed #C9C4BB",
             borderRadius: 10,
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 500,
             cursor: uploading ? "wait" : "pointer",
             fontFamily: "inherit",
@@ -211,10 +211,10 @@ export function VideoUploader({
         style={{ display: "none" }}
       />
 
-      {error && <p style={{ fontSize: 11, color: "#991B1B", margin: 0 }}>{error}</p>}
+      {error && <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{error}</p>}
 
       {hint && !error && (
-        <span style={{ fontSize: 10, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>
+        <span style={{ fontSize: 11, color: "#A0AABA", lineHeight: 1.5 }}>{hint}</span>
       )}
     </div>
   );

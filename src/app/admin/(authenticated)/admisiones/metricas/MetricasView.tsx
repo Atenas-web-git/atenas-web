@@ -22,7 +22,7 @@ function Tarjeta({ titulo, children }: { titulo: string; children: React.ReactNo
     >
       <h2
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 700,
           color: "#6B6660",
           textTransform: "uppercase",
@@ -43,8 +43,8 @@ function Cifra({ valor, etiqueta, nota }: { valor: number; etiqueta: string; not
       <span style={{ fontSize: 30, fontWeight: 700, color: "#1A2B4A", lineHeight: 1 }}>
         {valor}
       </span>
-      <span style={{ fontSize: 13, color: "#2C2C2C", fontWeight: 500 }}>{etiqueta}</span>
-      {nota && <span style={{ fontSize: 11, color: "#6B6660" }}>{nota}</span>}
+      <span style={{ fontSize: 14, color: "#2C2C2C", fontWeight: 500 }}>{etiqueta}</span>
+      {nota && <span style={{ fontSize: 12, color: "#6B6660" }}>{nota}</span>}
     </div>
   );
 }
@@ -127,14 +127,14 @@ function SerieMensual({
                   Horizontal y no rotada: con la etiqueta en diagonal no se leía
                   ninguna y además desbordaba la tarjeta por abajo.
                 */}
-                <span style={{ fontSize: 10, color: "#6B6660", whiteSpace: "nowrap" }}>
+                <span style={{ fontSize: 11, color: "#6B6660", whiteSpace: "nowrap" }}>
                   {m.etiqueta.split(" ")[0]}
                 </span>
                 {/*
                   El año es la única pista de a qué ejercicio pertenece cada
                   barra: iba en gris claro a 9px —contraste 2.3:1— y no se leía.
                 */}
-                <span style={{ fontSize: 10, color: "#6B6660", height: 12 }}>
+                <span style={{ fontSize: 11, color: "#6B6660", height: 12 }}>
                   {marcaAno ? ano : ""}
                 </span>
                 {/*
@@ -148,7 +148,7 @@ function SerieMensual({
                   lee, y con el mismo criterio en las dos series —antes solo se
                   atenuaba el cero de admitidas.
                 */}
-                <span style={{ fontSize: 11, whiteSpace: "nowrap" }}>
+                <span style={{ fontSize: 12, whiteSpace: "nowrap" }}>
                   <strong style={{ color: m.entraron > 0 ? "#1A2B4A" : "#6B6660" }}>
                     {m.entraron}
                   </strong>
@@ -173,7 +173,7 @@ function SerieMensual({
       </div>
 
       {mesesOmitidos > 0 && (
-        <p style={{ fontSize: 11, color: "#6B6660", margin: 0 }}>
+        <p style={{ fontSize: 12, color: "#6B6660", margin: 0 }}>
           Se muestran los últimos {meses.length} meses.{" "}
           {mesesOmitidos === 1 ? "Hay un mes anterior" : `Hay ${mesesOmitidos} meses anteriores`} con
           movimiento que no cabe en el gráfico.
@@ -200,7 +200,7 @@ function Columna({ alto, color }: { alto: number; color: string }) {
 
 function Leyenda({ color, texto }: { color: string; texto: string }) {
   return (
-    <span className="flex items-center gap-1.5" style={{ fontSize: 11, color: "#6B6660" }}>
+    <span className="flex items-center gap-1.5" style={{ fontSize: 12, color: "#6B6660" }}>
       <span style={{ width: 10, height: 10, borderRadius: 3, background: color }} />
       {texto}
     </span>
@@ -210,7 +210,7 @@ function Leyenda({ color, texto }: { color: string; texto: string }) {
 /** Lista con barra proporcional. Se usa para los cortes por nivel y por colegio. */
 function Barras({ filas, vacio }: { filas: { clave: string; total: number }[]; vacio: string }) {
   if (filas.length === 0) {
-    return <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>{vacio}</p>;
+    return <p style={{ fontSize: 14, color: "#6B6660", margin: 0 }}>{vacio}</p>;
   }
   const maximo = Math.max(...filas.map((f) => f.total));
   return (
@@ -226,7 +226,7 @@ function Barras({ filas, vacio }: { filas: { clave: string; total: number }[]; v
             <span
               title={f.clave}
               style={{
-                fontSize: 13,
+                fontSize: 14,
                 color: "#2C2C2C",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
@@ -236,7 +236,7 @@ function Barras({ filas, vacio }: { filas: { clave: string; total: number }[]; v
             >
               {f.clave}
             </span>
-            <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A", flexShrink: 0 }}>
+            <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A", flexShrink: 0 }}>
               {f.total}
             </span>
           </div>
@@ -275,7 +275,7 @@ function Aviso({
       style={{ background: c.bg, border: `1px solid ${c.borde}`, borderRadius: 10 }}
     >
       <Icono size={16} strokeWidth={2} style={{ color: c.fg, flexShrink: 0, marginTop: 1 }} />
-      <div style={{ fontSize: 13, color: c.fg, lineHeight: 1.55 }}>{children}</div>
+      <div style={{ fontSize: 14, color: c.fg, lineHeight: 1.55 }}>{children}</div>
     </div>
   );
 }
@@ -299,7 +299,7 @@ export function MetricasView({
           <h1 style={{ fontSize: 22, fontWeight: 600, color: "#1A2B4A", margin: 0 }}>
             Métricas de admisiones
           </h1>
-          <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0" }}>
+          <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0" }}>
             Cómo va el proceso del año lectivo {anoLectivo}
           </p>
         </div>
@@ -307,7 +307,7 @@ export function MetricasView({
         <div className="flex items-center gap-3 flex-wrap">
           <span
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               color: "#6B6660",
               textTransform: "uppercase",
@@ -335,7 +335,7 @@ export function MetricasView({
                   background: activo ? "#1A2B4A" : "transparent",
                   color: activo ? "#FFFFFF" : "#6B6660",
                   textDecoration: "none",
-                  fontSize: 13,
+                  fontSize: 14,
                   fontWeight: activo ? 600 : 500,
                   transition: "all 0.15s ease",
                 }}
@@ -385,7 +385,7 @@ export function MetricasView({
             Todavía no hay solicitudes para {anoLectivo}
           </p>
           <p
-            style={{ fontSize: 13, color: "#6B6660", margin: 0, textAlign: "center", maxWidth: 460 }}
+            style={{ fontSize: 14, color: "#6B6660", margin: 0, textAlign: "center", maxWidth: 460 }}
           >
             En cuanto entre la primera —por el formulario de admisiones o{" "}
             <Link href="/admin/admisiones/nueva" style={{ color: "#1A2B4A", fontWeight: 600 }}>
@@ -422,7 +422,7 @@ export function MetricasView({
           </div>
 
           <Tarjeta titulo="Embudo del proceso">
-            <p style={{ fontSize: 12, color: "#6B6660", margin: "-4px 0 0", lineHeight: 1.55 }}>
+            <p style={{ fontSize: 13, color: "#6B6660", margin: "-4px 0 0", lineHeight: 1.55 }}>
               Cuántos aspirantes han llegado <strong>al menos</strong> hasta cada etapa — quien está
               matriculado también pasó por las anteriores.
               {m.noAdmitidos > 0 &&
@@ -435,9 +435,9 @@ export function MetricasView({
                 return (
                   <div key={p.estado} className="flex flex-col gap-1">
                     <div className="flex items-baseline justify-between gap-3">
-                      <span style={{ fontSize: 13, color: "#2C2C2C" }}>{etiqueta}</span>
-                      <span style={{ fontSize: 12, color: "#6B6660" }}>
-                        <strong style={{ fontSize: 13, color: "#1A2B4A" }}>{p.alcanzaron}</strong>
+                      <span style={{ fontSize: 14, color: "#2C2C2C" }}>{etiqueta}</span>
+                      <span style={{ fontSize: 13, color: "#6B6660" }}>
+                        <strong style={{ fontSize: 14, color: "#1A2B4A" }}>{p.alcanzaron}</strong>
                         {enEsteEstado > 0 && ` · ${enEsteEstado} parado aquí`}
                       </span>
                     </div>
@@ -469,7 +469,7 @@ export function MetricasView({
           </Tarjeta>
 
           <Tarjeta titulo="Mes a mes">
-            <p style={{ fontSize: 12, color: "#6B6660", margin: "-4px 0 0", lineHeight: 1.55 }}>
+            <p style={{ fontSize: 13, color: "#6B6660", margin: "-4px 0 0", lineHeight: 1.55 }}>
               Cuántos aspirantes entraron cada mes y cuántos admitió el Comité. Las admisiones
               cuentan en el mes en que se decidieron, aunque después se hayan matriculado.
             </p>
@@ -478,13 +478,13 @@ export function MetricasView({
 
           <Tarjeta titulo={`Detenidos más de ${m.diasParaEstancada} días`}>
             {m.estancadas.length === 0 ? (
-              <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
+              <p style={{ fontSize: 14, color: "#6B6660", margin: 0 }}>
                 Ninguno. Todos los aspirantes en proceso han cambiado de etapa en los últimos{" "}
                 {m.diasParaEstancada} días.
               </p>
             ) : (
               <>
-                <p style={{ fontSize: 12, color: "#6B6660", margin: "-4px 0 0", lineHeight: 1.55 }}>
+                <p style={{ fontSize: 13, color: "#6B6660", margin: "-4px 0 0", lineHeight: 1.55 }}>
                   Días desde el último cambio de etapa, no desde la última edición de la ficha.
                 </p>
                 <div className="flex flex-col">
@@ -498,7 +498,7 @@ export function MetricasView({
                       <div className="flex flex-col gap-0.5" style={{ minWidth: 0 }}>
                         <span
                           style={{
-                            fontSize: 13,
+                            fontSize: 14,
                             color: "#1A2B4A",
                             fontWeight: 500,
                             overflow: "hidden",
@@ -508,7 +508,7 @@ export function MetricasView({
                         >
                           {e.nombre}
                         </span>
-                        <span style={{ fontSize: 11, color: "#6B6660" }}>
+                        <span style={{ fontSize: 12, color: "#6B6660" }}>
                           {e.numero ? `${e.numero} · ` : ""}
                           {/*
                             Con fallback, como en el resto del módulo: si una
@@ -521,7 +521,7 @@ export function MetricasView({
                       </div>
                       <span
                         className="flex items-center gap-1.5"
-                        style={{ fontSize: 12, color: "#92400E", flexShrink: 0 }}
+                        style={{ fontSize: 13, color: "#92400E", flexShrink: 0 }}
                       >
                         <Clock size={13} strokeWidth={2} />
                         {e.dias} días

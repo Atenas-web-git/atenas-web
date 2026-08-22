@@ -32,7 +32,7 @@ export function CrearDocumentoForm() {
 
       <div className="flex items-end gap-3 flex-wrap">
         <label className="flex flex-col gap-1.5 flex-1" style={{ minWidth: 280 }}>
-          <span style={{ fontSize: 11, fontWeight: 600, color: "#6B6660" }}>
+          <span style={{ fontSize: 12, fontWeight: 600, color: "#6B6660" }}>
             Nombre del documento
           </span>
           <input
@@ -47,7 +47,7 @@ export function CrearDocumentoForm() {
               borderRadius: 6,
               paddingLeft: 12,
               paddingRight: 12,
-              fontSize: 13,
+              fontSize: 14,
               color: "#1A2B4A",
               background: "#FAFAF8",
               outline: "none",
@@ -64,7 +64,7 @@ export function CrearDocumentoForm() {
             background: "#1A2B4A",
             color: "#FFFFFF",
             border: "none",
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 600,
             cursor: isPending ? "wait" : "pointer",
             opacity: isPending ? 0.7 : 1,
@@ -76,7 +76,7 @@ export function CrearDocumentoForm() {
       </div>
 
       {state.error && (
-        <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{state.error}</p>
+        <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{state.error}</p>
       )}
     </form>
   );

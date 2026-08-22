@@ -59,7 +59,7 @@ export default async function NuevaSolicitudPage() {
                 background: "#1A2B4A",
                 color: "#FFFFFF",
                 textDecoration: "none",
-                fontSize: 13,
+                fontSize: 14,
                 fontWeight: 500,
               }}
             >
@@ -79,7 +79,7 @@ export default async function NuevaSolicitudPage() {
         <Link
           href="/admin/admisiones"
           className="flex items-center gap-1 transition-opacity hover:opacity-70"
-          style={{ fontSize: 12, color: "#6B6660", textDecoration: "none", width: "fit-content" }}
+          style={{ fontSize: 13, color: "#6B6660", textDecoration: "none", width: "fit-content" }}
         >
           <ChevronLeft size={14} strokeWidth={2} />
           Volver a solicitudes
@@ -87,7 +87,7 @@ export default async function NuevaSolicitudPage() {
         <h1 style={{ fontSize: 22, fontWeight: 600, color: "#1A2B4A", margin: "4px 0 0" }}>
           Registrar una solicitud a mano
         </h1>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: 0 }}>
           Para quien llegó por teléfono, por WhatsApp o en persona
         </p>
       </div>

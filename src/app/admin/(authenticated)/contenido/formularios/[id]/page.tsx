@@ -48,7 +48,7 @@ export default async function EditarFormularioPage({
           <Link
             href="/admin/contenido/formularios"
             className="inline-flex items-center gap-1"
-            style={{ fontSize: 12, color: "#6B6660" }}
+            style={{ fontSize: 13, color: "#6B6660" }}
           >
             <ArrowLeft size={13} /> Formularios
           </Link>
@@ -63,7 +63,7 @@ export default async function EditarFormularioPage({
           style={{
             border: "1px solid #E8E4DD",
             borderRadius: 8,
-            fontSize: 12,
+            fontSize: 13,
             fontWeight: 600,
             color: "#1A2B4A",
           }}

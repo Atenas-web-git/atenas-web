@@ -123,7 +123,7 @@ export default async function ContenidoIndexPage() {
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Contenido del sitio
         </h1>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0" }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0" }}>
           Edita el contenido del sitio público desde aquí. Los cambios se reflejan automáticamente.
         </p>
       </div>
@@ -162,7 +162,7 @@ export default async function ContenidoIndexPage() {
                     style={{
                       height: 20,
                       background: "#F4F1EB",
-                      fontSize: 10,
+                      fontSize: 11,
                       fontWeight: 700,
                       color: "#6B6660",
                       letterSpacing: 0.5,
@@ -185,7 +185,7 @@ export default async function ContenidoIndexPage() {
                 </h2>
                 <p
                   style={{
-                    fontSize: 12,
+                    fontSize: 13,
                     color: "#6B6660",
                     margin: "4px 0 0",
                     lineHeight: 1.5,

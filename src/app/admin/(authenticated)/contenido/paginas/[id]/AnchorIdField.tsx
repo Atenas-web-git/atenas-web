@@ -59,11 +59,11 @@ export function AnchorIdField({ value, onChange, slug }: Props) {
     >
       <div className="flex items-center gap-1.5">
         <Anchor size={13} strokeWidth={2.5} color="#1A2B4A" />
-        <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
+        <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
           ID de anclaje (opcional)
         </span>
       </div>
-      <p style={{ fontSize: 11, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+      <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
         Si lo defines, esta sección se puede enlazar con un anchor en el menú o
         en botones (ej. botón del Hero, sub-item del mega-menú). El sistema
         sanitiza automáticamente — solo minúsculas, números y guiones.
@@ -81,7 +81,7 @@ export function AnchorIdField({ value, onChange, slug }: Props) {
           background: "#FFFFFF",
           border: "1px solid #E8E4DD",
           borderRadius: 6,
-          fontSize: 13,
+          fontSize: 14,
           color: "#1A2B4A",
           outline: "none",
           fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
@@ -96,7 +96,7 @@ export function AnchorIdField({ value, onChange, slug }: Props) {
               background: "#FFFFFF",
               border: "1px solid #E8E4DD",
               borderRadius: 4,
-              fontSize: 11,
+              fontSize: 12,
               color: "#1A2B4A",
               fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
               overflow: "hidden",
@@ -113,7 +113,7 @@ export function AnchorIdField({ value, onChange, slug }: Props) {
             style={{
               height: 28,
               background: copied ? "#DCFCE7" : "#F4F1EB",
-              fontSize: 11,
+              fontSize: 12,
               color: copied ? "#065F46" : "#1A2B4A",
               fontWeight: 600,
               border: "1px solid " + (copied ? "#86EFAC" : "#E8E4DD"),

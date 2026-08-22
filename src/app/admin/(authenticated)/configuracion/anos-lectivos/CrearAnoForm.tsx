@@ -66,7 +66,7 @@ export function CrearAnoForm() {
       </div>
 
       {state.error && (
-        <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{state.error}</p>
+        <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{state.error}</p>
       )}
 
       <button
@@ -78,7 +78,7 @@ export function CrearAnoForm() {
           background: "#1A2B4A",
           color: "#FFFFFF",
           border: "none",
-          fontSize: 13,
+          fontSize: 14,
           fontWeight: 600,
           cursor: isPending ? "wait" : "pointer",
           opacity: isPending ? 0.7 : 1,
@@ -98,7 +98,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",
@@ -116,10 +116,10 @@ function Field({
 }) {
   return (
     <label className="flex flex-col gap-1.5">
-      <span style={{ fontSize: 11, fontWeight: 600, color: "#6B6660" }}>{label}</span>
+      <span style={{ fontSize: 12, fontWeight: 600, color: "#6B6660" }}>{label}</span>
       {children}
       {hint && (
-        <span style={{ fontSize: 10, color: "#A0AABA" }}>{hint}</span>
+        <span style={{ fontSize: 11, color: "#A0AABA" }}>{hint}</span>
       )}
     </label>
   );

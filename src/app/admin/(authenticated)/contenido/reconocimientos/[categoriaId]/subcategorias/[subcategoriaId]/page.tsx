@@ -60,7 +60,7 @@ export default async function EditarSubcategoriaPage({ params }: Props) {
       <Link
         href={`/admin/contenido/reconocimientos/${cat.id}`}
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a {cat.nombre}
@@ -78,7 +78,7 @@ export default async function EditarSubcategoriaPage({ params }: Props) {
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 transition-opacity hover:opacity-70"
             style={{
-              fontSize: 12,
+              fontSize: 13,
               color: "#6B6660",
               fontFamily: "ui-monospace, monospace",
               textDecoration: "none",
@@ -137,7 +137,7 @@ export default async function EditarSubcategoriaPage({ params }: Props) {
               <Trophy size={14} strokeWidth={2.5} className="inline-block mr-1.5 -mt-0.5" />
               Logros en {sub.nombre} ({logrosList.length})
             </h2>
-            <p style={{ fontSize: 12, color: "#6B6660", margin: "2px 0 0", maxWidth: 660 }}>
+            <p style={{ fontSize: 13, color: "#6B6660", margin: "2px 0 0", maxWidth: 660 }}>
               Logros que pertenecen a esta subcategoría. Aparecen en la sección
               &quot;Logros destacados&quot; del detalle público{" "}
               <code style={code}>/reconocimientos/{cat.slug}/{sub.slug}</code>. Si los marcas
@@ -159,7 +159,7 @@ export default async function EditarSubcategoriaPage({ params }: Props) {
           <p
             className="px-4 py-6 text-center"
             style={{
-              fontSize: 13,
+              fontSize: 14,
               color: "#6B6660",
               background: "#FAFAF8",
               border: "1px dashed #E8E4DD",
@@ -183,7 +183,7 @@ export default async function EditarSubcategoriaPage({ params }: Props) {
                     <Link
                       href={`/admin/contenido/reconocimientos/${cat.id}/logros/${l.id}`}
                       style={{
-                        fontSize: 13,
+                        fontSize: 14,
                         fontWeight: 600,
                         color: "#1A2B4A",
                         textDecoration: "none",
@@ -197,7 +197,7 @@ export default async function EditarSubcategoriaPage({ params }: Props) {
                         style={{
                           height: 18,
                           background: "rgba(158,25,21,0.20)",
-                          fontSize: 9,
+                          fontSize: 11,
                           fontWeight: 700,
                           color: "#7A6224",
                         }}
@@ -211,7 +211,7 @@ export default async function EditarSubcategoriaPage({ params }: Props) {
                         style={{
                           height: 18,
                           background: "#FEF3C7",
-                          fontSize: 9,
+                          fontSize: 11,
                           fontWeight: 700,
                           color: "#92400E",
                         }}
@@ -220,7 +220,7 @@ export default async function EditarSubcategoriaPage({ params }: Props) {
                       </span>
                     )}
                   </div>
-                  <p style={{ fontSize: 11, color: "#6B6660", margin: "1px 0 0" }}>
+                  <p style={{ fontSize: 12, color: "#6B6660", margin: "1px 0 0" }}>
                     {l.year && <span>{l.year}</span>}
                     {l.descripcion && (
                       <span>
@@ -268,7 +268,7 @@ export default async function EditarSubcategoriaPage({ params }: Props) {
           <h2 style={{ fontSize: 15, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
             Galería de la subcategoría ({(galeria ?? []).length} fotos)
           </h2>
-          <p style={{ fontSize: 12, color: "#6B6660", margin: "2px 0 0", maxWidth: 720 }}>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: "2px 0 0", maxWidth: 720 }}>
             Fotos del detalle <code style={code}>/reconocimientos/{cat.slug}/{sub.slug}</code> (las 5 primeras
             como teaser) y galería completa en{" "}
             <code style={code}>/reconocimientos/{cat.slug}/{sub.slug}/galeria</code> (todas con lightbox).
@@ -291,13 +291,13 @@ const code: React.CSSProperties = {
   padding: "1px 6px",
   borderRadius: 4,
   fontFamily: "ui-monospace, monospace",
-  fontSize: 12,
+  fontSize: 13,
 };
 
 const btnPrimarySm: React.CSSProperties = {
   height: 32,
   background: "#1A2B4A",
-  fontSize: 12,
+  fontSize: 13,
   color: "#FFFFFF",
   fontWeight: 600,
   textDecoration: "none",

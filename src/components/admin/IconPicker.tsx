@@ -60,7 +60,7 @@ export function IconPicker({ value, onChange, label, hint }: Props) {
       {label && (
         <span
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: "#6B6660",
             textTransform: "uppercase",
@@ -103,7 +103,7 @@ export function IconPicker({ value, onChange, label, hint }: Props) {
           <span
             className="flex-1 text-left truncate"
             style={{
-              fontSize: 13,
+              fontSize: 14,
               color: value ? "#1A2B4A" : "#A0AABA",
               fontFamily: value ? "ui-monospace, SFMono-Regular, Menlo, monospace" : "inherit",
               fontWeight: value ? 500 : 400,
@@ -168,13 +168,13 @@ export function IconPicker({ value, onChange, label, hint }: Props) {
                   height: 28,
                   border: "none",
                   outline: "none",
-                  fontSize: 13,
+                  fontSize: 14,
                   color: "#1A2B4A",
                   background: "transparent",
                   fontFamily: "inherit",
                 }}
               />
-              <span style={{ fontSize: 10, color: "#A0AABA" }}>
+              <span style={{ fontSize: 11, color: "#A0AABA" }}>
                 {totalMatches > MAX_RESULTS
                   ? `${MAX_RESULTS}+ resultados`
                   : `${totalMatches} ${totalMatches === 1 ? "icono" : "iconos"}`}
@@ -192,7 +192,7 @@ export function IconPicker({ value, onChange, label, hint }: Props) {
                 <p
                   style={{
                     gridColumn: "1 / -1",
-                    fontSize: 12,
+                    fontSize: 13,
                     color: "#6B6660",
                     margin: "12px 0",
                     textAlign: "center",
@@ -257,7 +257,7 @@ export function IconPicker({ value, onChange, label, hint }: Props) {
       </div>
 
       {hint && (
-        <span style={{ fontSize: 10, color: "#A0AABA", lineHeight: 1.5 }}>
+        <span style={{ fontSize: 11, color: "#A0AABA", lineHeight: 1.5 }}>
           {hint}
         </span>
       )}

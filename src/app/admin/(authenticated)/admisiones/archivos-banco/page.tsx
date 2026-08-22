@@ -48,7 +48,7 @@ export default async function ArchivosBancoPage() {
           <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
             Banco de archivos de Admisiones
           </h1>
-          <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
+          <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
             Sube acá los archivos que se repiten entre postulantes (folletos, autorizaciones, instructivos, listas
             de útiles, etc.). Después podrás <strong>asociarlos a plantillas de correo</strong> (se adjuntan
             automáticamente cuando una solicitud entra a ese estado) o a <strong>solicitudes individuales</strong>
@@ -70,14 +70,14 @@ function Stats({ count, totalBytes }: { count: number; totalBytes: number }) {
       style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 8 }}
     >
       <div className="flex flex-col">
-        <span style={{ fontSize: 10, fontWeight: 600, color: "#6B6660", letterSpacing: 1, textTransform: "uppercase" }}>
+        <span style={{ fontSize: 11, fontWeight: 600, color: "#6B6660", letterSpacing: 1, textTransform: "uppercase" }}>
           Archivos
         </span>
         <span style={{ fontSize: 18, fontWeight: 700, color: "#1A2B4A" }}>{count}</span>
       </div>
       <div style={{ width: 1, height: 28, background: "#E8E4DD" }} />
       <div className="flex flex-col">
-        <span style={{ fontSize: 10, fontWeight: 600, color: "#6B6660", letterSpacing: 1, textTransform: "uppercase" }}>
+        <span style={{ fontSize: 11, fontWeight: 600, color: "#6B6660", letterSpacing: 1, textTransform: "uppercase" }}>
           Tamaño total
         </span>
         <span style={{ fontSize: 18, fontWeight: 700, color: "#1A2B4A" }}>{formatBytes(totalBytes)}</span>

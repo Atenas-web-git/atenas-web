@@ -48,7 +48,7 @@ function OcupacionBar({ ocupados, total }: { ocupados: number; total: number }) 
           }}
         />
       </div>
-      <span style={{ fontSize: 11, color: "#6B6660", whiteSpace: "nowrap" }}>
+      <span style={{ fontSize: 12, color: "#6B6660", whiteSpace: "nowrap" }}>
         {pct}%
       </span>
     </div>
@@ -57,10 +57,10 @@ function OcupacionBar({ ocupados, total }: { ocupados: number; total: number }) 
 
 function EstadoCupo({ ocupados, total }: { ocupados: number; total: number }) {
   const pct = total > 0 ? (ocupados / total) * 100 : 0;
-  if (total === 0) return <span style={{ fontSize: 11, color: "#A0AABA" }}>Sin configurar</span>;
-  if (pct >= 100) return <span style={{ fontSize: 11, fontWeight: 700, color: "#991B1B" }}>Lleno</span>;
-  if (pct >= 80) return <span style={{ fontSize: 11, fontWeight: 700, color: "#9A3412" }}>Casi lleno</span>;
-  return <span style={{ fontSize: 11, fontWeight: 700, color: "#065F46" }}>Disponible</span>;
+  if (total === 0) return <span style={{ fontSize: 12, color: "#A0AABA" }}>Sin configurar</span>;
+  if (pct >= 100) return <span style={{ fontSize: 12, fontWeight: 700, color: "#991B1B" }}>Lleno</span>;
+  if (pct >= 80) return <span style={{ fontSize: 12, fontWeight: 700, color: "#9A3412" }}>Casi lleno</span>;
+  return <span style={{ fontSize: 12, fontWeight: 700, color: "#065F46" }}>Disponible</span>;
 }
 
 export function CuposFormClient({
@@ -133,7 +133,7 @@ export function CuposFormClient({
           style={{ background: "rgba(158,25,21,0.06)", border: "1px solid rgba(158,25,21,0.22)" }}
         >
           <span style={{ fontSize: 16 }}>⚠️</span>
-          <p style={{ fontSize: 13, color: "#2C2C2C", margin: 0, lineHeight: 1.6 }}>
+          <p style={{ fontSize: 14, color: "#2C2C2C", margin: 0, lineHeight: 1.6 }}>
             <strong>
               {sinAnoLectivo}{" "}
               {sinAnoLectivo === 1 ? "solicitud no aparece" : "solicitudes no aparecen"} en esta
@@ -164,7 +164,7 @@ export function CuposFormClient({
           >
             <span
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 500,
                 color: "#6B6660",
                 textTransform: "uppercase",
@@ -191,7 +191,7 @@ export function CuposFormClient({
         <p
           className="px-4 py-3 rounded-lg"
           style={{
-            fontSize: 12,
+            fontSize: 13,
             color: "#6B6660",
             background: "#F8F5F0",
             border: "1px solid #E8E4DD",
@@ -230,7 +230,7 @@ export function CuposFormClient({
                   style={{
                     padding: "12px 16px",
                     textAlign: "left",
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: "#6B6660",
                     textTransform: "uppercase",
@@ -261,7 +261,7 @@ export function CuposFormClient({
                   style={{ borderBottom: isLast ? "none" : "1px solid #E8E4DD" }}
                 >
                   <td style={{ padding: "14px 16px" }}>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+                    <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
                       {nivel}
                     </span>
                   </td>
@@ -279,7 +279,7 @@ export function CuposFormClient({
                         borderRadius: 6,
                         paddingLeft: 10,
                         paddingRight: 10,
-                        fontSize: 13,
+                        fontSize: 14,
                         color: "#1A2B4A",
                         fontWeight: 600,
                         textAlign: "center",
@@ -289,13 +289,13 @@ export function CuposFormClient({
                     />
                   </td>
                   <td style={{ padding: "14px 16px" }}>
-                    <span style={{ fontSize: 13, color: "#1A2B4A" }}>{row.ocupados}</span>
+                    <span style={{ fontSize: 14, color: "#1A2B4A" }}>{row.ocupados}</span>
                   </td>
                   <td style={{ padding: "14px 16px" }}>
-                    <span style={{ fontSize: 13, color: "#1A2B4A" }}>{disponibles}</span>
+                    <span style={{ fontSize: 14, color: "#1A2B4A" }}>{disponibles}</span>
                   </td>
                   <td style={{ padding: "14px 16px" }}>
-                    <span style={{ fontSize: 13, color: "#9A3412" }}>{row.esperando}</span>
+                    <span style={{ fontSize: 14, color: "#9A3412" }}>{row.esperando}</span>
                   </td>
                   <td style={{ padding: "14px 16px", minWidth: 120 }}>
                     <OcupacionBar ocupados={row.ocupados} total={row.cupos_total} />
@@ -320,7 +320,7 @@ export function CuposFormClient({
       >
         <span style={{ fontSize: 18 }}>ℹ️</span>
         <div>
-          <p style={{ fontSize: 13, color: "#92400E", margin: 0, lineHeight: 1.6 }}>
+          <p style={{ fontSize: 14, color: "#92400E", margin: 0, lineHeight: 1.6 }}>
             <strong>Cupos y postulantes en espera:</strong> todos los números de esta pantalla cuentan solo las solicitudes del año lectivo <strong>{anoLectivo}</strong>. &ldquo;Ocupados&rdquo; son las ya matriculadas; &ldquo;En espera&rdquo;, los postulantes que siguen vivos en el proceso (Interesado, Postulante, Postulación completa, En evaluación, En revisión por Comité y Admitido). Cuando un nivel se llene, el equipo decide manualmente qué postulantes avanzan.
           </p>
         </div>
@@ -328,10 +328,10 @@ export function CuposFormClient({
 
       {/* Acciones */}
       {state?.error && (
-        <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{state.error}</p>
+        <p style={{ fontSize: 14, color: "#991B1B", margin: 0 }}>{state.error}</p>
       )}
       {state?.ok && (
-        <p style={{ fontSize: 13, color: "#065F46", margin: 0 }}>
+        <p style={{ fontSize: 14, color: "#065F46", margin: 0 }}>
           Cupos guardados correctamente ✓
         </p>
       )}
@@ -347,7 +347,7 @@ export function CuposFormClient({
             color: "#FFFFFF",
             border: "none",
             borderRadius: 8,
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 600,
             cursor: isPending ? "wait" : "pointer",
             opacity: isPending ? 0.7 : 1,
@@ -355,7 +355,7 @@ export function CuposFormClient({
         >
           {isPending ? "Guardando…" : "Guardar cambios"}
         </button>
-        <span style={{ fontSize: 12, color: "#6B6660" }}>
+        <span style={{ fontSize: 13, color: "#6B6660" }}>
           Año lectivo {anoLectivo}
         </span>
       </div>
@@ -396,12 +396,12 @@ function DetallePorGrado({
         <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Detalle por año escolar
         </h2>
-        <p style={{ fontSize: 12.5, color: "#6B6660", margin: "4px 0 0", lineHeight: 1.55 }}>
+        <p style={{ fontSize: 13.5, color: "#6B6660", margin: "4px 0 0", lineHeight: 1.55 }}>
           Opcional. Si solo llevas el cupo del nivel completo, deja esto en cero: no se muestra en
           ningún sitio del sitio público.
         </p>
         {sinGrado > 0 && (
-          <p style={{ fontSize: 12.5, color: "#9A3412", margin: "8px 0 0", lineHeight: 1.55 }}>
+          <p style={{ fontSize: 13.5, color: "#9A3412", margin: "8px 0 0", lineHeight: 1.55 }}>
             <strong>
               {sinGrado} {sinGrado === 1 ? "solicitud" : "solicitudes"} de este año lectivo sin año
               escolar indicado
@@ -422,7 +422,7 @@ function DetallePorGrado({
                 style={{
                   padding: "10px 16px",
                   textAlign: "left",
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 700,
                   color: "#6B6660",
                   textTransform: "uppercase",
@@ -442,7 +442,7 @@ function DetallePorGrado({
                   colSpan={5}
                   style={{
                     padding: "8px 16px",
-                    fontSize: 11.5,
+                    fontSize: 12.5,
                     fontWeight: 700,
                     color: "#1A2B4A",
                     textTransform: "uppercase",
@@ -456,7 +456,7 @@ function DetallePorGrado({
                 .filter((f) => f.nivel === nivel)
                 .map((f) => (
                   <tr key={f.grado} style={{ borderBottom: "1px solid #F1EEE9" }}>
-                    <td style={{ padding: "8px 16px", fontSize: 13, color: "#2C2C2C" }}>
+                    <td style={{ padding: "8px 16px", fontSize: 14, color: "#2C2C2C" }}>
                       {f.grado}
                     </td>
                     <td style={{ padding: "8px 16px" }}>
@@ -472,19 +472,19 @@ function DetallePorGrado({
                           padding: "0 10px",
                           border: "1px solid #E8E4DD",
                           borderRadius: 6,
-                          fontSize: 13,
+                          fontSize: 14,
                           fontFamily: "inherit",
                           color: "#1A2B4A",
                         }}
                       />
                     </td>
-                    <td style={{ padding: "8px 16px", fontSize: 13, color: "#6B6660" }}>
+                    <td style={{ padding: "8px 16px", fontSize: 14, color: "#6B6660" }}>
                       {f.ocupados}
                     </td>
-                    <td style={{ padding: "8px 16px", fontSize: 13, color: "#6B6660" }}>
+                    <td style={{ padding: "8px 16px", fontSize: 14, color: "#6B6660" }}>
                       {Math.max(0, f.cupos_total - f.ocupados)}
                     </td>
-                    <td style={{ padding: "8px 16px", fontSize: 13, color: "#6B6660" }}>
+                    <td style={{ padding: "8px 16px", fontSize: 14, color: "#6B6660" }}>
                       {f.esperando}
                     </td>
                   </tr>

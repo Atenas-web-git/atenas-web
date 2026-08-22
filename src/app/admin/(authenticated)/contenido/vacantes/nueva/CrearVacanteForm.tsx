@@ -15,7 +15,7 @@ const INPUT: React.CSSProperties = {
   border: "1px solid #E8E4DD",
   borderRadius: 8,
   padding: "10px 12px",
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   outline: "none",
   background: "#FFFFFF",
@@ -82,7 +82,7 @@ export function CrearVacanteForm() {
         <p
           role="alert"
           style={{
-            fontSize: 12,
+            fontSize: 13,
             color: "#9e1915",
             background: "rgba(158,25,21,0.08)",
             borderRadius: 8,
@@ -101,7 +101,7 @@ export function CrearVacanteForm() {
           background: "#1A2B4A",
           color: "#FFFFFF",
           borderRadius: 8,
-          fontSize: 13,
+          fontSize: 14,
           fontWeight: 600,
           padding: "11px 20px",
           alignSelf: "flex-start",
@@ -125,9 +125,9 @@ function Campo({
 }) {
   return (
     <label className="flex flex-col gap-1.5">
-      <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>{label}</span>
+      <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>{label}</span>
       {children}
-      {ayuda && <span style={{ fontSize: 11, color: "#6B6660" }}>{ayuda}</span>}
+      {ayuda && <span style={{ fontSize: 12, color: "#6B6660" }}>{ayuda}</span>}
     </label>
   );
 }

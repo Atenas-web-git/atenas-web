@@ -46,7 +46,7 @@ export default async function HeroDocumentosPage() {
       <Link
         href="/admin/contenido/documentos"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a Documentos
@@ -59,9 +59,9 @@ export default async function HeroDocumentosPage() {
             Cabecera de la página
           </h1>
         </div>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: "6px 0 0", lineHeight: 1.6, maxWidth: 720 }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: "6px 0 0", lineHeight: 1.6, maxWidth: 720 }}>
           Edita el hero (cabecera) que aparece en{" "}
-          <code style={{ fontFamily: "ui-monospace, monospace", fontSize: 12 }}>
+          <code style={{ fontFamily: "ui-monospace, monospace", fontSize: 13 }}>
             /documentos-institucionales
           </code>
           . Los cambios se reflejan en el sitio público en menos de 1 minuto.

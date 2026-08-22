@@ -26,14 +26,14 @@ export default async function VacantesPage() {
         <Link
           href="/admin/contenido"
           className="inline-flex items-center gap-1"
-          style={{ fontSize: 12, color: "#6B6660" }}
+          style={{ fontSize: 13, color: "#6B6660" }}
         >
           <ArrowLeft size={13} /> Contenido
         </Link>
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: "8px 0 0" }}>
           Vacantes
         </h1>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 640 }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0", maxWidth: 640 }}>
           Las ofertas de empleo que se publican en «Trabaja con nosotros». Cada
           vacante tiene su propia página y su formulario de postulación, así que
           las respuestas de cada una llegan por separado.
@@ -48,7 +48,7 @@ export default async function VacantesPage() {
             background: "#1A2B4A",
             color: "#FFFFFF",
             borderRadius: 8,
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 600,
           }}
         >
@@ -65,7 +65,7 @@ export default async function VacantesPage() {
           <p style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A", margin: 0 }}>
             Todavía no hay vacantes
           </p>
-          <p style={{ fontSize: 13, color: "#6B6660", margin: 0, maxWidth: 420 }}>
+          <p style={{ fontSize: 14, color: "#6B6660", margin: 0, maxWidth: 420 }}>
             Al publicar la primera, «Trabaja con nosotros» pasa a mostrar el
             listado de ofertas.
           </p>
@@ -91,7 +91,7 @@ export default async function VacantesPage() {
                       <span
                         className="inline-flex items-center gap-1"
                         style={{
-                          fontSize: 10,
+                          fontSize: 11,
                           fontWeight: 700,
                           letterSpacing: 0.5,
                           textTransform: "uppercase",
@@ -105,7 +105,7 @@ export default async function VacantesPage() {
                       </span>
                     )}
                   </div>
-                  <p style={{ fontSize: 12, color: "#6B6660", margin: "4px 0 0" }}>
+                  <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0" }}>
                     /trabaja-con-nosotros/{v.slug}
                     {v.cierra_en && ` · cierra el ${v.cierra_en}`}
                     {!v.formulario_id && " · sin formulario"}
@@ -120,7 +120,7 @@ export default async function VacantesPage() {
                       style={{
                         border: "1px solid #E8E4DD",
                         borderRadius: 8,
-                        fontSize: 12,
+                        fontSize: 13,
                         fontWeight: 600,
                         color: "#1A2B4A",
                       }}
@@ -135,7 +135,7 @@ export default async function VacantesPage() {
                       background: "#1A2B4A",
                       color: "#FFFFFF",
                       borderRadius: 8,
-                      fontSize: 12,
+                      fontSize: 13,
                       fontWeight: 600,
                     }}
                   >
@@ -155,7 +155,7 @@ function Etiqueta({ texto }: { texto: string }) {
   return (
     <span
       style={{
-        fontSize: 10,
+        fontSize: 11,
         fontWeight: 700,
         letterSpacing: 0.5,
         textTransform: "uppercase",

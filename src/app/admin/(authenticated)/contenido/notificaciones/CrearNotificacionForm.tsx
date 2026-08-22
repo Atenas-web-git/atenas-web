@@ -33,7 +33,7 @@ export function CrearNotificacionForm() {
       <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
         Crear notificación nueva
       </h2>
-      <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+      <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
         Define un título y el tipo. Después podrás editar todo el contenido, programar fechas y agregar imagen / CTA.
       </p>
 
@@ -82,14 +82,14 @@ export function CrearNotificacionForm() {
                 />
                 <span
                   style={{
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: 700,
                     color: selected ? info.color : "#1A2B4A",
                   }}
                 >
                   {info.label}
                 </span>
-                <span style={{ fontSize: 10, color: "#6B6660", lineHeight: 1.4 }}>
+                <span style={{ fontSize: 11, color: "#6B6660", lineHeight: 1.4 }}>
                   {info.descripcion}
                 </span>
               </label>
@@ -104,7 +104,7 @@ export function CrearNotificacionForm() {
           style={{
             background: "#FEE2E2",
             border: "1px solid #FECACA",
-            fontSize: 12,
+            fontSize: 13,
             color: "#991B1B",
             margin: 0,
           }}
@@ -122,7 +122,7 @@ export function CrearNotificacionForm() {
           background: "#1A2B4A",
           color: "#FFFFFF",
           border: "none",
-          fontSize: 13,
+          fontSize: 14,
           fontWeight: 600,
           cursor: isPending ? "wait" : "pointer",
           opacity: isPending ? 0.7 : 1,
@@ -137,7 +137,7 @@ export function CrearNotificacionForm() {
 }
 
 const fieldLabel: React.CSSProperties = {
-  fontSize: 11,
+  fontSize: 12,
   fontWeight: 700,
   color: "#6B6660",
   textTransform: "uppercase",
@@ -150,7 +150,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",

@@ -96,7 +96,7 @@ export default async function CronogramaPage({
       <Link
         href="/admin/contenido"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a Contenido
@@ -107,7 +107,7 @@ export default async function CronogramaPage({
           <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
             Cronograma escolar
           </h1>
-          <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
+          <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
             Eventos del año lectivo agrupados por período. Define tus quimestres, trimestres
             o cualquier otro tipo de período en{" "}
             <Link href="/admin/contenido/cronograma/periodos" style={{ color: "#1A2B4A", fontWeight: 500 }}>
@@ -159,7 +159,7 @@ export default async function CronogramaPage({
           className="px-5 py-4 rounded-md"
           style={{ background: "#FEF3C7", border: "1px solid #FDE68A" }}
         >
-          <p style={{ fontSize: 13, color: "#92400E", margin: 0 }}>
+          <p style={{ fontSize: 14, color: "#92400E", margin: 0 }}>
             {periodos.length === 0 && (
               <>
                 Aún no hay períodos. Crea al menos un período (quimestre, trimestre, etc.) en{" "}
@@ -221,7 +221,7 @@ export default async function CronogramaPage({
                     style={{
                       padding: "12px 16px",
                       textAlign: "left",
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 700,
                       color: "#6B6660",
                       textTransform: "uppercase",
@@ -244,7 +244,7 @@ export default async function CronogramaPage({
                     <td
                       style={{
                         padding: "14px 16px",
-                        fontSize: 12,
+                        fontSize: 13,
                         color: "#1A2B4A",
                         whiteSpace: "nowrap",
                         fontFamily: "ui-monospace, monospace",
@@ -262,7 +262,7 @@ export default async function CronogramaPage({
                       <Link
                         href={`/admin/contenido/cronograma/${ev.id}`}
                         style={{
-                          fontSize: 13,
+                          fontSize: 14,
                           fontWeight: 600,
                           color: "#1A2B4A",
                           textDecoration: "none",
@@ -273,7 +273,7 @@ export default async function CronogramaPage({
                       {ev.descripcion && (
                         <p
                           style={{
-                            fontSize: 11,
+                            fontSize: 12,
                             color: "#6B6660",
                             margin: "2px 0 0",
                             maxWidth: 380,
@@ -286,7 +286,7 @@ export default async function CronogramaPage({
                         </p>
                       )}
                     </td>
-                    <td style={{ padding: "14px 16px", fontSize: 12, whiteSpace: "nowrap" }}>
+                    <td style={{ padding: "14px 16px", fontSize: 13, whiteSpace: "nowrap" }}>
                       <span
                         className="inline-flex items-center gap-1.5"
                         style={{ color: periodoColor, fontWeight: 600 }}
@@ -303,7 +303,7 @@ export default async function CronogramaPage({
                         {periodo?.nombre ?? "—"}
                       </span>
                     </td>
-                    <td style={{ padding: "14px 16px", fontSize: 12, color: "#6B6660" }}>
+                    <td style={{ padding: "14px 16px", fontSize: 13, color: "#6B6660" }}>
                       {tipo?.nombre ?? "—"}
                     </td>
                     <td style={{ padding: "14px 16px" }}>
@@ -312,7 +312,7 @@ export default async function CronogramaPage({
                         style={{
                           height: 20,
                           background: ev.publicado ? "#DCFCE7" : "#FEF3C7",
-                          fontSize: 10,
+                          fontSize: 11,
                           fontWeight: 700,
                           color: ev.publicado ? "#065F46" : "#92400E",
                           letterSpacing: 0.3,
@@ -328,7 +328,7 @@ export default async function CronogramaPage({
                         style={{
                           height: 28,
                           background: "#F4F1EB",
-                          fontSize: 11,
+                          fontSize: 12,
                           fontWeight: 600,
                           color: "#1A2B4A",
                           textDecoration: "none",
@@ -351,7 +351,7 @@ export default async function CronogramaPage({
 const btnPrimary: React.CSSProperties = {
   height: 36,
   background: "#1A2B4A",
-  fontSize: 13,
+  fontSize: 14,
   color: "#FFFFFF",
   fontWeight: 600,
   textDecoration: "none",
@@ -360,7 +360,7 @@ const btnPrimary: React.CSSProperties = {
 const btnSecondary: React.CSSProperties = {
   height: 36,
   background: "#F4F1EB",
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   fontWeight: 500,
   textDecoration: "none",

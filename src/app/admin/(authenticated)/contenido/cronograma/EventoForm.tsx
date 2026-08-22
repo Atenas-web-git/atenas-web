@@ -63,13 +63,13 @@ export function EventoForm({ modo, periodos, tipos, initial }: Props) {
             onChange={(e) => setPublicado(e.target.checked)}
             style={{ width: 16, height: 16, accentColor: "#1A2B4A" }}
           />
-          <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+          <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
             {publicado ? "Evento publicado" : "Borrador (no visible al público)"}
           </span>
         </label>
         <div className="flex items-center gap-2">
-          {state.error && <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>}
-          {state.ok && <span style={{ fontSize: 12, color: "#065F46" }}>Guardado ✓</span>}
+          {state.error && <span style={{ fontSize: 13, color: "#991B1B" }}>{state.error}</span>}
+          {state.ok && <span style={{ fontSize: 13, color: "#065F46" }}>Guardado ✓</span>}
           <button
             type="submit"
             disabled={isPending}
@@ -79,7 +79,7 @@ export function EventoForm({ modo, periodos, tipos, initial }: Props) {
               background: "#1A2B4A",
               color: "#FFFFFF",
               border: "none",
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 600,
               cursor: isPending ? "wait" : "pointer",
               opacity: isPending ? 0.7 : 1,
@@ -170,7 +170,7 @@ export function EventoForm({ modo, periodos, tipos, initial }: Props) {
             onChange={(e) => setEsRango(e.target.checked)}
             style={{ width: 16, height: 16, accentColor: "#1A2B4A" }}
           />
-          <span style={{ fontSize: 13, color: "#1A2B4A" }}>
+          <span style={{ fontSize: 14, color: "#1A2B4A" }}>
             Es un evento de varios días (definir fecha de fin)
           </span>
         </label>
@@ -193,7 +193,7 @@ export function EventoForm({ modo, periodos, tipos, initial }: Props) {
             style={{ background: "#FEF3C7", border: "1px solid #FDE68A" }}
           >
             <AlertCircle size={14} strokeWidth={2.5} color="#92400E" style={{ marginTop: 1 }} />
-            <span style={{ fontSize: 12, color: "#92400E", lineHeight: 1.5 }}>
+            <span style={{ fontSize: 13, color: "#92400E", lineHeight: 1.5 }}>
               La fecha de fin debe ser igual o posterior a la fecha de inicio.
             </span>
           </div>
@@ -211,7 +211,7 @@ function Card({ title, subtitle, children }: { title: string; subtitle?: string;
     >
       <div className="flex flex-col gap-1">
         <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>{title}</h2>
-        {subtitle && <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>}
+        {subtitle && <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>}
       </div>
       {children}
     </div>
@@ -230,7 +230,7 @@ function Field({ label, hint, required, children }: { label: string; hint?: stri
   );
 }
 
-const fieldLabel: React.CSSProperties = { fontSize: 11, fontWeight: 700, color: "#6B6660", textTransform: "uppercase", letterSpacing: 0.5 };
-const hintStyle: React.CSSProperties = { fontSize: 10, color: "#A0AABA", lineHeight: 1.5 };
-const inputStyle: React.CSSProperties = { height: 38, border: "1px solid #E8E4DD", borderRadius: 6, paddingLeft: 12, paddingRight: 12, fontSize: 13, color: "#1A2B4A", background: "#FAFAF8", outline: "none", fontFamily: "inherit" };
+const fieldLabel: React.CSSProperties = { fontSize: 12, fontWeight: 700, color: "#6B6660", textTransform: "uppercase", letterSpacing: 0.5 };
+const hintStyle: React.CSSProperties = { fontSize: 11, color: "#A0AABA", lineHeight: 1.5 };
+const inputStyle: React.CSSProperties = { height: 38, border: "1px solid #E8E4DD", borderRadius: 6, paddingLeft: 12, paddingRight: 12, fontSize: 14, color: "#1A2B4A", background: "#FAFAF8", outline: "none", fontFamily: "inherit" };
 const textareaStyle: React.CSSProperties = { ...inputStyle, height: "auto", minHeight: 60, paddingTop: 10, paddingBottom: 10, resize: "vertical" };

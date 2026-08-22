@@ -234,16 +234,16 @@ export function EditorClient({
             onChange={(e) => setActivo(e.target.checked)}
             style={{ width: 16, height: 16, accentColor: "#1A2B4A" }}
           />
-          <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+          <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
             Enviar correo automáticamente cuando una solicitud pase a &quot;{estadoLabel}&quot;
           </span>
         </label>
         <div className="flex items-center gap-2">
           {state.error && (
-            <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>
+            <span style={{ fontSize: 13, color: "#991B1B" }}>{state.error}</span>
           )}
           {state.ok && (
-            <span style={{ fontSize: 12, color: "#065F46" }}>Guardado ✓</span>
+            <span style={{ fontSize: 13, color: "#065F46" }}>Guardado ✓</span>
           )}
           <button
             type="submit"
@@ -256,7 +256,7 @@ export function EditorClient({
               color: "#FFFFFF",
               border: "none",
               borderRadius: 6,
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 600,
               cursor: isPending ? "wait" : "pointer",
               opacity: isPending ? 0.7 : 1,
@@ -291,7 +291,7 @@ export function EditorClient({
                 placeholder="Tu solicitud está en revisión"
                 style={inputStyle}
               />
-              <span style={{ fontSize: 10, color: "#A0AABA" }}>
+              <span style={{ fontSize: 11, color: "#A0AABA" }}>
                 Aparece grande en blanco sobre el header navy del email.
               </span>
             </div>
@@ -307,7 +307,7 @@ export function EditorClient({
                 required
                 style={inputStyle}
               />
-              <span style={{ fontSize: 10, color: "#A0AABA" }}>
+              <span style={{ fontSize: 11, color: "#A0AABA" }}>
                 El texto del asunto en la bandeja de entrada del postulante.
               </span>
             </div>
@@ -322,7 +322,7 @@ export function EditorClient({
               <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
                 Identidad visual del correo
               </h2>
-              <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+              <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
                 Personalización específica de este correo. El logo, dirección y redes
                 vienen automáticamente de Marca + Contacto.
               </p>
@@ -361,10 +361,10 @@ export function EditorClient({
                           display: "inline-block",
                         }}
                       />
-                      <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
                         {meta.label}
                       </span>
-                      <span style={{ fontSize: 10, color: "#A0AABA" }}>{meta.desc}</span>
+                      <span style={{ fontSize: 11, color: "#A0AABA" }}>{meta.desc}</span>
                     </button>
                   );
                 })}
@@ -380,7 +380,7 @@ export function EditorClient({
                 placeholder={'Opcional. Ej. "¡Felicitaciones!" o "Recibimos tu mensaje"'}
                 style={inputStyle}
               />
-              <span style={{ fontSize: 10, color: "#A0AABA" }}>
+              <span style={{ fontSize: 11, color: "#A0AABA" }}>
                 Soporta variables. Aparece arriba del título grande en el color de acento.
               </span>
             </div>
@@ -394,7 +394,7 @@ export function EditorClient({
                 prefix={`correos/admision/${estado}`}
                 previewAspect="16/9"
               />
-              <span style={{ fontSize: 10, color: "#A0AABA" }}>
+              <span style={{ fontSize: 11, color: "#A0AABA" }}>
                 Recomendado solo para correos de celebración (admitido / matriculado). Ratio
                 ~16:11 — el ancho del email es 640px.
               </span>
@@ -422,7 +422,7 @@ export function EditorClient({
                 />
               </div>
             </div>
-            <span style={{ fontSize: 10, color: "#A0AABA" }}>
+            <span style={{ fontSize: 11, color: "#A0AABA" }}>
               El botón solo aparece si tanto el texto como la URL están completos. Ambos
               soportan variables.
             </span>
@@ -486,7 +486,7 @@ export function EditorClient({
                   border: "none",
                   outline: "none",
                   padding: 16,
-                  fontSize: 12,
+                  fontSize: 13,
                   fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
                   color: "#1A2B4A",
                   background: "#FAFAF8",
@@ -502,7 +502,7 @@ export function EditorClient({
                   className="flex flex-col gap-1 p-4 rounded-md"
                   style={{ background: "#F4F1EB", border: "1px solid #E8E4DD" }}
                 >
-                  <span style={{ fontSize: 10, fontWeight: 700, color: "#6B6660", textTransform: "uppercase", letterSpacing: 0.5 }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: "#6B6660", textTransform: "uppercase", letterSpacing: 0.5 }}>
                     Asunto
                   </span>
                   <span style={{ fontSize: 14, color: "#1A2B4A", fontWeight: 500 }}>
@@ -510,7 +510,7 @@ export function EditorClient({
                   </span>
                 </div>
                 <VistaPreviaCorreo html={previewHtml} />
-                <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, fontStyle: "italic" }}>
+                <p style={{ fontSize: 12, color: "#A0AABA", margin: 0, fontStyle: "italic" }}>
                   Vista previa con valores de ejemplo. Las variables se reemplazan con los datos reales al enviar.
                 </p>
               </div>
@@ -530,7 +530,7 @@ export function EditorClient({
           >
             <h3
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 700,
                 color: "#6B6660",
                 textTransform: "uppercase",
@@ -540,7 +540,7 @@ export function EditorClient({
             >
               Variables disponibles
             </h3>
-            <p style={{ fontSize: 11, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+            <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
               Click para insertar en el cursor del editor. Estas se reemplazan con los datos reales al enviar.
             </p>
             <div className="flex flex-col gap-1.5">
@@ -560,7 +560,7 @@ export function EditorClient({
                 >
                   <code
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
                       color: "#1A2B4A",
                       fontWeight: 600,
@@ -568,7 +568,7 @@ export function EditorClient({
                   >
                     {v.code}
                   </code>
-                  <span style={{ fontSize: 10, color: "#6B6660" }}>{v.label}</span>
+                  <span style={{ fontSize: 11, color: "#6B6660" }}>{v.label}</span>
                 </button>
               ))}
             </div>
@@ -584,7 +584,7 @@ export function EditorClient({
           >
             <h3
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 700,
                 color: "#6B6660",
                 textTransform: "uppercase",
@@ -601,7 +601,7 @@ export function EditorClient({
                   type="button"
                   onClick={() => insertVariableInAsunto(v.code)}
                   style={{
-                    fontSize: 10,
+                    fontSize: 11,
                     fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
                     padding: "3px 8px",
                     background: "#F4F1EB",
@@ -648,7 +648,7 @@ export function EditorClient({
 }
 
 const fieldLabel: React.CSSProperties = {
-  fontSize: 11,
+  fontSize: 12,
   fontWeight: 700,
   color: "#6B6660",
   textTransform: "uppercase",
@@ -688,7 +688,7 @@ function ModeBtn({
         color: active ? "#FFFFFF" : "#6B6660",
         border: "none",
         borderRadius: 5,
-        fontSize: 12,
+        fontSize: 13,
         fontWeight: active ? 600 : 500,
         cursor: "pointer",
         fontFamily: "inherit",
@@ -941,7 +941,7 @@ function ArchivosAdjuntosPlantilla({
           />
           Adjuntos automáticos del banco
         </h3>
-        <p style={{ fontSize: 12, color: "#6B6660", margin: "4px 0 0", maxWidth: 680 }}>
+        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 680 }}>
           Estos archivos se adjuntan <strong>automáticamente</strong> al email que se
           envía cuando una solicitud pasa al estado <em>{estadoLabel}</em>. Selecciónalos
           del banco. Si necesitas subir un archivo nuevo, hazlo desde{" "}
@@ -962,7 +962,7 @@ function ArchivosAdjuntosPlantilla({
           className="px-3 py-2 rounded-md"
           style={{ background: "#FEE2E2", border: "1px solid #FCA5A5" }}
         >
-          <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{error}</p>
+          <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{error}</p>
         </div>
       )}
 
@@ -970,7 +970,7 @@ function ArchivosAdjuntosPlantilla({
       <div>
         <p
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: "#6B6660",
             textTransform: "uppercase",
@@ -984,7 +984,7 @@ function ArchivosAdjuntosPlantilla({
           <p
             className="px-3 py-3 text-center"
             style={{
-              fontSize: 12,
+              fontSize: 13,
               color: "#6B6660",
               background: "#FAFAF8",
               border: "1px dashed #E8E4DD",
@@ -1008,11 +1008,11 @@ function ArchivosAdjuntosPlantilla({
               >
                 {fileIcon(a.tipo_mime)}
                 <div className="flex-1 min-w-0">
-                  <div style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
                     {a.nombre}
                   </div>
                   {(a.categoria || a.tamano_bytes) && (
-                    <div style={{ fontSize: 10, color: "#6B6660", marginTop: 1 }}>
+                    <div style={{ fontSize: 11, color: "#6B6660", marginTop: 1 }}>
                       {a.categoria && <span>{a.categoria}</span>}
                       {a.categoria && a.tamano_bytes ? " · " : ""}
                       {a.tamano_bytes && <span>{formatBytesShort(a.tamano_bytes)}</span>}
@@ -1066,7 +1066,7 @@ function ArchivosAdjuntosPlantilla({
         <div>
           <p
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               color: "#6B6660",
               textTransform: "uppercase",
@@ -1089,11 +1089,11 @@ function ArchivosAdjuntosPlantilla({
               >
                 {fileIcon(a.tipo_mime)}
                 <div className="flex-1 min-w-0">
-                  <div style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
                     {a.nombre}
                   </div>
                   {(a.categoria || a.tamano_bytes) && (
-                    <div style={{ fontSize: 10, color: "#6B6660", marginTop: 1 }}>
+                    <div style={{ fontSize: 11, color: "#6B6660", marginTop: 1 }}>
                       {a.categoria && <span>{a.categoria}</span>}
                       {a.categoria && a.tamano_bytes ? " · " : ""}
                       {a.tamano_bytes && <span>{formatBytesShort(a.tamano_bytes)}</span>}
@@ -1108,7 +1108,7 @@ function ArchivosAdjuntosPlantilla({
                   style={{
                     height: 26,
                     background: "#1A2B4A",
-                    fontSize: 11,
+                    fontSize: 12,
                     color: "#FFFFFF",
                     fontWeight: 600,
                     border: "none",
@@ -1129,7 +1129,7 @@ function ArchivosAdjuntosPlantilla({
         <p
           className="px-3 py-3 text-center"
           style={{
-            fontSize: 12,
+            fontSize: 13,
             color: "#6B6660",
             background: "#FEF3C7",
             border: "1px solid #FDE68A",

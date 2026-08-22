@@ -37,7 +37,7 @@ export default async function CategoriasPage() {
       <Link
         href="/admin/contenido/documentos"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver a Documentos
@@ -47,7 +47,7 @@ export default async function CategoriasPage() {
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Categorías de documentos
         </h1>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
           Categorías que agrupan los documentos en el frontend público (ej.{" "}
           <em>Contratos</em>, <em>Políticas</em>, <em>Formularios</em>). Cada una tiene un icono
           de Lucide y un color de paleta. No se pueden borrar si tienen documentos asociados.
@@ -80,7 +80,7 @@ export default async function CategoriasPage() {
                     style={{
                       padding: "12px 16px",
                       textAlign: "left",
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 700,
                       color: "#6B6660",
                       textTransform: "uppercase",

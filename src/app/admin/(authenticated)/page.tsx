@@ -145,7 +145,7 @@ export default async function AdminDashboardPage() {
         {canSeeAdmisiones && (
           <p
             className="sm:col-span-2 lg:col-span-4"
-            style={{ fontSize: 12, color: "#6B6660", margin: 0 }}
+            style={{ fontSize: 13, color: "#6B6660", margin: 0 }}
           >
             Estas cifras suman todos los años lectivos. Para verlas año por año, entra en{" "}
             <Link href="/admin/admisiones/metricas" style={{ color: "#1A2B4A", fontWeight: 500 }}>
@@ -171,7 +171,7 @@ export default async function AdminDashboardPage() {
                 href="/admin/admisiones"
                 className="flex items-center gap-1 transition-opacity hover:opacity-70"
                 style={{
-                  fontSize: 12,
+                  fontSize: 13,
                   fontWeight: 500,
                   color: "#1A2B4A",
                   textDecoration: "none",
@@ -184,7 +184,7 @@ export default async function AdminDashboardPage() {
 
             {recientes.length === 0 ? (
               <div className="px-6 py-10 text-center">
-                <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
+                <p style={{ fontSize: 14, color: "#6B6660", margin: 0 }}>
                   Aún no hay solicitudes registradas.
                 </p>
               </div>
@@ -210,19 +210,19 @@ export default async function AdminDashboardPage() {
                           borderRadius: "50%",
                         }}
                       >
-                        <span style={{ fontSize: 12, fontWeight: 700, color: "#1A2B4A" }}>
+                        <span style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A" }}>
                           {getInitialsFromNames(s.est_nombres, s.est_apellidos)}
                         </span>
                       </div>
                       <div className="flex-1 flex flex-col gap-0.5 min-w-0">
                         <span
                           className="truncate"
-                          style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}
+                          style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}
                         >
                           {s.est_nombres} {s.est_apellidos}
                         </span>
                         <span
-                          style={{ fontSize: 11, fontWeight: 400, color: "#6B6660" }}
+                          style={{ fontSize: 12, fontWeight: 400, color: "#6B6660" }}
                         >
                           {s.est_nivel} · {formatRelativeDate(s.created_at)}
                         </span>
@@ -232,7 +232,7 @@ export default async function AdminDashboardPage() {
                         style={{
                           height: 22,
                           background: info.colorBg,
-                          fontSize: 11,
+                          fontSize: 12,
                           fontWeight: 600,
                           color: info.colorFg,
                         }}
@@ -303,14 +303,14 @@ export default async function AdminDashboardPage() {
                 <span style={{ fontSize: 28, fontWeight: 700, color: "#1A2B4A" }}>
                   {stats.usuarios}
                 </span>
-                <span style={{ fontSize: 12, fontWeight: 500, color: "#6B6660" }}>
+                <span style={{ fontSize: 13, fontWeight: 500, color: "#6B6660" }}>
                   usuario{stats.usuarios === 1 ? "" : "s"} activo{stats.usuarios === 1 ? "" : "s"}
                 </span>
               </div>
               <Link
                 href="/admin/usuarios"
                 style={{
-                  fontSize: 12,
+                  fontSize: 13,
                   fontWeight: 500,
                   color: "#1A2B4A",
                   textDecoration: "underline",
@@ -350,7 +350,7 @@ function MetricCard({
       }}
     >
       <div className="flex items-center justify-between">
-        <span style={{ fontSize: 11, fontWeight: 500, color: "#6B6660", textTransform: "uppercase", letterSpacing: 0.5 }}>
+        <span style={{ fontSize: 12, fontWeight: 500, color: "#6B6660", textTransform: "uppercase", letterSpacing: 0.5 }}>
           {label}
         </span>
         <div
@@ -394,7 +394,7 @@ function QuickLink({
       }}
     >
       <Icon size={14} color="#1A2B4A" strokeWidth={2} />
-      <span style={{ fontSize: 12, fontWeight: 500, color: "#1A2B4A" }}>{label}</span>
+      <span style={{ fontSize: 13, fontWeight: 500, color: "#1A2B4A" }}>{label}</span>
     </Link>
   );
 }

@@ -37,7 +37,7 @@ export default async function EditarNotificacionPage({
       <Link
         href="/admin/contenido/notificaciones"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver al listado
@@ -53,7 +53,7 @@ export default async function EditarNotificacionPage({
             style={{
               height: 20,
               background: tipoInfo?.bg ?? "#F4F1EB",
-              fontSize: 10,
+              fontSize: 11,
               fontWeight: 700,
               color: tipoInfo?.color ?? "#1A2B4A",
               letterSpacing: 0.3,
@@ -62,7 +62,7 @@ export default async function EditarNotificacionPage({
             {tipoInfo?.label ?? notif.tipo}
           </span>
         </div>
-        <p style={{ fontSize: 12, color: "#6B6660", margin: "4px 0 0", lineHeight: 1.5 }}>
+        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", lineHeight: 1.5 }}>
           {tipoInfo?.descripcion}
         </p>
       </div>
@@ -92,7 +92,7 @@ export default async function EditarNotificacionPage({
       >
         <h2
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: "#6B6660",
             textTransform: "uppercase",
@@ -102,7 +102,7 @@ export default async function EditarNotificacionPage({
         >
           Zona peligrosa
         </h2>
-        <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+        <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
           Eliminar la notificación es irreversible. Si solo quieres ocultarla temporalmente, desactívala arriba.
         </p>
         <EliminarNotificacionClient id={notif.id} titulo={notif.titulo} />

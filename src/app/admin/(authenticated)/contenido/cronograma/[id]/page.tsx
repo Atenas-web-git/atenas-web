@@ -40,7 +40,7 @@ export default async function EditarEventoPage({
       <Link
         href="/admin/contenido/cronograma"
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
-        style={{ fontSize: 13, color: "#6B6660", textDecoration: "none" }}
+        style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >
         <ArrowLeft size={14} strokeWidth={2.5} />
         Volver al cronograma
@@ -50,7 +50,7 @@ export default async function EditarEventoPage({
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           {ev.titulo}
         </h1>
-        <p style={{ fontSize: 12, color: "#6B6660", margin: "4px 0 0" }}>
+        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0" }}>
           Última edición: {new Date(ev.updated_at).toLocaleString("es-EC")}
         </p>
       </div>
@@ -77,7 +77,7 @@ export default async function EditarEventoPage({
       >
         <h2
           style={{
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             color: "#6B6660",
             textTransform: "uppercase",
@@ -87,7 +87,7 @@ export default async function EditarEventoPage({
         >
           Zona peligrosa
         </h2>
-        <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
+        <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>
           Eliminar el evento lo borra permanentemente del cronograma.
         </p>
         <EliminarEventoClient id={ev.id} titulo={ev.titulo} />

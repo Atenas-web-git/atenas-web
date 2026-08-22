@@ -49,7 +49,7 @@ export function MegaMenuGlobalConfigForm({
         <h2 style={{ fontSize: 15, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Apariencia del mega-menú
         </h2>
-        <p style={{ fontSize: 12, color: "#6B6660", margin: "4px 0 0", maxWidth: 660 }}>
+        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 660 }}>
           Configuración global que aplica al panel izquierdo del mega-menú cuando
           se despliega en pantallas grandes. La foto se ve detrás del logo con
           una opacidad del 35%; el tagline aparece debajo del logo.
@@ -59,7 +59,7 @@ export function MegaMenuGlobalConfigForm({
       <input type="hidden" name="bgImage" value={bgImage} />
 
       <label className="flex flex-col gap-1.5">
-        <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
+        <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
           Foto de fondo del panel izquierdo
         </span>
         <ImageUploader
@@ -68,14 +68,14 @@ export function MegaMenuGlobalConfigForm({
           prefix="mega-menu"
           previewAspect="16/9"
         />
-        <span style={{ fontSize: 11, color: "#6B6660" }}>
+        <span style={{ fontSize: 12, color: "#6B6660" }}>
           Se muestra detrás del logo con opacidad reducida + degradado oscuro
           en la parte inferior. Recomendado: foto del campus, panorámica.
         </span>
       </label>
 
       <label className="flex flex-col gap-1.5">
-        <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
+        <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
           Tagline bajo el logo
         </span>
         <textarea
@@ -86,7 +86,7 @@ export function MegaMenuGlobalConfigForm({
           placeholder="50 años formando líderes&#10;con valores y excelencia."
           style={inputStyle}
         />
-        <span style={{ fontSize: 11, color: "#6B6660" }}>
+        <span style={{ fontSize: 12, color: "#6B6660" }}>
           Cada línea separada con Enter aparece como una línea independiente
           en el panel.
         </span>
@@ -99,10 +99,10 @@ export function MegaMenuGlobalConfigForm({
         style={{ borderTop: "1px dashed #E8E4DD" }}
       >
         <div>
-          <h3 style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
+          <h3 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
             Franja inferior — CTA + botones + teléfono
           </h3>
-          <p style={{ fontSize: 11, color: "#6B6660", margin: "4px 0 0", lineHeight: 1.5 }}>
+          <p style={{ fontSize: 12, color: "#6B6660", margin: "4px 0 0", lineHeight: 1.5 }}>
             Aparece debajo del divisor horizontal al pie del mega-menú. El teléfono
             a la derecha se deriva automáticamente del primer teléfono de la
             sección <strong>Contacto</strong>; aquí solo editas el texto introductorio
@@ -111,7 +111,7 @@ export function MegaMenuGlobalConfigForm({
         </div>
 
         <label className="flex flex-col gap-1.5">
-          <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
+          <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
             Texto introductorio
           </span>
           <input
@@ -122,13 +122,13 @@ export function MegaMenuGlobalConfigForm({
             placeholder="¿Listo para ser parte del Atenas?"
             style={inputStyle}
           />
-          <span style={{ fontSize: 11, color: "#6B6660" }}>
+          <span style={{ fontSize: 12, color: "#6B6660" }}>
             Aparece encima de los botones (solo desktop).
           </span>
         </label>
 
         <div className="flex flex-col gap-2">
-          <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
+          <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
             Botones (orden fijo de estilo: rojo, rojo outline, blanco outline ×2)
           </span>
           {ctaButtons.map((b, i) => (
@@ -139,7 +139,7 @@ export function MegaMenuGlobalConfigForm({
             >
               <span
                 style={{
-                  fontSize: 10,
+                  fontSize: 11,
                   fontWeight: 700,
                   color: "#9e1915",
                   letterSpacing: 0.5,
@@ -154,7 +154,7 @@ export function MegaMenuGlobalConfigForm({
                 </span>
               </span>
               <label className="flex flex-col gap-1">
-                <span style={{ fontSize: 11, fontWeight: 600, color: "#6B6660" }}>Texto</span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: "#6B6660" }}>Texto</span>
                 <input
                   type="text"
                   value={b.label}
@@ -164,7 +164,7 @@ export function MegaMenuGlobalConfigForm({
                 />
               </label>
               <label className="flex flex-col gap-1">
-                <span style={{ fontSize: 11, fontWeight: 600, color: "#6B6660" }}>URL</span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: "#6B6660" }}>URL</span>
                 <input
                   type="text"
                   value={b.href}
@@ -205,7 +205,7 @@ export function MegaMenuGlobalConfigForm({
               color: "#1A2B4A",
               border: "1px dashed #C9C4BB",
               borderRadius: 6,
-              fontSize: 12,
+              fontSize: 13,
               fontWeight: 500,
               cursor: "pointer",
               fontFamily: "inherit",
@@ -222,7 +222,7 @@ export function MegaMenuGlobalConfigForm({
           className="px-3 py-2 rounded-md"
           style={{ background: "#FEE2E2", border: "1px solid #FCA5A5" }}
         >
-          <p style={{ fontSize: 12, color: "#991B1B", margin: 0 }}>{state.error}</p>
+          <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{state.error}</p>
         </div>
       )}
       {state.ok && (
@@ -230,7 +230,7 @@ export function MegaMenuGlobalConfigForm({
           className="px-3 py-2 rounded-md"
           style={{ background: "#DCFCE7", border: "1px solid #86EFAC" }}
         >
-          <p style={{ fontSize: 12, color: "#065F46", margin: 0 }}>
+          <p style={{ fontSize: 13, color: "#065F46", margin: 0 }}>
             Apariencia del mega-menú guardada ✓
           </p>
         </div>
@@ -242,7 +242,7 @@ export function MegaMenuGlobalConfigForm({
         {!bgImage && (
           <span
             className="flex items-center gap-1.5"
-            style={{ fontSize: 11, color: "#92400E" }}
+            style={{ fontSize: 12, color: "#92400E" }}
           >
             <ImageOff size={12} />
             Sin foto configurada — se usará una de las imágenes por defecto del sitio.
@@ -266,7 +266,7 @@ function SaveBtn() {
       style={{
         height: 36,
         background: "#1A2B4A",
-        fontSize: 13,
+        fontSize: 14,
         color: "#FFFFFF",
         fontWeight: 600,
         border: "none",
@@ -285,7 +285,7 @@ const inputStyle: React.CSSProperties = {
   background: "#FAFAF8",
   border: "1px solid #E8E4DD",
   borderRadius: 6,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   outline: "none",
   fontFamily: "inherit",

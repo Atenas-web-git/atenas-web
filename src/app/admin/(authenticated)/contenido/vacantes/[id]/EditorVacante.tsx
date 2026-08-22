@@ -27,7 +27,7 @@ const INPUT: React.CSSProperties = {
   border: "1px solid #E8E4DD",
   borderRadius: 8,
   padding: "10px 12px",
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   outline: "none",
   background: "#FFFFFF",
@@ -165,12 +165,12 @@ export function EditorVacante({
         {formularioId ? (
           <Link
             href={`/admin/contenido/formularios/${formularioId}`}
-            style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}
+            style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}
           >
             Editar las preguntas de este formulario
           </Link>
         ) : (
-          <p style={{ fontSize: 12, color: "#6B6660", margin: 0 }}>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
             Todavía no hay formulario.{" "}
             <Link
               href="/admin/contenido/formularios/nuevo"
@@ -196,7 +196,7 @@ export function EditorVacante({
           />
         </Campo>
 
-        <label className="flex items-center gap-2" style={{ fontSize: 13, color: "#1A2B4A" }}>
+        <label className="flex items-center gap-2" style={{ fontSize: 14, color: "#1A2B4A" }}>
           <input
             type="checkbox"
             name="activa"
@@ -223,7 +223,7 @@ export function EditorVacante({
             background: "#1A2B4A",
             color: "#FFFFFF",
             borderRadius: 8,
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 600,
             padding: "11px 22px",
             opacity: pendiente ? 0.6 : 1,
@@ -233,10 +233,10 @@ export function EditorVacante({
         </button>
 
         {estado.ok && (
-          <span style={{ fontSize: 12, color: "#1A2B4A", fontWeight: 600 }}>Guardado.</span>
+          <span style={{ fontSize: 13, color: "#1A2B4A", fontWeight: 600 }}>Guardado.</span>
         )}
         {estado.error && (
-          <span role="alert" style={{ fontSize: 12, color: "#9e1915", fontWeight: 600 }}>
+          <span role="alert" style={{ fontSize: 13, color: "#9e1915", fontWeight: 600 }}>
             {estado.error}
           </span>
         )}
@@ -280,7 +280,7 @@ function BorrarVacante({ id, titulo }: { id: string; titulo: string }) {
           border: "1px solid #E8E4DD",
           borderRadius: 8,
           padding: "8px 14px",
-          fontSize: 12,
+          fontSize: 13,
           fontWeight: 600,
           color: "#9e1915",
           background: "#FFFFFF",
@@ -288,7 +288,7 @@ function BorrarVacante({ id, titulo }: { id: string; titulo: string }) {
       >
         <Trash2 size={13} /> Borrar vacante
       </button>
-      <p style={{ fontSize: 11, color: "#6B6660", margin: "6px 0 0" }}>
+      <p style={{ fontSize: 12, color: "#6B6660", margin: "6px 0 0" }}>
         Si el cargo ya se llenó, mejor desmarca «Vacante publicada»: así deja de
         verse pero conservas el texto para la próxima convocatoria.
       </p>
@@ -317,7 +317,7 @@ function Bloque({
           {titulo}
         </h2>
         {ayuda && (
-          <p style={{ fontSize: 12, color: "#6B6660", margin: "3px 0 0" }}>{ayuda}</p>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: "3px 0 0" }}>{ayuda}</p>
         )}
       </div>
       {children}
@@ -340,9 +340,9 @@ function Campo({
 }) {
   return (
     <label className="flex flex-1 flex-col gap-1.5">
-      <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>{label}</span>
+      <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>{label}</span>
       {children}
-      {ayuda && <span style={{ fontSize: 11, color: "#6B6660" }}>{ayuda}</span>}
+      {ayuda && <span style={{ fontSize: 12, color: "#6B6660" }}>{ayuda}</span>}
     </label>
   );
 }
@@ -354,7 +354,7 @@ function Aviso({ children }: { children: React.ReactNode }) {
       style={{ background: "rgba(158,25,21,0.06)", borderRadius: 8 }}
     >
       <AlertTriangle size={14} color="#9e1915" style={{ marginTop: 1, flexShrink: 0 }} />
-      <span style={{ fontSize: 12, color: "#1A2B4A", lineHeight: 1.5 }}>{children}</span>
+      <span style={{ fontSize: 13, color: "#1A2B4A", lineHeight: 1.5 }}>{children}</span>
     </div>
   );
 }

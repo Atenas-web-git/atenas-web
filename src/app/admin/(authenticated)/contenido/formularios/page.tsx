@@ -43,14 +43,14 @@ export default async function FormulariosPage() {
         <Link
           href="/admin/contenido"
           className="inline-flex items-center gap-1"
-          style={{ fontSize: 12, color: "#6B6660" }}
+          style={{ fontSize: 13, color: "#6B6660" }}
         >
           <ArrowLeft size={13} /> Contenido
         </Link>
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A2B4A", margin: "8px 0 0" }}>
           Formularios
         </h1>
-        <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 620 }}>
+        <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0", maxWidth: 620 }}>
           Crea un formulario, elige qué preguntas tiene y colócalo en cualquier
           página del sitio. Todo lo que la gente responda queda guardado aquí,
           aunque falle el correo.
@@ -66,7 +66,7 @@ export default async function FormulariosPage() {
               background: "#1A2B4A",
               color: "#FFFFFF",
               borderRadius: 8,
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 600,
             }}
           >
@@ -84,7 +84,7 @@ export default async function FormulariosPage() {
           <p style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A", margin: 0 }}>
             Todavía no hay formularios
           </p>
-          <p style={{ fontSize: 13, color: "#6B6660", margin: 0, maxWidth: 380 }}>
+          <p style={{ fontSize: 14, color: "#6B6660", margin: 0, maxWidth: 380 }}>
             {puedeCrear
               ? "Crea el primero para empezar a recibir postulaciones, consultas o inscripciones sin depender de Google Formularios."
               : "Cuando alguien complete un formulario de tu área, aparecerá aquí."}
@@ -106,7 +106,7 @@ export default async function FormulariosPage() {
                   {!f.activo && (
                     <span
                       style={{
-                        fontSize: 10,
+                        fontSize: 11,
                         fontWeight: 700,
                         letterSpacing: 0.5,
                         textTransform: "uppercase",
@@ -122,7 +122,7 @@ export default async function FormulariosPage() {
                   {mostrarArea && f.area !== AREAS.COMUNICACIONES && (
                     <span
                       style={{
-                        fontSize: 10,
+                        fontSize: 11,
                         fontWeight: 700,
                         letterSpacing: 0.5,
                         textTransform: "uppercase",
@@ -138,7 +138,7 @@ export default async function FormulariosPage() {
                   {f.respuestas_nuevas > 0 && (
                     <span
                       style={{
-                        fontSize: 10,
+                        fontSize: 11,
                         fontWeight: 700,
                         letterSpacing: 0.5,
                         textTransform: "uppercase",
@@ -152,13 +152,13 @@ export default async function FormulariosPage() {
                     </span>
                   )}
                 </div>
-                <p style={{ fontSize: 12, color: "#6B6660", margin: "4px 0 0" }}>
+                <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0" }}>
                   {f.campos_total} {f.campos_total === 1 ? "pregunta" : "preguntas"} ·{" "}
                   {f.respuestas_total}{" "}
                   {f.respuestas_total === 1 ? "respuesta" : "respuestas"}
                 </p>
                 {f.plantilla_correo && (
-                  <p style={{ fontSize: 12, color: "#6B6660", margin: "4px 0 0" }}>
+                  <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0" }}>
                     <Mail size={11} style={{ display: "inline", marginRight: 4 }} />
                     Confirmación:{" "}
                     <Link
@@ -180,7 +180,7 @@ export default async function FormulariosPage() {
                   style={{
                     border: "1px solid #E8E4DD",
                     borderRadius: 8,
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: 600,
                     color: "#1A2B4A",
                   }}
@@ -194,7 +194,7 @@ export default async function FormulariosPage() {
                     background: "#1A2B4A",
                     color: "#FFFFFF",
                     borderRadius: 8,
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: 600,
                   }}
                 >
@@ -213,7 +213,7 @@ export default async function FormulariosPage() {
           <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
             Se gestionan en otro sitio
           </h2>
-          <p style={{ fontSize: 12, color: "#6B6660", margin: "3px 0 0" }}>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: "3px 0 0" }}>
             También son formularios del sitio, pero tienen su propia sección.
           </p>
         </div>
@@ -232,7 +232,7 @@ export default async function FormulariosPage() {
                 <span
                   className="inline-flex items-center gap-1"
                   style={{
-                    fontSize: 10,
+                    fontSize: 11,
                     fontWeight: 700,
                     letterSpacing: 0.5,
                     textTransform: "uppercase",
@@ -245,10 +245,10 @@ export default async function FormulariosPage() {
                   <Lock size={10} /> Otra sección
                 </span>
               </div>
-              <p style={{ fontSize: 12, color: "#6B6660", margin: "4px 0 0", maxWidth: 620 }}>
+              <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0", maxWidth: 620 }}>
                 {f.motivo}
               </p>
-              <p style={{ fontSize: 12, color: "#6B6660", margin: "4px 0 0" }}>
+              <p style={{ fontSize: 13, color: "#6B6660", margin: "4px 0 0" }}>
                 <Mail size={11} style={{ display: "inline", marginRight: 4 }} />
                 Confirmación:{" "}
                 <Link
@@ -276,7 +276,7 @@ export default async function FormulariosPage() {
               style={{
                 border: "1px solid #E8E4DD",
                 borderRadius: 8,
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 600,
                 color: "#1A2B4A",
               }}

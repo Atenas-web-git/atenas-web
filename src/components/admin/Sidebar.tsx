@@ -113,7 +113,7 @@ export function Sidebar({ user }: { user: AdminUser }) {
         <LogoSVG variant="white" className="h-[36px] w-auto" />
         <span
           style={{
-            fontSize: 10,
+            fontSize: 11,
             fontWeight: 600,
             color: "#A0AABA",
             letterSpacing: 2,
@@ -153,7 +153,7 @@ export function Sidebar({ user }: { user: AdminUser }) {
                 <span
                   className="flex-1"
                   style={{
-                    fontSize: 13,
+                    fontSize: 14,
                     fontWeight: isActive ? 600 : 500,
                     color: isActive ? "#FFFFFF" : "#E5E9F0",
                   }}
@@ -166,7 +166,7 @@ export function Sidebar({ user }: { user: AdminUser }) {
                     style={{
                       height: 20,
                       background: "#9e1915",
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 700,
                       color:"#FFFFFF",
                     }}
@@ -193,7 +193,7 @@ export function Sidebar({ user }: { user: AdminUser }) {
           }}
         >
           <span
-            style={{ fontSize: 13, fontWeight: 700, color:"#FFFFFF" }}
+            style={{ fontSize: 14, fontWeight: 700, color:"#FFFFFF" }}
           >
             {initials}
           </span>
@@ -201,14 +201,14 @@ export function Sidebar({ user }: { user: AdminUser }) {
         <div className="flex flex-col flex-1 min-w-0">
           <span
             className="truncate"
-            style={{ fontSize: 13, fontWeight: 600, color: "#FFFFFF" }}
+            style={{ fontSize: 14, fontWeight: 600, color: "#FFFFFF" }}
             title={user.fullName}
           >
             {user.fullName}
           </span>
           <span
             className="truncate"
-            style={{ fontSize: 11, fontWeight: 500, color: "#A0AABA" }}
+            style={{ fontSize: 12, fontWeight: 500, color: "#A0AABA" }}
           >
             {roleLabel}
           </span>

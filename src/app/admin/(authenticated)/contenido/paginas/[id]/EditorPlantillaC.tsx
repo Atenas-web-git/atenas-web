@@ -219,13 +219,13 @@ export function EditorPlantillaC({
             onChange={(e) => setPublicada(e.target.checked)}
             style={{ width: 16, height: 16, accentColor: "#1A2B4A" }}
           />
-          <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+          <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
             {publicada ? "Página publicada" : "Página en borrador (no visible al público)"}
           </span>
         </label>
         <div className="flex items-center gap-2">
-          {state.error && <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>}
-          {state.ok && <span style={{ fontSize: 12, color: "#065F46" }}>Guardado ✓</span>}
+          {state.error && <span style={{ fontSize: 13, color: "#991B1B" }}>{state.error}</span>}
+          {state.ok && <span style={{ fontSize: 13, color: "#065F46" }}>Guardado ✓</span>}
           <button
             type="submit"
             disabled={isPending}
@@ -235,7 +235,7 @@ export function EditorPlantillaC({
               background: "#1A2B4A",
               color: "#FFFFFF",
               border: "none",
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 600,
               cursor: isPending ? "wait" : "pointer",
               opacity: isPending ? 0.7 : 1,
@@ -373,7 +373,7 @@ export function EditorPlantillaC({
               style={{
                 background: "#FAFAF8",
                 border: "1px dashed #C9C4BB",
-                fontSize: 12,
+                fontSize: 13,
                 color: "#6B6660",
                 margin: 0,
                 textAlign: "center",
@@ -434,14 +434,14 @@ export function EditorPlantillaC({
                       value={f.label}
                       onChange={(e) => updateFilaTarjeta(i, j, { label: e.target.value })}
                       placeholder="ej. N° de cuenta"
-                      style={{ ...inputStyle, height: 32, fontSize: 12 }}
+                      style={{ ...inputStyle, height: 32, fontSize: 13 }}
                     />
                     <input
                       type="text"
                       value={f.value}
                       onChange={(e) => updateFilaTarjeta(i, j, { value: e.target.value })}
                       placeholder="ej. 1234567-8"
-                      style={{ ...inputStyle, height: 32, fontSize: 12 }}
+                      style={{ ...inputStyle, height: 32, fontSize: 13 }}
                     />
                     <label className="flex items-center gap-1 cursor-pointer" title="Resaltar valor en rojo">
                       <input
@@ -450,7 +450,7 @@ export function EditorPlantillaC({
                         onChange={(e) => updateFilaTarjeta(i, j, { destacado: e.target.checked })}
                         style={{ accentColor: "#9e1915" }}
                       />
-                      <span style={{ fontSize: 10, color: "#6B6660" }}>Rojo</span>
+                      <span style={{ fontSize: 11, color: "#6B6660" }}>Rojo</span>
                     </label>
                     <button
                       type="button"
@@ -462,7 +462,7 @@ export function EditorPlantillaC({
                     </button>
                   </div>
                 ))}
-                <button type="button" onClick={() => addFilaTarjeta(i)} style={{ ...dashedAddBtn, height: 30, fontSize: 11 }}>
+                <button type="button" onClick={() => addFilaTarjeta(i)} style={{ ...dashedAddBtn, height: 30, fontSize: 12 }}>
                   <Plus size={11} strokeWidth={2.5} />
                   Agregar fila
                 </button>
@@ -493,7 +493,7 @@ export function EditorPlantillaC({
 
         <div className="flex flex-col gap-2">
           {pasos.length === 0 && (
-            <p style={{ fontSize: 12, color: "#A0AABA", margin: 0, fontStyle: "italic" }}>
+            <p style={{ fontSize: 13, color: "#A0AABA", margin: 0, fontStyle: "italic" }}>
               No hay pasos. Agrega el primero abajo.
             </p>
           )}
@@ -511,7 +511,7 @@ export function EditorPlantillaC({
                 <span
                   className="flex-shrink-0"
                   style={{
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: 700,
                     color: p.destacado ? "#9B1B1B" : "#9e1915",
                     marginTop: 8,
@@ -546,7 +546,7 @@ export function EditorPlantillaC({
                   onChange={() => togglePasoDestacado(i)}
                   style={{ accentColor: "#9B1B1B" }}
                 />
-                <span style={{ fontSize: 11, color: "#6B6660" }}>
+                <span style={{ fontSize: 12, color: "#6B6660" }}>
                   Resaltar paso en rojo (destacado, ej. paso final)
                 </span>
               </label>
@@ -605,7 +605,7 @@ function Card({ title, subtitle, children }: { title: string; subtitle?: string;
     >
       <div className="flex flex-col gap-1">
         <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>{title}</h2>
-        {subtitle && <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>}
+        {subtitle && <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>}
       </div>
       {children}
     </div>
@@ -625,7 +625,7 @@ function Field({ label, hint, required, children }: { label: string; hint?: stri
 }
 
 const fieldLabel: React.CSSProperties = {
-  fontSize: 11,
+  fontSize: 12,
   fontWeight: 700,
   color: "#6B6660",
   textTransform: "uppercase",
@@ -633,7 +633,7 @@ const fieldLabel: React.CSSProperties = {
 };
 
 const smallLabel: React.CSSProperties = {
-  fontSize: 10,
+  fontSize: 11,
   fontWeight: 700,
   color: "#A0AABA",
   textTransform: "uppercase",
@@ -641,7 +641,7 @@ const smallLabel: React.CSSProperties = {
 };
 
 const hintStyle: React.CSSProperties = {
-  fontSize: 10,
+  fontSize: 11,
   color: "#A0AABA",
   lineHeight: 1.5,
 };
@@ -652,7 +652,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",
@@ -687,7 +687,7 @@ const dashedAddBtn: React.CSSProperties = {
   color: "#1A2B4A",
   border: "1px dashed #C9C4BB",
   borderRadius: 6,
-  fontSize: 12,
+  fontSize: 13,
   fontWeight: 500,
   cursor: "pointer",
   fontFamily: "inherit",

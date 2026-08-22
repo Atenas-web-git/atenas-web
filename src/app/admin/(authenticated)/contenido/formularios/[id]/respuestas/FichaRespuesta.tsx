@@ -84,7 +84,7 @@ export function FichaRespuesta({
             </span>
             <span
               style={{
-                fontSize: 10,
+                fontSize: 11,
                 fontWeight: 700,
                 letterSpacing: 0.5,
                 textTransform: "uppercase",
@@ -99,7 +99,7 @@ export function FichaRespuesta({
             {!respuesta.correo_enviado && (
               <span
                 className="inline-flex items-center gap-1"
-                style={{ fontSize: 11, color: "#9e1915", fontWeight: 600 }}
+                style={{ fontSize: 12, color: "#9e1915", fontWeight: 600 }}
                 title="La respuesta se guardó, pero el correo de aviso no salió."
               >
                 <MailWarning size={12} /> sin aviso
@@ -108,16 +108,16 @@ export function FichaRespuesta({
             {respuesta.archivos.length > 0 && (
               <span
                 className="inline-flex items-center gap-1"
-                style={{ fontSize: 11, color: "#6B6660" }}
+                style={{ fontSize: 12, color: "#6B6660" }}
               >
                 <Paperclip size={12} /> {respuesta.archivos.length}
               </span>
             )}
           </div>
-          <p style={{ fontSize: 12, color: "#6B6660", margin: "3px 0 0" }}>{fecha}</p>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: "3px 0 0" }}>{fecha}</p>
         </div>
 
-        <span style={{ fontSize: 12, color: "#6B6660", flexShrink: 0 }}>
+        <span style={{ fontSize: 13, color: "#6B6660", flexShrink: 0 }}>
           {abierta ? "Cerrar" : "Ver"}
         </span>
       </button>
@@ -135,7 +135,7 @@ export function FichaRespuesta({
                 >
                   <dt
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 700,
                       letterSpacing: 0.4,
                       textTransform: "uppercase",
@@ -147,7 +147,7 @@ export function FichaRespuesta({
                   </dt>
                   <dd
                     style={{
-                      fontSize: 13,
+                      fontSize: 14,
                       color: "#1A2B4A",
                       margin: 0,
                       whiteSpace: "pre-wrap",
@@ -164,7 +164,7 @@ export function FichaRespuesta({
             <div className="flex flex-col gap-2">
               <span
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 700,
                   letterSpacing: 0.4,
                   textTransform: "uppercase",
@@ -184,7 +184,7 @@ export function FichaRespuesta({
                     style={{
                       border: "1px solid #E8E4DD",
                       borderRadius: 8,
-                      fontSize: 12,
+                      fontSize: 13,
                       fontWeight: 600,
                       color: "#1A2B4A",
                       maxWidth: "100%",
@@ -199,7 +199,7 @@ export function FichaRespuesta({
                   </button>
                 ))}
               </div>
-              <span style={{ fontSize: 11, color: "#6B6660" }}>
+              <span style={{ fontSize: 12, color: "#6B6660" }}>
                 El enlace de descarga caduca en una hora. Vuelve aquí para
                 generar otro.
               </span>
@@ -213,7 +213,7 @@ export function FichaRespuesta({
             >
               <input type="hidden" name="id" value={respuesta.id} />
               <input type="hidden" name="formulario_id" value={formularioId} />
-              <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
+              <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
                 Estado
               </span>
               <div className="flex gap-2">
@@ -225,7 +225,7 @@ export function FichaRespuesta({
                     border: "1px solid #E8E4DD",
                     borderRadius: 8,
                     padding: "9px 12px",
-                    fontSize: 13,
+                    fontSize: 14,
                     color: "#1A2B4A",
                     background: "#FFFFFF",
                   }}
@@ -243,7 +243,7 @@ export function FichaRespuesta({
                     border: "1px solid #E8E4DD",
                     borderRadius: 8,
                     padding: "9px 14px",
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: 600,
                     color: "#1A2B4A",
                   }}
@@ -260,7 +260,7 @@ export function FichaRespuesta({
           >
             <input type="hidden" name="id" value={respuesta.id} />
             <input type="hidden" name="formulario_id" value={formularioId} />
-            <span style={{ fontSize: 12, fontWeight: 600, color: "#1A2B4A" }}>
+            <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
               Nota interna
             </span>
             <textarea
@@ -272,7 +272,7 @@ export function FichaRespuesta({
                 border: "1px solid #E8E4DD",
                 borderRadius: 8,
                 padding: "9px 12px",
-                fontSize: 13,
+                fontSize: 14,
                 color: "#1A2B4A",
                 resize: "vertical",
                 background: "#FFFFFF",
@@ -286,7 +286,7 @@ export function FichaRespuesta({
                 border: "1px solid #E8E4DD",
                 borderRadius: 8,
                 padding: "8px 14px",
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 600,
                 color: "#1A2B4A",
               }}
@@ -343,14 +343,14 @@ export function FichaRespuesta({
                 border: "1px solid #E8E4DD",
                 borderRadius: 8,
                 padding: "8px 14px",
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 600,
                 color: "#9e1915",
               }}
             >
               <Trash2 size={13} /> Borrar definitivamente
             </button>
-            <p style={{ fontSize: 11, color: "#6B6660", margin: "6px 0 0" }}>
+            <p style={{ fontSize: 12, color: "#6B6660", margin: "6px 0 0" }}>
               Úsalo solo si la persona pide que se eliminen sus datos. Para
               cerrar el caso sin borrar nada, cambia el estado a «Descartada».
             </p>

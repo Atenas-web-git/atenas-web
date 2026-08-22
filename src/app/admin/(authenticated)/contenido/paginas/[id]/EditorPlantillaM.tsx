@@ -93,7 +93,7 @@ export function EditorPlantillaM({
         <Field label="Slug (URL)" hint="No editable.">
           <input type="text" value={slug === "/" ? "/" : `/${slug}`} readOnly disabled style={{ ...inputStyle, background: "#F4F1EB", color: "#A0AABA" }} />
         </Field>
-        <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
+        <p style={{ fontSize: 12, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
           Esta plantilla controla la página principal del sitio (la raíz del dominio). La Intro animada, la Navbar y el FooterCTA son globales — se editarán por separado en una sesión futura.
         </p>
       </Card>
@@ -157,7 +157,7 @@ function HeroEditor({ hero, setHero, prefix }: { hero: Hero; setHero: (h: Hero) 
       <div className="flex flex-col gap-3 p-4" style={panelStyle}>
         <span style={panelLabel}>Video YouTube de fondo (opcional)</span>
         <div className="px-3 py-2 rounded-md" style={{ background: "#EFF6FF", border: "1px solid #BFDBFE" }}>
-          <p style={{ fontSize: 11, color: "#1E40AF", margin: 0, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 12, color: "#1E40AF", margin: 0, lineHeight: 1.5 }}>
             Pega cualquier URL de YouTube (formato <code>youtube.com/watch?v=…</code>, <code>youtu.be/…</code>, <code>/embed/…</code> o <code>/shorts/…</code>). Detectamos el ID automáticamente. Para hacer loop de un segmento específico llena los campos de inicio y fin.
           </p>
         </div>
@@ -174,7 +174,7 @@ function HeroEditor({ hero, setHero, prefix }: { hero: Hero; setHero: (h: Hero) 
         {ytOk && ytParsed && (
           <div className="flex items-start gap-2 px-3 py-2 rounded-md" style={{ background: "#DCFCE7", border: "1px solid #BBF7D0" }}>
             <Check size={14} strokeWidth={2.5} color="#065F46" style={{ marginTop: 1 }} />
-            <span style={{ fontSize: 12, color: "#065F46", lineHeight: 1.5 }}>
+            <span style={{ fontSize: 13, color: "#065F46", lineHeight: 1.5 }}>
               Video detectado · ID: <code style={{ fontFamily: "ui-monospace, monospace" }}>{ytParsed.videoId}</code>
             </span>
           </div>
@@ -182,7 +182,7 @@ function HeroEditor({ hero, setHero, prefix }: { hero: Hero; setHero: (h: Hero) 
         {ytUrl.trim() && !ytOk && (
           <div className="flex items-start gap-2 px-3 py-2 rounded-md" style={{ background: "#FEF3C7", border: "1px solid #FDE68A" }}>
             <AlertTriangle size={14} strokeWidth={2.5} color="#92400E" style={{ marginTop: 1 }} />
-            <span style={{ fontSize: 12, color: "#92400E", lineHeight: 1.5 }}>
+            <span style={{ fontSize: 13, color: "#92400E", lineHeight: 1.5 }}>
               No es una URL válida de YouTube. Revisa el formato.
             </span>
           </div>
@@ -212,7 +212,7 @@ function HeroEditor({ hero, setHero, prefix }: { hero: Hero; setHero: (h: Hero) 
       <div className="flex flex-col gap-3 p-4" style={panelStyle}>
         <span style={panelLabel}>Video propio de fondo (recomendado)</span>
         <div className="px-3 py-2 rounded-md" style={{ background: "#DCFCE7", border: "1px solid #BBF7D0" }}>
-          <p style={{ fontSize: 11, color: "#065F46", margin: 0, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 12, color: "#065F46", margin: 0, lineHeight: 1.5 }}>
             Sube un video MP4 o WebM <strong>liviano y sin audio</strong> (máx. 15 MB). Tiene
             <strong> prioridad sobre el video de YouTube</strong> y se reproduce en loop sin el
             botón de play ni el logo de YouTube. Recomendado para un fondo limpio y profesional.
@@ -239,7 +239,7 @@ function HeroEditor({ hero, setHero, prefix }: { hero: Hero; setHero: (h: Hero) 
 
       {/* Líneas del título */}
       <span style={fieldLabel}>Líneas del título {hero.titleLines.length > 0 && `(${hero.titleLines.length})`}</span>
-      <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
+      <p style={{ fontSize: 12, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
         Cada línea anima por separado. Recomendado 2-3 líneas (ej. "Formando líderes" / "que transforman" / "el Ecuador.").
       </p>
       <div className="flex flex-col gap-2">
@@ -271,7 +271,7 @@ function HeroEditor({ hero, setHero, prefix }: { hero: Hero; setHero: (h: Hero) 
       {/* Link al video público */}
       <div className="flex flex-col gap-3 p-4" style={panelStyle}>
         <span style={panelLabel}>Link "Reproducir video"</span>
-        <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
+        <p style={{ fontSize: 12, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
           Al hacer clic en el link bajo el hero, el visitante va a esta URL (se abre en una nueva pestaña). Generalmente es el mismo video de YouTube.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-3">
@@ -340,7 +340,7 @@ function HScrollEditor({ hscroll, setHscroll, prefix }: { hscroll: HScroll; setH
               <span style={{ ...panelLabel, padding: "2px 8px", background: "#1A2B4A", color: "#FFFFFF", borderRadius: 4 }}>
                 Slide {i + 1}
               </span>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#1A2B4A" }}>{slide.tab}</span>
+              <span style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A" }}>{slide.tab}</span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -461,7 +461,7 @@ function TrayectoriaEditor({ trayectoria, setTrayectoria, prefix }: { trayectori
       />
 
       <span style={fieldLabel}>Stats ({trayectoria.stats.length})</span>
-      <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
+      <p style={{ fontSize: 12, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
         Si el valor es numérico (ej. <code>50</code>), se anima con un contador. Si no (ej. <code>IB</code>), se muestra tal cual. El sufijo solo se muestra cuando el valor es numérico.
       </p>
       <div className="flex flex-col gap-3">
@@ -523,7 +523,7 @@ function NivelesEditor({ niveles, setNiveles, prefix }: { niveles: Niveles; setN
       </Field>
 
       <span style={fieldLabel}>Líneas del título (desktop)</span>
-      <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
+      <p style={{ fontSize: 12, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
         Cada línea es independiente. <code>weight: 300</code> = fuente light (pequeña). <code>weight: 700</code> = bold grande. <code>opacity</code> 0–1.
       </p>
       <div className="flex flex-col gap-2">
@@ -556,7 +556,7 @@ function NivelesEditor({ niveles, setNiveles, prefix }: { niveles: Niveles; setN
       </button>
 
       <span style={fieldLabel}>Líneas del título (mobile)</span>
-      <p style={{ fontSize: 11, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
+      <p style={{ fontSize: 12, color: "#A0AABA", margin: 0, lineHeight: 1.5 }}>
         Versión más compacta para mobile (3 líneas típicamente).
       </p>
       <div className="flex flex-col gap-2">
@@ -702,13 +702,13 @@ function Sticky({ publicada, setPublicada, state, isPending }: { publicada: bool
           onChange={(e) => setPublicada(e.target.checked)}
           style={{ width: 16, height: 16, accentColor: "#1A2B4A" }}
         />
-        <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+        <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
           {publicada ? "Página publicada" : "Página en borrador (no visible al público)"}
         </span>
       </label>
       <div className="flex items-center gap-2">
-        {state.error && <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>}
-        {state.ok && <span style={{ fontSize: 12, color: "#065F46" }}>Guardado ✓</span>}
+        {state.error && <span style={{ fontSize: 13, color: "#991B1B" }}>{state.error}</span>}
+        {state.ok && <span style={{ fontSize: 13, color: "#065F46" }}>Guardado ✓</span>}
         <button
           type="submit"
           disabled={isPending}
@@ -718,7 +718,7 @@ function Sticky({ publicada, setPublicada, state, isPending }: { publicada: bool
             background: "#1A2B4A",
             color: "#FFFFFF",
             border: "none",
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: 600,
             cursor: isPending ? "wait" : "pointer",
             opacity: isPending ? 0.7 : 1,
@@ -737,7 +737,7 @@ function Card({ title, subtitle, children }: { title: string; subtitle?: string;
     <div className="flex flex-col gap-4 p-5" style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}>
       <div className="flex flex-col gap-1">
         <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>{title}</h2>
-        {subtitle && <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>}
+        {subtitle && <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>}
       </div>
       {children}
     </div>
@@ -756,13 +756,13 @@ function Field({ label, hint, required, children }: { label: string; hint?: stri
   );
 }
 
-const fieldLabel: React.CSSProperties = { fontSize: 11, fontWeight: 700, color: "#6B6660", textTransform: "uppercase", letterSpacing: 0.5 };
-const hintStyle: React.CSSProperties = { fontSize: 10, color: "#A0AABA", lineHeight: 1.5 };
-const inputStyle: React.CSSProperties = { height: 38, border: "1px solid #E8E4DD", borderRadius: 6, paddingLeft: 12, paddingRight: 12, fontSize: 13, color: "#1A2B4A", background: "#FAFAF8", outline: "none", fontFamily: "inherit" };
+const fieldLabel: React.CSSProperties = { fontSize: 12, fontWeight: 700, color: "#6B6660", textTransform: "uppercase", letterSpacing: 0.5 };
+const hintStyle: React.CSSProperties = { fontSize: 11, color: "#A0AABA", lineHeight: 1.5 };
+const inputStyle: React.CSSProperties = { height: 38, border: "1px solid #E8E4DD", borderRadius: 6, paddingLeft: 12, paddingRight: 12, fontSize: 14, color: "#1A2B4A", background: "#FAFAF8", outline: "none", fontFamily: "inherit" };
 const textareaStyle: React.CSSProperties = { ...inputStyle, height: "auto", minHeight: 70, paddingTop: 10, paddingBottom: 10, resize: "vertical" };
 const panelStyle: React.CSSProperties = { background: "#FAFAF8", border: "1px solid #E8E4DD", borderRadius: 10 };
-const panelLabel: React.CSSProperties = { fontSize: 11, fontWeight: 700, color: "#A0AABA", textTransform: "uppercase", letterSpacing: 0.5 };
-const addButton: React.CSSProperties = { height: 36, background: "transparent", color: "#1A2B4A", border: "1px dashed #C9C4BB", borderRadius: 6, fontSize: 12, fontWeight: 500, cursor: "pointer", fontFamily: "inherit" };
+const panelLabel: React.CSSProperties = { fontSize: 12, fontWeight: 700, color: "#A0AABA", textTransform: "uppercase", letterSpacing: 0.5 };
+const addButton: React.CSSProperties = { height: 36, background: "transparent", color: "#1A2B4A", border: "1px dashed #C9C4BB", borderRadius: 6, fontSize: 13, fontWeight: 500, cursor: "pointer", fontFamily: "inherit" };
 
 function iconButton(disabled: boolean): React.CSSProperties {
   return {

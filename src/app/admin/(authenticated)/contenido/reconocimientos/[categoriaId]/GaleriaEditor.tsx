@@ -133,14 +133,14 @@ export function GaleriaEditor({ scope, scopeId, categoriaId, fotosIniciales, pre
               background: "#FFFFFF",
               border: "1px solid #E8E4DD",
               borderRadius: 6,
-              fontSize: 12,
+              fontSize: 13,
               fontWeight: 700,
               color: "#1A2B4A",
             }}
           >
             {fotos.length}
           </span>
-          <span style={{ fontSize: 13, color: "#1A2B4A", fontWeight: 600 }}>
+          <span style={{ fontSize: 14, color: "#1A2B4A", fontWeight: 600 }}>
             {fotos.length === 1 ? "foto" : "fotos"} en esta galería
           </span>
         </div>
@@ -153,7 +153,7 @@ export function GaleriaEditor({ scope, scopeId, categoriaId, fotosIniciales, pre
             style={{
               height: 34,
               background: "#1A2B4A",
-              fontSize: 12,
+              fontSize: 13,
               color: "#FFFFFF",
               fontWeight: 600,
               border: "none",
@@ -173,7 +173,7 @@ export function GaleriaEditor({ scope, scopeId, categoriaId, fotosIniciales, pre
             style={{
               height: 34,
               background: "#F4F1EB",
-              fontSize: 12,
+              fontSize: 13,
               color: "#1A2B4A",
               fontWeight: 600,
               border: "1px solid #E8E4DD",
@@ -191,7 +191,7 @@ export function GaleriaEditor({ scope, scopeId, categoriaId, fotosIniciales, pre
           className="px-4 py-3 rounded-md"
           style={{ background: "#FEE2E2", border: "1px solid #FCA5A5" }}
         >
-          <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{uploadError}</p>
+          <p style={{ fontSize: 14, color: "#991B1B", margin: 0 }}>{uploadError}</p>
         </div>
       )}
 
@@ -209,10 +209,10 @@ export function GaleriaEditor({ scope, scopeId, categoriaId, fotosIniciales, pre
           }}
         >
           <Upload size={22} strokeWidth={2} color="#6B6660" />
-          <p style={{ fontSize: 13, color: "#1A2B4A", fontWeight: 600, margin: 0 }}>
+          <p style={{ fontSize: 14, color: "#1A2B4A", fontWeight: 600, margin: 0 }}>
             Aún no hay fotos en esta galería
           </p>
-          <p style={{ fontSize: 11, color: "#6B6660", margin: 0 }}>
+          <p style={{ fontSize: 12, color: "#6B6660", margin: 0 }}>
             Toca aquí para subir varias fotos a la vez · JPG, PNG, WebP · Máx 10 MB c/u
           </p>
         </button>
@@ -252,7 +252,7 @@ export function GaleriaEditor({ scope, scopeId, categoriaId, fotosIniciales, pre
             aria-label="Añadir más fotos"
           >
             <Plus size={22} strokeWidth={2} />
-            <span style={{ fontSize: 11, fontWeight: 600 }}>Añadir más</span>
+            <span style={{ fontSize: 12, fontWeight: 600 }}>Añadir más</span>
           </button>
         </div>
       )}
@@ -272,7 +272,7 @@ export function GaleriaEditor({ scope, scopeId, categoriaId, fotosIniciales, pre
           className="px-4 py-3 rounded-md"
           style={{ background: "#FEE2E2", border: "1px solid #FCA5A5" }}
         >
-          <p style={{ fontSize: 13, color: "#991B1B", margin: 0 }}>{state.error}</p>
+          <p style={{ fontSize: 14, color: "#991B1B", margin: 0 }}>{state.error}</p>
         </div>
       )}
       {state.ok && (
@@ -280,7 +280,7 @@ export function GaleriaEditor({ scope, scopeId, categoriaId, fotosIniciales, pre
           className="px-4 py-3 rounded-md"
           style={{ background: "#DCFCE7", border: "1px solid #86EFAC" }}
         >
-          <p style={{ fontSize: 13, color: "#065F46", margin: 0 }}>Galería guardada</p>
+          <p style={{ fontSize: 14, color: "#065F46", margin: 0 }}>Galería guardada</p>
         </div>
       )}
 
@@ -288,7 +288,7 @@ export function GaleriaEditor({ scope, scopeId, categoriaId, fotosIniciales, pre
         className="flex items-center justify-between gap-3 pt-2 flex-wrap"
         style={{ borderTop: "1px dashed #E8E4DD" }}
       >
-        <p style={{ fontSize: 11, color: "#6B6660", margin: 0, maxWidth: 460 }}>
+        <p style={{ fontSize: 12, color: "#6B6660", margin: 0, maxWidth: 460 }}>
           El orden de las fotos define cómo aparecen en el mosaico de la landing (5 primeras)
           y en la galería completa pública. Recuerda <strong>guardar la galería</strong> al final.
         </p>
@@ -352,7 +352,7 @@ function FotoTile({
           background: "rgba(13,24,37,0.85)",
           borderRadius: 11,
           color: "#FFFFFF",
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 700,
           display: "flex",
           alignItems: "center",
@@ -371,7 +371,7 @@ function FotoTile({
             color: "#92400E",
             padding: "2px 6px",
             borderRadius: 4,
-            fontSize: 9,
+            fontSize: 11,
             fontWeight: 700,
             letterSpacing: 0.3,
           }}
@@ -394,7 +394,7 @@ function FotoTile({
           <p
             className="line-clamp-2"
             style={{
-              fontSize: 11,
+              fontSize: 12,
               color: "#FFFFFF",
               margin: 0,
               opacity: 0.9,
@@ -445,7 +445,7 @@ function FotoTile({
         >
           <label
             className="flex items-center justify-between gap-1"
-            style={{ fontSize: 10, color: "rgba(255,255,255,0.70)", fontWeight: 600 }}
+            style={{ fontSize: 11, color: "rgba(255,255,255,0.70)", fontWeight: 600 }}
           >
             <span>Descripción accesible (alt)</span>
             <button
@@ -482,7 +482,7 @@ function FotoTile({
               background: "rgba(255,255,255,0.08)",
               border: "1px solid rgba(255,255,255,0.15)",
               borderRadius: 4,
-              fontSize: 11,
+              fontSize: 12,
               color: "#FFFFFF",
               outline: "none",
             }}
@@ -546,7 +546,7 @@ function SaveBtn({ disabled }: { disabled?: boolean }) {
       style={{
         height: 38,
         background: "#1A2B4A",
-        fontSize: 13,
+        fontSize: 14,
         color: "#FFFFFF",
         fontWeight: 600,
         border: "none",

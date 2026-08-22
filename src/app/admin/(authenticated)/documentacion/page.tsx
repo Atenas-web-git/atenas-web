@@ -35,7 +35,7 @@ export default function DocumentacionIndexPage() {
       >
         <span
           style={{
-            fontSize: 10.5,
+            fontSize: 11.5,
             fontWeight: 700,
             color: "#9e1915",
             letterSpacing: 2,
@@ -49,7 +49,7 @@ export default function DocumentacionIndexPage() {
           <br />
           de la Unidad Educativa Atenas
         </h1>
-        <p style={{ fontSize: 13.5, color: "#C6CFDE", margin: 0, lineHeight: 1.65, maxWidth: 660 }}>
+        <p style={{ fontSize: 14.5, color: "#C6CFDE", margin: 0, lineHeight: 1.65, maxWidth: 660 }}>
           Todo lo que se puede hacer desde este panel, explicado paso a paso. Está aquí dentro a
           propósito: solo lo ve quien tiene usuario y contraseña, y se actualiza junto con el
           sistema. {TOTAL_ARTICULOS} artículos en {SECCIONES.length} secciones.
@@ -61,7 +61,7 @@ export default function DocumentacionIndexPage() {
 
       {/* Atajos */}
       <div className="flex flex-col gap-3">
-        <h2 style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
+        <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Lo que más se busca
         </h2>
         <div className="flex flex-wrap gap-2">
@@ -76,7 +76,7 @@ export default function DocumentacionIndexPage() {
                 border: "1px solid #E8E4DD",
                 borderRadius: 100,
                 textDecoration: "none",
-                fontSize: 12.5,
+                fontSize: 13.5,
                 fontWeight: 500,
                 color: "#1A2B4A",
               }}
@@ -90,10 +90,10 @@ export default function DocumentacionIndexPage() {
 
       {/* Secciones */}
       <div className="flex flex-col gap-3">
-        <h2 style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
+        <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Todas las secciones
         </h2>
-        <p style={{ fontSize: 12.5, color: "#6B6660", margin: "-4px 0 4px" }}>
+        <p style={{ fontSize: 13.5, color: "#6B6660", margin: "-4px 0 4px" }}>
           Están en el orden recomendado para leerlas por primera vez.
         </p>
 
@@ -119,7 +119,7 @@ export default function DocumentacionIndexPage() {
                 </div>
                 <span
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: "#D8D3CA",
                     fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
@@ -132,13 +132,13 @@ export default function DocumentacionIndexPage() {
                 <h3 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
                   {s.titulo}
                 </h3>
-                <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.55 }}>
+                <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.55 }}>
                   {s.descripcion}
                 </p>
               </div>
               <span
                 style={{
-                  fontSize: 10.5,
+                  fontSize: 11.5,
                   fontWeight: 600,
                   color: "#A0AABA",
                   borderTop: "1px solid #F1EEE8",
@@ -158,19 +158,19 @@ export default function DocumentacionIndexPage() {
         className="flex flex-col gap-2.5 px-5 py-4"
         style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}
       >
-        <h2 style={{ fontSize: 13, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
+        <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>
           Dos cosas prácticas
         </h2>
         <div className="flex items-start gap-2.5">
           <Printer size={14} color="#6B6660" strokeWidth={2} style={{ flexShrink: 0, marginTop: 3 }} />
-          <p style={{ fontSize: 12.5, color: "#6B6660", margin: 0, lineHeight: 1.6 }}>
+          <p style={{ fontSize: 13.5, color: "#6B6660", margin: 0, lineHeight: 1.6 }}>
             Cualquier sección se puede <strong style={{ color: "#1A2B4A" }}>imprimir o guardar en PDF</strong>{" "}
             con <code>Ctrl + P</code> (o <code>Cmd + P</code>). El menú lateral se oculta solo al imprimir.
           </p>
         </div>
         <div className="flex items-start gap-2.5">
           <ExternalLink size={14} color="#6B6660" strokeWidth={2} style={{ flexShrink: 0, marginTop: 3 }} />
-          <p style={{ fontSize: 12.5, color: "#6B6660", margin: 0, lineHeight: 1.6 }}>
+          <p style={{ fontSize: 13.5, color: "#6B6660", margin: 0, lineHeight: 1.6 }}>
             Ten el <strong style={{ color: "#1A2B4A" }}>sitio público abierto en otra pestaña</strong> mientras
             trabajas. Después de cada cambio, recárgalo y confirma el resultado con tus propios ojos.
           </p>

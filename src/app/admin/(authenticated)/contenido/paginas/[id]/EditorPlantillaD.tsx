@@ -214,13 +214,13 @@ export function EditorPlantillaD({
             onChange={(e) => setPublicada(e.target.checked)}
             style={{ width: 16, height: 16, accentColor: "#1A2B4A" }}
           />
-          <span style={{ fontSize: 13, fontWeight: 600, color: "#1A2B4A" }}>
+          <span style={{ fontSize: 14, fontWeight: 600, color: "#1A2B4A" }}>
             {publicada ? "Página publicada" : "Página en borrador (no visible al público)"}
           </span>
         </label>
         <div className="flex items-center gap-2">
-          {state.error && <span style={{ fontSize: 12, color: "#991B1B" }}>{state.error}</span>}
-          {state.ok && <span style={{ fontSize: 12, color: "#065F46" }}>Guardado ✓</span>}
+          {state.error && <span style={{ fontSize: 13, color: "#991B1B" }}>{state.error}</span>}
+          {state.ok && <span style={{ fontSize: 13, color: "#065F46" }}>Guardado ✓</span>}
           <button
             type="submit"
             disabled={isPending}
@@ -230,7 +230,7 @@ export function EditorPlantillaD({
               background: "#1A2B4A",
               color: "#FFFFFF",
               border: "none",
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 600,
               cursor: isPending ? "wait" : "pointer",
               opacity: isPending ? 0.7 : 1,
@@ -400,7 +400,7 @@ export function EditorPlantillaD({
                   type="text"
                   value={c}
                   onChange={(e) => updateColumna(i, e.target.value)}
-                  style={{ ...inputStyle, width: 160, height: 32, fontSize: 12 }}
+                  style={{ ...inputStyle, width: 160, height: 32, fontSize: 13 }}
                 />
                 <button
                   type="button"
@@ -424,7 +424,7 @@ export function EditorPlantillaD({
         <div className="flex flex-col gap-2">
           <span style={fieldLabel}>Filas ({filas.length})</span>
           {filas.length === 0 && (
-            <p style={{ fontSize: 12, color: "#A0AABA", margin: 0, fontStyle: "italic" }}>
+            <p style={{ fontSize: 13, color: "#A0AABA", margin: 0, fontStyle: "italic" }}>
               No hay filas. Agrega la primera abajo.
             </p>
           )}
@@ -439,7 +439,7 @@ export function EditorPlantillaD({
               }}
             >
               <div className="flex items-center justify-between gap-2">
-                <span style={{ fontSize: 10, fontWeight: 700, color: "#A0AABA", textTransform: "uppercase", letterSpacing: 0.5 }}>
+                <span style={{ fontSize: 11, fontWeight: 700, color: "#A0AABA", textTransform: "uppercase", letterSpacing: 0.5 }}>
                   Fila #{i + 1}
                 </span>
                 <div className="flex items-center gap-1">
@@ -450,7 +450,7 @@ export function EditorPlantillaD({
                       onChange={() => toggleDestacada(i)}
                       style={{ accentColor: "#9B1B1B" }}
                     />
-                    <span style={{ fontSize: 10, color: "#6B6660" }}>Destacar</span>
+                    <span style={{ fontSize: 11, color: "#6B6660" }}>Destacar</span>
                   </label>
                   <button type="button" onClick={() => moveFila(i, -1)} disabled={i === 0} aria-label="Subir" style={iconButton(i === 0)}>
                     <ArrowUp size={12} strokeWidth={2.5} />
@@ -474,7 +474,7 @@ export function EditorPlantillaD({
                     value={celda}
                     onChange={(e) => updateCelda(i, j, e.target.value)}
                     placeholder={columnas[j] ?? ""}
-                    style={{ ...inputStyle, height: 34, fontSize: 12 }}
+                    style={{ ...inputStyle, height: 34, fontSize: 13 }}
                   />
                 ))}
               </div>
@@ -496,7 +496,7 @@ export function EditorPlantillaD({
               onChange={(e) => setAcentoPrimeraColumna(e.target.checked)}
               style={{ accentColor: "#1A2B4A" }}
             />
-            <span style={{ fontSize: 12, color: "#1A2B4A" }}>
+            <span style={{ fontSize: 13, color: "#1A2B4A" }}>
               Resaltar primera columna en blanco (como etiqueta)
             </span>
           </label>
@@ -507,7 +507,7 @@ export function EditorPlantillaD({
               onChange={(e) => setDestacarUltimaColumna(e.target.checked)}
               style={{ accentColor: "#9e1915" }}
             />
-            <span style={{ fontSize: 12, color: "#1A2B4A" }}>
+            <span style={{ fontSize: 13, color: "#1A2B4A" }}>
               Resaltar última columna en rojo (típico para precios o valores)
             </span>
           </label>
@@ -564,7 +564,7 @@ function Card({ title, subtitle, children }: { title: string; subtitle?: string;
       <div className="flex flex-col gap-1">
         <h2 style={{ fontSize: 14, fontWeight: 700, color: "#1A2B4A", margin: 0 }}>{title}</h2>
         {subtitle && (
-          <p style={{ fontSize: 12, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>
+          <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.5 }}>{subtitle}</p>
         )}
       </div>
       {children}
@@ -585,7 +585,7 @@ function Field({ label, hint, required, children }: { label: string; hint?: stri
 }
 
 const fieldLabel: React.CSSProperties = {
-  fontSize: 11,
+  fontSize: 12,
   fontWeight: 700,
   color: "#6B6660",
   textTransform: "uppercase",
@@ -593,7 +593,7 @@ const fieldLabel: React.CSSProperties = {
 };
 
 const hintStyle: React.CSSProperties = {
-  fontSize: 10,
+  fontSize: 11,
   color: "#A0AABA",
   lineHeight: 1.5,
 };
@@ -604,7 +604,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   paddingLeft: 12,
   paddingRight: 12,
-  fontSize: 13,
+  fontSize: 14,
   color: "#1A2B4A",
   background: "#FAFAF8",
   outline: "none",
@@ -639,7 +639,7 @@ const dashedAddBtn: React.CSSProperties = {
   color: "#1A2B4A",
   border: "1px dashed #C9C4BB",
   borderRadius: 6,
-  fontSize: 12,
+  fontSize: 13,
   fontWeight: 500,
   cursor: "pointer",
   fontFamily: "inherit",
