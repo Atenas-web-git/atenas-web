@@ -20,8 +20,16 @@ const MostrarTodo = createContext<{ activo: boolean; soltar: () => void }>({
 
 export function AdmisionesTextosForm({
   initialConfig,
+  telefonos,
 }: {
   initialConfig: AdmisionesTextosConfig;
+  /**
+   * Los teléfonos de Configuración › Datos de contacto, para el desplegable
+   * del aviso de trámite presencial. Se elige de esta lista en vez de escribir
+   * un número aquí: dos sitios con el mismo teléfono acaban diciendo cosas
+   * distintas.
+   */
+  telefonos: { label: string; numero: string; extension: string }[];
 }) {
   const [state, action, isPending] = useActionState<
     AdmisionesTextosActionState,
@@ -423,6 +431,78 @@ export function AdmisionesTextosForm({
             defaultValue={f.privacidad.politicaLabel} style={inputStyle}
           />
         </Field>
+      </Section>
+
+      {/* ── TRÁMITE PRESENCIAL ───────────────────────────────────────── */}
+      <Section
+        title="Aviso de trámite presencial"
+        subtitle="Sale al elegir 2do o 3ro de Bachillerato, donde el ingreso se gestiona en el colegio. La solicitud se envía igual: se avisa, no se bloquea."
+      >
+        <Field
+          label="Título del aviso"
+          hint="Escribe {{grado}} donde quieras que aparezca el año elegido. Ejemplo: «Para {{grado}}, el ingreso se gestiona en el colegio»."
+        >
+          <input
+            type="text" name="f_presencial_titulo"
+            defaultValue={f.tramitePresencial.titulo} style={inputStyle}
+          />
+        </Field>
+        <Field
+          label="Texto del aviso"
+          hint="También admite {{grado}}. Es lo que lee la familia antes de escribir sus datos."
+        >
+          <textarea
+            name="f_presencial_cuerpo"
+            defaultValue={f.tramitePresencial.cuerpo} rows={4} style={textareaStyle}
+          />
+        </Field>
+        <Field
+          label="Horario de atención (opcional)"
+          hint="Cuándo pueden acercarse. Ejemplo: «Lunes a viernes, de 07:30 a 15:30». Si lo dejas vacío, no se muestra."
+        >
+          <input
+            type="text" name="f_presencial_horario"
+            defaultValue={f.tramitePresencial.horario} style={inputStyle}
+          />
+        </Field>
+        <Field
+          label="Teléfono que se muestra"
+          hint="Sale de Configuración › Datos de contacto. Elige el que quieras que marque la familia."
+        >
+          <select
+            name="f_presencial_telefonoLabel"
+            defaultValue={f.tramitePresencial.telefonoLabel}
+            style={inputStyle}
+          >
+            <option value="">El de Admisiones (automático)</option>
+            {telefonos.map((t) => (
+              <option key={t.label} value={t.label}>
+                {t.label} — {t.numero}
+                {t.extension ? ` ext. ${t.extension}` : ""}
+              </option>
+            ))}
+          </select>
+        </Field>
+        <Field
+          label="Extensión (opcional)"
+          hint="Solo si es distinta de la que tiene ese teléfono en Datos de contacto. Vacío = se usa la de allí, o ninguna si no tiene."
+        >
+          <input
+            type="text" name="f_presencial_extension"
+            defaultValue={f.tramitePresencial.extension} style={inputStyle}
+          />
+        </Field>
+        {/*
+          La dirección, el teléfono y el correo del aviso NO se editan aquí:
+          salen de Configuración › Contacto. Se dice para que nadie los busque
+          en esta pantalla y acabe pidiendo que se añadan, creando dos sitios
+          donde cambiar el mismo teléfono.
+        */}
+        <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.6 }}>
+          La dirección, el teléfono y el correo de este aviso se toman de{" "}
+          <strong>Configuración › Datos de contacto</strong>. Cámbialos ahí y se
+          actualizan aquí solos.
+        </p>
       </Section>
 
       {/* ── SEGUIMIENTO ──────────────────────────────────────────────── */}

@@ -126,6 +126,17 @@ export async function guardarAdmisionesTextosAction(
         texto: s(formData, "f_priv_texto"),
         politicaLabel: s(formData, "f_priv_politicaLabel"),
       },
+      tramitePresencial: {
+        titulo: s(formData, "f_presencial_titulo"),
+        cuerpo: s(formData, "f_presencial_cuerpo"),
+        // Horario y extensión pueden quedar VACÍOS y eso es un valor, no un
+        // descuido: vacío significa «no lo muestres». El merge los respeta en
+        // vez de caer al default, para que el colegio pueda quitar una
+        // extensión que dejó de existir.
+        horario: s(formData, "f_presencial_horario"),
+        telefonoLabel: s(formData, "f_presencial_telefonoLabel"),
+        extension: s(formData, "f_presencial_extension"),
+      },
     },
     seguimiento: {
       headerTitle: s(formData, "s_headerTitle"),

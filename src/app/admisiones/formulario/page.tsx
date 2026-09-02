@@ -6,8 +6,13 @@ import { createClient } from "@/lib/supabase/server";
 import {
   getConfiguracion,
   mergeAdmisionesTextos,
+  mergeContacto,
+  mergeMarca,
   type AdmisionesTextosConfig,
+  type Contacto,
+  type Marca,
 } from "@/lib/cms/getConfiguracion";
+import type { ContactoAviso } from "@/components/admisiones/FormularioMultiStep";
 
 export const revalidate = 60;
 
@@ -38,11 +43,40 @@ export default async function FormularioPage({
   searchParams: Promise<{ nivel?: string }>;
 }) {
   const { nivel } = await searchParams;
-  const [anios, rawTextos] = await Promise.all([
+  const [anios, rawTextos, rawContacto, rawMarca] = await Promise.all([
     loadAniosLectivos(),
     getConfiguracion<Partial<AdmisionesTextosConfig>>("admisiones_textos"),
+    getConfiguracion<Partial<Contacto>>("contacto"),
+    getConfiguracion<Partial<Marca>>("marca"),
   ]);
   const textos = mergeAdmisionesTextos(rawTextos).formulario;
+
+  /*
+    El aviso de trámite presencial llevaba la dirección, el teléfono y el correo
+    escritos a mano en el componente. Se toman de donde ya son editables:
+    Configuración › Marca para la dirección, › Datos de contacto para el resto.
+
+    Se prefiere el teléfono y el correo etiquetados «Admisiones» —es el aviso de
+    admisiones— y si no existen se cae al primero de la lista, que es mejor que
+    no enseñar ninguno.
+  */
+  const contacto = mergeContacto(rawContacto);
+  const marca = mergeMarca(rawMarca);
+  const email =
+    contacto.emails.find((x) => /admisi/i.test(x.label)) ?? contacto.emails[0];
+
+  const contactoAviso: ContactoAviso = {
+    direccion: marca.institucion.direccion,
+    correo: email?.email ?? "",
+    horario: contacto.horario,
+    // La lista entera: cuál se muestra lo decide el colegio desde el panel,
+    // guardando la etiqueta del teléfono.
+    telefonos: contacto.telefonos.map((t) => ({
+      label: t.label,
+      numero: t.numero,
+      extension: t.extension ?? "",
+    })),
+  };
 
   return (
     <>
@@ -72,7 +106,12 @@ export default async function FormularioPage({
       </header>
 
       <main>
-        <FormularioMultiStep nivelInicial={nivel ?? ""} aniosLectivos={anios} textos={textos} />
+        <FormularioMultiStep
+          nivelInicial={nivel ?? ""}
+          aniosLectivos={anios}
+          textos={textos}
+          contactoAviso={contactoAviso}
+        />
       </main>
     </>
   );

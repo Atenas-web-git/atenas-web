@@ -10,10 +10,11 @@
  * sistema educativo ecuatoriano, no un texto que el colegio vaya a querer
  * cambiar. Los cupos de cada año sí son suyos y sí se editan.
  *
- * ⚠️ El texto del aviso de trámite presencial **todavía NO es editable**: está
- * escrito en `FormularioMultiStep.tsx`. Sus campos vecinos del paso 1 sí lo
- * son, desde Configuración › Admisiones, así que es una inconsistencia a
- * cerrar — no una decisión.
+ * El texto del aviso de trámite presencial SÍ es editable desde el 2026-09-02,
+ * en Configuración › Admisiones — textos chicos: título, cuerpo, horario, qué
+ * teléfono se muestra y su extensión. La dirección y el correo salen de
+ * Configuración › Marca y › Datos de contacto, para no tener el mismo teléfono
+ * escrito en dos sitios.
  *
  * ⚠️ Y las etiquetas de nivel de aquí abajo tienen que coincidir EXACTAMENTE
  * con las de Configuración › Admisiones, que el colegio puede editar. Si no

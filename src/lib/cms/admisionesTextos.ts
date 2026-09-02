@@ -101,6 +101,44 @@ export type AdmisionesTextosConfig = {
       texto: string;
       politicaLabel: string;
     };
+
+    /**
+     * El aviso que sale al elegir 2do o 3ro de bachillerato, donde el trámite
+     * es presencial. Estaba escrito en `FormularioMultiStep.tsx` mientras todos
+     * sus campos vecinos del paso 1 sí eran editables: una inconsistencia, no
+     * una decisión.
+     *
+     * `{{grado}}` se sustituye por el año elegido —«2do de Bachillerato»—, así
+     * que el texto puede nombrarlo sin que el colegio tenga que escribir dos
+     * versiones.
+     *
+     * La dirección, el teléfono y el correo NO se repiten aquí: salen de
+     * Configuración › Contacto, que ya existe. Duplicarlos habría creado dos
+     * sitios donde cambiar el mismo teléfono, y uno de los dos se quedaría
+     * viejo.
+     */
+    tramitePresencial: {
+      titulo: string;
+      cuerpo: string;
+      /** Cuándo pueden acercarse. Lo pidió el colegio y va vacío hasta que lo den. */
+      horario: string;
+      /**
+       * Cuál de los teléfonos de Configuración › Datos de contacto se muestra,
+       * por su etiqueta. Vacío = el de Admisiones, o el primero de la lista.
+       *
+       * Se guarda la ETIQUETA y no el número: si el colegio cambia el número,
+       * el aviso lo sigue; si guardáramos el número, se quedaría viejo. El
+       * riesgo del revés —que renombren la etiqueta— cae al mismo sitio que
+       * vacío, y ahí el aviso enseña un teléfono, no ninguno.
+       */
+      telefonoLabel: string;
+      /**
+       * Extensión a mostrar. Vacío = la que tenga ese teléfono en Datos de
+       * contacto. Existe porque la extensión de admisiones no es la misma que
+       * la de la centralita general, y en la práctica no coincidían.
+       */
+      extension: string;
+    };
   };
 
   seguimiento: {
@@ -243,6 +281,23 @@ export const ADMISIONES_TEXTOS_DEFAULT: AdmisionesTextosConfig = {
       texto:
         "Al enviar aceptas nuestra {{politica}}. Tus datos son usados únicamente para el proceso de admisión.",
       politicaLabel: "Política de Privacidad",
+    },
+
+    // El texto que hasta el 2026-09-02 estaba escrito en
+    // `FormularioMultiStep.tsx`. Se trae tal cual: cambiar el valor de fábrica
+    // y sacarlo al panel a la vez habría mezclado dos cosas, y la familia que
+    // lo lee hoy no tiene por qué ver un texto distinto mañana.
+    tramitePresencial: {
+      titulo: "Para {{grado}}, el ingreso se gestiona en el colegio",
+      cuerpo:
+        "En {{grado}} la Unidad Educativa Atenas se reserva el derecho de admisión y el trámite se realiza de forma presencial. Puedes dejar tus datos aquí y nos pondremos en contacto, pero para avanzar habrá que acercarse al colegio.",
+      // Vacío a propósito: lo tiene que dar el colegio. Mientras esté vacío no
+      // se muestra, que es mejor que inventar un horario.
+      horario: "",
+      // Vacío = el teléfono etiquetado «Admisiones». El colegio lo cambia desde
+      // el panel si prefiere el fijo con centralita.
+      telefonoLabel: "",
+      extension: "",
     },
   },
 
@@ -402,6 +457,29 @@ export function mergeAdmisionesTextos(
       privacidad: {
         texto: pickStr(f.privacidad?.texto, def.formulario.privacidad.texto),
         politicaLabel: pickStr(f.privacidad?.politicaLabel, def.formulario.privacidad.politicaLabel),
+      },
+      tramitePresencial: {
+        titulo: pickStr(
+          f.tramitePresencial?.titulo,
+          def.formulario.tramitePresencial.titulo
+        ),
+        cuerpo: pickStr(
+          f.tramitePresencial?.cuerpo,
+          def.formulario.tramitePresencial.cuerpo
+        ),
+        // `horario` y `extension` NO pasan por `pickStr`: su valor de fábrica es
+        // vacío, y vacío aquí significa «no lo muestres», no «usa el de
+        // fábrica». Con pickStr, el colegio no podría borrar una extensión que
+        // dejara de existir.
+        horario: typeof f.tramitePresencial?.horario === "string"
+          ? f.tramitePresencial.horario
+          : def.formulario.tramitePresencial.horario,
+        telefonoLabel: typeof f.tramitePresencial?.telefonoLabel === "string"
+          ? f.tramitePresencial.telefonoLabel
+          : def.formulario.tramitePresencial.telefonoLabel,
+        extension: typeof f.tramitePresencial?.extension === "string"
+          ? f.tramitePresencial.extension
+          : def.formulario.tramitePresencial.extension,
       },
     },
 

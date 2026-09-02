@@ -239,9 +239,12 @@ function StepIndicator({ current }: { current: number }) {
 
 // ── Step field sections ────────────────────────────────────────────────────
 function Step1Fields({
-  form, set, textos,
+  form, set, textos, contactoAviso,
 }: {
-  form: FormData; set: (k: keyof FormData) => (v: string) => void; textos: FormularioTextos;
+  form: FormData;
+  set: (k: keyof FormData) => (v: string) => void;
+  textos: FormularioTextos;
+  contactoAviso?: ContactoAviso;
 }) {
   const e = textos.camposEstudiante;
 
@@ -284,7 +287,11 @@ function Step1Fields({
           />
         </div>
       )}
-      <AvisoTramitePresencial grado={form.est_grado} />
+      <AvisoTramitePresencial
+        grado={form.est_grado}
+        textos={textos.tramitePresencial}
+        contacto={contactoAviso}
+      />
       <Field
         label={e.institucionLabel}
         placeholder={e.institucionPlaceholder}
@@ -307,8 +314,53 @@ function Step1Fields({
  * que ir presencialmente merece saberlo antes de escribir cuatro pantallas de
  * datos.
  */
-function AvisoTramitePresencial({ grado }: { grado: string }) {
+/** Los datos de contacto del aviso, ya resueltos por la página. */
+export type ContactoAviso = {
+  direccion: string;
+  correo: string;
+  /** Horario general del colegio. Lo pisa el del propio aviso si lo hay. */
+  horario: string;
+  /** Todos los teléfonos configurados; el aviso elige uno por su etiqueta. */
+  telefonos: { label: string; numero: string; extension: string }[];
+};
+
+function AvisoTramitePresencial({
+  grado,
+  textos,
+  contacto,
+}: {
+  grado: string;
+  textos: FormularioTextos["tramitePresencial"];
+  contacto?: ContactoAviso;
+}) {
   if (!esTramitePresencial(grado)) return null;
+
+  // `{{grado}}` deja que el colegio escriba un solo texto que nombra el año
+  // elegido, en vez de una versión para 2do y otra para 3ro.
+  const conGrado = (t: string) => t.replaceAll("{{grado}}", grado);
+
+  // El horario propio del aviso gana al general del colegio: admisiones puede
+  // atender en otra franja. Si ninguno de los dos existe, no se inventa nada.
+  const horario = textos.horario.trim() || contacto?.horario?.trim() || "";
+
+  /*
+    Qué teléfono se enseña. Lo elige el colegio desde el panel guardando la
+    ETIQUETA del teléfono, no el número: así, si cambian el número en
+    Configuración › Datos de contacto, el aviso lo sigue solo.
+
+    Si la etiqueta guardada ya no existe —la renombraron— se cae al de
+    Admisiones, y de ahí al primero. Enseñar un teléfono del colegio siempre es
+    mejor que no enseñar ninguno.
+  */
+  const lista = contacto?.telefonos ?? [];
+  const elegido =
+    lista.find((t) => t.label === textos.telefonoLabel.trim()) ??
+    lista.find((t) => /admisi/i.test(t.label)) ??
+    lista[0];
+
+  // La extensión del aviso pisa a la del contacto: la de admisiones no tiene
+  // por qué ser la de la centralita general, y en la práctica no coincidían.
+  const extension = textos.extension.trim() || elegido?.extension?.trim() || "";
 
   return (
     <div
@@ -329,7 +381,7 @@ function AvisoTramitePresencial({ grado }: { grado: string }) {
           margin: 0,
         }}
       >
-        Para {grado}, el ingreso se gestiona en el colegio
+        {conGrado(textos.titulo)}
       </p>
       <p
         style={{
@@ -340,10 +392,7 @@ function AvisoTramitePresencial({ grado }: { grado: string }) {
           lineHeight: 1.6,
         }}
       >
-        En {grado} la Unidad Educativa Atenas se reserva el derecho de admisión y
-        el trámite se realiza <strong>de forma presencial</strong>. Puedes dejar
-        tus datos aquí y nos pondremos en contacto, pero para avanzar habrá que
-        acercarse al colegio.
+        {conGrado(textos.cuerpo)}
       </p>
       <p
         style={{
@@ -354,17 +403,45 @@ function AvisoTramitePresencial({ grado }: { grado: string }) {
           lineHeight: 1.6,
         }}
       >
-        Calle Gabriel Román s/n y Av. Pedro Vásconez, Izamba, Ambato ·{" "}
-        <a href="tel:+59332854281" style={{ color: "var(--color-navy, #1A2B4A)", fontWeight: 600 }}>
-          03 2854281
-        </a>{" "}
-        ext. 135 ·{" "}
-        <a
-          href="mailto:admisiones@atenas.edu.ec"
-          style={{ color: "var(--color-navy, #1A2B4A)", fontWeight: 600 }}
-        >
-          admisiones@atenas.edu.ec
-        </a>
+        {/*
+          Dirección, teléfono y correo salen de Configuración —Marca y Datos de
+          contacto—, no de aquí. Estaban escritos a mano en este componente, así
+          que cambiar el teléfono del colegio obligaba a desplegar, y quedaban
+          dos sitios diciendo cosas distintas.
+
+          Cada trozo se pinta solo si existe: un colegio sin extensión no debe
+          ver un «ext.» suelto.
+        */}
+        {contacto?.direccion && <>{contacto.direccion}</>}
+        {elegido?.numero && (
+          <>
+            {contacto?.direccion ? " · " : ""}
+            <a
+              href={`tel:${elegido.numero.replace(/[^+\d]/g, "")}`}
+              style={{ color: "var(--color-navy, #1A2B4A)", fontWeight: 600 }}
+            >
+              {elegido.numero}
+            </a>
+            {extension && ` ext. ${extension}`}
+          </>
+        )}
+        {contacto?.correo && (
+          <>
+            {" · "}
+            <a
+              href={`mailto:${contacto.correo}`}
+              style={{ color: "var(--color-navy, #1A2B4A)", fontWeight: 600 }}
+            >
+              {contacto.correo}
+            </a>
+          </>
+        )}
+        {horario && (
+          <>
+            <br />
+            {horario}
+          </>
+        )}
       </p>
     </div>
   );
@@ -616,10 +693,18 @@ export function FormularioMultiStep({
   nivelInicial = "",
   aniosLectivos,
   textos: textosProp,
+  contactoAviso,
 }: {
   nivelInicial?: string;
   aniosLectivos?: string[];
   textos?: FormularioTextos;
+  /**
+   * Dirección, teléfono, correo y horario del aviso de trámite presencial.
+   * Los compone la página desde Configuración › Marca y › Datos de contacto;
+   * si no llegan, el aviso sale sin el bloque de contacto en vez de con datos
+   * inventados.
+   */
+  contactoAviso?: ContactoAviso;
 }) {
   // Fallback al default si la página no inyecta textos (p.ej. tests).
   const textos = textosProp ?? ADMISIONES_TEXTOS_DEFAULT.formulario;
@@ -728,7 +813,14 @@ export function FormularioMultiStep({
                 </div>
 
                 {/* Fields */}
-                {step === 1 && <Step1Fields form={form} set={set} textos={textos} />}
+                {step === 1 && (
+                  <Step1Fields
+                    form={form}
+                    set={set}
+                    textos={textos}
+                    contactoAviso={contactoAviso}
+                  />
+                )}
                 {step === 2 && <Step2Fields form={form} set={set} textos={textos} />}
                 {step === 3 && <Step3Fields form={form} set={set} anios={ANIOS} textos={textos} />}
                 {step === 4 && (

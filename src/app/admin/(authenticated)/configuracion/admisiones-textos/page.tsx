@@ -8,6 +8,7 @@ import {
   mergeAdmisionesTextos,
   type AdmisionesTextosConfig,
 } from "@/lib/cms/admisionesTextos";
+import { mergeContacto, type Contacto } from "@/lib/cms/getConfiguracion";
 import { AdmisionesTextosForm } from "./AdmisionesTextosForm";
 import { ContadorAdmisionForm } from "./ContadorAdmisionForm";
 
@@ -21,7 +22,7 @@ export default async function AdmisionesTextosPage() {
   const supabase = createAdminClient();
   const anoCodigo = String(new Date().getFullYear() % 100).padStart(3, "0");
 
-  const [{ data }, { data: contadorRow }] = await Promise.all([
+  const [{ data }, { data: contadorRow }, { data: contactoRow }] = await Promise.all([
     supabase
       .from("configuracion_global")
       .select("value")
@@ -32,7 +33,19 @@ export default async function AdmisionesTextosPage() {
       .select("proximo")
       .eq("ano", anoCodigo)
       .maybeSingle(),
+    // Para el desplegable del aviso de trámite presencial: se eligen los
+    // teléfonos que el colegio ya tiene configurados, en vez de escribir uno
+    // nuevo aquí y acabar con dos números distintos para el mismo colegio.
+    supabase
+      .from("configuracion_global")
+      .select("value")
+      .eq("key", "contacto")
+      .maybeSingle(),
   ]);
+
+  const contacto: Contacto = mergeContacto(
+    (contactoRow?.value as Partial<Contacto> | null) ?? null
+  );
 
   const config: AdmisionesTextosConfig = mergeAdmisionesTextos(
     (data?.value as Partial<AdmisionesTextosConfig> | null) ?? null
@@ -68,7 +81,7 @@ export default async function AdmisionesTextosPage() {
 
       <ContadorAdmisionForm ano={anoCodigo} siguiente={siguienteNumero} />
 
-      <AdmisionesTextosForm initialConfig={config} />
+      <AdmisionesTextosForm initialConfig={config} telefonos={contacto.telefonos} />
     </div>
   );
 }
