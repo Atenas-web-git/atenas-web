@@ -281,3 +281,68 @@ export function keyUnica(base: string, existentes: string[]): string {
   while (existentes.includes(`${limpia}_${n}`)) n++;
   return `${limpia}_${n}`;
 }
+
+/**
+ * Lo que una respuesta guarda y el formulario ya no pregunta.
+ *
+ * ## Por qué existe
+ *
+ * Borrar una pregunta del editor **no borra el dato**: sigue en el JSONB
+ * `datos` de cada respuesta recibida. Lo que pasa es que deja de existir para
+ * el panel, porque tanto la ficha como la exportación recorren
+ * `formulario.campos` y no las claves de `datos`. Lo que las familias
+ * escribieron desaparece de la pantalla y del archivo sin que nadie lo borre.
+ *
+ * Con esto, lo ya recibido sigue siendo consultable aunque la pregunta se
+ * quite. Es la mitad del arreglo que no depende de cómo se comporte el botón
+ * de borrar: pase lo que pase en el editor, el dato no se esconde.
+ *
+ * ## Toda clave huérfana fue una pregunta de verdad
+ *
+ * `normalizarDatos()` construye `datos` recorriendo **solo** `formulario.campos`,
+ * así que ahí dentro no entra nada que no fuera una pregunta en el momento del
+ * envío. Las dos claves reservadas del anti-spam —`_confirmacion_web` y `_t`—
+ * se leen del envío y se descartan antes; nunca se guardan.
+ *
+ * Se filtran igualmente por si algún día alguien escribe en `datos` sin pasar
+ * por `normalizarDatos`: enseñarle a secretaría una trampa anti-robots como si
+ * fuera una respuesta de la familia sería ruido, y del que confunde.
+ */
+const CLAVES_INTERNAS = new Set(["_confirmacion_web", "_t"]);
+
+export type CampoRetirado = { key: string; valor: ValorCampo };
+
+export function camposRetirados(
+  datos: DatosRespuesta,
+  campos: CampoFormulario[]
+): CampoRetirado[] {
+  const vigentes = new Set(campos.map((c) => c.key));
+  return Object.entries(datos ?? {})
+    .filter(([key, valor]) => {
+      if (vigentes.has(key) || CLAVES_INTERNAS.has(key)) return false;
+      // Un valor vacío no aporta nada: la pregunta se quitó y además nadie la
+      // había contestado. Enseñar «— (retirada)» sería ruido sin información.
+      if (valor === null || valor === undefined || valor === "") return false;
+      if (Array.isArray(valor) && valor.length === 0) return false;
+      return true;
+    })
+    .map(([key, valor]) => ({ key, valor }));
+}
+
+/**
+ * Todas las claves retiradas de un conjunto de respuestas, en orden estable.
+ *
+ * La exportación necesita las columnas ANTES de recorrer las filas, y no todas
+ * las respuestas tienen las mismas claves: una pregunta pudo existir durante
+ * unos meses y no antes ni después.
+ */
+export function clavesRetiradasDe(
+  respuestas: { datos: DatosRespuesta }[],
+  campos: CampoFormulario[]
+): string[] {
+  const vistas = new Set<string>();
+  for (const r of respuestas) {
+    for (const { key } of camposRetirados(r.datos, campos)) vistas.add(key);
+  }
+  return [...vistas].sort();
+}

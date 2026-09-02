@@ -43,6 +43,7 @@ import {
   type TipoCampo,
 } from "@/lib/formularios/tipos";
 import { CORREO_PURPOSES, CORREO_PURPOSE_LABELS } from "@/lib/cms/correos";
+import { DialogoConfirmacion } from "@/components/admin/DialogoConfirmacion";
 
 const ESTADO_INICIAL = { error: null as string | null, ok: false };
 
@@ -76,6 +77,8 @@ export function EditorFormulario({
   const [campos, setCampos] = useState<CampoFormulario[]>(formulario.campos);
   const [campoCorreo, setCampoCorreo] = useState(formulario.campo_correo ?? "");
   const [confirmacion, setConfirmacion] = useState(formulario.confirmacion_activa);
+  // Índice de la pregunta cuyo borrado está esperando confirmación, o null.
+  const [campoABorrar, setCampoABorrar] = useState<number | null>(null);
   const [plantilla, setPlantilla] = useState(formulario.plantilla_correo ?? "");
 
   const camposDeCorreo = useMemo(
@@ -139,6 +142,27 @@ export function EditorFormulario({
     setCampos((prev) => prev.filter((_, i) => i !== indice));
   }
 
+  /*
+    Con respuestas guardadas, borrar una pregunta se confirma.
+
+    Hasta el 2026-09-02 la papelera borraba sin preguntar nada, y había una
+    asimetría que lo hacía fácil de pisar: RENOMBRAR sí estaba protegido, y el
+    aviso de esta pantalla hablaba solo de renombrar. Quien lo leía concluía,
+    razonablemente, que borrar también estaba cubierto.
+
+    Lo que se pierde no es el dato —sigue guardado— sino la vista: la pregunta
+    deja de existir para el panel. Desde hoy la ficha y el Excel muestran lo ya
+    recibido bajo «pregunta retirada», así que esta confirmación explica algo
+    que se puede deshacer volviendo a crear la pregunta con la misma clave.
+  */
+  function pedirBorrado(indice: number) {
+    if (!tieneRespuestas) {
+      borrarCampo(indice);
+      return;
+    }
+    setCampoABorrar(indice);
+  }
+
   return (
     <form action={accion} className="flex flex-col gap-6">
       <input type="hidden" name="id" value={formulario.id} />
@@ -147,10 +171,46 @@ export function EditorFormulario({
       {tieneRespuestas && (
         <Aviso>
           Este formulario ya tiene respuestas guardadas. Puedes cambiar los
-          textos con confianza, pero al renombrar una pregunta las respuestas
-          anteriores seguirán guardadas con el nombre viejo.
+          textos con confianza. Al <strong>renombrar</strong> una pregunta, las
+          respuestas anteriores seguirán guardadas con el nombre viejo; al{" "}
+          <strong>borrarla</strong>, lo ya contestado deja de pedirse pero no se
+          pierde — sigue viéndose en cada respuesta y en el Excel, marcado como
+          «pregunta retirada».
         </Aviso>
       )}
+
+      {/*
+        La confirmación solo aparece con respuestas guardadas: en un formulario
+        recién creado, pedir permiso para quitar una pregunta que nadie ha
+        contestado sería un estorbo.
+      */}
+      <DialogoConfirmacion
+        abierto={campoABorrar !== null}
+        titulo={
+          campoABorrar !== null
+            ? `¿Quitar la pregunta «${campos[campoABorrar]?.etiqueta}»?`
+            : ""
+        }
+        descripcion={
+          <>
+            Este formulario ya tiene respuestas. Dejará de preguntarse a partir
+            de ahora.
+            <br />
+            <br />
+            <strong style={{ color: "#1A2B4A" }}>
+              Lo que ya te contestaron no se borra:
+            </strong>{" "}
+            lo seguirás viendo en cada respuesta y en el Excel, marcado como
+            «pregunta retirada».
+          </>
+        }
+        textoConfirmar="Quitar pregunta"
+        onConfirmar={() => {
+          if (campoABorrar !== null) borrarCampo(campoABorrar);
+          setCampoABorrar(null);
+        }}
+        onCancelar={() => setCampoABorrar(null)}
+      />
 
       {/* ─── Preguntas ─────────────────────────────────────── */}
       <Bloque
@@ -172,7 +232,7 @@ export function EditorFormulario({
               total={campos.length}
               onCambio={(cambios) => actualizarCampo(i, cambios)}
               onMover={(d) => moverCampo(i, d)}
-              onBorrar={() => borrarCampo(i)}
+              onBorrar={() => pedirBorrado(i)}
             />
           ))}
         </div>

@@ -27,6 +27,7 @@ import {
   type DatosRespuesta,
   type EstadoRespuesta,
   estadoRespuestaValido,
+  clavesRetiradasDe,
 } from "@/lib/formularios/tipos";
 import { traerTodas } from "@/lib/supabase/paginar";
 
@@ -105,11 +106,27 @@ export async function GET(
   const camposDatos = formulario.campos.filter((c) => c.tipo !== "archivo");
   const camposArchivo = formulario.campos.filter((c) => c.tipo === "archivo");
 
+  /*
+    Las preguntas que ya no existen pero cuyas respuestas sí.
+
+    Se calculan sobre TODAS las filas y no fila a fila: no todas las respuestas
+    tienen las mismas claves —una pregunta pudo existir unos meses y no antes ni
+    después— y el CSV necesita las columnas antes de recorrer nada.
+
+    Sin esto, borrar una pregunta del editor hacía que lo ya contestado
+    desapareciera del archivo. El dato seguía en la base; simplemente nadie
+    volvía a verlo.
+  */
+  const clavesRetiradas = clavesRetiradasDe(filas, formulario.campos);
+
   const cabeceras = [
     "N°",
     "Fecha",
     ...camposDatos.map((c) => c.etiqueta),
     ...camposArchivo.map((c) => c.etiqueta),
+    // Se marcan en la cabecera para que quien abra el Excel no crea que son
+    // preguntas vigentes del formulario.
+    ...clavesRetiradas.map((k) => `${k.replace(/_/g, " ")} (pregunta retirada)`),
     "Estado",
     "Nota interna",
   ];
@@ -126,6 +143,7 @@ export async function GET(
         (c) =>
           (fila.archivos ?? []).find((a) => a.key === c.key)?.filename ?? ""
       ),
+      ...clavesRetiradas.map((k) => valorLegible(fila.datos?.[k] ?? null)),
       ESTADO_LABELS[fila.estado] ?? fila.estado,
       fila.nota_interna ?? "",
     ]

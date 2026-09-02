@@ -16,6 +16,7 @@ import {
   type DatosRespuesta,
   type EstadoRespuesta,
 } from "@/lib/formularios/tipos";
+import { camposRetirados } from "@/lib/formularios/tipos";
 import { valorLegible } from "@/lib/formularios/validar";
 import { DialogoConfirmacion } from "@/components/admin/DialogoConfirmacion";
 
@@ -56,6 +57,11 @@ export function FichaRespuesta({
     dateStyle: "long",
     timeStyle: "short",
   });
+
+  // Lo que esta persona contestó a preguntas que ya no existen en el
+  // formulario. Sin esto desaparecía de la pantalla en cuanto alguien quitaba
+  // la pregunta, aunque el dato siguiera guardado.
+  const retirados = camposRetirados(respuesta.datos, campos);
 
   async function descargar(archivo: ArchivoRespuesta) {
     setDescargando(archivo.storage_path);
@@ -158,6 +164,60 @@ export function FichaRespuesta({
                   </dd>
                 </div>
               ))}
+
+            {/*
+              Lo que esta persona contestó a preguntas que el formulario ya no
+              tiene. El dato nunca se borró —sigue en `datos`— pero dejaba de
+              verse en cuanto alguien quitaba la pregunta del editor, porque
+              esta lista recorre `campos` y no las claves de la respuesta.
+
+              Se marcan como retiradas en vez de mezclarlas con las vigentes:
+              secretaría tiene que poder distinguir lo que el formulario pide
+              hoy de lo que pidió cuando llegó esta respuesta.
+            */}
+            {retirados.map(({ key, valor }) => (
+              <div
+                key={key}
+                className="flex flex-col gap-0.5 py-2 sm:flex-row sm:gap-4"
+                style={{ borderTop: "1px solid #F1EEE9" }}
+              >
+                <dt
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 700,
+                    letterSpacing: 0.4,
+                    textTransform: "uppercase",
+                    color: "#92400E",
+                    minWidth: 190,
+                  }}
+                >
+                  {key.replace(/_/g, " ")}
+                  <span
+                    style={{
+                      display: "block",
+                      fontSize: 11,
+                      fontWeight: 600,
+                      textTransform: "none",
+                      letterSpacing: 0,
+                      color: "#92400E",
+                    }}
+                  >
+                    pregunta retirada
+                  </span>
+                </dt>
+                <dd
+                  style={{
+                    fontSize: 14,
+                    color: "#1A2B4A",
+                    margin: 0,
+                    whiteSpace: "pre-wrap",
+                    wordBreak: "break-word",
+                  }}
+                >
+                  {valorLegible(valor)}
+                </dd>
+              </div>
+            ))}
           </dl>
 
           {respuesta.archivos.length > 0 && (
