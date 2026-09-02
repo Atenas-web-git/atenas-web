@@ -3,10 +3,77 @@ import { createClient } from "@/lib/supabase/server";
 import { sendEmail } from "@/lib/email/sendEmail";
 import { sendFormConfirmation } from "@/lib/email/sendFormConfirmation";
 import { escapeHtml } from "@/lib/email/escapeHtml";
-import { ESTADO_INICIAL } from "@/app/admin/(authenticated)/admisiones/constants";
+import {
+  ESTADO_INICIAL,
+  NIVELES,
+} from "@/app/admin/(authenticated)/admisiones/constants";
 import { gradoValido } from "@/lib/admisiones/grados";
+import { identificadorDe, registrarIntento } from "@/lib/security/rateLimit";
 
 export const runtime = "nodejs";
+
+/**
+ * Solicitudes por conexión y hora. Cuenta también las legítimas.
+ *
+ * Diez y no cinco, a propósito: el límite es por IP, y aquí es normal que
+ * varias familias llenen el formulario desde la misma conexión —un cibercafé,
+ * la sala de cómputo del propio colegio, el trabajo de un padre—. Con cinco,
+ * la tercera familia de la tarde se encontraría la puerta cerrada sin haber
+ * hecho nada raro.
+ *
+ * Contra un script da igual cinco que diez: quien automatiza esto manda miles,
+ * y se corta en el mismo sitio. El número solo decide a cuántas familias
+ * legítimas molesta de paso.
+ */
+const MAX_ENVIOS_POR_HORA = 10;
+const VENTANA_MINUTOS = 60;
+
+/**
+ * Tope de caracteres por campo.
+ *
+ * Generosos a propósito: caben nombres compuestos ecuatorianos completos —dos
+ * nombres y dos apellidos con partículas— y un comentario largo de verdad. No
+ * están para dar formato ni para corregir a nadie: están para que exista un
+ * techo donde antes no había ninguno.
+ *
+ * Lo que no aparezca en esta lista NO se acota. Si mañana el formulario gana un
+ * campo, hay que añadirlo aquí; se prefiere una lista explícita a un tope
+ * genérico para que quede a la vista qué se está limitando y a cuánto.
+ */
+const TOPES: Record<string, number> = {
+  est_nombres: 120,
+  est_apellidos: 120,
+  est_fecha_nac: 40,
+  est_nivel: 60,
+  est_grado: 60,
+  est_institucion_origen: 160,
+  rep_nombres: 120,
+  rep_apellidos: 120,
+  rep_relacion: 60,
+  rep_correo: 254, // el máximo real de una dirección de correo
+  rep_telefono: 40,
+  como_enterado: 120,
+  anio_ingreso: 40,
+  comentarios: 2000,
+};
+
+/** Cómo se llama cada campo para la familia, no para la base. */
+const ETIQUETAS: Record<string, string> = {
+  est_nombres: "Nombres del estudiante",
+  est_apellidos: "Apellidos del estudiante",
+  est_fecha_nac: "Fecha de nacimiento",
+  est_nivel: "Nivel",
+  est_grado: "Grado",
+  est_institucion_origen: "Institución de origen",
+  rep_nombres: "Nombres del representante",
+  rep_apellidos: "Apellidos del representante",
+  rep_relacion: "Relación con el estudiante",
+  rep_correo: "Correo electrónico",
+  rep_telefono: "Teléfono",
+  como_enterado: "Cómo se enteró del colegio",
+  anio_ingreso: "Año lectivo",
+  comentarios: "Comentarios",
+};
 
 function row(label: string, value: string) {
   return `
@@ -101,6 +168,85 @@ export async function POST(req: NextRequest) {
     if (!est_nombres || !est_apellidos || !est_nivel ||
         !rep_nombres || !rep_apellidos || !rep_correo || !rep_telefono) {
       return NextResponse.json({ error: "Faltan campos requeridos" }, { status: 400 });
+    }
+
+    /*
+      LÍMITE DE ENVÍOS — mismo patrón que el motor de formularios.
+
+      Antes no había ninguno: un script llenaba `solicitudes_admision` de filas
+      sin esfuerzo, y cada una dispara un correo a admisiones. No hace falta
+      cuenta ni permisos, solo repetir el POST.
+
+      Se registra ANTES de validar el resto a propósito: si se contara después,
+      quien manda basura tendría envíos gratis mientras no pase la validación,
+      que es justo el caso que hay que frenar.
+
+      Cinco por hora es holgado para una familia real —una solicitud por hijo, y
+      alguna repetición por nervios— y corta en seco al script. El límite cuenta
+      también los envíos legítimos, como en el motor.
+    */
+    const identificador = identificadorDe(req);
+    const intentos = await registrarIntento(
+      "admisiones:solicitud",
+      identificador,
+      VENTANA_MINUTOS
+    );
+    if (intentos > MAX_ENVIOS_POR_HORA) {
+      return NextResponse.json(
+        {
+          error:
+            "Se han recibido demasiadas solicitudes desde esta conexión. " +
+            "Espera un momento e inténtalo de nuevo, o escríbenos por WhatsApp.",
+        },
+        { status: 429 }
+      );
+    }
+
+    /*
+      TOPES DE LONGITUD
+
+      Antes solo se comprobaba que los campos no estuvieran vacíos. Un anónimo
+      podía mandar un `comentarios` de megabytes que entraba a la base, al
+      correo interno de admisiones y al Excel que abre secretaría.
+
+      Neutralizar fórmulas en el CSV (ficha del 2026-08-14) protege el archivo,
+      pero no impide que el contenido entre. Esto es la fuente.
+
+      Los topes son generosos: caben nombres compuestos ecuatorianos completos y
+      un comentario largo de verdad. No están para dar formato, están para que
+      exista un techo.
+    */
+    const demasiadoLargo = Object.entries(TOPES).find(([campo, tope]) => {
+      const valor = body[campo];
+      return typeof valor === "string" && valor.length > tope;
+    });
+
+    if (demasiadoLargo) {
+      const [campo, tope] = demasiadoLargo;
+      return NextResponse.json(
+        {
+          error: `El campo «${ETIQUETAS[campo] ?? campo}» es demasiado largo (máximo ${tope} caracteres).`,
+        },
+        { status: 400 }
+      );
+    }
+
+    /*
+      Y el nivel, que sí llega del navegador y NO se validaba.
+
+      `est_grado` se validaba contra el catálogo desde antes, pero `est_nivel`
+      entraba como texto libre: acababa tal cual en la columna «Nivel» de la
+      exportación y en los cortes por nivel del dashboard de métricas, donde un
+      valor inventado crea una categoría fantasma que nadie sabe de dónde salió.
+    */
+    // `NIVELES` es `as const`, así que su `includes` solo acepta los cuatro
+    // literales. Aquí llega texto del navegador, que es justo lo que hay que
+    // comprobar, así que se trata la lista como lo que es en este punto: textos.
+    if (!(NIVELES as readonly string[]).includes(String(est_nivel))) {
+      return NextResponse.json(
+        { error: "El nivel educativo seleccionado no es válido." },
+        { status: 400 }
+      );
     }
 
     // Se decide UNA vez y la usan el insert y el correo. Antes el correo
