@@ -35,7 +35,7 @@ export async function updateEstadoAction(
   _prev: AdmisionActionState,
   formData: FormData
 ): Promise<AdmisionActionState> {
-  await assertAdmisiones();
+  const user = await assertAdmisiones();
   const solicitudId = String(formData.get("solicitudId") ?? "");
   const nuevoEstado = String(formData.get("nuevoEstado") ?? "") as EstadoAdmision;
 
@@ -97,7 +97,15 @@ export async function updateEstadoAction(
 
   const { error } = await supabase
     .from("solicitudes_admision")
-    .update({ estado: nuevoEstado, updated_at: new Date().toISOString() })
+    .update({
+      estado: nuevoEstado,
+      updated_at: new Date().toISOString(),
+      // Va en el MISMO update que el estado: el trigger del historial lo lee de
+      // `NEW`, así que autor y cambio quedan registrados en una sola escritura.
+      // Corregirlo después dejaría una ventana con la línea ya escrita sin
+      // autor. Migración 087.
+      ultimo_editor: user.id,
+    })
     .eq("id", solicitudId);
 
   if (error) return { error: "No se pudo actualizar el estado.", ok: false };
@@ -428,7 +436,7 @@ export async function crearSolicitudAction(
   _prev: CrearSolicitudState,
   formData: FormData
 ): Promise<CrearSolicitudState> {
-  await assertAdmisiones();
+  const user = await assertAdmisiones();
 
   // Topes de longitud. El único techo que había era el límite del cuerpo de la
   // petición, casi un mega: un nombre de esa longitud revienta la ficha, el
@@ -524,6 +532,9 @@ export async function crearSolicitudAction(
       estado: ESTADO_INICIAL,
       // Requiere la migración 083. Sin ella este INSERT falla entero.
       origen: "manual",
+      // Quién la registró. El trigger del historial lo lee de `NEW` y escribe
+      // la primera línea con su nombre, en vez de «Sistema». Migración 087.
+      ultimo_editor: user.id,
     })
     .select("id")
     .single();
