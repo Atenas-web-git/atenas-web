@@ -7,6 +7,7 @@ import { CTAAcademico } from "@/components/academico/CTAAcademico";
 import { CTAAdmisionNivel } from "@/components/academico/CTAAdmisionNivel";
 import { FooterCTA } from "@/components/home/FooterCTA";
 import { getPagina } from "@/lib/cms/getPagina";
+import { BloqueFormulario } from "@/components/formularios/BloqueFormulario";
 import {
   defaultContenidoPlantillaH,
   type ContenidoPlantillaH,
@@ -57,6 +58,9 @@ export default async function AcademicoNivelesPage() {
           variante="claro"
         />
         )}
+        {/* Formulario que el colegio asigne desde Contenido › Páginas. Si no
+            hay ninguno, no se pinta nada. */}
+        <BloqueFormulario formularioId={pagina?.formulario_id ?? null} />
         <FooterCTA />
       </main>
     </>

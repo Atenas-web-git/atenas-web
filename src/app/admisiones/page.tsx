@@ -12,6 +12,7 @@ import {
   type AdmisionesLandingConfig,
 } from "@/lib/cms/admisionesLanding";
 import { getPagina } from "@/lib/cms/getPagina";
+import { BloqueFormulario } from "@/components/formularios/BloqueFormulario";
 import { jsonParaScript } from "@/lib/cms/htmlSeguro";
 
 export const revalidate = 60;
@@ -129,6 +130,9 @@ export default async function AdmisionesPage() {
           description={cfg.faq.description}
           items={cfg.faq.items}
         />
+        {/* Formulario que el colegio asigne desde Contenido › Páginas. Si no
+            hay ninguno, no se pinta nada. */}
+        <BloqueFormulario formularioId={pagina?.formulario_id ?? null} />
         <FooterCTA />
       </main>
     </>

@@ -5,6 +5,7 @@ import { SeccionTexto } from "@/components/el-atenas/SeccionTexto";
 import { CTADescargas } from "@/components/cms/CTADescargas";
 import { FooterCTA } from "@/components/home/FooterCTA";
 import { getPagina } from "@/lib/cms/getPagina";
+import { BloqueFormulario } from "@/components/formularios/BloqueFormulario";
 
 // ISR: revalida cada 60 segundos. Los cambios desde el backoffice
 // también disparan revalidatePath inmediato.
@@ -115,6 +116,9 @@ export default async function MisionPage() {
             descripcion={c.descargas.descripcion}
           />
         )}
+        {/* Formulario que el colegio asigne desde Contenido › Páginas. Si no
+            hay ninguno, no se pinta nada. */}
+        <BloqueFormulario formularioId={pagina?.formulario_id ?? null} />
         <FooterCTA />
       </main>
     </>

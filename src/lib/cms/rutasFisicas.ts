@@ -1,72 +1,46 @@
 /**
- * Páginas que tienen su propio archivo de código en `src/app/`.
+ * ⚠️ ESTE MÓDULO YA NO BLOQUEA NADA. Se conserva vacío a propósito, y lo que
+ * queda es el aviso — que es lo único que sigue siendo verdad.
  *
- * PARA QUÉ SIRVE ESTA LISTA
+ * ## Qué había aquí
  *
- * El bloque de formulario que se elige en el editor de página lo pinta
- * `PlantillaRenderer`, y a `PlantillaRenderer` solo lo usa el catch-all
- * `src/app/[...slug]/page.tsx`. Las páginas de esta lista NO pasan por ahí:
- * cada una tiene su propio `page.tsx` con su maquetación, así que asignarles
- * un formulario desde el editor no haría absolutamente nada.
+ * Una lista de las páginas con archivo propio en `src/app/`. El bloque de
+ * formulario lo pintaba solo `PlantillaRenderer`, y a ese solo lo usa el
+ * catch-all `src/app/[...slug]/page.tsx`: las páginas con maquetación propia no
+ * pasan por ahí, así que asignarles un formulario desde el editor no hacía
+ * absolutamente nada.
  *
- * Sin esta lista, el selector aparecería igual en las 53 páginas y en 29 de
- * ellas el colegio elegiría un formulario, guardaría, y no pasaría nada. Es la
- * misma trampa que tenía el «Notificar a» de Configuración › Correos.
+ * De 53 páginas, 44 no funcionaban, y el selector se ofrecía en todas. Esta
+ * lista existía para tapar ese agujero: escondía el selector donde no servía.
  *
- * CÓMO SE ACTUALIZA
+ * ## Qué cambió el 2026-09-02
  *
- * Cuando se añade o se quita una ruta física hay que tocarla a mano. No se
- * puede detectar en tiempo de ejecución: en Vercel los archivos fuente no
- * existen una vez construido el proyecto. Para regenerarla:
+ * Las **30 páginas con archivo propio montan ahora `<BloqueFormulario />`**, así
+ * que las 54 del panel admiten formulario y el bloqueo sobraba. Comprobado
+ * cruzando los slugs de la tabla `paginas` con los archivos reales: 30 con
+ * archivo propio y bloque, 24 por el catch-all, **0 sin cobertura**.
  *
- *   while read slug; do
- *     [ -f "src/app/$slug/page.tsx" ] && echo "  \"$slug\","
- *   done < <(psql -Atc "select slug from paginas order by slug")
+ * ## LO QUE HAY QUE RECORDAR AL AÑADIR UNA PÁGINA CON ARCHIVO PROPIO
  *
- * Si se olvida, el único efecto es que el selector se ofrece en una página
- * donde no funciona — molesto, pero no rompe nada.
+ * Poner `<BloqueFormulario formularioId={pagina?.formulario_id ?? null} />`
+ * antes del `<FooterCTA />`, y asegurarse de que la página llama a
+ * `getPagina(<slug>)`.
+ *
+ * Si se olvida, no falla nada visible: el selector se ofrece igual en el panel,
+ * el colegio elige un formulario, guarda, y no pasa nada. Es exactamente la
+ * trampa que este módulo vino a tapar en su día, y la única forma de que
+ * vuelva.
+ *
+ * Para comprobar la cobertura, cruzar los slugs de `paginas` con los archivos:
+ *
+ *   select slug from paginas order by slug;
+ *   -- y por cada uno, si existe src/app/<slug>/page.tsx, que contenga
+ *   -- "BloqueFormulario"
  */
-
-export const RUTAS_FISICAS = new Set<string>([
-  "/",
-  "academico/ib",
-  "academico/ib/atributos",
-  "academico/ib/capacitacion",
-  "academico/ib/documentos",
-  "academico/ib/escuela-padres",
-  "academico/ib/infraestructura",
-  "academico/ib/politicas",
-  "academico/ib/visitas",
-  "academico/niveles",
-  "academico/niveles/egb-elemental-media",
-  "academico/niveles/egb-superior",
-  "academico/niveles/inicial",
-  "admisiones",
-  "admisiones/egb-elemental-media",
-  "admisiones/egb-superior",
-  "admisiones/ib",
-  "admisiones/inicial",
-  "contactos",
-  "el-atenas/historia",
-  "el-atenas/mision",
-  "el-atenas/valores",
-  "el-atenas/vision",
-  "espacios",
-  "matriculas",
-  "matriculas/autorizaciones",
-  "matriculas/proceso",
-  "matriculas/valores",
-  "servicios",
-  "trabaja-con-nosotros",
-]);
 
 /**
- * Si es true, esta página NO puede llevar un formulario elegido desde el
- * editor: su diseño está en código y hay que añadirlo ahí.
+ * Vacía desde el 2026-09-02. Ya no la lee nadie; se deja declarada para que
+ * quien busque «RUTAS_FISICAS» encuentre esta explicación en vez de un archivo
+ * borrado y una duda.
  */
-export function tieneRutaFisica(slug: string): boolean {
-  if (RUTAS_FISICAS.has(slug)) return true;
-  // Las fichas de servicio y espacio se sirven por rutas dinámicas propias
-  // (/servicios/[servicio], /espacios/[espacio]), no por el catch-all.
-  return /^(servicios|espacios|reconocimientos)\//.test(slug);
-}
+export const RUTAS_FISICAS = new Set<string>([]);

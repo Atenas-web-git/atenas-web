@@ -9,6 +9,7 @@ import { Niveles } from "@/components/home/Niveles";
 import { PorQueAtenas } from "@/components/home/PorQueAtenas";
 import { FooterCTA } from "@/components/home/FooterCTA";
 import { getPagina } from "@/lib/cms/getPagina";
+import { BloqueFormulario } from "@/components/formularios/BloqueFormulario";
 import type { ContenidoPlantillaM } from "@/app/admin/(authenticated)/contenido/plantillas";
 
 export const revalidate = 60;
@@ -258,6 +259,9 @@ export default async function Home() {
         <Trayectoria trayectoria={c.trayectoria} />
         <Niveles niveles={c.niveles} />
         <PorQueAtenas porQueAtenas={c.porQueAtenas} />
+        {/* Formulario que el colegio asigne desde Contenido › Páginas. Si no
+            hay ninguno, no se pinta nada. */}
+        <BloqueFormulario formularioId={pagina?.formulario_id ?? null} />
         <FooterCTA />
       </main>
     </>

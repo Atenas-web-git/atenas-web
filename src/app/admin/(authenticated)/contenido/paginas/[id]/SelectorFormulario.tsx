@@ -24,17 +24,10 @@ export function SelectorFormulario({
   paginaId,
   formularioActual,
   opciones,
-  soportado,
 }: {
   paginaId: string;
   formularioActual: string | null;
   opciones: OpcionFormulario[];
-  /**
-   * False cuando la página tiene su propio archivo de código: ahí el bloque de
-   * formulario no se pinta, y ofrecer el selector sería prometer algo que no
-   * ocurre.
-   */
-  soportado: boolean;
 }) {
   const [estado, accion, pendiente] = useActionState(
     asignarFormularioAction,
@@ -56,22 +49,7 @@ export function SelectorFormulario({
         </h2>
       </div>
 
-      {!soportado ? (
-        <p style={{ fontSize: 13, color: "#6B6660", margin: 0, lineHeight: 1.6 }}>
-          Esta página tiene un diseño propio hecho a medida, así que el
-          formulario no se puede colocar desde aquí: hay que añadirlo al diseño.
-          Escríbele a Esteban si lo necesitas.
-          <br />
-          Sí funciona en las páginas creadas desde{" "}
-          <Link
-            href="/admin/contenido/paginas/nueva"
-            style={{ color: "#1A2B4A", fontWeight: 600 }}
-          >
-            Contenido › Páginas › Crear página
-          </Link>
-          .
-        </p>
-      ) : opciones.length === 0 ? (
+      {opciones.length === 0 ? (
         <p style={{ fontSize: 13, color: "#6B6660", margin: 0 }}>
           Todavía no hay formularios creados.{" "}
           <Link

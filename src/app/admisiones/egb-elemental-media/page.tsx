@@ -9,6 +9,7 @@ import { CTAIniciarSolicitud } from "@/components/admisiones/CTAIniciarSolicitud
 import { FormularioAdmision } from "@/components/admisiones/FormularioAdmision";
 import { FooterCTA } from "@/components/home/FooterCTA";
 import { getPagina } from "@/lib/cms/getPagina";
+import { BloqueFormulario } from "@/components/formularios/BloqueFormulario";
 import { getFormularioPublico } from "@/lib/formularios/getFormulario";
 import type { ContenidoPlantillaO } from "@/app/admin/(authenticated)/contenido/plantillas";
 
@@ -108,6 +109,9 @@ export default async function AdmisionEGBEMPage() {
           privacyLinkHref={cfg?.formularioConsulta?.privacyLinkHref}
           privacyTextPost={cfg?.formularioConsulta?.privacyTextPost}
         />
+        {/* Formulario que el colegio asigne desde Contenido › Páginas. Si no
+            hay ninguno, no se pinta nada. */}
+        <BloqueFormulario formularioId={pagina?.formulario_id ?? null} />
         <FooterCTA />
       </main>
     </>

@@ -52,7 +52,6 @@ import { EditorPlantillaS } from "./EditorPlantillaS";
 import { EditorPlantillaT } from "./EditorPlantillaT";
 import { CambiarPlantillaBtn } from "./CambiarPlantillaBtn";
 import { SelectorFormulario } from "./SelectorFormulario";
-import { tieneRutaFisica } from "@/lib/cms/rutasFisicas";
 import { EliminarPaginaClient } from "./EliminarPaginaClient";
 
 export default async function EditarPaginaPage({
@@ -186,7 +185,6 @@ export default async function EditarPaginaPage({
         opciones={(formularios ?? []) as { id: string; nombre: string; activo: boolean }[]}
         // Las páginas con archivo de código propio no pasan por
         // PlantillaRenderer, así que el bloque no se pintaría.
-        soportado={!tieneRutaFisica(pagina.slug)}
       />
 
       {pagina.plantilla === "tpl_a_hero_texto" && (

@@ -4,6 +4,8 @@ import { HeroElAtenas } from "@/components/el-atenas/HeroElAtenas";
 import { SeccionDetalleAcademico } from "@/components/cms/SeccionDetalleAcademico";
 import { NavIB } from "@/components/ib/NavIB";
 import { FooterCTA } from "@/components/home/FooterCTA";
+import { getPagina } from "@/lib/cms/getPagina";
+import { BloqueFormulario } from "@/components/formularios/BloqueFormulario";
 import { getPlantillaF } from "@/lib/cms/getPlantillaF";
 import type { ContenidoPlantillaF } from "@/app/admin/(authenticated)/contenido/plantillas";
 
@@ -53,6 +55,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function EscuelaPadresIBPage() {
+  // El formulario que el colegio haya asignado a esta página.
+  const pagina = await getPagina("academico/ib/escuela-padres");
+
   const data = await getPlantillaF(SLUG);
   const c = data?.contenido ?? FALLBACK;
   return (
@@ -73,6 +78,9 @@ export default async function EscuelaPadresIBPage() {
           intro={c.intro}
           seccionInferior={c.seccionInferior}
         />
+        {/* Formulario que el colegio asigne desde Contenido › Páginas. Si no
+            hay ninguno, no se pinta nada. */}
+        <BloqueFormulario formularioId={pagina?.formulario_id ?? null} />
         <FooterCTA />
       </main>
     </>

@@ -8,6 +8,7 @@ import { SeccionEspacioDetalle } from "@/components/espacios/SeccionEspacioDetal
 import { ActividadesEspacio } from "@/components/espacios/ActividadesEspacio";
 import { FooterCTA } from "@/components/home/FooterCTA";
 import { getPagina } from "@/lib/cms/getPagina";
+import { BloqueFormulario } from "@/components/formularios/BloqueFormulario";
 import type { ContenidoPlantillaL } from "@/app/admin/(authenticated)/contenido/plantillas";
 
 export const revalidate = 60;
@@ -125,6 +126,9 @@ export default async function EspacioPage({ params }: Props) {
           photoCaption={espacio.actividades.photoCaption}
           actividades={espacio.actividades.items}
         />
+        {/* Formulario que el colegio asigne desde Contenido › Páginas. Si no
+            hay ninguno, no se pinta nada. */}
+        <BloqueFormulario formularioId={pagina?.formulario_id ?? null} />
         <FooterCTA />
       </main>
     </>

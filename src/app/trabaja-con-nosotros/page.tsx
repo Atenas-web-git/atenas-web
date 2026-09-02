@@ -5,6 +5,7 @@ import { TrabajaHero } from "@/components/trabaja/TrabajaHero";
 import { TrabajaValores } from "@/components/trabaja/TrabajaValores";
 import { ListaVacantes } from "@/components/trabaja/ListaVacantes";
 import { getPagina } from "@/lib/cms/getPagina";
+import { BloqueFormulario } from "@/components/formularios/BloqueFormulario";
 import type {
   ContenidoPlantillaN,
   ValorPlantillaN,
@@ -71,6 +72,9 @@ export default async function TrabajaConNosotrosPage() {
           El componente TrabajaForm y /api/trabaja siguen en el repo como vía
           de vuelta hasta que esto lleve unos días en producción.
         */}
+        {/* Formulario que el colegio asigne desde Contenido › Páginas. Si no
+            hay ninguno, no se pinta nada. */}
+        <BloqueFormulario formularioId={pagina?.formulario_id ?? null} />
         <FooterCTA />
       </main>
     </>

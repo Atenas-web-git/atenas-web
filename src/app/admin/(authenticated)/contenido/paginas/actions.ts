@@ -15,7 +15,6 @@ import {
   defaultContenidoPlantillaS,
   defaultContenidoPlantillaT,
 } from "../plantillas";
-import { tieneRutaFisica } from "@/lib/cms/rutasFisicas";
 
 export type PaginaActionState = { error: string | null; ok: boolean };
 
@@ -814,16 +813,18 @@ export async function asignarFormularioAction(
     .eq("id", id)
     .single();
 
-  // La interfaz ya oculta el selector en estas páginas, pero se comprueba
-  // también aquí: guardar un formulario que nunca se va a pintar deja el dato
-  // en base y a alguien convencido de que la página lo lleva.
-  if (pagina?.slug && formularioId && tieneRutaFisica(pagina.slug)) {
-    return {
-      error:
-        "Esta página tiene un diseño propio y el formulario no se puede colocar desde aquí.",
-      ok: false,
-    };
-  }
+  /*
+    Aquí había un guard que impedía asignar formulario a las páginas con diseño
+    propio, porque el bloque solo lo pintaba `PlantillaRenderer` y esas páginas
+    no pasan por él. Desde el 2026-09-02 las 30 páginas con archivo propio
+    montan `<BloqueFormulario />`, así que las 54 del panel lo admiten y el
+    guard sobraba.
+
+    Si algún día se añade una página con archivo propio, hay que acordarse de
+    poner el bloque: el selector se ofrecerá igual, y sin el bloque el colegio
+    elegiría un formulario que no se pinta. Es la trampa que este guard existía
+    para tapar.
+  */
 
   const { error } = await supabase
     .from("paginas")

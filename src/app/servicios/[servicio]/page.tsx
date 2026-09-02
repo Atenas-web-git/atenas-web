@@ -10,6 +10,7 @@ import {
 } from "@/components/servicios/DetalleServicio";
 import { FooterCTA } from "@/components/home/FooterCTA";
 import { getPagina } from "@/lib/cms/getPagina";
+import { BloqueFormulario } from "@/components/formularios/BloqueFormulario";
 import { getFormularioPublico } from "@/lib/formularios/getFormulario";
 import type { ContenidoPlantillaK } from "@/app/admin/(authenticated)/contenido/plantillas";
 
@@ -152,6 +153,9 @@ export default async function ServicioPage({ params }: Props) {
           formularioMotor={formularioQuejas}
           enlacesExternos={cms?.enlacesExternos ?? []}
         />
+        {/* Formulario que el colegio asigne desde Contenido › Páginas. Si no
+            hay ninguno, no se pinta nada. */}
+        <BloqueFormulario formularioId={pagina?.formulario_id ?? null} />
         <FooterCTA />
       </main>
     </>

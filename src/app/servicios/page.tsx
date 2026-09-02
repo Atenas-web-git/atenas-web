@@ -4,6 +4,7 @@ import { HeroElAtenas } from "@/components/el-atenas/HeroElAtenas";
 import { SeccionGridB } from "@/components/cms/SeccionGridB";
 import { FooterCTA } from "@/components/home/FooterCTA";
 import { getPagina } from "@/lib/cms/getPagina";
+import { BloqueFormulario } from "@/components/formularios/BloqueFormulario";
 import type {
   ContenidoPlantillaB,
   TarjetaPlantillaB,
@@ -150,6 +151,9 @@ export default async function ServiciosPage() {
           cols={4}
           bgColor="#F5F1EB"
         />
+        {/* Formulario que el colegio asigne desde Contenido › Páginas. Si no
+            hay ninguno, no se pinta nada. */}
+        <BloqueFormulario formularioId={pagina?.formulario_id ?? null} />
         <FooterCTA />
       </main>
     </>

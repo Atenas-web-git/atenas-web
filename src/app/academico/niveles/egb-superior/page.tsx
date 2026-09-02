@@ -5,6 +5,8 @@ import { SeccionDetalleAcademico } from "@/components/cms/SeccionDetalleAcademic
 import { NavNiveles } from "@/components/academico/NavNiveles";
 import { CTAAdmisionNivel } from "@/components/academico/CTAAdmisionNivel";
 import { FooterCTA } from "@/components/home/FooterCTA";
+import { getPagina } from "@/lib/cms/getPagina";
+import { BloqueFormulario } from "@/components/formularios/BloqueFormulario";
 import { getPlantillaF } from "@/lib/cms/getPlantillaF";
 import type { ContenidoPlantillaF } from "@/app/admin/(authenticated)/contenido/plantillas";
 
@@ -53,6 +55,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function EGBSuperiorPage() {
+  // El formulario que el colegio haya asignado a esta página.
+  const pagina = await getPagina("academico/niveles/egb-superior");
+
   const data = await getPlantillaF(SLUG);
   const c = data?.contenido ?? FALLBACK;
   return (
@@ -85,6 +90,9 @@ export default async function EGBSuperiorPage() {
         />
         )}
         <NavNiveles current="egb-superior" />
+        {/* Formulario que el colegio asigne desde Contenido › Páginas. Si no
+            hay ninguno, no se pinta nada. */}
+        <BloqueFormulario formularioId={pagina?.formulario_id ?? null} />
         <FooterCTA />
       </main>
     </>

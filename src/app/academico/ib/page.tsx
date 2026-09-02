@@ -7,6 +7,7 @@ import { ProcesoIB } from "@/components/ib/ProcesoIB";
 import { ExplorarIB } from "@/components/ib/ExplorarIB";
 import { FooterCTA } from "@/components/home/FooterCTA";
 import { getPagina } from "@/lib/cms/getPagina";
+import { BloqueFormulario } from "@/components/formularios/BloqueFormulario";
 import {
   defaultContenidoPlantillaG,
   type ContenidoPlantillaG,
@@ -81,6 +82,9 @@ export default async function IBPage() {
         <MateriasIB materias={c.materias} />
         <ProcesoIB proceso={c.proceso} />
         <ExplorarIB explorar={c.explorar} />
+        {/* Formulario que el colegio asigne desde Contenido › Páginas. Si no
+            hay ninguno, no se pinta nada. */}
+        <BloqueFormulario formularioId={pagina?.formulario_id ?? null} />
         <FooterCTA />
       </main>
     </>

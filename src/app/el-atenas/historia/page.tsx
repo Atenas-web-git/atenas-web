@@ -7,6 +7,7 @@ import { CifrasHistoria } from "@/components/historia/CifrasHistoria";
 import { CitaHistoria } from "@/components/historia/CitaHistoria";
 import { FooterCTA } from "@/components/home/FooterCTA";
 import { getPagina } from "@/lib/cms/getPagina";
+import { BloqueFormulario } from "@/components/formularios/BloqueFormulario";
 import {
   defaultContenidoPlantillaI,
   type ContenidoPlantillaI,
@@ -53,6 +54,9 @@ export default async function HistoriaPage() {
         <TimelineHistoria trayectoria={c.trayectoria} />
         <CifrasHistoria cifras={c.cifras} />
         <CitaHistoria cita={c.cita} />
+        {/* Formulario que el colegio asigne desde Contenido › Páginas. Si no
+            hay ninguno, no se pinta nada. */}
+        <BloqueFormulario formularioId={pagina?.formulario_id ?? null} />
         <FooterCTA />
       </main>
     </>

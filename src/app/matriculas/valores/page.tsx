@@ -6,6 +6,7 @@ import { FechasBanner } from "@/components/matriculas/FechasBanner";
 import { SeccionDetalle } from "@/components/cms/SeccionDetalle";
 import { FooterCTA } from "@/components/home/FooterCTA";
 import { getPagina } from "@/lib/cms/getPagina";
+import { BloqueFormulario } from "@/components/formularios/BloqueFormulario";
 
 export const revalidate = 60;
 
@@ -122,6 +123,9 @@ export default async function ValoresPage() {
           nota={c.nota ?? FALLBACK.nota}
           anchorId={c.anchorId}
         />
+        {/* Formulario que el colegio asigne desde Contenido › Páginas. Si no
+            hay ninguno, no se pinta nada. */}
+        <BloqueFormulario formularioId={pagina?.formulario_id ?? null} />
         <FooterCTA />
       </main>
     </>
