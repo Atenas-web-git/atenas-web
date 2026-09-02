@@ -47,8 +47,46 @@
  * llega como carácter literal y hay que quitarla. Hoy no hay ningún lector.
  */
 
-/** Los cuatro caracteres con los que empieza una fórmula. */
+/**
+ * Los cuatro caracteres con los que empieza una fórmula.
+ *
+ * `=` y `@` no tienen uso legítimo al principio de una respuesta y se
+ * neutralizan siempre. `+` y `-` sí lo tienen —los teléfonos y los números
+ * negativos— y pasan además por `ES_NUMERO_INOFENSIVO`.
+ */
 const ABRE_FORMULA = /^[=+\-@]/;
+
+/**
+ * Un `+` o un `-` seguidos SOLO de número no ejecutan nada.
+ *
+ * ## Por qué existe esta excepción
+ *
+ * Comprobado el 2026-09-02 abriendo el archivo en Excel: la comilla **se ve**.
+ * Y el placeholder del teléfono en el formulario público es `+593 9__ ___ ____`,
+ * o sea que el propio sitio enseña a la familia a escribirlo empezando por `+`.
+ * Sin esta excepción, casi todas las filas de la columna Teléfono salían como
+ * `'+593987654321` — y los negativos de un campo numérico, como `'-5`.
+ *
+ * ## Por qué es seguro
+ *
+ * Lo peligroso de una fórmula no es el signo: son las FUNCIONES y las
+ * REFERENCIAS, y las dos necesitan letras. `+HYPERLINK(…)`, `-1+A1`,
+ * `+cmd|'/c calc'!A0` llevan letras y siguen neutralizándose. Lo que se deja
+ * pasar es aritmética pura, que como mucho se evalúa a un número.
+ *
+ * ## El precio, dicho claro
+ *
+ * `+1+1` deja de neutralizarse y Excel lo mostrará como `2`. Es una corrupción
+ * del dato, no una ejecución: no abre nada, no llama a nadie, no filtra la hoja
+ * de al lado. Se acepta a cambio de que los teléfonos de todas las familias se
+ * lean como teléfonos. Escribir eso en un campo de teléfono, además, hay que
+ * proponérselo.
+ *
+ * ⚠️ Si algún día se amplía esta expresión, que sea a más puntuación numérica y
+ * **nunca a letras**: la primera letra que se cuele aquí reabre el agujero
+ * entero que `celdaCsv` existe para tapar.
+ */
+const ES_NUMERO_INOFENSIVO = /^[+-][\d\s().,+\-/]*$/;
 
 /**
  * Lo que hay que descontar antes de mirar si abre fórmula.
@@ -99,9 +137,14 @@ export function celdaCsv(valor: string | number | null | undefined): string {
   // al valor ENTERO: recortarlo cambiaría el dato que el colegio ve.
   const desnudo = s.replace(INVISIBLE_INICIAL, "");
 
+  // Un `+593 987 654 321` o un `-5` abren fórmula pero no ejecutan nada, y
+  // llevar comilla los ensuciaba en todas las filas. Ver ES_NUMERO_INOFENSIVO.
+  const abreFormula =
+    ABRE_FORMULA.test(desnudo) && !ES_NUMERO_INOFENSIVO.test(desnudo);
+
   // Primero neutralizar, después escapar: al revés, la comilla simple acabaría
   // dentro de las comillas dobles y se vería en la celda.
-  if (ABRE_FORMULA.test(desnudo) || ARRANCA_INVISIBLE.test(s)) s = `'${s}`;
+  if (abreFormula || ARRANCA_INVISIBLE.test(s)) s = `'${s}`;
 
   if (/[",\n\r]/.test(s)) s = `"${s.replace(/"/g, '""')}"`;
 
