@@ -21,16 +21,20 @@ export type FiltroSolicitudes = {
 };
 
 /**
- * Lo que hay que quitarle al texto antes de meterlo en un `or()`.
+ * Puntuación que se le quita al texto buscado.
  *
- * PostgREST lee ese parámetro como una lista separada por comas de
- * `columna.operador.valor`, así que una coma o un paréntesis dentro del texto
- * **no se buscan: se interpretan**. Buscar `a,estado.eq.admitido` cambiaba el
- * filtro en vez de no encontrar nada.
+ * **Esto nació por el `or()`, que ya no se usa aquí.** PostgREST leía ese
+ * parámetro como una lista separada por comas de `columna.operador.valor`, así
+ * que una coma o un paréntesis dentro del texto no se buscaban: se
+ * interpretaban. Buscar `a,estado.eq.admitido` cambiaba el filtro en vez de no
+ * encontrar nada.
  *
- * No es escalada de privilegios —quien busca ya puede ver estas solicitudes—
- * pero es una consulta que hace algo distinto de lo que la pantalla enseña, y
- * eso es justo lo que este proyecto lleva toda la semana persiguiendo.
+ * Desde que se busca con `ilike()` encadenados —cada uno viaja como parámetro
+ * propio— esa vía está cerrada por construcción. El saneado se mantiene igual
+ * por dos motivos: nadie busca a una familia por un paréntesis, y si algún día
+ * alguien vuelve a montar un `or()` aquí, el agujero no reaparece con él.
+ *
+ * Lo que ya NO se puede decir es que esto sea lo único que lo impide.
  */
 const ROMPE_LA_CONSULTA = /[,()"\\\u0000-\u001F]/g;
 
@@ -48,8 +52,44 @@ const ROMPE_LA_CONSULTA = /[,()"\\\u0000-\u001F]/g;
  */
 const COMODINES = /[%_*]/g;
 
-/** Los tres campos por los que busca el buscador del panel. */
-const CAMPOS_BUSCABLES = ["numero", "est_nombres", "est_apellidos"];
+/**
+ * La columna contra la que se busca: número, nombres y apellidos juntos, sin
+ * tildes y en minúsculas. La mantiene Postgres (migración 086).
+ *
+ * Antes se buscaba en las tres columnas por separado con un `or()`, y eso
+ * fallaba de dos formas:
+ *
+ *   «Perez»       → no encontraba a «Pérez», porque `ilike` compara carácter a
+ *                   carácter y no sabe que `e` y `é` son la misma letra.
+ *   «Maria Perez» → no encontraba nada, porque ninguna columna por separado
+ *                   contiene el nombre Y el apellido.
+ */
+const COLUMNA_BUSQUEDA = "busqueda";
+
+/**
+ * Quita las tildes del texto tecleado, para compararlo con la columna que ya
+ * viene sin ellas.
+ *
+ * NFD separa la letra de su acento y luego se descartan los acentos sueltos.
+ * Sirve igual para «Perez» que para «Pérez»: los dos acaban en `perez`.
+ *
+ * ⚠️ LA EÑE TAMBIÉN CAE: «Ñuñez» acaba en `nunez`. No es un descuido, es lo que
+ * hace falta — el `unaccent` de Postgres que rellena la columna `busqueda`
+ * convierte la ñ en n igual, así que los dos lados tienen que coincidir. El
+ * efecto para el colegio es bueno: quien teclee «Nunez» encuentra a «Núñez».
+ *
+ * ⚠️ Y de ahí sale el riesgo real de este módulo: **son dos implementaciones
+ * distintas normalizando lo mismo**, JavaScript de un lado y Postgres del otro.
+ * Si difieren en algún carácter, la búsqueda no encuentra y no avisa.
+ *
+ * La comprobación está al final de la migración 086 y hay que ejecutarla al
+ * aplicarla: compara lo que produce cada lado sobre los apellidos con tilde y
+ * con eñe que de verdad aparecen aquí. Mientras no se haya corrido, esto es una
+ * suposición razonable, no un hecho medido.
+ */
+function sinTildes(texto: string): string {
+  return texto.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
+}
 
 /**
  * El uuid que ninguna solicitud tiene, para decir «ninguna».
@@ -67,7 +107,10 @@ const UUID_IMPOSIBLE = "00000000-0000-0000-0000-000000000000";
  * `any`.
  */
 export function filtrarSolicitudes<
-  T extends { eq(columna: string, valor: string): T; or(filtro: string): T },
+  T extends {
+    eq(columna: string, valor: string): T;
+    ilike(columna: string, patron: string): T;
+  },
 >(consulta: T, f: FiltroSolicitudes): T {
   let q = consulta;
 
@@ -75,13 +118,19 @@ export function filtrarSolicitudes<
   if (f.nivel) q = q.eq("est_nivel", f.nivel);
 
   const escrito = (f.q ?? "").trim();
-  const texto = escrito
-    .replace(ROMPE_LA_CONSULTA, "")
-    .replace(COMODINES, "")
-    .trim();
+  const texto = sinTildes(
+    escrito.replace(ROMPE_LA_CONSULTA, "").replace(COMODINES, "")
+  ).trim();
 
-  if (texto) {
-    q = q.or(CAMPOS_BUSCABLES.map((c) => `${c}.ilike.%${texto}%`).join(","));
+  // Cada palabra por separado, todas obligatorias. Encadenar `ilike` es un AND,
+  // así que «maria perez» exige las dos y encuentra a María José Pérez Romero
+  // aunque estén en columnas distintas y en otro orden.
+  const palabras = texto.split(/\s+/).filter(Boolean);
+
+  if (palabras.length > 0) {
+    for (const palabra of palabras) {
+      q = q.ilike(COLUMNA_BUSQUEDA, `%${palabra}%`);
+    }
   } else if (escrito) {
     /*
       Escribió algo y no quedó nada buscable: solo comodines o puntuación.
