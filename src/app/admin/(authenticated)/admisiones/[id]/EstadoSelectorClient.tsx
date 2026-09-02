@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useTransition } from "react";
+import { useActionState } from "react";
 import { updateEstadoAction, type AdmisionActionState } from "../actions";
 import {
   ESTADO_INFO,
@@ -16,12 +16,21 @@ export function EstadoSelectorClient({
   solicitudId: string;
   estadoActual: EstadoAdmision;
 }) {
-  const [, action, isPending] = useActionState<AdmisionActionState, FormData>(
-    updateEstadoAction,
-    { error: null, ok: false }
-  );
-  const [state, setState] = useTransition();
-  void state;
+  /*
+    El primer elemento se descartaba con una coma: `const [, action, ...]`. Como
+    la acción nunca devolvía errores —no validaba nada—, nadie lo notó. Desde
+    que valida el salto contra TRANSITIONS sí los devuelve, y sin esto el
+    servidor rechazaba el cambio y la pantalla se quedaba igual, sin decir nada:
+    secretaría pulsa «Aplicar cambio» y no pasa absolutamente nada.
+
+    Medido el 2026-09-02: el POST respondía
+    «No se puede pasar de "Postulante" a "Interesado"…» y ese texto no llegaba
+    a ninguna parte de la interfaz.
+  */
+  const [estadoDeLaAccion, action, isPending] = useActionState<
+    AdmisionActionState,
+    FormData
+  >(updateEstadoAction, { error: null, ok: false });
 
   const siguientes = TRANSITIONS[estadoActual] ?? [];
   const esTerminal = siguientes.length === 0;
@@ -195,6 +204,31 @@ export function EstadoSelectorClient({
               {isPending ? "Guardando…" : "Aplicar cambio"}
             </button>
           </div>
+
+          {/*
+            Lo que el servidor conteste, se lee. Sin esto, un rechazo dejaba la
+            pantalla exactamente igual que antes de pulsar: el peor mensaje
+            posible es ninguno, porque el editor repite la acción pensando que
+            no llegó a pulsar bien.
+          */}
+          {estadoDeLaAccion.error && (
+            <p
+              role="alert"
+              style={{
+                marginTop: 12,
+                marginBottom: 0,
+                padding: "10px 14px",
+                background: "#FEE2E2",
+                border: "1px solid #FCA5A5",
+                borderRadius: 8,
+                fontSize: 13,
+                lineHeight: 1.5,
+                color: "#991B1B",
+              }}
+            >
+              {estadoDeLaAccion.error}
+            </p>
+          )}
         </form>
       )}
     </div>

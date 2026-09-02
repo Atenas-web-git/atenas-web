@@ -4,7 +4,15 @@ import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
-import { NIVELES, ESTADO_INICIAL, type EstadoAdmision } from "./constants";
+import {
+  NIVELES,
+  ESTADO_INICIAL,
+  // La misma tabla que llena el desplegable de la pantalla. Si el corte vive en
+  // dos sitios, tarde o temprano dicen cosas distintas.
+  TRANSITIONS,
+  ESTADO_INFO,
+  type EstadoAdmision,
+} from "./constants";
 import { notifyEstadoChange } from "./emails";
 import { TODOS_LOS_GRADOS, gradoValido } from "@/lib/admisiones/grados";
 
@@ -45,6 +53,48 @@ export async function updateEstadoAction(
     .eq("id", solicitudId)
     .single();
 
+  /*
+    Sin esto, el update se lanzaba igual sobre una solicitud que no existe: no
+    afecta a ninguna fila, no da error, y la acción devolvía `ok: true`. La
+    pantalla decía «Guardado» sobre algo que no llegó a pasar.
+  */
+  if (!prev) {
+    return { error: "No se encontró la solicitud.", ok: false };
+  }
+
+  /*
+    VALIDACIÓN DEL SALTO — antes vivía solo en el navegador.
+
+    `TRANSITIONS` dice a qué estados se puede pasar desde cada uno, y
+    `EstadoSelectorClient` la usa para llenar el desplegable. Pero una server
+    action es un endpoint como cualquier otro: quien repitiera el POST movía una
+    solicitud de «Interesado» a «Matriculado» de un salto, saltándose la
+    entrevista y el comité.
+
+    No es escalada de privilegios —hace falta sesión con rol de Admisiones— pero
+    rompe dos cosas que el panel da por ciertas: el pipeline como proceso, y el
+    embudo de Métricas, que se dibuja asumiendo que nadie se salta etapas.
+
+    Repetir el estado actual se deja pasar: es un no-op, no envía correo (el
+    `if` de abajo lo filtra) y rechazarlo convertiría un doble clic en un error
+    rojo sin motivo.
+  */
+  const estadoActual = prev.estado as EstadoAdmision;
+
+  if (nuevoEstado !== estadoActual) {
+    const permitidos = TRANSITIONS[estadoActual] ?? [];
+    if (!permitidos.includes(nuevoEstado)) {
+      const nombre = (e: EstadoAdmision) => ESTADO_INFO[e]?.label ?? e;
+      return {
+        error:
+          permitidos.length === 0
+            ? `«${nombre(estadoActual)}» es un estado final: desde ahí ya no se puede mover la solicitud.`
+            : `No se puede pasar de «${nombre(estadoActual)}» a «${nombre(nuevoEstado)}». Desde este estado solo se puede ir a: ${permitidos.map(nombre).join(", ")}.`,
+        ok: false,
+      };
+    }
+  }
+
   const { error } = await supabase
     .from("solicitudes_admision")
     .update({ estado: nuevoEstado, updated_at: new Date().toISOString() })
@@ -52,7 +102,7 @@ export async function updateEstadoAction(
 
   if (error) return { error: "No se pudo actualizar el estado.", ok: false };
 
-  if (prev && prev.estado !== nuevoEstado && prev.rep_correo) {
+  if (prev.estado !== nuevoEstado && prev.rep_correo) {
     await notifyEstadoChange({ ...prev, id: solicitudId }, nuevoEstado);
   }
 
