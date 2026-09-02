@@ -23,6 +23,7 @@ import {
 } from "@/lib/auth/areas";
 import type { AdminUser } from "@/lib/auth/types";
 import type { CampoFormulario, Formulario } from "./tipos";
+import { traerTodas } from "@/lib/supabase/paginar";
 
 /** Lo único que necesita el componente que dibuja el formulario. */
 export type FormularioPublico = {
@@ -187,14 +188,35 @@ export async function listarFormularios(
     return [];
   }
 
-  // Un solo viaje para todas las respuestas: son pocas filas y evita N+1.
-  const { data: respuestas } = await supabase
-    .from("formulario_respuestas")
-    .select("formulario_id, estado");
+  /*
+    Un solo recorrido para todas las respuestas, en vez de dos consultas por
+    formulario. Solo se piden dos columnas, así que cada bloque es barato.
+
+    PAGINADO desde el 2026-09-02: el comentario que había aquí decía «son pocas
+    filas», y dejó de ser verdad al llegar a mil. PostgREST cortaba con un 200 y
+    los contadores del listado —«12 respuestas · 3 nuevas»— encogían solos.
+  */
+  const respuestas = await traerTodas<{ formulario_id: string; estado: string }>(
+    (desde, hasta) =>
+      supabase
+        .from("formulario_respuestas")
+        .select("formulario_id, estado")
+        .order("id", { ascending: true })
+        .range(desde, hasta)
+  );
+
+  // Contadores informativos: si la lectura se cortó no se rompe la pantalla,
+  // pero queda escrito. Un badge que encoge en silencio es difícil de notar,
+  // y en el registro sí se ve.
+  if (!respuestas.completa) {
+    console.error(
+      "[listarFormularios] contadores incompletos:",
+      respuestas.motivo
+    );
+  }
 
   const totales = new Map<string, { total: number; nuevas: number }>();
-  for (const r of respuestas ?? []) {
-    const fila = r as { formulario_id: string; estado: string };
+  for (const fila of respuestas.filas) {
     const actual = totales.get(fila.formulario_id) ?? { total: 0, nuevas: 0 };
     actual.total += 1;
     if (fila.estado === "nueva") actual.nuevas += 1;

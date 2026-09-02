@@ -27,6 +27,7 @@
  */
 
 import { createAdminClient } from "@/lib/supabase/admin";
+import { traerTodas } from "@/lib/supabase/paginar";
 
 const BUCKET = "formularios-archivos";
 
@@ -55,6 +56,14 @@ export async function purgarArchivosHuerfanos(
   try {
     const supabase = createAdminClient();
 
+    // Este tope de 1.000 es SEGURO en la dirección en que falla: si la carpeta
+    // tuviera más archivos, se purgarían menos de los que se puede. Quedarse
+    // corto aquí deja basura, no borra nada de más.
+    //
+    // ⚠️ Pero solo mientras la lista de referencias de abajo esté completa. Si
+    // alguien sube este límite, que mire antes que la consulta a
+    // `formulario_respuestas` sigue paginada: son los dos lados de la misma
+    // comparación, y subir uno sin el otro es lo que borra archivos en uso.
     const { data: enBucket, error: errorLista } = await supabase.storage
       .from(BUCKET)
       .list(slugFormulario, { limit: 1000 });
@@ -62,26 +71,46 @@ export async function purgarArchivosHuerfanos(
     if (errorLista || !enBucket || enBucket.length === 0) return 0;
 
     // Todas las rutas que SÍ pertenecen a una respuesta guardada.
-    const { data: respuestas, error: errorRespuestas } = await supabase
-      .from("formulario_respuestas")
-      .select("archivos")
-      .eq("formulario_id", formularioId);
+    //
+    // PAGINADO, y no es un detalle de rendimiento. Antes del 2026-09-02 esta
+    // consulta no llevaba `.range()`, así que a partir de la respuesta 1.001
+    // PostgREST devolvía 1.000 filas y un 200. Las respuestas que se quedaban
+    // fuera no entraban en `referenciadas`, sus adjuntos parecían huérfanos y
+    // esta función los BORRABA del bucket: hasta 100 por pasada, y la purga se
+    // dispara en uno de cada 25 envíos.
+    //
+    // Hojas de vida y audios de personas reales, borrados de Storage, sin
+    // vuelta atrás y sin que nada lo dijera. El código de abajo ya cancelaba la
+    // purga si la consulta fallaba — pero un truncamiento no es un fallo: es un
+    // 200 con menos filas.
+    const respuestas = await traerTodas<{ archivos?: { storage_path?: string }[] }>(
+      (desde, hasta) =>
+        supabase
+          .from("formulario_respuestas")
+          .select("archivos")
+          .eq("formulario_id", formularioId)
+          // Orden estable y único: sin él, cada página trae un subconjunto
+          // arbitrario y entre página y página se pierden filas — que aquí
+          // significa perder referencias, o sea borrar archivos en uso.
+          .order("id", { ascending: true })
+          .range(desde, hasta)
+    );
 
-    // Si esta consulta falla no se borra nada. Sin la lista de referencias,
-    // «no referenciado» significaría «todos», y la purga se llevaría por
-    // delante los adjuntos de postulaciones reales.
-    if (errorRespuestas) {
+    // La regla de esta función: si la lista de referencias no está COMPLETA, no
+    // se borra nada. Da igual si el corte vino de un error o de un truncamiento
+    // silencioso — con una lista incompleta, «no referenciado» quiere decir
+    // «todo lo que no me dio tiempo a leer».
+    if (!respuestas.completa) {
       console.error(
-        "[formularios] purga cancelada, no se pudieron leer las respuestas:",
-        errorRespuestas.message
+        "[formularios] purga cancelada: la lista de respuestas está incompleta.",
+        respuestas.motivo
       );
       return 0;
     }
 
     const referenciadas = new Set<string>();
-    for (const fila of respuestas ?? []) {
-      const archivos = (fila as { archivos?: { storage_path?: string }[] }).archivos;
-      for (const a of archivos ?? []) {
+    for (const fila of respuestas.filas) {
+      for (const a of fila.archivos ?? []) {
         if (a?.storage_path) referenciadas.add(a.storage_path);
       }
     }

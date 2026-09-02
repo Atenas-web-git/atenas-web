@@ -85,7 +85,14 @@ const INVISIBLE_INICIAL = /^[\s\u0000-\u001F\u00A0\uFEFF]+/;
  */
 const ARRANCA_INVISIBLE = /^[\t\r\n]/;
 
-export function celdaCsv(valor: string | null | undefined): string {
+/**
+ * Acepta `number` además de `string`: en las exportaciones hay columnas que son
+ * enteros en la base —`numero` de solicitud, `anio_ingreso`— y antes llegaban
+ * aquí solo porque el tipo lo inferíaSupabase. Al declarar los tipos a mano
+ * para paginar, salió a la luz. El cuerpo ya hacía `String(valor)`, así que
+ * esto documenta lo que la función siempre hizo, no la cambia.
+ */
+export function celdaCsv(valor: string | number | null | undefined): string {
   let s = String(valor ?? "");
 
   // Se mira el valor sin sus invisibles de delante, pero la comilla se antepone

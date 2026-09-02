@@ -7,6 +7,15 @@ import { NIVELES } from "../constants";
 import { TODOS_LOS_GRADOS } from "@/lib/admisiones/grados";
 import { AdmisionesSubNav } from "../SubNav";
 import { CuposFormClient } from "./CuposFormClient";
+import { traerTodas } from "@/lib/supabase/paginar";
+
+/** Las cuatro columnas con las que se cuentan ocupación y espera. */
+type FilaCupo = {
+  est_nivel: string;
+  est_grado: string | null;
+  estado: string;
+  anio_ingreso: string | null;
+};
 
 export default async function CuposPage({
   searchParams,
@@ -82,7 +91,7 @@ export default async function CuposPage({
     "admitido",
   ];
 
-  const [{ data: cuposData }, { data: solicitudes }] = await Promise.all([
+  const [{ data: cuposData }, solicitudesPaginadas] = await Promise.all([
     supabase
       .from("cupos_admision")
       .select("nivel, grado, cupos_total")
@@ -98,12 +107,26 @@ export default async function CuposPage({
     // desaparecer de la pantalla —de las tarjetas, del resumen y del detalle—
     // las solicitudes sin año lectivo, y el año lectivo es un campo OPCIONAL
     // del formulario público: no es un resto del pasado, seguirá entrando.
-    supabase
-      .from("solicitudes_admision")
-      .select("est_nivel, est_grado, estado, anio_ingreso"),
+    //
+    // PAGINADO desde el 2026-09-02. PostgREST corta en 1.000 filas y responde
+    // 200: pasada la solicitud 1.001, la ocupación y las plazas disponibles
+    // encogían sin que nada lo dijera. Y lo peor no es el número solo, es la
+    // contradicción: Métricas SÍ paginaba, así que dos pestañas contiguas
+    // habrían dado cifras distintas — y la que miente es esta, la que el
+    // colegio mira para decidir si quedan plazas.
+    traerTodas<FilaCupo>((desde, hasta) =>
+      supabase
+        .from("solicitudes_admision")
+        .select("est_nivel, est_grado, estado, anio_ingreso")
+        // `id` como orden estable: aquí no se muestra ninguna fecha, así que
+        // sirve igual y no depende de que dos solicitudes no compartan
+        // milisegundo.
+        .order("id", { ascending: true })
+        .range(desde, hasta)
+    ),
   ]);
 
-  const todas = solicitudes ?? [];
+  const todas = solicitudesPaginadas.filas;
   const filas = todas.filter((f) => f.anio_ingreso === anoLectivo);
 
   function contar(filtro: (f: (typeof filas)[number]) => boolean) {
@@ -151,6 +174,32 @@ export default async function CuposPage({
   return (
     <div className="flex flex-col gap-6 p-8">
       <AdmisionesSubNav />
+
+      {/*
+        Si la lectura se cortó, la pantalla lo DICE. Aquí no se puede devolver
+        un 500 como en las exportaciones —es la pantalla con la que el colegio
+        decide si quedan plazas y dejarla en blanco es peor—, pero enseñar unos
+        números encogidos sin avisar es exactamente lo que este paginado viene
+        a evitar. Que se vean, y que se sepa que están incompletos.
+      */}
+      {!solicitudesPaginadas.completa && (
+        <div
+          role="alert"
+          style={{
+            background: "#FEE2E2",
+            border: "1px solid #FCA5A5",
+            borderRadius: 8,
+            padding: "12px 16px",
+            fontSize: 14,
+            color: "#991B1B",
+          }}
+        >
+          <strong>Estos números pueden estar incompletos.</strong> No se pudieron leer todas
+          las solicitudes, así que la ocupación y las plazas disponibles de abajo podrían ser
+          menores que las reales. Vuelve a cargar la página; si sigue apareciendo este aviso,
+          avísale a Esteban antes de usar estas cifras para decidir.
+        </div>
+      )}
 
       {/* Header */}
       <div className="flex items-start justify-between gap-4 flex-wrap">

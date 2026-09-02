@@ -6,6 +6,31 @@ import { ROLES, hasAnyRole } from "@/lib/auth/types";
 // cualquiera desde el formulario publico. Ver src/lib/csv.ts.
 import { celdaCsv, BOM_UTF8 } from "@/lib/csv";
 import { filtrarSolicitudes } from "@/lib/admisiones/filtros";
+import { traerTodas } from "@/lib/supabase/paginar";
+
+/**
+ * Las columnas que se exportan. Antes el tipo lo inferíaSupabase de la consulta;
+ * ahora que la consulta va por `traerTodas`, hay que declararlo aquí.
+ */
+type FilaExportada = {
+  numero: number | string | null;
+  est_nombres: string | null;
+  est_apellidos: string | null;
+  est_nivel: string | null;
+  est_grado: string | null;
+  est_fecha_nac: string | null;
+  rep_nombres: string | null;
+  rep_apellidos: string | null;
+  rep_correo: string | null;
+  rep_telefono: string | null;
+  rep_relacion: string | null;
+  estado: string | null;
+  como_enterado: string | null;
+  anio_ingreso: string | number | null;
+  comentarios: string | null;
+  created_at: string;
+  origen: string | null;
+};
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("es-EC", {
@@ -29,34 +54,51 @@ export async function GET(req: NextRequest) {
   const busqueda = searchParams.get("q");
 
   const supabase = createAdminClient();
-  let q = supabase
-    .from("solicitudes_admision")
-    .select(
-      "numero, est_nombres, est_apellidos, est_nivel, est_grado, est_fecha_nac, rep_nombres, rep_apellidos, rep_correo, rep_telefono, rep_relacion, estado, como_enterado, anio_ingreso, comentarios, created_at, origen"
-    )
-    .order("created_at", { ascending: false });
-
-  q = filtrarSolicitudes(q, { estado, nivel, q: busqueda });
-
-  const { data, error } = await q;
 
   /*
-    Sin mirar `error`, una consulta fallida daba `data` indefinido, cero filas y
-    un CSV con 200 y solo cabeceras: un archivo impecable que afirma que no hay
-    ni una solicitud. Es el mismo engaño que este commit combate, con el signo
-    cambiado.
+    PAGINADO desde el 2026-09-02. Antes era una consulta suelta sin `.range()`,
+    y PostgREST corta en 1.000 filas devolviendo 200: a partir de la solicitud
+    1.001, secretaría se descargaba un Excel al que le faltaban filas sin que
+    nada lo dijera. Un archivo que se ve completo y no lo está es peor que uno
+    vacío, porque nadie lo revisa.
 
-    Es una red de seguridad, y **no está ejercitada**: se predijo que un
-    `?q=%00` mataria la consulta y el 2026-08-19 no reprodujo —algo aguas
-    arriba neutraliza el nulo—. No se ha visto este 500 ocurrir.
+    El desempate por `id` no es adorno: si dos solicitudes comparten
+    `created_at` al milisegundo, sin él el orden entre ellas es indefinido y
+    entre una página y la siguiente se pierden y se repiten filas.
   */
-  if (error) {
-    console.error("[admisiones/exportar]", error);
+  const resultado = await traerTodas<FilaExportada>((desde, hasta) => {
+    let q = supabase
+      .from("solicitudes_admision")
+      .select(
+        "numero, est_nombres, est_apellidos, est_nivel, est_grado, est_fecha_nac, rep_nombres, rep_apellidos, rep_correo, rep_telefono, rep_relacion, estado, como_enterado, anio_ingreso, comentarios, created_at, origen"
+      )
+      .order("created_at", { ascending: false })
+      .order("id", { ascending: false });
+
+    q = filtrarSolicitudes(q, { estado, nivel, q: busqueda });
+
+    return q.range(desde, hasta);
+  });
+
+  /*
+    Un archivo incompleto NO se entrega. Da igual si el corte vino de un error
+    de la consulta o de quedarse sin vueltas: entregar lo que se pudo leer, con
+    un 200 y sin avisar, es exactamente el fallo que este paginado arregla.
+
+    Antes aquí solo se miraba `error`. Esa rama sigue sin estar ejercitada —se
+    predijo que un `?q=%00` mataría la consulta y el 2026-08-19 no reprodujo—,
+    pero ahora cubre también el caso que sí puede ocurrir solo con que el
+    colegio acumule solicitudes.
+  */
+  if (!resultado.completa) {
+    console.error("[admisiones/exportar] exportación incompleta:", resultado.motivo);
     return NextResponse.json(
-      { error: "No se pudo generar la exportación." },
+      { error: "No se pudo generar la exportación completa. Inténtalo de nuevo." },
       { status: 500 }
     );
   }
+
+  const data = resultado.filas;
 
   const headers = [
     "N° Solicitud",
@@ -78,7 +120,7 @@ export async function GET(req: NextRequest) {
     "Cómo llegó",
   ];
 
-  const rows = (data ?? []).map((s) =>
+  const rows = data.map((s) =>
     [
       s.numero,
       s.est_nombres,

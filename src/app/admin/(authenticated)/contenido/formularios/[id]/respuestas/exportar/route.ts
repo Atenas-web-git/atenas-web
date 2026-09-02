@@ -28,6 +28,17 @@ import {
   type EstadoRespuesta,
   estadoRespuestaValido,
 } from "@/lib/formularios/tipos";
+import { traerTodas } from "@/lib/supabase/paginar";
+
+/** Una fila tal como sale de la consulta. */
+type FilaRespuesta = {
+  numero: number;
+  datos: DatosRespuesta;
+  archivos: ArchivoRespuesta[];
+  estado: EstadoRespuesta;
+  nota_interna: string | null;
+  created_at: string;
+};
 
 export const runtime = "nodejs";
 
@@ -51,37 +62,45 @@ export async function GET(
   }
 
   const supabase = createAdminClient();
-  let consulta = supabase
-    .from("formulario_respuestas")
-    .select("numero, datos, archivos, estado, nota_interna, created_at")
-    .eq("formulario_id", id)
-    .order("numero", { ascending: true });
 
   // Mismo filtro que la bandeja, validado con la misma funcion.
   const estado = estadoRespuestaValido(new URL(req.url).searchParams.get("estado"));
-  if (estado) consulta = consulta.eq("estado", estado);
 
-  const { data, error } = await consulta;
+  /*
+    PAGINADO desde el 2026-09-02, y de las tres exportaciones esta es la que
+    llega antes al tope: acumula contactos, quejas y postulaciones de empleo,
+    que suman mil mucho antes que las solicitudes de admisión.
 
-  // Igual que en la exportación de admisiones: sin mirar `error`, una consulta
-  // fallida produce un CSV con 200 y solo cabeceras, que se lee como «este
-  // formulario no tiene ni una respuesta».
-  if (error) {
-    console.error("[respuestas/exportar]", error);
+    `numero` es único por formulario y ya venía como orden, así que sirve de
+    clave estable para paginar sin desempate extra.
+  */
+  const resultado = await traerTodas<FilaRespuesta>((desde, hasta) => {
+    let consulta = supabase
+      .from("formulario_respuestas")
+      .select("numero, datos, archivos, estado, nota_interna, created_at")
+      .eq("formulario_id", id)
+      .order("numero", { ascending: true });
+
+    if (estado) consulta = consulta.eq("estado", estado);
+
+    return consulta.range(desde, hasta);
+  });
+
+  // Un archivo incompleto no se entrega. Antes aquí solo se miraba `error`: una
+  // consulta fallida producía un CSV con 200 y solo cabeceras, que se lee como
+  // «este formulario no tiene ni una respuesta». Un archivo al que le faltan
+  // filas de la mitad hacia abajo es la misma mentira, y esa sí llega sola.
+  if (!resultado.completa) {
+    console.error("[respuestas/exportar] exportación incompleta:", resultado.motivo);
     return NextResponse.json(
-      { error: "No se pudo generar la exportación." },
+      { error: "No se pudo generar la exportación completa. Inténtalo de nuevo." },
       { status: 500 }
     );
   }
 
-  const filas = (data ?? []) as unknown as {
-    numero: number;
-    datos: DatosRespuesta;
-    archivos: ArchivoRespuesta[];
-    estado: EstadoRespuesta;
-    nota_interna: string | null;
-    created_at: string;
-  }[];
+  // Sin el doble casteo de antes: el tipo va ahora en `FilaRespuesta`, que es
+  // el mismo que se le pide a `traerTodas`.
+  const filas = resultado.filas;
 
   const camposDatos = formulario.campos.filter((c) => c.tipo !== "archivo");
   const camposArchivo = formulario.campos.filter((c) => c.tipo === "archivo");

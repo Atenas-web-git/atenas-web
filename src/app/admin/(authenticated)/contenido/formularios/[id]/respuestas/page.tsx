@@ -17,6 +17,16 @@ import { FichaRespuesta } from "./FichaRespuesta";
 
 export const dynamic = "force-dynamic";
 
+/**
+ * Cuántas respuestas se pintan como máximo.
+ *
+ * Cada una es una ficha desplegable con sus datos y sus adjuntos, así que el
+ * coste no está en la consulta sino en el navegador. 500 es de sobra para
+ * trabajar y no cuelga la pestaña; lo que pase de ahí se baja con el botón de
+ * descargar, que sí se lleva todas.
+ */
+const LIMITE_PANTALLA = 500;
+
 type Respuesta = {
   id: string;
   numero: number;
@@ -50,7 +60,12 @@ export default async function RespuestasPage({
   const supabase = createAdminClient();
   let consulta = supabase
     .from("formulario_respuestas")
-    .select("id, numero, datos, archivos, estado, nota_interna, correo_enviado, created_at")
+    // `count: "exact"` para poder decir cuántas hay en total, no solo cuántas
+    // se están pintando. Ver `LIMITE_PANTALLA` más abajo.
+    .select(
+      "id, numero, datos, archivos, estado, nota_interna, correo_enviado, created_at",
+      { count: "exact" }
+    )
     .eq("formulario_id", id)
     .order("numero", { ascending: false });
 
@@ -66,9 +81,26 @@ export default async function RespuestasPage({
     `/admin/contenido/formularios/${id}/respuestas/exportar` +
     (estadoValido ? `?estado=${estadoValido}` : "");
 
-  const { data, error } = await consulta;
+  /*
+    Esta pantalla pinta cada respuesta entera, con sus datos y sus adjuntos. Sin
+    tope, la consulta se cortaba en 1.000 por el límite de PostgREST —con un 200
+    y sin avisar— y la pantalla decía tener 1.000 cuando hubiera 3.000.
+
+    La salida no es traerlas todas: cinco mil fichas en una sola página no las
+    aguanta el navegador. Es pedir un tope EXPLÍCITO y decir cuántas hay en
+    total, para que el número de la pantalla no sea una casualidad del servidor.
+
+    El archivo sí se lleva todas: la exportación pagina. Por eso el aviso de
+    abajo apunta al botón de descargar.
+  */
+  const { data, error, count } = await consulta.range(0, LIMITE_PANTALLA - 1);
   const respuestas = (data ?? []) as unknown as Respuesta[];
 
+  const totalRespuestas = count ?? respuestas.length;
+  const hayMasDeLasQueSeVen = totalRespuestas > respuestas.length;
+
+  // Ojo: se cuenta sobre lo que se ve, no sobre el total. Con el aviso puesto
+  // se entiende; sin él sería otro número encogido en silencio.
   const sinAvisar = respuestas.filter((r) => !r.correo_enviado).length;
 
   return (
@@ -103,6 +135,31 @@ export default async function RespuestasPage({
           </a>
         )}
       </div>
+
+      {/*
+        Cuando hay más respuestas de las que caben en pantalla, se dice. La
+        alternativa era que la lista pareciera completa y no lo fuera, que es
+        justo lo que se vino a arreglar.
+      */}
+      {hayMasDeLasQueSeVen && (
+        <div
+          className="px-4 py-3"
+          style={{
+            background: "#EFF6FF",
+            border: "1px solid #BFDBFE",
+            borderRadius: 8,
+          }}
+        >
+          <p style={{ fontSize: 13, color: "#1E40AF", margin: 0, lineHeight: 1.5 }}>
+            <strong>
+              Se muestran las {respuestas.length} más recientes de{" "}
+              {totalRespuestas} en total.
+            </strong>{" "}
+            Para verlas todas, usa <strong>Descargar en Excel</strong>: el archivo
+            sí trae las {totalRespuestas}.
+          </p>
+        </div>
+      )}
 
       {sinAvisar > 0 && (
         <div
