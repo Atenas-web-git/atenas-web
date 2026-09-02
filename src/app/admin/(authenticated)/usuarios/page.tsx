@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { Plus, Download } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, ROLE_LABELS, hasRole, type RoleSlug } from "@/lib/auth/types";
@@ -118,6 +118,29 @@ export default async function UsuariosPage() {
             {users.length} usuario{users.length === 1 ? "" : "s"} en total
           </span>
         </div>
+        <div className="flex items-center gap-2">
+        {/*
+          El registro de descargas se enlaza desde aquí porque va de lo mismo:
+          quién tiene acceso y qué hace con él. Y porque esta pantalla ya es
+          solo para el superadministrador, igual que ese registro.
+        */}
+        <Link
+          href="/admin/usuarios/descargas"
+          className="flex items-center gap-2 rounded-md transition-opacity"
+          style={{
+            height: 40,
+            padding: "0 16px",
+            background: "#FFFFFF",
+            border: "1px solid #8A857E",
+            color: "#1A2B4A",
+            fontSize: 14,
+            fontWeight: 600,
+            textDecoration: "none",
+          }}
+        >
+          <Download size={15} strokeWidth={2.5} />
+          Ver descargas
+        </Link>
         <Link
           href="/admin/usuarios/nuevo"
           className="flex items-center gap-2 rounded-md transition-opacity"
@@ -134,6 +157,7 @@ export default async function UsuariosPage() {
           <Plus size={16} strokeWidth={2.5} />
           Crear usuario
         </Link>
+        </div>
       </div>
 
       <div

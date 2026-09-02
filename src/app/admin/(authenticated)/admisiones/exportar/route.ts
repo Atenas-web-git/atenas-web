@@ -7,6 +7,7 @@ import { ROLES, hasAnyRole } from "@/lib/auth/types";
 import { celdaCsv, BOM_UTF8 } from "@/lib/csv";
 import { filtrarSolicitudes } from "@/lib/admisiones/filtros";
 import { traerTodas } from "@/lib/supabase/paginar";
+import { registrarDescarga } from "@/lib/security/registroDescargas";
 
 /**
  * Las columnas que se exportan. Antes el tipo lo inferíaSupabase de la consulta;
@@ -119,6 +120,22 @@ export async function GET(req: NextRequest) {
     "Fecha recibida",
     "Cómo llegó",
   ];
+
+  /*
+    Queda constancia ANTES de devolver el archivo, y solo cuando ya se sabe
+    cuántas filas se lleva: un registro que dijera «descargó» sin decir cuánto
+    no distingue mirar una familia de llevarse el padrón entero.
+
+    No se espera al `await` para nada más: si el registro falla, la descarga
+    sigue. Ver `registroDescargas.ts`.
+  */
+  await registrarDescarga({
+    recurso: "admisiones",
+    usuarioId: user.id,
+    usuarioNombre: user.fullName,
+    filtros: { estado, nivel, busqueda },
+    filas: data.length,
+  });
 
   const rows = data.map((s) =>
     [

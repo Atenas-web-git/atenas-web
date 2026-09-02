@@ -30,6 +30,7 @@ import {
   clavesRetiradasDe,
 } from "@/lib/formularios/tipos";
 import { traerTodas } from "@/lib/supabase/paginar";
+import { registrarDescarga } from "@/lib/security/registroDescargas";
 
 /** Una fila tal como sale de la consulta. */
 type FilaRespuesta = {
@@ -102,6 +103,23 @@ export async function GET(
   // Sin el doble casteo de antes: el tipo va ahora en `FilaRespuesta`, que es
   // el mismo que se le pide a `traerTodas`.
   const filas = resultado.filas;
+
+  /*
+    Queda constancia. Estas respuestas también son datos personales: las
+    postulaciones de empleo traen hoja de vida, y las consultas de admisión los
+    datos del menor.
+
+    El recurso lleva el slug del formulario porque «descargó respuestas» sin
+    decir de cuál no sirve de nada: no es lo mismo bajarse los contactos que
+    las postulaciones.
+  */
+  await registrarDescarga({
+    recurso: `formulario:${formulario.slug}`,
+    usuarioId: user.id,
+    usuarioNombre: user.fullName,
+    filtros: { estado },
+    filas: filas.length,
+  });
 
   const camposDatos = formulario.campos.filter((c) => c.tipo !== "archivo");
   const camposArchivo = formulario.campos.filter((c) => c.tipo === "archivo");

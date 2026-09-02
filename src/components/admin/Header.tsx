@@ -281,6 +281,11 @@ const MAPA: Entrada[] = [
     subtitulo: "Gestiona quién accede al backoffice y con qué rol",
   },
   {
+    patron: "/admin/usuarios/descargas",
+    titulo: "Descargas de datos personales",
+    subtitulo: "Quién se ha bajado el padrón o las respuestas de un formulario, y cuándo",
+  },
+  {
     patron: "/admin/usuarios/nuevo",
     titulo: "Crear nuevo usuario",
     subtitulo: "Solo el superadministrador puede crear cuentas",
