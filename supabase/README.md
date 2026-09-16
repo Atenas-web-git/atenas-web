@@ -111,11 +111,9 @@ Ejecutar en `Supabase Dashboard → SQL Editor`, en este orden:
 
 ## Variables de entorno requeridas
 
-`.env.local` (y Vercel):
+La lista completa, con qué hace cada una, está en **`web/.env.example`**. No se repite aquí:
+esta lista se quedó atrás dos veces.
 
-```
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
-SUPABASE_SERVICE_ROLE_KEY=          # solo en backend / no exponer al cliente
-RESEND_API_KEY=                     # opcional hasta configurar DNS
-```
+> **Plan gratuito de Supabase:** el proyecto se pausa tras 7 días sin actividad, y las visitas al
+> sitio no cuentan porque las páginas son estáticas. Lo evita el cron de `vercel.json`, que solo
+> corre en el despliegue de producción.
