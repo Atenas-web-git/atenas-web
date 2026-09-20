@@ -5,13 +5,13 @@ import { useEffect, useRef, useState } from "react";
 // Solo el tipo: se borra al compilar y no arrastra la librería al paquete.
 import type { Viewer } from "@photo-sphere-viewer/core";
 import type { EscenaPaseo } from "@/lib/paseo/getPaseo";
+import { MenuEspacios } from "./MenuEspacios";
 
 // Los estilos sí van arriba, aunque la librería se cargue dentro del efecto:
 // son unos pocos KB y viajan con el trozo de esta página, no con el sitio.
 import "@photo-sphere-viewer/core/index.css";
 import "@photo-sphere-viewer/markers-plugin/index.css";
 import "@photo-sphere-viewer/virtual-tour-plugin/index.css";
-import "@photo-sphere-viewer/gallery-plugin/index.css";
 
 /**
  * El visor 360° del paseo virtual.
@@ -57,7 +57,10 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
   const [fallo, setFallo] = useState(false);
   const [entrando, setEntrando] = useState(true);
   const [actual, setActual] = useState<EscenaPaseo | null>(escenas[0] ?? null);
+  const [menuAbierto, setMenuAbierto] = useState(false);
   const cortar = useRef<() => void>(() => {});
+  /** El plugin del recorrido, para poder saltar a un espacio desde el menú. */
+  const recorrido = useRef<{ setCurrentNode: (id: string) => void } | null>(null);
 
   useEffect(() => {
     if (!contenedor.current || escenas.length === 0) return;
@@ -131,14 +134,12 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
           { MarkersPlugin },
           { VirtualTourPlugin },
           { GyroscopePlugin },
-          { GalleryPlugin },
         ] = await Promise.all([
           import("@photo-sphere-viewer/core"),
           import("@photo-sphere-viewer/cubemap-adapter"),
           import("@photo-sphere-viewer/markers-plugin"),
           import("@photo-sphere-viewer/virtual-tour-plugin"),
           import("@photo-sphere-viewer/gyroscope-plugin"),
-          import("@photo-sphere-viewer/gallery-plugin"),
         ]);
 
         // El componente puede haberse desmontado mientras cargaban las
@@ -184,16 +185,49 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
           })),
         }));
 
+        /**
+         * El giroscopio solo donde existe.
+         *
+         * En una computadora ese botón no hace absolutamente nada: se pulsa y
+         * no pasa nada, sin aviso. Lo cazó Esteban el 2026-09-20 en la barra
+         * del visor. Se muestra únicamente en dispositivos que se manejan con
+         * el dedo y que informan de su orientación, o sea teléfonos y tabletas.
+         *
+         * El de pantalla completa sí funciona: lo que falla es el navegador
+         * incrustado de la app, que bloquea esa función incluso en una página
+         * vacía. Comprobado con una prueba suelta el 2026-09-20.
+         */
+        const hayGiroscopio =
+          window.matchMedia("(pointer: coarse)").matches && "DeviceOrientationEvent" in window;
+
         const v = new Viewer({
           container: contenedor.current,
           adapter: CubemapAdapter,
           defaultZoomLvl: 50,
-          navbar: ["zoom", "move", "gallery", "gyroscope", "fullscreen"],
+          navbar: ["zoom", "move", ...(hayGiroscopio ? ["gyroscope"] : []), "fullscreen"],
           loadingTxt: "Cargando el campus…",
+          // El visor viene en inglés: «Zoom out», «Move up», «Fullscreen».
+          lang: {
+            zoom: "Acercar o alejar",
+            zoomOut: "Alejar",
+            zoomIn: "Acercar",
+            moveUp: "Mirar arriba",
+            moveDown: "Mirar abajo",
+            moveLeft: "Mirar a la izquierda",
+            moveRight: "Mirar a la derecha",
+            fullscreen: "Pantalla completa",
+            menu: "Más opciones",
+            close: "Cerrar",
+            loading: "Cargando…",
+            gyroscope: "Mover con el teléfono",
+            twoFingers: "Usa dos dedos para moverte",
+            ctrlZoom: "Usa ctrl + rueda para acercar",
+            loadError: "No se pudo cargar esta vista del campus",
+            webglError: "Tu navegador no puede mostrar el recorrido 360°",
+          },
           plugins: [
             MarkersPlugin,
             GyroscopePlugin,
-            [GalleryPlugin, { visibleOnLoad: false, thumbnailSize: { width: 140, height: 80 } }],
             [
               VirtualTourPlugin,
               {
@@ -221,6 +255,7 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
         visor = v as unknown as { destroy: () => void };
 
         const tour = v.getPlugin(VirtualTourPlugin) as InstanceType<typeof VirtualTourPlugin>;
+        recorrido.current = tour;
 
         // ⚠️ El oyente va ANTES de `setNodes`: el aviso del primer espacio se
         // dispara al cargarlo, y si se registra después no llega nunca. Con él
@@ -267,6 +302,7 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
     return () => {
       vivo = false;
       vuelo?.cancel();
+      recorrido.current = null;
       visor?.destroy();
     };
   }, [escenas]);
@@ -317,6 +353,22 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
           style={{ width: "100%", height: "min(78vh, 720px)" }}
           aria-label="Recorrido 360° por el campus"
         />
+
+        {!cargando && (
+          <MenuEspacios
+            escenas={escenas}
+            actual={actual?.slug ?? null}
+            abierto={menuAbierto}
+            onAbrir={setMenuAbierto}
+            onIr={(slug) => {
+              // Saltar desde el menú también corta el descenso de entrada:
+              // si no, la cámara seguiría moviéndose en el espacio nuevo.
+              cortar.current();
+              recorrido.current?.setCurrentNode(slug);
+              setMenuAbierto(false);
+            }}
+          />
+        )}
 
       {/* La entrada aérea: el rótulo se va con el descenso. */}
       {entrando && !cargando && (
