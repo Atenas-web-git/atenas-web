@@ -134,12 +134,14 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
           { MarkersPlugin },
           { VirtualTourPlugin },
           { GyroscopePlugin },
+          { StereoPlugin },
         ] = await Promise.all([
           import("@photo-sphere-viewer/core"),
           import("@photo-sphere-viewer/cubemap-adapter"),
           import("@photo-sphere-viewer/markers-plugin"),
           import("@photo-sphere-viewer/virtual-tour-plugin"),
           import("@photo-sphere-viewer/gyroscope-plugin"),
+          import("@photo-sphere-viewer/stereo-plugin"),
         ]);
 
         // El componente puede haberse desmontado mientras cargaban las
@@ -196,6 +198,10 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
          * El de pantalla completa sí funciona: lo que falla es el navegador
          * incrustado de la app, que bloquea esa función incluso en una página
          * vacía. Comprobado con una prueba suelta el 2026-09-20.
+         *
+         * El modo VR va en la misma condición: **necesita el giroscopio** para
+         * seguir el movimiento de la cabeza, así que en una computadora sería
+         * otro botón muerto. Además entra en pantalla completa al activarse.
          */
         const hayGiroscopio =
           window.matchMedia("(pointer: coarse)").matches && "DeviceOrientationEvent" in window;
@@ -204,7 +210,12 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
           container: contenedor.current,
           adapter: CubemapAdapter,
           defaultZoomLvl: 50,
-          navbar: ["zoom", "move", ...(hayGiroscopio ? ["gyroscope"] : []), "fullscreen"],
+          navbar: [
+            "zoom",
+            "move",
+            ...(hayGiroscopio ? ["gyroscope", "stereo"] : []),
+            "fullscreen",
+          ],
           loadingTxt: "Cargando el campus…",
           // El visor viene en inglés: «Zoom out», «Move up», «Fullscreen».
           lang: {
@@ -220,6 +231,10 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
             close: "Cerrar",
             loading: "Cargando…",
             gyroscope: "Mover con el teléfono",
+            stereo: "Ver con gafas VR",
+            stereoNotification: "Toca la pantalla para salir del modo VR",
+            pleaseRotate: "Gira el teléfono",
+            tapToContinue: "y toca la pantalla para continuar",
             twoFingers: "Usa dos dedos para moverte",
             ctrlZoom: "Usa ctrl + rueda para acercar",
             loadError: "No se pudo cargar esta vista del campus",
@@ -228,6 +243,13 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
           plugins: [
             MarkersPlugin,
             GyroscopePlugin,
+            /**
+             * El VR/Cardboard que promete la propuesta: parte la pantalla en
+             * dos para meter el teléfono en unas gafas de cartón. Se apoya en
+             * el giroscopio —el propio complemento lo exige— y por eso los dos
+             * botones aparecen juntos o no aparece ninguno.
+             */
+            StereoPlugin,
             [
               VirtualTourPlugin,
               {
