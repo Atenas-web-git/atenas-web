@@ -110,7 +110,7 @@ export function NavbarConfigForm({ initial }: { initial: NavbarConfig }) {
 
       <Card
         title="Botón «Tour Virtual»"
-        subtitle="Píldora roja con borde. Suele apuntar al paseo virtual 360°. Cuando el cliente entregue la URL real, edítalo aquí."
+        subtitle="Píldora roja con borde. Apunta al paseo virtual 360°, que desde el 2026-09-20 es una página de este mismo sitio: la dirección correcta es /paseo-virtual. Ya no hay que enlazar el tour antiguo."
       >
         <Toggle
           label="Mostrar este botón"

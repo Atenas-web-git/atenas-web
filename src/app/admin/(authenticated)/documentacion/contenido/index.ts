@@ -2,6 +2,7 @@ import type { Seccion } from "../tipos";
 import { PRIMEROS_PASOS, ROLES_SECCION } from "./basico";
 import { EDITOR, PAGINAS } from "./paginas";
 import { NOTIFICACIONES, CRONOGRAMA, DOCUMENTOS, RECONOCIMIENTOS, GALERIA } from "./modulos";
+import { PASEO } from "./paseo";
 import { ADMISIONES, CORREOS } from "./admisiones";
 import { FORMULARIOS, VACANTES } from "./formularios";
 import { CONFIGURACION, USUARIOS } from "./ajustes";
@@ -18,6 +19,7 @@ export const SECCIONES: Seccion[] = [
   DOCUMENTOS,
   RECONOCIMIENTOS,
   GALERIA,
+  PASEO,
   FORMULARIOS,
   VACANTES,
   ADMISIONES,

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { FileText, Newspaper, Calendar, Image as ImageIcon, FileBox, Trophy, Mail, ClipboardList, BriefcaseBusiness, ArrowRight } from "lucide-react";
+import { FileText, Newspaper, Calendar, Image as ImageIcon, FileBox, Trophy, Mail, ClipboardList, BriefcaseBusiness, ArrowRight, Compass } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole, hasRole, type AdminUser } from "@/lib/auth/types";
 import {
@@ -48,6 +48,16 @@ const SECCIONES: {
     icon: Calendar,
     activa: true,
     visible: (u) => !hasRole(u, ROLES.EDITOR_TALENTO),
+  },
+  {
+    href: "/admin/contenido/paseo",
+    title: "Paseo virtual",
+    description: "Los espacios del recorrido 360° por el campus: nombre, descripción, zona, orden y cuáles se ven.",
+    icon: Compass,
+    activa: true,
+    // Lo maneja marketing, que es el rol de comunicaciones. Mismo corte que
+    // las políticas de la base en la migración 089.
+    visible: (u) => hasRole(u, ROLES.SUPERADMIN) || hasRole(u, ROLES.EDITOR_COMM),
   },
   {
     href: "/admin/contenido/galeria",

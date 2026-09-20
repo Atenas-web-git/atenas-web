@@ -147,6 +147,16 @@ const MAPA: Entrada[] = [
     subtitulo: "Textos y destinatarios de este formulario fijo",
   },
   {
+    patron: "/admin/contenido/paseo",
+    titulo: "Paseo virtual",
+    subtitulo: "Los espacios del recorrido 360° del campus",
+  },
+  {
+    patron: "/admin/contenido/paseo/:slug",
+    titulo: "Editar espacio",
+    subtitulo: "Nombre, descripción, zona y si se ve en el paseo",
+  },
+  {
     patron: "/admin/contenido/galeria",
     titulo: "Galería de imágenes",
     subtitulo: "Todas las fotos del sitio en un solo sitio: sube, busca y reutiliza",

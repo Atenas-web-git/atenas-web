@@ -436,7 +436,7 @@ export const PAGINAS: Seccion = {
           filas: [
             [
               "K · Ficha de servicio",
-              "Portada, tres cifras con icono, collage de 3 fotos, descripción y tres pasos numerados. Icono y color editables. Lleva también **accesos a sistemas externos** —botones hacia la biblioteca virtual, la revista o el paseo virtual—, y en Biblioteca la tarjeta destacada de la Revista Atenas. En Quejas y sugerencias, además, el formulario.",
+              "Portada, tres cifras con icono, collage de 3 fotos, descripción y tres pasos numerados. Icono y color editables. Lleva también **accesos a sistemas externos** —botones hacia la biblioteca virtual o la revista; el paseo virtual ya no es uno de ellos, ahora es una página del propio sitio—, y en Biblioteca la tarjeta destacada de la Revista Atenas. En Quejas y sugerencias, además, el formulario.",
               "Bar y cafetería, Biblioteca, Transporte",
             ],
             [

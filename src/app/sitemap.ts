@@ -43,6 +43,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     page("/academico/ib", 0.9, "monthly"),
     page("/contactos", 0.9, "monthly"),
     page("/matriculas", 0.9, "monthly"),
+    // El paseo virtual vive dentro del sitio desde el 2026-09-20; antes era un
+    // enlace a otro dominio y por eso no estaba aquí.
+    page("/paseo-virtual", 0.9, "monthly"),
 
     // El Atenas
     page("/el-atenas/historia", 0.8),

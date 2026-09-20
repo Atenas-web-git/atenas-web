@@ -57,8 +57,12 @@ export const PRACTICAS: Seccion = {
               desc: "Apuntar `atenas.edu.ec` al sitio y configurar SPF, DKIM y DMARC para que los correos no caigan en spam. Es trabajo del departamento de TI.",
             },
             {
-              campo: "El tour virtual",
-              desc: "Vive en su propio servicio; el sitio solo enlaza a él.",
+              campo: "Los accesos del paseo virtual",
+              desc: "Los círculos que llevan de un espacio a otro. Se pueden escribir y esconder espacios desde Contenido › Paseo virtual, pero **mover un acceso o crear uno nuevo lo hacemos nosotros**.",
+            },
+            {
+              campo: "Las fotografías del paseo virtual",
+              desc: "Reemplazar la foto 360° de un espacio. En preparación: por ahora se pide y la cambiamos nosotros.",
             },
             {
               campo: "Pagos en línea",

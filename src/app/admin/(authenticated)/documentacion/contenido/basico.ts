@@ -175,6 +175,7 @@ export const PRIMEROS_PASOS: Seccion = {
             "**Reconocimientos** — categorías, logros y galerías de fotos.",
             "**Cronograma anual** — eventos del año en tres vistas: tarjetas, calendario y línea de tiempo.",
             "**Documentos institucionales** — descargas en PDF.",
+            "**Paseo virtual 360°** — el recorrido por el campus, espacio por espacio.",
             "**Contactos** — datos, mapa y formulario de mensaje.",
             "**Trabaja con nosotros** — las vacantes abiertas, cada una con su página y su formulario.",
             "**Portal familiar** y las **Políticas** institucionales.",
@@ -187,7 +188,7 @@ export const PRIMEROS_PASOS: Seccion = {
             "**Barra de navegación** con el mega-menú, el badge de 50 años y los botones de Portal Familiar y Tour Virtual.",
             "**Buscador** — se abre con `Ctrl + K` (o `Cmd + K` en Mac) y busca en todo el sitio.",
             "**Notificaciones** — la campana, los popups de bienvenida y el banner superior.",
-            "**Chatbot «Ateneo»** — el asistente con inteligencia artificial, en la burbuja flotante.",
+            "**Chatbot «Ateneo»** — el asistente con inteligencia artificial, en la burbuja flotante. No sale en el formulario de admisión, en su seguimiento ni en el paseo virtual, donde taparía lo que se está mirando.",
             "**Footer** — el bloque final con enlaces, aliados y datos de contacto.",
           ],
         },
@@ -232,13 +233,13 @@ export const ROLES_SECCION: Seccion = {
             ],
             [
               "Editor de Comunicaciones",
-              "Contenido completo: páginas, notificaciones, cronograma, galería, documentos, reconocimientos, formularios (contactos, quejas y consultas de admisión) y sus plantillas de correo",
+              "Contenido completo: páginas, notificaciones, cronograma, galería, documentos, reconocimientos, **paseo virtual**, formularios (contactos, quejas y consultas de admisión) y sus plantillas de correo",
               "Admisiones, Usuarios, Configuración —salvo Fechas de matrículas— y **las postulaciones de empleo**",
             ],
             [
               "Editor Académico",
-              "Las mismas páginas y módulos que Comunicaciones",
-              "Formularios y sus respuestas, Vacantes, Admisiones, Usuarios y Configuración",
+              "Las mismas páginas y módulos que Comunicaciones, **menos el paseo virtual**",
+              "Paseo virtual, Formularios y sus respuestas, Vacantes, Admisiones, Usuarios y Configuración",
             ],
             [
               "Editor de Admisiones",

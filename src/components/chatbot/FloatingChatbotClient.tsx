@@ -40,7 +40,11 @@ export function FloatingChatbotClient({
   const isHidden =
     pathname?.startsWith("/admin") ||
     pathname?.startsWith("/admisiones/formulario") ||
-    pathname?.startsWith("/admisiones/seguimiento");
+    pathname?.startsWith("/admisiones/seguimiento") ||
+    // En el paseo virtual, el botón flotante cae justo encima de los accesos
+    // del recorrido y se queda con el toque: en la vista aérea tapa uno de los
+    // doce. Medido a 375 px el 2026-09-20.
+    pathname?.startsWith("/paseo-virtual");
 
   // Se oculta cuando el mega-menú está abierto (mismo evento que usa FloatingBoot)
   useEffect(() => {

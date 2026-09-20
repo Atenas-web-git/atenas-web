@@ -108,6 +108,16 @@ Ejecutar en `Supabase Dashboard → SQL Editor`, en este orden:
 40. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)
 41. Crear primer usuario en `Authentication → Users` (UI)
 42. `scripts/create_first_superadmin.sql` reemplazando `<USER_UUID>` por el UID del paso 41
+43. `seed/paseo_virtual.sql` — las 63 escenas y los 229 accesos del paseo. Requiere la 089.
+
+> [!warning] El paseo necesita además un bucket y 441 imágenes, y eso NO está en ninguna migración
+> El bucket `paseo` se creó a mano por la API el 2026-09-19: **privado**, solo `image/webp`, 8 MB
+> por archivo. Las fotos se suben con
+> `_Context/paseo-virtual-original/_herramientas/convertir-y-subir.py`, que convierte las caras del
+> tour de 2016 a WebP y las deja en `<carpeta>/v1/<cara>.webp`.
+>
+> Si se levanta el proyecto de cero y se salta este paso, el paseo queda con sus 63 fichas en la
+> base y **sin una sola fotografía**, que es justo el fallo que no avisa.
 
 ## Variables de entorno requeridas
 
