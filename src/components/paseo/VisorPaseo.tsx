@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+// Solo el tipo: se borra al compilar y no arrastra la librería al paquete.
+import type { Viewer } from "@photo-sphere-viewer/core";
 import type { EscenaPaseo } from "@/lib/paseo/getPaseo";
 
 // Los estilos sí van arriba, aunque la librería se cargue dentro del efecto:
@@ -53,13 +55,73 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
   const contenedor = useRef<HTMLDivElement>(null);
   const [cargando, setCargando] = useState(true);
   const [fallo, setFallo] = useState(false);
+  const [entrando, setEntrando] = useState(true);
   const [actual, setActual] = useState<EscenaPaseo | null>(escenas[0] ?? null);
+  const cortar = useRef<() => void>(() => {});
 
   useEffect(() => {
     if (!contenedor.current || escenas.length === 0) return;
 
+    const sinMovimiento =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     let visor: { destroy: () => void } | null = null;
     let vivo = true;
+    let primera = true;
+    let vuelo: { cancel: () => void } | null = null;
+
+    /** Corta el descenso en cuanto alguien toca la pantalla: manda el visitante. */
+    const cortarVuelo = () => {
+      vuelo?.cancel();
+      vuelo = null;
+      if (vivo) setEntrando(false);
+    };
+
+    /**
+     * La entrada: el campus visto desde arriba y de lejos, y la cámara baja
+     * hasta la vista con la que abría el tour.
+     *
+     * Es la «entrada aérea» de la propuesta. No hace falta ni un video ni una
+     * imagen aparte: el descenso se hace **dentro de la propia fotografía**,
+     * que ya está cargándose de todos modos. Y así el movimiento tapa el par
+     * de segundos que tardan las seis caras en llegar.
+     */
+    const entrar = (v: Viewer, escena: EscenaPaseo) => {
+      const destino = {
+        yaw: `${escena.vista.yaw}deg`,
+        pitch: `${escena.vista.pitch}deg`,
+        zoom: v.dataHelper.fovToZoomLevel(escena.vista.fov),
+      };
+
+      // Quien pidió menos movimiento no recibe un descenso de cinco segundos.
+      if (sinMovimiento) {
+        v.rotate({ yaw: destino.yaw, pitch: destino.pitch });
+        v.zoom(destino.zoom);
+        setEntrando(false);
+        return;
+      }
+
+      // Punto de partida: más arriba, más abierto y girado un poco, para que
+      // el movimiento tenga dirección y no sea solo un acercamiento.
+      v.rotate({ yaw: `${escena.vista.yaw - 25}deg`, pitch: "-70deg" });
+      v.zoom(v.dataHelper.fovToZoomLevel(110));
+
+      /**
+       * `rpm` son **vueltas por minuto**: 9 rpm son 54 grados por segundo y el
+       * descenso entero se acababa en menos de un segundo. A 1,5 rpm son unos
+       * 9 grados por segundo, que sobre los ~45 grados del recorrido dan unos
+       * cuatro segundos y medio: se ve el movimiento sin que nadie espere.
+       */
+      const animacion = v.animate({ ...destino, speed: "1.5rpm" });
+      vuelo = animacion;
+      Promise.resolve(animacion).then(() => {
+        if (vivo && vuelo === animacion) {
+          vuelo = null;
+          setEntrando(false);
+        }
+      });
+    };
 
     (async () => {
       try {
@@ -141,6 +203,17 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
                 // celular: la vista aérea tiene 12 accesos juntos sobre el
                 // campus y se solapan entre ellos. Medido en 375 px.
                 arrowStyle: { size: { width: 48, height: 48 } },
+                /**
+                 * El paso entre espacios: fundido suave y giro previo hacia el
+                 * acceso que se pulsó, para que se entienda **hacia dónde** se
+                 * está yendo. Es lo que la propuesta llama «transiciones».
+                 */
+                transitionOptions: {
+                  showLoader: true,
+                  speed: "12rpm",
+                  effect: "fade",
+                  rotation: true,
+                },
               },
             ],
           ],
@@ -148,18 +221,40 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
         visor = v as unknown as { destroy: () => void };
 
         const tour = v.getPlugin(VirtualTourPlugin) as InstanceType<typeof VirtualTourPlugin>;
-        tour.setNodes(nodos, escenas[0].slug);
 
+        // ⚠️ El oyente va ANTES de `setNodes`: el aviso del primer espacio se
+        // dispara al cargarlo, y si se registra después no llega nunca. Con él
+        // se perdía la entrada aérea entera, sin ningún error por consola.
         tour.addEventListener("node-changed", ({ node }: { node: { id: string } }) => {
           const escena = escenas.find((e) => e.slug === node.id);
           if (!escena) return;
           setActual(escena);
-          // Cada espacio abre mirando a donde miraba en el tour viejo.
+          // El primer espacio no se coloca aquí: lo coloca la entrada aérea,
+          // y **después** de `ready`. Lanzarla en este aviso no sirve: llega
+          // antes de que la escena esté pintada y el propio visor la pisa al
+          // terminar de cargarla, así que el descenso no se veía.
+          if (primera) return;
+          // Los demás abren mirando a donde miraban en el tour viejo.
           v.rotate({ yaw: `${escena.vista.yaw}deg`, pitch: `${escena.vista.pitch}deg` });
           v.zoom(v.dataHelper.fovToZoomLevel(escena.vista.fov));
         });
 
-        v.addEventListener("ready", () => vivo && setCargando(false), { once: true });
+        tour.setNodes(nodos, escenas[0].slug);
+
+        v.addEventListener(
+          "ready",
+          () => {
+            if (!vivo) return;
+            setCargando(false);
+            primera = false;
+            entrar(v, escenas[0]);
+          },
+          { once: true }
+        );
+
+        // Un dedo o un ratón sobre la escena mandan más que la animación.
+        cortar.current = cortarVuelo;
+        contenedor.current.addEventListener("pointerdown", cortarVuelo, { once: true });
       } catch (e) {
         console.error("[paseo] no se pudo montar el visor:", e);
         if (vivo) {
@@ -171,6 +266,7 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
 
     return () => {
       vivo = false;
+      vuelo?.cancel();
       visor?.destroy();
     };
   }, [escenas]);
@@ -205,12 +301,99 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
   }
 
   return (
-    <div style={{ position: "relative", background: "#1A2B4A" }}>
-      <div
-        ref={contenedor}
-        style={{ width: "100%", height: "min(78vh, 720px)" }}
-        aria-label="Recorrido 360° por el campus"
-      />
+    <div style={{ background: "#1A2B4A" }}>
+      {/* Los accesos se quedan visibles durante el descenso, a propósito.
+          Se intentó esconderlos y no se puede desde fuera: el plugin no los
+          pinta en la página, los dibuja dentro del lienzo 3D, así que ni el
+          CSS ni `hideAllMarkers()` los tocan. Probado el 2026-09-20. Además
+          se ven bien: dicen desde el primer segundo que hay dónde entrar. */}
+
+      {/* El rótulo de la entrada se coloca sobre el visor y NO sobre el bloque
+          de texto de abajo: con `inset: 0` en el contenedor entero acababa
+          fuera de la pantalla, debajo del nombre del espacio. */}
+      <div style={{ position: "relative" }}>
+        <div
+          ref={contenedor}
+          style={{ width: "100%", height: "min(78vh, 720px)" }}
+          aria-label="Recorrido 360° por el campus"
+        />
+
+      {/* La entrada aérea: el rótulo se va con el descenso. */}
+      {entrando && !cargando && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            flexDirection: "column",
+            // Centrado y no abajo: en un celular el visor ocupa 78vh **debajo**
+            // de la cabecera, así que su borde inferior cae fuera de pantalla
+            // y el botón quedaba donde nadie lo ve. Medido a 375×812.
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "1rem",
+            padding: "0 1.25rem",
+            textAlign: "center",
+            background: "linear-gradient(to bottom, rgba(26,43,74,.45) 0%, rgba(26,43,74,.1) 50%, rgba(26,43,74,.55) 100%)",
+            color: "#F8F5F0",
+            pointerEvents: "none",
+            animation: "paseoEntradaRotulo 1.2s ease both",
+            /**
+             * Los accesos del visor llevan z-index 21 dentro de su contenedor,
+             * y un elemento posicionado sin z-index cuenta como 0: el rótulo
+             * quedaba DEBAJO de las doce flechas. 95 lo pone encima de ellas y
+             * de la barra de controles (90), y debajo de los avisos del propio
+             * visor (110).
+             */
+            zIndex: 95,
+          }}
+        >
+          <style>{`
+            @keyframes paseoEntradaRotulo {
+              from { opacity: 0; transform: translateY(12px); }
+              to   { opacity: 1; transform: none; }
+            }
+          `}</style>
+
+          {/* El rótulo lleva su propio fondo: sobre la vista aérea hay doce
+              accesos blancos y el texto suelto se perdía entre ellos. */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "1rem",
+              padding: "1.25rem 1.5rem",
+              borderRadius: 18,
+              background: "rgba(13,24,37,.82)",
+              backdropFilter: "blur(3px)",
+            }}
+          >
+          <p style={{ margin: 0, fontSize: "clamp(1.25rem, 4vw, 1.75rem)", fontWeight: 700 }}>
+            Bienvenido al campus
+          </p>
+
+          <button
+            type="button"
+            onClick={() => cortar.current()}
+            style={{
+              pointerEvents: "auto",
+              minHeight: 44,
+              padding: "0 1.5rem",
+              borderRadius: 999,
+              border: "1px solid rgba(248,245,240,.55)",
+              background: "rgba(26,43,74,.72)",
+              color: "#F8F5F0",
+              fontSize: "1rem",
+              fontWeight: 600,
+              cursor: "pointer",
+            }}
+          >
+            Empezar el recorrido
+          </button>
+          </div>
+        </div>
+      )}
 
       {cargando && (
         <p
@@ -227,6 +410,7 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
           Cargando el campus…
         </p>
       )}
+      </div>
 
       {actual && (
         <div
