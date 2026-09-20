@@ -157,3 +157,125 @@ export async function publicarEscenaAction(
   revalidar(slug);
   return { error: null, ok: true };
 }
+
+// ───────────────────────────────────────────────────────────
+// REEMPLAZAR LA FOTOGRAFÍA DE UN ESPACIO
+//
+// La conversión de la foto 360° a las seis caras del cubo ocurre en el
+// navegador de quien la sube (ver `lib/paseo/caras.ts`): son 25 millones de
+// píxeles y una función de servidor se corta antes de terminar.
+//
+// Y las caras viajan del navegador a Supabase **directamente**, con permisos de
+// un solo uso que firma el servidor. Si pasaran por aquí, chocarían con el tope
+// de 4,5 MB por petición de Vercel.
+//
+// El orden importa: primero se suben los siete archivos de la versión nueva y
+// solo al final se cambia el número de versión de la escena. Así, si la subida
+// se corta a medias, el paseo sigue mostrando la foto anterior en vez de
+// quedarse con medio cubo.
+// ───────────────────────────────────────────────────────────
+
+const ARCHIVOS = [
+  "front.webp",
+  "right.webp",
+  "back.webp",
+  "left.webp",
+  "top.webp",
+  "bottom.webp",
+  "thumbnail.webp",
+] as const;
+
+export type PermisosSubida = {
+  error: string | null;
+  version?: number;
+  /** Un permiso de subida por archivo: camino dentro del bucket y vale-de-un-uso. */
+  permisos?: { archivo: string; camino: string; token: string }[];
+};
+
+export async function pedirSubidaFotoAction(slug: string): Promise<PermisosSubida> {
+  await assertEditor();
+
+  const supabase = createAdminClient();
+  const { data: escena, error } = await supabase
+    .from("paseo_escenas")
+    .select("carpeta, version_imagen")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (error || !escena) return { error: "No se encontró el espacio." };
+
+  const version = escena.version_imagen + 1;
+  const permisos: { archivo: string; camino: string; token: string }[] = [];
+
+  for (const archivo of ARCHIVOS) {
+    const camino = `${escena.carpeta}/v${version}/${archivo}`;
+    const { data, error: fallo } = await supabase.storage
+      .from("paseo")
+      .createSignedUploadUrl(camino);
+
+    if (fallo || !data) {
+      console.error("[paseo] no se pudo firmar la subida", camino, fallo?.message);
+      return { error: "No se pudo preparar la subida. Inténtalo otra vez." };
+    }
+    permisos.push({ archivo, camino, token: data.token });
+  }
+
+  return { error: null, version, permisos };
+}
+
+export async function confirmarFotoAction(
+  slug: string,
+  version: number
+): Promise<PaseoActionState> {
+  await assertEditor();
+
+  if (!Number.isInteger(version) || version < 2) {
+    return { error: "Versión de imagen no válida.", ok: false };
+  }
+
+  const supabase = createAdminClient();
+  const { data: escena } = await supabase
+    .from("paseo_escenas")
+    .select("carpeta, version_imagen")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (!escena) return { error: "No se encontró el espacio.", ok: false };
+
+  // Se comprueba que estén LOS SIETE antes de dar el cambio por bueno. Sin
+  // esto, una subida a medias dejaría el espacio con caras de dos fotos
+  // distintas: el visor no avisa, simplemente pinta un cubo imposible.
+  const { data: subidos, error: fallo } = await supabase.storage
+    .from("paseo")
+    .list(`${escena.carpeta}/v${version}`, { limit: 20 });
+
+  if (fallo) {
+    console.error("[paseo] no se pudo comprobar la subida", fallo.message);
+    return { error: "No se pudo comprobar la subida. Inténtalo otra vez.", ok: false };
+  }
+
+  const nombres = new Set((subidos ?? []).map((o) => o.name));
+  const faltan = ARCHIVOS.filter((a) => !nombres.has(a));
+  if (faltan.length > 0) {
+    return {
+      error: `La subida quedó incompleta (faltan ${faltan.length} de 7 archivos). No se cambió la foto; vuelve a intentarlo.`,
+      ok: false,
+    };
+  }
+
+  const { error: alGuardar } = await supabase
+    .from("paseo_escenas")
+    .update({ version_imagen: version })
+    .eq("slug", slug);
+
+  if (alGuardar) {
+    console.error("[paseo] no se pudo cambiar la versión", slug, alGuardar.message);
+    return { error: "No se pudo guardar. Inténtalo otra vez.", ok: false };
+  }
+
+  // La versión anterior NO se borra: puede seguir viva en la caché del sitio
+  // durante un año, y borrarla dejaría huecos en quien la tenga a medio cargar.
+  // Son ~1,2 MB por escena reemplazada; si algún día molesta, se limpia aparte.
+  revalidar(slug);
+  return { error: null, ok: true };
+}

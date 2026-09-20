@@ -5,6 +5,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
 import { EscenaForm } from "./EscenaForm";
+import { ReemplazarFoto } from "./ReemplazarFoto";
 
 export const dynamic = "force-dynamic";
 
@@ -99,6 +100,8 @@ export default async function EscenaPage({
         grupos={listaGrupos}
         accesosEntrantes={entrantes ?? 0}
       />
+
+      <ReemplazarFoto slug={escena.slug} />
 
       <section className="rounded-lg p-5 mt-5" style={{ background: "#FFFFFF", border: "1px solid #E8E4DD" }}>
         <h2 style={{ fontSize: 15, fontWeight: 700, color: "#1A2B4A", marginBottom: 4 }}>

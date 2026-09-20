@@ -61,10 +61,6 @@ export const PRACTICAS: Seccion = {
               desc: "Los círculos que llevan de un espacio a otro. Se pueden escribir y esconder espacios desde Contenido › Paseo virtual, pero **mover un acceso o crear uno nuevo lo hacemos nosotros**.",
             },
             {
-              campo: "Las fotografías del paseo virtual",
-              desc: "Reemplazar la foto 360° de un espacio. En preparación: por ahora se pide y la cambiamos nosotros.",
-            },
-            {
               campo: "Pagos en línea",
               desc: "No forman parte de esta plataforma.",
             },

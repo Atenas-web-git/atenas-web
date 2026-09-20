@@ -105,15 +105,49 @@ export const PASEO: Seccion = {
       ],
     },
     {
+      id: "reemplazar-la-foto",
+      titulo: "Cambiar la fotografía de un espacio",
+      resumen: "Subir una foto 360° nueva sin perder los accesos ni los textos.",
+      bloques: [
+        { t: "ruta", pasos: ["Contenido", "Paseo virtual", "el espacio", "Reemplazar la fotografía"] },
+        {
+          t: "p",
+          texto:
+            "Sirve para cuando un espacio se remodela o la foto se ve vieja. **Los accesos, el nombre y la descripción se quedan como están**: solo cambia la imagen.",
+        },
+        {
+          t: "pasos",
+          items: [
+            "Entra al espacio desde la lista.",
+            "En **Reemplazar la fotografía**, pulsa **Elegir la foto**.",
+            "Busca en tu computadora la foto **360° equirectangular** que entrega la cámara: una sola imagen, del doble de ancha que de alta.",
+            "Espera sin cerrar la pestaña: primero dice «Preparando la foto» y después «Subiendo».",
+            "Cuando diga **«Listo»**, ábrelo con **Ver el paseo** para comprobarlo.",
+          ],
+        },
+        {
+          t: "nota",
+          tono: "info",
+          texto:
+            "La preparación tarda **medio minuto** y ocurre en tu propia computadora, no en el servidor. Mientras no termine, el paseo sigue mostrando la foto anterior: si algo se corta a medias, no queda un espacio con media foto nueva.",
+        },
+        {
+          t: "nota",
+          tono: "aviso",
+          texto:
+            "Si la foto no es 360° —una foto normal de celular, por ejemplo— el panel lo dice y no la sube. La cámara 360° entrega el archivo correcto sin hacer nada especial.",
+        },
+      ],
+    },
+    {
       id: "lo-que-no-se-toca",
       titulo: "Lo que no se cambia desde el panel",
-      resumen: "Los accesos y las fotografías, y por qué.",
+      resumen: "Los accesos entre espacios, y crear o borrar espacios.",
       bloques: [
         {
           t: "lista",
           items: [
             "**Mover un acceso** o crear uno nuevo. Sus posiciones vienen del recorrido original; para cambiarlas, escríbenos.",
-            "**Reemplazar la fotografía** de un espacio. En preparación.",
             "**Crear o borrar espacios.** Un espacio nuevo necesita una fotografía 360°, que se toma con una cámara especial.",
           ],
         },
