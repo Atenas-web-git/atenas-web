@@ -24,7 +24,8 @@ export type PlantillaSlug =
   | "tpl_q_contactos_pagina"
   | "tpl_r_grid_personas"
   | "tpl_s_documento_politica"
-  | "tpl_t_portal_accesos";
+  | "tpl_t_portal_accesos"
+  | "tpl_u_paseo_virtual";
 
 export type PlantillaCategoria =
   | "texto-institucional"
@@ -250,6 +251,16 @@ export const PLANTILLAS: Record<PlantillaSlug, PlantillaInfo> = {
     nombre: "Portal de accesos",
     descripcion: "Hero gradient + intro + N cards (badge + título + descripción + bullets + CTA interno/externo con color de acento gold/navy/red) + tarjeta de nota al pie. Multiuso: portal familiar, portal docente, portal de proveedores, etc. Disponible en el catch-all para slugs nuevos.",
     ejemploSlugs: ["portal-familiar"],
+    implementada: true,
+    categoria: "landings-ricas",
+  },
+  tpl_u_paseo_virtual: {
+    slug: "tpl_u_paseo_virtual",
+    letra: "U",
+    nombre: "Paseo virtual 360°",
+    descripcion:
+      "La cabecera de la página del recorrido 360° y su SEO. El recorrido en sí —los espacios, sus fotos y sus accesos— se administra en Contenido › Paseo virtual, no aquí. Esta plantilla existe para que el colegio pueda cambiar el titular y para que el buscador del sitio y el chatbot encuentren la página.",
+    ejemploSlugs: ["paseo-virtual"],
     implementada: true,
     categoria: "landings-ricas",
   },
@@ -2236,6 +2247,34 @@ export function defaultContenidoPlantillaT(): ContenidoPlantillaT {
       texto: "",
       linkLabel: "",
       linkHref: "",
+    },
+  };
+}
+
+/**
+ * Plantilla U — la cabecera del paseo virtual.
+ *
+ * Solo tres textos, y los tres se pintan. **No se le añaden campos que la
+ * página no use**: esa es la razón de que exista en vez de reaprovechar otra
+ * plantilla, cuyo editor habría mostrado secciones que nadie pinta.
+ */
+export type ContenidoPlantillaU = {
+  hero: {
+    /** Línea pequeña sobre el título. */
+    badge: string;
+    title: string;
+    /** Una o dos frases que explican cómo se usa el recorrido. */
+    intro: string;
+  };
+};
+
+export function defaultContenidoPlantillaU(): ContenidoPlantillaU {
+  return {
+    hero: {
+      badge: "CONOCE EL CAMPUS",
+      title: "Paseo virtual 360°",
+      intro:
+        "Arrastra con el dedo o el ratón para mirar alrededor, y toca los puntos para pasar de un espacio a otro.",
     },
   };
 }

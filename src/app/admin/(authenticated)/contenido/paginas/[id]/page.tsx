@@ -30,6 +30,7 @@ import {
   type ContenidoPlantillaR,
   type ContenidoPlantillaS,
   type ContenidoPlantillaT,
+  type ContenidoPlantillaU,
 } from "../../plantillas";
 import { EditorPlantillaA } from "./EditorPlantillaA";
 import { EditorPlantillaB } from "./EditorPlantillaB";
@@ -50,6 +51,7 @@ import { EditorPlantillaQ } from "./EditorPlantillaQ";
 import { EditorPlantillaR } from "./EditorPlantillaR";
 import { EditorPlantillaS } from "./EditorPlantillaS";
 import { EditorPlantillaT } from "./EditorPlantillaT";
+import { EditorPlantillaU } from "./EditorPlantillaU";
 import { CambiarPlantillaBtn } from "./CambiarPlantillaBtn";
 import { SelectorFormulario } from "./SelectorFormulario";
 import { EliminarPaginaClient } from "./EliminarPaginaClient";
@@ -409,6 +411,18 @@ export default async function EditarPaginaPage({
           slug={pagina.slug}
           initialTitulo={pagina.titulo}
           initialContenido={pagina.contenido as ContenidoPlantillaT}
+          initialMetaTitle={pagina.meta_title ?? ""}
+          initialMetaDescription={pagina.meta_description ?? ""}
+          initialPublicada={pagina.publicada}
+        />
+      )}
+
+      {pagina.plantilla === "tpl_u_paseo_virtual" && (
+        <EditorPlantillaU
+          paginaId={pagina.id}
+          slug={pagina.slug}
+          initialTitulo={pagina.titulo}
+          initialContenido={pagina.contenido as ContenidoPlantillaU}
           initialMetaTitle={pagina.meta_title ?? ""}
           initialMetaDescription={pagina.meta_description ?? ""}
           initialPublicada={pagina.publicada}
