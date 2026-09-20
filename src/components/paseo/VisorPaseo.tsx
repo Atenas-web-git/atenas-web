@@ -58,6 +58,7 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
   const [entrando, setEntrando] = useState(true);
   const [actual, setActual] = useState<EscenaPaseo | null>(escenas[0] ?? null);
   const [menuAbierto, setMenuAbierto] = useState(false);
+  const [enVR, setEnVR] = useState(false);
   const cortar = useRef<() => void>(() => {});
   /** El plugin del recorrido, para poder saltar a un espacio desde el menú. */
   const recorrido = useRef<{ setCurrentNode: (id: string) => void } | null>(null);
@@ -276,6 +277,22 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
         });
         visor = v as unknown as { destroy: () => void };
 
+        /**
+         * Al entrar en VR, el visor ocupa la pantalla entera por nuestra
+         * cuenta.
+         *
+         * El complemento pide pantalla completa al navegador, y **en el iPhone
+         * eso no existe**: Safari no permite la pantalla completa de un
+         * elemento, así que el modo VR quedaba dentro de la página, con la
+         * barra de direcciones encima. Lo vio Esteban en su celular el
+         * 2026-09-20. Estirar el marco a toda la ventana da el mismo resultado
+         * sin depender de esa función.
+         */
+        const estereo = v.getPlugin(StereoPlugin) as InstanceType<typeof StereoPlugin>;
+        estereo?.addEventListener("stereo-updated", ({ stereoEnabled }: { stereoEnabled: boolean }) => {
+          if (vivo) setEnVR(stereoEnabled);
+        });
+
         const tour = v.getPlugin(VirtualTourPlugin) as InstanceType<typeof VirtualTourPlugin>;
         recorrido.current = tour;
 
@@ -359,12 +376,36 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
   }
 
   return (
-    <div style={{ background: "#1A2B4A" }}>
-      {/* Los accesos se quedan visibles durante el descenso, a propósito.
-          Se intentó esconderlos y no se puede desde fuera: el plugin no los
-          pinta en la página, los dibuja dentro del lienzo 3D, así que ni el
-          CSS ni `hideAllMarkers()` los tocan. Probado el 2026-09-20. Además
-          se ven bien: dicen desde el primer segundo que hay dónde entrar. */}
+    <div
+      className={enVR ? "paseo-marco paseo-en-vr" : "paseo-marco"}
+      style={{ background: "#1A2B4A" }}
+    >
+      {/*
+        Los accesos del recorrido son `.psv-virtual-tour-arrows`, NO
+        `.psv-markers`: el complemento los pinta en su propia capa. Buscarlos
+        en la capa equivocada me hizo escribir aquí que no se podían esconder,
+        y era falso.
+
+        Se esconden en dos momentos: durante el descenso de entrada, para que
+        no estorben, y en modo VR, donde el visor parte la pantalla en dos y
+        las flechas solo salían en el ojo izquierdo.
+
+        Y en VR el marco ocupa la ventana entera por su cuenta: el iPhone no
+        permite la pantalla completa que pide el complemento.
+      */}
+      <style>{`
+        .paseo-entrando .psv-virtual-tour-arrows,
+        .paseo-en-vr .psv-virtual-tour-arrows { display: none; }
+
+        .paseo-en-vr {
+          position: fixed;
+          inset: 0;
+          z-index: 9999;
+          background: #000;
+        }
+        .paseo-en-vr .paseo-lienzo { height: 100dvh; }
+        .paseo-en-vr .paseo-fuera-de-vr { display: none; }
+      `}</style>
 
       {/* El rótulo de la entrada se coloca sobre el visor y NO sobre el bloque
           de texto de abajo: con `inset: 0` en el contenedor entero acababa
@@ -372,24 +413,27 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
       <div style={{ position: "relative" }}>
         <div
           ref={contenedor}
+          className={`paseo-lienzo${entrando && !cargando ? " paseo-entrando" : ""}`}
           style={{ width: "100%", height: "min(78vh, 720px)" }}
           aria-label="Recorrido 360° por el campus"
         />
 
         {!cargando && (
-          <MenuEspacios
-            escenas={escenas}
-            actual={actual?.slug ?? null}
-            abierto={menuAbierto}
-            onAbrir={setMenuAbierto}
-            onIr={(slug) => {
-              // Saltar desde el menú también corta el descenso de entrada:
-              // si no, la cámara seguiría moviéndose en el espacio nuevo.
-              cortar.current();
-              recorrido.current?.setCurrentNode(slug);
-              setMenuAbierto(false);
-            }}
-          />
+          <div className="paseo-fuera-de-vr">
+            <MenuEspacios
+              escenas={escenas}
+              actual={actual?.slug ?? null}
+              abierto={menuAbierto}
+              onAbrir={setMenuAbierto}
+              onIr={(slug) => {
+                // Saltar desde el menú también corta el descenso de entrada:
+                // si no, la cámara seguiría moviéndose en el espacio nuevo.
+                cortar.current();
+                recorrido.current?.setCurrentNode(slug);
+                setMenuAbierto(false);
+              }}
+            />
+          </div>
         )}
 
       {/* La entrada aérea: el rótulo se va con el descenso. */}
@@ -488,6 +532,7 @@ export function VisorPaseo({ escenas }: { escenas: EscenaPaseo[] }) {
 
       {actual && (
         <div
+          className="paseo-fuera-de-vr"
           style={{
             display: "flex",
             flexWrap: "wrap",
