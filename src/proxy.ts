@@ -11,9 +11,13 @@ import { createServerClient } from "@supabase/ssr";
  *
  * ⚠️ Ojo con el nombre: **no existe `src/app/admin/layout.tsx`**. El del panel
  * está anidado dentro de `(authenticated)`, así que NO reemplaza al layout
- * raíz: `src/app/layout.tsx` envuelve también todo `/admin`, con sus etiquetas
- * de GTM, GA4 y los pixels dentro. Esta línea decía lo contrario y por eso
- * nadie lo vio en dos meses.
+ * raíz: `src/app/layout.tsx` envuelve también todo `/admin`.
+ *
+ * Eso significaba, hasta el 2026-09-22, que el panel heredaba GTM, GA4 y los
+ * pixels. **Ya no**: todo lo que habla con un tercero se movió al grupo
+ * `src/app/(publico)/`, y el layout raíz solo pone el `<html>`, la tipografía
+ * y los colores. Lo que sigue siendo cierto es la trampa del nombre: si algún
+ * día vuelve a añadirse algo al layout raíz, el panel lo hereda otra vez.
  * → ficha 2026-08-19-el-panel-manda-a-google-y-meta-lo-que-busca-secretaria
  */
 export async function proxy(request: NextRequest) {

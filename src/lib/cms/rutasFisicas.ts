@@ -6,7 +6,7 @@
  *
  * Una lista de las páginas con archivo propio en `src/app/`. El bloque de
  * formulario lo pintaba solo `PlantillaRenderer`, y a ese solo lo usa el
- * catch-all `src/app/[...slug]/page.tsx`: las páginas con maquetación propia no
+ * catch-all `src/app/(publico)/[...slug]/page.tsx`: las páginas con maquetación propia no
  * pasan por ahí, así que asignarles un formulario desde el editor no hacía
  * absolutamente nada.
  *
@@ -34,7 +34,7 @@
  * Para comprobar la cobertura, cruzar los slugs de `paginas` con los archivos:
  *
  *   select slug from paginas order by slug;
- *   -- y por cada uno, si existe src/app/<slug>/page.tsx, que contenga
+ *   -- y por cada uno, si existe src/app/(publico)/<slug>/page.tsx, que contenga
  *   -- "BloqueFormulario"
  */
 

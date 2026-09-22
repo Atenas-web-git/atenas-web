@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState, useState } from "react";
 import { Save, AlertTriangle, Check, Info, Sparkles, Lock } from "lucide-react";
 import type { Integraciones } from "@/lib/cms/getConfiguracion";
@@ -73,31 +74,41 @@ export function IntegracionesForm({
       </div>
 
       {/*
-        Aviso de congelacion. Va ARRIBA del todo y en rojo porque es lo unico
-        que impide hoy que el panel empiece a mandar datos de menores a Google
-        y a Meta: no existe `src/app/admin/layout.tsx`, asi que el layout raiz
-        envuelve `/admin` e inyecta aqui dentro las etiquetas que se configuren
-        abajo. Y no van por el `Referer` —que ya va en `no-referrer`— sino en
-        el cuerpo del evento, con la URL completa: el apellido que teclea
-        secretaria en el buscador de solicitudes.
-        Quitar este aviso solo cuando se cierre la ficha
-        2026-08-19-el-panel-manda-a-google-y-meta-lo-que-busca-secretaria.
+        El aviso rojo de congelacion se retiro el 2026-09-22, en el mismo commit
+        que lo arreglo: el sitio publico vive ahora en el grupo `(publico)` con
+        su propio layout, y las etiquetas de esta pantalla ya no se montan
+        dentro de `/admin`. Comprobado con un GTM y un pixel de prueba: el HTML
+        de `/admin/admisiones?q=...` no trae ni una etiqueta ni hace una sola
+        peticion a Google, Meta o TikTok.
+        → ficha 2026-08-19-el-panel-manda-a-google-y-meta-lo-que-busca-secretaria
+
+        Queda este otro, que NO es tecnico: la pagina /privacidad se contradice
+        sobre si se ceden datos a terceros, y es la que aceptan las familias al
+        enviar los datos de un menor. Quitarlo solo cuando se cierre la ficha
+        2026-08-19-el-aviso-de-privacidad-se-contradice.
       */}
       <div
         className="flex items-start gap-3 p-4"
-        style={{ background: "#FEE2E2", border: "1px solid #FCA5A5", borderRadius: 10 }}
+        style={{ background: "#FEF3C7", border: "1px solid #FCD34D", borderRadius: 10 }}
       >
-        <AlertTriangle size={20} strokeWidth={2.5} color="#991B1B" style={{ flexShrink: 0, marginTop: 2 }} />
+        <AlertTriangle size={20} strokeWidth={2.5} color="#92400E" style={{ flexShrink: 0, marginTop: 2 }} />
         <div className="flex flex-col gap-1">
-          <p style={{ fontSize: 14, fontWeight: 700, color: "#991B1B", margin: 0 }}>
-            No configures nada de esta pantalla todavía
+          <p style={{ fontSize: 14, fontWeight: 700, color: "#92400E", margin: 0 }}>
+            Antes de encender un pixel, revisa el aviso de privacidad
           </p>
-          <p style={{ fontSize: 13, color: "#991B1B", lineHeight: 1.6, margin: 0 }}>
-            Hay un defecto pendiente de arreglar: las etiquetas que se pongan aquí se cargan
-            también <strong>dentro del panel</strong>, y le enviarían a Google y a Meta lo que
-            escribas en el buscador de solicitudes — apellidos de familias y de menores.
-            Escríbenos antes de rellenar cualquier campo; el arreglo está en marcha.
+          <p style={{ fontSize: 13, color: "#92400E", lineHeight: 1.6, margin: 0 }}>
+            La página <strong>/privacidad</strong> promete hoy que no se ceden datos a terceros
+            con fines comerciales, y a la vez anuncia que el sitio puede usar pixels para mostrar
+            publicidad en otras plataformas. Las dos frases no pueden convivir: esa página es la
+            que aceptan las familias al enviar los datos de su hijo. Corrígela con la asesoría
+            legal del colegio y después configura aquí.
           </p>
+          <Link
+            href="/admin/contenido/paginas"
+            style={{ fontSize: 13, fontWeight: 700, color: "#92400E", textDecoration: "underline" }}
+          >
+            Ir a Contenido › Páginas y buscar «Privacidad»
+          </Link>
         </div>
       </div>
 
@@ -329,9 +340,18 @@ export function IntegracionesForm({
 
       {/* Otros servicios */}
       <Card title="Otros servicios" subtitle="Servicios adicionales que el cliente puede integrar (independientes del modo de tracking).">
+        {/*
+          Comprobado el 2026-09-22: `calendlyUrl` se guarda y se valida, pero
+          NADIE la lee. El boton real de agendar visita abre un `mailto:`
+          (components/admisiones/VisitaAdmisiones.tsx). Mientras la pantalla
+          llevaba el cartel rojo de «no configures nada» daba igual; al quitarlo
+          esto queda invitando a rellenar un campo que no hace nada, que es
+          justo lo que persigue el barrido de controles fantasma.
+          → ficha 2026-09-22-barrido-de-controles-fantasma
+        */}
         <Field
           label="URL de Calendly"
-          hint="URL pública de Calendly del colegio. Se usa en botones de 'Agendar visita' cuando esté configurado."
+          hint="⚠️ Todavía no está conectado: el botón de «Agendar visita» abre el correo, no el calendario. Puedes guardar la dirección, pero no cambia nada en el sitio hasta que lo conectemos."
         >
           <input
             type="url"

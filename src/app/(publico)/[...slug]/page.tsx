@@ -51,7 +51,7 @@ const PREFIJOS_RESERVADOS = new Set([
 ]);
 
 function isReservedSlug(slug: string): boolean {
-  if (!slug) return true; // raíz está cubierta por app/page.tsx
+  if (!slug) return true; // raíz está cubierta por (publico)/page.tsx
   const firstSegment = slug.split("/")[0];
   return PREFIJOS_RESERVADOS.has(firstSegment);
 }

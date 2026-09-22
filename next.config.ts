@@ -54,8 +54,17 @@ const nextConfig: NextConfig = {
     ## Sobre la CSP: va la mitad que no cuesta nada
 
     Lo caro de una CSP en Next es el `nonce`, que hace falta para `script-src`
-    y `default-src` y **obliga a renderizar dinámicas** las 117 páginas que hoy
-    son estáticas: más lento para las familias y más caro de operar.
+    y `default-src` y **obliga a renderizar dinámicas** las páginas estáticas.
+
+    ⚠️ Corregido el 2026-09-22, midiendo el build: **no hay 117 páginas
+    estáticas, hay 3** —el icono, el robots.txt y la imagen de compartir—; las
+    otras 133 rutas ya se renderizan en cada visita. La causa es anterior a
+    esta nota: `getConfiguracion()` usa el cliente de Supabase que lee cookies,
+    y el layout raíz lo llama, así que todo el árbol es dinámico desde hace
+    meses. O sea que **ese coste ya está pagado** y el nonce es bastante más
+    barato de lo que decía esta línea. Sigue en pie el otro motivo para no
+    correr: mientras el colegio pueda inyectar etiquetas desde GTM, un
+    `script-src` estricto sirve de poco.
 
     Pero solo esas dos directivas piden nonce. Las de abajo son estáticas,
     caben aquí y no fuerzan nada. Aplazar la CSP entera por el coste de la

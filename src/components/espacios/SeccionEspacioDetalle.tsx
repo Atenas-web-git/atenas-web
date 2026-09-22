@@ -96,7 +96,7 @@ export function SeccionEspacioDetalle({
 
             OJO: esto NO significa que el colegio pueda vaciar un campo desde el
             panel y ver la sección desaparecer. `mergeEspacio`, en
-            `app/espacios/[espacio]/page.tsx`, repone el respaldo del código
+            `app/(publico)/espacios/[espacio]/page.tsx`, repone el respaldo del código
             cuando `tags` o `ficha` llegan vacíos —solo `nota` respeta el vacío,
             porque usa `??` y no `||`—. Así que en los seis espacios que traen
             respaldo, borrar todas las filas de la ficha desde el editor se

@@ -1,5 +1,5 @@
 // Server component: dispatcher central por plantilla del CMS. Usado por
-// el catch-all `src/app/[[...slug]]/page.tsx` para renderizar cualquier
+// el catch-all `src/app/(publico)/[...slug]/page.tsx` para renderizar cualquier
 // página publicada cuya ruta NO esté servida por un archivo físico.
 //
 // Soporta las plantillas "genéricas" del catálogo: A, B, C, D, F, G, H,

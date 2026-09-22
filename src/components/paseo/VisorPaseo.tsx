@@ -21,8 +21,8 @@ import "@photo-sphere-viewer/virtual-tour-plugin/index.css";
  * Photo Sphere Viewer y Three.js suman cerca de 600 KB y tocan `window` al
  * cargarse. Importarlos arriba del archivo los metería en el paquete de la
  * página y rompería el pintado en el servidor. Con el `import()` de dentro del
- * efecto, solo se descargan cuando alguien abre el paseo — que es una página de
- * las 117 del sitio.
+ * efecto, solo se descargan cuando alguien abre el paseo — que es una página
+ * más entre las 45 del sitio público.
  *
  * ## Las tres cosas que costaron encontrarse (2026-09-19)
  *

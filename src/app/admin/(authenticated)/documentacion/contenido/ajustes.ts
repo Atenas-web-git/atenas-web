@@ -192,21 +192,24 @@ export const CONFIGURACION: Seccion = {
             { campo: "Google Tag Manager", desc: "El identificador del contenedor." },
             { campo: "Google Analytics 4", desc: "El identificador de medición." },
             { campo: "Facebook Pixel · TikTok Pixel", desc: "Para medir campañas de publicidad." },
-            { campo: "Calendly", desc: "La dirección del calendario para agendar visitas." },
+            {
+              campo: "Calendly",
+              desc: "La dirección del calendario para agendar visitas. ⚠️ Todavía no está conectado: hoy el botón de «Agendar visita» abre el correo. Se guarda, pero no cambia nada en el sitio.",
+            },
             { campo: "Verificaciones", desc: "Los códigos de Google Search Console y de Meta Business." },
           ],
         },
         {
           t: "nota",
-          tono: "peligro",
+          tono: "aviso",
           texto:
-            "**No configures nada de esta pantalla todavía.** Hay un defecto pendiente: las etiquetas que se pongan aquí se cargan también **dentro del panel**, y le enviarían a Google y a Meta lo que escribas en el buscador de solicitudes — apellidos de familias y de menores. Avísanos antes de rellenar cualquier campo.",
+            "**Antes de encender un pixel, revisa el aviso de privacidad.** Hoy la página `/privacidad` promete que no se ceden datos a terceros con fines comerciales, y a la vez anuncia que el sitio puede usar pixels para mostrar publicidad de la institución en otras plataformas. Las dos frases no pueden convivir: esa página es la que aceptan las familias al enviar los datos de su hijo. Corrígela —con la asesoría legal del colegio— y después configura aquí.",
         },
         {
           t: "nota",
           tono: "info",
           texto:
-            "Cada script se inyecta en el sitio **solo si su campo está relleno**. Un campo vacío no carga nada — el sitio no se hace más lento por dejarlos en blanco.\n\n**Con una excepción:** si tienes un **GTM** configurado, los de Google Analytics, Facebook y TikTok **se guardan pero no se cargan**, aunque estén rellenos. Es a propósito, para que una conversión no se cuente dos veces: con GTM, esos tres se manejan desde Google Tag Manager.",
+            "Cada script se inyecta **solo en el sitio público, nunca dentro del panel**, y solo si su campo está relleno. Un campo vacío no carga nada — el sitio no se hace más lento por dejarlos en blanco. Lo que escribas en el buscador de solicitudes o en cualquier otra pantalla interna no sale hacia Google ni hacia Meta.\n\n**Con una excepción:** si tienes un **GTM** configurado, los de Google Analytics, Facebook y TikTok **se guardan pero no se cargan**, aunque estén rellenos. Es a propósito, para que una conversión no se cuente dos veces: con GTM, esos tres se manejan desde Google Tag Manager.",
         },
       ],
     },
