@@ -529,6 +529,24 @@ export function MetricasView({
                     </Link>
                   ))}
                 </div>
+                {/*
+                  Desde aquí solo se puede abrir una ficha a la vez. Para
+                  repartir llamadas hace falta la lista entera, con su teléfono
+                  y su correo, y eso vive en Solicitudes: el mismo filtro, con
+                  el mismo umbral, y con «Exportar CSV» al lado.
+                */}
+                <Link
+                  href={`/admin/admisiones?ano=${encodeURIComponent(anoLectivo)}&detenido=${m.diasParaEstancada}`}
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 600,
+                    color: "#1A2B4A",
+                    textDecoration: "underline",
+                    marginTop: 4,
+                  }}
+                >
+                  Ver la lista completa y exportarla para llamar
+                </Link>
               </>
             )}
           </Tarjeta>

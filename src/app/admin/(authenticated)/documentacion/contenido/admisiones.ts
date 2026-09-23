@@ -168,33 +168,46 @@ export const ADMISIONES: Seccion = {
         {
           t: "p",
           texto:
-            "El listado muestra **20 solicitudes por página**, de la más reciente a la más antigua. Para acotarlo tienes:",
+            "El listado muestra **20 solicitudes por página**, de la más reciente a la más antigua — salvo que uses el filtro «Sin movimiento», que le da la vuelta al orden y saca primero la que lleva más tiempo parada. Para acotarlo tienes:",
         },
         {
           t: "campos",
           items: [
             {
               campo: "Pestañas de estado",
-              desc: "Una por cada estado. **«Todas» quita el filtro de estado**, pero conserva el nivel y lo que hayas escrito en el buscador — no vacía la pantalla.\n\nEl número de cada pestaña cuenta **todas** las solicitudes de ese estado, sin aplicar el buscador ni el nivel. Así que es normal ver «Admitido · 12» y una sola fila en la tabla si estás buscando un apellido: doce admitidos hay, uno coincide con tu búsqueda.",
+              desc: "Una por cada estado. **«Todas» quita el filtro de estado**, pero conserva los demás filtros — no vacía la pantalla.\n\nEl número de cada pestaña cuenta **todas** las solicitudes de ese estado, sin aplicar ninguno de los filtros: ni el buscador, ni el nivel, ni el año lectivo, ni «Sin movimiento». Así que es normal ver «Admitido · 12» y una sola fila en la tabla si estás buscando un apellido: doce admitidos hay, uno coincide con tu búsqueda.",
             },
             {
               campo: "Filtro por nivel",
               desc: "Educación Inicial, EGB Elemental y Media, EGB Superior o Bachillerato IB.",
             },
             {
+              campo: "Filtro por año lectivo",
+              desc: "El año al que postula el aspirante. De fábrica no filtra nada: esta pantalla junta **todos los años lectivos**, a diferencia de Métricas, que mira uno solo.\n\nÚsalo antes de exportar para llamar: sin él, el archivo puede llevar familias de un ciclo que ya cerró, y nadie quiere recibir una llamada para retomar un proceso que terminó hace un año.",
+            },
+            {
               campo: "Buscador",
               desc: "Busca por **número de seguimiento**, nombres o apellidos del estudiante.",
             },
             {
+              campo: "Sin movimiento",
+              desc: "Deja solo las solicitudes que llevan ese tiempo **sin cambiar de estado**: las que se quedaron a medias y nadie ha retomado. Es para repartir llamadas.\n\nMide desde el último cambio de etapa, **no** desde la última edición: corregir un apellido o añadir una nota no cuenta como movimiento. Si no fuera así, una familia olvidada durante dos meses parecería recién atendida.\n\nCon este filtro puesto, la lista sale **de la más parada a la menos**, y quedan fuera las matriculadas y las no admitidas: esas llevan tiempo quietas porque el proceso terminó, no por olvido.\n\nLa opción marcada como «(detenidas)» es el número que configuraste en **Configuración › Admisiones — textos chicos**, el mismo con el que Métricas llama detenida a una solicitud.\n\nEl filtro te sigue si cambias de pestaña de estado. Ojo con **Matriculado** y **No admitido**: como siempre quedan fuera de este filtro, esas pestañas se ven vacías mientras lo tengas puesto — la pantalla te lo explica ahí mismo.",
+            },
+            {
               campo: "Exportar CSV",
-              desc: "Descarga las solicitudes en una hoja de cálculo. **Se lleva lo que dejan pasar tus filtros**: estado, nivel y lo que hayas escrito en el buscador.\n\nOjo con una diferencia: la pantalla enseña de 20 en 20, y el archivo trae **todas las páginas del filtro**, no solo la que estás viendo. Si una búsqueda encuentra 300 familias, en pantalla verás 20 y el archivo tendrá 300 — míralo antes de compartirlo.",
+              desc: "Descarga las solicitudes en una hoja de cálculo. **Se lleva lo que dejan pasar tus filtros**: estado, nivel, **año lectivo**, lo que hayas escrito en el buscador y el tiempo sin movimiento.\n\nOjo con una diferencia: la pantalla enseña de 20 en 20, y el archivo trae **todas las páginas del filtro**, no solo la que estás viendo. Si una búsqueda encuentra 300 familias, en pantalla verás 20 y el archivo tendrá 300 — míralo antes de compartirlo.",
             },
           ],
         },
         {
           t: "p",
           texto:
-            "El archivo exportado incluye número, datos del estudiante y del representante, nivel, **año escolar**, estado, cómo se enteró del colegio, año lectivo, comentarios, fecha y **cómo llegó** — la última columna, que dice «Formulario web» o «Registrada a mano».",
+            "La tabla suma además una columna, **«Sin mover»**: los días desde el último cambio de estado, se use o no el filtro. A partir del umbral configurado se resalta en ámbar, el mismo con el que Métricas la llama «detenida». En las matriculadas y las no admitidas nunca se resalta: pasa el cursor por encima y dice «Proceso terminado», porque llevan tiempo quietas por haber acabado, no por olvido.",
+        },
+        {
+          t: "p",
+          texto:
+            "El archivo exportado incluye número, datos del estudiante y del representante, nivel, **año escolar**, estado, cómo se enteró del colegio, año lectivo, comentarios, fecha, **días sin movimiento** y **cómo llegó**, la última columna, que dice «Formulario web» o «Registrada a mano».\n\nCon el filtro «Sin movimiento» puesto, el archivo sale **en el mismo orden que la pantalla**: primero quien lleva más tiempo esperando. Así se reparten las llamadas de arriba abajo.\n\nEn las matriculadas y las no admitidas esa columna va **vacía**, no en cero: su proceso terminó. Si no, al ordenar por ella en Excel aparecería arriba del todo un matriculado de hace dos años, en la lista de a quién llamar.\n\nLleva también el **correo y el teléfono del representante**, así que es el archivo con el que se reparten las llamadas. Contiene datos de menores: no se comparte fuera del colegio, y cada descarga queda registrada con quién la hizo y cuántas filas se llevó.",
         },
         {
           t: "nota",
@@ -314,6 +327,12 @@ export const ADMISIONES: Seccion = {
           tono: "info",
           texto:
             "«Detenidos» mide desde el **último cambio de etapa**, no desde la última vez que se editó la ficha. Corregir un apellido o añadir una nota no reinicia la cuenta: si el aspirante lleva un mes parado, lo seguirás viendo.",
+        },
+        {
+          t: "nota",
+          tono: "aviso",
+          texto:
+            "Al pie de la tarjeta, **«Ver la lista completa y exportarla para llamar»** te lleva a **Admisiones › Solicitudes** con dos filtros ya puestos: el mismo número de días **y el año lectivo que estás mirando aquí**. Allí tienes el teléfono, el correo y el botón de exportar, y la lista coincide con lo que acabas de leer en esta tarjeta.",
         },
         {
           t: "nota",

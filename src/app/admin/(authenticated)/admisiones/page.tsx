@@ -1,12 +1,59 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Search, Download, ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { Search, Download, ChevronLeft, ChevronRight, Plus, Clock } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
-import { filtrarSolicitudes } from "@/lib/admisiones/filtros";
-import { NIVELES, ESTADOS, ESTADO_INFO, type EstadoAdmision } from "./constants";
+import { filtrarSolicitudes, diasSinMovimiento } from "@/lib/admisiones/filtros";
+import { getConfiguracion } from "@/lib/cms/getConfiguracion";
+import {
+  mergeAdmisionesTextos,
+  type AdmisionesTextosConfig,
+} from "@/lib/cms/admisionesTextos";
+import {
+  NIVELES,
+  ESTADOS,
+  ESTADO_INFO,
+  ESTADOS_TERMINALES,
+  type EstadoAdmision,
+} from "./constants";
 import { AdmisionesSubNav } from "./SubNav";
+
+/**
+ * Las opciones del filtro «sin movimiento».
+ *
+ * Son las que sirven para repartir llamadas: una semana, dos, un mes, dos
+ * meses, un trimestre. Al umbral que el colegio configura en Configuración ›
+ * Admisiones se le añade su propia opción si no está en la lista, porque es el
+ * número con el que el dashboard llama «detenida» a una solicitud y las dos
+ * pantallas tienen que poder decir lo mismo.
+ */
+const DIAS_SUGERIDOS = [7, 14, 30, 60, 90];
+
+function diasDesde(iso: string, ahora: number): number {
+  return Math.floor((ahora - new Date(iso).getTime()) / 86_400_000);
+}
+
+/**
+ * El primer valor de un parámetro de la URL.
+ *
+ * Un parámetro puede venir repetido —`?q=a&q=b`—, y entonces Next entrega un
+ * array. Hacerle `.trim()` a un array revienta la pantalla con un 500: era un
+ * fallo anterior a este cambio que se arregla aquí porque el filtro nuevo
+ * habría traído el suyo igual.
+ */
+function primerValor(v: string | string[] | undefined): string | undefined {
+  return Array.isArray(v) ? v[0] : v;
+}
+
+/**
+ * Aparte y no `Date.now()` dentro del componente: la regla `react-hooks/purity`
+ * marca como error llamar a una función impura durante el render, y el resto
+ * del panel ya resuelve esto igual (ver `metricas/page.tsx`).
+ */
+function ahoraMs(): number {
+  return Date.now();
+}
 
 const TABS: { key: string; label: string }[] = [
   { key: "todas", label: "Todas" },
@@ -16,12 +63,21 @@ const TABS: { key: string; label: string }[] = [
 const PER_PAGE = 20;
 
 function buildUrl(
-  params: { estado?: string; nivel?: string; q?: string; page?: number }
+  params: {
+    estado?: string;
+    nivel?: string;
+    q?: string;
+    ano?: string;
+    detenido?: number | null;
+    page?: number;
+  }
 ): string {
   const p = new URLSearchParams();
   if (params.estado && params.estado !== "todas") p.set("estado", params.estado);
   if (params.nivel) p.set("nivel", params.nivel);
   if (params.q) p.set("q", params.q);
+  if (params.ano) p.set("ano", params.ano);
+  if (params.detenido) p.set("detenido", String(params.detenido));
   if (params.page && params.page > 1) p.set("page", String(params.page));
   const qs = p.toString();
   return `/admin/admisiones${qs ? `?${qs}` : ""}`;
@@ -54,13 +110,27 @@ async function loadCounts() {
 export default async function AdmisionesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ estado?: string; nivel?: string; q?: string; page?: string }>;
+  searchParams: Promise<{
+    estado?: string | string[];
+    nivel?: string | string[];
+    q?: string | string[];
+    ano?: string | string[];
+    detenido?: string | string[];
+    page?: string | string[];
+  }>;
 }) {
   const sp = await searchParams;
-  const estadoFilter = sp.estado ?? "todas";
-  const nivelFilter = sp.nivel ?? "";
-  const query = (sp.q ?? "").trim();
-  const page = Math.max(1, parseInt(sp.page ?? "1", 10));
+  const estadoFilter = primerValor(sp.estado) ?? "todas";
+  const nivelFilter = primerValor(sp.nivel) ?? "";
+  const query = (primerValor(sp.q) ?? "").trim();
+  const anioFilter = primerValor(sp.ano) ?? "";
+  // El mismo lector que usa la exportación: lo que aquí no filtra, allí tampoco.
+  const detenidoDias = diasSinMovimiento(sp.detenido);
+  // El instante se fija una vez y se usa para filtrar Y para pintar los días,
+  // para que la pantalla no diga «13 d» sobre una fila que el filtro contó como
+  // de 14.
+  const ahora = ahoraMs();
+  const page = Math.max(1, parseInt(primerValor(sp.page) ?? "1", 10));
   const offset = (page - 1) * PER_PAGE;
 
   const user = await getCurrentUser();
@@ -72,18 +142,31 @@ export default async function AdmisionesPage({
   let dbQuery = supabase
     .from("solicitudes_admision")
     .select(
-      "id, numero, est_nombres, est_apellidos, est_nivel, estado, created_at, origen",
+      "id, numero, est_nombres, est_apellidos, est_nivel, estado, created_at, origen, ultimo_movimiento",
       { count: "exact" }
     )
-    .order("created_at", { ascending: false })
+    // Con el filtro de detenidas puesto, lo urgente es lo más parado, no lo más
+    // reciente: la lista sale ordenada por antigüedad para llamar en ese orden.
+    .order(detenidoDias !== null ? "ultimo_movimiento" : "created_at", {
+      ascending: detenidoDias !== null,
+    })
+    // El desempate no es adorno, y es el mismo motivo que ya está escrito en la
+    // exportación: si dos solicitudes comparten fecha al milisegundo, sin él el
+    // orden entre ellas es indefinido y entre una página y la siguiente se
+    // pierden y se repiten filas. Con `ultimo_movimiento` el riesgo es mayor
+    // que con `created_at`: una importación en lote deja a todas con la misma.
+    .order("id", { ascending: false })
     .range(offset, offset + PER_PAGE - 1);
 
-  // Los tres filtros salen de la misma funcion que usa la exportacion: si no,
+  // Los CINCO filtros salen de la misma función que usa la exportación: si no,
   // vuelven a separarse y el archivo deja de traer lo que se ve en pantalla.
   dbQuery = filtrarSolicitudes(dbQuery, {
     estado: estadoFilter,
     nivel: nivelFilter,
     q: query,
+    anioIngreso: anioFilter,
+    sinMovimientoDias: detenidoDias,
+    ahora,
   });
 
   /*
@@ -96,13 +179,59 @@ export default async function AdmisionesPage({
   if (estadoFilter !== "todas") paramsExportar.set("estado", estadoFilter);
   if (nivelFilter) paramsExportar.set("nivel", nivelFilter);
   if (query) paramsExportar.set("q", query);
+  if (anioFilter) paramsExportar.set("ano", anioFilter);
+  if (detenidoDias !== null) paramsExportar.set("detenido", String(detenidoDias));
   const cadena = paramsExportar.toString();
   const urlExportar = `/admin/admisiones/exportar${cadena ? `?${cadena}` : ""}`;
 
-  const [{ data: solicitudes, count, error }, tabCounts] = await Promise.all([
+  /*
+    Lo que hay que recordar al abrir una ficha, para que «Volver a solicitudes»
+    devuelva la lista donde estaba —con sus filtros y su página— y no al
+    principio de todo.
+
+    El flujo que este filtro existe para habilitar es: filtrar las detenidas,
+    abrir una, coger el teléfono, volver, seguir por la siguiente. Sin esto,
+    cada vuelta obliga a rehacer el filtro.
+  */
+  const paramsVolver = new URLSearchParams(paramsExportar);
+  if (page > 1) paramsVolver.set("page", String(page));
+  const cadenaVolver = paramsVolver.toString();
+  const volver = cadenaVolver ? `?volver=${encodeURIComponent(cadenaVolver)}` : "";
+
+  const [{ data: solicitudes, count, error }, tabCounts, textosRaw, { data: anosData }] =
+    await Promise.all([
     dbQuery,
     loadCounts(),
+    // El umbral de «detenida» lo edita el colegio en Configuración › Admisiones,
+    // y es el mismo con el que el dashboard pinta su tarjeta.
+    getConfiguracion<Partial<AdmisionesTextosConfig>>("admisiones_textos"),
+    supabase.from("anos_lectivos").select("codigo").eq("activo", true).order("codigo"),
   ]);
+
+  /*
+    Los años lectivos del catálogo, MÁS el que venga por la URL aunque ya no
+    esté activo. Es el mismo motivo por el que abajo se inyecta el valor de los
+    días: un enlace guardado con `?ano=2026-2027` seguiría filtrando mientras el
+    control diría «Todos los años lectivos». Un filtro que actúa sin aparecer es
+    peor que no tenerlo, y eso vale también para el control de al lado.
+  */
+  const anosLectivos = [
+    ...new Set([
+      ...(anosData ?? []).map((a) => a.codigo as string),
+      ...(anioFilter ? [anioFilter] : []),
+    ]),
+  ].sort();
+
+  const { diasParaEstancada } = mergeAdmisionesTextos(textosRaw).metricas;
+  /*
+    El valor que venga por la URL entra en la lista aunque no sea uno de los
+    sugeridos. Si no, `?detenido=45` filtraba de verdad mientras el desplegable
+    caía en «Con o sin movimiento» y decía que no había filtro: la pantalla
+    enseñaba 12 filas de 300 afirmando que eran todas.
+  */
+  const opcionesDias = [
+    ...new Set([...DIAS_SUGERIDOS, diasParaEstancada, ...(detenidoDias !== null ? [detenidoDias] : [])]),
+  ].sort((a, b) => a - b);
 
   const total = count ?? 0;
   const totalPages = Math.ceil(total / PER_PAGE);
@@ -178,7 +307,13 @@ export default async function AdmisionesPage({
             return (
               <Link
                 key={tab.key}
-                href={buildUrl({ estado: tab.key, nivel: nivelFilter, q: query })}
+                href={buildUrl({
+                  estado: tab.key,
+                  nivel: nivelFilter,
+                  q: query,
+                  ano: anioFilter,
+                  detenido: detenidoDias,
+                })}
                 className="flex items-center gap-2 px-4 whitespace-nowrap transition-colors"
                 style={{
                   height: 44,
@@ -274,6 +409,66 @@ export default async function AdmisionesPage({
             </option>
           ))}
         </select>
+        {/*
+          El año lectivo. La tarjeta «Detenidos» de Métricas cuenta un solo año
+          y esta pantalla junta todos; sin este control, el enlace entre las dos
+          prometía la misma lista y entregaba otra más grande, con familias de
+          ciclos ya cerrados. Tiene que verse: un filtro que actúa sin aparecer
+          es peor que no tenerlo.
+        */}
+        {anosLectivos.length > 0 && (
+          <select
+            name="ano"
+            defaultValue={anioFilter}
+            title="Año lectivo al que postula el aspirante"
+            style={{
+              height: 38,
+              border: "1px solid #E8E4DD",
+              borderRadius: 6,
+              background: "#FFFFFF",
+              fontSize: 14,
+              color: "#1A2B4A",
+              paddingLeft: 12,
+              paddingRight: 28,
+              outline: "none",
+            }}
+          >
+            <option value="">Todos los años lectivos</option>
+            {anosLectivos.map((a) => (
+              <option key={a} value={a}>
+                {a}
+              </option>
+            ))}
+          </select>
+        )}
+        {/*
+          El filtro para repartir llamadas. «Sin movimiento» y no «detenidas» a
+          secas porque lo que mide es que no ha cambiado de estado, no que la
+          familia se haya ido: puede haberse hablado con ella por teléfono.
+        */}
+        <select
+          name="detenido"
+          defaultValue={detenidoDias !== null ? String(detenidoDias) : ""}
+          title="Solicitudes que llevan ese tiempo sin cambiar de estado"
+          style={{
+            height: 38,
+            border: "1px solid #E8E4DD",
+            borderRadius: 6,
+            background: "#FFFFFF",
+            fontSize: 14,
+            color: "#1A2B4A",
+            paddingLeft: 12,
+            paddingRight: 28,
+            outline: "none",
+          }}
+        >
+          <option value="">Con o sin movimiento</option>
+          {opcionesDias.map((d) => (
+            <option key={d} value={d}>
+              Sin mover {d}+ días{d === diasParaEstancada ? " (detenidas)" : ""}
+            </option>
+          ))}
+        </select>
         <button
           type="submit"
           className="px-4 rounded-md transition-opacity hover:opacity-80"
@@ -289,7 +484,7 @@ export default async function AdmisionesPage({
         >
           Filtrar
         </button>
-        {(query || nivelFilter) && (
+        {(query || nivelFilter || anioFilter || detenidoDias !== null) && (
           <Link
             href={buildUrl({ estado: estadoFilter })}
             style={{ fontSize: 13, color: "#6B6660", textDecoration: "underline" }}
@@ -318,17 +513,30 @@ export default async function AdmisionesPage({
             </p>
           </div>
         ) : !solicitudes || solicitudes.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16">
-            <p style={{ fontSize: 14, color: "#6B6660", margin: 0 }}>
+          <div className="flex flex-col items-center justify-center gap-1 py-16 px-6">
+            <p style={{ fontSize: 14, color: "#6B6660", margin: 0, textAlign: "center" }}>
               No hay solicitudes que coincidan con los filtros.
             </p>
+            {/*
+              El caso que más despista: la pestaña de un estado terminal con el
+              filtro de «sin movimiento» puesto SIEMPRE sale vacía, y encima su
+              número sigue ahí arriba, porque ese conteo no aplica los filtros.
+              Sin esta línea parece que se han perdido solicitudes.
+            */}
+            {detenidoDias !== null && ESTADOS_TERMINALES.has(estadoFilter as EstadoAdmision) && (
+              <p style={{ fontSize: 13, color: "#6B6660", margin: 0, textAlign: "center", maxWidth: 460 }}>
+                Es por el filtro de <strong>sin movimiento</strong>: deja fuera a propósito las
+                matriculadas y las no admitidas, porque llevan tiempo quietas por haber terminado
+                el proceso, no por olvido. Quita ese filtro para verlas.
+              </p>
+            )}
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid #E8E4DD" }}>
-                  {["N° Solicitud", "Postulante", "Nivel", "Recibida", "Estado", ""].map((h) => (
+                  {["N° Solicitud", "Postulante", "Nivel", "Recibida", "Sin mover", "Estado", ""].map((h) => (
                     <th
                       key={h}
                       style={{
@@ -421,6 +629,63 @@ export default async function AdmisionesPage({
                           {formatDate(s.created_at)}
                         </span>
                       </td>
+                      {/*
+                        Días sin cambiar de estado. Se marca en ámbar a partir
+                        del umbral que el colegio configuró, que es el mismo con
+                        el que el dashboard la llama «detenida»; y no se marca
+                        nada en las terminales, porque una matriculada lleva
+                        meses quieta por haber terminado, no por olvido.
+                      */}
+                      <td style={{ padding: "14px 16px" }}>
+                        {(() => {
+                          const dias = diasDesde(s.ultimo_movimiento ?? s.created_at, ahora);
+                          // La lista de terminales vive en `constants.ts` y la
+                          // usa también el filtro: repetirla aquí es como se
+                          // separan dos reglas que deberían ser una.
+                          const terminal = ESTADOS_TERMINALES.has(s.estado as EstadoAdmision);
+
+                          /*
+                            En las terminales no se pinta número, y no es
+                            estética: una matriculada de hace dos años marcaría
+                            «730 días» en la columna con la que se decide a
+                            quién llamar. El proceso de esa familia terminó.
+                          */
+                          if (terminal) {
+                            return (
+                              <span
+                                title="Proceso terminado"
+                                style={{ fontSize: 13, color: "#A0AABA" }}
+                              >
+                                —
+                              </span>
+                            );
+                          }
+
+                          const alerta = dias >= diasParaEstancada;
+                          return (
+                            /*
+                              Sin píldora y con reloj. El estado «Interesado»
+                              usa exactamente el mismo ámbar, y las dos
+                              insignias juntas en la misma fila se leían como si
+                              fueran lo mismo. El reloj es además el icono con
+                              el que Métricas marca lo detenido.
+                            */
+                            <span
+                              title={`Sin cambiar de estado desde hace ${dias} día${dias === 1 ? "" : "s"}`}
+                              className="inline-flex items-center gap-1.5"
+                              style={{
+                                fontSize: 13,
+                                fontWeight: alerta ? 700 : 400,
+                                color: alerta ? "#92400E" : "#6B6660",
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                              {alerta && <Clock size={13} strokeWidth={2.5} />}
+                              {dias} {dias === 1 ? "día" : "días"}
+                            </span>
+                          );
+                        })()}
+                      </td>
                       <td style={{ padding: "14px 16px" }}>
                         <span
                           className="inline-flex items-center px-2.5 rounded-full"
@@ -437,7 +702,11 @@ export default async function AdmisionesPage({
                       </td>
                       <td style={{ padding: "14px 16px", textAlign: "right" }}>
                         <Link
-                          href={`/admin/admisiones/${s.id}`}
+                          // Con los filtros puestos: al volver de la ficha,
+                          // la lista tiene que seguir donde estaba. El flujo
+                          // que este filtro habilita es abrir, llamar, volver
+                          // y seguir por la siguiente.
+                          href={`/admin/admisiones/${s.id}${volver}`}
                           className="transition-opacity hover:opacity-70"
                           style={{
                             fontSize: 13,
@@ -470,7 +739,14 @@ export default async function AdmisionesPage({
           <div className="flex items-center gap-2">
             {page > 1 ? (
               <Link
-                href={buildUrl({ estado: estadoFilter, nivel: nivelFilter, q: query, page: page - 1 })}
+                href={buildUrl({
+                  estado: estadoFilter,
+                  nivel: nivelFilter,
+                  q: query,
+                  ano: anioFilter,
+                  detenido: detenidoDias,
+                  page: page - 1,
+                })}
                 className="flex items-center gap-1 px-3 rounded-md transition-opacity hover:opacity-70"
                 style={{
                   height: 34,
@@ -504,7 +780,14 @@ export default async function AdmisionesPage({
             </span>
             {page < totalPages ? (
               <Link
-                href={buildUrl({ estado: estadoFilter, nivel: nivelFilter, q: query, page: page + 1 })}
+                href={buildUrl({
+                  estado: estadoFilter,
+                  nivel: nivelFilter,
+                  q: query,
+                  ano: anioFilter,
+                  detenido: detenidoDias,
+                  page: page + 1,
+                })}
                 className="flex items-center gap-1 px-3 rounded-md transition-opacity hover:opacity-70"
                 style={{
                   height: 34,

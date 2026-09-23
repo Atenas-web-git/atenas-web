@@ -65,12 +65,41 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   );
 }
 
+/**
+ * Reconstruye el enlace de vuelta al listado conservando sus filtros.
+ *
+ * El listado manda su estado en `?volver=<query codificada>`. Aquí se vuelve a
+ * armar **campo por campo**, con una lista blanca: así lo que llegue por esa
+ * dirección no puede añadir parámetros que el listado no espera, ni colarse a
+ * otra ruta. Si no viene nada, se vuelve al listado sin filtros, como siempre.
+ */
+const PARAMS_DEL_LISTADO = ["estado", "nivel", "q", "ano", "detenido", "page"];
+
+function urlDeVuelta(volver: string | string[] | undefined): string {
+  const crudo = Array.isArray(volver) ? volver[0] : volver;
+  if (!crudo) return "/admin/admisiones";
+
+  const entrada = new URLSearchParams(crudo);
+  const limpio = new URLSearchParams();
+  for (const clave of PARAMS_DEL_LISTADO) {
+    const valor = entrada.get(clave);
+    if (valor) limpio.set(clave, valor);
+  }
+
+  const qs = limpio.toString();
+  return `/admin/admisiones${qs ? `?${qs}` : ""}`;
+}
+
 export default async function SolicitudDetallePage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ volver?: string | string[] }>;
 }) {
   const { id } = await params;
+  const { volver } = await searchParams;
+  const hrefVolver = urlDeVuelta(volver);
 
   const user = await getCurrentUser();
   if (!user) return null;
@@ -157,7 +186,7 @@ export default async function SolicitudDetallePage({
     <div className="flex flex-col gap-6 p-8">
       {/* Breadcrumb */}
       <Link
-        href="/admin/admisiones"
+        href={hrefVolver}
         className="flex items-center gap-1.5 w-fit transition-opacity hover:opacity-70"
         style={{ fontSize: 14, color: "#6B6660", textDecoration: "none" }}
       >

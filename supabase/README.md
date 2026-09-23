@@ -100,9 +100,17 @@ Ejecutar en `Supabase Dashboard → SQL Editor`, en este orden:
 > la memoria del proyecto lleva la cuenta. **No asumas que lo que no está en esta
 > lista no existe.**
 >
-> Una avisa de algo que no se deduce leyéndola sola: la **081** hay que aplicarla
-> DESPUÉS de desplegar el código, no antes, o publica una página que devuelve 404.
-> El porqué está en su cabecera.
+> Tres avisan de algo que no se deduce leyéndolas solas:
+>
+> - La **081** hay que aplicarla DESPUÉS de desplegar el código, no antes, o
+>   publica una página que devuelve 404.
+> - La **091** va ANTES del código: sin ella, el listado de solicitudes y su
+>   exportación piden una columna que no existe y se caen los dos.
+> - La **091 contiene la versión vieja** de la función del trigger que arregla la
+>   **092**. Si alguna vez se re-ejecuta la 091, hay que correr la 092 detrás o el
+>   arreglo desaparece sin avisar.
+>
+> El porqué de cada una está en su cabecera.
 
 39. `seed/roles.sql`
 40. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)

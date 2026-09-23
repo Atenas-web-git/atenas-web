@@ -19,6 +19,8 @@
  * Y este wrapper inyecta esos campos en su lugar.
  */
 
+import { ESTADOS_TERMINALES, type EstadoAdmision } from "./constants";
+
 type WrapperData = {
   titulo: string;
   contenido: string;
@@ -58,9 +60,16 @@ export function buildWrappedEmail({
 </div>`;
 }
 
-/** Estados terminales — no muestran el CTA al seguimiento. */
-const ESTADOS_TERMINALES = new Set(["matriculado", "no_admitido"]);
-
+/**
+ * Los estados terminales no muestran el CTA al seguimiento.
+ *
+ * La lista se importa de `constants.ts` en vez de repetirla aquí. Hasta el
+ * 2026-09-22 esta copia solo decidía si un correo llevaba botón; desde que
+ * existe el filtro «sin movimiento», la misma lista decide **a quién llama el
+ * colegio**. El día que se añada un estado terminal —«retirado», «desistió»—
+ * dos sitios lo sabrían y este no, y el fallo saldría en forma de llamada a una
+ * familia que ya se dio de baja.
+ */
 export function debeOcultarCta(estado: string): boolean {
-  return ESTADOS_TERMINALES.has(estado);
+  return ESTADOS_TERMINALES.has(estado as EstadoAdmision);
 }

@@ -12,13 +12,71 @@
  * mismo con reglas que se separan sin que nadie lo note.
  */
 
+import { ESTADOS_TERMINALES } from "@/app/admin/(authenticated)/admisiones/constants";
+
 export type FiltroSolicitudes = {
   /** `"todas"` o vacío no filtran. */
   estado?: string | null;
   nivel?: string | null;
   /** Texto libre del buscador. */
   q?: string | null;
+  /** Código del año lectivo (`2027-2028`). Vacío no filtra. */
+  anioIngreso?: string | null;
+  /**
+   * Días sin **cambio de estado**. Trae solo las que llevan al menos esos días
+   * paradas, y deja fuera las terminales. 0, vacío o basura = no filtra.
+   */
+  sinMovimientoDias?: number | string | null;
+  /**
+   * El instante contra el que se cuentan los días, fijado por quien llama.
+   *
+   * No es un capricho de pruebas. La exportación pide las filas **de mil en
+   * mil**, así que sin esto la frontera se recalcula en cada vuelta y el
+   * conjunto crece mientras se pagina: una familia que cruza el umbral a mitad
+   * de la descarga puede colarse, y —peor— puede saltarse una fila, porque el
+   * paginado cuenta por posición. Con el instante fijo, las N vueltas
+   * preguntan por lo mismo.
+   */
+  ahora?: number;
 };
+
+/**
+ * El tope de días que se acepta.
+ *
+ * Nadie busca «detenidas hace más de 30 años», y sin tope una cifra enorme
+ * vacía el listado sin explicar por qué. 3650 son diez años: de sobra para
+ * cualquier uso real y sigue siendo un número que se puede escribir.
+ */
+const DIAS_MAXIMO = 3650;
+
+/**
+ * Lee los días del parámetro de la URL. Devuelve `null` cuando no hay que
+ * filtrar, que es lo que pasa con vacío, cero, negativos y texto.
+ *
+ * Se exporta porque la pantalla y la exportación tienen que entender el
+ * parámetro **igual**: si una acepta `?detenido=abc` como «ninguno» y la otra
+ * lo convierte en `NaN`, el archivo deja de traer lo que se ve.
+ */
+export function diasSinMovimiento(valor: unknown): number | null {
+  /*
+    Un parámetro puede llegar repetido —`?detenido=30&detenido=`— y entonces
+    Next entrega un array, aunque el tipo declarado en la pantalla diga
+    `string`. `Number(["30",""])` da NaN, así que sin esta línea un enlace
+    guardado dejaba de filtrar sin avisar. Se toma el primero, que es lo mismo
+    que hace `searchParams.get()` en la exportación: las dos mitades tienen que
+    entender igual la misma dirección.
+  */
+  const primero = Array.isArray(valor) ? valor[0] : valor;
+
+  const n = Math.floor(Number(primero));
+  if (!Number.isFinite(n) || n <= 0) return null;
+
+  /*
+    El tope no es cosmético: sin él, `?detenido=1e15` haría que `toISOString()`
+    lanzara un RangeError y la pantalla entera devolvería un 500.
+  */
+  return Math.min(n, DIAS_MAXIMO);
+}
 
 /**
  * Puntuación que se le quita al texto buscado.
@@ -100,22 +158,56 @@ function sinTildes(texto: string): string {
 const UUID_IMPOSIBLE = "00000000-0000-0000-0000-000000000000";
 
 /**
- * Aplica estado, nivel y búsqueda a una consulta de `solicitudes_admision`.
+ * Aplica los CINCO filtros a una consulta de `solicitudes_admision`: estado,
+ * nivel, año lectivo, texto del buscador y días sin movimiento.
  *
- * Genérico sobre lo que necesita —`eq` y `or`— para no arrastrar el tipo del
- * cliente de Supabase, que en este proyecto va sin `Database` y acabaría en
- * `any`.
+ * Genérico sobre lo que necesita —`eq`, `ilike`, `lte` y `not`— para no
+ * arrastrar el tipo del cliente de Supabase, que en este proyecto va sin
+ * `Database` y acabaría en `any`.
  */
 export function filtrarSolicitudes<
   T extends {
     eq(columna: string, valor: string): T;
     ilike(columna: string, patron: string): T;
+    lte(columna: string, valor: string): T;
+    not(columna: string, operador: string, valor: string): T;
   },
 >(consulta: T, f: FiltroSolicitudes): T {
   let q = consulta;
 
   if (f.estado && f.estado !== "todas") q = q.eq("estado", f.estado);
   if (f.nivel) q = q.eq("est_nivel", f.nivel);
+
+  /*
+    El año lectivo. Existe por un desajuste real: la tarjeta «Detenidos» de
+    Métricas cuenta **un** año lectivo, y esta pantalla junta todos. Sin este
+    filtro, el enlace que lleva de una a otra prometía la misma lista y
+    entregaba otra más grande —con familias de ciclos ya cerrados— y secretaría
+    habría llamado a una familia del año pasado para que retome un proceso que
+    no está abierto.
+  */
+  if (f.anioIngreso) q = q.eq("anio_ingreso", f.anioIngreso);
+
+  /*
+    «Detenidas»: las que llevan N días sin cambiar de estado.
+
+    Se mide contra `ultimo_movimiento` (migración 091) y no contra
+    `updated_at`, que se mueve al corregir un apellido o al añadir una nota:
+    con él, una familia olvidada durante dos meses parecería recién atendida.
+    Es la misma definición que usa la tarjeta «Detenidos» del dashboard, y esa
+    columna la escribe el mismo cambio de estado que escribe el historial del
+    que sale la tarjeta, así que no pueden separarse.
+
+    Las terminales quedan fuera: una matriculada o una no admitida lleva meses
+    sin moverse porque ya terminó, no porque se haya olvidado. Llamar a esas
+    familias para «retomar el proceso» es justo lo que no puede pasar.
+  */
+  const dias = diasSinMovimiento(f.sinMovimientoDias);
+  if (dias !== null) {
+    const limite = new Date((f.ahora ?? Date.now()) - dias * 86_400_000).toISOString();
+    q = q.lte("ultimo_movimiento", limite);
+    q = q.not("estado", "in", `(${[...ESTADOS_TERMINALES].join(",")})`);
+  }
 
   const escrito = (f.q ?? "").trim();
   const texto = sinTildes(
