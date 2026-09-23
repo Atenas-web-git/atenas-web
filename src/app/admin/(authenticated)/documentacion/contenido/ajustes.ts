@@ -192,12 +192,14 @@ export const CONFIGURACION: Seccion = {
             { campo: "Google Tag Manager", desc: "El identificador del contenedor." },
             { campo: "Google Analytics 4", desc: "El identificador de medición." },
             { campo: "Facebook Pixel · TikTok Pixel", desc: "Para medir campañas de publicidad." },
-            {
-              campo: "Calendly",
-              desc: "La dirección del calendario para agendar visitas. ⚠️ Todavía no está conectado: hoy el botón de «Agendar visita» abre el correo. Se guarda, pero no cambia nada en el sitio.",
-            },
             { campo: "Verificaciones", desc: "Los códigos de Google Search Console y de Meta Business." },
           ],
+        },
+        {
+          t: "nota",
+          tono: "info",
+          texto:
+            "**¿Buscas dónde se agenda una visita al colegio?** No es aquí. El botón «Agendar visita» se edita en **Contenido › Páginas › Admisiones**, en el bloque «Visita el Campus». Aquí hubo hasta el 2026-09-22 un campo de Calendly que se guardaba y no cambiaba nada en el sitio; se retiró.",
         },
         {
           t: "nota",

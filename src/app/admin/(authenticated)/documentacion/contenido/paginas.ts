@@ -242,7 +242,7 @@ export const PAGINAS: Seccion = {
           items: [
             "Abre la página desde **Contenido › Páginas**.",
             "Verás la página dividida en **tarjetas**, una por cada sección visible del sitio (portada, texto, tarjetas, galería…).",
-            "Cambia el texto, la foto o el enlace que necesites. Los campos vacíos y opcionales simplemente no se muestran en el sitio.",
+            "Cambia el texto, la foto o el enlace que necesites. Los campos marcados **«(opcional)»** desaparecen del sitio al dejarlos vacíos; los demás **no**: si vacías uno y guardas, el sitio repone el texto de fábrica y parecerá que no se guardó.",
             "Revisa el bloque **SEO** al final si el título de la página cambió mucho.",
             "Pulsa **Guardar cambios** y espera el **Guardado ✓**.",
             "Abre la página en el sitio público y confírmalo con tus propios ojos.",
@@ -428,6 +428,12 @@ export const PAGINAS: Seccion = {
               "Portal Familiar",
             ],
           ],
+        },
+        {
+          t: "nota",
+          tono: "info",
+          texto:
+            "**El botón «Agendar visita»** vive en el bloque «Visita el Campus» de la página de Admisiones: ahí se editan su texto y el enlace al que lleva, que hoy es un correo y no un calendario. **No hay ninguna otra pantalla para configurar ese botón** — la opción de Calendly que había en Configuración › Integraciones se retiró el 2026-09-22 porque no la usaba nadie. Ojo: las cuatro páginas de nivel (`/admisiones/inicial`, etc.) tienen **su propio** botón, que se edita en cada una.",
         },
         { t: "sub", texto: "Fichas" },
         {

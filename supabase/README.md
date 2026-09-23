@@ -93,7 +93,7 @@ Ejecutar en `Supabase Dashboard → SQL Editor`, en este orden:
 37. `migrations/036_eliminar_plantilla_e_paginas.sql` (limpia las 10 filas seed de plantilla E del catálogo de páginas; idempotente)
 38. `migrations/037_subcategorias_hero_title_footnote.sql` (añade `hero_title` y `hero_footnote` a subcategorías de Reconocimientos; idempotente)
 
-> **Esta lista dejó de mantenerse en la 037.** Desde la 038 hasta la 081 —motor de
+> **Esta lista dejó de mantenerse en la 037.** Desde la 038 hasta la 093 —motor de
 > formularios, admisiones, roles, secretos, cupos por año escolar— las migraciones
 > existen en `migrations/` pero no están descritas aquí. Para saber qué hace cada
 > una, la cabecera de cada archivo lo explica; para saber cuáles están aplicadas,
@@ -111,6 +111,10 @@ Ejecutar en `Supabase Dashboard → SQL Editor`, en este orden:
 >   arreglo desaparece sin avisar.
 >
 > El porqué de cada una está en su cabecera.
+
+> La **031** siembra una clave `calendlyUrl` que ya no existe en el código: el campo se
+> retiró el 2026-09-22 por no usarlo nadie. En una instalación desde cero queda en el JSON sin
+> que nada la lea, y desaparece al primer guardado de Configuración › Integraciones.
 
 39. `seed/roles.sql`
 40. `seed/plantillas_correo.sql` — solo la primera vez (sobrescribe ediciones manuales si se vuelve a correr)

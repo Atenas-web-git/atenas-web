@@ -22,7 +22,7 @@ const SECCIONES = [
   {
     href: "/admin/configuracion/integraciones",
     title: "Integraciones",
-    description: "IDs de tracking (GTM, GA4, Facebook Pixel, TikTok Pixel), Calendly y códigos de verificación. Scripts se inyectan solo si están configurados.",
+    description: "IDs de tracking (GTM, GA4, Facebook Pixel, TikTok Pixel) y códigos de verificación. Los scripts solo se cargan en el sitio público, nunca dentro del panel, y solo si están configurados.",
     icon: Code,
     onlySuperadmin: true,
   },

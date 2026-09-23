@@ -338,30 +338,14 @@ export function IntegracionesForm({
         </Field>
       </Card>
 
-      {/* Otros servicios */}
-      <Card title="Otros servicios" subtitle="Servicios adicionales que el cliente puede integrar (independientes del modo de tracking).">
-        {/*
-          Comprobado el 2026-09-22: `calendlyUrl` se guarda y se valida, pero
-          NADIE la lee. El boton real de agendar visita abre un `mailto:`
-          (components/admisiones/VisitaAdmisiones.tsx). Mientras la pantalla
-          llevaba el cartel rojo de «no configures nada» daba igual; al quitarlo
-          esto queda invitando a rellenar un campo que no hace nada, que es
-          justo lo que persigue el barrido de controles fantasma.
-          → ficha 2026-09-22-barrido-de-controles-fantasma
-        */}
-        <Field
-          label="URL de Calendly"
-          hint="⚠️ Todavía no está conectado: el botón de «Agendar visita» abre el correo, no el calendario. Puedes guardar la dirección, pero no cambia nada en el sitio hasta que lo conectemos."
-        >
-          <input
-            type="url"
-            name="calendly_url"
-            defaultValue={initialIntegraciones.calendlyUrl}
-            placeholder="https://calendly.com/atenas/visita"
-            style={inputStyle}
-          />
-        </Field>
-      </Card>
+      {/*
+        Aquí vivía «URL de Calendly». Se retiró el 2026-09-22, en el barrido de
+        controles fantasma: se guardaba, se validaba y **no lo leía nadie**. El
+        botón de «Agendar visita» del sitio sale de Contenido › Páginas ›
+        Admisiones, donde el colegio ya controla su texto y su enlace, así que
+        conectarlo aquí habría dejado dos sitios peleando por el mismo botón.
+        → ficha 2026-09-22-barrido-de-controles-fantasma
+      */}
 
       {/* Verificaciones de propiedad */}
       <Card

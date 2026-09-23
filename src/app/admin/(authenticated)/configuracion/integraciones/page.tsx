@@ -42,8 +42,9 @@ export default async function IntegracionesConfigPage() {
         </h1>
         <p style={{ fontSize: 14, color: "#6B6660", margin: "4px 0 0", maxWidth: 720 }}>
           IDs de tracking (Google Tag Manager, Google Analytics 4, Facebook Pixel, TikTok
-          Pixel) y otras claves API. Los scripts solo se inyectan en el sitio público
-          cuando el ID está configurado — campos vacíos desactivan la integración.
+          Pixel) y códigos de verificación de propiedad. Los scripts solo se inyectan en el
+          sitio público —nunca dentro del panel— y solo cuando el ID está configurado:
+          un campo vacío desactiva esa integración.
         </p>
       </div>
 

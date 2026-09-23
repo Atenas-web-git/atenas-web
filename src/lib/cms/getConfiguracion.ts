@@ -287,8 +287,6 @@ export type Integraciones = {
   facebookPixel: string;
   /** TikTok Pixel ID (ej. "CXXXXXXXXXXXXXXXXXXX"). */
   tiktokPixel: string;
-  /** URL completa de Calendly del colegio (ej. https://calendly.com/atenas/visita). */
-  calendlyUrl: string;
   /** Valor del meta tag de verificación de propiedad de Meta/Facebook. */
   metaVerify: string;
   /** Valor del meta tag de verificación de Google Search Console. */
@@ -300,7 +298,6 @@ export const INTEGRACIONES_DEFAULT: Integraciones = {
   ga4Id: "",
   facebookPixel: "",
   tiktokPixel: "",
-  calendlyUrl: "",
   metaVerify: "",
   googleVerify: "",
 };

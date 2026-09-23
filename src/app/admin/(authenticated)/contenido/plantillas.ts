@@ -1862,7 +1862,16 @@ export type CTAItemPlantillaO = {
 };
 
 export type ContenidoPlantillaO = {
-  /** Slug interno usado para construir el href del formulario y la nav lateral. */
+  /**
+   * Slug interno del nivel.
+   *
+   * ⚠️ Comprobado el 2026-09-22: **no lo lee nadie**. El comentario anterior
+   * decía que construía el href del formulario y la navegación lateral, y es
+   * falso: las cuatro páginas de `/admisiones/*` tienen archivo propio y lo
+   * llevan escrito. Se queda porque está guardado en las cuatro filas y el
+   * editor lo enseña como dato de solo lectura, pero **no decide nada**: si
+   * alguien lo cambia en la base, el sitio no se entera.
+   */
   nivelKey: "inicial" | "egb-elemental-media" | "egb-superior" | "ib";
   /** Nombre legible del nivel (ej. "Educación Inicial", "Bachillerato IB"). */
   nivelLabel: string;

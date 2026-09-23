@@ -43,7 +43,6 @@ export async function guardarIntegracionesAction(
   const ga4Id = clean(formData.get("ga4_id"));
   const facebookPixel = clean(formData.get("facebook_pixel"));
   const tiktokPixel = clean(formData.get("tiktok_pixel"));
-  const calendlyUrl = clean(formData.get("calendly_url"));
   const metaVerify = clean(formData.get("meta_verify"));
   const googleVerify = clean(formData.get("google_verify"));
 
@@ -60,16 +59,11 @@ export async function guardarIntegracionesAction(
   if (tiktokPixel && !PATTERNS.tiktokPixel.test(tiktokPixel)) {
     return { error: "TikTok Pixel inválido. Debe ser alfanumérico (mayúsculas y números).", ok: false };
   }
-  if (calendlyUrl && !/^https:\/\/calendly\.com\//.test(calendlyUrl)) {
-    return { error: "URL de Calendly inválida. Debe empezar con https://calendly.com/.", ok: false };
-  }
-
   const value: Integraciones = {
     gtmId,
     ga4Id,
     facebookPixel,
     tiktokPixel,
-    calendlyUrl,
     metaVerify,
     googleVerify,
   };
@@ -80,7 +74,7 @@ export async function guardarIntegracionesAction(
       key: "integraciones",
       value,
       descripcion:
-        "Claves API de integraciones de terceros: GTM, GA4, Facebook Pixel, TikTok Pixel, Calendly, verificaciones.",
+        "Claves API de integraciones de terceros: GTM, GA4, Facebook Pixel, TikTok Pixel, verificaciones.",
       updated_by: user.id,
     },
     { onConflict: "key" }

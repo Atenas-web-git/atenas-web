@@ -61,6 +61,10 @@ export const PRACTICAS: Seccion = {
               desc: "Los círculos que llevan de un espacio a otro. Se pueden escribir y esconder espacios desde Contenido › Paseo virtual, pero **mover un acceso o crear uno nuevo lo hacemos nosotros**.",
             },
             {
+              campo: "Quitar un texto o un botón vaciando su campo",
+              desc: "Vaciar un campo que no está marcado «(opcional)» **no lo borra del sitio**: vuelve el texto de fábrica, y desde el panel se ve igual que si hubiera funcionado. Para que algo deje de aparecer hace falta el control que lo apaga; si esa sección no lo tiene, escríbenos.",
+            },
+            {
               campo: "Pagos en línea",
               desc: "No forman parte de esta plataforma.",
             },
@@ -81,6 +85,11 @@ export const PRACTICAS: Seccion = {
               "Guardé y no veo el cambio",
               "La copia temporal del navegador",
               "Recarga forzando: `Ctrl + Shift + R` (o `Cmd + Shift + R`) y espera unos segundos.",
+            ],
+            [
+              "Vacié un campo, guardé, y el texto volvió",
+              "Ese campo **no se puede dejar en blanco**",
+              "Es a propósito: una cabecera vacía rompería la página, así que el sitio repone el texto de fábrica. Para que algo **no aparezca**, no lo vacíes: usa el campo marcado «(opcional)» que lo controla, o el interruptor de la sección. Si no lo hay, escríbenos.",
             ],
             [
               "La página no aparece en el sitio",
