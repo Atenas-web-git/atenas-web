@@ -21,13 +21,27 @@
  *   —Opus 4.7 en adelante devuelven 400 y el chatbot habría contestado
  *   siempre con el mensaje de respaldo—, y se pide razonamiento bajo donde
  *   existe el parámetro.
+ *
+ * Y el 2026-09-28 (etapa 2 del asistente): un mensaje puede llevar
+ * `imagenes` —capturas de pantalla— y los tres adaptadores las mandan en el
+ * formato de cada proveedor. Un mensaje sin imágenes viaja exactamente igual
+ * que antes: el chatbot público no las usa.
  */
 
 import type { ChatbotProvider } from "@/lib/cms/getConfiguracion";
 
+export type ImagenAdjunta = {
+  /** `image/jpeg`, `image/png` o `image/webp`. */
+  mediaType: string;
+  /** Solo el base64, sin el prefijo `data:…;base64,`. */
+  base64: string;
+};
+
 export type ChatMessage = {
   role: "user" | "assistant";
   content: string;
+  /** Capturas que acompañan al mensaje. Solo tiene sentido en los del usuario. */
+  imagenes?: ImagenAdjunta[];
 };
 
 export type ChatProviderArgs = {
@@ -99,7 +113,12 @@ async function chatGemini(args: ChatProviderArgs): Promise<ChatResultado> {
   // Gemini espera "user" / "model" como roles, no "assistant".
   const contents = messages.map((m) => ({
     role: m.role === "assistant" ? "model" : "user",
-    parts: [{ text: m.content }],
+    parts: [
+      ...(m.imagenes ?? []).map((img) => ({
+        inline_data: { mime_type: img.mediaType, data: img.base64 },
+      })),
+      { text: m.content },
+    ],
   }));
 
   const body = {
@@ -184,7 +203,18 @@ async function chatAnthropic(args: ChatProviderArgs): Promise<ChatResultado> {
     model,
     max_tokens: args.maxTokens ?? MAX_TOKENS_DEFECTO,
     system,
-    messages: messages.map((m) => ({ role: m.role, content: m.content })),
+    messages: messages.map((m) => ({
+      role: m.role,
+      content: m.imagenes?.length
+        ? [
+            ...m.imagenes.map((img) => ({
+              type: "image",
+              source: { type: "base64", media_type: img.mediaType, data: img.base64 },
+            })),
+            { type: "text", text: m.content },
+          ]
+        : m.content,
+    })),
   };
   if (!CLAUDE_SIN_TEMPERATURE.test(model)) body.temperature = 0.4;
   if (esfuerzo && CLAUDE_CON_ESFUERZO.test(model)) {
@@ -258,7 +288,18 @@ async function chatOpenAI(args: ChatProviderArgs): Promise<ChatResultado> {
     messages: [
       { role: "system", content: systemPrompt },
       ...(contexto ? [{ role: "system", content: contexto }] : []),
-      ...messages.map((m) => ({ role: m.role, content: m.content })),
+      ...messages.map((m) => ({
+        role: m.role,
+        content: m.imagenes?.length
+          ? [
+              { type: "text", text: m.content },
+              ...m.imagenes.map((img) => ({
+                type: "image_url",
+                image_url: { url: `data:${img.mediaType};base64,${img.base64}` },
+              })),
+            ]
+          : m.content,
+      })),
     ],
   };
   if (isReasoningModel) {

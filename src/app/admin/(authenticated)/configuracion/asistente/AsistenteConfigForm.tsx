@@ -16,6 +16,8 @@ export type UsoAsistente = {
   completo: boolean;
   preguntas: number;
   fallidas: number;
+  /** Cuántas llevaron captura de pantalla (cuentan desde la migración 096). */
+  conCaptura: number;
   tokensEntrada: number;
   tokensCache: number;
   tokensSalida: number;
@@ -330,6 +332,7 @@ export function AsistenteConfigForm({
                   </span>
                   <span style={{ fontSize: 13, color: "var(--ds-texto-suave)" }}>
                     {uso.preguntas === 1 ? "pregunta" : "preguntas"}
+                    {uso.conCaptura > 0 ? ` · ${uso.conCaptura} con captura` : ""}
                     {uso.fallidas > 0 ? ` · ${uso.fallidas} sin respuesta` : ""}
                   </span>
                 </div>
@@ -350,6 +353,9 @@ export function AsistenteConfigForm({
                       %
                     </strong>{" "}
                     de la entrada llegó desde caché, que el proveedor cobra a una fracción.
+                    {uso.conCaptura > 0
+                      ? " Una captura de pantalla añade del orden de mil tokens, fuera de la caché."
+                      : ""}
                   </p>
                 )}
                 <dl style={{ margin: 0, fontSize: 13, color: "var(--ds-texto-suave)", lineHeight: 1.7 }}>
@@ -412,9 +418,11 @@ export function AsistenteConfigForm({
             <ul style={{ margin: 0, paddingLeft: 16, fontSize: 13, color: "var(--ds-texto-suave)", lineHeight: 1.65 }}>
               <li>El manual de Documentación, entero y actualizado solo, porque vive en el código del panel.</li>
               <li>El rol de quien pregunta y en qué pantalla está.</li>
-              <li>Qué botones, campos y avisos hay en esa pantalla — nunca lo que hay escrito en los campos.</li>
+              <li>Qué botones, campos y avisos hay en esa pantalla — nunca lo que hay escrito en los campos, salvo que el usuario le pegue una captura.</li>
               <li>En Admisiones recibe solo botones y campos: ni títulos ni avisos, que pueden llevar el nombre de un menor.</li>
-              <li>No toca nada. Si no está en el manual, dice que no lo sabe.</li>
+              <li>Las capturas de pantalla que le peguen viajan tal cual al proveedor. No se aceptan en el Inicio, en Admisiones, en las respuestas de formularios ni en el registro de descargas. Nunca se guardan.</li>
+              <li>El dictado por voz lo transcribe el navegador (Google en Chrome y Edge, Apple en Safari), no este proveedor.</li>
+              <li>Señala en la pantalla el botón del que habla, pero no lo pulsa. No toca nada. Si no está en el manual, dice que no lo sabe.</li>
             </ul>
             <button
               type="button"

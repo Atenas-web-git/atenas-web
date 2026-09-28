@@ -61,7 +61,8 @@ function limpiar(texto: string | null | undefined, largo: number = LIMITES.largo
   return (texto ?? "").replace(/\s+/g, " ").trim().slice(0, largo);
 }
 
-function visible(el: Element): boolean {
+/** Los usa también `senalar.ts`: lo que se ilumina es exactamente lo que se leyó. */
+export function visible(el: Element): boolean {
   const h = el as HTMLElement;
   if (h.closest(PANEL_PROPIO) || h.closest(PRIVADO)) return false;
   if (h.getAttribute("aria-hidden") === "true") return false;
@@ -74,7 +75,7 @@ function visible(el: Element): boolean {
  * primera línea: un botón de dos líneas («OpenAI / La cuenta que ya tiene el
  * colegio») se nombra por la primera.
  */
-function textoDeControl(el: Element): string {
+export function textoDeControl(el: Element): string {
   const h = el as HTMLElement;
   return (
     limpiar(h.innerText.split("\n")[0]) ||
@@ -96,8 +97,8 @@ function sinAsterisco(texto: string): string {
  * la etiqueta. `textContent` y no `innerText`: el segundo devuelve el texto
  * ya en mayúsculas cuando el CSS lo transforma.
  */
-function textoDeLabel(label: HTMLLabelElement, control: Element): string {
-  if (!label.contains(control)) return sinAsterisco(limpiar(label.textContent));
+export function textoDeLabel(label: HTMLLabelElement, control: Element | null): string {
+  if (!control || !label.contains(control)) return sinAsterisco(limpiar(label.textContent));
   for (const hijo of label.children) {
     if (hijo === control || hijo.contains(control)) continue;
     const t = sinAsterisco(limpiar(hijo.textContent));

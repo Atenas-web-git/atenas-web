@@ -15,6 +15,8 @@ import {
   esRutaDeAdmisiones,
   recortarParaAdmisiones,
 } from "@/lib/asistente/pantalla";
+import { validarCaptura, capturasBloqueadas, AVISO_SIN_CAPTURAS } from "@/lib/asistente/captura";
+import { extraerSenales } from "@/lib/asistente/senales";
 import { buscarEntrada } from "@/components/admin/mapaPantallas";
 import { registrarIntento, identificadorDeRecurso } from "@/lib/security/rateLimit";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -24,16 +26,24 @@ import { createAdminClient } from "@/lib/supabase/admin";
  * quien pregunta.
  *
  * POST /api/asistente
- *   { mensajes: [{ role, content }], ruta: "/admin/…", pantalla: EstructuraPantalla | null }
+ *   { mensajes: [{ role, content }], ruta: "/admin/…", pantalla: EstructuraPantalla | null,
+ *     captura?: "data:image/jpeg;base64,…" }
  *   → { texto, citas: [{ titulo, seccion, href }] }
  *
  * Solo para usuarios del panel con sesión. El rol NO viene del cliente: se lee
- * de la sesión, igual que el nombre. Lo único que se acepta del navegador es
- * la ruta y la estructura de la pantalla, y las dos se vuelven a validar.
+ * de la sesión, igual que el nombre. Lo que se acepta del navegador es la
+ * ruta, la estructura de la pantalla y, desde la etapa 2 (2026-09-28), una
+ * captura de pantalla para el último mensaje; las tres se vuelven a validar.
+ * La captura se rechaza en las pantallas con datos de personas
+ * (`capturasBloqueadas`) aunque el navegador la mande.
+ *
+ * En el texto que vuelve pueden ir marcas `[[señalar:Nombre]]`: el cliente
+ * las pinta como etiquetas que iluminan ese control en la pantalla. Solo
+ * sobreviven las que nombran algo que de verdad está en la estructura.
  *
  * Guía, no actúa: aquí no hay herramientas ni escrituras. Lo único que se
  * escribe es una fila en `asistente_uso` con los tokens que costó el turno,
- * nunca el texto.
+ * nunca el texto ni la captura.
  */
 
 export const dynamic = "force-dynamic";
@@ -52,7 +62,7 @@ const MAX_LARGO_MENSAJE = 4000;
 /** Más largo que el chatbot (800): una guía paso a paso ocupa. */
 const MAX_TOKENS_RESPUESTA = 1200;
 
-type Body = { mensajes?: unknown; ruta?: unknown; pantalla?: unknown };
+type Body = { mensajes?: unknown; ruta?: unknown; pantalla?: unknown; captura?: unknown };
 
 function sanearMensajes(raw: unknown): ChatMessage[] {
   if (!Array.isArray(raw)) return [];
@@ -74,12 +84,23 @@ type FilaUso = {
   provider: string;
   model: string;
   con_pantalla: boolean;
+  con_captura: boolean;
   ok: boolean;
 } & Record<"tokens_entrada" | "tokens_cache" | "tokens_salida", number>;
 
 async function anotarUso(fila: FilaUso): Promise<void> {
   try {
-    const { error } = await createAdminClient().from("asistente_uso").insert(fila);
+    const db = createAdminClient();
+    let { error } = await db.from("asistente_uso").insert(fila);
+    if (error && /con_captura/.test(error.message)) {
+      // La columna llega con la migración 096. Hasta que se corra, se anota
+      // la pregunta sin ese dato en vez de perder la fila entera —y con ella
+      // el tope diario, que se cuenta sobre esta tabla—.
+      console.warn("[asistente] falta la migración 096: se anota el uso sin `con_captura`.");
+      const { con_captura: _sinColumna, ...resto } = fila;
+      void _sinColumna;
+      ({ error } = await db.from("asistente_uso").insert(resto));
+    }
     if (error) {
       console.error(
         "[asistente] no se pudo anotar el uso (¿falta la migración 094?):",
@@ -168,6 +189,18 @@ export async function POST(req: NextRequest) {
   let estructura = sanearEstructura(body.pantalla);
   if (estructura && enAdmisiones) estructura = recortarParaAdmisiones(estructura);
 
+  // La captura, si viene, se valida (tipo, tamaño) y en las pantallas con
+  // datos de personas se rechaza con un 400 explícito: nuestro cliente no la
+  // manda desde ahí, pero otro cliente tiene que enterarse de por qué no.
+  const validada = validarCaptura(body.captura);
+  if (validada && "error" in validada) {
+    return NextResponse.json({ error: validada.error }, { status: 400 });
+  }
+  const captura = validada?.captura ?? null;
+  if (captura && capturasBloqueadas(ruta)) {
+    return NextResponse.json({ error: AVISO_SIN_CAPTURAS }, { status: 400 });
+  }
+
   const cfg = mergeAsistente(
     await getConfiguracionPrivada<Partial<AsistenteConfig>>("asistente")
   );
@@ -179,6 +212,12 @@ export async function POST(req: NextRequest) {
   }
 
   const historial = mensajes.slice(-cfg.maxHistoryMessages);
+  if (captura) {
+    // Solo el último mensaje lleva imagen: las de turnos anteriores no se
+    // reenvían (el cliente no las guarda), y así una captura cuesta una vez.
+    const ultimo = historial[historial.length - 1];
+    historial[historial.length - 1] = { ...ultimo, imagenes: [captura] };
+  }
   const systemPrompt = systemPromptAsistente(cfg.notasColegio);
   const contexto = contextoDelTurno({
     nombre: user.fullName.split(/\s+/)[0] || "",
@@ -188,6 +227,7 @@ export async function POST(req: NextRequest) {
       : null,
     estructura,
     enAdmisiones,
+    conCaptura: captura !== null,
   });
 
   const filaBase = {
@@ -198,6 +238,7 @@ export async function POST(req: NextRequest) {
     provider: cfg.provider,
     model: cfg.model,
     con_pantalla: estructura !== null,
+    con_captura: captura !== null,
   };
 
   try {
@@ -212,12 +253,23 @@ export async function POST(req: NextRequest) {
       cachearSistema: true,
     });
 
-    const { texto, citas, desconocidas } = extraerCitas(
+    const { texto: sinCitas, citas, desconocidas } = extraerCitas(
       neutralizarEnlacesExternos(resultado.text)
     );
     if (desconocidas.length > 0) {
       // Una cita que no existe es el modelo inventando: conviene verlo en el log.
       console.warn("[asistente] citas a artículos que no existen:", desconocidas);
+    }
+    const { texto, descartadas } = extraerSenales(sinCitas, estructura);
+    if (descartadas.length > 0) {
+      // Igual que las citas: señalar algo que no está en pantalla es inventar
+      // un control. Se degrada a negrita y queda en el log. En producción solo
+      // cuántas: el nombre podría ser el de una persona que el modelo vio en
+      // una captura, y los logs de Vercel no son sitio para eso.
+      console.warn(
+        "[asistente] señales a controles que no están en pantalla:",
+        process.env.NODE_ENV === "development" ? descartadas : descartadas.length
+      );
     }
 
     await anotarUso({

@@ -254,7 +254,7 @@ export const CONFIGURACION: Seccion = {
         {
           t: "p",
           texto:
-            "Es el ayudante que aparece **abajo a la derecha en todo el panel**. Responde con este manual, sabe en qué pantalla estás y qué botones hay en ella, y explica paso a paso. **No cambia nada**: te dice cómo hacerlo tú. Cómo se usa está en [Pedir ayuda al asistente](/admin/documentacion/primeros-pasos#ayuda).",
+            "Es el ayudante que aparece **abajo a la derecha en todo el panel**. Responde con este manual, sabe en qué pantalla estás y qué botones hay en ella, señala en la pantalla el control del que habla, entiende capturas (menos en el Inicio, en Admisiones, en las respuestas de formularios y en el registro de descargas) y se le puede dictar. **No cambia nada**: te dice cómo hacerlo tú. Cómo se usa está en [Pedir ayuda al asistente](/admin/documentacion/primeros-pasos#ayuda).",
         },
         {
           t: "campos",
@@ -264,7 +264,7 @@ export const CONFIGURACION: Seccion = {
             { campo: "API key", desc: "La credencial del proveedor. Solo la lee el servidor; en pantalla se ve enmascarada." },
             { campo: "Notas del colegio", desc: "Lo que quieres que sepa además del manual: a quién pedir un usuario nuevo, el horario de soporte. Corto: viaja en cada pregunta." },
             { campo: "Mensajes pasados por turno", desc: "Cuántos mensajes anteriores de la conversación se le envían con cada pregunta, para que entienda «¿y eso dónde está?». De 1 a 30; 10 por defecto. Más memoria, más costo por pregunta." },
-            { campo: "Uso en los últimos 30 días", desc: "Cuántas preguntas se hicieron, cuántos tokens costaron y en qué pantallas se pregunta más. No guarda ninguna pregunta ni respuesta." },
+            { campo: "Uso en los últimos 30 días", desc: "Cuántas preguntas se hicieron, cuántas llevaron captura de pantalla —cada una añade del orden de mil tokens—, cuántos tokens costaron y en qué pantallas se pregunta más. No guarda ninguna pregunta, respuesta ni captura." },
             { campo: "Inspeccionar lo que ve el asistente", desc: "Muestra tal cual las instrucciones y el manual que se le envían. Si contestó algo raro, aquí se ve por qué." },
           ],
         },

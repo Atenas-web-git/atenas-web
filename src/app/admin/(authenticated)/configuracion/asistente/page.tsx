@@ -27,6 +27,8 @@ type FilaUso = {
   tokens_cache: number | null;
   tokens_salida: number | null;
   ok: boolean;
+  /** Desde la migración 096; antes no existe y llega `undefined`. */
+  con_captura?: boolean | null;
 };
 
 async function leerUsoReciente(): Promise<UsoAsistente> {
@@ -35,10 +37,13 @@ async function leerUsoReciente(): Promise<UsoAsistente> {
   // En bloques, no con `.limit()`: PostgREST corta en 1.000 filas y responde
   // 200, y a partir de mil preguntas al mes los números saldrían de un
   // subconjunto sin que nada lo dijera. Mismo arreglo que Métricas (2026-09-02).
+  // `*` y no la lista de columnas: `con_captura` llega con la migración 096 y,
+  // pedida por nombre antes de correrla, PostgREST devolvería error y la
+  // tarjeta diría que no hay registro. Así la columna es opcional.
   const { filas: data, completa, motivo } = await traerTodas<FilaUso>((d, h) =>
     createAdminClient()
       .from("asistente_uso")
-      .select("pantalla, tokens_entrada, tokens_cache, tokens_salida, ok")
+      .select("*")
       .gte("created_at", desde)
       .order("id", { ascending: true })
       .range(d, h)
@@ -56,6 +61,7 @@ async function leerUsoReciente(): Promise<UsoAsistente> {
     completo: completa,
     preguntas: 0,
     fallidas: 0,
+    conCaptura: 0,
     tokensEntrada: 0,
     tokensCache: 0,
     tokensSalida: 0,
@@ -65,6 +71,7 @@ async function leerUsoReciente(): Promise<UsoAsistente> {
   for (const fila of data) {
     uso.preguntas += 1;
     if (!fila.ok) uso.fallidas += 1;
+    if (fila.con_captura) uso.conCaptura += 1;
     uso.tokensEntrada += fila.tokens_entrada ?? 0;
     uso.tokensCache += fila.tokens_cache ?? 0;
     uso.tokensSalida += fila.tokens_salida ?? 0;

@@ -134,13 +134,32 @@ export const PRIMEROS_PASOS: Seccion = {
             "Haz clic en **Ayuda**. Se abre una ventana que no tapa la pantalla: puedes seguir trabajando mientras lees.",
             "Escribe tu pregunta como se la harías a un compañero: «¿cómo cambio el teléfono del pie de página?», «¿por qué no puedo borrar este documento?». Para un salto de línea, **Shift + Intro**.",
             "Pulsa **Intro** (o el botón de enviar). Responde con los pasos, con los nombres exactos de los botones, y al final enlaza el artículo de este manual del que sacó la respuesta.",
+            "Cuando la respuesta nombra un botón o un campo que tienes en pantalla, el nombre aparece como una etiqueta con un cursor. **Haz clic en ella y el panel lo ilumina** unos segundos. Si ya cambiaste de pantalla, la etiqueta te lo dice.",
             "Puedes cambiar de pantalla con la ventana abierta: sabe a dónde te moviste. El icono de la flecha circular empieza una **conversación nueva**; la **X** o la tecla **Escape** cierran la ventana.",
           ],
         },
         {
           t: "p",
           texto:
-            "La conversación se conserva mientras la pestaña del navegador siga abierta, aunque recargues la página, y es tuya: otro usuario que entre en la misma computadora no la ve. Al cerrar la pestaña se borra. El panel no la guarda; lo que preguntas sí viaja al proveedor de inteligencia artificial que el colegio haya contratado, así que no escribas ahí datos de una familia.",
+            "La conversación se conserva mientras la pestaña del navegador siga abierta, aunque recargues la página, y es tuya: otro usuario que entre en la misma computadora no la ve. Al cerrar la pestaña se borra (las capturas, ya al recargar). El panel no la guarda; lo que preguntas sí viaja al proveedor de inteligencia artificial que el colegio haya contratado, así que no escribas ahí datos de una familia.",
+        },
+        { t: "sub", texto: "Pegar una captura de lo que ves" },
+        {
+          t: "p",
+          texto:
+            "Si algo te sale raro —un aviso que no entiendes, un botón que no encuentras— enséñaselo: haz una captura de pantalla y **pégala en el cuadro de la pregunta** (Ctrl + V, o Cmd + V en Mac). También puedes arrastrarla a la ventana o usar el botón de la imagen, a la izquierda del cuadro. Verás una miniatura antes de enviar; la **X** la quita. Puedes mandarla sin escribir nada.",
+        },
+        {
+          t: "nota",
+          tono: "aviso",
+          texto:
+            "**La captura viaja tal cual al proveedor de IA.** Antes de pegarla, mira que no muestre datos de una familia o de un empleado; si los muestra, recórtala. En cuatro sitios **no se pueden adjuntar capturas**, ni pegando ni arrastrando: el **Inicio** (muestra las últimas solicitudes con nombre), **Admisiones** entera, las **respuestas de los formularios** y el **registro de descargas** de Usuarios. El bloqueo va por la pantalla en la que estás, no por lo que muestra la imagen: una captura hecha en Admisiones tampoco debe pegarse desde otra pantalla. Una captura cuesta bastante más que una pregunta escrita —del orden de mil tokens—, así que úsala cuando de verdad ayude.",
+        },
+        { t: "sub", texto: "Dictar en vez de escribir" },
+        {
+          t: "p",
+          texto:
+            "Pulsa el **micrófono**, habla, y vuelve a pulsarlo para parar: lo dictado aparece en el cuadro y puedes corregirlo antes de enviar. También se para solo al enviar, al cerrar la ventana o al cambiar de pantalla. Funciona en **Chrome, Edge y Safari**; en Firefox el botón no aparece. La primera vez el navegador pide permiso para usar el micrófono. El reconocimiento de voz lo hace el propio navegador —Google en Chrome y Edge, Apple en Safari—, no el proveedor de IA del colegio, y el panel no graba nada. Mientras el micrófono está encendido, todo lo que se diga cerca se transcribe: apágalo antes de atender una llamada.",
         },
         { t: "sub", texto: "Qué sabe de tu pantalla" },
         {
@@ -152,7 +171,7 @@ export const PRIMEROS_PASOS: Seccion = {
           t: "nota",
           tono: "aviso",
           texto:
-            "En **Admisiones** se maneja información de menores. Ahí el asistente recibe solo los nombres de los botones y de los campos: ni los títulos —el de una ficha es el nombre del aspirante—, ni los avisos. Si necesitas que entienda un error, escríbeselo sin nombres.",
+            "En **Admisiones** se maneja información de menores. Ahí el asistente recibe solo los nombres de los botones y de los campos: ni los títulos —el de una ficha es el nombre del aspirante—, ni los avisos, ni capturas. Si necesitas que entienda un error, escríbeselo sin nombres.",
         },
         { t: "sub", texto: "Qué no hace" },
         {
@@ -160,7 +179,7 @@ export const PRIMEROS_PASOS: Seccion = {
           items: [
             "**No cambia nada por ti.** Te explica cómo; guardas tú.",
             "**No sabe nada fuera de este manual.** Si le preguntas algo que no está aquí, te dirá que no lo sabe en lugar de inventarlo. Eso es a propósito.",
-            "**No conoce tus datos** ni los de las familias: solo la estructura de la pantalla.",
+            "**No conoce tus datos** ni los de las familias: solo la estructura de la pantalla, y lo que tú le pegues en una captura.",
           ],
         },
       ],

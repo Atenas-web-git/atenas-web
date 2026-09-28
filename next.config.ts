@@ -90,15 +90,21 @@ const nextConfig: NextConfig = {
       // Al salir hacia otro sitio se manda el origen, nunca la ruta completa:
       // una URL de `/admin` puede llevar el número de una solicitud.
       { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-      // Nada del sitio pide cámara, micrófono, pagos ni USB. Se apagan también
-      // para lo que embebemos, que es de terceros.
+      // Nada del sitio pide cámara, pagos ni USB. Se apagan también para lo
+      // que embebemos, que es de terceros. El micrófono lo pide UNA cosa desde
+      // el 2026-09-28: el dictado del asistente del panel (Web Speech API,
+      // `components/admin/asistente/dictado.ts`). `(self)` lo permite solo a
+      // nuestro propio origen y sigue negado a cualquier iframe de terceros.
+      // Con `microphone=()` el dictado fallaba siempre con `not-allowed`, y el
+      // aviso mandaba al usuario al candado del navegador, donde no había nada
+      // que arreglar. Lo cazó el auditor de cierre.
       //
       // ⚠️ NO añadir `fullscreen=()` «por coherencia»: rompe el botón de
       // pantalla completa del mapa de /contactos y los vídeos de YouTube de
       // las plantillas I y M.
       {
         key: "Permissions-Policy",
-        value: "camera=(), microphone=(), payment=(), usb=()",
+        value: "camera=(), microphone=(self), payment=(), usb=()",
       },
     ];
 

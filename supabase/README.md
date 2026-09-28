@@ -93,7 +93,7 @@ Ejecutar en `Supabase Dashboard → SQL Editor`, en este orden:
 37. `migrations/036_eliminar_plantilla_e_paginas.sql` (limpia las 10 filas seed de plantilla E del catálogo de páginas; idempotente)
 38. `migrations/037_subcategorias_hero_title_footnote.sql` (añade `hero_title` y `hero_footnote` a subcategorías de Reconocimientos; idempotente)
 
-> **Esta lista dejó de mantenerse en la 037.** Desde la 038 hasta la 094 —motor de
+> **Esta lista dejó de mantenerse en la 037.** Desde la 038 hasta la 096 —motor de
 > formularios, admisiones, roles, secretos, cupos por año escolar, asistente del panel— las migraciones
 > existen en `migrations/` pero no están descritas aquí. Para saber qué hace cada
 > una, la cabecera de cada archivo lo explica; para saber cuáles están aplicadas,
@@ -112,6 +112,9 @@ Ejecutar en `Supabase Dashboard → SQL Editor`, en este orden:
 > - La **094** (asistente del panel) va ANTES de pegar la clave del proveedor en
 >   Configuración › Asistente: es la que hace privada la key `asistente`. Con el
 >   código da igual el orden; con la clave, no. Aplicada en producción el 2026-09-27.
+> - La **095** (solo comentarios) y la **096** (columna `con_captura` en `asistente_uso`) van
+>   en cualquier orden respecto al código: la 096 la detecta el código si falta y anota el uso
+>   sin esa columna. La 095 se aplicó el 2026-09-28.
 >
 > El porqué de cada una está en su cabecera.
 
