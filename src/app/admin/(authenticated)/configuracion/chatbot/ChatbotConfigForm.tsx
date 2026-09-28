@@ -190,7 +190,7 @@ export function ChatbotConfigForm({
               hint={
                 keyConfigured
                   ? 'Ya hay una API key guardada. Borra el campo y pega una nueva para reemplazarla; o deja los "•" para conservarla.'
-                  : 'Genera una API key en la consola del proveedor. Se guarda cifrada en BD y solo es legible por el servidor.'
+                  : 'Genera una API key en la consola del proveedor. Solo la lee el servidor: nunca viaja al navegador.'
               }
               required={activo}
             >

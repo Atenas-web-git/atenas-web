@@ -77,6 +77,10 @@ export function FichaRespuesta({
     <div
       className="flex flex-col"
       style={{ background: "#FFFFFF", border: "1px solid #E8E4DD", borderRadius: 12 }}
+      // `data-asistente-privado`: la ficha pinta lo que escribió una persona
+      // desde el sitio —y sus adjuntos llevan de nombre lo que ella quiso,
+      // cédulas incluidas—. El asistente del panel no lee nada de aquí.
+      data-asistente-privado
     >
       <button
         type="button"

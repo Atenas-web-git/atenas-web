@@ -2,8 +2,15 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { canAccessAdmin } from "@/lib/auth/types";
+import {
+  getConfiguracionPrivada,
+  mergeAsistente,
+  asistenteIsLive,
+  type AsistenteConfig,
+} from "@/lib/cms/getConfiguracion";
 import { Sidebar } from "@/components/admin/Sidebar";
 import { Header } from "@/components/admin/Header";
+import { AsistenteFlotante } from "@/components/admin/asistente/AsistenteFlotante";
 // Tokens del panel + la capa que arregla foco, bordes de campo y tamaño de
 // letra en las 64 pantallas a la vez. Se importa aquí y no en globals.css a
 // propósito: el sitio público no debe cargar nada de esto.
@@ -24,6 +31,14 @@ export default async function AdminLayout({
 
   if (!user) redirect("/admin/login");
   if (!canAccessAdmin(user)) redirect("/admin/login?error=no_access");
+
+  // El botón «Ayuda» solo se monta si el asistente está encendido y con clave.
+  // Al componente de cliente le llega el nombre y nada más: la configuración
+  // —con la API key dentro— se queda en el servidor.
+  const asistente = mergeAsistente(
+    await getConfiguracionPrivada<Partial<AsistenteConfig>>("asistente")
+  );
+  const primerNombre = user.fullName.split(/\s+/)[0] || "";
 
   return (
     <div
@@ -46,8 +61,15 @@ export default async function AdminLayout({
             `sticky top-0` de los formularios de Configuración pasan a pegarse
             al borde superior de ESTA caja, es decir justo debajo de la
             cabecera, en lugar de al borde de la ventana. */}
-        <div className="flex-1 overflow-auto">{children}</div>
+        {/* `data-asistente-contenido`: es la raíz desde la que el asistente
+            lee la estructura de la pantalla (títulos, botones, campos). */}
+        <div className="flex-1 overflow-auto" data-asistente-contenido>
+          {children}
+        </div>
       </div>
+      {asistenteIsLive(asistente) && (
+        <AsistenteFlotante nombre={primerNombre} usuarioId={user.id} />
+      )}
     </div>
   );
 }

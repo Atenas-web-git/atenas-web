@@ -487,7 +487,10 @@ export function MetricasView({
                 <p style={{ fontSize: 13, color: "#6B6660", margin: "-4px 0 0", lineHeight: 1.55 }}>
                   Días desde el último cambio de etapa, no desde la última edición de la ficha.
                 </p>
-                <div className="flex flex-col">
+                {/* `data-asistente-privado`: esta lista está hecha con enlaces
+                    sueltos, no con filas, y cada uno lleva el nombre de un
+                    menor. El asistente del panel no debe leerla. */}
+                <div className="flex flex-col" data-asistente-privado>
                   {m.estancadas.map((e, i) => (
                     <Link
                       key={e.id}

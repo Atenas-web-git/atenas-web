@@ -1,10 +1,17 @@
 /**
- * Catálogo de modelos disponibles por proveedor de IA del chatbot.
+ * Catálogo de modelos disponibles por proveedor de IA.
  *
- * Cuando el cliente cambia el proveedor desde
- * /admin/configuracion/chatbot, el dropdown de modelo se filtra a estas
- * opciones. Si en el futuro hay un modelo nuevo, basta con agregarlo
- * acá — el resto del sistema lo recoge automáticamente.
+ * Lo usan las dos pantallas que eligen modelo —Configuración › Chatbot y
+ * Configuración › Asistente del panel—: al cambiar el proveedor, el
+ * desplegable de modelo se filtra a estas opciones. Si sale un modelo nuevo,
+ * basta con agregarlo acá; el resto del sistema lo recoge solo.
+ *
+ * ⚠️ Los proveedores cambian qué parámetros acepta cada modelo (Claude Opus
+ * 4.7 en adelante rechaza `temperature`, la familia GPT-5 usa
+ * `max_completion_tokens`…). Eso NO se resuelve aquí: lo resuelve el
+ * adaptador de `providers.ts` mirando el id del modelo.
+ *
+ * Claude actualizado a la generación 5 el 2026-09-27.
  */
 
 import type { ChatbotProvider } from "@/lib/cms/getConfiguracion";
@@ -41,17 +48,17 @@ export const MODELS_BY_PROVIDER: Record<ChatbotProvider, ModelOption[]> = {
   ],
   anthropic: [
     {
-      id: "claude-opus-4-7",
-      label: "Claude Opus 4.7",
+      id: "claude-opus-5",
+      label: "Claude Opus 5",
       hint: "Máxima calidad. Más caro.",
     },
     {
-      id: "claude-sonnet-4-6",
-      label: "Claude Sonnet 4.6",
+      id: "claude-sonnet-5",
+      label: "Claude Sonnet 5",
       hint: "Balance calidad / costo. Recomendado.",
     },
     {
-      id: "claude-haiku-4-5-20251001",
+      id: "claude-haiku-4-5",
       label: "Claude Haiku 4.5",
       hint: "Más rápido y económico.",
     },

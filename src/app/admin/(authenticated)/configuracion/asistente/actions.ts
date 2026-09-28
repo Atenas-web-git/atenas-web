@@ -4,10 +4,10 @@ import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole } from "@/lib/auth/types";
-import type { ChatbotConfig } from "@/lib/cms/getConfiguracion";
+import type { AsistenteConfig } from "@/lib/cms/getConfiguracion";
 import { MODELS_BY_PROVIDER } from "@/lib/chatbot/models";
 
-export type ChatbotActionState = { error: string | null; ok: boolean };
+export type AsistenteActionState = { error: string | null; ok: boolean };
 
 async function assertSuperadmin() {
   const user = await getCurrentUser();
@@ -17,21 +17,20 @@ async function assertSuperadmin() {
   return user;
 }
 
-export async function guardarChatbotAction(
-  _prev: ChatbotActionState,
+export async function guardarAsistenteAction(
+  _prev: AsistenteActionState,
   formData: FormData
-): Promise<ChatbotActionState> {
+): Promise<AsistenteActionState> {
   const user = await assertSuperadmin();
 
   const payloadRaw = String(formData.get("payload") ?? "");
-  let value: ChatbotConfig;
+  let value: AsistenteConfig;
   try {
     value = JSON.parse(payloadRaw);
   } catch {
     return { error: "Payload inválido.", ok: false };
   }
 
-  // Validaciones
   const validProviders = ["gemini", "anthropic", "openai"] as const;
   if (!validProviders.includes(value.provider)) {
     return { error: "Proveedor inválido.", ok: false };
@@ -45,36 +44,25 @@ export async function guardarChatbotAction(
   }
   if (value.activo && !value.apiKey.trim()) {
     return {
-      error: "Si activas el chatbot, debes configurar una API key del proveedor.",
+      error: "Si activas el asistente, debes configurar una API key del proveedor.",
       ok: false,
     };
   }
-  if (!value.systemPrompt.trim()) {
-    return { error: "El system prompt no puede estar vacío.", ok: false };
-  }
-  if (!value.welcomeMessage.trim()) {
-    return { error: "El mensaje de bienvenida no puede estar vacío.", ok: false };
-  }
-  if (!value.fallbackMessage.trim()) {
-    return { error: "El mensaje de fallback no puede estar vacío.", ok: false };
-  }
+  const maxHistoryMessages =
+    typeof value.maxHistoryMessages === "number" && value.maxHistoryMessages > 0
+      ? Math.min(Math.round(value.maxHistoryMessages), 30)
+      : 10;
+  const notasColegio = typeof value.notasColegio === "string" ? value.notasColegio.slice(0, 12000) : "";
 
-  // Si la apiKey viene enmascarada significa que el usuario NO cambió la key
-  // existente. Conservamos la que ya está en BD.
-  //
-  // ⚠️ Corregido el 2026-09-27: la máscara que arma page.tsx es «••••…» MÁS
-  // los cuatro últimos caracteres reales de la clave, y el patrón anterior
-  // (`/^•+$/`) exigía que fueran TODO puntos. Nunca casaba: al guardar esta
-  // pantalla sin reescribir la clave se guardaba la máscara como si fuera la
-  // clave, y el chatbot dejaba de responder con el mensaje de respaldo. Así
-  // estuvo en producción desde el 2026-05-20.
+  // Si la apiKey viene enmascarada (••••) el usuario NO la cambió: se
+  // conserva la que ya está en la base.
   let finalApiKey = value.apiKey.trim();
   if (/^•+/.test(finalApiKey)) {
     const supa = createAdminClient();
     const { data } = await supa
       .from("configuracion_global")
       .select("value")
-      .eq("key", "chatbot")
+      .eq("key", "asistente")
       .maybeSingle();
     const current = (data?.value as { apiKey?: string } | null) ?? null;
     finalApiKey = current?.apiKey ?? "";
@@ -83,21 +71,30 @@ export async function guardarChatbotAction(
   const supabase = createAdminClient();
   const { error } = await supabase.from("configuracion_global").upsert(
     {
-      key: "chatbot",
-      value: { ...value, apiKey: finalApiKey },
+      key: "asistente",
+      value: {
+        activo: value.activo,
+        provider: value.provider,
+        model: value.model,
+        apiKey: finalApiKey,
+        maxHistoryMessages,
+        notasColegio,
+      },
       descripcion:
-        'Chatbot IA "Ateneo": provider + modelo + API key + prompts. Si activo, reemplaza al WhatsApp.',
+        "Asistente del panel: provider + modelo + API key + notas del colegio. Si activo, aparece el botón «Ayuda» en todo el panel.",
       updated_by: user.id,
     },
     { onConflict: "key" }
   );
 
   if (error) {
-    console.error("[chatbot]", error);
+    console.error("[asistente]", error);
     return { error: "No se pudo guardar.", ok: false };
   }
 
-  revalidatePath("/admin/configuracion/chatbot");
-  revalidatePath("/", "layout");
+  revalidatePath("/admin/configuracion/asistente");
+  // El botón «Ayuda» se monta desde el layout del panel: hay que refrescarlo
+  // para que aparezca o desaparezca sin esperar a una recarga.
+  revalidatePath("/admin", "layout");
   return { error: null, ok: true };
 }

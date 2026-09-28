@@ -17,7 +17,8 @@ export default function DocumentacionLayout({
         @media print {
           aside,
           header,
-          .doc-no-print {
+          .doc-no-print,
+          [data-asistente-panel] {
             display: none !important;
           }
           body,

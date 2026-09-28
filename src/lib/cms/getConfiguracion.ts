@@ -8,7 +8,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
  *
  * Usa la clave anónima, así que solo alcanza las keys que la política RLS
  * expone al público (marca, contacto, footer, navbar, seo, mega_menu…).
- * Para las keys con credenciales — `correos` y `chatbot` — usar
+ * Para las keys con credenciales — `correos`, `chatbot` y `asistente` — usar
  * `getConfiguracionPrivada()`.
  */
 export async function getConfiguracion<T = unknown>(
@@ -33,8 +33,8 @@ export async function getConfiguracion<T = unknown>(
  * Igual que `getConfiguracion()`, pero con la service_role key, que salta RLS.
  *
  * Existe para las keys que guardan credenciales (`correos` → contraseña SMTP y
- * API key de Resend; `chatbot` → API key del modelo). Desde la migración 068
- * esas keys NO son legibles con la clave anónima: cualquiera podría pedírselas
+ * API key de Resend; `chatbot` y `asistente` → API key del modelo). Desde las
+ * migraciones 068 y 094 esas keys NO son legibles con la clave anónima: cualquiera podría pedírselas
  * a PostgREST desde el navegador, porque la clave anónima viaja en el bundle.
  *
  * ⚠️ SOLO desde servidor — route handlers, server actions y server components.
@@ -451,8 +451,77 @@ export function mergeChatbot(input: Partial<ChatbotConfig> | null): ChatbotConfi
   };
 }
 
+/**
+ * Una clave que empieza por «•» es una máscara guardada por error, no una
+ * clave: mejor que el chatbot se apague a que conteste cuatro meses con el
+ * mensaje de respaldo, que es lo que pasó (2026-05-20 → 2026-09-27).
+ */
+function claveUtilizable(apiKey: string): boolean {
+  const k = apiKey.trim();
+  return k.length > 10 && !k.startsWith("•");
+}
+
 export function chatbotIsLive(c: ChatbotConfig): boolean {
-  return c.activo && c.apiKey.trim().length > 10;
+  return c.activo && claveUtilizable(c.apiKey);
+}
+
+// ─── Asistente del panel ──────────────────────────────────────
+
+/**
+ * El ayudante que vive DENTRO del panel (botón «Ayuda», abajo a la derecha).
+ * Responde con el manual de /admin/documentacion y guía paso a paso; no toca
+ * nada. Misma mecánica que el chatbot público: proveedor, modelo y clave los
+ * pone el colegio en Configuración, y la clave solo la lee el servidor —key
+ * 'asistente', privada desde la migración 094—.
+ */
+export type AsistenteConfig = {
+  /** Si está activo Y hay apiKey, el botón «Ayuda» aparece en todo el panel. */
+  activo: boolean;
+  provider: ChatbotProvider;
+  model: string;
+  /** API key del proveedor. Vacía = asistente apagado. */
+  apiKey: string;
+  /** Mensajes pasados que viajan por turno (control de tokens). */
+  maxHistoryMessages: number;
+  /**
+   * Lo que el colegio quiere que el asistente sepa además del manual: a quién
+   * escribir para pedir un usuario nuevo, horario de soporte, etc. Texto libre.
+   */
+  notasColegio: string;
+};
+
+export const ASISTENTE_DEFAULT: AsistenteConfig = {
+  activo: false,
+  // El chatbot del sitio ya funciona con OpenAI, y es el proveedor que el
+  // colegio va a contratar (2026-09-27).
+  provider: "openai",
+  model: "gpt-5-mini",
+  apiKey: "",
+  maxHistoryMessages: 10,
+  notasColegio: "",
+};
+
+export function mergeAsistente(input: Partial<AsistenteConfig> | null): AsistenteConfig {
+  if (!input) return ASISTENTE_DEFAULT;
+  const validProviders: ChatbotProvider[] = ["gemini", "anthropic", "openai"];
+  const provider: ChatbotProvider = validProviders.includes(input.provider as ChatbotProvider)
+    ? (input.provider as ChatbotProvider)
+    : ASISTENTE_DEFAULT.provider;
+  return {
+    activo: input.activo ?? ASISTENTE_DEFAULT.activo,
+    provider,
+    model: input.model?.trim() || ASISTENTE_DEFAULT.model,
+    apiKey: input.apiKey ?? "",
+    maxHistoryMessages:
+      typeof input.maxHistoryMessages === "number" && input.maxHistoryMessages > 0
+        ? Math.min(input.maxHistoryMessages, 30)
+        : ASISTENTE_DEFAULT.maxHistoryMessages,
+    notasColegio: typeof input.notasColegio === "string" ? input.notasColegio : "",
+  };
+}
+
+export function asistenteIsLive(c: AsistenteConfig): boolean {
+  return c.activo && claveUtilizable(c.apiKey);
 }
 
 // ─── Diseño global de correos transaccionales ─────────────────

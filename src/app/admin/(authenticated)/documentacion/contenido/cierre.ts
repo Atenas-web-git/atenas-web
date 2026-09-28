@@ -210,6 +210,7 @@ export const GLOSARIO: Seccion = {
             { campo: "SMTP", desc: "El protocolo con el que un sistema envía correos usando una cuenta real." },
             { campo: "DNS", desc: "El sistema que conecta el nombre `atenas.edu.ec` con el servidor del sitio." },
             { campo: "Variable", desc: "Un código como `{{numero}}` que se reemplaza por el dato real al enviar el correo." },
+            { campo: "Token", desc: "La unidad con la que un proveedor de inteligencia artificial cobra: cada trozo de palabra de la pregunta, del manual que se le envía y de la respuesta. Es lo que cuenta la tarjeta de uso del Asistente del panel." },
           ],
         },
       ],

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Calendar, FileCheck2, CalendarClock, Palette, Phone, Code, Menu, Search, ArrowRight, Mail, MailOpen, PanelBottom, FileText, LayoutPanelTop, Bot } from "lucide-react";
+import { Calendar, FileCheck2, CalendarClock, Palette, Phone, Code, Menu, Search, ArrowRight, Mail, MailOpen, PanelBottom, FileText, LayoutPanelTop, Bot, LifeBuoy } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/getCurrentUser";
 import { ROLES, hasAnyRole, hasRole } from "@/lib/auth/types";
 
@@ -43,8 +43,15 @@ const SECCIONES = [
   {
     href: "/admin/configuracion/chatbot",
     title: "Chatbot IA «Ateneo»",
-    description: "Asistente virtual con mascota Ateneo. Provider (Gemini / Claude / OpenAI), modelo, API key, personalidad y mensajes. Cuando está activo reemplaza al botón flotante de WhatsApp.",
+    description: "El chatbot del SITIO PÚBLICO, con la mascota Ateneo, para familias y postulantes. Proveedor (Gemini / Claude / OpenAI), modelo, API key, personalidad y mensajes. Cuando está activo reemplaza al botón flotante de WhatsApp.",
     icon: Bot,
+    onlySuperadmin: true,
+  },
+  {
+    href: "/admin/configuracion/asistente",
+    title: "Asistente del panel",
+    description: "El botón «Ayuda» de todo el panel: responde con el manual de Documentación y guía paso a paso sin cambiar nada. Proveedor, modelo, API key, notas del colegio y cuánto se usa.",
+    icon: LifeBuoy,
     onlySuperadmin: true,
   },
   {

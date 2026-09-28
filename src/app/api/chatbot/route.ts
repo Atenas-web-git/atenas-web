@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import {
   getConfiguracionPrivada,
   mergeChatbot,
@@ -7,15 +7,25 @@ import {
 } from "@/lib/cms/getConfiguracion";
 import { buildKnowledgeBase } from "@/lib/chatbot/knowledgeBase";
 import { chatWithProvider, type ChatMessage } from "@/lib/chatbot/providers";
+import { registrarIntento, identificadorDe } from "@/lib/security/rateLimit";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+
+/**
+ * Preguntas por visitante (IP) cada diez minutos. Este endpoint es público y
+ * cada pregunta le cuesta dinero al colegio: sin tope, cualquiera con `curl`
+ * contra la URL del sitio podía vaciar la cuenta del proveedor. La auditoría
+ * del 2026-08-03 lo dejó anotado «para cuando exista la clave»; existe desde
+ * el 2026-09-27. Treinta mensajes en diez minutos sobran para una familia.
+ */
+const MAX_PREGUNTAS_POR_10_MIN = 30;
 
 type RequestBody = {
   messages: Array<{ role: string; content: string }>;
 };
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   let body: RequestBody;
   try {
     body = (await req.json()) as RequestBody;
@@ -49,6 +59,19 @@ export async function POST(req: Request) {
       { error: "Chatbot no configurado o inactivo." },
       { status: 503 }
     );
+  }
+
+  // Con la misma forma que el mensaje de respaldo: la ventana del chat ya
+  // sabe pintarlo, con su botón a Contactos, sin tratarlo como un fallo.
+  const intentos = await registrarIntento("chatbot:ip", identificadorDe(req), 10);
+  if (intentos > MAX_PREGUNTAS_POR_10_MIN) {
+    return NextResponse.json({
+      message:
+        "Has enviado muchas preguntas seguidas. Espera unos minutos para continuar o escríbenos directamente.",
+      fallback: true,
+      ctaLabel: cfg.fallbackCtaLabel,
+      ctaUrl: cfg.fallbackCtaUrl,
+    });
   }
 
   // Limita historial al máximo configurado

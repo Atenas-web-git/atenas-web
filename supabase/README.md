@@ -93,8 +93,8 @@ Ejecutar en `Supabase Dashboard → SQL Editor`, en este orden:
 37. `migrations/036_eliminar_plantilla_e_paginas.sql` (limpia las 10 filas seed de plantilla E del catálogo de páginas; idempotente)
 38. `migrations/037_subcategorias_hero_title_footnote.sql` (añade `hero_title` y `hero_footnote` a subcategorías de Reconocimientos; idempotente)
 
-> **Esta lista dejó de mantenerse en la 037.** Desde la 038 hasta la 093 —motor de
-> formularios, admisiones, roles, secretos, cupos por año escolar— las migraciones
+> **Esta lista dejó de mantenerse en la 037.** Desde la 038 hasta la 094 —motor de
+> formularios, admisiones, roles, secretos, cupos por año escolar, asistente del panel— las migraciones
 > existen en `migrations/` pero no están descritas aquí. Para saber qué hace cada
 > una, la cabecera de cada archivo lo explica; para saber cuáles están aplicadas,
 > la memoria del proyecto lleva la cuenta. **No asumas que lo que no está en esta
@@ -109,6 +109,9 @@ Ejecutar en `Supabase Dashboard → SQL Editor`, en este orden:
 > - La **091 contiene la versión vieja** de la función del trigger que arregla la
 >   **092**. Si alguna vez se re-ejecuta la 091, hay que correr la 092 detrás o el
 >   arreglo desaparece sin avisar.
+> - La **094** (asistente del panel) va ANTES de pegar la clave del proveedor en
+>   Configuración › Asistente: es la que hace privada la key `asistente`. Con el
+>   código da igual el orden; con la clave, no. Aplicada en producción el 2026-09-27.
 >
 > El porqué de cada una está en su cabecera.
 

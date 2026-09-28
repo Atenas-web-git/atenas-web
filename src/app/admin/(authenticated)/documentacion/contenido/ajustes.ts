@@ -4,14 +4,14 @@ export const CONFIGURACION: Seccion = {
   slug: "configuracion",
   titulo: "Configuración global",
   descripcion:
-    "Lo que se configura una vez y afecta a todo el sitio: marca, contacto, menús, footer, SEO, integraciones y chatbot.",
+    "Lo que se configura una vez y afecta a todo el sitio: marca, contacto, menús, footer, SEO, integraciones, chatbot y el asistente del panel.",
   icono: "Settings",
   paraQuien: "Superadministrador (dos secciones también para Editor de Admisiones)",
   articulos: [
     {
       id: "mapa",
       titulo: "Qué hay en Configuración",
-      resumen: "Las catorce secciones y quién puede entrar a cada una.",
+      resumen: "Las quince secciones y quién puede entrar a cada una.",
       bloques: [
         {
           t: "p",
@@ -27,7 +27,8 @@ export const CONFIGURACION: Seccion = {
             ["Integraciones", "Códigos de seguimiento y verificación.", "Superadmin"],
             ["Correos", "Proveedor de envío, credenciales y presets.", "Superadmin"],
             ["Diseño de correos", "Logo y texto legal de los correos.", "Superadmin"],
-            ["Chatbot «Ateneo»", "El asistente de inteligencia artificial.", "Superadmin"],
+            ["Chatbot «Ateneo»", "El asistente de inteligencia artificial del sitio público.", "Superadmin"],
+            ["Asistente del panel", "El botón «Ayuda» del panel: proveedor, clave y cuánto se usa.", "Superadmin"],
             ["Footer global", "El bloque final de todas las páginas.", "Superadmin"],
             ["Admisiones — textos chicos", "Encabezados del formulario y del seguimiento, el contador ADM y los días para considerar detenido a un aspirante, que se usan en Métricas y en el filtro «Sin movimiento» de Solicitudes.", "Superadmin"],
             ["Barra de navegación", "Lo visible en la barra superior fija.", "Superadmin"],
@@ -222,6 +223,11 @@ export const CONFIGURACION: Seccion = {
       bloques: [
         { t: "ruta", pasos: ["Configuración", "Chatbot «Ateneo»"] },
         {
+          t: "p",
+          texto:
+            "Es el asistente del **sitio público**: atiende a familias y postulantes. El ayudante que responde dentro del panel es otro, con su propia pantalla: [Asistente del panel](#asistente).",
+        },
+        {
           t: "campos",
           items: [
             { campo: "Proveedor y modelo", desc: "Qué inteligencia artificial responde." },
@@ -236,6 +242,37 @@ export const CONFIGURACION: Seccion = {
           tono: "aviso",
           texto:
             "El chatbot habla en nombre del colegio. Revisa sus respuestas periódicamente y déjale claro en el system prompt que **no debe inventar** valores de pensión, fechas ni requisitos: para eso debe derivar a admisiones.",
+        },
+      ],
+    },
+    {
+      id: "asistente",
+      titulo: "Asistente del panel",
+      resumen: "El botón «Ayuda» que responde con este manual: cómo se enciende y qué registra.",
+      bloques: [
+        { t: "ruta", pasos: ["Configuración", "Asistente del panel"] },
+        {
+          t: "p",
+          texto:
+            "Es el ayudante que aparece **abajo a la derecha en todo el panel**. Responde con este manual, sabe en qué pantalla estás y qué botones hay en ella, y explica paso a paso. **No cambia nada**: te dice cómo hacerlo tú. Cómo se usa está en [Pedir ayuda al asistente](/admin/documentacion/primeros-pasos#ayuda).",
+        },
+        {
+          t: "campos",
+          items: [
+            { campo: "Interruptor", desc: "El botón «Ayuda» aparece para todo el mundo solo si el interruptor está encendido **y** hay una API key guardada. Apagado, o sin clave, desaparece para todos." },
+            { campo: "Proveedor y modelo", desc: "Qué inteligencia artificial responde. Puede ser la misma cuenta y la misma clave que el chatbot del sitio. **La paga el colegio.**" },
+            { campo: "API key", desc: "La credencial del proveedor. Solo la lee el servidor; en pantalla se ve enmascarada." },
+            { campo: "Notas del colegio", desc: "Lo que quieres que sepa además del manual: a quién pedir un usuario nuevo, el horario de soporte. Corto: viaja en cada pregunta." },
+            { campo: "Mensajes pasados por turno", desc: "Cuántos mensajes anteriores de la conversación se le envían con cada pregunta, para que entienda «¿y eso dónde está?». De 1 a 30; 10 por defecto. Más memoria, más costo por pregunta." },
+            { campo: "Uso en los últimos 30 días", desc: "Cuántas preguntas se hicieron, cuántos tokens costaron y en qué pantallas se pregunta más. No guarda ninguna pregunta ni respuesta." },
+            { campo: "Inspeccionar lo que ve el asistente", desc: "Muestra tal cual las instrucciones y el manual que se le envían. Si contestó algo raro, aquí se ve por qué." },
+          ],
+        },
+        {
+          t: "nota",
+          tono: "info",
+          texto:
+            "Donde más se pregunta es donde este manual está más flojo. Esa lista es, en la práctica, la lista de artículos por mejorar.",
         },
       ],
     },

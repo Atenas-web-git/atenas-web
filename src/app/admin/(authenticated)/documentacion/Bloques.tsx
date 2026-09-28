@@ -6,7 +6,19 @@ import type { Bloque, Tono } from "./tipos";
 
 const INLINE_RE = /(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g;
 
-export function Inline({ texto }: { texto: string }) {
+/**
+ * @param soloEnlacesInternos con `true`, un enlace que no apunte a `/admin/`
+ *   se pinta como texto plano. Lo usa el asistente del panel: su texto lo
+ *   escribe un modelo a partir de lo que hay en pantalla, y ahí escribe
+ *   cualquiera. El manual, que está en código, no lo necesita.
+ */
+export function Inline({
+  texto,
+  soloEnlacesInternos = false,
+}: {
+  texto: string;
+  soloEnlacesInternos?: boolean;
+}) {
   const partes = texto.split(INLINE_RE).filter((p) => p !== "");
 
   return (
@@ -39,6 +51,9 @@ export function Inline({ texto }: { texto: string }) {
           );
         }
         const link = /^\[([^\]]+)\]\(([^)]+)\)$/.exec(parte);
+        if (link && soloEnlacesInternos && !link[2].trim().startsWith("/admin/")) {
+          return <Fragment key={i}>{link[1]}</Fragment>;
+        }
         if (link) {
           const externo = link[2].startsWith("http");
           return (

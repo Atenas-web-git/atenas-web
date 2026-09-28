@@ -110,6 +110,57 @@ export const PRIMEROS_PASOS: Seccion = {
               campo: "Tu usuario (abajo a la izquierda)",
               desc: "Tu nombre, tu rol y el botón de cerrar sesión.",
             },
+            {
+              campo: "Ayuda (abajo a la derecha)",
+              desc: "El asistente que responde con este manual y te guía paso a paso. Ver [Pedir ayuda al asistente](#ayuda). Si no lo ves, el Superadministrador no lo ha encendido o no ha guardado todavía la clave del proveedor de IA.",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: "ayuda",
+      titulo: "Pedir ayuda al asistente",
+      resumen: "El botón «Ayuda» de abajo a la derecha responde con este manual y te guía paso a paso.",
+      bloques: [
+        {
+          t: "p",
+          texto:
+            "Si te atascas, no hace falta buscar en el manual: pregúntale al asistente. Está en el botón **Ayuda**, abajo a la derecha, en cualquier pantalla del panel. Si no lo ves, es que el Superadministrador no lo ha encendido todavía, o no ha guardado la clave del proveedor de IA.",
+        },
+        {
+          t: "pasos",
+          items: [
+            "Haz clic en **Ayuda**. Se abre una ventana que no tapa la pantalla: puedes seguir trabajando mientras lees.",
+            "Escribe tu pregunta como se la harías a un compañero: «¿cómo cambio el teléfono del pie de página?», «¿por qué no puedo borrar este documento?». Para un salto de línea, **Shift + Intro**.",
+            "Pulsa **Intro** (o el botón de enviar). Responde con los pasos, con los nombres exactos de los botones, y al final enlaza el artículo de este manual del que sacó la respuesta.",
+            "Puedes cambiar de pantalla con la ventana abierta: sabe a dónde te moviste. El icono de la flecha circular empieza una **conversación nueva**; la **X** o la tecla **Escape** cierran la ventana.",
+          ],
+        },
+        {
+          t: "p",
+          texto:
+            "La conversación se conserva mientras la pestaña del navegador siga abierta, aunque recargues la página, y es tuya: otro usuario que entre en la misma computadora no la ve. Al cerrar la pestaña se borra. El panel no la guarda; lo que preguntas sí viaja al proveedor de inteligencia artificial que el colegio haya contratado, así que no escribas ahí datos de una familia.",
+        },
+        { t: "sub", texto: "Qué sabe de tu pantalla" },
+        {
+          t: "p",
+          texto:
+            "Con la casilla **«Que vea los botones y campos de esta pantalla»** marcada, le llega la lista de títulos, botones, campos y avisos que tienes delante — así puede decirte «pulsa el botón que dice…» en vez de hablar en general. **Nunca le llega lo que has escrito en los campos** ni el contenido de las tablas. Si prefieres que no vea ni eso, desmarca la casilla.",
+        },
+        {
+          t: "nota",
+          tono: "aviso",
+          texto:
+            "En **Admisiones** se maneja información de menores. Ahí el asistente recibe solo los nombres de los botones y de los campos: ni los títulos —el de una ficha es el nombre del aspirante—, ni los avisos. Si necesitas que entienda un error, escríbeselo sin nombres.",
+        },
+        { t: "sub", texto: "Qué no hace" },
+        {
+          t: "lista",
+          items: [
+            "**No cambia nada por ti.** Te explica cómo; guardas tú.",
+            "**No sabe nada fuera de este manual.** Si le preguntas algo que no está aquí, te dirá que no lo sabe en lugar de inventarlo. Eso es a propósito.",
+            "**No conoce tus datos** ni los de las familias: solo la estructura de la pantalla.",
           ],
         },
       ],
