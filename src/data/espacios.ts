@@ -53,12 +53,12 @@ export const ESPACIOS: EspacioItem[] = [
     nombre: "VASE",
     ghostText: "VASE",
     heroSubtitle:
-      "Valores, Actitudes, Servicio y Espiritualidad — formando el carácter que el mundo necesita.",
-    metaTitle: "VASE — Valores, Actitudes, Servicio y Espiritualidad | Atenas",
+      "Valores, Acción y Servicio — promovemos acciones responsables que contribuyen al bienestar de la comunidad.",
+    metaTitle: "VASE — Valores, Acción y Servicio | Atenas",
     metaDescription:
       "El programa VASE de la Unidad Educativa Atenas forma el carácter de sus estudiantes a través de valores, servicio comunitario y liderazgo ético.",
     detalle: {
-      badge: "VASE — Valores, Actitudes, Servicio y Espiritualidad",
+      badge: "VASE — Valores, Acción y Servicio",
       heading: "Un espacio para construir carácter",
       paragraphs: [
         "VASE es el espacio donde los estudiantes desarrollan su dimensión ética, espiritual y de servicio. A través de proyectos comunitarios, reflexión personal y actividades de liderazgo, cada alumno construye el carácter que el mundo necesita.",

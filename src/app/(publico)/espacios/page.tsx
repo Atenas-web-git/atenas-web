@@ -33,7 +33,7 @@ const FALLBACK_ITEMS: TarjetaPlantillaB[] = [
   {
     icon: "feather",
     title: "VASE",
-    subtitle: "Valores, Actitudes, Servicio y Espiritualidad",
+    subtitle: "Valores, Acción y Servicio",
     description:
       "Formación del carácter a través del servicio comunitario, la reflexión personal y el liderazgo ético.",
     color: "gold",

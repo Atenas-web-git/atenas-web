@@ -391,7 +391,7 @@ export function EditorPlantillaB({
                     onChange={(e) =>
                       updateItem(i, { subtitle: e.target.value || undefined })
                     }
-                    placeholder="ej. Valores, Actitudes, Servicio…"
+                    placeholder="ej. Valores, Acción y Servicio"
                     style={inputStyle}
                   />
                 </Field>

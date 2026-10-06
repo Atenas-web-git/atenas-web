@@ -355,7 +355,7 @@ export type TarjetaPlantillaB = {
   icon: string;
   title: string;
   description: string;
-  /** Línea pequeña roja bajo el título (ej. "Valores, Actitudes, Servicio…"). */
+  /** Línea pequeña roja bajo el título (ej. "Valores, Acción y Servicio"). */
   subtitle?: string;
   /** Si está presente, la tarjeta es un link a esa URL (interna o externa). */
   href?: string;
